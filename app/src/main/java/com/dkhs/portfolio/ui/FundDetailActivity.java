@@ -337,7 +337,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void requestData() {
         if (null != mQuotesEngine && mFundBean != null) {
             rotateRefreshButton();
-            mQuotesEngine.quotes(mFundBean.code, quoteListener);
+            mQuotesEngine.quotes(mFundBean.symbol, quoteListener);
         }
     }
 

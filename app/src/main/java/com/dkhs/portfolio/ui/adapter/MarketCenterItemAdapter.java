@@ -71,7 +71,7 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
             viewHolder = (ViewHodler) convertView.getTag();
         }
         viewHolder.tvTextName.setText(mStockQuotesBean.name);
-        viewHolder.tvTextNameNum.setText(mStockQuotesBean.code);
+        viewHolder.tvTextNameNum.setText(mStockQuotesBean.symbol);
 
         float change = mStockQuotesBean.percentage;
         ColorStateList textCsl = null;
@@ -84,7 +84,7 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         }
         // viewHolder.tvTextPercent.setTextColor(textCsl);
         viewHolder.tvTextItemIndex.setTextColor(textCsl);
-        if (StockUitls.isShangZhengB(mStockQuotesBean.code)) {
+        if (StockUitls.isShangZhengB(mStockQuotesBean.symbol)) {
             viewHolder.tvTextItemIndex.setText(StringFromatUtils.get3Point(mStockQuotesBean.currentValue));
         } else {
             viewHolder.tvTextItemIndex.setText(StringFromatUtils.get2Point(mStockQuotesBean.currentValue));

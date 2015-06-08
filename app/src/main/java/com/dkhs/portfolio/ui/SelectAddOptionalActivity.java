@@ -69,7 +69,8 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
                         selectBean.id = stockBean.getId();
                         selectBean.name = stockBean.getAbbrname();
                         selectBean.currentValue = stockBean.getCurrent();
-                        selectBean.code = stockBean.getSymbol();
+                        selectBean.symbol = stockBean.getSymbol();
+                        selectBean.code = stockBean.getCode();
                         selectBean.percentage = stockBean.getPercentage();
                         selectBean.percentage = stockBean.getPercentage();
                         selectBean.change = stockBean.getChange();

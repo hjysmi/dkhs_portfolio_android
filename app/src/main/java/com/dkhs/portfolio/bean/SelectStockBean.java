@@ -27,7 +27,10 @@ public class SelectStockBean extends DragListItem {
     public float percentage;
     @NoAutoIncrement
     public long id;
+
+
     public String code;
+    public String symbol;
     public float change;
     public boolean isFollowed;
     public boolean isStop;
@@ -73,8 +76,9 @@ public class SelectStockBean extends DragListItem {
         bean.name = stockBean.getName();
         bean.currentValue = stockBean.getCurrentValue();
         // bean.percentage = stockBean.getPercent();
+        bean.symbol = stockBean.getStockSymbol();
         bean.id = stockBean.getStockId();
-        bean.code = stockBean.getStockCode();
+        bean.code = stockBean.getStockSymbol();
         bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getList_status();
         return bean;
@@ -88,22 +92,13 @@ public class SelectStockBean extends DragListItem {
         // bean.percentage = stockBean.getPercent();
         bean.id = stockBean.getId();
         bean.code = stockBean.getStockCode();
+        bean.symbol = stockBean.getSymbol();
         bean.symbol_type = stockBean.getSymbol_type();
         bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getList_status();
         return bean;
     }
 
-    public static SelectStockBean copy(SearchFundsBean stockBean) {
-
-        SelectStockBean bean = new SelectStockBean();
-        bean.name = stockBean.getStockName();
-        // bean.currentValue = stockBean.getCurrentValue();
-        // bean.percentage = stockBean.getPercent();
-        bean.id = stockBean.getId();
-        bean.code = stockBean.getStockCode();
-        return bean;
-    }
 
     public static SelectStockBean copy(StockPriceBean stockBean) {
 
@@ -111,7 +106,8 @@ public class SelectStockBean extends DragListItem {
         selectBean.id = stockBean.getId();
         selectBean.name = stockBean.getAbbrname();
         selectBean.currentValue = stockBean.getCurrent();
-        selectBean.code = stockBean.getSymbol();
+        selectBean.code = stockBean.getCode();
+        selectBean.symbol = stockBean.getSymbol();
         selectBean.percentage = stockBean.getPercentage();
         selectBean.isFollowed = stockBean.isFollowed();
         selectBean.symbol_type = stockBean.getSymbol_type();
@@ -131,7 +127,8 @@ public class SelectStockBean extends DragListItem {
         selectBean.id = stockBean.getId();
         selectBean.name = stockBean.getAbbrname();
         selectBean.currentValue = stockBean.getNet_value();
-        selectBean.code = stockBean.getSymbol();
+        selectBean.code = stockBean.getCode();
+        selectBean.symbol = stockBean.getSymbol();
         selectBean.percentage = stockBean.getPercent_day();
         selectBean.isFollowed = stockBean.isFollowed();
         selectBean.symbol_type = stockBean.getSymbol_type();
@@ -154,7 +151,8 @@ public class SelectStockBean extends DragListItem {
         selectBean.id = stockBean.getId();
         selectBean.name = stockBean.getAbbrName();
         selectBean.currentValue = stockBean.getCurrent();
-        selectBean.code = stockBean.getSymbol();
+        selectBean.code = stockBean.getCode();
+        selectBean.symbol = stockBean.getSymbol();
         selectBean.percentage = stockBean.getPercentage();
         selectBean.isFollowed = stockBean.isFollowed();
         selectBean.symbol_type = stockBean.getSymbol_type();
@@ -175,6 +173,7 @@ public class SelectStockBean extends DragListItem {
         bean.setCurrentValue(currentValue);
         // bean.setPercent(percentage);
         bean.setStockId(id);
+        bean.setStockSymbol(symbol);
         bean.setIsStop(isStop ? 1 : 0);
         bean.setStockCode(code);
         bean.setList_status(list_status);
@@ -184,7 +183,6 @@ public class SelectStockBean extends DragListItem {
     public boolean equals(Object obj) {
         SelectStockBean param = (SelectStockBean) obj;
         if (this.id == param.id || this.code.equals(param.code)) {
-            // if (this.code.equals(param.code)) {
             return true;
         } else {
             return false;
@@ -247,6 +245,15 @@ public class SelectStockBean extends DragListItem {
         this.id = id;
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+
     public String getCode() {
         return code;
     }
@@ -299,7 +306,7 @@ public class SelectStockBean extends DragListItem {
     @Override
     public String getItemDesc() {
         // TODO Auto-generated method stub
-        return this.code;
+        return this.symbol;
     }
 
     @Override

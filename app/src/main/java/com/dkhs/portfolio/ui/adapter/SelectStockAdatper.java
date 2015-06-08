@@ -135,7 +135,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         // }
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(item.code);
+        viewHolder.tvStockNum.setText(item.symbol);
 
         if (StockUitls.isDelistStock(item.list_status)) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);

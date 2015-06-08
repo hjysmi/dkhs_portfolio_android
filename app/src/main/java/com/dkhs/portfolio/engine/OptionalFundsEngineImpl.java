@@ -107,7 +107,7 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
             StringBuilder sbIds = new StringBuilder();
             if (null != dataList) {
                 for (SelectStockBean stock : dataList) {
-                    sbIds.append(stock.code);
+                    sbIds.append(stock.symbol);
                     sbIds.append(",");
                 }
 

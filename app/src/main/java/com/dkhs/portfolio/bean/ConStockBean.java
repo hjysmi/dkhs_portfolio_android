@@ -122,6 +122,7 @@ public class ConStockBean extends StockBean {
         ConStockBean stock = new ConStockBean();
         stock.stockCode = this.stockCode;
         stock.stockId = this.stockId;
+        stock.stockSymbol = this.stockSymbol;
         stock.stockName = this.stockName;
         stock.dutyColor = this.dutyColor;
         stock.dutyValue = this.dutyValue;

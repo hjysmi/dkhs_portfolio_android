@@ -46,7 +46,6 @@ public class StockQuotesBean extends QuotesBean {
     // 动态市盈率
     private float pe_ttm;
 
-
     // 静态态市盈率
     private float pe_lyr;
     // 市净率

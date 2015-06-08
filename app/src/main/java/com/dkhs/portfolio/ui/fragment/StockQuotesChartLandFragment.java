@@ -128,8 +128,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code,true);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code,true);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.symbol,true);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.symbol,true);
 
     }
 

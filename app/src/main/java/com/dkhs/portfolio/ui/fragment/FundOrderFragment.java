@@ -11,8 +11,9 @@ import android.widget.BaseAdapter;
 
 import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundOrderEngineImpl;
-import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FundOrderAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
@@ -136,7 +137,7 @@ public class FundOrderFragment extends LoadMoreListFragment {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-             loadData();
+                loadData();
             }
         };
     }
@@ -148,12 +149,10 @@ public class FundOrderFragment extends LoadMoreListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
+                startActivity(FundDetailActivity.newIntent(getActivity(), SelectStockBean.copy(dataList.get(position))));
             }
         };
     }
-
-
 
 
     @Override
@@ -161,6 +160,7 @@ public class FundOrderFragment extends LoadMoreListFragment {
         endLoadData();
         mSwipeLayout.setRefreshing(false);
     }
+
     public void startLoadData() {
         if (isAdded() && getUserVisibleHint()) {
             BusProvider.getInstance().post(new RotateRefreshEvent());

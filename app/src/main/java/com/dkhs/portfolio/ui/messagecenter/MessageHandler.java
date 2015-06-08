@@ -192,7 +192,7 @@ public class MessageHandler {
     private void gotoStockQuotesActivity(final List<String> segments) {
         final SelectStockBean itemStock = new SelectStockBean();
         itemStock.setId(Long.parseLong(segments.get(2)));
-        itemStock.setCode(segments.get(1));
+        itemStock.setSymbol(segments.get(1));
         itemStock.setSymbol_type("1");
         itemStock.setName("- -");
         new QuotesEngineImpl().quotes(segments.get(1), new BasicHttpListener() {
