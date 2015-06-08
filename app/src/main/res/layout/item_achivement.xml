@@ -11,14 +11,12 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
     <TextView
-        android:text="南方别作弊"
         android:id="@+id/abbr_name"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
         android:layout_marginBottom="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
         <TextView
-            android:text="股票型"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="8dp"
 
@@ -29,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:text="股票型"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="8dp"
             android:textSize="11sp"
@@ -60,7 +57,7 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content">
             <TextView
-                android:text="收益率"
+                android:text="@string/rate"
                 android:textSize="11sp"
                 android:textColor="@color/tag_gray"
                 android:gravity="center"
@@ -91,7 +88,7 @@
             android:layout_gravity="center"
             android:layout_height="wrap_content">
             <TextView
-                android:text="沪深300"
+                android:text="@string/sh300"
                 android:gravity="center"
                 android:textSize="11sp"
                 android:textColor="@color/tag_gray"
@@ -126,7 +123,7 @@
         android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
-        android:text="显示收益曲线"
+        android:text="@string/expend_yield_curve"
         android:drawablePadding="2dp"
         android:id="@+id/tv_chart_switch"
         android:textColor="@color/theme_color"

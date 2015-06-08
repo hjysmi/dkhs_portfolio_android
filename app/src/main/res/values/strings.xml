@@ -158,6 +158,7 @@
     <string name="current_netvalue">当前净值:</string>
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
+    <string name="rate">收益率</string>
     <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
@@ -550,6 +551,11 @@
 
 
     <string name="def_not_value">—</string>
+    <string name="collapse_yield_curve">收起收益曲线</string>
+    <string name="expend_yield_curve">显示收益曲线</string>
+    <string name="up_to_now">至今</string>
+    <string name="between_date"> 至 </string>
+    <string name="sh300">沪深300</string>
 
 
 </resources>

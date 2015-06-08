@@ -99,8 +99,6 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         mQuotesEngine = new QuotesEngineImpl();
         initTitle();
         initView();
-
-
         // 已优化的地方 ：减少数据库操作、使用异步进行查询自选股列表
         if (!PortfolioApplication.hasUserLogin()) {
             getLocalOptionList();

@@ -213,17 +213,9 @@ public class MessageHandler {
                     JSONObject jsonOb = jsonArray.getJSONObject(0);
                     StockQuotesBean stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
 
-
-
                     if(StockUitls.isFundType( stockQuotesBean.getSymbol_type())){
-
-
-
                         SelectStockBean     itemStock=SelectStockBean.copy(stockQuotesBean);
-
                         context.startActivity(FundDetailActivity.newIntent(context, itemStock));
-
-
                     }else {
                         itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
                         itemStock.setName(stockQuotesBean.getAbbrName());

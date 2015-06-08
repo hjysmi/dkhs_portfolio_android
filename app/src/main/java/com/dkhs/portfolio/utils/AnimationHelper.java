@@ -15,6 +15,7 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -28,18 +29,18 @@ import static android.view.View.VISIBLE;
 
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName AnimationHelper
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-3-23 下午1:28:02
- * @version 1.0
  */
 public class AnimationHelper {
 
     /**
-     *动画时长
+     * 动画时长
      */
-    public static  int ANIM_DURATION=500;
+    public static int ANIM_DURATION = 500;
 
     // 生成自定义动画
     public static void setupCustomAnimations(LayoutTransition transittioner, Object taget) {
@@ -108,15 +109,15 @@ public class AnimationHelper {
 
     }
 
-    public static void  showScale(View view){
-        if(view.getVisibility() == VISIBLE){
+    public static void showScale(View view) {
+        if (view.getVisibility() == VISIBLE) {
             return;
         }
         view.setVisibility(VISIBLE);
-        ScaleAnimation scaleAnimation=new ScaleAnimation(0.5f,1,0.5f,1, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-        AlphaAnimation alphaAnimation=new AlphaAnimation(0.5f,1f);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.5f, 1, 0.5f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.5f, 1f);
 
-        AnimationSet animationSet=new AnimationSet(true);
+        AnimationSet animationSet = new AnimationSet(true);
         animationSet.addAnimation(scaleAnimation);
         animationSet.addAnimation(alphaAnimation);
         animationSet.setInterpolator(new DecelerateInterpolator());
@@ -126,19 +127,20 @@ public class AnimationHelper {
 
 
     }
-    public static void  dismissScale(final View view){
-        if(view.getVisibility() == View.GONE){
+
+    public static void dismissScale(final View view) {
+        if (view.getVisibility() == View.GONE) {
             return;
         }
         view.setVisibility(VISIBLE);
-        ScaleAnimation scaleAnimation=new ScaleAnimation(1,0.5f,1,0.5f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-        AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0.5f);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0.5f);
 
-        AnimationSet animationSet=new AnimationSet(true);
+        AnimationSet animationSet = new AnimationSet(true);
         animationSet.addAnimation(scaleAnimation);
         animationSet.addAnimation(alphaAnimation);
         animationSet.setInterpolator(new DecelerateInterpolator());
-        animationSet.setDuration(ANIM_DURATION/2);
+        animationSet.setDuration(ANIM_DURATION / 2);
         animationSet.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -162,41 +164,41 @@ public class AnimationHelper {
     }
 
 
-    public static void translationToTopDismiss(final View view,  Animator.AnimatorListener animatorListener ) {
+    public static void translationToTopDismiss(final View view, Animator.AnimatorListener animatorListener) {
 
-        if(view.getVisibility() == View.GONE){
+        if (view.getVisibility() == View.GONE) {
             return;
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,- view.getMeasuredHeight());
-        objectAnimator.setDuration(ANIM_DURATION-100 );
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "translationY", 0, -view.getMeasuredHeight());
+        objectAnimator.setDuration(ANIM_DURATION - 100);
         objectAnimator.addListener(animatorListener);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
 
     }
 
-    public static void translationFromTopShow(final View view,  Animator.AnimatorListener animatorListener ) {
+    public static void translationFromTopShow(final View view, Animator.AnimatorListener animatorListener) {
 
         view.setVisibility(VISIBLE);
 
-        if(view.getMeasuredHeight() == 0) {
+        if (view.getMeasuredHeight() == 0) {
             view.measure(0, 0);
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",- view.getMeasuredHeight(),0);
-        objectAnimator.setDuration(ANIM_DURATION-100 );
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "translationY", -view.getMeasuredHeight(), 0);
+        objectAnimator.setDuration(ANIM_DURATION - 100);
         objectAnimator.addListener(animatorListener);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
 
     }
 
-    public static  void alphaShow(final View view){
+    public static void alphaShow(final View view) {
 
 
-        AlphaAnimation alphaAnimation=new AlphaAnimation(0.01f,1f);
-        alphaAnimation.setDuration(ANIM_DURATION-100 );
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.01f, 1f);
+        alphaAnimation.setDuration(ANIM_DURATION - 100);
         alphaAnimation.setInterpolator(new DecelerateInterpolator());
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -217,13 +219,14 @@ public class AnimationHelper {
 
 
     }
-    public static  void alphaDismiss(final View view){
-        if(view.getVisibility() == View.GONE){
+
+    public static void alphaDismiss(final View view) {
+        if (view.getVisibility() == View.GONE) {
             return;
         }
-        AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
 
-        alphaAnimation.setDuration(ANIM_DURATION -100);
+        alphaAnimation.setDuration(ANIM_DURATION - 100);
         alphaAnimation.setInterpolator(new DecelerateInterpolator());
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -247,19 +250,18 @@ public class AnimationHelper {
 
     /**
      * 拉下来
-     *  @param v
+     *
+     * @param v
      * @param height
      * @param listener
      */
-    public static void expandView(final View v, int height, boolean anim,  com.nineoldandroids.animation.Animator.AnimatorListener listener) {
+    public static void expandView(final View v, int height, boolean anim, com.nineoldandroids.animation.Animator.AnimatorListener listener) {
 
-        if(anim) {
-           ValueAnimator vA= expandViewAnim(v, height);
-
-
+        if (anim) {
+            ValueAnimator vA = expandViewAnim(v, height);
             vA.addListener(listener);
             vA.start();
-        }else{
+        } else {
             v.getLayoutParams().height = height;
             v.requestLayout();
         }
@@ -267,30 +269,20 @@ public class AnimationHelper {
     }
 
 
-    public static void expandView(final View v,boolean anim) {
-
-
+    public static void expandView(final View v, boolean anim) {
         int height = v.getMeasuredHeight();
         if (height == 0) {
-           v.measure(0,0);
+            v.measure(0, 0);
             height = v.getMeasuredHeight();
         }
-
-
         expandViewAnim(v, height).start();
     }
 
 
-
-    private static  ValueAnimator expandViewAnim(final View v, int height) {
+    private static ValueAnimator expandViewAnim(final View v, int height) {
         final int initialHeight = height;
-
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
-
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            boolean isFirst = true;
-
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float interpolatedTime = animation.getAnimatedFraction();
@@ -299,50 +291,40 @@ public class AnimationHelper {
                 } else {
                     v.getLayoutParams().height = (int) (initialHeight * interpolatedTime);
                     v.requestLayout();
-                        v.setVisibility(View.VISIBLE);
-
+                    v.setVisibility(View.VISIBLE);
                 }
             }
         });
-
         anim.setDuration(ANIM_DURATION);
+        anim.setInterpolator(new DecelerateInterpolator());
         anim.setTarget(v);
         return anim;
     }
 
-    public static  void collapseView(View view,boolean isAnim){
-        if(isAnim) {
-
-            collapse(view).start();
-        }else{
+    public static void collapseView(View view, boolean isAnim,com.nineoldandroids.animation.Animator.AnimatorListener listener) {
+        if (isAnim) {
+            ValueAnimator vA = collapseAnim(view);
+            vA.addListener(listener);
+            vA.start();
+        } else {
             view.getLayoutParams().height = 0;
             view.requestLayout();
         }
     }
 
-    private static ValueAnimator collapse(final View v) {
+    private static ValueAnimator collapseAnim(final View v) {
         final int initialHeight = v.getMeasuredHeight();
-
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
-
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            boolean isFirst = true;
-
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float interpolatedTime = animation.getAnimatedFraction();
-                if (interpolatedTime == 1) {
-                    v.setVisibility(View.GONE);
-                } else {
-                    v.getLayoutParams().height = initialHeight
-                            - (int) (initialHeight * interpolatedTime);
-                    v.requestLayout();
-                    if (isFirst)
-                        v.setVisibility(View.VISIBLE);
-                }
+                v.getLayoutParams().height = initialHeight
+                        - (int) (initialHeight * interpolatedTime);
+                v.requestLayout();
             }
         });
-
+        anim.setInterpolator(new AccelerateInterpolator());
         anim.setDuration(ANIM_DURATION);
         anim.setTarget(v);
         return anim;

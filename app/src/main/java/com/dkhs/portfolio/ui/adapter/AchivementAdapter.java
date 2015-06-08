@@ -63,9 +63,9 @@ public class AchivementAdapter extends AutoAdapter {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(achivementsEntity.getStart_date());
         if(achivementsEntity.getEnd_date()==null){
-            stringBuilder.append("至今");
+            stringBuilder.append(context.getString(R.string.up_to_now));
         }else{
-            stringBuilder.append(" 至 ").append(achivementsEntity.getEnd_date());
+            stringBuilder.append(context.getString(R.string.between_date)).append(achivementsEntity.getEnd_date());
         }
         vh.setTextView(R.id.tv_date,stringBuilder.toString());
         if(selectIndex ==position){
@@ -73,18 +73,18 @@ public class AchivementAdapter extends AutoAdapter {
 
             if (achivementsEntity.isExpend()) {
                 AnimationHelper.expandView(vh.get(R.id.ll_chart), context.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight),false, null);
-                vh.setTextView(R.id.tv_chart_switch,"收起收益曲线");
+                vh.setTextView(R.id.tv_chart_switch,context. getString(R.string.collapse_yield_curve));
                 vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up,0,0,0);
             }
 
         }else{
             if (achivementsEntity.isExpend()) {
-                AnimationHelper.collapseView(vh.get(R.id.ll_chart), true);
+                AnimationHelper.collapseView(vh.get(R.id.ll_chart), true,null);
                 achivementsEntity.setExpend(false);
             }else{
-                AnimationHelper.collapseView(vh.get(R.id.ll_chart), false);
+                AnimationHelper.collapseView(vh.get(R.id.ll_chart), false,null);
             }
-             vh.setTextView(R.id.tv_chart_switch, "显示收益曲线");
+             vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_yield_curve));
             vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down,0,0,0);
         }
 
@@ -127,9 +127,9 @@ public class AchivementAdapter extends AutoAdapter {
 
                 ViewGroup chatView=vh.get(R.id.ll_chart);
                 chatView.removeAllViews();
-                AnimationHelper.collapseView(  vh.get(R.id.ll_chart),true);
+                AnimationHelper.collapseView(  vh.get(R.id.ll_chart),true,null);
                 achivementsEntity.setExpend(false);
-                vh.setTextView(R.id.tv_chart_switch,"显示收益曲线");
+                vh.setTextView(R.id.tv_chart_switch, context.getString(R.string.collapse_yield_curve));
                 vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down,0,0,0);
 
             }else{
@@ -142,7 +142,8 @@ public class AchivementAdapter extends AutoAdapter {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         achivementsEntity.setExpend(true);
-                        vh.setTextView(R.id.tv_chart_switch,"收起收益曲线");
+
+                        vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_yield_curve));
                         vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up, 0, 0, 0);
                     }
 
