@@ -1,10 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
@@ -45,6 +40,11 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * 软件设置界面
@@ -271,9 +271,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                             }
                         };
                     }.start();
-                    GlobalParams.ACCESS_TOCKEN = null;
-                    GlobalParams.MOBILE = null;
-                    GlobalParams.LOGIN_USER = null;
+
+                    GlobalParams.clearUserInfo();
 
                     // 断开融云连接
                     // RongIM.getInstance().disconnect(false);

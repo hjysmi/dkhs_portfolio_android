@@ -408,8 +408,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                UserEntity entity = UserEntityDesUtil.decode(user);
+                UserEntity entity = UserEntityDesUtil.encrypt(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {
@@ -419,7 +418,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                     }
                     dbutil.save(entity);
                 } catch (DbException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
