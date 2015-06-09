@@ -26,7 +26,7 @@ public class FundOrderAdapter extends AutoAdapter {
 
 
     public FundOrderAdapter(Context context, List<?> list) {
-        super(context, list, R.layout.item_optional_fund_price);
+        super(context, list);
     }
 
     private String sort;
@@ -38,19 +38,24 @@ public class FundOrderAdapter extends AutoAdapter {
     }
 
     @Override
-    public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
+    public int setLayoutID() {
+        return R.layout.item_optional_fund_price;
+    }
+
+    @Override
+    public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
         FundPriceBean fundBean = (FundPriceBean) list.get(position);
         vh.setTextView(R.id.tv_stock_name, fundBean.getAbbrname());
         vh.setTextView(R.id.tv_stock_num, "(" + fundBean.getSymbol() + ")");
-        vh.setTextView(R.id.tv_trade_day, fundBean.getTradedate() );
+        vh.setTextView(R.id.tv_trade_day, fundBean.getTradedate());
         double value = fundBean.getValue(sort);
         /**
          * (306, '货币型','hb'),
          (307, '理财型','lc'),
          */
         vh.get(R.id.ll_percent_value).setBackgroundColor(0);
-        vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
-        vh.getTextView(R.id.tv_percent_value).setPadding(0,0,context.getResources().getDimensionPixelOffset(R.dimen.padding_kline),0);
+        vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        vh.getTextView(R.id.tv_percent_value).setPadding(0, 0, context.getResources().getDimensionPixelOffset(R.dimen.padding_kline), 0);
 
         if (!TextUtils.isEmpty(fundBean.getAbbrname()) && fundBean.getAbbrname().length() > 8) {
             vh.getTextView(R.id.tv_stock_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -74,9 +79,12 @@ public class FundOrderAdapter extends AutoAdapter {
                 vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
                 vh.getImageView(R.id.iv_qiri).setVisibility(View.VISIBLE);
 
-                vh.setTextView(R.id.tv_current_value,  fundBean.getTenthou_unit_incm() + "");
-                vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2PointPercent(fundBean.getYear_yld()) );
+                vh.setTextView(R.id.tv_current_value, fundBean.getTenthou_unit_incm() + "");
+                vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2PointPercent(fundBean.getYear_yld()));
             } else {
+
+ 
+
 
                 vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
 
@@ -89,10 +97,10 @@ public class FundOrderAdapter extends AutoAdapter {
         if (value > 0) {
 
             vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_red));
-        } else if(value ==0) {
+        } else if (value == 0) {
             vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
 
-        }else{
+        } else {
             vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_green));
 
         }

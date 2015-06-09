@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
@@ -171,6 +172,8 @@ public class MainActivity extends ModelAcitivity {
             }
 
         }
+
+        GlobalParams.clearUserInfo();
         return super.onKeyDown(keyCode, event);
     }
 

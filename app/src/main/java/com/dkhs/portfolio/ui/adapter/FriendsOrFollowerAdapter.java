@@ -2,14 +2,12 @@ package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -23,18 +21,23 @@ public class FriendsOrFollowerAdapter extends AutoAdapter {
     private final BitmapUtils bitmapUtils;
 
     public FriendsOrFollowerAdapter(Context context, List<?> list) {
-        super(context, list, R.layout.layout_friends_or_follower);
+        super(context, list);
         bitmapUtils = new BitmapUtils(context);
     }
 
     @Override
-    public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
+    public int setLayoutID() {
+        return R.layout.layout_friends_or_follower;
+    }
+
+    @Override
+    public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
 
         PeopleBean peopleBean = (PeopleBean) list.get(position);
 
         if (null != peopleBean.getAvatar_md() && peopleBean.getAvatar_md().length() > 35) {
-            bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md(),R.drawable.ic_user_head,R.drawable.ic_user_head);
-        }else{
+            bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md(), R.drawable.ic_user_head, R.drawable.ic_user_head);
+        } else {
             vh.getImageView(R.id.im_avatar).setImageResource(R.drawable.ic_user_head);
         }
 

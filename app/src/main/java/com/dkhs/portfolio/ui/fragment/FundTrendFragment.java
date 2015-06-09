@@ -11,8 +11,11 @@ package com.dkhs.portfolio.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CompareFundsBean;
@@ -109,19 +112,20 @@ public class FundTrendFragment extends BaseFragment implements OnClickListener {
 //        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onViewCreated(view, savedInstanceState);
-        initMaChart(maChartView);
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (!isViewShown && getUserVisibleHint()) {
+            requestCompare();
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onActivityCreated(savedInstanceState);
-//        requestCompare();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initMaChart(maChartView);
+
     }
 
     private void initMaChart(TrendChart machart) {
@@ -129,7 +133,6 @@ public class FundTrendFragment extends BaseFragment implements OnClickListener {
         machart.setMaxValue(120);
         machart.setMinValue(0);
         maChartView.setYlineCounts(2);
-//        maChartView.setFromCompare(true);
 
     }
 
@@ -279,13 +282,11 @@ public class FundTrendFragment extends BaseFragment implements OnClickListener {
     float maxOffsetValue;
 
     private void requestCompare() {
-        lineEntityList.clear();
-        maxOffsetValue = 0f;
-        netValueEngine.requeryDay(TimeUtils.getTimeString(cStart), TimeUtils.getTimeString(cEnd),
-                historyNetValueListener);
-        mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
-                TimeUtils.getTimeString(cEnd));
-        compareListener.setLoadingDialog(getActivity());
+
+        // Todo 请求数据
+
+        Log.d("FundTrendFragment", this + "requestCompare date");
+
     }
 
     ParseHttpListener compareListener = new ParseHttpListener<List<LineEntity>>() {
@@ -366,5 +367,24 @@ public class FundTrendFragment extends BaseFragment implements OnClickListener {
 
         }
     };
+
+
+    private boolean isViewShown;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        if (isVisibleToUser && !isViewShown) {
+
+            if (getView() != null) {
+                isViewShown = true;
+                requestCompare();
+            } else {
+                isViewShown = false;
+            }
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
 
 }

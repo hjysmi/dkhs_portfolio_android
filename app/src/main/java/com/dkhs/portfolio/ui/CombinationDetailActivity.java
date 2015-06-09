@@ -58,7 +58,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
     private final int MENU_ABOUT = 9;
 
     private final int REQUESTCODE_MODIFY_COMBINATION = 902;
-    private ChangeFollowView mChangeFollowView;
+    private ChangeFollowCombView mChangeFollowCombView;
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, CombinationDetailActivity.class);
@@ -164,7 +164,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
         replacePostionView();
         replaceCompareView();
 
-        mChangeFollowView = new ChangeFollowView(this);
+        mChangeFollowCombView = new ChangeFollowCombView(this);
 
     }
 
@@ -177,8 +177,8 @@ public class CombinationDetailActivity extends ModelAcitivity {
                 case MENU_FOLLOW:
                 case MENU_DELFOLLOW: {
 
-                    if (null != mCombinationBean && mChangeFollowView != null) {
-                        mChangeFollowView.changeFollow(mCombinationBean);
+                    if (null != mCombinationBean && mChangeFollowCombView != null) {
+                        mChangeFollowCombView.changeFollow(mCombinationBean);
                     }
                 }
                 break;
