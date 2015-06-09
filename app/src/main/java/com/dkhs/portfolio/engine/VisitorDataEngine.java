@@ -111,6 +111,24 @@ public class VisitorDataEngine {
     }
 
     /**
+     * 查询自选基金列表数据
+     */
+    public List<SelectStockBean> getOptionalFundList() {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        List<SelectStockBean> list = Collections.EMPTY_LIST;
+        try {
+            list = db
+                    .findAll(Selector
+                            .from(SelectStockBean.class)
+                            .where("symbol_type", "in", new String[]{"3"}));
+
+        } catch (DbException e) {
+            e.printStackTrace();
+        }// 通过类型查找
+        return list;
+    }
+
+    /**
      * 查询排序的股票列表数据
      */
     public List<SelectStockBean> getOptionalStockListBySort() {
@@ -118,7 +136,7 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
-            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1","5"}).orderBy("sortId", false));
+            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1", "5"}).orderBy("sortId", false));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block

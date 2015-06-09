@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.FundManagerFragment;
 import com.dkhs.portfolio.ui.fragment.FundProfileFragment;
 import com.dkhs.portfolio.ui.fragment.FundTrendFragment;
+import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -97,6 +98,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             handleExtras(extras);
         }
         mQuotesEngine = new QuotesEngineImpl();
+        mVisitorDataEngine = new VisitorDataEngine();
         initTitle();
         initView();
 
@@ -105,6 +107,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         if (!PortfolioApplication.hasUserLogin()) {
             getLocalOptionList();
         }
+
+        changeFollowView = new ChangeFollowView(this);
+        changeFollowView.setmChangeListener(changeFollowListener);
     }
 
     private void handleExtras(Bundle extras) {
@@ -117,7 +122,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void getLocalOptionList() {
         new Thread() {
             public void run() {
-                localList = mVisitorDataEngine.getOptionalStockList();
+                localList = mVisitorDataEngine.getOptionalFundList();
             }
 
         }.start();
@@ -251,13 +256,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
             switch (selectIndex) {
 
-                case MENU_FOLLOW: { // 调整仓位
-
-                }
-                break;
-
+                case MENU_FOLLOW:
                 case MENU_DELFOLLOW: {
-
+                    handFollowOrUnfollowAction();
                 }
                 break;
                 case MENU_REMIND: {
@@ -292,6 +293,26 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 break;
         }
     }
+
+    private ChangeFollowView changeFollowView;
+
+    private void handFollowOrUnfollowAction() {
+        final SelectStockBean selectBean = SelectStockBean.copy(mFundQuoteBean);
+        if (null != changeFollowView && null != selectBean) {
+            changeFollowView.changeFollow(selectBean);
+        }
+    }
+
+    private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
+        @Override
+        public void onChange(boolean isFollow) {
+            mFundQuoteBean.setFollowed(isFollow);
+            setAddOptionalButton();
+            if (!PortfolioApplication.hasUserLogin()) {
+                getLocalOptionList();
+            }
+        }
+    };
 
 
     //    @Subscribe
@@ -424,11 +445,10 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             tvUpPrecent.setTextColor(cls);
 
             tvNetvalue.setText(mFundQuoteBean.getNet_value() + "");
-            tvNetvalue.setText(mFundQuoteBean.getNet_cumulative() + "");
-
-//            tvUpPrice = (TextView) header.findViewById(R.id.tv_up_price);
-//            tvUpPrecent = (TextView) header.findViewById(R.id.tv_percentage);
-//            tvPreNetvalue = (TextView) header.findViewById(R.id.tv_pre_netvalue);
+            tvAllNetvalue.setText(mFundQuoteBean.getNet_cumulative() + "");
+            tvUpPrecent.setText(StringFromatUtils.get2PointPercentPlus(mFundQuoteBean.getPercentage()));
+            tvUpPrice.setText(StringFromatUtils.get2PointPlus(mFundQuoteBean.getChange()));
+            tvPreNetvalue.setText(mFundQuoteBean.getLast_net_value() + "");
         }
     }
 

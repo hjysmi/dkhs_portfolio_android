@@ -38,7 +38,6 @@ public class ChangeFollowView {
 
     public void showDelDialog() {
 
-
         MAlertDialog builder = PromptManager.getAlertDialog(mContext);
         builder.setTitle(R.string.tips);
         builder.setMessage(R.string.dialog_messag_delfollow);
@@ -56,7 +55,6 @@ public class ChangeFollowView {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                // btnAddOptional.setEnabled(true);
             }
         });
         builder.create().show();

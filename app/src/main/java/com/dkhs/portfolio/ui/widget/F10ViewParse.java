@@ -251,7 +251,7 @@ public class F10ViewParse {
             }
             break;
             case 5: {
-                rowText = "暂无";
+                rowText = fundQuoteBean.getEnd_shares();
             }
             break;
         }
