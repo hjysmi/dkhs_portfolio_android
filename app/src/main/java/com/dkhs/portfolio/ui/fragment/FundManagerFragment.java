@@ -6,6 +6,7 @@ import android.widget.AdapterView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ManagersEntity;
+import com.dkhs.portfolio.ui.FundManagerActivity;
 import com.dkhs.portfolio.ui.adapter.FundManagerAdapter;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -57,7 +58,8 @@ public class FundManagerFragment extends BaseFragment {
             lvManger.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    PromptManager.showToastTest(mListManager.get(position).getName());
+                    startActivity(FundManagerActivity.getIntent(getActivity(),mListManager.get(position).getId()+""));
+
                 }
             });
         }

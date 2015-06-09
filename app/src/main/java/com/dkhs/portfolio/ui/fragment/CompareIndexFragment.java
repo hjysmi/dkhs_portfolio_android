@@ -127,8 +127,8 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
 
     private void initMaChart(TrendChart machart) {
 
-        machart.setMaxValue(120);
-        machart.setMinValue(0);
+//        machart.setMaxValue(120);
+//        machart.setMinValue(0);
         maChartView.setYlineCounts(2);
         maChartView.setFromCompare(true);
 
@@ -328,14 +328,12 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
                         } else if (value < minNum) {
                             minNum = value;
                         }
-
                     }
-
                     lineEntity.setLineData(lineDataList);
                     linesList.add(lineEntity);
 
-                    float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
-
+//                    float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
+//
                     // mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value);
                     i++;
                 }

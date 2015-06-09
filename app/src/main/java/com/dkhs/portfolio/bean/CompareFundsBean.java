@@ -70,6 +70,13 @@ public class CompareFundsBean {
             this.percentage = percentage;
         }
 
+        public float getNetvalue() {
+            return netvalue;
+        }
+
+        public void setNetvalue(float netvalue) {
+            this.netvalue = netvalue;
+        }
     }
 
     public String getFundsId() {

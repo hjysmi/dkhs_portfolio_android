@@ -148,14 +148,16 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
         }
         int totalHeight = 0;
         if (getActivity() != null) {
-            totalHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height) * (getListAdapter().getCount());
+            totalHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height) * (getListAdapter().getCount()) +
+                    getResources().getDimensionPixelOffset(R.dimen.header_height);
             int footHeight;
 
-            if (totalHeight < (getListView().getHeight())) {
-                footHeight = (getListView().getHeight()) - totalHeight - getResources().getDimensionPixelOffset(R.dimen.header_height) + getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance);
+            if (totalHeight < (getListView().getHeight()+getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance))) {
+                footHeight = (getListView().getHeight()+getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)) - totalHeight;
             } else {
-                footHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height);
+                footHeight = getResources().getDimensionPixelOffset(R.dimen.foot_height);
             }
+
 
             footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
             getListView().addFooterView(footView);

@@ -158,6 +158,7 @@
     <string name="current_netvalue">当前净值:</string>
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
+    <string name="rate">收益率</string>
     <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
@@ -532,6 +533,9 @@
     <string name="percent_year">年收益</string>
     <string name="percent_tyear">今年以来</string>
     <string name="office_tenure">任职起</string>
+    <string name="title_activity_fund_manager">基金经理</string>
+
+   
     <string name="wanshou">万份收益</string>
     <string name="qirinianhua">七日年化</string>
     <string name="pre_netvalue">前一净值</string>
@@ -547,6 +551,13 @@
     <string name="office_day">任职日期</string>
     <string name="current_fund_manager">现任基金经理</string>
 
+
+    <string name="collapse_benefit_curve">收起收益曲线</string>
+    <string name="expend_benefit_curve">显示收益曲线</string>
+    <string name="up_to_now">至今</string>
+    <string name="between_date"> 至 </string>
+    <string name="sh300">沪深300</string>
+    <string name="more_fund_compare">更多基金比较</string>
 
 
 </resources>

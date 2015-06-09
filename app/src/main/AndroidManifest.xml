@@ -35,6 +35,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
@@ -155,22 +157,20 @@
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationNewsActivity"
             android:screenOrientation="portrait" />
-        <!--        <activity
-                    android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
-                    android:theme="@style/Theme.PageIndicatorDefaults"
-                    android:windowSoftInputMode="stateHidden" />-->
+<!--        <activity
+            android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
+            android:theme="@style/Theme.PageIndicatorDefaults"
+            android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize" >
 
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。 
             	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
-
-
             -->
             <meta-data
                 android:name="AuthorizeAdapter"
@@ -234,7 +234,7 @@
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
             </intent-filter>
         </receiver>
-        <receiver
+       <receiver
             android:name=".receiver.MessageNotificationClickReceiver"
             android:exported="false">
             <intent-filter>
@@ -366,6 +366,11 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ui.FundManagerActivity"
+            android:label="@string/title_activity_fund_manager" >
+        </activity>
     </application>
 
 </manifest>
