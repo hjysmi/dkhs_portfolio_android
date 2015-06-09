@@ -39,7 +39,7 @@ public class AchivementAdapter extends AutoAdapter {
 
 
     public AchivementAdapter(Context context, List<?> list) {
-        super(context, list, R.layout.item_achivement);
+        super(context, list);
 
         String[]   key=context.getResources().getStringArray(R.array.fund_type_keys);
         String[]  values=context.getResources().getStringArray(R.array.fund_type_values);
@@ -52,6 +52,17 @@ public class AchivementAdapter extends AutoAdapter {
     }
 
     @Override
+    public int setLayoutID() {
+        return R.layout.item_achivement;
+    }
+
+    @Override
+    public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
+
+
+        getView33(position, v, vh);
+    }
+
     public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
         FundManagerInfoBean.AchivementsEntity achivementsEntity= (FundManagerInfoBean.AchivementsEntity) list.get(position);
 

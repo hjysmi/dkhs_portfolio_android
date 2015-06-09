@@ -23,7 +23,7 @@ import java.util.List;
 public class FundManagerActivity extends ModelAcitivity {
 
 
-    String id = "302000757";
+    String id ;
     private  TextView mName;
     private  TextView mDesc;
 
@@ -41,7 +41,7 @@ public class FundManagerActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        id=getIntent().getStringExtra("pk");
+        id=getIntent().getStringExtra("pk");
         setContentView(R.layout.activity_fund_manager);
 
         setTitle(R.string.title_activity_fund_manager);
@@ -103,10 +103,7 @@ public class FundManagerActivity extends ModelAcitivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
