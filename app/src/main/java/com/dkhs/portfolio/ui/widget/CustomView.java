@@ -1,11 +1,11 @@
 package com.dkhs.portfolio.ui.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.RelativeLayout;
-
-import com.dkhs.portfolio.utils.Utils;
 
 
 public abstract class CustomView extends RelativeLayout{
@@ -33,12 +33,21 @@ public abstract class CustomView extends RelativeLayout{
 
 	// Set atributtes of XML to View
 	protected void setAttributes(AttributeSet attrs) {
-		setMinimumHeight(Utils.dpToPx(minHeight, getResources()));
-		setMinimumWidth(Utils.dpToPx(minWidth, getResources()));
+		setMinimumHeight(dpToPx(minHeight, getResources()));
+		setMinimumWidth(dpToPx(minWidth, getResources()));
 		if (backgroundResId != -1 && !isInEditMode()) {
 			setBackgroundResource(backgroundResId);
 		}
 		setBackgroundAttributes(attrs);
+	}
+
+	/**
+	 * Convert Dp to Pixel
+	 * 将dp转换为pixel
+	 */
+	public static int dpToPx(float dp, Resources resources){
+		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+		return (int) px;
 	}
 
 	/**

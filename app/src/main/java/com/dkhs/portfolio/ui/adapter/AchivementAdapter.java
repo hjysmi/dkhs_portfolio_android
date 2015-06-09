@@ -65,10 +65,6 @@ public class AchivementAdapter extends AutoAdapter {
 
     public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
         FundManagerInfoBean.AchivementsEntity achivementsEntity= (FundManagerInfoBean.AchivementsEntity) list.get(position);
-
-
-
-
         vh.setTextView(R.id.symbol,map.get(achivementsEntity.getFund().getSymbol_stype()+""));
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(achivementsEntity.getStart_date());
@@ -143,6 +139,8 @@ public class AchivementAdapter extends AutoAdapter {
             if(achivementsEntity.isExpend()){
 
                 ViewGroup chatView=vh.get(R.id.ll_chart);
+
+                // FIXME: 2015/6/9  使用同一个View 进行缓存
                 chatView.removeAllViews();
                 AnimationHelper.collapseView(  vh.get(R.id.ll_chart),true,null);
                 achivementsEntity.setExpend(false);
