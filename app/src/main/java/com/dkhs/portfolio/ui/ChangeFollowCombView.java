@@ -29,11 +29,11 @@ import com.dkhs.portfolio.utils.PromptManager;
  * @date 2015-5-6 下午3:16:21
  * @version 1.0
  */
-public class ChangeFollowView {
+public class ChangeFollowCombView {
     private Context mContext;
     private CombinationBean mCombinationBean;
 
-    public ChangeFollowView(Context context) {
+    public ChangeFollowCombView(Context context) {
         this.mContext = context;
     }
 
