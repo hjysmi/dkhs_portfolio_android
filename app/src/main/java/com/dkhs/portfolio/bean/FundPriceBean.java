@@ -27,21 +27,12 @@ public class FundPriceBean extends StockPriceBean {
     private float percent_week;
     private float tenthou_unit_incm;
     private float year_yld;
-    private String tradedate="";
+    private String tradedate = "";
     private float percent_tyear;
     private float net_value;
     private int symbol_stype;
     private float percent_year;
-    private String chi_spell="";
-    private String code="";
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
+    private String chi_spell = "";
 
 
     public int getSymbol_stype() {
@@ -151,24 +142,23 @@ public class FundPriceBean extends StockPriceBean {
 
 
     public float getValue(String key) {
-        float value=0 ;
+        float value = 0;
         if (key.equals("percent_day")) {
-            value = percent_day ;
+            value = percent_day;
         } else if (key.equals("percent_day")) {
-            value = percent_day ;
+            value = percent_day;
         } else if (key.equals("percent_month")) {
-            value = percent_month ;
+            value = percent_month;
         } else if (key.equals("percent_year")) {
-            value = percent_year ;
+            value = percent_year;
         } else if (key.equals("percent_tyear")) {
             value = percent_tyear;
         } else if (key.equals("percent_season")) {
             value = percent_season;
         } else if (key.equals("percent_six_month")) {
             value = percent_six_month;
-        }
-        else if (key.equals("year_yld")) {
-            value = year_yld ;
+        } else if (key.equals("year_yld")) {
+            value = year_yld;
         }
         return value;
     }

@@ -13,18 +13,16 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.umeng.analytics.MobclickAgent;
 
 /**
- * 
+ *
  * class desc: 启动画面 (1)判断是否是首次加载应用--采取读取SharedPreferences的方法
  * (2)是，则进入GuideActivity；否，则进入MainActivity (3)2s后执行(2)操作
- * 
+ *
  */
 public class SplashActivity extends FragmentActivity {
     boolean isFirstIn = false;
@@ -83,7 +81,6 @@ public class SplashActivity extends FragmentActivity {
         if (user != null) {
             if (!TextUtils.isEmpty(user.getAccess_token())
                     && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || AppConfig.isDebug)) {
-                user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                 GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                 GlobalParams.USERNAME = user.getUsername();
                 GlobalParams.MOBILE = user.getMobile();

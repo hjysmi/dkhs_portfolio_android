@@ -163,7 +163,6 @@
     </string-array>
 
 
-
     <string-array name="fund_sort_keys">
         <item>@string/percent_day</item>
         <item>@string/percent_month</item>
@@ -172,6 +171,21 @@
         <item>@string/percent_year</item>
         <item>@string/percent_tyear</item>
         <item>@string/office_tenure</item>
+    </string-array>
+    <string-array name="fund_tab_titles">
+        <item>@string/fund_tenure</item>
+        <item>@string/fund_month</item>
+        <item>@string/fund_season</item>
+        <item>@string/fund_year</item>
+        <item>@string/fund_toyear</item>
+    </string-array>
+    <string-array name="fund_profile_title">
+        <item>@string/fund_detail_name</item>
+        <item>@string/fund_manager</item>
+        <item>@string/fund_comp</item>
+        <item>@string/fund_stype</item>
+        <item>@string/fund_create_date</item>
+        <item>@string/fund_asset</item>
     </string-array>
 
 </resources>

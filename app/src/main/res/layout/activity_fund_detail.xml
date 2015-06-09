@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/combination_detail_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/person_setting_backgroud"
+    android:orientation="vertical">
+
+
+    <com.melnykov.fab.ObservableScrollView
+        android:id="@+id/sv_combinations"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="60dp">
+
+            <ViewStub
+                android:id="@+id/layout_sepfund_header"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/white"
+                android:layout="@layout/layout_sep_fund_title" />
+
+            <ViewStub
+                android:id="@+id/layout_noramlfund_header"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/white"
+                android:layout="@layout/layout_noraml_fund_title" />
+
+            <com.dkhs.portfolio.ui.widget.HScrollTitleView
+                android:id="@+id/hs_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/data_trendview"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/fund_manager_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/fund_overview"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/combin_horSpacing" />
+
+
+        </LinearLayout>
+    </com.melnykov.fab.ObservableScrollView>
+
+    <com.dkhs.portfolio.ui.FloatingActionMenu
+        android:id="@+id/floating_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
+
+</FrameLayout>

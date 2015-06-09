@@ -89,7 +89,8 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
             selectBean.id = stockBean.getId();
             selectBean.name = stockBean.getAbbrname();
             selectBean.currentValue = stockBean.getCurrent();
-            selectBean.code = stockBean.getSymbol();
+            selectBean.code = stockBean.getCode();
+            selectBean.symbol = stockBean.getSymbol();
             selectBean.percentage = stockBean.getPercentage();
             selectBean.percentage = stockBean.getPercentage();
             selectBean.change = stockBean.getChange();

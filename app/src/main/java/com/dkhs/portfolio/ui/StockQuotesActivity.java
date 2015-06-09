@@ -1,5 +1,4 @@
 /**
- *
  * @Title StockQuotesActivity.java
  * @Package com.dkhs.portfolio.ui
  * @Description TODO(用一句话描述该文件做什么)
@@ -167,7 +166,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             mStockBean = Parcels.unwrap(extras.getParcelable(EXTRA_STOCK));
             if (null != mStockBean) {
                 mStockId = mStockBean.id;
-                mStockCode = mStockBean.code;
+                mStockCode = mStockBean.symbol;
                 symbolType = mStockBean.symbol_type;
                 setTitleDate();
             }
@@ -458,13 +457,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
-            FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.code);
+            FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.symbol);
             fList.setStockQuoteScrollListener(this);
             tabBottomFragment.add(fList);
-            tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, ""));
-            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
-            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
-            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
+            tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
+            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.INTRODUCTION));
+            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.FINANCE));
+            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.STOCK_HODLER));
             replaceBottomTabFragment(tabBottomFragment.get(0));
 
             hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
@@ -585,10 +584,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
             if (isFirstLoadQuotes) {
-                mQuotesEngine.quotes(mStockBean.code, quoteListener);
+                mQuotesEngine.quotes(mStockBean.symbol, quoteListener);
                 isFirstLoadQuotes = false;
             } else {
-                mQuotesEngine.quotesNotTip(mStockBean.code, quoteListener);
+                mQuotesEngine.quotesNotTip(mStockBean.symbol, quoteListener);
             }
             // listener.setLoadingDialog(context);
         }
@@ -795,7 +794,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-        setTitle(mStockQuotesBean.getName() + "(" + mStockQuotesBean.getSymbol() + ")");
+        setTitle(mStockQuotesBean.getAbbrName() + "(" + mStockQuotesBean.getCode() + ")");
         tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
         // String curentText = tvCurrent.getText().toString();
         if (mPrePrice > 0) {
@@ -857,12 +856,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private ColorStateList getTextColor(float value) {
         if (value == 0 || mStockQuotesBean.getIs_stop() == 1) {
-            return (ColorStateList) getResources().getColorStateList(R.color.theme_color);
+            return (ColorStateList) getResources().getColorStateList(R.color.tab_normal_black);
         }
         if (value < 0) {
-            return (ColorStateList) getResources().getColorStateList(R.color.green);
+            return (ColorStateList) getResources().getColorStateList(R.color.tag_green);
         }
-        return (ColorStateList) getResources().getColorStateList(R.color.red);
+        return (ColorStateList) getResources().getColorStateList(R.color.tag_red);
     }
 
 
@@ -1070,17 +1069,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
-        // if (isChange) {
-        // // PortfolioApplication.getInstance().setChange(false);
-        // isChange = false;
-        // // checkValue = PortfolioApplication.getInstance().getCheckValue();
-        // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
-        // setFuquanView();
-        // }
-        // if (PortfolioApplication.getInstance().getkLinePosition() != -1) {
-        // hsTitle.setSelectIndex(PortfolioApplication.getInstance().getkLinePosition());
-        // PortfolioApplication.getInstance().setkLinePosition(-1);
-        // }
         viewHandler.postDelayed(new Runnable() {
 
             @Override

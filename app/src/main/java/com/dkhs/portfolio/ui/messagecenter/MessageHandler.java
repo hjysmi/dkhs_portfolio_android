@@ -192,7 +192,7 @@ public class MessageHandler {
     private void gotoStockQuotesActivity(final List<String> segments) {
         final SelectStockBean itemStock = new SelectStockBean();
         itemStock.setId(Long.parseLong(segments.get(2)));
-        itemStock.setCode(segments.get(1));
+        itemStock.setSymbol(segments.get(1));
         itemStock.setSymbol_type("1");
         itemStock.setName("- -");
         new QuotesEngineImpl().quotes(segments.get(1), new BasicHttpListener() {
@@ -212,7 +212,7 @@ public class MessageHandler {
                     StockQuotesBean stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
 
                     itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
-                    itemStock.setName(stockQuotesBean.getName());
+                    itemStock.setName(stockQuotesBean.getAbbrName());
                     context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
                 } catch (Exception e) {
                     e.printStackTrace();

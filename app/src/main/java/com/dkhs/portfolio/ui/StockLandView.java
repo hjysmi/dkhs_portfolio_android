@@ -203,13 +203,13 @@ public class StockLandView extends RelativeLayout {
 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         mStockQuotesChartFragment = StockQuotesChartLandFragment.newInstance(
-                StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.code);
+                StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.symbol);
         KChartsLandFragment fragment = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,
-                mStockBean.code, mStockBean.symbol_type);
+                mStockBean.symbol, mStockBean.symbol_type);
         KChartsLandFragment fragment2 = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,
-                mStockBean.code, mStockBean.symbol_type);
+                mStockBean.symbol, mStockBean.symbol_type);
         KChartsLandFragment fragment3 = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH,
-                mStockBean.code, mStockBean.symbol_type);
+                mStockBean.symbol, mStockBean.symbol_type);
         fragmentList.add(mStockQuotesChartFragment);
         fragmentList.add(fragment);
         fragmentList.add(fragment2);

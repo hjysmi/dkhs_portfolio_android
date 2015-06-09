@@ -46,7 +46,7 @@
         <attr name="snap" format="boolean" />
     </declare-styleable>
     <declare-styleable name="AutoLoadListView">
-        <attr name="headerLayout" format="reference"/>
+        <attr name="rcheaderLayout" format="reference"/>
         <attr name="perLoadCount" format="integer"/>
     </declare-styleable>
 </resources>

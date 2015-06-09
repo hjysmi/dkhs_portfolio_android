@@ -32,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SearchStockEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-17 下午3:15:01
- * @version 1.0
  */
 public class SearchStockEngineImpl {
 
@@ -50,21 +50,21 @@ public class SearchStockEngineImpl {
         String loadFundUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=3&exchange=1,2,12";
         String loadIndexUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2";
 
-        // DKHSClient.requestLong(HttpMethod.GET, loadStockUrl, null, stockProfiListener);
-        // DKHSClient.requestLong(HttpMethod.GET, loadFundUrl, null, stockProfiListener);
-        // DKHSClient.requestLong(HttpMethod.GET, loadIndexUrl, null, stockProfiListener);
+//         DKHSClient.requestLong(HttpMethod.GET, loadStockUrl, null, stockProfiListener);
+//         DKHSClient.requestLong(HttpMethod.GET, loadFundUrl, null, stockProfiListener);
+//         DKHSClient.requestLong(HttpMethod.GET, loadIndexUrl, null, stockProfiListener);
 
         String lastLoadTime = PortfolioPreferenceManager
                 .getStringValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME);
         StringBuilder sbLastDate = new StringBuilder("&last_datetime=");
         if (TextUtils.isEmpty(lastLoadTime)) {
 
-            sbLastDate.append("2015-05-26T01:41:39Z");
+            sbLastDate.append("2015-06-08T09:57:56Z");
         } else {
 
             sbLastDate.append(lastLoadTime);
         }
-               DKHSClient.requestLong(HttpMethod.GET, loadStockUrl + sbLastDate.toString(), null, stockProfiListener);
+        DKHSClient.requestLong(HttpMethod.GET, loadStockUrl + sbLastDate.toString(), null, stockProfiListener);
         DKHSClient.requestLong(HttpMethod.GET, loadFundUrl + sbLastDate.toString(), null, stockProfiListener);
         DKHSClient.requestLong(HttpMethod.GET, loadIndexUrl + sbLastDate.toString(), null, stockProfiListener);
 
@@ -87,7 +87,7 @@ public class SearchStockEngineImpl {
                     DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
                     // dbUtils.configAllowTransaction(true);
                     try {
-                        dbUtils.replaceAll(dataList);
+                        dbUtils.saveOrUpdateAll(dataList);
                         LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
@@ -128,11 +128,12 @@ public class SearchStockEngineImpl {
                     List<SearchStockBean> searchStockList = dbUtils
                             .findAll(Selector.from(SearchStockBean.class)
                                     .where("symbol_type", "=", "1")
-                                    // .and(WhereBuilder.b("is_stop", "!=", "1"))
+                                            // .and(WhereBuilder.b("is_stop", "!=", "1"))
                                     .and(WhereBuilder.b("list_status", "!=", "2"))
                                     .and(WhereBuilder.b("list_status", "!=", "3"))
                                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                             .or("stock_code", "LIKE", "%" + key + "%")
+                                            .or("stock_symbol", "LIKE", "%" + key + "%")
                                             .or("chi_spell", "LIKE", "%" + key + "%")));
                     if (null != searchStockList) {
                         for (SearchStockBean searchBean : searchStockList) {
@@ -154,7 +155,9 @@ public class SearchStockEngineImpl {
                 moreDataBean.setTotalPage(1);
                 iLoadListener.loadFinish(moreDataBean);
 
-            };
+            }
+
+            ;
         }.start();
 
     }
@@ -186,10 +189,11 @@ public class SearchStockEngineImpl {
                     List<SearchStockBean> searchStockList = dbUtils
                             .findAll(Selector
                                     .from(SearchStockBean.class)
-                                    .where("symbol_type", "in", new String[] { "3", "5" })
-                                    .and("symbol_stype", "in", new String[] { "300", "303" })
+                                    .where("symbol_type", "in", new String[]{"3", "5"})
+                                    .and("symbol_stype", "in", new String[]{"300", "303"})
                                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                             .or("stock_code", "LIKE", "%" + key + "%")
+                                            .or("stock_symbol", "LIKE", "%" + key + "%")
                                             .or("chi_spell", "LIKE", "%" + key + "%")));
                     if (null != searchStockList) {
                         for (SearchStockBean searchBean : searchStockList) {
@@ -211,7 +215,9 @@ public class SearchStockEngineImpl {
                 moreDataBean.setTotalCount(selectStockList.size());
                 moreDataBean.setTotalPage(1);
                 iLoadListener.loadFinish(moreDataBean);
-            };
+            }
+
+            ;
         }.start();
 
     }
@@ -269,9 +275,10 @@ public class SearchStockEngineImpl {
                     List<SearchStockBean> searchStockList = dbUtils
                             .findAll(Selector
                                     .from(SearchStockBean.class)
-                                    .where("symbol_type", "in", new String[] { "1", "5","3" })
+                                    .where("symbol_type", "in", new String[]{"1", "5", "3"})
                                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                             .or("stock_code", "LIKE", "%" + key + "%")
+                                            .or("stock_symbol", "LIKE", "%" + key + "%")
                                             .or("chi_spell", "LIKE", "%" + key + "%")));
 
                     if (null != searchStockList) {
@@ -293,7 +300,9 @@ public class SearchStockEngineImpl {
                 moreDataBean.setTotalCount(selectStockList.size());
                 moreDataBean.setTotalPage(1);
                 iLoadListener.loadFinish(moreDataBean);
-            };
+            }
+
+            ;
         }.start();
     }
 

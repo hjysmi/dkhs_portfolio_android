@@ -112,7 +112,7 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
             StringBuilder sbIds = new StringBuilder();
             if (null != dataList) {
                 for (SelectStockBean stock : dataList) {
-                    sbIds.append(stock.code);
+                    sbIds.append(stock.symbol);
                     sbIds.append(",");
                 }
 
@@ -234,6 +234,7 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+        params.addQueryStringParameter("symbol_type", "1,3,5");
 //        if (!TextUtils.isEmpty(mUserId)) {
 //            params.addQueryStringParameter("user_id", mUserId);
 //        }

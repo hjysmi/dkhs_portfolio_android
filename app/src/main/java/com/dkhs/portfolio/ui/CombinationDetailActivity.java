@@ -144,7 +144,6 @@ public class CombinationDetailActivity extends ModelAcitivity {
     }
 
     private void initView() {
-        // initFloatingActionMenu();
         localFloatingActionMenu.attachToScrollView(mScrollView);
         localFloatingActionMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
         if (isMyCombination) {

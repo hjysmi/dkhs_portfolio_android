@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="13"
-    android:versionName="1.7.0603">
+    android:versionName="1.7.0608">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -42,7 +42,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTranslucentTheme" >
+        android:theme="@style/AppTranslucentTheme">
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="54850a5cfd98c5755f000e12" />
@@ -120,6 +120,7 @@
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
         <activity android:name="com.dkhs.portfolio.ui.WebActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.FundDetailActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity"
             android:theme="@style/AppThemeNoBackgroud" />
@@ -154,10 +155,10 @@
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationNewsActivity"
             android:screenOrientation="portrait" />
-<!--        <activity
-            android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
-            android:theme="@style/Theme.PageIndicatorDefaults"
-            android:windowSoftInputMode="stateHidden" />-->
+        <!--        <activity
+                    android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
+                    android:theme="@style/Theme.PageIndicatorDefaults"
+                    android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -233,7 +234,7 @@
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
             </intent-filter>
         </receiver>
-       <receiver
+        <receiver
             android:name=".receiver.MessageNotificationClickReceiver"
             android:exported="false">
             <intent-filter>
@@ -360,9 +361,9 @@
         <receiver
             android:name=".receiver.NetChangeReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
     </application>

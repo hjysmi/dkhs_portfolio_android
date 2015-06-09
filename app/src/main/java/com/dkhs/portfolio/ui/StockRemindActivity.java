@@ -234,12 +234,12 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private void setStockStyle() {
         if (null != mStockBean) {
             tvStockName.setText(mStockBean.getName());
-            tvStockCode.setText(mStockBean.getCode());
+            tvStockCode.setText(mStockBean.getSymbol());
             String perText = getString(R.string.format_percent,
                     StringFromatUtils.get2PointPercent(mStockBean.getPercentage()));
             tvPercent.setText(perText);
 
-            if (StockUitls.isShangZhengB(mStockBean.getCode())) {
+            if (StockUitls.isShangZhengB(mStockBean.getSymbol())) {
                 perText = getString(R.string.format_stock_price,
                         StringFromatUtils.get3Point(mStockBean.getCurrentValue()));
             } else {

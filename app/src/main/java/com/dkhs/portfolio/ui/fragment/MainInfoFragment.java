@@ -8,24 +8,21 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName MainInfoFragment
@@ -61,9 +58,6 @@ public class MainInfoFragment extends BaseTitleFragment {
         String userId = null;
         UserEntity user = UserEngineImpl.getUserEntity();
         if (user != null) {
-            if (!TextUtils.isEmpty(user.getAccess_token())) {
-                user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-            }
             userId = user.getId() + "";
         }
 

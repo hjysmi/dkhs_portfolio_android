@@ -11,11 +11,11 @@ package com.dkhs.portfolio.bean;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockPriceBean
  * @Description 用于解析从服务器返回的股票行情相关的bean
- * @author zjz
  * @date 2014-9-18 下午1:56:29
- * @version 1.0
  */
 public class StockPriceBean {
 
@@ -24,6 +24,9 @@ public class StockPriceBean {
     private String abbrname;
     @SerializedName("symbol")
     private String symbol;
+
+
+    private String code;
     @SerializedName("current")
     private float current;
     private float change;
@@ -228,6 +231,14 @@ public class StockPriceBean {
 
     public void setAlertBean(AlertSetBean alertBean) {
         this.alertBean = alertBean;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }

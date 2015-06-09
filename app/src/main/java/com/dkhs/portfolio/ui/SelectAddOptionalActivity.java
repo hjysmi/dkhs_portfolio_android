@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
+import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
@@ -30,11 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName AddConbinationStockActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-28 下午12:11:20
- * @version 1.0
  */
 public class SelectAddOptionalActivity extends BaseSelectActivity implements OnClickListener {
 
@@ -46,7 +47,7 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
         // findViewById(R.id.rl_search_stock).setVisibility(View.GONE);
         findViewById(R.id.rl_add_stocklist).setVisibility(View.GONE);
         getRightButton().setVisibility(View.GONE);
-        // OptionalStockEngineImpl.loadAllData(loadAllListener);
+        OptionalStockEngineImpl.loadAllData(loadAllListener);
     }
 
     ParseHttpListener loadAllListener = new ParseHttpListener<List<SelectStockBean>>() {
@@ -68,7 +69,8 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
                         selectBean.id = stockBean.getId();
                         selectBean.name = stockBean.getAbbrname();
                         selectBean.currentValue = stockBean.getCurrent();
-                        selectBean.code = stockBean.getSymbol();
+                        selectBean.symbol = stockBean.getSymbol();
+                        selectBean.code = stockBean.getCode();
                         selectBean.percentage = stockBean.getPercentage();
                         selectBean.percentage = stockBean.getPercentage();
                         selectBean.change = stockBean.getChange();
@@ -138,10 +140,9 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     protected int getTitleRes() {

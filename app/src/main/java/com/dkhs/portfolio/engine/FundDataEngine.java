@@ -121,6 +121,7 @@ public class FundDataEngine extends LoadMoreDataEngine {
                 selectBean.name = priceBean.getAbbrname();
                 // selectBean.currentValue = stockBean.getCurrent();
                 selectBean.code = priceBean.getCode();
+                selectBean.symbol = priceBean.getSymbol();
                 if (mOrderType == OrderType.YEAR) {
 
                     selectBean.percentage = priceBean.getPercent_year();

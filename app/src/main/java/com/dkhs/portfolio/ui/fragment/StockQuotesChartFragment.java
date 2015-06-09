@@ -137,8 +137,8 @@ public class StockQuotesChartFragment extends BaseFragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code, false);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code, false);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.symbol, false);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.symbol, false);
         // mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
         // mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);

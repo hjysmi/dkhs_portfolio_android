@@ -37,6 +37,7 @@ import com.dkhs.portfolio.engine.OptionalFundsEngineImpl;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
@@ -53,6 +54,7 @@ import com.dkhs.portfolio.ui.eventbus.DataUpdateEvent;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
@@ -706,9 +708,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SelectStockBean itemStock = mDataList.get(position);
             itemStock.isFollowed = true;
-            // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
-            // Toast.LENGTH_SHORT).show();
-            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            if (StockUitls.isFundType(itemStock.symbol_type)) {
+                startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
+            } else {
+                startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            }
         }
     };
     OnItemClickListener itemBackClick = new OnItemClickListener() {
@@ -716,7 +720,12 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SelectStockBean itemStock = mDataList.get(position);
-            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            if (StockUitls.isFundType(itemStock.symbol_type)) {
+                startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
+            } else {
+
+                startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            }
             getActivity().finish();
         }
     };
