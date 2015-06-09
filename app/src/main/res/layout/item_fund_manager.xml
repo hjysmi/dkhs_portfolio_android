@@ -16,7 +16,6 @@
         android:layout_marginLeft="4dp"
         android:layout_weight="1"
         android:gravity="left"
-        android:text="罗明话"
         android:textSize="15sp" />
 
     <TextView
@@ -25,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="2014-11-23"
         android:textSize="15sp" />
 
     <TextView
@@ -35,7 +33,6 @@
         android:layout_weight="1"
         android:drawableRight="@drawable/menu_arrow_right"
         android:gravity="center"
-        android:text="100%"
         android:textColor="@color/tag_red"
         android:textSize="16sp" />
 

@@ -19,7 +19,7 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="现任基金经理"
+            android:text="@string/current_fund_manager"
             android:textColor="@color/combition_gray"
             android:textSize="12sp" />
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="任职日期"
+            android:text="@string/office_day"
             android:textColor="@color/combition_gray"
             android:textSize="12sp" />
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="收益"
+            android:text="@string/earnings"
             android:textColor="@color/combition_gray"
             android:textSize="12sp" />
     </LinearLayout>
