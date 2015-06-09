@@ -9,43 +9,29 @@
 package com.dkhs.portfolio.ui.widget;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.CompareFundsBean;
 import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.FundManagerInfoBean;
-import com.dkhs.portfolio.bean.HistoryNetValue;
-import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SepFundChartBean;
 import com.dkhs.portfolio.engine.CompareEngine;
-import com.dkhs.portfolio.engine.NetValueEngine;
-import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.CompareFundsActivity;
-import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.InjectionUtil;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +46,7 @@ import java.util.List;
  */
 public class BenefitChartView {
 
-    private FundManagerInfoBean.AchivementsEntity mCombinationBean;
+    private FundManagerInfoBean.AchivementsEntity mAchivementsEntity;
     // 默认沪深300的id
     private String mCompareIds = "106000232";
     @ViewInject(R.id.tv_combination_name)
@@ -81,15 +67,15 @@ public class BenefitChartView {
 
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
 
-    public BenefitChartView(Context ctx, FundManagerInfoBean.AchivementsEntity mCombinationBean) {
-        this.mCombinationBean = mCombinationBean;
+    public BenefitChartView(Context ctx, FundManagerInfoBean.AchivementsEntity achivementsEntity) {
+        this.mAchivementsEntity = achivementsEntity;
         this.ctx = ctx;
-        if(null != mCombinationBean.getEnd_date()){
-            cEnd = TimeUtils.simpleDateToCalendar(mCombinationBean.getEnd_date());
+        if(null != achivementsEntity.getEnd_date()){
+            cEnd = TimeUtils.simpleDateToCalendar(achivementsEntity.getEnd_date());
         }else{
             cEnd=Calendar.getInstance();
         }
-        cStart =TimeUtils.simpleDateToCalendar(mCombinationBean.getStart_date());
+        cStart =TimeUtils.simpleDateToCalendar(achivementsEntity.getStart_date());
         mCompareEngine = new CompareEngine();
     }
     public View initView() {
@@ -104,12 +90,12 @@ public class BenefitChartView {
         initMaChart(maChartView);
 
 
-        if (StockUitls.isSepFund(mCombinationBean.getFund().getSymbol_stype())){
+        if (StockUitls.isSepFund(mAchivementsEntity.getFund().getSymbol_stype())){
 
             tvCombinationName.setVisibility(View.GONE);
             requestSepFund();
         }else {
-            tvCombinationName.setText(mCombinationBean.getFund().getAbbr_name());
+            tvCombinationName.setText(mAchivementsEntity.getFund().getAbbr_name());
             requestCompare();
         }
     }
@@ -118,7 +104,7 @@ public class BenefitChartView {
         lineEntityList.clear();
         maxOffsetValue = 0f;
 
-        mCompareEngine.compare( sepFundHttpListener, mCombinationBean.getFund().getId()+"", TimeUtils.getTimeString(cStart),
+        mCompareEngine.compare( sepFundHttpListener, mAchivementsEntity.getFund().getId()+"", TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
     }
 
@@ -241,7 +227,7 @@ public class BenefitChartView {
     private void requestCompare() {
 
 
-        mCompareIds=mCompareIds+","+mCombinationBean.getFund().getId();
+        mCompareIds=mCompareIds+","+ mAchivementsEntity.getFund().getId();
         lineEntityList.clear();
         maxOffsetValue = 0f;
         mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
