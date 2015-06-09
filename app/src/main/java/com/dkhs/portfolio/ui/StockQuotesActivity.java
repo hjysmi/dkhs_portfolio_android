@@ -10,7 +10,6 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -37,9 +36,7 @@ import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.PagerFragmentAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
@@ -49,6 +46,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
+import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
@@ -60,7 +58,6 @@ import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -199,6 +196,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         processExtraData();
         initView();
 
+        changeFollowView = new ChangeFollowView(this);
+        changeFollowView.setmChangeListener(changeFollowListener);
 
     }
 
@@ -341,51 +340,25 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
+    private ChangeFollowView changeFollowView;
+
     private void handFollowOrUnfollowAction() {
-        if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
-            final SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
-            if (null != selectBean) {
-                if (selectBean.isFollowed) {
-                    // selectBean.isFollowed = false;
-
-                    PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            mStockQuotesBean.setFollowed(false);
-                            mVisitorDataEngine.delOptionalStock(selectBean);
-                            PromptManager.showDelFollowToast();
-                        }
-                    }).setButton3(getString(R.string.cancel), null).show();
-
-                } else {
-                    selectBean.isFollowed = true;
-                    mStockQuotesBean.setFollowed(true);
-                    selectBean.sortId = 0;
-                    mVisitorDataEngine.saveOptionalStock(selectBean);
-                    PromptManager.showFollowToast();
-                }
-            }
-            localList = mVisitorDataEngine.getOptionalStockList();
-            setAddOptionalButton();
-
-        } else {
-            if (mStockQuotesBean.isFollowed()) {
-
-                PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        mQuotesEngine.delfollow(mStockBean.id, baseListener);
-                    }
-                }).setButton3(getString(R.string.cancel), null).show();
-
-
-            } else {
-                mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
-            }
+        final SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
+        if (null != changeFollowView && null != selectBean) {
+            changeFollowView.changeFollow(selectBean);
         }
     }
+
+    private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
+        @Override
+        public void onChange(boolean isFollow) {
+            mStockQuotesBean.setFollowed(isFollow);
+            if (!PortfolioApplication.hasUserLogin()) {
+                localList = mVisitorDataEngine.getOptionalStockList();
+            }
+            setAddOptionalButton();
+        }
+    };
 
 
     private void full(boolean paramBoolean) {
@@ -922,20 +895,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         setTitle(mStockBean.name + "(" + mStockBean.code + ")");
     }
 
-    IHttpListener baseListener = new BasicHttpListener() {
-
-        @Override
-        public void onSuccess(String result) {
-            if (mStockQuotesBean.isFollowed()) {
-                PromptManager.showDelFollowToast();
-            } else {
-
-                PromptManager.showFollowToast();
-            }
-            mStockQuotesBean.setFollowed(!mStockQuotesBean.isFollowed());
-            setAddOptionalButton();
-        }
-    };
     Handler quoteHandler = new Handler();
 
     // Handler quoteHandler = new Handler();

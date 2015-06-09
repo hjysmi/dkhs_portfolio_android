@@ -63,7 +63,12 @@ public class FundQuoteBean extends QuotesBean {
     float year_yld;
     float percent_tyear;
 
+
+    float last_net_value;
+    float change;
+
     String mana_name;
+    String end_shares;
 
     public String getMana_name() {
         return mana_name;
@@ -199,6 +204,30 @@ public class FundQuoteBean extends QuotesBean {
 
     public float getPercent_tyear() {
         return percent_tyear;
+    }
+
+    public float getLast_net_value() {
+        return last_net_value;
+    }
+
+    public void setLast_net_value(float last_net_value) {
+        this.last_net_value = last_net_value;
+    }
+
+    public float getChange() {
+        return change;
+    }
+
+    public void setChange(float change) {
+        this.change = change;
+    }
+
+    public String getEnd_shares() {
+        return end_shares;
+    }
+
+    public void setEnd_shares(String end_shares) {
+        this.end_shares = end_shares;
     }
 
 

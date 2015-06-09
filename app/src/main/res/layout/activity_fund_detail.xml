@@ -39,11 +39,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <RelativeLayout
-                android:id="@+id/data_trendview"
-                android:layout_width="match_parent"
+            <!--        <RelativeLayout
+                        android:id="@+id/data_trendview"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@color/white" />-->
+
+
+            <com.dkhs.portfolio.ui.widget.ScrollViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
                 android:layout_height="300dp"
                 android:background="@color/white" />
+
 
             <RelativeLayout
                 android:id="@+id/fund_manager_view"

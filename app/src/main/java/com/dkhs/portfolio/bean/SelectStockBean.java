@@ -145,7 +145,7 @@ public class SelectStockBean extends DragListItem {
         return selectBean;
     }
 
-    public static SelectStockBean copy(StockQuotesBean stockBean) {
+    public static SelectStockBean copy(QuotesBean stockBean) {
 
         SelectStockBean selectBean = new SelectStockBean();
         selectBean.id = stockBean.getId();
@@ -159,9 +159,7 @@ public class SelectStockBean extends DragListItem {
         // selectBean.isStop = stockBean.;
         // selectBean.sortId = stockBean.getIndex();
         selectBean.alertSetBean = stockBean.getAlertSetBean();
-        selectBean.change = stockBean.getChange();
         // selectBean.list_status = stockBean.get;
-        selectBean.total_capital = stockBean.getTotal_capital();
         return selectBean;
     }
 

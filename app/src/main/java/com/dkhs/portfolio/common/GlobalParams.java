@@ -4,9 +4,8 @@ import com.dkhs.portfolio.bean.UserEntity;
 
 /**
  * 全局静态变量存储
- * 
+ *
  * @author zhangcm
- * 
  */
 public class GlobalParams {
 
@@ -40,4 +39,12 @@ public class GlobalParams {
     public static boolean IS_VOICE_CONNECTED = false;
     public static boolean IS_CONFERENCE_CONNECTED = false;
     public static boolean IS_APP_SHOWING = false;
+
+
+    public static void clearUserInfo() {
+        GlobalParams.ACCESS_TOCKEN = null;
+        GlobalParams.MOBILE = null;
+        GlobalParams.LOGIN_USER = null;
+    }
+
 }

@@ -181,7 +181,7 @@ public class UserEngineImpl {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                UserEntity entity = UserEntityDesUtil.decode(user);
+                UserEntity entity = UserEntityDesUtil.encrypt(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {
@@ -297,9 +297,11 @@ public class UserEngineImpl {
         }
         try {
             DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-            // UserEntity user = null;
             if (null != dbUtils) {
-                GlobalParams.LOGIN_USER = UserEntityDesUtil.encrypt(dbUtils.findFirst(UserEntity.class));
+                UserEntity user = dbUtils.findFirst(UserEntity.class);
+                if (null != user) {
+                    GlobalParams.LOGIN_USER = UserEntityDesUtil.decrypt(user);
+                }
 
             }
             return GlobalParams.LOGIN_USER;

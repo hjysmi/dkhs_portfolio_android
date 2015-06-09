@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
@@ -21,11 +22,14 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.adapter.PagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.FundManagerFragment;
 import com.dkhs.portfolio.ui.fragment.FundProfileFragment;
 import com.dkhs.portfolio.ui.fragment.FundTrendFragment;
+import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -37,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,6 +67,10 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     @ViewInject(R.id.floating_action_view)
     private FloatingActionMenu mFloatMenu;
 
+
+    @ViewInject(R.id.pager)
+    private ScrollViewPager pager;
+
     private TextView tvWanshou;
     private TextView tvQirinianhua;
 
@@ -77,6 +86,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private QuotesEngineImpl mQuotesEngine;
     private VisitorDataEngine mVisitorDataEngine;
     private List<SelectStockBean> localList;
+
+    private ArrayList<Fragment> fragmentList;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, FundDetailActivity.class);
@@ -97,6 +108,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             handleExtras(extras);
         }
         mQuotesEngine = new QuotesEngineImpl();
+        mVisitorDataEngine = new VisitorDataEngine();
         initTitle();
         initView();
 
@@ -105,6 +117,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         if (!PortfolioApplication.hasUserLogin()) {
             getLocalOptionList();
         }
+
+        changeFollowView = new ChangeFollowView(this);
+        changeFollowView.setmChangeListener(changeFollowListener);
     }
 
     private void handleExtras(Bundle extras) {
@@ -117,7 +132,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void getLocalOptionList() {
         new Thread() {
             public void run() {
-                localList = mVisitorDataEngine.getOptionalStockList();
+                localList = mVisitorDataEngine.getOptionalFundList();
             }
 
         }.start();
@@ -174,7 +189,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         String[] stockListTiles = getResources().getStringArray(R.array.fund_tab_titles);
         hsTitleTab.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
-
+        hsTitleTab.setSelectPositionListener(titleSelectPostion);
         mFloatMenu.attachToScrollView((ObservableScrollView) findViewById(R.id.sv_combinations));
         mFloatMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
         if (StockUitls.isSepFund(mFundBean.symbol_stype)) {
@@ -198,22 +213,41 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         btnRefresh.setOnClickListener(this);
 
         replaceTrendView();
-        replaceManagerView();
+
 
 //
 //        mChangeFollowView = new ChangeFollowView(this);
 
     }
 
+    HScrollTitleView.ISelectPostionListener titleSelectPostion = new HScrollTitleView.ISelectPostionListener() {
 
-    private FundTrendFragment mFragmentTrend;
+        @Override
+        public void onSelectPosition(int position) {
+            if (null != pager) {
+                pager.setCurrentItem(position);
+
+            }
+        }
+    };
+
 
     private void replaceTrendView() {
-        if (null == mFragmentTrend) {
-            mFragmentTrend = FundTrendFragment.newInstance();
-        }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.data_trendview, mFragmentTrend).commit();
+
+        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+
+        fragmentList.add(FundTrendFragment.newInstance());
+        fragmentList.add(FundTrendFragment.newInstance());
+        fragmentList.add(FundTrendFragment.newInstance());
+        fragmentList.add(FundTrendFragment.newInstance());
+        fragmentList.add(FundTrendFragment.newInstance());
+
+        pager = (ScrollViewPager) this.findViewById(R.id.pager);
+        pager.removeAllViews();
+        pager.setCanScroll(false);
+        pager.setOffscreenPageLimit(5);
+        pager.setAdapter(new PagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
+
 
     }
 
@@ -221,7 +255,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
     private void replaceManagerView() {
         if (null == mFragmentManager) {
-            mFragmentManager = FundManagerFragment.newInstance();
+            mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fund_manager_view, mFragmentManager).commit();
@@ -252,13 +286,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
             switch (selectIndex) {
 
-                case MENU_FOLLOW: { // 调整仓位
-
-                }
-                break;
-
+                case MENU_FOLLOW:
                 case MENU_DELFOLLOW: {
-
+                    handFollowOrUnfollowAction();
                 }
                 break;
                 case MENU_REMIND: {
@@ -293,6 +323,26 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 break;
         }
     }
+
+    private ChangeFollowView changeFollowView;
+
+    private void handFollowOrUnfollowAction() {
+        final SelectStockBean selectBean = SelectStockBean.copy(mFundQuoteBean);
+        if (null != changeFollowView && null != selectBean) {
+            changeFollowView.changeFollow(selectBean);
+        }
+    }
+
+    private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
+        @Override
+        public void onChange(boolean isFollow) {
+            mFundQuoteBean.setFollowed(isFollow);
+            setAddOptionalButton();
+            if (!PortfolioApplication.hasUserLogin()) {
+                getLocalOptionList();
+            }
+        }
+    };
 
 
     //    @Subscribe
@@ -405,6 +455,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         updataTitle();
         updateNetValue();
         replaceFundProfile();
+        replaceManagerView();
     }
 
     private void updateNetValue() {
@@ -424,11 +475,10 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             tvUpPrecent.setTextColor(cls);
 
             tvNetvalue.setText(mFundQuoteBean.getNet_value() + "");
-            tvNetvalue.setText(mFundQuoteBean.getNet_cumulative() + "");
-
-//            tvUpPrice = (TextView) header.findViewById(R.id.tv_up_price);
-//            tvUpPrecent = (TextView) header.findViewById(R.id.tv_percentage);
-//            tvPreNetvalue = (TextView) header.findViewById(R.id.tv_pre_netvalue);
+            tvAllNetvalue.setText(mFundQuoteBean.getNet_cumulative() + "");
+            tvUpPrecent.setText(StringFromatUtils.get2PointPercentPlus(mFundQuoteBean.getPercentage()));
+            tvUpPrice.setText(StringFromatUtils.get2PointPlus(mFundQuoteBean.getChange()));
+            tvPreNetvalue.setText(mFundQuoteBean.getLast_net_value() + "");
         }
     }
 
