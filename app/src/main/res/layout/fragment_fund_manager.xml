@@ -14,9 +14,9 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/tv_manamger_name"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:gravity="left"
             android:text="现任基金经理"
@@ -24,7 +24,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_manamger_day"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -34,7 +33,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_income_text"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,11 +42,19 @@
             android:textSize="12sp" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/div_line"
+        style="@style/divider_line"
+        android:layout_below="@+id/manager_title" />
 
     <com.dkhs.portfolio.ui.widget.ListViewEx
         android:id="@+id/lv_manager"
         style="@style/listViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/manager_title" />
+        android:layout_below="@+id/div_line" />
+
+    <View
+        style="@style/divider_line"
+        android:layout_below="@+id/lv_manager" />
 </RelativeLayout>

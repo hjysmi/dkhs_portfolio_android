@@ -198,7 +198,6 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         btnRefresh.setOnClickListener(this);
 
         replaceTrendView();
-        replaceManagerView();
 
 //
 //        mChangeFollowView = new ChangeFollowView(this);
@@ -221,7 +220,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
     private void replaceManagerView() {
         if (null == mFragmentManager) {
-            mFragmentManager = FundManagerFragment.newInstance();
+            mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fund_manager_view, mFragmentManager).commit();
@@ -405,6 +404,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         updataTitle();
         updateNetValue();
         replaceFundProfile();
+        replaceManagerView();
     }
 
     private void updateNetValue() {
