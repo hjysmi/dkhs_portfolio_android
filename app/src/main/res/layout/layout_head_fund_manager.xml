@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_gray"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+
+            android:id="@+id/name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/theme_color"
+            android:textSize="20sp" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
+            android:textColor="@color/tag_gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="18dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="管理业绩"
+        android:textColor="@color/tag_gray"
+        android:textSize="14sp" />
+
+
+</LinearLayout>

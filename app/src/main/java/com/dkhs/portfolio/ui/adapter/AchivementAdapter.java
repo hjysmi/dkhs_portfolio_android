@@ -1,0 +1,189 @@
+package com.dkhs.portfolio.ui.adapter;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.FundManagerInfoBean;
+import com.dkhs.portfolio.ui.widget.BenefitChartView;
+import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.nineoldandroids.animation.Animator;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author zwm
+ * @version 2.0
+ * @ClassName AchivementsAdapter
+ * @Description TODO(这里用一句话描述这个类的作用)
+ * @date 2015/6/8.
+ */
+public class AchivementAdapter extends AutoAdapter {
+
+
+
+    private int selectIndex=-1;
+
+
+
+    private Map<String,String> map=new HashMap<>();
+
+    private  ViewHolderUtils.ViewHolder preVh;
+
+
+    public AchivementAdapter(Context context, List<?> list) {
+        super(context, list);
+
+        String[]   key=context.getResources().getStringArray(R.array.fund_type_keys);
+        String[]  values=context.getResources().getStringArray(R.array.fund_type_values);
+
+        for (int i = 0; i < values.length; i++) {
+            String value = values[i];
+            map.put(value,key[i]);
+        }
+
+    }
+
+    @Override
+    public int setLayoutID() {
+        return R.layout.item_achivement;
+    }
+
+    @Override
+    public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
+
+
+        getView33(position, v, vh);
+    }
+
+    public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
+        FundManagerInfoBean.AchivementsEntity achivementsEntity= (FundManagerInfoBean.AchivementsEntity) list.get(position);
+        vh.setTextView(R.id.symbol,map.get(achivementsEntity.getFund().getSymbol_stype()+""));
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(achivementsEntity.getStart_date());
+        if(achivementsEntity.getEnd_date()==null){
+            stringBuilder.append(context.getString(R.string.up_to_now));
+        }else{
+            stringBuilder.append(context.getString(R.string.between_date)).append(achivementsEntity.getEnd_date());
+        }
+        vh.setTextView(R.id.tv_date,stringBuilder.toString());
+        if(selectIndex ==position){
+
+
+            if (achivementsEntity.isExpend()) {
+                AnimationHelper.expandView(vh.get(R.id.ll_chart), context.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight),false, null);
+                vh.setTextView(R.id.tv_chart_switch,context. getString(R.string.collapse_benefit_curve));
+                vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up,0,0,0);
+            }
+        }else{
+            if (achivementsEntity.isExpend()) {
+                AnimationHelper.collapseView(vh.get(R.id.ll_chart), true,null);
+                achivementsEntity.setExpend(false);
+            }else{
+                AnimationHelper.collapseView(vh.get(R.id.ll_chart), false,null);
+            }
+             vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_benefit_curve));
+            vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down,0,0,0);
+        }
+
+        if (!TextUtils.isEmpty(achivementsEntity.getFund().getAbbr_name()) && achivementsEntity.getFund().getAbbr_name().length() > 8) {
+            vh.getTextView(R.id.abbr_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            vh.setTextView(R.id.abbr_name,achivementsEntity.getFund().getAbbr_name().subSequence(0,8)+"...");
+        } else {
+            vh.getTextView(R.id.abbr_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            vh.setTextView(R.id.abbr_name,achivementsEntity.getFund().getAbbr_name());
+        }
+
+        setText(vh.getTextView(R.id.cp_rate),achivementsEntity.getCp_rate());
+        setText(vh.getTextView(R.id.sh_rate),achivementsEntity.getSh300_rate());
+        vh.get(R.id.ll_chart_switch).setOnClickListener(new OnClickImp(vh,achivementsEntity,position));
+
+    }
+
+    private void setText(TextView textView, double value) {
+        if (value > 0) {
+
+            textView.setTextColor(context.getResources().getColorStateList(R.color.tag_red));
+        } else if(value ==0) {
+            textView.setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
+
+        }else{
+            textView.setTextColor(context.getResources().getColorStateList(R.color.tag_green));
+
+        }
+        textView.setText(StringFromatUtils.get2PointPercent((float) value));
+    }
+
+
+    class OnClickImp implements View.OnClickListener{
+
+        ViewHolderUtils.ViewHolder vh;
+        FundManagerInfoBean.AchivementsEntity achivementsEntity;
+        int position;
+
+        public OnClickImp(ViewHolderUtils.ViewHolder vh, FundManagerInfoBean.AchivementsEntity achivementsEntity, int position) {
+            this.vh = vh;
+            this.achivementsEntity = achivementsEntity;
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(achivementsEntity.isExpend()){
+
+                ViewGroup chatView=vh.get(R.id.ll_chart);
+
+                // FIXME: 2015/6/9  使用同一个View 进行缓存
+                chatView.removeAllViews();
+                AnimationHelper.collapseView(  vh.get(R.id.ll_chart),true,null);
+                achivementsEntity.setExpend(false);
+                vh.setTextView(R.id.tv_chart_switch, context.getString(R.string.collapse_benefit_curve));
+                vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down,0,0,0);
+
+            }else{
+                AnimationHelper.expandView(vh.get(R.id.ll_chart), context.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight), true, new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        achivementsEntity.setExpend(true);
+
+                        vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_benefit_curve));
+                        vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up, 0, 0, 0);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                ViewGroup chatView=vh.get(R.id.ll_chart);
+                chatView.removeAllViews();
+                ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                chatView.addView(new BenefitChartView(context,achivementsEntity).initView(),params);
+                AchivementAdapter.this.selectIndex=position;
+                AchivementAdapter.this.notifyDataSetChanged();
+
+
+            }
+
+        }
+    }
+
+
+}

@@ -159,7 +159,7 @@
         <item>percent_six_month</item>
         <item>percent_year</item>
         <item>percent_tyear</item>
-        <item></item>
+        <item>latest_cp_rate</item>
     </string-array>
 
 

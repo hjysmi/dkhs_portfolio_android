@@ -16,10 +16,12 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.WebActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StockUitls;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -211,9 +213,14 @@ public class MessageHandler {
                     JSONObject jsonOb = jsonArray.getJSONObject(0);
                     StockQuotesBean stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
 
-                    itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
-                    itemStock.setName(stockQuotesBean.getAbbrName());
-                    context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+                    if(StockUitls.isFundType( stockQuotesBean.getSymbol_type())){
+                        SelectStockBean     itemStock=SelectStockBean.copy(stockQuotesBean);
+                        context.startActivity(FundDetailActivity.newIntent(context, itemStock));
+                    }else {
+                        itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
+                        itemStock.setName(stockQuotesBean.getAbbrName());
+                        context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
