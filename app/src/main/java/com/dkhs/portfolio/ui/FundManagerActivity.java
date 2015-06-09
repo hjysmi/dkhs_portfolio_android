@@ -38,14 +38,13 @@ public class FundManagerActivity extends ModelAcitivity {
         return intent;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 //        id=getIntent().getStringExtra("pk");
         setContentView(R.layout.activity_fund_manager);
 
+        setTitle(R.string.title_activity_fund_manager);
         ListView lv = (ListView) findViewById(R.id.listView);
 
         View view = LayoutInflater.from(FundManagerActivity.this).inflate(R.layout.layout_head_fund_manager, null);

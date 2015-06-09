@@ -551,8 +551,8 @@
 
 
     <string name="def_not_value">—</string>
-    <string name="collapse_yield_curve">收起收益曲线</string>
-    <string name="expend_yield_curve">显示收益曲线</string>
+    <string name="collapse_benefit_curve">收起收益曲线</string>
+    <string name="expend_benefit_curve">显示收益曲线</string>
     <string name="up_to_now">至今</string>
     <string name="between_date"> 至 </string>
     <string name="sh300">沪深300</string>

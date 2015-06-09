@@ -78,12 +78,7 @@ public class MenuBean {
 
         for (int i = 0; i < key.length; i++) {
             SortTypeMenuBean item=new SortTypeMenuBean();
-            //fixme 任职起，目前API上还没有实现，所以暂时这块先禁用。  Strings  要替换成服务器的定义的字段
-           if(key[i].equals("任职起")){
-               item.setEnable(false);
-           }else{
-               item.setEnable(true);
-           }
+            item.setEnable(true);
             item.setKey(key[i]);
             item.setValue(value[i]);
             list.add(item);

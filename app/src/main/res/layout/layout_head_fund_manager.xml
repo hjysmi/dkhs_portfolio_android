@@ -24,7 +24,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
             android:textColor="@color/theme_color"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <View
             style="@style/divider_line"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:minHeight="72dp"
             android:textColor="@color/tag_gray"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <TextView
@@ -49,7 +49,7 @@
         android:paddingRight="16dp"
         android:text="管理业绩"
         android:textColor="@color/tag_gray"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
 
 </LinearLayout>

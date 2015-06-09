@@ -71,16 +71,12 @@ public class FundOrderAdapter extends AutoAdapter {
         } else {
             if (StockUitls.isSepFund(fundBean.getSymbol_stype())) {
 
-                LogUtils.e("isSepFund           ");
                 vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
                 vh.getImageView(R.id.iv_qiri).setVisibility(View.VISIBLE);
 
                 vh.setTextView(R.id.tv_current_value,  fundBean.getTenthou_unit_incm() + "");
                 vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2PointPercent(fundBean.getYear_yld()) );
             } else {
-//                vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
-
-
 
                 vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
 

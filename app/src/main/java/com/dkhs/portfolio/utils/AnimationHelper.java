@@ -259,6 +259,8 @@ public class AnimationHelper {
 
         if (anim) {
             ValueAnimator vA = expandViewAnim(v, height);
+
+            if(listener !=null)
             vA.addListener(listener);
             vA.start();
         } else {
@@ -295,7 +297,7 @@ public class AnimationHelper {
                 }
             }
         });
-        anim.setDuration(ANIM_DURATION);
+        anim.setDuration(ANIM_DURATION/2);
         anim.setInterpolator(new DecelerateInterpolator());
         anim.setTarget(v);
         return anim;
@@ -304,6 +306,7 @@ public class AnimationHelper {
     public static void collapseView(View view, boolean isAnim,com.nineoldandroids.animation.Animator.AnimatorListener listener) {
         if (isAnim) {
             ValueAnimator vA = collapseAnim(view);
+            if(null != listener)
             vA.addListener(listener);
             vA.start();
         } else {
@@ -325,7 +328,7 @@ public class AnimationHelper {
             }
         });
         anim.setInterpolator(new AccelerateInterpolator());
-        anim.setDuration(ANIM_DURATION);
+        anim.setDuration(ANIM_DURATION/2);
         anim.setTarget(v);
         return anim;
     }
