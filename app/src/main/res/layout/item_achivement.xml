@@ -9,11 +9,12 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:orientation="horizontal"
+        android:layout_marginBottom="8dp"
         android:layout_height="wrap_content">
     <TextView
         android:id="@+id/abbr_name"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-        android:layout_marginBottom="4dp"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
         <TextView
@@ -27,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginBottom="4dp"
             android:layout_marginLeft="8dp"
             android:textSize="10sp"
             android:textColor="@color/tag_gray"
