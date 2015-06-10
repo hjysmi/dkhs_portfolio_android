@@ -200,16 +200,12 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         if (isMyInfo) {
             userInfoListener.setLoadingDialog(context);
-
-
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
-
 
     }
 
     private void replaceCombinationListView() {
-
         userCombinationListFragment = UserCombinationListFragment.getFragment(mUserName, mUserId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rl_combination_list, userCombinationListFragment)
@@ -218,8 +214,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void initData() {
-
-
 
         if(!isMyInfo) {
             userInfoListener.setLoadingDialog(context);
@@ -231,16 +225,13 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
-
             return DataParse.parseObjectJson(UserEntity.class, jsonData);
         }
-
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
                 updateUserView(object);
             }
-
         }
     };
 
@@ -249,17 +240,13 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
-
             return DataParse.parseObjectJson(UserEntity.class, jsonData);
-
         }
 
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
-
                 updateUserFolllowInfo(object);
-
                 PromptManager.showDelFollowToast();
 
             }
@@ -272,7 +259,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
             try {
                 JSONArray json = new JSONArray(jsonData);
-
                 return DataParse.parseObjectJson(UserEntity.class, json.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -284,7 +270,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
-
 
                 //todo api 返回无me_follow 字段,所以这边手动设置为true
                 object.setMe_follow(true);
@@ -358,8 +343,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-
-
         switch (v.getId()) {
             case R.id.ll_followers:
 
@@ -395,7 +378,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void unFollowAction() {
 
-
         PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(getResources().getString(R.string.unfollow_alert_content))
                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                        @Override
@@ -410,7 +392,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void followAction() {
-
 
         if (!UIUtils.iStartLoginActivity(this)) {
             followListener.setLoadingDialog(context);
