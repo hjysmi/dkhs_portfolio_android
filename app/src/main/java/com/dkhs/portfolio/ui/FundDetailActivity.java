@@ -236,7 +236,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Default));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OfficeDay));
         fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Month));
         fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Season));
         fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OneYear));

@@ -113,7 +113,7 @@ public class BenefitChartView {
 
     public enum FundTrendType {
 
-        Default(""),
+        Default("default"),
 
         Month("m"),
 
@@ -122,6 +122,8 @@ public class BenefitChartView {
         HalfYear("6m"),
 
         OneYear("y"),
+
+        OfficeDay("office"),
 
         ToYear("ty");
 
@@ -168,9 +170,6 @@ public class BenefitChartView {
             tvCombinationName.setVisibility(View.GONE);
             requestSepFund();
         } else {
-//            if (trendType == FundTrendType.Default) {
-//                fundId = fundId + "," + mCompareIds;
-//            }
             tvCombinationName.setText(abbrName);
             requestCompare();
         }
@@ -180,12 +179,15 @@ public class BenefitChartView {
     private void requestSepFund() {
         lineEntityList.clear();
         maxOffsetValue = 0f;
-        if (trendType != FundTrendType.Default) {
-            mCompareEngine.compareByPeriod(sepFundHttpListener, fundId, trendType.getValue());
-        } else {
-
+        if (trendType == FundTrendType.Default) {
+            mCompareEngine.compare(sepFundHttpListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
+                    TimeUtils.getTimeString(cEnd));
+        } else if (trendType == FundTrendType.OfficeDay) {
             mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
                     TimeUtils.getTimeString(cEnd));
+        } else {
+            mCompareEngine.compareByPeriod(sepFundHttpListener, fundId, trendType.getValue());
+
         }
     }
 
@@ -193,11 +195,15 @@ public class BenefitChartView {
 
         lineEntityList.clear();
         maxOffsetValue = 0f;
-        if (trendType != FundTrendType.Default) {
-            mCompareEngine.compareByPeriod(compareListener, fundId, trendType.getValue());
-        } else {
+        if (trendType == FundTrendType.Default) {
             mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
                     TimeUtils.getTimeString(cEnd));
+        } else if (trendType == FundTrendType.OfficeDay) {
+            mCompareEngine.compare(compareListener, fundId, TimeUtils.getTimeString(cStart),
+                    TimeUtils.getTimeString(cEnd));
+        } else {
+            mCompareEngine.compareByPeriod(compareListener, fundId, trendType.getValue());
+
         }
     }
 
@@ -302,7 +308,7 @@ public class BenefitChartView {
             yrtitle.add(StringFromatUtils.get2PointPercent(base + offetYvalue));
             maChartView.setDrawRightYTitle(true);
             maChartView.setAxisRightYTitles(yrtitle);
-            maChartView.setDrawTrendChart(true);
+//            maChartView.setDrawTrendChart(true);
         }
 
 
