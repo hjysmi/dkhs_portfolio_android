@@ -18,6 +18,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CompareFundsBean;
 import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.FundManagerInfoBean;
+import com.dkhs.portfolio.bean.FundQuoteBean;
+import com.dkhs.portfolio.bean.ManagersEntity;
 import com.dkhs.portfolio.bean.SepFundChartBean;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.net.DataParse;
@@ -27,6 +29,7 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import org.json.JSONArray;
@@ -46,13 +49,11 @@ import java.util.List;
  */
 public class BenefitChartView {
 
-    private FundManagerInfoBean.AchivementsEntity mAchivementsEntity;
     // 默认沪深300的id
     private String mCompareIds = "106000232";
     @ViewInject(R.id.tv_combination_name)
     private TextView tvCombinationName;
     private CompareEngine mCompareEngine;
-//    private CompareEngine netValueEngine;
     Calendar cStart, cEnd;
     @ViewInject(R.id.machart)
     private TrendChart maChartView;
@@ -65,46 +66,80 @@ public class BenefitChartView {
     private View contentView;
     private Context ctx;
 
+    private String fundId;
+    private int symbol_stype;
+    private String abbrName;
+
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
 
-    public BenefitChartView(Context ctx, FundManagerInfoBean.AchivementsEntity achivementsEntity) {
-        this.mAchivementsEntity = achivementsEntity;
+    private View benifitView;
+    public BenefitChartView(Context ctx) {
         this.ctx = ctx;
+        mCompareEngine = new CompareEngine();
+        benifitView=  initView();
+    }
+
+    public View getBenifitView() {
+        return benifitView;
+    }
+
+    public View initView() {
+        View view=  LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view,null);
+        ViewUtils.inject(this, view); // 注入view和事件
+        moreFundView.setVisibility(View.GONE);
+        return  view;
+    }
+    public void draw(FundManagerInfoBean.AchivementsEntity achivementsEntity){
+        loadView.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
         if(null != achivementsEntity.getEnd_date()){
             cEnd = TimeUtils.simpleDateToCalendar(achivementsEntity.getEnd_date());
         }else{
             cEnd=Calendar.getInstance();
         }
         cStart =TimeUtils.simpleDateToCalendar(achivementsEntity.getStart_date());
-        mCompareEngine = new CompareEngine();
-    }
-    public View initView() {
-        View view=  LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view,null);
-        ViewUtils.inject(this, view); // 注入view和事件
-        moreFundView.setVisibility(View.GONE);
-        onViewCreated(view);
-        return  view;
+        symbol_stype=achivementsEntity.getFund().getSymbol_stype();
+        fundId=achivementsEntity.getFund().getId()+"";
+        abbrName=achivementsEntity.getFund().getAbbr_name();
+        onRequest();
     }
 
-    public void onViewCreated(View view) {
+    public void draw(FundQuoteBean fundQuoteBean) {
+        loadView.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
+
+            cEnd=Calendar.getInstance();
+
+        // FIXME: 2015/6/10 多个基金经理的时候 开始时间怎么算
+        cStart =TimeUtils.simpleDateToCalendar(fundQuoteBean.getManagers().get(0).getStart_date());
+        
+        this.symbol_stype=fundQuoteBean.getSymbol_stype();
+        fundId=fundQuoteBean.getId()+"";
+        abbrName=fundQuoteBean.getName();
+        onRequest();
+
+
+
+    }
+
+    private void onRequest() {
         initMaChart(maChartView);
-
-
-        if (StockUitls.isSepFund(mAchivementsEntity.getFund().getSymbol_stype())){
-
+        if (StockUitls.isSepFund(symbol_stype)){
             tvCombinationName.setVisibility(View.GONE);
             requestSepFund();
         }else {
-            tvCombinationName.setText(mAchivementsEntity.getFund().getAbbr_name());
+            fundId=mCompareIds+","+fundId;
+            tvCombinationName.setText(abbrName);
             requestCompare();
         }
     }
+
 
     private void requestSepFund() {
         lineEntityList.clear();
         maxOffsetValue = 0f;
 
-        mCompareEngine.compare( sepFundHttpListener, mAchivementsEntity.getFund().getId()+"", TimeUtils.getTimeString(cStart),
+        mCompareEngine.compare(sepFundHttpListener,fundId, TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
     }
 
@@ -118,6 +153,7 @@ public class BenefitChartView {
 
     List<LineEntity> compareLinesList = new ArrayList<LineEntity>();
     private void setCompareLineList() {
+        maChartView.refreshClear();
         lineEntityList.addAll(compareLinesList);
         float base=(maxOffsetNetValue+minOffsetNetValue)/2;
         float off=Math.max(maxOffsetNetValue-base,base-minOffsetNetValue)*1.2f;
@@ -125,18 +161,23 @@ public class BenefitChartView {
         float off1=Math.max(maxOffsetValue-base1,base1-minOffsetValue)*1.2f;
         setYTitle(base,off, base1,off1 );
         maChartView.setLineData(lineEntityList);
+
+        onFinishUpdateUI();
+    }
+
+    private void onFinishUpdateUI() {
         contentView.setVisibility(View.VISIBLE);
         loadView.setVisibility(View.GONE);
     }
 
     private void setSepFundLineList() {
+        maChartView.refreshClear();
         lineEntityList.addAll(compareLinesList);
         float base1=maxOffsetValue+minOffsetValue/2;
         float off1=Math.max(maxOffsetValue-base1,base1-minOffsetValue)*1.2f;
         setYTitle(base1, off1);
         maChartView.setLineData(lineEntityList);
-        contentView.setVisibility(View.VISIBLE);
-        loadView.setVisibility(View.GONE);
+        onFinishUpdateUI();
     }
 
 
@@ -220,17 +261,14 @@ public class BenefitChartView {
 
     float maxOffsetValue;
     float minOffsetValue;
-
     float maxOffsetNetValue;
     float minOffsetNetValue;
 
     private void requestCompare() {
 
-
-        mCompareIds=mCompareIds+","+ mAchivementsEntity.getFund().getId();
         lineEntityList.clear();
         maxOffsetValue = 0f;
-        mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
+        mCompareEngine.compare(compareListener, fundId, TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
     }
 
@@ -241,22 +279,11 @@ public class BenefitChartView {
             System.out.println("compareListener parseDateTask");
             List<LineEntity> linesList = new ArrayList<LineEntity>();
             try {
-
-
                 JSONArray jsonArray=new JSONArray(jsonData);
-
                 JSONObject json= jsonArray.getJSONObject(0);
                 String chartlist=  json.getString("chartlist");
-
-
-            List<SepFundChartBean> sepFundChartBeans=DataParse.parseArrayJson(SepFundChartBean.class, chartlist);
-
-
+                List<SepFundChartBean> sepFundChartBeans=DataParse.parseArrayJson(SepFundChartBean.class, chartlist);
                 int i = 0;
-                float baseNum = 0;
-
-                float tempMaxOffetValue = 0;
-
                     LineEntity lineEntity = new LineEntity();
                     lineEntity.setTitle(json.getString("symbol"));
                     lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
@@ -264,9 +291,7 @@ public class BenefitChartView {
                     setXTitleBySepFundChartBean(sepFundChartBeans);
                     for (SepFundChartBean cPoint : sepFundChartBeans) {
                         LinePointEntity pointEntity = new LinePointEntity();
-                        // float value = cPoint.getPercentage();
                         float value = cPoint.getYear_yld();
-
                         pointEntity.setDesc(cPoint.getDate());
                         pointEntity.setValue(value);
                         lineDataList.add(pointEntity);
@@ -291,9 +316,6 @@ public class BenefitChartView {
         @Override
         protected void afterParseData(List<LineEntity> object) {
             if (null != object && object.size() > 0) {
-                // setLineListsData(object);
-                // setYTitle(dayNetValueList.get(0).getPercentageBegin(),
-                // getMaxOffetValue(object));
                 if (null != lineEntityList) {
                     lineEntityList.removeAll(compareLinesList);
                 }
@@ -322,6 +344,7 @@ public class BenefitChartView {
                 for (CompareFundsBean bean : beanList) {
                     LineEntity lineEntity = new LineEntity();
                     lineEntity.setTitle(bean.getSymbol());
+
                     lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                     setXTitleByComparePoint(bean.getChartlist());
@@ -372,5 +395,6 @@ public class BenefitChartView {
 
         }
     };
+
 
 }
