@@ -19,7 +19,6 @@ import com.dkhs.portfolio.bean.CompareFundsBean;
 import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.FundManagerInfoBean;
 import com.dkhs.portfolio.bean.FundQuoteBean;
-import com.dkhs.portfolio.bean.ManagersEntity;
 import com.dkhs.portfolio.bean.SepFundChartBean;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.net.DataParse;
@@ -29,7 +28,6 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import org.json.JSONArray;
@@ -41,11 +39,11 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * @author zwm
+ * @version 1.0
  * @ClassName BenefitChartView
  * @Description TODO(收益曲线视图)
- * @author zwm
  * @date 2015-6-10 下午4:18:02
- * @version 1.0
  */
 public class BenefitChartView {
 
@@ -73,10 +71,11 @@ public class BenefitChartView {
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
 
     private View benifitView;
+
     public BenefitChartView(Context ctx) {
         this.ctx = ctx;
         mCompareEngine = new CompareEngine();
-        benifitView=  initView();
+        benifitView = initView();
     }
 
     public View getBenifitView() {
@@ -84,23 +83,24 @@ public class BenefitChartView {
     }
 
     public View initView() {
-        View view=  LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view,null);
+        View view = LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view, null);
         ViewUtils.inject(this, view); // 注入view和事件
         moreFundView.setVisibility(View.GONE);
-        return  view;
+        return view;
     }
-    public void draw(FundManagerInfoBean.AchivementsEntity achivementsEntity){
+
+    public void draw(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
         loadView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
-        if(null != achivementsEntity.getEnd_date()){
+        if (null != achivementsEntity.getEnd_date()) {
             cEnd = TimeUtils.simpleDateToCalendar(achivementsEntity.getEnd_date());
-        }else{
-            cEnd=Calendar.getInstance();
+        } else {
+            cEnd = Calendar.getInstance();
         }
-        cStart =TimeUtils.simpleDateToCalendar(achivementsEntity.getStart_date());
-        symbol_stype=achivementsEntity.getFund().getSymbol_stype();
-        fundId=achivementsEntity.getFund().getId()+"";
-        abbrName=achivementsEntity.getFund().getAbbr_name();
+        cStart = TimeUtils.simpleDateToCalendar(achivementsEntity.getStart_date());
+        symbol_stype = achivementsEntity.getFund().getSymbol_stype();
+        fundId = achivementsEntity.getFund().getId() + "";
+        abbrName = achivementsEntity.getFund().getAbbr_name();
         onRequest();
     }
 
@@ -108,27 +108,26 @@ public class BenefitChartView {
         loadView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
 
-            cEnd=Calendar.getInstance();
+        cEnd = Calendar.getInstance();
 
         // FIXME: 2015/6/10 多个基金经理的时候 开始时间怎么算
-        cStart =TimeUtils.simpleDateToCalendar(fundQuoteBean.getManagers().get(0).getStart_date());
-        
-        this.symbol_stype=fundQuoteBean.getSymbol_stype();
-        fundId=fundQuoteBean.getId()+"";
-        abbrName=fundQuoteBean.getName();
-        onRequest();
+        cStart = TimeUtils.simpleDateToCalendar(fundQuoteBean.getManagers().get(0).getStart_date());
 
+        this.symbol_stype = fundQuoteBean.getSymbol_stype();
+        fundId = fundQuoteBean.getId() + "";
+        abbrName = fundQuoteBean.getName();
+        onRequest();
 
 
     }
 
     private void onRequest() {
         initMaChart(maChartView);
-        if (StockUitls.isSepFund(symbol_stype)){
+        if (StockUitls.isSepFund(symbol_stype)) {
             tvCombinationName.setVisibility(View.GONE);
             requestSepFund();
-        }else {
-            fundId=mCompareIds+","+fundId;
+        } else {
+            fundId = mCompareIds + "," + fundId;
             tvCombinationName.setText(abbrName);
             requestCompare();
         }
@@ -139,7 +138,7 @@ public class BenefitChartView {
         lineEntityList.clear();
         maxOffsetValue = 0f;
 
-        mCompareEngine.compare(sepFundHttpListener,fundId, TimeUtils.getTimeString(cStart),
+        mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
     }
 
@@ -152,14 +151,15 @@ public class BenefitChartView {
     }
 
     List<LineEntity> compareLinesList = new ArrayList<LineEntity>();
+
     private void setCompareLineList() {
         maChartView.refreshClear();
         lineEntityList.addAll(compareLinesList);
-        float base=(maxOffsetNetValue+minOffsetNetValue)/2;
-        float off=Math.max(maxOffsetNetValue-base,base-minOffsetNetValue)*1.2f;
-        float base1=maxOffsetValue+minOffsetValue/2;
-        float off1=Math.max(maxOffsetValue-base1,base1-minOffsetValue)*1.2f;
-        setYTitle(base,off, base1,off1 );
+        float base = (maxOffsetNetValue + minOffsetNetValue) / 2;
+        float off = Math.max(maxOffsetNetValue - base, base - minOffsetNetValue) * 1.2f;
+        float base1 = maxOffsetValue + minOffsetValue / 2;
+        float off1 = Math.max(maxOffsetValue - base1, base1 - minOffsetValue) * 1.2f;
+        setYTitle(base, off, base1, off1);
         maChartView.setLineData(lineEntityList);
 
         onFinishUpdateUI();
@@ -173,14 +173,12 @@ public class BenefitChartView {
     private void setSepFundLineList() {
         maChartView.refreshClear();
         lineEntityList.addAll(compareLinesList);
-        float base1=maxOffsetValue+minOffsetValue/2;
-        float off1=Math.max(maxOffsetValue-base1,base1-minOffsetValue)*1.2f;
+        float base1 = maxOffsetValue + minOffsetValue / 2;
+        float off1 = Math.max(maxOffsetValue - base1, base1 - minOffsetValue) * 1.2f;
         setYTitle(base1, off1);
         maChartView.setLineData(lineEntityList);
         onFinishUpdateUI();
     }
-
-
 
 
     private void setXTitleByComparePoint(List<ComparePoint> dayNetValueList) {
@@ -215,7 +213,7 @@ public class BenefitChartView {
     /**
      * 设置纵坐标标题，并设置曲线的最大值和最小值
      */
-    private void setYTitle(float baseNum,  float maxOffsetNetValue, float base,float offetYvalue) {
+    private void setYTitle(float baseNum, float maxOffsetNetValue, float base, float offetYvalue) {
         // int baseNum = 1;
 
         List<String> ytitle = new ArrayList<String>();
@@ -233,7 +231,7 @@ public class BenefitChartView {
         maChartView.setMinValue(baseNum - maxOffsetNetValue);
 
 
-        if(offetYvalue >0) {
+        if (offetYvalue > 0) {
             offetYvalue = offetYvalue / 0.8f;
             float halfOffetValue = offetYvalue / 2.0f;
             List<String> yrtitle = new ArrayList<String>();
@@ -255,7 +253,7 @@ public class BenefitChartView {
      * 设置纵坐标标题，并设置曲线的最大值和最小值
      */
     private void setYTitle(float baseNum, float offetYvalue) {
-        setYTitle(baseNum, offetYvalue,-1,-1);
+        setYTitle(baseNum, offetYvalue, -1, -1);
     }
 
 
@@ -279,31 +277,31 @@ public class BenefitChartView {
             System.out.println("compareListener parseDateTask");
             List<LineEntity> linesList = new ArrayList<LineEntity>();
             try {
-                JSONArray jsonArray=new JSONArray(jsonData);
-                JSONObject json= jsonArray.getJSONObject(0);
-                String chartlist=  json.getString("chartlist");
-                List<SepFundChartBean> sepFundChartBeans=DataParse.parseArrayJson(SepFundChartBean.class, chartlist);
+                JSONArray jsonArray = new JSONArray(jsonData);
+                JSONObject json = jsonArray.getJSONObject(0);
+                String chartlist = json.getString("chartlist");
+                List<SepFundChartBean> sepFundChartBeans = DataParse.parseArrayJson(SepFundChartBean.class, chartlist);
                 int i = 0;
-                    LineEntity lineEntity = new LineEntity();
-                    lineEntity.setTitle(json.getString("symbol"));
-                    lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
-                    List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
-                    setXTitleBySepFundChartBean(sepFundChartBeans);
-                    for (SepFundChartBean cPoint : sepFundChartBeans) {
-                        LinePointEntity pointEntity = new LinePointEntity();
-                        float value = cPoint.getYear_yld();
-                        pointEntity.setDesc(cPoint.getDate());
-                        pointEntity.setValue(value);
-                        lineDataList.add(pointEntity);
-                        if (value > maxOffsetValue) {
-                            maxOffsetValue = value;
-                        } else if (value < minOffsetValue) {
-                            minOffsetValue = value;
-                        }
-
+                LineEntity lineEntity = new LineEntity();
+                lineEntity.setTitle(json.getString("symbol"));
+                lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
+                List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+                setXTitleBySepFundChartBean(sepFundChartBeans);
+                for (SepFundChartBean cPoint : sepFundChartBeans) {
+                    LinePointEntity pointEntity = new LinePointEntity();
+                    float value = cPoint.getYear_yld();
+                    pointEntity.setDesc(cPoint.getDate());
+                    pointEntity.setValue(value);
+                    lineDataList.add(pointEntity);
+                    if (value > maxOffsetValue) {
+                        maxOffsetValue = value;
+                    } else if (value < minOffsetValue) {
+                        minOffsetValue = value;
                     }
-                    lineEntity.setLineData(lineDataList);
-                    linesList.add(lineEntity);
+
+                }
+                lineEntity.setLineData(lineDataList);
+                linesList.add(lineEntity);
 
             } catch (JSONException e) {
 
@@ -328,7 +326,6 @@ public class BenefitChartView {
     };
 
 
-
     ParseHttpListener compareListener = new ParseHttpListener<List<LineEntity>>() {
 
         @Override
@@ -351,7 +348,7 @@ public class BenefitChartView {
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         LinePointEntity pointEntity = new LinePointEntity();
                         float value = cPoint.getPercentage();
-                        float netV=cPoint.getNetvalue();
+                        float netV = cPoint.getNetvalue();
                         pointEntity.setDesc(cPoint.getDate());
                         pointEntity.setValue(netV);
                         lineDataList.add(pointEntity);
