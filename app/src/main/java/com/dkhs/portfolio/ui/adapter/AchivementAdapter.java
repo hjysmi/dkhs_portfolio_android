@@ -31,6 +31,8 @@ public class AchivementAdapter extends AutoAdapter {
 
     private int selectIndex=-1;
 
+    private  BenefitChartView benefitChartView;
+
 
 
     private Map<String,String> map=new HashMap<>();
@@ -48,6 +50,7 @@ public class AchivementAdapter extends AutoAdapter {
             String value = values[i];
             map.put(value,key[i]);
         }
+        benefitChartView=new BenefitChartView(context);
 
     }
 
@@ -81,16 +84,19 @@ public class AchivementAdapter extends AutoAdapter {
                 AnimationHelper.expandView(vh.get(R.id.ll_chart), context.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight),false, null);
                 vh.setTextView(R.id.tv_chart_switch,context. getString(R.string.collapse_benefit_curve));
                 vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up,0,0,0);
+                ViewGroup chatView=vh.get(R.id.ll_chart);
+                if(chatView.getChildCount()==0)
+                    addBenefitView(chatView,achivementsEntity,false);
             }
         }else{
             if (achivementsEntity.isExpend()) {
                 AnimationHelper.collapseView(vh.get(R.id.ll_chart), true,null);
                 achivementsEntity.setExpend(false);
             }else{
-                AnimationHelper.collapseView(vh.get(R.id.ll_chart), false,null);
+                AnimationHelper.collapseView(vh.get(R.id.ll_chart), false, null);
             }
-             vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_benefit_curve));
-            vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down,0,0,0);
+             vh.setTextView(R.id.tv_chart_switch, context.getString(R.string.expend_benefit_curve));
+             vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down, 0, 0, 0);
         }
 
         if (!TextUtils.isEmpty(achivementsEntity.getFund().getAbbr_name()) && achivementsEntity.getFund().getAbbr_name().length() > 8) {
@@ -144,7 +150,7 @@ public class AchivementAdapter extends AutoAdapter {
                 chatView.removeAllViews();
                 AnimationHelper.collapseView(  vh.get(R.id.ll_chart),true,null);
                 achivementsEntity.setExpend(false);
-                vh.setTextView(R.id.tv_chart_switch, context.getString(R.string.collapse_benefit_curve));
+                vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_benefit_curve));
                 vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down,0,0,0);
 
             }else{
@@ -157,8 +163,8 @@ public class AchivementAdapter extends AutoAdapter {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         achivementsEntity.setExpend(true);
+                        vh.setTextView(R.id.tv_chart_switch, context.getString(R.string.collapse_benefit_curve));
 
-                        vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_benefit_curve));
                         vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up, 0, 0, 0);
                     }
 
@@ -173,9 +179,8 @@ public class AchivementAdapter extends AutoAdapter {
                     }
                 });
                 ViewGroup chatView=vh.get(R.id.ll_chart);
-                chatView.removeAllViews();
-                ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                chatView.addView(new BenefitChartView(context,achivementsEntity).initView(),params);
+
+                addBenefitView(chatView,achivementsEntity,true);
                 AchivementAdapter.this.selectIndex=position;
                 AchivementAdapter.this.notifyDataSetChanged();
 
@@ -183,6 +188,23 @@ public class AchivementAdapter extends AutoAdapter {
             }
 
         }
+
+    }
+
+    private void addBenefitView(ViewGroup viewGroup,FundManagerInfoBean.AchivementsEntity achivementsEntity ,boolean reDraw){
+        viewGroup.removeAllViews();
+        ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+       View view= benefitChartView.getBenifitView();
+        if(view.getParent() !=null){
+            ViewGroup vG= (ViewGroup) view.getParent();
+            vG.removeView(view);
+        }
+
+        viewGroup.addView(view,params);
+        if(reDraw)
+        benefitChartView.draw(achivementsEntity);
+
     }
 
 
