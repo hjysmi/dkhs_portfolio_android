@@ -1,79 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bg_white_border_gray"
-    android:layout_height="wrap_content">
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
+
     <LinearLayout
         android:layout_width="fill_parent"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/abbr_name"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+        android:orientation="horizontal">
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginLeft="8dp"
+            android:id="@+id/abbr_name"
+            android:layout_width="wrap_content"
 
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle" />
+
+        <TextView
+            android:id="@+id/symbol"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"
             android:background="@drawable/bg_un_read_count"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:id="@+id/symbol"
-            android:layout_gravity="bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="12sp" />
+
         <TextView
-            android:layout_marginLeft="8dp"
-            android:textSize="10sp"
-            android:textColor="@color/tag_gray"
             android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:gravity="right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/tag_gray"
+            android:textSize="10sp" />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <View
-        android:layout_marginTop="4dp"
         style="@style/divider_line"
         android:layout_marginBottom="8dp"
-        />
+        android:layout_marginTop="4dp" />
 
     <LinearLayout
-        android:layout_marginTop="4dp"
         android:layout_width="fill_parent"
+        android:layout_height="48dp"
         android:layout_marginBottom="4dp"
-        android:layout_height="48dp">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/rate"
-                android:textSize="10sp"
-                android:textColor="@color/tag_gray"
-                android:gravity="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="- -"
+        android:layout_marginTop="4dp">
 
-                android:textSize="24sp"
-                android:id="@+id/cp_rate"
-                android:gravity="center"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/rate"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                android:textColor="@color/tag_gray"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/cp_rate"
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="- -"
+                android:textSize="24sp" />
 
         </LinearLayout>
+
         <View
             style="@style/vertical_divider_line"
             android:layout_marginBottom="12dp"
@@ -81,58 +89,63 @@
             android:alpha="0.6"
 
             android:background="@color/md_grey_800" />
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/sh300"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:textColor="@color/tag_gray"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textSize="20sp"
 
-                android:text="- -"
-                android:gravity="center"
-                android:id="@+id/sh_rate"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sh300"
+                android:textColor="@color/tag_gray"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/sh_rate"
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="- -"
+                android:textSize="20sp" />
 
         </LinearLayout>
     </LinearLayout>
+
     <View
-        android:layout_marginTop="4dp"
         style="@style/divider_line"
         android:layout_marginBottom="8dp"
-        />
+        android:layout_marginTop="4dp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
         android:id="@+id/ll_chart"
-        android:orientation="vertical"
-        android:layout_height="wrap_content"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:id="@+id/ll_chart_switch"
-        android:orientation="vertical"
-        android:layout_marginBottom="8dp"
-        android:layout_height="wrap_content">
-    <TextView
         android:layout_width="wrap_content"
-        android:text="@string/expend_benefit_curve"
-        android:drawablePadding="2dp"
-        android:id="@+id/tv_chart_switch"
-        android:textColor="@color/theme_color"
-        android:paddingLeft="8dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:id="@+id/ll_chart_switch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_chart_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="2dp"
+            android:paddingLeft="8dp"
+            android:text="@string/expend_benefit_curve"
+            android:textColor="@color/theme_color" />
 
     </LinearLayout>
 

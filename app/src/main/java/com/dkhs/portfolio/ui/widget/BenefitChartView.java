@@ -58,6 +58,8 @@ public class BenefitChartView {
 
     @ViewInject(R.id.tv_more_funds)
     private View moreFundView;
+    @ViewInject(R.id.rl_compare_title)
+    private View titleView;
     @ViewInject(R.id.loadView)
     private View loadView;
     @ViewInject(R.id.contentView)
@@ -104,6 +106,45 @@ public class BenefitChartView {
         onRequest();
     }
 
+
+    // key :period value:如：m:月; 3m:三个月; 6m:半年; "y":最近一年; "ty":今年以来;
+
+    private FundTrendType trendType = FundTrendType.Default;
+
+    public enum FundTrendType {
+
+        Default(""),
+
+        Month("m"),
+
+        Season("3m"),
+
+        HalfYear("6m"),
+
+        OneYear("y"),
+
+        ToYear("ty");
+
+        private String value;
+
+        // 枚举对象构造函数
+        private FundTrendType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+    }
+
+    public void draw(FundQuoteBean fundQuoteBean, FundTrendType type) {
+        this.trendType = type;
+        tvCombinationName.setVisibility(View.GONE);
+        titleView.setVisibility(View.GONE);
+        draw(fundQuoteBean);
+    }
+
+
     public void draw(FundQuoteBean fundQuoteBean) {
         loadView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
@@ -127,7 +168,9 @@ public class BenefitChartView {
             tvCombinationName.setVisibility(View.GONE);
             requestSepFund();
         } else {
-            fundId = mCompareIds + "," + fundId;
+//            if (trendType == FundTrendType.Default) {
+//                fundId = fundId + "," + mCompareIds;
+//            }
             tvCombinationName.setText(abbrName);
             requestCompare();
         }
@@ -137,11 +180,26 @@ public class BenefitChartView {
     private void requestSepFund() {
         lineEntityList.clear();
         maxOffsetValue = 0f;
+        if (trendType != FundTrendType.Default) {
+            mCompareEngine.compareByPeriod(sepFundHttpListener, fundId, trendType.getValue());
+        } else {
 
-        mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
-                TimeUtils.getTimeString(cEnd));
+            mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
+                    TimeUtils.getTimeString(cEnd));
+        }
     }
 
+    private void requestCompare() {
+
+        lineEntityList.clear();
+        maxOffsetValue = 0f;
+        if (trendType != FundTrendType.Default) {
+            mCompareEngine.compareByPeriod(compareListener, fundId, trendType.getValue());
+        } else {
+            mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
+                    TimeUtils.getTimeString(cEnd));
+        }
+    }
 
     private void initMaChart(TrendChart machart) {
         machart.setMaxValue(120);
@@ -155,8 +213,9 @@ public class BenefitChartView {
     private void setCompareLineList() {
         maChartView.refreshClear();
         lineEntityList.addAll(compareLinesList);
-        float base = (maxOffsetNetValue + minOffsetNetValue) / 2;
-        float off = Math.max(maxOffsetNetValue - base, base - minOffsetNetValue) * 1.2f;
+
+        float base = (maxOffsetValue + minOffsetValue) / 2;
+        float off = Math.max(maxOffsetValue - base, base - minOffsetValue) * 1.2f;
         float base1 = maxOffsetValue + minOffsetValue / 2;
         float off1 = Math.max(maxOffsetValue - base1, base1 - minOffsetValue) * 1.2f;
         setYTitle(base, off, base1, off1);
@@ -221,11 +280,11 @@ public class BenefitChartView {
 
         float value1 = maxOffsetNetValue / 0.8f;
         float value2 = maxOffsetNetValue / 2.0f;
-        ytitle.add(StringFromatUtils.get2Point(baseNum - value1));
-        ytitle.add(StringFromatUtils.get2Point(baseNum - value2));
-        ytitle.add(StringFromatUtils.get2Point(baseNum));
-        ytitle.add(StringFromatUtils.get2Point(baseNum + value2));
-        ytitle.add(StringFromatUtils.get2Point(baseNum + value1));
+        ytitle.add(StringFromatUtils.get4Point(baseNum - value1));
+        ytitle.add(StringFromatUtils.get4Point(baseNum - value2));
+        ytitle.add(StringFromatUtils.get4Point(baseNum));
+        ytitle.add(StringFromatUtils.get4Point(baseNum + value2));
+        ytitle.add(StringFromatUtils.get4Point(baseNum + value1));
         maChartView.setAxisYTitles(ytitle);
         maChartView.setMaxValue(baseNum + maxOffsetNetValue);
         maChartView.setMinValue(baseNum - maxOffsetNetValue);
@@ -259,22 +318,14 @@ public class BenefitChartView {
 
     float maxOffsetValue;
     float minOffsetValue;
-    float maxOffsetNetValue;
-    float minOffsetNetValue;
+//    float maxOffsetNetValue;
+//    float minOffsetNetValue;
 
-    private void requestCompare() {
-
-        lineEntityList.clear();
-        maxOffsetValue = 0f;
-        mCompareEngine.compare(compareListener, fundId, TimeUtils.getTimeString(cStart),
-                TimeUtils.getTimeString(cEnd));
-    }
 
     ParseHttpListener sepFundHttpListener = new ParseHttpListener<List<LineEntity>>() {
 
         @Override
         protected List<LineEntity> parseDateTask(String jsonData) {
-            System.out.println("compareListener parseDateTask");
             List<LineEntity> linesList = new ArrayList<LineEntity>();
             try {
                 JSONArray jsonArray = new JSONArray(jsonData);
@@ -284,7 +335,7 @@ public class BenefitChartView {
                 int i = 0;
                 LineEntity lineEntity = new LineEntity();
                 lineEntity.setTitle(json.getString("symbol"));
-                lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
+                lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                 List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                 setXTitleBySepFundChartBean(sepFundChartBeans);
                 for (SepFundChartBean cPoint : sepFundChartBeans) {
@@ -330,7 +381,6 @@ public class BenefitChartView {
 
         @Override
         protected List<LineEntity> parseDateTask(String jsonData) {
-            System.out.println("compareListener parseDateTask");
             List<LineEntity> linesList = new ArrayList<LineEntity>();
             try {
                 List<CompareFundsBean> beanList = DataParse.parseArrayJson(CompareFundsBean.class, new JSONArray(
@@ -341,27 +391,35 @@ public class BenefitChartView {
                 for (CompareFundsBean bean : beanList) {
                     LineEntity lineEntity = new LineEntity();
                     lineEntity.setTitle(bean.getSymbol());
+                    if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(mCompareIds)) {
+                        lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
+                    } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
+                        lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+                    } else {
+                        lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
+                    }
 
-                    lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
+
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                     setXTitleByComparePoint(bean.getChartlist());
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         LinePointEntity pointEntity = new LinePointEntity();
                         float value = cPoint.getPercentage();
-                        float netV = cPoint.getNetvalue();
                         pointEntity.setDesc(cPoint.getDate());
-                        pointEntity.setValue(netV);
+                        pointEntity.setValue(value);
                         lineDataList.add(pointEntity);
                         if (value > maxOffsetValue) {
                             maxOffsetValue = value;
                         } else if (value < minOffsetValue) {
                             minOffsetValue = value;
                         }
-                        if (netV > maxOffsetNetValue) {
-                            maxOffsetNetValue = netV;
-                        } else if (netV < minOffsetNetValue) {
-                            minOffsetNetValue = netV;
-                        }
+
+
+//                        if (netV > maxOffsetNetValue) {
+//                            maxOffsetNetValue = netV;
+//                        } else if (netV < minOffsetNetValue) {
+//                            minOffsetNetValue = netV;
+//                        }
                     }
                     lineEntity.setLineData(lineDataList);
                     linesList.add(lineEntity);

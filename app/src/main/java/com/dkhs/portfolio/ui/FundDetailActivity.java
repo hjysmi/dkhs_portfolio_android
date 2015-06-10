@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.FundManagerFragment;
 import com.dkhs.portfolio.ui.fragment.FundProfileFragment;
 import com.dkhs.portfolio.ui.fragment.FundTrendFragment;
+import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
@@ -235,11 +236,11 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(FundTrendFragment.newInstance());
-        fragmentList.add(FundTrendFragment.newInstance());
-        fragmentList.add(FundTrendFragment.newInstance());
-        fragmentList.add(FundTrendFragment.newInstance());
-        fragmentList.add(FundTrendFragment.newInstance());
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Default));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Month));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Season));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OneYear));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.ToYear));
 
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.removeAllViews();
@@ -255,9 +256,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void replaceManagerView() {
         if (null == mFragmentManager) {
             mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fund_manager_view, mFragmentManager).commit();
         }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fund_manager_view, mFragmentManager).commit();
 
     }
 
