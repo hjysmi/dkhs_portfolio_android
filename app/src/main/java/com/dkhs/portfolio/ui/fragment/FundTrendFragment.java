@@ -10,44 +10,16 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CompareFundsBean;
-import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.FundQuoteBean;
-import com.dkhs.portfolio.bean.HistoryNetValue;
-import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.CompareEngine;
-import com.dkhs.portfolio.engine.NetValueEngine;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.BenefitChartView;
-import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
-import com.dkhs.portfolio.ui.widget.TrendChart;
-import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.parceler.Parcels;
-import org.parceler.transfuse.annotations.OnCreate;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * @author zjz
@@ -58,18 +30,20 @@ import java.util.List;
  */
 public class FundTrendFragment extends BaseFragment {
 
-
+    public static final String EXTRA_TRENDTYPE = "extra_trendType";
     @ViewInject(R.id.rootView)
     private ViewGroup rootView;
 
 
     private BenefitChartView benefitChartView;
 
+    private BenefitChartView.FundTrendType mTrendType;
 
-    public static FundTrendFragment newInstance() {
+    public static FundTrendFragment newInstance(BenefitChartView.FundTrendType trendType) {
         FundTrendFragment fragment = new FundTrendFragment();
-
         Bundle arguments = new Bundle();
+        arguments.putSerializable(EXTRA_TRENDTYPE, trendType);
+        fragment.setArguments(arguments);
         return fragment;
     }
 
@@ -83,8 +57,17 @@ public class FundTrendFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BusProvider.getInstance().register(this);
+        if (getArguments() != null) {
+            mTrendType = (BenefitChartView.FundTrendType) getArguments().getSerializable(EXTRA_TRENDTYPE);
+        }
+        setRetainInstance(true);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(EXTRA_TRENDTYPE, mTrendType);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,12 +87,10 @@ public class FundTrendFragment extends BaseFragment {
     @Subscribe
     public void updateUI(FundQuoteBean fundQuoteBean) {
 
-        if (fundQuoteBean != null && fundQuoteBean.getManagers() != null && fundQuoteBean.getManagers().size()>0) {
-            benefitChartView.draw(fundQuoteBean);
+        if (fundQuoteBean != null && fundQuoteBean.getManagers() != null && fundQuoteBean.getManagers().size() > 0) {
+            benefitChartView.draw(fundQuoteBean, mTrendType);
         }
     }
-
-
 
 
     @Override

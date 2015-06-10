@@ -66,7 +66,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_toLeftOf="@+id/tv_more_funds"
                 android:layout_toRightOf="@+id/tv_hushen"
-                android:drawableLeft="@drawable/dot_index3"
+                android:drawableLeft="@drawable/dot_combination"
                 android:drawablePadding="4dp"
                 android:singleLine="true"
                 android:textSize="14sp" />
@@ -76,7 +76,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/rl_compare_title"
-            android:paddingBottom="30dp"
+            android:paddingBottom="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
@@ -84,8 +84,8 @@
                 android:id="@+id/machart"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                app:gridHeightWeight="9"
-                app:gridWidthWeight="16" />
+                app:gridHeightWeight="5"
+                app:gridWidthWeight="7" />
         </RelativeLayout>
     </RelativeLayout>
 
