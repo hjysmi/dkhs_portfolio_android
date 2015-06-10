@@ -74,7 +74,7 @@ public class FundProfileFragment extends BaseFragment {
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.proflie_content);
-
+        mContentView.removeAllViews();
         View profileView = new F10ViewParse(mContext).parseFundProfileView(mFundQuoteBean);
         mContentView.addView(profileView);
 
