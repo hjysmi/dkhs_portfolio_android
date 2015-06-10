@@ -53,7 +53,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     public static final String EXTRA_FUND = "extra_fund";
     private SelectStockBean mFundBean;
 
-    private FundQuoteBean mFundQuoteBean;
+    public FundQuoteBean mFundQuoteBean;
 
 
     @ViewInject(R.id.hs_title)
@@ -178,6 +178,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             setTitle(nameText);
             setTitleTipString(
                     mFundQuoteBean.getTradedate());
+            BusProvider.getInstance().post(mFundQuoteBean);
         }
 
     }

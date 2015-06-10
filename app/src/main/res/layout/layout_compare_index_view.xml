@@ -27,13 +27,6 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <View
-            android:id="@+id/top_line"
-            style="@style/divider_line" />
-
-        <View
-            style="@style/divider_line"
-            android:layout_alignParentBottom="true" />
 
         <RelativeLayout
             android:id="@+id/rl_compare_title"
