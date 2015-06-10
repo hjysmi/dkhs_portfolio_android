@@ -180,7 +180,7 @@ public class BenefitChartView {
         lineEntityList.clear();
         maxOffsetValue = 0f;
         if (trendType == FundTrendType.Default) {
-            mCompareEngine.compare(sepFundHttpListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
+            mCompareEngine.compare(sepFundHttpListener, fundId , TimeUtils.getTimeString(cStart),
                     TimeUtils.getTimeString(cEnd));
         } else if (trendType == FundTrendType.OfficeDay) {
             mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
