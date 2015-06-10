@@ -254,11 +254,11 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private FundManagerFragment mFragmentManager;
 
     private void replaceManagerView() {
-        if (null == mFragmentManager) {
+//        if (null == mFragmentManager) {
             mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fund_manager_view, mFragmentManager).commit();
-        }
+//        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fund_manager_view, mFragmentManager).commit();
 
     }
 
