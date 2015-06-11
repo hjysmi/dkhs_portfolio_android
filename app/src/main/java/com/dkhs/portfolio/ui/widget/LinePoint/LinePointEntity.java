@@ -6,7 +6,7 @@
  * @date 2014-9-24 上午10:10:23
  * @version V1.0
  */
-package com.dkhs.portfolio.ui.widget;
+package com.dkhs.portfolio.ui.widget.LinePoint;
 
 /**
  * @ClassName LinePointEntity

@@ -28,7 +28,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
-import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;

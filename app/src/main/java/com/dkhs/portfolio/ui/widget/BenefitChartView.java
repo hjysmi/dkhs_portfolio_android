@@ -23,6 +23,8 @@ import com.dkhs.portfolio.bean.SepFundChartBean;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.LinePoint.DefFundPointEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.SepFundPointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -180,7 +182,7 @@ public class BenefitChartView {
         lineEntityList.clear();
         maxOffsetValue = 0f;
         if (trendType == FundTrendType.Default) {
-            mCompareEngine.compare(sepFundHttpListener, fundId , TimeUtils.getTimeString(cStart),
+            mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
                     TimeUtils.getTimeString(cEnd));
         } else if (trendType == FundTrendType.OfficeDay) {
             mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
@@ -199,10 +201,10 @@ public class BenefitChartView {
             mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
                     TimeUtils.getTimeString(cEnd));
         } else if (trendType == FundTrendType.OfficeDay) {
-            mCompareEngine.compare(compareListener, fundId, TimeUtils.getTimeString(cStart),
+            mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
                     TimeUtils.getTimeString(cEnd));
         } else {
-            mCompareEngine.compareByPeriod(compareListener, fundId, trendType.getValue());
+            mCompareEngine.compareByPeriod(compareListener, (fundId + "," + mCompareIds), trendType.getValue());
 
         }
     }
@@ -281,35 +283,41 @@ public class BenefitChartView {
     private void setYTitle(float baseNum, float maxOffsetNetValue, float base, float offetYvalue) {
         // int baseNum = 1;
 
-        List<String> ytitle = new ArrayList<String>();
+        List<String> yValueTitles = new ArrayList<String>();
 
 
-        float value1 = maxOffsetNetValue / 0.8f;
-        float value2 = maxOffsetNetValue / 2.0f;
-        ytitle.add(StringFromatUtils.get4Point(baseNum - value1));
-        ytitle.add(StringFromatUtils.get4Point(baseNum - value2));
-        ytitle.add(StringFromatUtils.get4Point(baseNum));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + value2));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + value1));
-        maChartView.setAxisYTitles(ytitle);
-        maChartView.setMaxValue(baseNum + maxOffsetNetValue);
-        maChartView.setMinValue(baseNum - maxOffsetNetValue);
+        offetYvalue = offetYvalue / 0.8f;
+        float halfOffetValue = offetYvalue / 2.0f;
+        yValueTitles.add(StringFromatUtils.get4Point(baseNum - offetYvalue));
+        yValueTitles.add(StringFromatUtils.get4Point(baseNum - halfOffetValue));
+        yValueTitles.add(StringFromatUtils.get4Point(baseNum));
+        yValueTitles.add(StringFromatUtils.get4Point(baseNum + halfOffetValue));
+        yValueTitles.add(StringFromatUtils.get4Point(baseNum + offetYvalue));
+
+
+        List<String> yPercenttitle = new ArrayList<String>();
+
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(base - offetYvalue));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(base - halfOffetValue));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(base));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(base + halfOffetValue));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(base + offetYvalue));
 
 
         if (offetYvalue > 0) {
-            offetYvalue = offetYvalue / 0.8f;
-            float halfOffetValue = offetYvalue / 2.0f;
-            List<String> yrtitle = new ArrayList<String>();
 
-            yrtitle.add(StringFromatUtils.get2PointPercent(base - offetYvalue));
-            yrtitle.add(StringFromatUtils.get2PointPercent(base - halfOffetValue));
-            yrtitle.add(StringFromatUtils.get2PointPercent(base));
-            yrtitle.add(StringFromatUtils.get2PointPercent(base + halfOffetValue));
-            yrtitle.add(StringFromatUtils.get2PointPercent(base + offetYvalue));
+            maChartView.setAxisYTitles(yValueTitles);
             maChartView.setDrawRightYTitle(true);
-            maChartView.setAxisRightYTitles(yrtitle);
-//            maChartView.setDrawTrendChart(true);
+            maChartView.setAxisRightYTitles(yPercenttitle);
+        } else {
+
+            maChartView.setAxisYTitles(yPercenttitle);
+            maChartView.setDrawRightYTitle(false);
         }
+
+
+        maChartView.setMaxValue(baseNum + maxOffsetNetValue);
+        maChartView.setMinValue(baseNum - maxOffsetNetValue);
 
 
     }
@@ -342,12 +350,17 @@ public class BenefitChartView {
                 LineEntity lineEntity = new LineEntity();
                 lineEntity.setTitle(json.getString("symbol"));
                 lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-                List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+                List<SepFundPointEntity> lineDataList = new ArrayList<SepFundPointEntity>();
                 setXTitleBySepFundChartBean(sepFundChartBeans);
                 for (SepFundChartBean cPoint : sepFundChartBeans) {
-                    LinePointEntity pointEntity = new LinePointEntity();
+
+
+                    SepFundPointEntity pointEntity = new SepFundPointEntity();
                     float value = cPoint.getYear_yld();
                     pointEntity.setDesc(cPoint.getDate());
+                    if (i % 10 == 0) {
+                        pointEntity.setInfo("经理人");
+                    }
                     pointEntity.setValue(value);
                     lineDataList.add(pointEntity);
                     if (value > maxOffsetValue) {
@@ -355,6 +368,8 @@ public class BenefitChartView {
                     } else if (value < minOffsetValue) {
                         minOffsetValue = value;
                     }
+
+                    i++;
 
                 }
                 lineEntity.setLineData(lineDataList);
@@ -406,10 +421,10 @@ public class BenefitChartView {
                     }
 
 
-                    List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+                    List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
                     setXTitleByComparePoint(bean.getChartlist());
                     for (ComparePoint cPoint : bean.getChartlist()) {
-                        LinePointEntity pointEntity = new LinePointEntity();
+                        DefFundPointEntity pointEntity = new DefFundPointEntity();
                         float value = cPoint.getPercentage();
                         pointEntity.setDesc(cPoint.getDate());
                         pointEntity.setValue(value);

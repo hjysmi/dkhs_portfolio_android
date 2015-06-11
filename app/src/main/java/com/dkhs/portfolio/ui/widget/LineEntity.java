@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui.widget;
 
+import com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
