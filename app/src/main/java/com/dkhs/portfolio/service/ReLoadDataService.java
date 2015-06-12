@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 
@@ -37,7 +36,6 @@ public class ReLoadDataService extends Service {
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-        Log.d(TAG, "ReLoadDataService onCreate");
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, ReLoadDataService.class);
         PendingIntent pendingServiceIntent = PendingIntent.getService(this, 1000, intent, 0);
@@ -47,11 +45,11 @@ public class ReLoadDataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "ReLoadDataService onStartCommand");
         if (isLoadData == true) {
             onHandleIntent(intent);
+            //Sevice 可能会多次调用onStartCommand
+            //此处限制10分钟不能重新下载
             new Handler().postDelayed(new Runnable() {
-
                 public void run() {
                     isLoadData = true;
                 }
@@ -62,7 +60,6 @@ public class ReLoadDataService extends Service {
     }
 
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "ReLoadDataService onHandleIntent");
         SearchStockEngineImpl.loadStockList();
     }
 
