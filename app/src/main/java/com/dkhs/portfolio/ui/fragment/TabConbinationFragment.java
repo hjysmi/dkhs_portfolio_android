@@ -22,14 +22,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -195,9 +194,9 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
         super.onViewCreated(view, savedInstanceState);
         replaceDataList();
         initView(view);
-        if (PortfolioApplication.hasUserLogin()) {
-            refresh();
-        }
+//        if (PortfolioApplication.hasUserLogin()) {
+//            refresh();
+//        }
     }
 
     protected PullToRefreshListView mListView;
@@ -280,7 +279,7 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
             setDefType(viewLastClick);
             dataEngine.setOrderType(orderType);
         }
-        refresh();
+//        refresh();
 
     }
 
