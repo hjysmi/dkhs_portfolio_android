@@ -5,11 +5,15 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/div_line1"
+        style="@style/divider_line" />
 
     <LinearLayout
         android:id="@+id/manager_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/div_line1"
         android:orientation="horizontal"
         android:padding="8dp">
 
