@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -29,7 +28,6 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -114,7 +112,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(mPageName);
     }
 
 
@@ -241,13 +238,10 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     }
 
 
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
-
     @Override
     public void onPause() {
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);
 
     }
