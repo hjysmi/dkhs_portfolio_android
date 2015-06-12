@@ -156,15 +156,15 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
     private void initTitle() {
         if (null != mFundBean) {
+
             String nameText = mFundBean.getName();
             if (!TextUtils.isEmpty(nameText) && nameText.length() > 8) {
                 nameText = nameText.substring(0, 8) + "…";
             }
-            nameText = nameText + "(" + mFundBean.getCode() + ")";
+            nameText = nameText + "(" + mFundBean.getSymbol() + ")";
 
             setTitle(nameText);
-            setTitleTipString(
-                    mFundBean.tradeDay);
+            setTitleTipString(mFundBean.tradeDay);
         }
 
     }
@@ -172,18 +172,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
     private void updataTitle() {
         if (null != mFundQuoteBean) {
-            String nameText = mFundQuoteBean.getAbbrName();
-            if (!TextUtils.isEmpty(nameText) && nameText.length() > 8) {
-                nameText = nameText.substring(0, 8) + "…";
-            }
-            nameText = nameText + "(" + mFundQuoteBean.getCode() + ")";
-
-            setTitle(nameText);
-            setTitleTipString(
-                    mFundQuoteBean.getTradedate());
-
+            setTitleTipString(mFundQuoteBean.getTradedate());
         }
-
     }
 
 
