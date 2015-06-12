@@ -8,22 +8,20 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.widget.CompoundButton;
 
-import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
+
+import java.util.List;
 
 /**
  * @ClassName AddSearchItemAdapter
@@ -55,10 +53,12 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
                     csBean.isFollowed = true;
                     csBean.sortId = 0;
                     mVisitorDataEngine.saveOptionalStock(csBean);
+                    SelectAddOptionalActivity.mFollowList.add(csBean);
                     PromptManager.showFollowToast();
 
                 } else {
                     mVisitorDataEngine.delOptionalStock(csBean);
+                    SelectAddOptionalActivity.mFollowList.remove(csBean);
                     PromptManager.showDelFollowToast();
                 }
             }

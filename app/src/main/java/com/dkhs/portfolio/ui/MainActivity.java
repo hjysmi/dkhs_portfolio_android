@@ -81,7 +81,9 @@ public class MainActivity extends ModelAcitivity {
     protected void onResume() {
         MessageManager.getInstance().connect();
         super.onResume();
+
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {

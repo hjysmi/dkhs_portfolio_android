@@ -120,6 +120,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         changeFollowView = new ChangeFollowView(this);
         changeFollowView.setmChangeListener(changeFollowListener);
+        requestData();
     }
 
     private void handleExtras(Bundle extras) {
@@ -143,7 +144,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         // TODO Auto-generated method stub
         super.onResume();
         BusProvider.getInstance().register(this);
-        requestData();
+
     }
 
 

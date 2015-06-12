@@ -87,6 +87,8 @@ public class FundTrendFragment extends BaseFragment {
     @Subscribe
     public void updateUI(FundQuoteBean fundQuoteBean) {
 
+
+//        out of memory error
         if (fundQuoteBean != null && fundQuoteBean.getManagers() != null && fundQuoteBean.getManagers().size() > 0) {
             benefitChartView.draw(fundQuoteBean, mTrendType);
         }
