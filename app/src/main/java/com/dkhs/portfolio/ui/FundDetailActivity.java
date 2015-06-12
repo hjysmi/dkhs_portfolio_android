@@ -466,7 +466,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             tvQirinianhua.setText(StringFromatUtils.get2PointPercent(mFundQuoteBean.getYear_yld()));
 
         } else {
-            cls = ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getNet_value() - 1);
+            cls = ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getPercentage());
             tvNetvalue.setTextColor(cls);
             tvUpPrice.setTextColor(cls);
             tvUpPrecent.setTextColor(cls);
