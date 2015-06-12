@@ -24,8 +24,6 @@ import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
-import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -71,7 +69,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     private View titleView;
 
     private Context context;
-
 
 
     @Override
@@ -161,28 +158,29 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     }
 
     @Subscribe
-    public void update(MenuBean menuBean){
+    public void update(MenuBean menuBean) {
 
-        if(menuBean instanceof FundTypeMenuBean){
+        if (menuBean instanceof FundTypeMenuBean) {
             fundTypeTV.setText(menuBean.getKey());
-            FundTypeMenuBean type= (FundTypeMenuBean) menuBean;
+            FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
              */
-            if(type.getCode().equals("307")|| type.getCode ().equals("306")) {
-                MenuBean m=sorts.get(0);
+//            if(type.getCode().equals("307")|| type.getCode ().equals("306")) {
+            if (StockUitls.isSepFund(type.getCode())) {
+                MenuBean m = sorts.get(0);
                 m.setKey(getString(R.string.year_yld));
-                m.setValue("year_yld");
+                m.setValue("-year_yld");
                 sortTypeMenuChooserL.notifyDataSetChanged();
                 tvCurrent.setText(R.string.tenthou_unit_incm);
                 tvPercentgae.setText(R.string.year_yld);
 
-            }else{
+            } else {
 
-                MenuBean m=sorts.get(0);
+                MenuBean m = sorts.get(0);
                 m.setKey(getString(R.string.percent_day));
-                m.setValue("percent_day");
+                m.setValue("-percent_day");
                 tvCurrent.setText(R.string.net_value);
                 sortTypeMenuChooserL.notifyDataSetChanged();
                 tvPercentgae.setText(sortTypeMenuChooserL.getSelectItem().getKey());
@@ -196,18 +194,14 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     }
 
     @Subscribe
-    public void menuRLdismiss(MenuChooserRelativeLayout menuChooserRelativeLayout){
-        if(menuChooserRelativeLayout==sortTypeMenuChooserL){
+    public void menuRLdismiss(MenuChooserRelativeLayout menuChooserRelativeLayout) {
+        if (menuChooserRelativeLayout == sortTypeMenuChooserL) {
             setDrawableDown(tvPercentgae);
-        }else{
+        } else {
             setDrawableDown(fundTypeTV);
         }
 
     }
-
-
-
-
 
 
     private void setDrawableUp(TextView view) {
@@ -237,19 +231,14 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 //            setDrawableDown(viewLastClick);
 //            setDrawableUp(currentSelectView);
 //        } else
-          if (select) {
+        if (select) {
             setDrawableUp(currentSelectView);
-          }
+        }
 //          else {
 //            setDrawableDown(currentSelectView);
 //        }
 //        viewLastClick = currentSelectView;
     }
-
-
-
-
-
 
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);

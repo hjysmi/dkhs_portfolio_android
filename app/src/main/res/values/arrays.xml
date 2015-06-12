@@ -115,8 +115,8 @@
         <item>理财型</item>
         <item>封闭型</item>
     </string-array>
-    <string-array name="fund_type_values">
-        <item></item>
+    <integer-array name="fund_stype_values">
+        <item>999</item>
         <item>300</item>
         <item>301</item>
         <item>302</item>
@@ -126,7 +126,7 @@
         <item>307</item>
         <item>308</item>
 
-    </string-array>
+    </integer-array>
     <string-array name="fund_type_chis">
         <item>all</item>
         <item>gp</item>

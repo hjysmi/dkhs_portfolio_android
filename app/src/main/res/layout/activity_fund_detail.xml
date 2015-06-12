@@ -43,7 +43,7 @@
             <com.dkhs.portfolio.ui.widget.ScrollViewPager
                 android:id="@+id/pager"
                 android:layout_width="fill_parent"
-                android:layout_height="280dp"
+                android:layout_height="270dp"
                 android:background="@color/white" />
 
 

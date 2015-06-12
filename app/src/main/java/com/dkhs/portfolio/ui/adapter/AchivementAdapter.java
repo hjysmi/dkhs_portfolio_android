@@ -44,7 +44,7 @@ public class AchivementAdapter extends AutoAdapter {
         super(context, list);
 
         String[]   key=context.getResources().getStringArray(R.array.fund_type_keys);
-        String[]  values=context.getResources().getStringArray(R.array.fund_type_values);
+        String[]  values=context.getResources().getStringArray(R.array.fund_stype_values);
 
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
