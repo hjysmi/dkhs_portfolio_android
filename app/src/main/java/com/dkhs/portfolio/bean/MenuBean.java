@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.dkhs.portfolio.R;
 
@@ -78,6 +79,7 @@ public class MenuBean {
 
         for (int i = 0; i < key.length; i++) {
             SortTypeMenuBean item=new SortTypeMenuBean();
+            Log.d("MenuBean"," value index:"+i+" value:"+value[i]);
             item.setEnable(true);
             item.setKey(key[i]);
             item.setValue(value[i]);

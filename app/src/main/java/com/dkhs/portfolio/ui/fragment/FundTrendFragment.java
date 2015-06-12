@@ -19,7 +19,8 @@ import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.squareup.otto.Subscribe;
+
+import org.parceler.Parcels;
 
 /**
  * @author zjz
@@ -31,6 +32,7 @@ import com.squareup.otto.Subscribe;
 public class FundTrendFragment extends BaseFragment {
 
     public static final String EXTRA_TRENDTYPE = "extra_trendType";
+    public static final String EXTRA_FUND_QUOTE = "extra_fund_quote";
     @ViewInject(R.id.rootView)
     private ViewGroup rootView;
 
@@ -39,10 +41,14 @@ public class FundTrendFragment extends BaseFragment {
 
     private BenefitChartView.FundTrendType mTrendType;
 
-    public static FundTrendFragment newInstance(BenefitChartView.FundTrendType trendType) {
+    private FundQuoteBean mFundQuoteBean;
+
+
+    public static FundTrendFragment newInstance(BenefitChartView.FundTrendType trendType, FundQuoteBean fundQuoteBean) {
         FundTrendFragment fragment = new FundTrendFragment();
         Bundle arguments = new Bundle();
         arguments.putSerializable(EXTRA_TRENDTYPE, trendType);
+        arguments.putParcelable(EXTRA_FUND_QUOTE, Parcels.wrap(fundQuoteBean));
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -59,6 +65,8 @@ public class FundTrendFragment extends BaseFragment {
         BusProvider.getInstance().register(this);
         if (getArguments() != null) {
             mTrendType = (BenefitChartView.FundTrendType) getArguments().getSerializable(EXTRA_TRENDTYPE);
+            mFundQuoteBean = Parcels.unwrap(getArguments().getParcelable(EXTRA_FUND_QUOTE));
+
         }
         setRetainInstance(true);
     }
@@ -67,10 +75,12 @@ public class FundTrendFragment extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(EXTRA_TRENDTYPE, mTrendType);
+        outState.putParcelable(EXTRA_FUND_QUOTE, Parcels.wrap(mFundQuoteBean));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -80,17 +90,17 @@ public class FundTrendFragment extends BaseFragment {
         benefitChartView = new BenefitChartView(getActivity());
         rootView.addView(benefitChartView.getBenifitView());
 
-
+        if (!isViewShown && getUserVisibleHint()) {
+            updateUI();
+        }
     }
 
 
-    @Subscribe
-    public void updateUI(FundQuoteBean fundQuoteBean) {
-
+    public void updateUI() {
 
 //        out of memory error
-        if (fundQuoteBean != null && fundQuoteBean.getManagers() != null && fundQuoteBean.getManagers().size() > 0) {
-            benefitChartView.draw(fundQuoteBean, mTrendType);
+        if (mFundQuoteBean != null && mFundQuoteBean.getManagers() != null && mFundQuoteBean.getManagers().size() > 0) {
+            benefitChartView.draw(mFundQuoteBean, mTrendType);
         }
     }
 
@@ -110,7 +120,7 @@ public class FundTrendFragment extends BaseFragment {
 
             if (getView() != null) {
                 isViewShown = true;
-
+                updateUI();
             } else {
                 isViewShown = false;
             }

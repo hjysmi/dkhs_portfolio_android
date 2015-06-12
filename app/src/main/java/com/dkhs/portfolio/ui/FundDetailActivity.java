@@ -181,7 +181,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             setTitle(nameText);
             setTitleTipString(
                     mFundQuoteBean.getTradedate());
-            BusProvider.getInstance().post(mFundQuoteBean);
+
         }
 
     }
@@ -214,7 +214,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         // btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
         btnRefresh.setOnClickListener(this);
 
-        replaceTrendView();
+//        replaceTrendView();
 
 
 //
@@ -238,11 +238,11 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OfficeDay));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Month));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Season));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OneYear));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.ToYear));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OfficeDay, mFundQuoteBean));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Month, mFundQuoteBean));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Season, mFundQuoteBean));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OneYear, mFundQuoteBean));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.ToYear, mFundQuoteBean));
 
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.removeAllViews();
@@ -462,6 +462,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         updateNetValue();
         replaceFundProfile();
         replaceManagerView();
+        replaceTrendView();
     }
 
     private void updateNetValue() {
