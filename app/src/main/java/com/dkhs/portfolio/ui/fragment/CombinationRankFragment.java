@@ -127,6 +127,11 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     }
 
     @Override
+    public void requestData() {
+
+    }
+
+    @Override
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);

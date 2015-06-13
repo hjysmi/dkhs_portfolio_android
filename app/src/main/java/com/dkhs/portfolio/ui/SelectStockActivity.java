@@ -8,19 +8,16 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.graphics.Shader.TileMode;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.List;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -53,10 +50,10 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
         FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_DRAWDOWN);
         FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
                 .getStockFragment(StockViewType.STOCK_HANDOVER);
-        mOptionalFragment.setDefLoad(true);
-        mIncreaseFragment.setDefLoad(true);
-        mDownFragment.setDefLoad(true);
-        mHandoverFragment.setDefLoad(true);
+//        mOptionalFragment.setDefLoad(true);
+//        mIncreaseFragment.setDefLoad(true);
+//        mDownFragment.setDefLoad(true);
+//        mHandoverFragment.setDefLoad(true);
         fragmenList.add(mOptionalFragment);
         fragmenList.add(mIncreaseFragment);
         fragmenList.add(mDownFragment);

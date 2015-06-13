@@ -131,9 +131,9 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
                 .getStockFragment(StockViewType.STOCK_DRAWDOWN_CLICKABLE);
         FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
                 .getStockFragment(StockViewType.STOCK_HANDOVER_CLICKABLE);
-        mIncreaseFragment.setDefLoad(true);
-        mDownFragment.setDefLoad(true);
-        mHandoverFragment.setDefLoad(true);
+//        mIncreaseFragment.setDefLoad(true);
+//        mDownFragment.setDefLoad(true);
+//        mHandoverFragment.setDefLoad(true);
 
         fragmenList.add(mIncreaseFragment);
         fragmenList.add(mDownFragment);

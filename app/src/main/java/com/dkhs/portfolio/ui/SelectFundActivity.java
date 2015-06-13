@@ -57,9 +57,9 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getStockFragment(StockViewType.FUND_MAININDEX);
         FragmentSelectStockFund mPagerFragment2 = FragmentSelectStockFund.getStockFragment(StockViewType.FUND_INDEX);
         FragmentSelectStockFund mPagerFragment3 = FragmentSelectStockFund.getStockFragment(StockViewType.FUND_STOCK);
-        mPagerFragment.setDefLoad(true);
-        mPagerFragment2.setDefLoad(true);
-        mPagerFragment3.setDefLoad(true);
+//        mPagerFragment.setDefLoad(true);
+//        mPagerFragment2.setDefLoad(true);
+//        mPagerFragment3.setDefLoad(true);
         fragmenList.add(mPagerFragment);
         fragmenList.add(mPagerFragment2);
         fragmenList.add(mPagerFragment3);

@@ -157,7 +157,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public void onStop() {
         super.onStop();
 
-
     }
 
     Runnable updateRunnable = new Runnable() {

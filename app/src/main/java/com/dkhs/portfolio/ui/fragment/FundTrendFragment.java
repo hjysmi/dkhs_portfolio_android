@@ -29,7 +29,7 @@ import org.parceler.Parcels;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-5-5 下午4:18:02
  */
-public class FundTrendFragment extends BaseFragment {
+public class FundTrendFragment extends VisiableLoadFragment {
 
     public static final String EXTRA_TRENDTYPE = "extra_trendType";
     public static final String EXTRA_FUND_QUOTE = "extra_fund_quote";
@@ -86,19 +86,14 @@ public class FundTrendFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         benefitChartView = new BenefitChartView(getActivity());
         rootView.addView(benefitChartView.getBenifitView());
-
-        if (!isViewShown && getUserVisibleHint()) {
-            updateUI();
-        }
+        super.onViewCreated(view, savedInstanceState);
     }
 
 
-    public void updateUI() {
-
-//        out of memory error
+    @Override
+    public void requestData() {
         if (mFundQuoteBean != null && mFundQuoteBean.getManagers() != null && mFundQuoteBean.getManagers().size() > 0) {
             benefitChartView.draw(mFundQuoteBean, mTrendType);
         }
@@ -116,15 +111,6 @@ public class FundTrendFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
 
-        if (isVisibleToUser && !isViewShown) {
-
-            if (getView() != null) {
-                isViewShown = true;
-                updateUI();
-            } else {
-                isViewShown = false;
-            }
-        }
         super.setUserVisibleHint(isVisibleToUser);
     }
 

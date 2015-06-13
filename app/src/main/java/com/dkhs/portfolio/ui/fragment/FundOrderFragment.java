@@ -77,6 +77,12 @@ public class FundOrderFragment extends LoadMoreListFragment {
 
     }
 
+
+    @Override
+    public void requestData() {
+
+    }
+
     @Override
     public void loadData() {
 

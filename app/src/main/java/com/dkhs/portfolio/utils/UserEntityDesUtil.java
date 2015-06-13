@@ -3,9 +3,8 @@ package com.dkhs.portfolio.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.github.gfx.util.encrypt.Encryption;
+import com.dkhs.portfolio.common.ConstantValue;
 
 public class UserEntityDesUtil {
 
@@ -19,12 +18,11 @@ public class UserEntityDesUtil {
         if (null == entity || TextUtils.isEmpty(entity.getAccess_token())) {
             return entity;
         }
-//        byte[] privateKey = hexStringToByteArray(ConstantValue.DES_PASSWORD);
-//        assert privateKey.length == 16; // you must ensure!
-        Encryption encryption = new Encryption(Encryption.getDefaultCipher(), PortfolioApplication.getInstance());
+//        Encryption encryption = new Encryption(Encryption.getDefaultCipher(), PortfolioApplication.getInstance());
 
         Log.e("UserEntityDesUtil", "before encrypt:" + entity.getAccess_token());
-        String authcode = encryption.encrypt(entity.getAccess_token());
+        String authcode = new DES().encrypt(entity.getAccess_token(), ConstantValue.DES_PASSWORD);
+//        String authcode = encryption.encrypt(entity.getAccess_token());
         Log.e("UserEntityDesUtil", "after encrypt:" + authcode);
         entity.setAccess_token(authcode);
         return entity;
@@ -41,10 +39,11 @@ public class UserEntityDesUtil {
 
 //        byte[] privateKey = hexStringToByteArray(ConstantValue.DES_PASSWORD);
 //        assert privateKey.length == 16; // you must ensure!
-        Encryption encryption = new Encryption(Encryption.getDefaultCipher(), PortfolioApplication.getInstance());
+//        Encryption encryption = new Encryption(Encryption.getDefaultCipher(), PortfolioApplication.getInstance());
 
         Log.e("UserEntityDesUtil", "before decrypt:" + entity.getAccess_token());
-        String authcode = encryption.decrypt(entity.getAccess_token());
+//        String authcode = encryption.decrypt(entity.getAccess_token());
+        String authcode = new DES().decrypt(entity.getAccess_token(), ConstantValue.DES_PASSWORD);
         Log.e("UserEntityDesUtil", "after decrypt:" + authcode);
         entity.setAccess_token(authcode);
         return entity;

@@ -35,22 +35,27 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午1:56:21
  */
-public class MarketCombinationFragment extends BaseFragment {
+public class MarketCombinationFragment extends VisiableLoadFragment {
 
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
     public static List<CombinationBean> mVisitorData = new ArrayList<CombinationBean>();
     private int titleIndex = 0;
+
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_funds_order;
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initViews(view);
     }
 
+    @Override
+    public void requestData() {
+        initViews(getView());
+    }
 
 
     /**
@@ -58,7 +63,7 @@ public class MarketCombinationFragment extends BaseFragment {
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      */
-    private void initViews(View  view) {
+    private void initViews(View view) {
 
         hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
         hsTitle.setTitleList(getResources().getStringArray(R.array.combination_order));
@@ -90,7 +95,6 @@ public class MarketCombinationFragment extends BaseFragment {
             }
         }
     };
-
 
 
     OnPageChangeListener pageChangeListener = new OnPageChangeListener() {

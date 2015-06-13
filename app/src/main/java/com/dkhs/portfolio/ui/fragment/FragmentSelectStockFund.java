@@ -80,7 +80,7 @@ import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewTy
  * @Description 个股选择
  * @date 2014-8-29 上午9:36:16
  */
-public class FragmentSelectStockFund extends BaseFragment implements ISelectChangeListener, OnClickListener,
+public class FragmentSelectStockFund extends VisiableLoadFragment implements ISelectChangeListener, OnClickListener,
         OnLoadMoreListener {
     private static final String TAG = FragmentSelectStockFund.class.getSimpleName();
 
@@ -102,7 +102,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     private RelativeLayout pb;
     private HttpHandler loadHandler;
 
-    private boolean isDefLoad;
+//    private boolean isDefLoad;
 
     /**
      * view视图类型
@@ -255,6 +255,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         mAdapterConbinStock.setData(mDataList);
         mAdapterConbinStock.setCheckChangeListener(this);
 
+        initDataEngine();
+
     }
 
 
@@ -339,7 +341,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         return false;
     }
 
-    private void initData() {
+    private void requestEngine() {
         if (mViewType == FUND_INDEX || mViewType == FUND_MAININDEX || mViewType == FUND_STOCK) {
             loadDataByFund();
         } else {
@@ -348,8 +350,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     }
 
-
-    private void loadDataByFund() {
+    private void initDataEngine() {
+//        if (mViewType == FUND_INDEX || mViewType == FUND_MAININDEX || mViewType == FUND_STOCK) {
         if (mViewType == StockViewType.FUND_MAININDEX) {
             mLoadDataEngine = new MainIndexEngineImple(mSelectStockBackListener);
 
@@ -361,19 +363,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_STOCK);
 
         }
-        if (null != mLoadDataEngine) {
-            mLoadDataEngine.loadData();
-
-        } else {
-            LogUtils.d("LoadDataEngine is null");
-        }
-
-    }
-
-
-    private void loadDataByStock() {
-
-        if (mViewType == StockViewType.STOCK_OPTIONAL) {
+//        } else {
+        else if (mViewType == StockViewType.STOCK_OPTIONAL) {
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, false);
         } else if (mViewType == STOCK_OPTIONAL_PRICE) {
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true, mUserId);
@@ -391,19 +382,38 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
         } else if (mViewType == StockViewType.OPTIONAL_FUNDS) {
-            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener,mUserId);
+            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener, mUserId);
         } else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
-        if (isDefLoad) {
 
-            if (null != loadingFinishListener) {
-                loadingFinishListener.startLoadingData();
-            }
-            loadHandler = mLoadDataEngine.loadData();
+    }
 
+
+    private void loadDataByFund() {
+
+        if (null != mLoadDataEngine) {
+            mLoadDataEngine.loadData();
+
+        } else {
+            LogUtils.d("LoadDataEngine is null");
         }
+
+    }
+
+
+    private void loadDataByStock() {
+
+
+//        if (isDefLoad) {
+
+        if (null != loadingFinishListener) {
+            loadingFinishListener.startLoadingData();
+        }
+        loadHandler = mLoadDataEngine.loadData();
+
+//        }
 
 
     }
@@ -573,14 +583,19 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        super.onViewCreated(view, savedInstanceState);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
         initView(view);
-        initData();
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public void requestData() {
+        requestEngine();
     }
 
     private void hideEmptyNotice() {
@@ -852,12 +867,12 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         }
     }
 
-    public boolean isDefLoad() {
-        return isDefLoad;
-    }
-
-    public void setDefLoad(boolean isDefLoad) {
-        this.isDefLoad = isDefLoad;
-    }
+//    public boolean isDefLoad() {
+//        return isDefLoad;
+//    }
+//
+//    public void setDefLoad(boolean isDefLoad) {
+//        this.isDefLoad = isDefLoad;
+//    }
 
 }

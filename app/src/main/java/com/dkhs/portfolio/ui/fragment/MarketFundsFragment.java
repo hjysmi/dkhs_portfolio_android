@@ -30,7 +30,6 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author zjz
@@ -39,7 +38,7 @@ import java.util.List;
  * @Description TODO(基金tab Fragment)
  * @date 2015-2-7 上午11:03:26
  */
-public class MarketFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
+public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
 
     private LinkedList<MenuBean> sorts;
@@ -90,19 +89,29 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
 
+
+    }
+
+    @Override
+    public void requestData() {
+        initView(getView());
+    }
+
+    public void initView(View view) {
         fundTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL.setParentView(menuRL);
         fundTypeMenuChooserL.setParentView(menuRL);
 
-        List<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
+        LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
         sorts = MenuBean.fundSortFromXml(getActivity());
 
         fundTypeMenuChooserL.setData(types);
-        String type = types.get(0).getValue();
-        String sort = sorts.get(0).getValue();
+        String type = types.getFirst().getValue();
+        String sort = sorts.getFirst().getValue();
 
         sortTypeMenuChooserL.setData(sorts);
         setDrawableDown(fundTypeTV);
@@ -117,9 +126,9 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 
 
     private void replaceDataList(String type, String sort) {
-        if (null == loadDataListFragment) {
-            loadDataListFragment = FundOrderFragment.newInstant(type, sort);
-        }
+//        if (null == loadDataListFragment) {
+        loadDataListFragment = FundOrderFragment.newInstant(type, sort);
+//        }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 

@@ -35,7 +35,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportListForAllFragment extends BaseFragment implements OnLoadMoreListener {
+public class ReportListForAllFragment extends VisiableLoadFragment implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
 
     // 二级公告界面
@@ -79,6 +79,22 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initView(view);
+    }
+
+    @Override
+    public void requestData() {
+
+    }
+
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
+        if (null == mLoadDataEngine) {
+            initDate();
+        } else {
+            refreshData();
+        }
     }
 
     private void initDate() {
@@ -136,7 +152,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
                 ((InfoOptionAdapter) mOptionMarketAdapter).setSecondNotice(true);
 
             }
-                break;
+            break;
             default:
                 mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
                 break;
@@ -157,15 +173,8 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (null == mLoadDataEngine) {
-            initDate();
-        } else {
-            refreshData();
-        }
-    };
+
+
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
         @Override
@@ -185,7 +194,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
                         if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
 
                             intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
-                                    .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
+                                            .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
                                     vo.getContentSubType(), optionNewsBean.getContentType());
                             // intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                             // .getId(), optionNewsBean.getSymbols().get(0).getAbbrName(), vo.getContentSubType(),
@@ -205,7 +214,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
                         } else {
                             if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
                                 intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
-                                        .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
+                                                .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
                                         vo.getContentSubType(), optionNewsBean.getContentType());
                             } else {
                                 intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
@@ -360,10 +369,9 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {

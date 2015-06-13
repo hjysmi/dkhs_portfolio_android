@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -39,7 +40,8 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-7 上午11:03:26
  */
-public class TabFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
+public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
+    private static final String TAG = TabFundsFragment.class.getSimpleName();
 
     @Override
     public int setContentLayoutId() {
@@ -83,9 +85,6 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 // 5s
 //    private static final long mPollRequestTime = 1000 * 10;
 
-//    private Context context;
-
-    //    private boolean isLoading;
     private String mUserId;
 
 
@@ -122,21 +121,27 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void requestData() {
+        Log.d(TAG, "=============> requestData");
         replaceDataList();
+//        reloadData();
+
     }
 
     @Override
     public void onResume() {
 
         super.onResume();
-
+        Log.d(TAG, "=============> onResume");
         reloadData();
-//        updateHandler.postDelayed(updateRunnable, 5*1000);
 
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
-        // refreshEditView();
 
     }
 
@@ -159,7 +164,6 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     public void onStop() {
         super.onStop();
 
-
     }
 
     Runnable updateRunnable = new Runnable() {
@@ -171,12 +175,12 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     };
 
     private void replaceDataList() {
-        if (null == loadDataListFragment) {
-            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(FragmentSelectStockFund.StockViewType.OPTIONAL_FUNDS, mUserId);
-            // if (null != dataUpdateListener) {
-            loadDataListFragment.setDataUpdateListener(this);
-            // }
-        }
+//        if (null == loadDataListFragment) {
+        loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(FragmentSelectStockFund.StockViewType.OPTIONAL_FUNDS, mUserId);
+        // if (null != dataUpdateListener) {
+        loadDataListFragment.setDataUpdateListener(this);
+        // }
+//        }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
     }
 
@@ -213,6 +217,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         if (null != loadDataListFragment) {
             loadDataListFragment.setOptionalOrderType(orderType);
             loadDataListFragment.refreshNoCaseTime();
+            Log.d(TAG, "=============> refreshNoCaseTime");
         }
     }
 
