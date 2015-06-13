@@ -331,8 +331,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
     private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
         @Override
-        public void onChange(boolean isFollow) {
-            mFundQuoteBean.setFollowed(isFollow);
+        public void onChange(SelectStockBean stockBean) {
+            mFundQuoteBean.setFollowed(stockBean.isFollowed());
             setAddOptionalButton();
             if (!PortfolioApplication.hasUserLogin()) {
                 getLocalOptionList();

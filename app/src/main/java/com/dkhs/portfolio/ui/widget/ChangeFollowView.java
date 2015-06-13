@@ -36,6 +36,12 @@ public class ChangeFollowView {
     }
 
 
+    public void changeFollowNoDialog(SelectStockBean stockBean) {
+        this.mStockBean = stockBean;
+        followStockChange();
+    }
+
+
     public void showDelDialog() {
 
         MAlertDialog builder = PromptManager.getAlertDialog(mContext);
@@ -94,7 +100,7 @@ public class ChangeFollowView {
             PromptManager.showDelFollowToast();
         }
         if (null != mChangeListener) {
-            mChangeListener.onChange(mStockBean.isFollowed);
+            mChangeListener.onChange(mStockBean);
         }
     }
 
@@ -116,7 +122,7 @@ public class ChangeFollowView {
     }
 
     public interface IChangeSuccessListener {
-        public void onChange(boolean isFollow);
+        public void onChange(SelectStockBean stockBean);
     }
 
 
