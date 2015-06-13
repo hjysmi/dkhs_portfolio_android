@@ -153,13 +153,13 @@
 
 
     <string-array name="fund_sort_values">
-        <item>percent_day</item>
-        <item>percent_month</item>
-        <item>percent_season</item>
-        <item>percent_six_month</item>
-        <item>percent_year</item>
-        <item>percent_tyear</item>
-        <item>latest_cp_rate</item>
+        <item>-percent_day</item>
+        <item>-percent_month</item>
+        <item>-percent_season</item>
+        <item>-percent_six_month</item>
+        <item>-percent_year</item>
+        <item>-percent_tyear</item>
+        <item>-latest_cp_rate</item>
     </string-array>
 
 

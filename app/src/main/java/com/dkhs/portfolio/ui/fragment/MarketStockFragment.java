@@ -3,15 +3,11 @@ package com.dkhs.portfolio.ui.fragment;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -34,7 +30,6 @@ import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -51,7 +46,6 @@ import java.util.TimerTask;
  * @date 2015/5/25.
  */
 public class MarketStockFragment extends BaseFragment implements View.OnClickListener {
-
 
 
     @Override
@@ -376,7 +370,13 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
          */
         @Override
         public void loadFail() {
-            endAnimaRefresh();
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    endAnimaRefresh();
+                }
+            });
+
             isLoading = false;
 
         }

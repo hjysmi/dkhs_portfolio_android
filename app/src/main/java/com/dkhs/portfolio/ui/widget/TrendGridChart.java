@@ -413,7 +413,7 @@ public class TrendGridChart extends View {
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
-    public void resetLayoutWeight(int widthWeight,int heightWeight){
+    public void resetLayoutWeight(int widthWeight, int heightWeight) {
         this.mHightWeight = heightWeight;
         this.mWidthWeight = widthWeight;
         requestLayout();
@@ -450,7 +450,7 @@ public class TrendGridChart extends View {
         }
 
         drawXtitleText(canvas);
-        drawYtitleText(canvas);
+
         // 设置背景色
         // super.setBackgroundColor(backgroudColor);
         // 绘制XY轴
@@ -473,10 +473,17 @@ public class TrendGridChart extends View {
             drawAxisGridY(canvas);
         }
 
+        reDrawYtitleText(canvas);
+
+    }
+
+
+    public void reDrawYtitleText(Canvas canvas) {
         if (isDrawRightYTitle) {
             drawRightYtitleText(canvas);
         }
 
+        drawYtitleText(canvas);
     }
 
     /**
@@ -485,7 +492,7 @@ public class TrendGridChart extends View {
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      */
-    private void drawYtitleText(Canvas canvas) {
+    public void drawYtitleText(Canvas canvas) {
         if (null != axisYTitles) {
             int counts = axisYTitles.size();
             float length = super.getWidth() - axisMarginLeft;
@@ -546,7 +553,7 @@ public class TrendGridChart extends View {
 
     }
 
-    private void drawRightYtitleText(Canvas canvas) {
+    public void drawRightYtitleText(Canvas canvas) {
         if (null != axisRightYTitles) {
             int counts = axisRightYTitles.size();
 

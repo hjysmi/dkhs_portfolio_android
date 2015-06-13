@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="13"
-    android:versionName="1.7.0610">
+    android:versionName="1.7.0611">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -157,15 +157,15 @@
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationNewsActivity"
             android:screenOrientation="portrait" />
-<!--        <activity
-            android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
-            android:theme="@style/Theme.PageIndicatorDefaults"
-            android:windowSoftInputMode="stateHidden" />-->
+        <!--        <activity
+                    android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
+                    android:theme="@style/Theme.PageIndicatorDefaults"
+                    android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
@@ -234,7 +234,7 @@
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
             </intent-filter>
         </receiver>
-       <receiver
+        <receiver
             android:name=".receiver.MessageNotificationClickReceiver"
             android:exported="false">
             <intent-filter>
@@ -369,8 +369,7 @@
 
         <activity
             android:name=".ui.FundManagerActivity"
-            android:label="@string/title_activity_fund_manager" >
-        </activity>
+            android:label="@string/title_activity_fund_manager"></activity>
     </application>
 
 </manifest>

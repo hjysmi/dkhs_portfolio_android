@@ -54,6 +54,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/div_line" />
 
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_line"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="@string/nodate_tip"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
     <View
         style="@style/divider_line"
         android:layout_below="@+id/lv_manager" />

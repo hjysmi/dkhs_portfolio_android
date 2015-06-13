@@ -36,7 +36,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;

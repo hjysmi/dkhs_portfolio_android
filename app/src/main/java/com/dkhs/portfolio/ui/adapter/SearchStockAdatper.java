@@ -119,7 +119,7 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         }
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.code));
+        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.getSymbol()));
         if(!TextUtils.isEmpty(item.name)&&item.name.length()>10){
             viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
             viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);

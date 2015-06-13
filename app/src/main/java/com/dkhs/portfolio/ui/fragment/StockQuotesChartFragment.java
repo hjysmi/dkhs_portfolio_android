@@ -34,7 +34,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
 import com.dkhs.portfolio.ui.widget.TrendChart;

@@ -34,6 +34,7 @@ import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
@@ -236,7 +237,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Default));
+        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OfficeDay));
         fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Month));
         fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Season));
         fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OneYear));
@@ -255,7 +256,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
     private void replaceManagerView() {
 //        if (null == mFragmentManager) {
-            mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
+        mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
 //        }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fund_manager_view, mFragmentManager).commit();
@@ -265,9 +266,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private FundProfileFragment mFragmentProfile;
 
     private void replaceFundProfile() {
-        if (null == mFragmentProfile) {
-            mFragmentProfile = FundProfileFragment.newIntent(mFundQuoteBean);
-        }
+//        if (null == mFragmentProfile) {
+        mFragmentProfile = FundProfileFragment.newIntent(mFundQuoteBean);
+//        }
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fund_overview, mFragmentProfile).commit();
 
@@ -292,7 +293,11 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 }
                 break;
                 case MENU_REMIND: {
-                    startActivity(StockRemindActivity.newStockIntent(FundDetailActivity.this, mFundBean, true));
+                    if (!UIUtils.iStartLoginActivity(FundDetailActivity.this)) {
+
+
+                        startActivity(StockRemindActivity.newStockIntent(FundDetailActivity.this, mFundBean, true));
+                    }
 
                 }
                 break;

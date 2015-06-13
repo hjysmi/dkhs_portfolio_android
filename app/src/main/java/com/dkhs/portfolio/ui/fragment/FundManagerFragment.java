@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui.fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ManagersEntity;
@@ -22,6 +23,8 @@ public class FundManagerFragment extends BaseFragment {
     public static final String EXTRA_MANAGER_LIST = "extra_manager_list";
     @ViewInject(R.id.lv_manager)
     private ListViewEx lvManger;
+    @ViewInject(R.id.tv_empty)
+    private TextView tvEmpty;
     private FundManagerAdapter mManagerAdapter;
     private List<ManagersEntity> mListManager;
 
@@ -62,6 +65,7 @@ public class FundManagerFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (null != mListManager) {
+            tvEmpty.setVisibility(View.GONE);
             mManagerAdapter = new FundManagerAdapter(getActivity(), mListManager);
             lvManger.setAdapter(mManagerAdapter);
             lvManger.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,6 +75,9 @@ public class FundManagerFragment extends BaseFragment {
 
                 }
             });
+        } else {
+
+            tvEmpty.setVisibility(View.VISIBLE);
         }
 
 

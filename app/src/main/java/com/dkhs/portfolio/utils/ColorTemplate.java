@@ -20,9 +20,9 @@ public class ColorTemplate {
             .getColor(R.color.blue_line);
     // public static final int DEF_RED =0xFFE73535;
     // public static final int DEF_GREEN = Color.GREEN;
-    public static final int DEF_RED = PortfolioApplication.getInstance().getResources().getColor(R.color.def_red);
-    public static final int DEF_GREEN = PortfolioApplication.getInstance().getResources().getColor(R.color.def_green);
-    public static final int DEF_GRAY = PortfolioApplication.getInstance().getResources().getColor(R.color.def_gray);
+    public static final int DEF_RED = PortfolioApplication.getInstance().getResources().getColor(R.color.tag_red);
+    public static final int DEF_GREEN = PortfolioApplication.getInstance().getResources().getColor(R.color.tag_green);
+    public static final int DEF_GRAY = PortfolioApplication.getInstance().getResources().getColor(R.color.tag_gray);
     public static final int THEME_COLOR = PortfolioApplication.getInstance().getResources()
             .getColor(R.color.theme_color);
 

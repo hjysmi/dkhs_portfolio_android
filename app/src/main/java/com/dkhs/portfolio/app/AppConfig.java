@@ -6,12 +6,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.umeng.analytics.AnalyticsConfig;
 
 import java.io.IOException;
@@ -63,6 +65,11 @@ public final class AppConfig {
 
         //消息中心模块的初始化
         MessageManager.getInstance();
+
+
+        if (!BuildConfig.DEBUG) {
+            new ANRWatchDog().start();
+        }
     }
 
 

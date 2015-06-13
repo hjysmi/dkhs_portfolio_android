@@ -6,7 +6,7 @@
  * @date 2014-10-17 下午3:53:57
  * @version V1.0
  */
-package com.dkhs.portfolio.ui.widget;
+package com.dkhs.portfolio.ui.widget.LinePoint;
 
 import com.dkhs.portfolio.utils.StringFromatUtils;
 

@@ -55,7 +55,7 @@ import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter.CompareFundItem;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;

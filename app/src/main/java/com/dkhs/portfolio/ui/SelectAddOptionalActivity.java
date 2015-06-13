@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
@@ -47,7 +49,17 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
         // findViewById(R.id.rl_search_stock).setVisibility(View.GONE);
         findViewById(R.id.rl_add_stocklist).setVisibility(View.GONE);
         getRightButton().setVisibility(View.GONE);
-        OptionalStockEngineImpl.loadAllData(loadAllListener);
+        if (PortfolioApplication.hasUserLogin()) {
+            OptionalStockEngineImpl.loadAllData(loadAllListener);
+        } else {
+            loadVisitorData();
+        }
+    }
+
+
+    private void loadVisitorData() {
+        mFollowList.clear();
+        mFollowList.addAll(new VisitorDataEngine().getOptionalStockList());
     }
 
     ParseHttpListener loadAllListener = new ParseHttpListener<List<SelectStockBean>>() {
