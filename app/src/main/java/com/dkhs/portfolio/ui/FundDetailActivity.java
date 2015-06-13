@@ -120,7 +120,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         changeFollowView = new ChangeFollowView(this);
         changeFollowView.setmChangeListener(changeFollowListener);
-        requestData();
+
     }
 
     private void handleExtras(Bundle extras) {
@@ -144,7 +144,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         // TODO Auto-generated method stub
         super.onResume();
         BusProvider.getInstance().register(this);
-
+        requestData();
     }
 
 
@@ -225,20 +225,22 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
 
     private void replaceTrendView() {
+        if (null == fragmentList) {
 
-        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+            fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OfficeDay, mFundQuoteBean));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Month, mFundQuoteBean));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Season, mFundQuoteBean));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OneYear, mFundQuoteBean));
-        fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.ToYear, mFundQuoteBean));
+            fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OfficeDay, mFundQuoteBean));
+            fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Month, mFundQuoteBean));
+            fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.Season, mFundQuoteBean));
+            fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.OneYear, mFundQuoteBean));
+            fragmentList.add(FundTrendFragment.newInstance(BenefitChartView.FundTrendType.ToYear, mFundQuoteBean));
 
-        pager = (ScrollViewPager) this.findViewById(R.id.pager);
-        pager.removeAllViews();
-        pager.setCanScroll(false);
-        pager.setOffscreenPageLimit(5);
-        pager.setAdapter(new PagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
+            pager = (ScrollViewPager) this.findViewById(R.id.pager);
+            pager.removeAllViews();
+            pager.setCanScroll(false);
+            pager.setOffscreenPageLimit(5);
+            pager.setAdapter(new PagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        }
 
 
     }
@@ -246,22 +248,22 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private FundManagerFragment mFragmentManager;
 
     private void replaceManagerView() {
-//        if (null == mFragmentManager) {
-        mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
-//        }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fund_manager_view, mFragmentManager).commit();
+        if (null == mFragmentManager) {
+            mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fund_manager_view, mFragmentManager).commit();
+        }
 
     }
 
     private FundProfileFragment mFragmentProfile;
 
     private void replaceFundProfile() {
-//        if (null == mFragmentProfile) {
-        mFragmentProfile = FundProfileFragment.newIntent(mFundQuoteBean);
-//        }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fund_overview, mFragmentProfile).commit();
+        if (null == mFragmentProfile) {
+            mFragmentProfile = FundProfileFragment.newIntent(mFundQuoteBean);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fund_overview, mFragmentProfile).commit();
+        }
 
     }
 
@@ -285,7 +287,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 break;
                 case MENU_REMIND: {
                     if (!UIUtils.iStartLoginActivity(FundDetailActivity.this)) {
-
+                        mFundBean.alertSetBean = mFundQuoteBean.getAlertSetBean();
 
                         startActivity(StockRemindActivity.newStockIntent(FundDetailActivity.this, mFundBean, true));
                     }
@@ -333,6 +335,18 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         @Override
         public void onChange(SelectStockBean stockBean) {
             mFundQuoteBean.setFollowed(stockBean.isFollowed());
+
+            if (!PortfolioApplication.hasUserLogin() && localList != null) {
+
+                if (stockBean.isFollowed()) {
+                    localList.add(stockBean);
+                } else {
+                    localList.remove(stockBean);
+                }
+
+            }
+
+
             setAddOptionalButton();
             if (!PortfolioApplication.hasUserLogin()) {
                 getLocalOptionList();
@@ -416,6 +430,14 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             if (null != object) {
                 mFundQuoteBean = object;
                 updateFundView();
+                if (!PortfolioApplication.hasUserLogin()) {
+                    SelectStockBean selectBean = new SelectStockBean();
+                    selectBean.id = mFundQuoteBean.getId();
+                    selectBean.code = mFundQuoteBean.getCode();
+                    if (localList != null && localList.contains(selectBean)) {
+                        mFundQuoteBean.setFollowed(true);
+                    }
+                }
 //                if (null != landStockview) {
 //                    landStockview.updateLandStockView(mStockQuotesBean);
 //                }
@@ -433,14 +455,6 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         }
         mFloatMenu.setVisibility(View.VISIBLE);
 
-        if (!PortfolioApplication.hasUserLogin()) {
-            SelectStockBean selectBean = new SelectStockBean();
-            selectBean.id = mFundQuoteBean.getId();
-            selectBean.code = mFundQuoteBean.getCode();
-            if (localList != null && localList.contains(selectBean)) {
-                mFundQuoteBean.setFollowed(true);
-            }
-        }
 
         initFloatingActionMenu(mFundQuoteBean);
 

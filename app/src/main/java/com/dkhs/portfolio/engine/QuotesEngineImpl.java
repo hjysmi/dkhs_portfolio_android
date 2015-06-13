@@ -26,11 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName QuotesEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-26 下午4:59:15
- * @version 1.0
  */
 public class QuotesEngineImpl {
 
@@ -94,11 +94,10 @@ public class QuotesEngineImpl {
     }
 
     /**
-     *
      * 设置股票提醒
      */
     public void stockRemind(String stockId, float priceUp, float priceDown, float percent, boolean setNotice,
-            boolean setYanbao, IHttpListener listener) {
+                            boolean setYanbao, IHttpListener listener) {
 
         AlertSetBean alertSetBean = new AlertSetBean(priceUp, priceDown, percent, setNotice, setYanbao);
 
@@ -110,7 +109,6 @@ public class QuotesEngineImpl {
     }
 
     /**
-     *
      * 取消股票提醒
      */
     public void delStockRemind(String stockId, IHttpListener listener) {
@@ -128,13 +126,13 @@ public class QuotesEngineImpl {
     public void fundRemind7Day(String fundId, boolean isNoticeChange, IHttpListener listener) {
 
         JSONObject jsonObject = new JSONObject();
-        if (isNoticeChange) {
-            try {
-                jsonObject.put("fund_year_yld", isNoticeChange ? 1 : 0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//        if (isNoticeChange) {
+        try {
+            jsonObject.put("fund_year_yld", isNoticeChange ? 1 : 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+//        }
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("is_alert", "1");
@@ -149,13 +147,13 @@ public class QuotesEngineImpl {
     public void fundRemindNetvalue(String fundId, boolean isNoticeChange, IHttpListener listener) {
 
         JSONObject jsonObject = new JSONObject();
-        if (isNoticeChange) {
-            try {
-                jsonObject.put("fund_net_value", isNoticeChange ? 1 : 0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//        if (isNoticeChange) {
+        try {
+            jsonObject.put("fund_net_value", isNoticeChange ? 1 : 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+//        }
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("is_alert", "1");
@@ -167,8 +165,8 @@ public class QuotesEngineImpl {
     /**
      * 获取k线图数据
      *
-     * @param type 类型 d，w，m
-     * @param stockid 股票id
+     * @param type     类型 d，w，m
+     * @param stockid  股票id
      * @param listener
      */
     public void queryKLine(String type, String stockid, String isHis, IHttpListener listener) {
