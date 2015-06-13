@@ -44,7 +44,7 @@ public class FundOrderAdapter extends AutoAdapter {
     public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
         FundPriceBean fundBean = (FundPriceBean) list.get(position);
         vh.setTextView(R.id.tv_stock_name, fundBean.getAbbrname());
-        vh.setTextView(R.id.tv_stock_num, "(" + fundBean.getSymbol() + ")");
+        vh.setTextView(R.id.tv_stock_num, fundBean.getSymbol());
         vh.setTextView(R.id.tv_trade_day, fundBean.getTradedate());
         double value = fundBean.getValue(sort);
         /**

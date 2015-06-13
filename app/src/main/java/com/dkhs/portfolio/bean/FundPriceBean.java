@@ -159,6 +159,8 @@ public class FundPriceBean extends StockPriceBean {
             value = percent_six_month;
         } else if (key.equals("-year_yld")) {
             value = year_yld;
+        } else if (key.equals("-net_cumulative")) {
+            value = net_cumulative;
         }
         return value;
     }

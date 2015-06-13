@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.dkhs.portfolio.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * @author zwm
@@ -48,9 +47,9 @@ public class MenuBean {
     }
 
 
-    public static List<MenuBean> fundTypeFromXml(Context ctx) {
+    public static LinkedList<MenuBean> fundTypeFromXml(Context ctx) {
 
-        List<MenuBean> list = new ArrayList<>();
+        LinkedList<MenuBean> list = new LinkedList<>();
 
         String[] key = ctx.getResources().getStringArray(R.array.fund_type_keys);
         int[] stypeValue = ctx.getResources().getIntArray(R.array.fund_stype_values);
@@ -68,9 +67,9 @@ public class MenuBean {
         return list;
     }
 
-    public static List<MenuBean> fundSortFromXml(Context ctx) {
+    public static LinkedList<MenuBean> fundSortFromXml(Context ctx) {
 
-        List<MenuBean> list = new ArrayList<>();
+        LinkedList<MenuBean> list = new LinkedList<>();
 
         String[] key = ctx.getResources().getStringArray(R.array.fund_sort_keys);
         String[] value = ctx.getResources().getStringArray(R.array.fund_sort_values);

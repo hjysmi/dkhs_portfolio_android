@@ -29,6 +29,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ import java.util.List;
 public class MarketFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
 
 
-    private List<MenuBean> sorts;
+    private LinkedList<MenuBean> sorts;
 
     @Override
     public int setContentLayoutId() {
@@ -166,19 +167,27 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
              */
 //            if(type.getCode().equals("307")|| type.getCode ().equals("306")) {
             if (StockUitls.isSepFund(type.getCode())) {
-                MenuBean m = sorts.get(0);
+//                sorts.removeLast();
+                MenuBean m = sorts.getFirst();
                 m.setKey(getString(R.string.year_yld));
                 m.setValue("-year_yld");
                 sortTypeMenuChooserL.notifyDataSetChanged();
                 tvCurrent.setText(R.string.tenthou_unit_incm);
+                sorts.getLast().setEnable(false);
                 tvPercentgae.setText(R.string.year_yld);
 
             } else {
 
-                MenuBean m = sorts.get(0);
+                MenuBean m = sorts.getFirst();
                 m.setKey(getString(R.string.percent_day));
                 m.setValue("-percent_day");
                 tvCurrent.setText(R.string.net_value);
+                MenuBean allNetValue = new MenuBean();
+                sorts.getLast().setEnable(true);
+//                m.setKey("累计净值");
+//                m.setValue("-net_cumulative");
+//                sorts.addLast(allNetValue);
+
                 sortTypeMenuChooserL.notifyDataSetChanged();
                 tvPercentgae.setText(sortTypeMenuChooserL.getSelectItem().getKey());
             }

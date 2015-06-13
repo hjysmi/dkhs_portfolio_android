@@ -12860,10 +12860,10 @@ com.dkhs.portfolio.R$array -> com.dkhs.portfolio.R$array:
     int fund_profile_title -> fund_profile_title
     int fund_sort_keys -> fund_sort_keys
     int fund_sort_values -> fund_sort_values
+    int fund_stype_values -> fund_stype_values
     int fund_tab_titles -> fund_tab_titles
     int fund_type_chis -> fund_type_chis
     int fund_type_keys -> fund_type_keys
-    int fund_type_values -> fund_type_values
     int img_eidt_list -> img_eidt_list
     int long_click_type -> long_click_type
     int main_info_title -> main_info_title
@@ -14362,6 +14362,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int dialog_button_uncheck -> dialog_button_uncheck
     int disableHome -> disableHome
     int div_line -> div_line
+    int div_line1 -> div_line1
     int divider -> divider
     int divider_line -> divider_line
     int dksh_flash -> dksh_flash
@@ -17435,9 +17436,9 @@ com.dkhs.portfolio.bean.FundQuoteBean$$Parcelable$Creator$$4 -> com.dkhs.portfol
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
 com.dkhs.portfolio.bean.FundTypeMenuBean -> com.dkhs.portfolio.bean.FundTypeMenuBean:
-    java.lang.String code -> code
-    java.lang.String getCode() -> getCode
-    void setCode(java.lang.String) -> setCode
+    int code -> code
+    int getCode() -> getCode
+    void setCode(int) -> setCode
 com.dkhs.portfolio.bean.HistoryNetValue -> com.dkhs.portfolio.bean.HistoryNetValue:
     float begin -> begin
     float end -> end
@@ -19101,11 +19102,15 @@ com.dkhs.portfolio.service.LoadStockToDBService -> com.dkhs.portfolio.service.Lo
     void onHandleIntent(android.content.Intent) -> onHandleIntent
 com.dkhs.portfolio.service.ReLoadDataService -> com.dkhs.portfolio.service.ReLoadDataService:
     int repeatTime -> a
-    boolean first -> b
+    boolean isLoadData -> b
     void onCreate() -> onCreate
     int onStartCommand(android.content.Intent,int,int) -> onStartCommand
     void onHandleIntent(android.content.Intent) -> a
     android.os.IBinder onBind(android.content.Intent) -> onBind
+    boolean access$002(com.dkhs.portfolio.service.ReLoadDataService,boolean) -> a
+com.dkhs.portfolio.service.ReLoadDataService$1 -> com.dkhs.portfolio.service.a:
+    com.dkhs.portfolio.service.ReLoadDataService this$0 -> a
+    void run() -> run
 com.dkhs.portfolio.ui.AboutUsActivity -> com.dkhs.portfolio.ui.AboutUsActivity:
     android.widget.TextView aboutVersion -> a
     android.content.Context context -> b
@@ -23461,14 +23466,15 @@ com.dkhs.portfolio.ui.fragment.FundTrendFragment -> com.dkhs.portfolio.ui.fragme
     android.view.ViewGroup rootView -> a
     com.dkhs.portfolio.ui.widget.BenefitChartView benefitChartView -> b
     com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType mTrendType -> c
-    boolean isViewShown -> d
-    com.dkhs.portfolio.ui.fragment.FundTrendFragment newInstance(com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType) -> a
+    com.dkhs.portfolio.bean.FundQuoteBean mFundQuoteBean -> d
+    boolean isViewShown -> e
+    com.dkhs.portfolio.ui.fragment.FundTrendFragment newInstance(com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType,com.dkhs.portfolio.bean.FundQuoteBean) -> a
     int setContentLayoutId() -> h
     void onCreate(android.os.Bundle) -> onCreate
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
-    void updateUI(com.dkhs.portfolio.bean.FundQuoteBean) -> updateUI
+    void updateUI() -> a
     void onDestroy() -> onDestroy
     void setUserVisibleHint(boolean) -> setUserVisibleHint
 com.dkhs.portfolio.ui.fragment.HotPlateFragment -> com.dkhs.portfolio.ui.fragment.HotPlateFragment:
@@ -23852,7 +23858,6 @@ com.dkhs.portfolio.ui.fragment.MarketFundsFragment -> com.dkhs.portfolio.ui.frag
     android.widget.TextView tvPercentgae -> g
     android.widget.TextView fundTypeTV -> h
     android.view.View titleView -> i
-    java.lang.String mPageName -> j
     int setContentLayoutId() -> h
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onDestroyView() -> onDestroyView
@@ -27571,49 +27576,7 @@ com.dkhs.portfolio.utils.UserEntityDesUtil -> com.dkhs.portfolio.d.x:
 com.dkhs.portfolio.wxapi.WXEntryActivity -> com.dkhs.portfolio.wxapi.WXEntryActivity:
     void onGetMessageFromWXReq(cn.sharesdk.wechat.utils.WXMediaMessage) -> onGetMessageFromWXReq
     void onShowMessageFromWXReq(cn.sharesdk.wechat.utils.WXMediaMessage) -> onShowMessageFromWXReq
-com.github.anrwatchdog.ANRError -> com.a.a.a:
-    java.util.Map _stackTraces -> a
-    java.lang.Throwable fillInStackTrace() -> fillInStackTrace
-    com.github.anrwatchdog.ANRError New(java.lang.String,boolean) -> a
-    com.github.anrwatchdog.ANRError NewMainOnly() -> a
-com.github.anrwatchdog.ANRError$$ -> com.a.a.a$a:
-    java.lang.String _name -> a
-    java.lang.StackTraceElement[] _stackTrace -> b
-    java.lang.String access$000(com.github.anrwatchdog.ANRError$$) -> a
-    java.lang.StackTraceElement[] access$100(com.github.anrwatchdog.ANRError$$) -> b
-com.github.anrwatchdog.ANRError$$$_Thread -> com.a.a.a$a$a:
-    com.github.anrwatchdog.ANRError$$ this$0 -> a
-    java.lang.Throwable fillInStackTrace() -> fillInStackTrace
-com.github.anrwatchdog.ANRError$1 -> com.a.a.b:
-    java.lang.Thread val$mainThread -> a
-    int compare(java.lang.Thread,java.lang.Thread) -> a
-    int compare(java.lang.Object,java.lang.Object) -> compare
-com.github.anrwatchdog.ANRWatchDog -> com.a.a.c:
-    com.github.anrwatchdog.ANRWatchDog$ANRListener DEFAULT_ANR_LISTENER -> a
-    com.github.anrwatchdog.ANRWatchDog$InterruptionListener DEFAULT_INTERRUPTION_LISTENER -> b
-    com.github.anrwatchdog.ANRWatchDog$ANRListener _anrListener -> c
-    com.github.anrwatchdog.ANRWatchDog$InterruptionListener _interruptionListener -> d
-    android.os.Handler _uiHandler -> e
-    int _timeoutInterval -> f
-    java.lang.String _namePrefix -> g
-    boolean _logThreadsWithoutStackTrace -> h
-    int _tick -> i
-    java.lang.Runnable _ticker -> j
-    void run() -> run
-    int access$002(com.github.anrwatchdog.ANRWatchDog,int) -> a
-    int access$000(com.github.anrwatchdog.ANRWatchDog) -> a
-com.github.anrwatchdog.ANRWatchDog$1 -> com.a.a.d:
-    void onAppNotResponding(com.github.anrwatchdog.ANRError) -> a
-com.github.anrwatchdog.ANRWatchDog$2 -> com.a.a.e:
-    void onInterrupted(java.lang.InterruptedException) -> a
-com.github.anrwatchdog.ANRWatchDog$3 -> com.a.a.f:
-    com.github.anrwatchdog.ANRWatchDog this$0 -> a
-    void run() -> run
-com.github.anrwatchdog.ANRWatchDog$ANRListener -> com.a.a.c$a:
-    void onAppNotResponding(com.github.anrwatchdog.ANRError) -> a
-com.github.anrwatchdog.ANRWatchDog$InterruptionListener -> com.a.a.c$b:
-    void onInterrupted(java.lang.InterruptedException) -> a
-com.github.gfx.util.encrypt.Encryption -> com.a.b.a.a.a:
+com.github.gfx.util.encrypt.Encryption -> com.a.a.a.a.a:
     java.lang.String TAG -> b
     java.nio.charset.Charset CHARSET -> c
     javax.crypto.spec.SecretKeySpec secretKeySpec -> d
@@ -27625,11 +27588,11 @@ com.github.gfx.util.encrypt.Encryption -> com.a.b.a.a.a:
     javax.crypto.spec.SecretKeySpec createKeySpec(javax.crypto.Cipher,byte[]) -> a
     java.lang.String encrypt(java.lang.String) -> a
     java.lang.String decrypt(java.lang.String) -> b
-com.github.gfx.util.encrypt.Encryption$UnexpectedDecryptionStateException -> com.a.b.a.a.a$a:
+com.github.gfx.util.encrypt.Encryption$UnexpectedDecryptionStateException -> com.a.a.a.a.a$a:
     com.github.gfx.util.encrypt.Encryption this$0 -> a
-com.github.gfx.util.encrypt.Encryption$UnexpectedEncryptionStateException -> com.a.b.a.a.a$b:
+com.github.gfx.util.encrypt.Encryption$UnexpectedEncryptionStateException -> com.a.a.a.a.a$b:
     com.github.gfx.util.encrypt.Encryption this$0 -> a
-com.github.gfx.util.encrypt.Encryption$UnexpectedStateException -> com.a.b.a.a.a$c:
+com.github.gfx.util.encrypt.Encryption$UnexpectedStateException -> com.a.a.a.a.a$c:
     com.github.gfx.util.encrypt.Encryption this$0 -> b
 com.google.gson.DefaultDateTypeAdapter -> com.google.gson.DefaultDateTypeAdapter:
     java.text.DateFormat enUsFormat -> enUsFormat

@@ -192,7 +192,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         int id = v.getId();
         switch (id) {
             case R.id.tv_current: {
-                setViewOrderIndicator(tvCurrent);
+//                setViewOrderIndicator(tvCurrent);
             }
             break;
             case R.id.tv_percentage: {
