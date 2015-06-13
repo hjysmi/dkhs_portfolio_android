@@ -17,6 +17,7 @@ import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 
@@ -72,8 +73,10 @@ public class AddStockItemAdapter extends SelectStockAdatper {
                     csBean.isFollowed = true;
                     csBean.sortId = 0;
                     mVisitorDataEngine.saveOptionalStock(csBean);
+                    SelectAddOptionalActivity.mFollowList.add(csBean);
                     PromptManager.showFollowToast();
                 } else {
+                    SelectAddOptionalActivity.mFollowList.remove(csBean);
                     mVisitorDataEngine.delOptionalStock(csBean);
                     PromptManager.showDelFollowToast();
                 }

@@ -875,8 +875,9 @@ public class TrendChart extends TrendGridChart {
 
                 firtLineText = "七日年化：";
                 canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
-                xTitleWidth = selectPaint.measureText(((SepFundPointEntity) data).getValue() + "");
-                canvas.drawText(StringFromatUtils.get2PointPercent(((SepFundPointEntity) data).getValue()), borderEnd - xTitleWidth, preYpoint, selectPaint);
+                firtLineText = StringFromatUtils.get2PointPercent(((SepFundPointEntity) data).getValue());
+                xTitleWidth = selectPaint.measureText(firtLineText);
+                canvas.drawText(firtLineText, borderEnd - xTitleWidth, preYpoint, selectPaint);
 
                 if (TextUtils.isEmpty(((SepFundPointEntity) data).getInfo())) {
                     preYpoint += textMargin + floatTextHeight;

@@ -24,6 +24,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -42,7 +43,7 @@ import java.util.List;
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
     private boolean isDefColor;
     VisitorDataEngine mVisitorDataEngine;
-    private List<SelectStockBean> localList;
+    //    private List<SelectStockBean> localList;
     private boolean isAddNewStock;
 
 
@@ -70,9 +71,9 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
     private void init() {
         mVisitorDataEngine = new VisitorDataEngine();
-        if (!PortfolioApplication.hasUserLogin()) {
-            localList = mVisitorDataEngine.getOptionalStockList();
-        }
+//        if (!PortfolioApplication.hasUserLogin()) {
+//            localList = mVisitorDataEngine.getOptionalStockList();
+//        }
     }
 
     protected void setAddNewStock(boolean isNewstockable) {
@@ -120,8 +121,10 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         if (this instanceof AddStockItemAdapter) {// 如果是添加自选股界面
 
             // 如果是游客模式
-            if (null != localList) {
-                viewHolder.mCheckbox.setChecked(localList.contains(item));
+            if (!PortfolioApplication.hasUserLogin()) {
+                if (null != SelectAddOptionalActivity.mFollowList) {
+                    viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+                }
             } else {
 
                 viewHolder.mCheckbox.setChecked(item.isFollowed);
@@ -223,9 +226,9 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             if (mCheckbox.isChecked()) {
                 SelectStockBean itemStock = mDataList.get(position);
                 itemStock.isFollowed = true;
-                if(StockUitls.isFundType(itemStock.symbol_type)){
+                if (StockUitls.isFundType(itemStock.symbol_type)) {
                     UIUtils.startAminationActivity((Activity) mContext, FundDetailActivity.newIntent(mContext, itemStock));
-                }else {
+                } else {
 
                     UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
                 }
