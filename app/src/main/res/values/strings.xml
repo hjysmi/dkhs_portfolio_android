@@ -533,9 +533,10 @@
     <string name="percent_year">年收益</string>
     <string name="percent_tyear">今年以来</string>
     <string name="office_tenure">任职起</string>
+    <string name="net_cumulative">累计收益</string>
     <string name="title_activity_fund_manager">基金经理</string>
 
-   
+
     <string name="wanshou">万份收益</string>
     <string name="qirinianhua">七日年化</string>
     <string name="pre_netvalue">前一净值</string>

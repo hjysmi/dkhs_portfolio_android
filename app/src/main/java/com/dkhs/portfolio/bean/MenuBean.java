@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.dkhs.portfolio.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * @author zwm
@@ -17,10 +16,9 @@ import java.util.List;
 public class MenuBean {
 
     private boolean enable;
-    private String key ;
+    private String key;
 
     private String value;
-
 
 
     public String getValue() {
@@ -49,35 +47,36 @@ public class MenuBean {
     }
 
 
-    public static List<MenuBean>  fundTypeFromXml(Context ctx){
-        
-        List<MenuBean>  list=new ArrayList<>();
-        
-        String[] key=ctx.getResources().getStringArray(R.array.fund_type_keys);
-        String[] value=ctx.getResources().getStringArray(R.array.fund_type_values);
-        String[] chi=ctx.getResources().getStringArray(R.array.fund_type_chis);
+    public static LinkedList<MenuBean> fundTypeFromXml(Context ctx) {
+
+        LinkedList<MenuBean> list = new LinkedList<>();
+
+        String[] key = ctx.getResources().getStringArray(R.array.fund_type_keys);
+        int[] stypeValue = ctx.getResources().getIntArray(R.array.fund_stype_values);
+        String[] chi = ctx.getResources().getStringArray(R.array.fund_type_chis);
 
 
         for (int i = 0; i < chi.length; i++) {
-            FundTypeMenuBean item=new FundTypeMenuBean();
+            FundTypeMenuBean item = new FundTypeMenuBean();
             item.setEnable(true);
             item.setKey(key[i]);
-            item.setCode(value[i]);
+            item.setCode(stypeValue[i]);
             item.setValue(chi[i]);
             list.add(item);
         }
         return list;
     }
-    public static List<MenuBean>  fundSortFromXml(Context ctx){
 
-        List<MenuBean>  list=new ArrayList<>();
+    public static LinkedList<MenuBean> fundSortFromXml(Context ctx) {
 
-        String[] key=ctx.getResources().getStringArray(R.array.fund_sort_keys);
-        String[] value=ctx.getResources().getStringArray(R.array.fund_sort_values);
+        LinkedList<MenuBean> list = new LinkedList<>();
+
+        String[] key = ctx.getResources().getStringArray(R.array.fund_sort_keys);
+        String[] value = ctx.getResources().getStringArray(R.array.fund_sort_values);
 
 
         for (int i = 0; i < key.length; i++) {
-            SortTypeMenuBean item=new SortTypeMenuBean();
+            SortTypeMenuBean item = new SortTypeMenuBean();
             item.setEnable(true);
             item.setKey(key[i]);
             item.setValue(value[i]);

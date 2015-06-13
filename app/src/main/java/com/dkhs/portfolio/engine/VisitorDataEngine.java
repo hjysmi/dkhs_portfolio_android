@@ -146,6 +146,20 @@ public class VisitorDataEngine {
         return list;
     }
 
+    public List<SelectStockBean> getOptionalStockAndFundBySort() {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        List<SelectStockBean> list = Collections.EMPTY_LIST;
+        try {
+            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1", "3,","5"}));
+
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }// 通过类型查找
+
+        return list;
+    }
+
     /**
      * 查询排序的基金列表数据
      */
@@ -260,7 +274,7 @@ public class VisitorDataEngine {
     }
 
     public boolean uploadUserFollowStock(IHttpListener listener) {
-        List<SelectStockBean> dataList = getOptionalStockListBySort();
+        List<SelectStockBean> dataList = getOptionalStockList();
         StringBuilder sbIds = new StringBuilder();
         if (null != dataList && !dataList.isEmpty()) {
             for (SelectStockBean stock : dataList) {

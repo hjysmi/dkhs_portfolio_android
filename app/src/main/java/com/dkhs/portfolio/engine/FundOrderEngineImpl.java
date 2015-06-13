@@ -30,6 +30,50 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
     private static final int pageSize = 20;
 
 
+    public enum FundTypeBean{
+
+
+            Default("default"),
+
+            Month("m"),
+
+            Season("3m"),
+
+            HalfYear("6m"),
+
+            OneYear("y"),
+
+            OfficeDay("office"),
+
+            ToYear("ty");
+
+            private String value;
+
+            // 枚举对象构造函数
+            private FundTypeBean(String value) {
+                this.value = value;
+            }
+
+            public String getValue() {
+                return this.value;
+            }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private String userId;
 
     public FundOrderEngineImpl(ILoadDataBackListener loadListener) {

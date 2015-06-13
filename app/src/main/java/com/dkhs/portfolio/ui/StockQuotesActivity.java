@@ -351,8 +351,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
         @Override
-        public void onChange(boolean isFollow) {
-            mStockQuotesBean.setFollowed(isFollow);
+        public void onChange(SelectStockBean stockBean) {
+            mStockQuotesBean.setFollowed(stockBean.isFollowed());
             if (!PortfolioApplication.hasUserLogin()) {
                 localList = mVisitorDataEngine.getOptionalStockList();
             }
@@ -767,7 +767,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-        setTitle(mStockQuotesBean.getAbbrName() + "(" + mStockQuotesBean.getCode() + ")");
+        setTitle(mStockQuotesBean.getAbbrName() + "(" + mStockQuotesBean.getSymbol() + ")");
         tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
         // String curentText = tvCurrent.getText().toString();
         if (mPrePrice > 0) {
@@ -892,7 +892,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void setTitleDate() {
-        setTitle(mStockBean.name + "(" + mStockBean.code + ")");
+        setTitle(mStockBean.name + "(" + mStockBean.symbol + ")");
     }
 
     Handler quoteHandler = new Handler();

@@ -1,8 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,15 +8,14 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -32,6 +28,9 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SettingNameActivity extends ModelAcitivity implements OnClickListener {
     private CheckBox cbShowPassword;
@@ -492,7 +491,6 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         @Override
         protected void afterParseData(Object object) {
 
-            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
             goMainPage();
 
         }

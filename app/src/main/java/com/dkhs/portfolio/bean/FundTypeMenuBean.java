@@ -9,14 +9,14 @@ package com.dkhs.portfolio.bean;
  */
 public class FundTypeMenuBean extends MenuBean {
 
-    private String code;
+    private int code;
 
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

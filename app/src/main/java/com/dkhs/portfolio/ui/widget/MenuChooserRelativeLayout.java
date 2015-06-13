@@ -56,7 +56,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
     private List<MenuBean> data = new ArrayList<>();
 
-    private Adapter adapter;
+    private FloatMenuAdapter floatMenuAdapter;
     private ImageView imageView;
     private View menuLL;
 
@@ -77,7 +77,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         GridLayoutManager gridLayoutManager = new WrapGridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new Adapter(getContext(), data);
+        floatMenuAdapter = new FloatMenuAdapter(getContext(), data);
 
         this.addView(view);
         this.setVisibility(GONE);
@@ -88,10 +88,10 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
             }
         });
 
-        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        floatMenuAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.setSelectIndex(position);
+                floatMenuAdapter.setSelectIndex(position);
                 notifyDataSetChanged();
                 BusProvider.getInstance().post(selectItem);
 
@@ -104,7 +104,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
             }
         });
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(floatMenuAdapter);
     }
 
 
@@ -115,9 +115,9 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     public void notifyDataSetChanged() {
 
 
-        int prePosition = adapter.getSelectIndex();
+        int prePosition = floatMenuAdapter.getSelectIndex();
 
-        adapter.notifyDataSetChanged();
+        floatMenuAdapter.notifyDataSetChanged();
         selectItem = data.get(prePosition);
 
     }
@@ -134,7 +134,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         this.data.clear();
         this.data.addAll(data);
         selectItem = data.get(0);
-        adapter.notifyDataSetChanged();
+        floatMenuAdapter.notifyDataSetChanged();
     }
 
     private ViewGroup parentView;
@@ -236,11 +236,11 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     }
 
 
-    class Adapter extends BaseRVAdapter {
+    class FloatMenuAdapter extends BaseRVAdapter {
 
         private int selectIndex;
 
-        public Adapter(Context context, List<?> list) {
+        public FloatMenuAdapter(Context context, List<?> list) {
             super(context, list);
         }
 

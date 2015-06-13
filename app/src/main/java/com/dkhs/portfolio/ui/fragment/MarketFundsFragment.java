@@ -19,21 +19,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
-import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * @author zjz
@@ -42,10 +38,10 @@ import java.util.List;
  * @Description TODO(基金tab Fragment)
  * @date 2015-2-7 上午11:03:26
  */
-public class MarketFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
+public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
 
-    private List<MenuBean> sorts;
+    private LinkedList<MenuBean> sorts;
 
     @Override
     public int setContentLayoutId() {
@@ -73,7 +69,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     private Context context;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BusProvider.getInstance().register(this);
@@ -94,19 +89,29 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
 
+
+    }
+
+    @Override
+    public void requestData() {
+        initView(getView());
+    }
+
+    public void initView(View view) {
         fundTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL.setParentView(menuRL);
         fundTypeMenuChooserL.setParentView(menuRL);
 
-        List<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
+        LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
         sorts = MenuBean.fundSortFromXml(getActivity());
 
         fundTypeMenuChooserL.setData(types);
-        String type = types.get(0).getValue();
-        String sort = sorts.get(0).getValue();
+        String type = types.getFirst().getValue();
+        String sort = sorts.getFirst().getValue();
 
         sortTypeMenuChooserL.setData(sorts);
         setDrawableDown(fundTypeTV);
@@ -117,14 +122,13 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(mPageName);
     }
 
 
     private void replaceDataList(String type, String sort) {
-        if (null == loadDataListFragment) {
-            loadDataListFragment = FundOrderFragment.newInstant(type, sort);
-        }
+//        if (null == loadDataListFragment) {
+        loadDataListFragment = FundOrderFragment.newInstant(type, sort);
+//        }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
@@ -161,29 +165,38 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     }
 
     @Subscribe
-    public void update(MenuBean menuBean){
+    public void update(MenuBean menuBean) {
 
-        if(menuBean instanceof FundTypeMenuBean){
+        if (menuBean instanceof FundTypeMenuBean) {
             fundTypeTV.setText(menuBean.getKey());
-            FundTypeMenuBean type= (FundTypeMenuBean) menuBean;
+            FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
              */
-            if(type.getCode().equals("307")|| type.getCode ().equals("306")) {
-                MenuBean m=sorts.get(0);
+//            if(type.getCode().equals("307")|| type.getCode ().equals("306")) {
+            if (StockUitls.isSepFund(type.getCode())) {
+//                sorts.removeLast();
+                MenuBean m = sorts.getFirst();
                 m.setKey(getString(R.string.year_yld));
-                m.setValue("year_yld");
+                m.setValue("-year_yld");
                 sortTypeMenuChooserL.notifyDataSetChanged();
                 tvCurrent.setText(R.string.tenthou_unit_incm);
+                sorts.getLast().setEnable(false);
                 tvPercentgae.setText(R.string.year_yld);
 
-            }else{
+            } else {
 
-                MenuBean m=sorts.get(0);
+                MenuBean m = sorts.getFirst();
                 m.setKey(getString(R.string.percent_day));
-                m.setValue("percent_day");
+                m.setValue("-percent_day");
                 tvCurrent.setText(R.string.net_value);
+                MenuBean allNetValue = new MenuBean();
+                sorts.getLast().setEnable(true);
+//                m.setKey("累计净值");
+//                m.setValue("-net_cumulative");
+//                sorts.addLast(allNetValue);
+
                 sortTypeMenuChooserL.notifyDataSetChanged();
                 tvPercentgae.setText(sortTypeMenuChooserL.getSelectItem().getKey());
             }
@@ -196,18 +209,14 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     }
 
     @Subscribe
-    public void menuRLdismiss(MenuChooserRelativeLayout menuChooserRelativeLayout){
-        if(menuChooserRelativeLayout==sortTypeMenuChooserL){
+    public void menuRLdismiss(MenuChooserRelativeLayout menuChooserRelativeLayout) {
+        if (menuChooserRelativeLayout == sortTypeMenuChooserL) {
             setDrawableDown(tvPercentgae);
-        }else{
+        } else {
             setDrawableDown(fundTypeTV);
         }
 
     }
-
-
-
-
 
 
     private void setDrawableUp(TextView view) {
@@ -237,9 +246,9 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 //            setDrawableDown(viewLastClick);
 //            setDrawableUp(currentSelectView);
 //        } else
-          if (select) {
+        if (select) {
             setDrawableUp(currentSelectView);
-          }
+        }
 //          else {
 //            setDrawableDown(currentSelectView);
 //        }
@@ -247,18 +256,10 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     }
 
 
-
-
-
-
-
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
-
     @Override
     public void onPause() {
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);
 
     }
