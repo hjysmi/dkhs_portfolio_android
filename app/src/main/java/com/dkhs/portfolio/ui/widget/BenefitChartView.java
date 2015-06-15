@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.widget;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -39,6 +40,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -75,9 +78,11 @@ public class BenefitChartView {
 
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
 
+
     private View benifitView;
 
     private FundQuoteBean mFundQuoteBean;
+    private LinkedList<ManagersEntity> inertManagerList = new LinkedList<>();
 
     public BenefitChartView(Context ctx) {
         this.ctx = ctx;
@@ -165,6 +170,8 @@ public class BenefitChartView {
         this.symbol_stype = fundQuoteBean.getSymbol_stype();
         fundId = fundQuoteBean.getId() + "";
         abbrName = fundQuoteBean.getName();
+        inertManagerList.clear();
+        inertManagerList.addAll(fundQuoteBean.getManagers());
         onRequest();
 
 
@@ -395,6 +402,11 @@ public class BenefitChartView {
                     pointEntity.setInfo(getManagerByData(cPoint.getDate()));
                     pointEntity.setValue(value);
                     lineDataList.add(pointEntity);
+
+                    SepFundPointEntity sepFloat = new SepFundPointEntity();
+
+
+
                     if (value > maxOffsetValue) {
                         maxOffsetValue = value;
                     } else if (value < minOffsetValue) {
@@ -436,16 +448,19 @@ public class BenefitChartView {
      */
     private String getManagerByData(String day) {
         StringBuilder sbMangerText = new StringBuilder();
-//        List<ManagersEntity> managersEntityList = null;
-        if (null != mFundQuoteBean && null != mFundQuoteBean.getManagers() && !mFundQuoteBean.getManagers().isEmpty()) {
-            for (ManagersEntity managerEntity : mFundQuoteBean.getManagers()) {
-                if (managerEntity.getStart_date().equals(day)) {
+        if (null != inertManagerList && !inertManagerList.isEmpty()) {
+            Iterator<ManagersEntity> it = inertManagerList.iterator();
+            while (it.hasNext()) {
+                ManagersEntity managerEntity = it.next();
+                if (managerEntity.getStart_date().equals(day) || TimeUtils.simpleDateToCalendar(day).after(TimeUtils.simpleDateToCalendar(managerEntity.getStart_date()))) {
                     sbMangerText.append(managerEntity.getName() + "  ");
+                    it.remove();
+                    Log.d("InsertManagerData", " manager:" + managerEntity.getName() + " is  insert to" + day);
                 }
+
             }
-
-
         }
+
         return sbMangerText.toString();
 
     }
