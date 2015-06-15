@@ -19,18 +19,20 @@
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:gravity="bottom"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle" />
 
         <TextView
             android:id="@+id/symbol"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="8dp"
-            android:background="@drawable/bg_un_read_count"
+            android:background="@drawable/type_red_dot_bg"
+            android:layout_marginBottom="1dp"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_date"

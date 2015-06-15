@@ -158,6 +158,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
                 setViewOrderIndicator(fundTypeTV, select);
             }
             break;
+            case R.id.btn_refresh: {
+
+                loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+            }
+            break;
             default:
                 break;
         }
@@ -174,7 +179,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
              */
-//            if(type.getCode().equals("307")|| type.getCode ().equals("306")) {
             if (StockUitls.isSepFund(type.getCode())) {
 //                sorts.removeLast();
                 MenuBean m = sorts.getFirst();
@@ -240,19 +244,9 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     private void setViewOrderIndicator(TextView currentSelectView, boolean select) {
         currentSelectView.setSelected(select);
-//        if (null == viewLastClick) {
-//            setDrawableUp(currentSelectView);
-//        } else if (viewLastClick != currentSelectView) {
-//            setDrawableDown(viewLastClick);
-//            setDrawableUp(currentSelectView);
-//        } else
         if (select) {
             setDrawableUp(currentSelectView);
         }
-//          else {
-//            setDrawableDown(currentSelectView);
-//        }
-//        viewLastClick = currentSelectView;
     }
 
 

@@ -146,8 +146,6 @@ public class BenefitChartView {
 
     public void draw(FundQuoteBean fundQuoteBean, FundTrendType type) {
         this.trendType = type;
-        tvCombinationName.setVisibility(View.GONE);
-        titleView.setVisibility(View.GONE);
         this.mFundQuoteBean = fundQuoteBean;
         draw(fundQuoteBean);
     }

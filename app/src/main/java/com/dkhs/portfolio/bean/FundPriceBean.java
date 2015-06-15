@@ -35,6 +35,7 @@ public class FundPriceBean extends StockPriceBean {
     private String chi_spell = "";
 
 
+
     public int getSymbol_stype() {
         return symbol_stype;
     }
