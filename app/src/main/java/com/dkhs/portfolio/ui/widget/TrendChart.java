@@ -146,9 +146,12 @@ public class TrendChart extends TrendGridChart {
 
     private void initPaint() {
 
-        this.mLinePaint = new Paint();
+//        this.mLinePaint = new Paint();
         this.defPaint = new Paint();
-        this.mLinePaint.setAntiAlias(true);
+        this.mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        this.mLinePaint.setAntiAlias(true);
+        mLinePaint.setStrokeJoin(Paint.Join.ROUND);
+        mLinePaint.setStyle(Paint.Style.STROKE);
         this.fillPaint = new Paint();
 
         this.fillPath = new Path();
@@ -438,7 +441,7 @@ public class TrendChart extends TrendGridChart {
 
         // Paint fillPaint = new Paint();
         fillPaint.reset();
-
+        Path linePath = new Path();
         if (null == lineData) {
             return;
         }
@@ -446,6 +449,7 @@ public class TrendChart extends TrendGridChart {
         int lineSize = lineData.size();
         for (int i = 0; i < lineSize; i++) {
             LineEntity line = (LineEntity) lineData.get(i);
+            linePath.reset();
             if (line.isDisplay()) {
                 mLinePaint.setColor(line.getLineColor());
 
@@ -459,6 +463,7 @@ public class TrendChart extends TrendGridChart {
                 // if(i==0){
                 // = new Path();
                 fillPath.reset();
+
 
                 // }
                 if (lineData != null && lineData.size() > 0) {
@@ -506,10 +511,15 @@ public class TrendChart extends TrendGridChart {
                             }
                         }
 
+
                         // 绘制线条
                         if (j > 0) {
                             // 画线路图
-                            canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
+
+//                            canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
+                            linePath.lineTo(startX, valueY);
+                        } else {
+                            linePath.moveTo(startX, valueY);
                         }
 
                         if (pointEntity instanceof FundLinePointEntity && !TextUtils.isEmpty(((FundLinePointEntity) pointEntity).getInfo())) {
@@ -539,9 +549,10 @@ public class TrendChart extends TrendGridChart {
                             fillPath.lineTo(startX, valueY);
                         }
                         // X位移
-                        startX = startX + 1 + pointLineLength;
+                        startX = startX + pointLineLength;
                     }
 
+                    canvas.drawPath(linePath, mLinePaint);
                     // System.out.println("isFill:" + isFill + " fillLineIndex=" + fillLineIndex + " currentIndex:" +
                     // i);
                     if (isFill && fillLineIndex == i) {
