@@ -431,7 +431,7 @@ public class TrendChart extends TrendGridChart {
     protected void drawLines(Canvas canvas) {
         // lineLength = (super.getWidth() - startPointX - super.getAxisMarginRight());
         // 点线距离
-        pointLineLength = ((mGridLineLenght - 2) / (this.getMaxPointNum() - 1)) - 1;
+        pointLineLength = ((mGridLineLenght - 2) / (this.getMaxPointNum() - 1));
 
         // 起始位置
         float startX;
@@ -584,7 +584,7 @@ public class TrendChart extends TrendGridChart {
         if (getTouchPoint() != null && null != lineData && lineData.size() > 0) {
             // float fPointIndex = ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) /
             // (pointLineLength + 1));
-            float fPointIndex = ((getTouchPoint().x - super.getAxisMarginLeft()) / (pointLineLength + 1));
+            float fPointIndex = ((getTouchPoint().x - super.getAxisMarginLeft()) / (pointLineLength));
             int pointIndex = Math.round(fPointIndex);
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();

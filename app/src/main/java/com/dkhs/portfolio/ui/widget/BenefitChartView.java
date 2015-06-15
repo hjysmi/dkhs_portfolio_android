@@ -234,10 +234,11 @@ public class BenefitChartView {
         maChartView.setLineData(lineEntityList);
         maChartView.setIsFundTrendCompare(true);
 
-        if (mFundQuoteBean.getSymbol_stype() == 300)//股票型基金
-        {
-            maChartView.setDisplayAxisYTitleColor(false);
-        }
+//        if (mFundQuoteBean.getSymbol_stype() == 300)//股票型基金
+//        {
+        maChartView.setDisplayAxisYTitleColor(false);
+        maChartView.setDisplayYRightTitleByZero(true);
+//        }
 
         onFinishUpdateUI();
     }

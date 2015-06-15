@@ -224,6 +224,12 @@ public class TrendGridChart extends View {
      */
     private boolean displayAxisYTitleColor = Boolean.TRUE;
 
+
+    /**
+     * 右部标题颜色是否以0为基准
+     */
+    private boolean displayYRightTitleByZero = Boolean.FALSE;
+
     /**
      * 经线是否显示
      */
@@ -585,7 +591,10 @@ public class TrendGridChart extends View {
                     float offetText = xTitleWidth;
                     float startX = (super.getWidth() - axisMarginLeft - offetText);
                     if (displayAxisYTitleColor) {
-                        mTextPaint.setColor(getYTitlePaintFont(i, counts));
+                        mTextPaint.setColor(getLongtitudeFontColor());
+                    }
+                    if (displayYRightTitleByZero) {
+                        mTextPaint.setColor(getYTitlePaintColorZero(axisRightYTitles.get(i)));
                     }
 
                     if (i == 0) {
@@ -710,6 +719,28 @@ public class TrendGridChart extends View {
             textColor = ColorTemplate.DEF_RED;
 
         }
+        return textColor;
+    }
+
+    private int getYTitlePaintColorZero(String percentText) {
+//        double midIndex = Math.ceil(counts / 2.0) - 1;
+        percentText = percentText.replace("%", "");
+        int textColor = 0;
+        try {
+            float percent = Float.valueOf(percentText);
+            if (percent < 0) {
+                textColor = ColorTemplate.DEF_GREEN;
+            } else if (percent == 0) {
+                textColor = DEFAULT_LONGTITUDE_FONT_COLOR_MID;
+            } else {
+                textColor = ColorTemplate.DEF_RED;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         return textColor;
     }
 
@@ -1167,5 +1198,13 @@ public class TrendGridChart extends View {
 
     public void setYlineCounts(int counts) {
         this.yLineCounts = counts;
+    }
+
+    public boolean isDisplayYRightTitleByZero() {
+        return displayYRightTitleByZero;
+    }
+
+    public void setDisplayYRightTitleByZero(boolean displayYRightTitleByZero) {
+        this.displayYRightTitleByZero = displayYRightTitleByZero;
     }
 }
