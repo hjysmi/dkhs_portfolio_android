@@ -370,13 +370,14 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
          */
         @Override
         public void loadFail() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    endAnimaRefresh();
-                }
-            });
-
+            if (isAdded()) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        endAnimaRefresh();
+                    }
+                });
+            }
             isLoading = false;
 
         }

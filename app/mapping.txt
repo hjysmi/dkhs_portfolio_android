@@ -15732,6 +15732,7 @@ com.dkhs.portfolio.R$string -> com.dkhs.portfolio.R$string:
     int my_combination -> my_combination
     int my_config -> my_config
     int need_set_password -> need_set_password
+    int net_cumulative -> net_cumulative
     int net_value -> net_value
     int neteasemicroblog -> neteasemicroblog
     int netvalue_comtribute -> netvalue_comtribute
@@ -17620,8 +17621,8 @@ com.dkhs.portfolio.bean.MenuBean -> com.dkhs.portfolio.bean.MenuBean:
     void setEnable(boolean) -> setEnable
     java.lang.String getKey() -> getKey
     void setKey(java.lang.String) -> setKey
-    java.util.List fundTypeFromXml(android.content.Context) -> fundTypeFromXml
-    java.util.List fundSortFromXml(android.content.Context) -> fundSortFromXml
+    java.util.LinkedList fundTypeFromXml(android.content.Context) -> fundTypeFromXml
+    java.util.LinkedList fundSortFromXml(android.content.Context) -> fundSortFromXml
 com.dkhs.portfolio.bean.MoreDataBean -> com.dkhs.portfolio.bean.MoreDataBean:
     int totalCount -> totalCount
     int totalPage -> totalPage
@@ -19925,10 +19926,11 @@ com.dkhs.portfolio.ui.FundDetailActivity -> com.dkhs.portfolio.ui.FundDetailActi
     com.dkhs.portfolio.ui.widget.ScrollViewPager access$200(com.dkhs.portfolio.ui.FundDetailActivity) -> b
     void access$300(com.dkhs.portfolio.ui.FundDetailActivity) -> c
     com.dkhs.portfolio.bean.SelectStockBean access$400(com.dkhs.portfolio.ui.FundDetailActivity) -> d
-    void access$500(com.dkhs.portfolio.ui.FundDetailActivity) -> e
-    void access$600(com.dkhs.portfolio.ui.FundDetailActivity) -> f
-    void access$700(com.dkhs.portfolio.ui.FundDetailActivity) -> g
-    void access$800(com.dkhs.portfolio.ui.FundDetailActivity) -> h
+    java.util.List access$000(com.dkhs.portfolio.ui.FundDetailActivity) -> e
+    void access$500(com.dkhs.portfolio.ui.FundDetailActivity) -> f
+    void access$600(com.dkhs.portfolio.ui.FundDetailActivity) -> g
+    void access$700(com.dkhs.portfolio.ui.FundDetailActivity) -> h
+    void access$800(com.dkhs.portfolio.ui.FundDetailActivity) -> i
 com.dkhs.portfolio.ui.FundDetailActivity$1 -> com.dkhs.portfolio.ui.az:
     com.dkhs.portfolio.ui.FundDetailActivity this$0 -> a
     void run() -> run
@@ -19940,7 +19942,7 @@ com.dkhs.portfolio.ui.FundDetailActivity$3 -> com.dkhs.portfolio.ui.bb:
     boolean onMenuItemSelected(int) -> a
 com.dkhs.portfolio.ui.FundDetailActivity$4 -> com.dkhs.portfolio.ui.bc:
     com.dkhs.portfolio.ui.FundDetailActivity this$0 -> a
-    void onChange(boolean) -> a
+    void onChange(com.dkhs.portfolio.bean.SelectStockBean) -> a
 com.dkhs.portfolio.ui.FundDetailActivity$5 -> com.dkhs.portfolio.ui.bd:
     com.dkhs.portfolio.ui.FundDetailActivity this$0 -> a
     com.dkhs.portfolio.bean.FundQuoteBean parseDateTask(java.lang.String) -> a
@@ -21336,7 +21338,7 @@ com.dkhs.portfolio.ui.StockQuotesActivity$4 -> com.dkhs.portfolio.ui.ep:
     void run() -> run
 com.dkhs.portfolio.ui.StockQuotesActivity$5 -> com.dkhs.portfolio.ui.eq:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
-    void onChange(boolean) -> a
+    void onChange(com.dkhs.portfolio.bean.SelectStockBean) -> a
 com.dkhs.portfolio.ui.StockQuotesActivity$6 -> com.dkhs.portfolio.ui.er:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onSelectPosition(int) -> a
@@ -21591,33 +21593,31 @@ com.dkhs.portfolio.ui.adapter.AchivementAdapter$OnClickImp$1 -> com.dkhs.portfol
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
 com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter -> com.dkhs.portfolio.ui.adapter.c:
+    com.dkhs.portfolio.ui.widget.ChangeFollowView changeFollowView -> g
+    com.dkhs.portfolio.ui.widget.ChangeFollowView$IChangeSuccessListener changeSuccessListener -> h
     com.dkhs.portfolio.net.ParseHttpListener delFollowListener -> a
     com.dkhs.portfolio.net.ParseHttpListener followListener -> b
+    void init(android.content.Context) -> a
     void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
 com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter$1 -> com.dkhs.portfolio.ui.adapter.d:
     com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter this$0 -> a
-    java.lang.Object parseDateTask(java.lang.String) -> b
-    void afterParseData(java.lang.Object) -> a
+    void onChange(com.dkhs.portfolio.bean.SelectStockBean) -> a
 com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter$2 -> com.dkhs.portfolio.ui.adapter.e:
     com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter this$0 -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
-com.dkhs.portfolio.ui.adapter.AddStockItemAdapter -> com.dkhs.portfolio.ui.adapter.f:
-    com.dkhs.portfolio.net.ParseHttpListener delFollowListener -> a
-    com.dkhs.portfolio.net.ParseHttpListener followListener -> b
+com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter$3 -> com.dkhs.portfolio.ui.adapter.f:
+    com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter this$0 -> a
+    java.lang.Object parseDateTask(java.lang.String) -> b
+    void afterParseData(java.lang.Object) -> a
+com.dkhs.portfolio.ui.adapter.AddStockItemAdapter -> com.dkhs.portfolio.ui.adapter.g:
+    com.dkhs.portfolio.ui.widget.ChangeFollowView changeFollowView -> a
+    com.dkhs.portfolio.ui.widget.ChangeFollowView$IChangeSuccessListener changeSuccessListener -> b
+    void init(android.content.Context) -> a
     void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
-com.dkhs.portfolio.ui.adapter.AddStockItemAdapter$1 -> com.dkhs.portfolio.ui.adapter.g:
+com.dkhs.portfolio.ui.adapter.AddStockItemAdapter$1 -> com.dkhs.portfolio.ui.adapter.h:
     com.dkhs.portfolio.ui.adapter.AddStockItemAdapter this$0 -> a
-    com.dkhs.portfolio.bean.SelectStockBean parseDateTask(java.lang.String) -> a
-    void afterParseData(com.dkhs.portfolio.bean.SelectStockBean) -> a
-    void afterParseData(java.lang.Object) -> a
-    java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.adapter.AddStockItemAdapter$2 -> com.dkhs.portfolio.ui.adapter.h:
-    com.dkhs.portfolio.ui.adapter.AddStockItemAdapter this$0 -> a
-    com.dkhs.portfolio.bean.SelectStockBean parseDateTask(java.lang.String) -> a
-    void afterParseData(com.dkhs.portfolio.bean.SelectStockBean) -> a
-    void afterParseData(java.lang.Object) -> a
-    java.lang.Object parseDateTask(java.lang.String) -> b
+    void onChange(com.dkhs.portfolio.bean.SelectStockBean) -> a
 com.dkhs.portfolio.ui.adapter.AutoAdapter -> com.dkhs.portfolio.ui.adapter.i:
     com.dkhs.portfolio.ui.adapter.ViewHolderUtils vh -> a
     android.view.View getViewAgent(int,android.view.View,android.view.ViewGroup) -> a
@@ -22172,9 +22172,7 @@ com.dkhs.portfolio.ui.adapter.SelectFundAdapter$ViewHodler -> com.dkhs.portfolio
     android.widget.ImageView ivDelIcon -> b
 com.dkhs.portfolio.ui.adapter.SelectStockAdatper -> com.dkhs.portfolio.ui.adapter.bf:
     boolean isDefColor -> a
-    com.dkhs.portfolio.engine.VisitorDataEngine mVisitorDataEngine -> f
-    java.util.List localList -> b
-    boolean isAddNewStock -> g
+    boolean isAddNewStock -> b
     void init() -> a
     void setAddNewStock(boolean) -> a
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
@@ -22432,13 +22430,14 @@ com.dkhs.portfolio.ui.fragment.CombinationRankFragment -> com.dkhs.portfolio.ui.
     android.widget.ListAdapter getListAdapter() -> b
     void loadData() -> c
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void onPause() -> onPause
     void onResume() -> onResume
     void setUserVisibleHint(boolean) -> setUserVisibleHint
-    com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> d
-    android.widget.AdapterView$OnItemClickListener getItemClickListener() -> e
-    android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> f
+    com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> e
+    android.widget.AdapterView$OnItemClickListener getItemClickListener() -> f
+    android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
     void loadFail() -> a
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.CombinationRankFragment) -> a
     boolean access$102(com.dkhs.portfolio.ui.fragment.CombinationRankFragment,boolean) -> a
@@ -22755,8 +22754,8 @@ com.dkhs.portfolio.ui.fragment.FragmentForStockSHC$StockLoadDataListener -> com.
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void loadFail() -> a
 com.dkhs.portfolio.ui.fragment.FragmentLifecycle -> com.dkhs.portfolio.ui.fragment.u:
-    void onVisible() -> b_
-    void onUnVisible() -> c_
+    void onVisible() -> c_
+    void onUnVisible() -> d_
 com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter -> com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter:
     int mType -> a
     android.support.v4.app.Fragment loadDataListFragment -> b
@@ -23233,33 +23232,34 @@ com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund -> com.dkhs.portfolio.ui.
     boolean isLoading -> k
     android.widget.RelativeLayout pb -> s
     com.lidroid.xutils.http.HttpHandler loadHandler -> t
-    boolean isDefLoad -> u
-    java.lang.String mUserId -> v
+    java.lang.String mUserId -> u
     com.dkhs.portfolio.engine.LoadMoreDataEngine$ILoadDataBackListener mSelectStockBackListener -> l
     android.support.v4.widget.SwipeRefreshLayout mSwipeLayout -> m
     android.os.Handler updateHander -> n
-    android.widget.TextView emptyview -> w
+    android.widget.TextView emptyview -> v
     android.widget.AdapterView$OnItemClickListener priceStockItemClick -> o
     android.widget.AdapterView$OnItemClickListener itemBackClick -> p
-    java.lang.String mPageName -> x
+    java.lang.String mPageName -> w
     com.dkhs.portfolio.ui.MarketListActivity$ILoadingFinishListener loadingFinishListener -> q
-    com.dkhs.portfolio.ui.eventbus.IDataUpdateListener dataUpdateListener -> y
+    com.dkhs.portfolio.ui.eventbus.IDataUpdateListener dataUpdateListener -> x
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund getStockFragment(com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund$StockViewType) -> a
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund getStockFragmentByUserId(com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund$StockViewType,java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
-    boolean isLoadStockType() -> i
-    void initData() -> j
-    void loadDataByFund() -> k
-    void loadDataByStock() -> l
+    boolean isLoadStockType() -> j
+    void requestEngine() -> k
+    void initDataEngine() -> l
+    void loadDataByFund() -> m
+    void loadDataByStock() -> o
     void refreshEditView() -> b
     void setOrderType(com.dkhs.portfolio.engine.FundDataEngine$OrderType) -> a
     void setOptionalOrderType(java.lang.String) -> a
     void refresh() -> c
-    void refreshNoCaseTime() -> d
+    void refreshNoCaseTime() -> e
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
-    void hideEmptyNotice() -> m
-    void showEmptyNotice() -> e
-    void refreshSelect() -> f
+    void requestData() -> d
+    void hideEmptyNotice() -> p
+    void showEmptyNotice() -> f
+    void refreshSelect() -> g
     void onStart() -> onStart
     void initView(android.view.View) -> a
     void onCheckedChanged(android.widget.CompoundButton,boolean) -> a
@@ -23269,10 +23269,9 @@ com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund -> com.dkhs.portfolio.ui.
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     void onLoadMore() -> a_
     int setContentLayoutId() -> h
-    java.util.List getDataList() -> g
+    java.util.List getDataList() -> i
     void setDataUpdateListener(com.dkhs.portfolio.ui.eventbus.IDataUpdateListener) -> a
     void onDestroyView() -> onDestroyView
-    void setDefLoad(boolean) -> a
     android.widget.RelativeLayout access$000(com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund) -> a
     void access$100(com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund) -> b
 com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund$1 -> com.dkhs.portfolio.ui.fragment.av:
@@ -23431,18 +23430,19 @@ com.dkhs.portfolio.ui.fragment.FundOrderFragment -> com.dkhs.portfolio.ui.fragme
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onDestroyView() -> onDestroyView
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
     void loadData() -> c
     void refresh(java.lang.String,java.lang.String) -> b
     void onLoadMore() -> a_
-    android.widget.BaseAdapter getListAdapter() -> g
+    android.widget.BaseAdapter getListAdapter() -> i
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    com.dkhs.portfolio.engine.FundOrderEngineImpl getLoadEngine() -> h
-    android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> f
-    android.widget.AdapterView$OnItemClickListener getItemClickListener() -> e
+    com.dkhs.portfolio.engine.FundOrderEngineImpl getLoadEngine() -> j
+    android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
+    android.widget.AdapterView$OnItemClickListener getItemClickListener() -> f
     void loadFail() -> a
-    void startLoadData() -> i
-    void endLoadData() -> j
-    com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> d
+    void startLoadData() -> k
+    void endLoadData() -> l
+    com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> e
     android.widget.ListAdapter getListAdapter() -> b
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.FundOrderFragment) -> a
 com.dkhs.portfolio.ui.fragment.FundOrderFragment$1 -> com.dkhs.portfolio.ui.fragment.bh:
@@ -23467,14 +23467,13 @@ com.dkhs.portfolio.ui.fragment.FundTrendFragment -> com.dkhs.portfolio.ui.fragme
     com.dkhs.portfolio.ui.widget.BenefitChartView benefitChartView -> b
     com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType mTrendType -> c
     com.dkhs.portfolio.bean.FundQuoteBean mFundQuoteBean -> d
-    boolean isViewShown -> e
     com.dkhs.portfolio.ui.fragment.FundTrendFragment newInstance(com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType,com.dkhs.portfolio.bean.FundQuoteBean) -> a
     int setContentLayoutId() -> h
     void onCreate(android.os.Bundle) -> onCreate
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
-    void updateUI() -> a
+    void requestData() -> d
     void onDestroy() -> onDestroy
     void setUserVisibleHint(boolean) -> setUserVisibleHint
 com.dkhs.portfolio.ui.fragment.HotPlateFragment -> com.dkhs.portfolio.ui.fragment.HotPlateFragment:
@@ -23640,8 +23639,8 @@ com.dkhs.portfolio.ui.fragment.KChartsLandFragment -> com.dkhs.portfolio.ui.frag
     void setViewVisible(boolean) -> a
     void onResume() -> onResume
     void onStop() -> onStop
-    void onVisible() -> b_
-    void onUnVisible() -> c_
+    void onVisible() -> c_
+    void onUnVisible() -> d_
     void onPause() -> onPause
     void onClick(android.view.View) -> onClick
     void updateCheckView(java.lang.String) -> b
@@ -23698,14 +23697,15 @@ com.dkhs.portfolio.ui.fragment.LoadMoreListFragment -> com.dkhs.portfolio.ui.fra
     android.view.View mProgressView -> d
     android.support.v4.widget.SwipeRefreshLayout mSwipeLayout -> e
     void onCreate(android.os.Bundle) -> onCreate
-    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    void setListViewVisible() -> k
+    int setContentLayoutId() -> h
+    void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void setListViewVisible() -> m
     void setEmptyText(java.lang.String) -> b
     void initLoadMoreList(android.view.View) -> a
     android.widget.ListAdapter getListAdapter() -> b
-    com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> d
-    android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> f
-    android.widget.AdapterView$OnItemClickListener getItemClickListener() -> e
+    com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> e
+    android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
+    android.widget.AdapterView$OnItemClickListener getItemClickListener() -> f
     void setListViewInit(android.widget.ListView) -> a
     void loadData() -> c
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
@@ -23833,6 +23833,7 @@ com.dkhs.portfolio.ui.fragment.MarketCombinationFragment -> com.dkhs.portfolio.u
     android.support.v4.view.ViewPager$OnPageChangeListener pageChangeListener -> c
     int setContentLayoutId() -> h
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
     void initViews(android.view.View) -> a
     void onPause() -> onPause
     void onResume() -> onResume
@@ -23849,7 +23850,7 @@ com.dkhs.portfolio.ui.fragment.MarketCombinationFragment$2 -> com.dkhs.portfolio
     void onPageScrolled(int,float,int) -> onPageScrolled
     void onPageScrollStateChanged(int) -> onPageScrollStateChanged
 com.dkhs.portfolio.ui.fragment.MarketFundsFragment -> com.dkhs.portfolio.ui.fragment.MarketFundsFragment:
-    java.util.List sorts -> b
+    java.util.LinkedList sorts -> b
     com.dkhs.portfolio.ui.fragment.FundOrderFragment loadDataListFragment -> c
     android.view.ViewGroup menuRL -> a
     com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout fundTypeMenuChooserL -> d
@@ -23863,6 +23864,8 @@ com.dkhs.portfolio.ui.fragment.MarketFundsFragment -> com.dkhs.portfolio.ui.frag
     void onDestroyView() -> onDestroyView
     void onDestroy() -> onDestroy
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
+    void initView(android.view.View) -> a
     void onResume() -> onResume
     void replaceDataList(java.lang.String,java.lang.String) -> a
     void onStart() -> onStart
@@ -24104,12 +24107,13 @@ com.dkhs.portfolio.ui.fragment.ReportListForAllFragment -> com.dkhs.portfolio.ui
     com.dkhs.portfolio.engine.LoadNewsDataEngine$ILoadDataBackListener mSelectStockBackListener -> d
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment getFragment(com.dkhs.portfolio.engine.NewsforModel,int) -> a
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
-    void initDate() -> b
-    void refreshData() -> c
+    void requestData() -> d
+    void onViewShow() -> b_
+    void initDate() -> c
+    void refreshData() -> e
     void initView(android.view.View) -> a
-    void onResume() -> onResume
-    void setEmptyText() -> d
-    void hideEmptyText() -> e
+    void setEmptyText() -> f
+    void hideEmptyText() -> g
     void onLoadMore() -> a_
     int setContentLayoutId() -> h
     void access$000(com.dkhs.portfolio.ui.fragment.ReportListForAllFragment) -> a
@@ -24269,8 +24273,8 @@ com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment -> com.dkhs.portfoli
     void onResume() -> onResume
     int setContentLayoutId() -> h
     void setLandCallBack(com.dkhs.portfolio.ui.widget.LandStockViewCallBack) -> a
-    void onVisible() -> b_
-    void onUnVisible() -> c_
+    void onVisible() -> c_
+    void onUnVisible() -> d_
     com.dkhs.portfolio.ui.widget.StockViewCallBack access$000(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> a
     com.dkhs.portfolio.bean.StockQuotesBean access$100(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> b
     android.view.View access$200(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> c
@@ -24394,30 +24398,32 @@ com.dkhs.portfolio.ui.fragment.TabF10Fragment$TabType -> com.dkhs.portfolio.ui.f
     com.dkhs.portfolio.ui.fragment.TabF10Fragment$TabType[] values() -> values
     com.dkhs.portfolio.ui.fragment.TabF10Fragment$TabType valueOf(java.lang.String) -> valueOf
 com.dkhs.portfolio.ui.fragment.TabFundsFragment -> com.dkhs.portfolio.ui.fragment.TabFundsFragment:
-    com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund loadDataListFragment -> c
-    android.widget.TextView tvCurrent -> d
-    android.widget.TextView tvPercentgae -> e
-    android.view.View titleView -> f
-    android.widget.TextView viewLastClick -> g
-    java.lang.String orderType -> h
-    int lastPercentTextIds -> i
-    java.lang.String mUserId -> j
+    java.lang.String TAG -> c
+    com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund loadDataListFragment -> d
+    android.widget.TextView tvCurrent -> e
+    android.widget.TextView tvPercentgae -> f
+    android.view.View titleView -> g
+    android.widget.TextView viewLastClick -> h
+    java.lang.String orderType -> i
+    int lastPercentTextIds -> j
+    java.lang.String mUserId -> k
     android.os.Handler updateHandler -> a
-    com.dkhs.portfolio.ui.eventbus.IDataUpdateListener dataUpdateListener -> k
+    com.dkhs.portfolio.ui.eventbus.IDataUpdateListener dataUpdateListener -> l
     java.lang.Runnable updateRunnable -> b
-    java.lang.String mPageName -> l
+    java.lang.String mPageName -> m
     int setContentLayoutId() -> h
     com.dkhs.portfolio.ui.fragment.TabFundsFragment getFragment(java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
     void onResume() -> onResume
     void refreshEditView() -> a
     void setDataUpdateListener(com.dkhs.portfolio.ui.eventbus.IDataUpdateListener) -> a
     void onStop() -> onStop
-    void replaceDataList() -> c
+    void replaceDataList() -> e
     void onStart() -> onStart
     void onClick(android.view.View) -> onClick
-    void reloadData() -> d
+    void reloadData() -> f
     void setDrawableUp(android.widget.TextView) -> a
     void setDrawableDown(android.widget.TextView) -> b
     void setTextDrawableHide(android.widget.TextView) -> c
@@ -24432,7 +24438,7 @@ com.dkhs.portfolio.ui.fragment.TabFundsFragment -> com.dkhs.portfolio.ui.fragmen
     void onTabTitleChange(com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent) -> onTabTitleChange
     void dataUpdate(boolean) -> a
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
-    java.util.List getDataList() -> b
+    java.util.List getDataList() -> c
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund access$000(com.dkhs.portfolio.ui.fragment.TabFundsFragment) -> a
 com.dkhs.portfolio.ui.fragment.TabFundsFragment$1 -> com.dkhs.portfolio.ui.fragment.dr:
     com.dkhs.portfolio.ui.fragment.TabFundsFragment this$0 -> a
@@ -24960,6 +24966,16 @@ com.dkhs.portfolio.ui.fragment.UserFragment$2 -> com.dkhs.portfolio.ui.fragment.
     void afterParseData(com.dkhs.portfolio.bean.UserEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
+com.dkhs.portfolio.ui.fragment.VisiableLoadFragment -> com.dkhs.portfolio.ui.fragment.VisiableLoadFragment:
+    java.lang.String TAG -> a
+    boolean isViewShown -> b
+    void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
+    void setUserVisibleHint(boolean) -> setUserVisibleHint
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onViewShow() -> b_
+    void onViewHide() -> n
 com.dkhs.portfolio.ui.messagecenter.DKImgTextMsg -> com.dkhs.portfolio.ui.messagecenter.DKImgTextMsg:
     java.lang.String imageUri -> imageUri
     java.lang.String extra -> extra
@@ -25289,6 +25305,7 @@ com.dkhs.portfolio.ui.widget.ChangeFollowView -> com.dkhs.portfolio.ui.widget.g:
     com.dkhs.portfolio.net.IHttpListener baseListener -> a
     com.dkhs.portfolio.ui.widget.ChangeFollowView$IChangeSuccessListener mChangeListener -> e
     void changeFollow(com.dkhs.portfolio.bean.SelectStockBean) -> a
+    void changeFollowNoDialog(com.dkhs.portfolio.bean.SelectStockBean) -> b
     void showDelDialog() -> a
     void followStockChange() -> b
     void afterChange() -> c
@@ -25306,7 +25323,7 @@ com.dkhs.portfolio.ui.widget.ChangeFollowView$3 -> com.dkhs.portfolio.ui.widget.
     com.dkhs.portfolio.ui.widget.ChangeFollowView this$0 -> a
     void onSuccess(java.lang.String) -> onSuccess
 com.dkhs.portfolio.ui.widget.ChangeFollowView$IChangeSuccessListener -> com.dkhs.portfolio.ui.widget.g$a:
-    void onChange(boolean) -> a
+    void onChange(com.dkhs.portfolio.bean.SelectStockBean) -> a
 com.dkhs.portfolio.ui.widget.CircularProgress -> com.dkhs.portfolio.ui.widget.CircularProgress:
     int mColor -> a
     int mSize -> b
@@ -25807,7 +25824,7 @@ com.dkhs.portfolio.ui.widget.MarqueeText -> com.dkhs.portfolio.ui.widget.Marquee
 com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout -> com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout:
     android.support.v7.widget.RecyclerView recyclerView -> a
     java.util.List data -> b
-    com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$Adapter adapter -> c
+    com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$FloatMenuAdapter floatMenuAdapter -> c
     android.widget.ImageView imageView -> d
     android.view.View menuLL -> e
     com.dkhs.portfolio.bean.MenuBean selectItem -> f
@@ -25825,7 +25842,7 @@ com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout -> com.dkhs.portfolio.ui.
     void dismiss() -> d
     android.view.ViewGroup getParentView() -> getParentView
     void setParentView(android.view.ViewGroup) -> setParentView
-    com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$Adapter access$000(com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout) -> a
+    com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$FloatMenuAdapter access$000(com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout) -> a
     com.dkhs.portfolio.bean.MenuBean access$100(com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout) -> b
     android.view.View access$200(com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout) -> c
     android.view.ViewGroup access$300(com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout) -> d
@@ -25851,7 +25868,7 @@ com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$4 -> com.dkhs.portfolio.u
     void onAnimationEnd(android.animation.Animator) -> onAnimationEnd
     void onAnimationCancel(android.animation.Animator) -> onAnimationCancel
     void onAnimationRepeat(android.animation.Animator) -> onAnimationRepeat
-com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$Adapter -> com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$a:
+com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$FloatMenuAdapter -> com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$a:
     int selectIndex -> c
     com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout this$0 -> b
     int onCreateViewLayoutID(int) -> c
@@ -27448,27 +27465,38 @@ com.dkhs.portfolio.utils.ColorTemplate -> com.dkhs.portfolio.d.l:
     android.content.res.ColorStateList getTextColor(int) -> c
     android.content.res.ColorStateList getUpOrDrownCSL(float) -> a
     int getUpOrDrowBgColor(float) -> b
-com.dkhs.portfolio.utils.DataBaseUtil -> com.dkhs.portfolio.d.m:
+com.dkhs.portfolio.utils.DES -> com.dkhs.portfolio.d.m:
+    java.security.Key key -> a
+    javax.crypto.Cipher cipher -> b
+    com.dkhs.portfolio.utils.DES getInstance(java.lang.String) -> a
+    com.dkhs.portfolio.utils.DES getInstance(byte[]) -> a
+    byte[] encrypt(byte[]) -> b
+    byte[] decrypt(byte[]) -> c
+    byte[] getKeyByStr(java.lang.String) -> b
+    int getChrInt(char) -> a
+    java.lang.String encrypt(java.lang.String,java.lang.String) -> a
+    java.lang.String decrypt(java.lang.String,java.lang.String) -> b
+com.dkhs.portfolio.utils.DataBaseUtil -> com.dkhs.portfolio.d.n:
     android.content.Context context -> b
     java.lang.String dbName -> a
     java.lang.String DATABASE_PATH -> c
     boolean checkDataBase() -> a
     void copyDataBase() -> b
-com.dkhs.portfolio.utils.ImageLoaderUtils -> com.dkhs.portfolio.d.n:
+com.dkhs.portfolio.utils.ImageLoaderUtils -> com.dkhs.portfolio.d.o:
     void initImageLoader(android.content.Context) -> a
     void setRoundedImage(java.lang.String,android.widget.ImageView) -> a
     void setImage(java.lang.String,android.widget.ImageView) -> b
     void setRoundedImage(java.lang.String,android.widget.ImageView,int,int) -> a
     void setHeanderImage(java.lang.String,android.widget.ImageView) -> c
-com.dkhs.portfolio.utils.NetUtil -> com.dkhs.portfolio.d.o:
+com.dkhs.portfolio.utils.NetUtil -> com.dkhs.portfolio.d.p:
     android.net.Uri PREFERRED_APN_URI -> a
     boolean checkNetWork() -> a
     boolean isMOBILEConnectivity(android.content.Context) -> a
     boolean isWIFIConnectivity(android.content.Context) -> b
-com.dkhs.portfolio.utils.PhoneInfo -> com.dkhs.portfolio.d.p:
+com.dkhs.portfolio.utils.PhoneInfo -> com.dkhs.portfolio.d.q:
     boolean hasInstallApp(android.content.Context,java.lang.String) -> a
     boolean hasInstallWechat() -> a
-com.dkhs.portfolio.utils.PortfolioPreferenceManager -> com.dkhs.portfolio.d.q:
+com.dkhs.portfolio.utils.PortfolioPreferenceManager -> com.dkhs.portfolio.d.r:
     android.content.SharedPreferences getSharePreferences() -> a
     android.content.SharedPreferences$Editor getSharePreferencesEditor() -> b
     java.lang.String getStringValue(java.lang.String) -> a
@@ -27479,7 +27507,7 @@ com.dkhs.portfolio.utils.PortfolioPreferenceManager -> com.dkhs.portfolio.d.q:
     void saveValue(java.lang.String,int) -> a
     boolean hasLoadSearchStock() -> c
     void setLoadSearchStock() -> d
-com.dkhs.portfolio.utils.PromptManager -> com.dkhs.portfolio.d.r:
+com.dkhs.portfolio.utils.PromptManager -> com.dkhs.portfolio.d.s:
     android.app.Dialog dialog -> a
     android.widget.Toast mToast -> b
     void showProgressDialog(android.content.Context,java.lang.String) -> a
@@ -27500,21 +27528,21 @@ com.dkhs.portfolio.utils.PromptManager -> com.dkhs.portfolio.d.r:
     void showCancelToast(int) -> d
     void showCustomToast(int,int) -> a
     com.dkhs.portfolio.ui.widget.MAlertDialog getAlertDialog(android.content.Context) -> a
-com.dkhs.portfolio.utils.SIMCardInfo -> com.dkhs.portfolio.d.s:
+com.dkhs.portfolio.utils.SIMCardInfo -> com.dkhs.portfolio.d.t:
     android.telephony.TelephonyManager telephonyManager -> a
     java.lang.String IMSI -> b
     java.lang.String getNativePhoneNumber() -> a
     java.lang.String getProvidersName() -> b
     boolean isMobileNO(java.lang.String) -> a
     boolean isEmail(java.lang.String) -> b
-com.dkhs.portfolio.utils.StockUitls -> com.dkhs.portfolio.d.t:
+com.dkhs.portfolio.utils.StockUitls -> com.dkhs.portfolio.d.u:
     boolean isShangZhengB(java.lang.String) -> a
     boolean isIndexStock(java.lang.String) -> b
     boolean isDelistStock(java.lang.String) -> c
     boolean isNewStock(java.lang.String) -> d
     boolean isSepFund(int) -> a
     boolean isFundType(java.lang.String) -> e
-com.dkhs.portfolio.utils.StringFromatUtils -> com.dkhs.portfolio.d.u:
+com.dkhs.portfolio.utils.StringFromatUtils -> com.dkhs.portfolio.d.v:
     boolean isEmojiCharacter(char) -> a
     boolean isContainsEmoji(java.lang.String) -> a
     int getStringRealLength(java.lang.String) -> b
@@ -27531,7 +27559,7 @@ com.dkhs.portfolio.utils.StringFromatUtils -> com.dkhs.portfolio.d.u:
     java.lang.String handleNumber(int) -> a
     java.lang.String convertToWanHand(float) -> j
     java.lang.String dateFormat(long) -> a
-com.dkhs.portfolio.utils.TimeUtils -> com.dkhs.portfolio.d.v:
+com.dkhs.portfolio.utils.TimeUtils -> com.dkhs.portfolio.d.w:
     java.text.SimpleDateFormat[] ACCEPTED_TIMESTAMP_FORMATS -> a
     java.text.SimpleDateFormat VALID_IFMODIFIEDSINCE_FORMAT -> b
     java.text.SimpleDateFormat DEFAULT_DATE_FORMAT -> c
@@ -27549,7 +27577,7 @@ com.dkhs.portfolio.utils.TimeUtils -> com.dkhs.portfolio.d.v:
     java.lang.String addHour(java.lang.String) -> j
     java.util.Calendar simpleDateToCalendar(java.lang.String) -> k
     java.util.Date toDate(java.lang.String) -> l
-com.dkhs.portfolio.utils.UIUtils -> com.dkhs.portfolio.d.w:
+com.dkhs.portfolio.utils.UIUtils -> com.dkhs.portfolio.d.x:
     long sAppLoadTime -> a
     void setListViewHeightBasedOnChildren(android.widget.ListView) -> a
     android.graphics.Bitmap loadBitmap(android.graphics.Bitmap,java.lang.String) -> a
@@ -27570,30 +27598,12 @@ com.dkhs.portfolio.utils.UIUtils -> com.dkhs.portfolio.d.w:
     void setOverridePendingSlideFormBottomAmim(android.app.Activity) -> b
     void outAminationActivity(android.app.Activity) -> c
     float dip2px(android.content.Context,float) -> a
-com.dkhs.portfolio.utils.UserEntityDesUtil -> com.dkhs.portfolio.d.x:
+com.dkhs.portfolio.utils.UserEntityDesUtil -> com.dkhs.portfolio.d.y:
     com.dkhs.portfolio.bean.UserEntity encrypt(com.dkhs.portfolio.bean.UserEntity) -> a
     com.dkhs.portfolio.bean.UserEntity decrypt(com.dkhs.portfolio.bean.UserEntity) -> b
 com.dkhs.portfolio.wxapi.WXEntryActivity -> com.dkhs.portfolio.wxapi.WXEntryActivity:
     void onGetMessageFromWXReq(cn.sharesdk.wechat.utils.WXMediaMessage) -> onGetMessageFromWXReq
     void onShowMessageFromWXReq(cn.sharesdk.wechat.utils.WXMediaMessage) -> onShowMessageFromWXReq
-com.github.gfx.util.encrypt.Encryption -> com.a.a.a.a.a:
-    java.lang.String TAG -> b
-    java.nio.charset.Charset CHARSET -> c
-    javax.crypto.spec.SecretKeySpec secretKeySpec -> d
-    javax.crypto.Cipher cipher -> e
-    boolean $assertionsDisabled -> a
-    javax.crypto.Cipher getDefaultCipher() -> a
-    byte[] getDefaultPrivateKey(android.content.Context) -> a
-    byte[] md5(byte[]) -> a
-    javax.crypto.spec.SecretKeySpec createKeySpec(javax.crypto.Cipher,byte[]) -> a
-    java.lang.String encrypt(java.lang.String) -> a
-    java.lang.String decrypt(java.lang.String) -> b
-com.github.gfx.util.encrypt.Encryption$UnexpectedDecryptionStateException -> com.a.a.a.a.a$a:
-    com.github.gfx.util.encrypt.Encryption this$0 -> a
-com.github.gfx.util.encrypt.Encryption$UnexpectedEncryptionStateException -> com.a.a.a.a.a$b:
-    com.github.gfx.util.encrypt.Encryption this$0 -> a
-com.github.gfx.util.encrypt.Encryption$UnexpectedStateException -> com.a.a.a.a.a$c:
-    com.github.gfx.util.encrypt.Encryption this$0 -> b
 com.google.gson.DefaultDateTypeAdapter -> com.google.gson.DefaultDateTypeAdapter:
     java.text.DateFormat enUsFormat -> enUsFormat
     java.text.DateFormat localFormat -> localFormat
@@ -30922,7 +30932,7 @@ com.melnykov.fab.ScrollViewScrollDetector -> com.melnykov.fab.d:
     void onScrollDown() -> a
     void onScrollChanged(android.widget.ScrollView,int,int,int,int) -> a
     void setScrollThreshold(int) -> a
-com.nineoldandroids.animation.Animator -> com.b.a.a:
+com.nineoldandroids.animation.Animator -> com.a.a.a:
     java.util.ArrayList mListeners -> a
     void start() -> a
     void cancel() -> b
@@ -30934,17 +30944,17 @@ com.nineoldandroids.animation.Animator -> com.b.a.a:
     com.nineoldandroids.animation.Animator clone() -> f
     void setTarget(java.lang.Object) -> a
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Animator$AnimatorListener -> com.b.a.a$a:
+com.nineoldandroids.animation.Animator$AnimatorListener -> com.a.a.a$a:
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
-com.nineoldandroids.animation.AnimatorListenerAdapter -> com.b.a.b:
+com.nineoldandroids.animation.AnimatorListenerAdapter -> com.a.a.b:
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-com.nineoldandroids.animation.AnimatorSet -> com.b.a.c:
+com.nineoldandroids.animation.AnimatorSet -> com.a.a.c:
     java.util.ArrayList mPlayingSet -> c
     java.util.HashMap mNodeMap -> d
     java.util.ArrayList mNodes -> e
@@ -30972,27 +30982,27 @@ com.nineoldandroids.animation.AnimatorSet -> com.b.a.c:
     java.util.ArrayList access$200(com.nineoldandroids.animation.AnimatorSet) -> c
     boolean access$302(com.nineoldandroids.animation.AnimatorSet,boolean) -> a
     java.util.ArrayList access$400(com.nineoldandroids.animation.AnimatorSet) -> d
-com.nineoldandroids.animation.AnimatorSet$1 -> com.b.a.d:
+com.nineoldandroids.animation.AnimatorSet$1 -> com.a.a.d:
     boolean canceled -> a
     java.util.ArrayList val$nodesToStart -> b
     com.nineoldandroids.animation.AnimatorSet this$0 -> c
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener -> com.b.a.c$a:
+com.nineoldandroids.animation.AnimatorSet$AnimatorSetListener -> com.a.a.c$a:
     com.nineoldandroids.animation.AnimatorSet mAnimatorSet -> b
     com.nineoldandroids.animation.AnimatorSet this$0 -> a
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-com.nineoldandroids.animation.AnimatorSet$Builder -> com.b.a.c$b:
+com.nineoldandroids.animation.AnimatorSet$Builder -> com.a.a.c$b:
     com.nineoldandroids.animation.AnimatorSet$Node mCurrentNode -> b
     com.nineoldandroids.animation.AnimatorSet this$0 -> a
     com.nineoldandroids.animation.AnimatorSet$Builder with(com.nineoldandroids.animation.Animator) -> a
-com.nineoldandroids.animation.AnimatorSet$Dependency -> com.b.a.c$c:
+com.nineoldandroids.animation.AnimatorSet$Dependency -> com.a.a.c$c:
     com.nineoldandroids.animation.AnimatorSet$Node node -> a
     int rule -> b
-com.nineoldandroids.animation.AnimatorSet$DependencyListener -> com.b.a.c$d:
+com.nineoldandroids.animation.AnimatorSet$DependencyListener -> com.a.a.c$d:
     com.nineoldandroids.animation.AnimatorSet mAnimatorSet -> a
     com.nineoldandroids.animation.AnimatorSet$Node mNode -> b
     int mRule -> c
@@ -31001,7 +31011,7 @@ com.nineoldandroids.animation.AnimatorSet$DependencyListener -> com.b.a.c$d:
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
     void startIfReady(com.nineoldandroids.animation.Animator) -> e
-com.nineoldandroids.animation.AnimatorSet$Node -> com.b.a.c$e:
+com.nineoldandroids.animation.AnimatorSet$Node -> com.a.a.c$e:
     com.nineoldandroids.animation.Animator animation -> a
     java.util.ArrayList dependencies -> b
     java.util.ArrayList tmpDependencies -> c
@@ -31011,10 +31021,10 @@ com.nineoldandroids.animation.AnimatorSet$Node -> com.b.a.c$e:
     void addDependency(com.nineoldandroids.animation.AnimatorSet$Dependency) -> a
     com.nineoldandroids.animation.AnimatorSet$Node clone() -> a
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.FloatEvaluator -> com.b.a.e:
+com.nineoldandroids.animation.FloatEvaluator -> com.a.a.e:
     java.lang.Float evaluate(float,java.lang.Number,java.lang.Number) -> a
     java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.FloatKeyframeSet -> com.b.a.f:
+com.nineoldandroids.animation.FloatKeyframeSet -> com.a.a.f:
     float firstValue -> g
     float lastValue -> h
     float deltaValue -> i
@@ -31024,10 +31034,10 @@ com.nineoldandroids.animation.FloatKeyframeSet -> com.b.a.f:
     float getFloatValue(float) -> b
     com.nineoldandroids.animation.KeyframeSet clone() -> b
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.IntEvaluator -> com.b.a.g:
+com.nineoldandroids.animation.IntEvaluator -> com.a.a.g:
     java.lang.Integer evaluate(float,java.lang.Integer,java.lang.Integer) -> a
     java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.Keyframe -> com.b.a.h:
+com.nineoldandroids.animation.Keyframe -> com.a.a.h:
     float mFraction -> a
     java.lang.Class mValueType -> b
     android.view.animation.Interpolator mInterpolator -> d
@@ -31042,7 +31052,7 @@ com.nineoldandroids.animation.Keyframe -> com.b.a.h:
     void setInterpolator(android.view.animation.Interpolator) -> a
     com.nineoldandroids.animation.Keyframe clone() -> e
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.Keyframe$FloatKeyframe -> com.b.a.h$a:
+com.nineoldandroids.animation.Keyframe$FloatKeyframe -> com.a.a.h$a:
     float mValue -> d
     float getFloatValue() -> f
     java.lang.Object getValue() -> b
@@ -31050,7 +31060,7 @@ com.nineoldandroids.animation.Keyframe$FloatKeyframe -> com.b.a.h$a:
     com.nineoldandroids.animation.Keyframe$FloatKeyframe clone() -> g
     com.nineoldandroids.animation.Keyframe clone() -> e
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.KeyframeSet -> com.b.a.i:
+com.nineoldandroids.animation.KeyframeSet -> com.a.a.i:
     int mNumKeyframes -> a
     com.nineoldandroids.animation.Keyframe mFirstKeyframe -> b
     com.nineoldandroids.animation.Keyframe mLastKeyframe -> c
@@ -31063,7 +31073,7 @@ com.nineoldandroids.animation.KeyframeSet -> com.b.a.i:
     java.lang.Object getValue(float) -> a
     java.lang.String toString() -> toString
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.ObjectAnimator -> com.b.a.j:
+com.nineoldandroids.animation.ObjectAnimator -> com.a.a.j:
     java.util.Map PROXY_PROPERTIES -> h
     java.lang.Object mTarget -> i
     java.lang.String mPropertyName -> j
@@ -31083,7 +31093,7 @@ com.nineoldandroids.animation.ObjectAnimator -> com.b.a.j:
     com.nineoldandroids.animation.ValueAnimator setDuration(long) -> b
     com.nineoldandroids.animation.Animator clone() -> f
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.PreHoneycombCompat -> com.b.a.k:
+com.nineoldandroids.animation.PreHoneycombCompat -> com.a.a.k:
     com.nineoldandroids.util.Property ALPHA -> a
     com.nineoldandroids.util.Property PIVOT_X -> b
     com.nineoldandroids.util.Property PIVOT_Y -> c
@@ -31098,73 +31108,73 @@ com.nineoldandroids.animation.PreHoneycombCompat -> com.b.a.k:
     com.nineoldandroids.util.Property SCROLL_Y -> l
     com.nineoldandroids.util.Property X -> m
     com.nineoldandroids.util.Property Y -> n
-com.nineoldandroids.animation.PreHoneycombCompat$1 -> com.b.a.l:
+com.nineoldandroids.animation.PreHoneycombCompat$1 -> com.a.a.l:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$10 -> com.b.a.m:
+com.nineoldandroids.animation.PreHoneycombCompat$10 -> com.a.a.m:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$11 -> com.b.a.n:
+com.nineoldandroids.animation.PreHoneycombCompat$11 -> com.a.a.n:
     java.lang.Integer get(android.view.View) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$12 -> com.b.a.o:
+com.nineoldandroids.animation.PreHoneycombCompat$12 -> com.a.a.o:
     java.lang.Integer get(android.view.View) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$13 -> com.b.a.p:
+com.nineoldandroids.animation.PreHoneycombCompat$13 -> com.a.a.p:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$14 -> com.b.a.q:
+com.nineoldandroids.animation.PreHoneycombCompat$14 -> com.a.a.q:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$2 -> com.b.a.r:
+com.nineoldandroids.animation.PreHoneycombCompat$2 -> com.a.a.r:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$3 -> com.b.a.s:
+com.nineoldandroids.animation.PreHoneycombCompat$3 -> com.a.a.s:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$4 -> com.b.a.t:
+com.nineoldandroids.animation.PreHoneycombCompat$4 -> com.a.a.t:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$5 -> com.b.a.u:
+com.nineoldandroids.animation.PreHoneycombCompat$5 -> com.a.a.u:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$6 -> com.b.a.v:
+com.nineoldandroids.animation.PreHoneycombCompat$6 -> com.a.a.v:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$7 -> com.b.a.w:
+com.nineoldandroids.animation.PreHoneycombCompat$7 -> com.a.a.w:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$8 -> com.b.a.x:
+com.nineoldandroids.animation.PreHoneycombCompat$8 -> com.a.a.x:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PreHoneycombCompat$9 -> com.b.a.y:
+com.nineoldandroids.animation.PreHoneycombCompat$9 -> com.a.a.y:
     void setValue(android.view.View,float) -> a
     java.lang.Float get(android.view.View) -> a
     void setValue(java.lang.Object,float) -> a
     java.lang.Object get(java.lang.Object) -> a
-com.nineoldandroids.animation.PropertyValuesHolder -> com.b.a.z:
+com.nineoldandroids.animation.PropertyValuesHolder -> com.a.a.z:
     java.lang.String mPropertyName -> a
     com.nineoldandroids.util.Property mProperty -> b
     java.lang.reflect.Method mSetter -> c
@@ -31201,8 +31211,8 @@ com.nineoldandroids.animation.PropertyValuesHolder -> com.b.a.z:
     java.lang.String toString() -> toString
     java.lang.String getMethodName(java.lang.String,java.lang.String) -> a
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.PropertyValuesHolder$1 -> com.b.a.z$1:
-com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder -> com.b.a.z$a:
+com.nineoldandroids.animation.PropertyValuesHolder$1 -> com.a.a.z$1:
+com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder -> com.a.a.z$a:
     com.nineoldandroids.util.FloatProperty mFloatProperty -> j
     com.nineoldandroids.animation.FloatKeyframeSet mFloatKeyframeSet -> h
     float mFloatAnimatedValue -> i
@@ -31214,9 +31224,9 @@ com.nineoldandroids.animation.PropertyValuesHolder$FloatPropertyValuesHolder -> 
     void setupSetter(java.lang.Class) -> a
     com.nineoldandroids.animation.PropertyValuesHolder clone() -> a
     java.lang.Object clone() -> clone
-com.nineoldandroids.animation.TypeEvaluator -> com.b.a.aa:
+com.nineoldandroids.animation.TypeEvaluator -> com.a.a.aa:
     java.lang.Object evaluate(float,java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.animation.ValueAnimator -> com.b.a.ab:
+com.nineoldandroids.animation.ValueAnimator -> com.a.a.ab:
     long mStartTime -> b
     long mSeekTime -> c
     java.lang.ThreadLocal sAnimationHandler -> h
@@ -31282,57 +31292,57 @@ com.nineoldandroids.animation.ValueAnimator -> com.b.a.ab:
     boolean access$802(com.nineoldandroids.animation.ValueAnimator,boolean) -> a
     void access$900(com.nineoldandroids.animation.ValueAnimator) -> c
     long access$1000() -> q
-com.nineoldandroids.animation.ValueAnimator$1 -> com.b.a.ac:
+com.nineoldandroids.animation.ValueAnimator$1 -> com.a.a.ac:
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$2 -> com.b.a.ad:
+com.nineoldandroids.animation.ValueAnimator$2 -> com.a.a.ad:
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$3 -> com.b.a.ae:
+com.nineoldandroids.animation.ValueAnimator$3 -> com.a.a.ae:
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$4 -> com.b.a.af:
+com.nineoldandroids.animation.ValueAnimator$4 -> com.a.a.af:
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$5 -> com.b.a.ag:
+com.nineoldandroids.animation.ValueAnimator$5 -> com.a.a.ag:
     java.util.ArrayList initialValue() -> a
     java.lang.Object initialValue() -> initialValue
-com.nineoldandroids.animation.ValueAnimator$AnimationHandler -> com.b.a.ab$a:
+com.nineoldandroids.animation.ValueAnimator$AnimationHandler -> com.a.a.ab$a:
     void handleMessage(android.os.Message) -> handleMessage
-com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener -> com.b.a.ab$b:
+com.nineoldandroids.animation.ValueAnimator$AnimatorUpdateListener -> com.a.a.ab$b:
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nineoldandroids.util.FloatProperty -> com.b.b.a:
+com.nineoldandroids.util.FloatProperty -> com.a.b.a:
     void setValue(java.lang.Object,float) -> a
     void set(java.lang.Object,java.lang.Float) -> a
     void set(java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.util.IntProperty -> com.b.b.b:
+com.nineoldandroids.util.IntProperty -> com.a.b.b:
     void set(java.lang.Object,java.lang.Integer) -> a
     void set(java.lang.Object,java.lang.Object) -> a
-com.nineoldandroids.util.Property -> com.b.b.c:
+com.nineoldandroids.util.Property -> com.a.b.c:
     java.lang.String mName -> a
     java.lang.Class mType -> b
     void set(java.lang.Object,java.lang.Object) -> a
     java.lang.Object get(java.lang.Object) -> a
     java.lang.String getName() -> a
-com.nineoldandroids.view.ViewHelper -> com.b.c.a:
+com.nineoldandroids.view.ViewHelper -> com.a.c.a:
     void setAlpha(android.view.View,float) -> a
     void setPivotX(android.view.View,float) -> b
     void setPivotY(android.view.View,float) -> c
     void setTranslationX(android.view.View,float) -> d
     void setTranslationY(android.view.View,float) -> e
-com.nineoldandroids.view.ViewHelper$Honeycomb -> com.b.c.a$a:
+com.nineoldandroids.view.ViewHelper$Honeycomb -> com.a.c.a$a:
     void setAlpha(android.view.View,float) -> a
     void setPivotX(android.view.View,float) -> b
     void setPivotY(android.view.View,float) -> c
     void setTranslationX(android.view.View,float) -> d
     void setTranslationY(android.view.View,float) -> e
-com.nineoldandroids.view.ViewPropertyAnimator -> com.b.c.b:
+com.nineoldandroids.view.ViewPropertyAnimator -> com.a.c.b:
     java.util.WeakHashMap ANIMATORS -> a
     com.nineoldandroids.view.ViewPropertyAnimator animate(android.view.View) -> a
     com.nineoldandroids.view.ViewPropertyAnimator setDuration(long) -> a
     com.nineoldandroids.view.ViewPropertyAnimator setInterpolator(android.view.animation.Interpolator) -> a
     com.nineoldandroids.view.ViewPropertyAnimator translationY(float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorHC -> com.b.c.c:
+com.nineoldandroids.view.ViewPropertyAnimatorHC -> com.a.c.c:
     java.lang.ref.WeakReference mView -> b
     long mDuration -> c
     boolean mDurationSet -> d
@@ -31359,30 +31369,30 @@ com.nineoldandroids.view.ViewPropertyAnimatorHC -> com.b.c.c:
     com.nineoldandroids.animation.Animator$AnimatorListener access$202(com.nineoldandroids.view.ViewPropertyAnimatorHC,com.nineoldandroids.animation.Animator$AnimatorListener) -> a
     java.lang.ref.WeakReference access$400(com.nineoldandroids.view.ViewPropertyAnimatorHC) -> d
     void access$500(com.nineoldandroids.view.ViewPropertyAnimatorHC,int,float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorHC$1 -> com.b.c.d:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$1 -> com.a.c.d:
     com.nineoldandroids.view.ViewPropertyAnimatorHC this$0 -> a
     void run() -> run
-com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener -> com.b.c.c$a:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$AnimatorEventListener -> com.a.c.c$a:
     com.nineoldandroids.view.ViewPropertyAnimatorHC this$0 -> a
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorHC$NameValuesHolder -> com.b.c.c$b:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$NameValuesHolder -> com.a.c.c$b:
     int mNameConstant -> a
     float mFromValue -> b
     float mDeltaValue -> c
-com.nineoldandroids.view.ViewPropertyAnimatorHC$PropertyBundle -> com.b.c.c$c:
+com.nineoldandroids.view.ViewPropertyAnimatorHC$PropertyBundle -> com.a.c.c$c:
     int mPropertyMask -> a
     java.util.ArrayList mNameValuesHolder -> b
     boolean cancel(int) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorICS -> com.b.c.e:
+com.nineoldandroids.view.ViewPropertyAnimatorICS -> com.a.c.e:
     java.lang.ref.WeakReference mNative -> a
     com.nineoldandroids.view.ViewPropertyAnimator setDuration(long) -> a
     com.nineoldandroids.view.ViewPropertyAnimator setInterpolator(android.view.animation.Interpolator) -> a
     com.nineoldandroids.view.ViewPropertyAnimator translationY(float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC -> com.b.c.f:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC -> com.a.c.f:
     com.nineoldandroids.view.animation.AnimatorProxy mProxy -> b
     java.lang.ref.WeakReference mView -> c
     long mDuration -> d
@@ -31410,25 +31420,25 @@ com.nineoldandroids.view.ViewPropertyAnimatorPreHC -> com.b.c.f:
     com.nineoldandroids.animation.Animator$AnimatorListener access$202(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,com.nineoldandroids.animation.Animator$AnimatorListener) -> a
     java.lang.ref.WeakReference access$400(com.nineoldandroids.view.ViewPropertyAnimatorPreHC) -> d
     void access$500(com.nineoldandroids.view.ViewPropertyAnimatorPreHC,int,float) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1 -> com.b.c.g:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$1 -> com.a.c.g:
     com.nineoldandroids.view.ViewPropertyAnimatorPreHC this$0 -> a
     void run() -> run
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener -> com.b.c.f$a:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$AnimatorEventListener -> com.a.c.f$a:
     com.nineoldandroids.view.ViewPropertyAnimatorPreHC this$0 -> a
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
     void onAnimationCancel(com.nineoldandroids.animation.Animator) -> c
     void onAnimationRepeat(com.nineoldandroids.animation.Animator) -> d
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationUpdate(com.nineoldandroids.animation.ValueAnimator) -> a
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$NameValuesHolder -> com.b.c.f$b:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$NameValuesHolder -> com.a.c.f$b:
     int mNameConstant -> a
     float mFromValue -> b
     float mDeltaValue -> c
-com.nineoldandroids.view.ViewPropertyAnimatorPreHC$PropertyBundle -> com.b.c.f$c:
+com.nineoldandroids.view.ViewPropertyAnimatorPreHC$PropertyBundle -> com.a.c.f$c:
     int mPropertyMask -> a
     java.util.ArrayList mNameValuesHolder -> b
     boolean cancel(int) -> a
-com.nineoldandroids.view.animation.AnimatorProxy -> com.b.c.a.a:
+com.nineoldandroids.view.animation.AnimatorProxy -> com.a.c.a.a:
     boolean NEEDS_PROXY -> a
     java.util.WeakHashMap PROXIES -> b
     java.lang.ref.WeakReference mView -> c
@@ -31479,12 +31489,12 @@ com.nineoldandroids.view.animation.AnimatorProxy -> com.b.c.a.a:
     void computeRect(android.graphics.RectF,android.view.View) -> a
     void transformMatrix(android.graphics.Matrix,android.view.View) -> a
     void applyTransformation(float,android.view.animation.Transformation) -> applyTransformation
-com.nostra13.universalimageloader.cache.disc.DiscCacheAware -> com.c.a.a.a.a:
+com.nostra13.universalimageloader.cache.disc.DiscCacheAware -> com.b.a.a.a.a:
     java.io.File get(java.lang.String) -> a
     boolean save(java.lang.String,java.io.InputStream,com.nostra13.universalimageloader.utils.IoUtils$CopyListener) -> a
     boolean save(java.lang.String,android.graphics.Bitmap) -> a
-com.nostra13.universalimageloader.cache.disc.DiskCache -> com.c.a.a.a.b:
-com.nostra13.universalimageloader.cache.disc.impl.BaseDiscCache -> com.c.a.a.a.a.a:
+com.nostra13.universalimageloader.cache.disc.DiskCache -> com.b.a.a.a.b:
+com.nostra13.universalimageloader.cache.disc.impl.BaseDiscCache -> com.b.a.a.a.a.a:
     android.graphics.Bitmap$CompressFormat DEFAULT_COMPRESS_FORMAT -> a
     java.io.File cacheDir -> b
     java.io.File reserveCacheDir -> c
@@ -31496,8 +31506,8 @@ com.nostra13.universalimageloader.cache.disc.impl.BaseDiscCache -> com.c.a.a.a.a
     boolean save(java.lang.String,java.io.InputStream,com.nostra13.universalimageloader.utils.IoUtils$CopyListener) -> a
     boolean save(java.lang.String,android.graphics.Bitmap) -> a
     java.io.File getFile(java.lang.String) -> b
-com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache -> com.c.a.a.a.a.b:
-com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache -> com.c.a.a.a.a.a.a:
+com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache -> com.b.a.a.a.a.b:
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache -> com.b.a.a.a.a.a.a:
     java.util.regex.Pattern LEGAL_KEY_PATTERN -> a
     java.io.File directory -> c
     java.io.File journalFile -> d
@@ -31545,13 +31555,13 @@ com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache -> com.c.a.a.
     java.io.File access$2000(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache) -> g
     java.io.OutputStream access$2100() -> b
     void access$2300(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache,com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor,boolean) -> a
-com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$1 -> com.c.a.a.a.a.a.b:
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$1 -> com.b.a.a.a.a.a.b:
     com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache this$0 -> a
     java.lang.Void call() -> a
     java.lang.Object call() -> call
-com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$2 -> com.c.a.a.a.a.a.c:
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$2 -> com.b.a.a.a.a.a.c:
     void write(int) -> write
-com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor -> com.c.a.a.a.a.a.a$a:
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor -> com.b.a.a.a.a.a.a$a:
     com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry entry -> b
     boolean[] written -> c
     boolean hasErrors -> d
@@ -31563,13 +31573,13 @@ com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor -> com
     com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry access$1500(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor) -> a
     boolean[] access$1600(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor) -> b
     boolean access$2402(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor,boolean) -> a
-com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor$FaultHidingOutputStream -> com.c.a.a.a.a.a.a$a$a:
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor$FaultHidingOutputStream -> com.b.a.a.a.a.a.a$a$a:
     com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Editor this$1 -> a
     void write(int) -> write
     void write(byte[],int,int) -> write
     void close() -> close
     void flush() -> flush
-com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry -> com.c.a.a.a.a.a.a$b:
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry -> com.b.a.a.a.a.a.a$b:
     java.lang.String key -> b
     long[] lengths -> c
     boolean readable -> d
@@ -31590,7 +31600,7 @@ com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry -> com.
     boolean access$700(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry) -> d
     long access$1300(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry) -> e
     long access$1302(com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Entry,long) -> a
-com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Snapshot -> com.c.a.a.a.a.a.a$c:
+com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Snapshot -> com.b.a.a.a.a.a.a$c:
     java.lang.String key -> b
     long sequenceNumber -> c
     java.io.File[] files -> d
@@ -31599,7 +31609,7 @@ com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache$Snapshot -> c
     com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache this$0 -> a
     java.io.File getFile(int) -> a
     void close() -> close
-com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiscCache -> com.c.a.a.a.a.a.d:
+com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiscCache -> com.b.a.a.a.a.a.d:
     android.graphics.Bitmap$CompressFormat DEFAULT_COMPRESS_FORMAT -> a
     com.nostra13.universalimageloader.cache.disc.impl.ext.DiskLruCache cache -> b
     java.io.File reserveCacheDir -> g
@@ -31612,7 +31622,7 @@ com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiscCache -> com.c.a.a.
     boolean save(java.lang.String,java.io.InputStream,com.nostra13.universalimageloader.utils.IoUtils$CopyListener) -> a
     boolean save(java.lang.String,android.graphics.Bitmap) -> a
     java.lang.String getKey(java.lang.String) -> b
-com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader -> com.c.a.a.a.a.a.e:
+com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader -> com.b.a.a.a.a.a.e:
     java.io.InputStream in -> a
     java.nio.charset.Charset charset -> b
     byte[] buf -> c
@@ -31622,28 +31632,28 @@ com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader -> com.c.
     java.lang.String readLine() -> a
     void fillBuf() -> b
     java.nio.charset.Charset access$000(com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader) -> a
-com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader$1 -> com.c.a.a.a.a.a.f:
+com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader$1 -> com.b.a.a.a.a.a.f:
     com.nostra13.universalimageloader.cache.disc.impl.ext.StrictLineReader this$0 -> a
     java.lang.String toString() -> toString
-com.nostra13.universalimageloader.cache.disc.impl.ext.Util -> com.c.a.a.a.a.a.g:
+com.nostra13.universalimageloader.cache.disc.impl.ext.Util -> com.b.a.a.a.a.a.g:
     java.nio.charset.Charset US_ASCII -> a
     java.nio.charset.Charset UTF_8 -> b
     void deleteContents(java.io.File) -> a
     void closeQuietly(java.io.Closeable) -> a
-com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator -> com.c.a.a.a.b.a:
+com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator -> com.b.a.a.a.b.a:
     java.lang.String generate(java.lang.String) -> a
-com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator -> com.c.a.a.a.b.b:
+com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator -> com.b.a.a.a.b.b:
     java.lang.String generate(java.lang.String) -> a
-com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator -> com.c.a.a.a.b.c:
+com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator -> com.b.a.a.a.b.c:
     java.lang.String generate(java.lang.String) -> a
     byte[] getMD5(byte[]) -> a
-com.nostra13.universalimageloader.cache.memory.MemoryCache -> com.c.a.a.b.a:
-com.nostra13.universalimageloader.cache.memory.MemoryCacheAware -> com.c.a.a.b.b:
+com.nostra13.universalimageloader.cache.memory.MemoryCache -> com.b.a.a.b.a:
+com.nostra13.universalimageloader.cache.memory.MemoryCacheAware -> com.b.a.a.b.b:
     boolean put(java.lang.Object,java.lang.Object) -> a
     java.lang.Object get(java.lang.Object) -> a
     java.lang.Object remove(java.lang.Object) -> b
     java.util.Collection keys() -> a
-com.nostra13.universalimageloader.cache.memory.impl.FuzzyKeyMemoryCache -> com.c.a.a.b.a.a:
+com.nostra13.universalimageloader.cache.memory.impl.FuzzyKeyMemoryCache -> com.b.a.a.b.a.a:
     com.nostra13.universalimageloader.cache.memory.MemoryCache cache -> a
     java.util.Comparator keyComparator -> b
     boolean put(java.lang.String,android.graphics.Bitmap) -> a
@@ -31653,7 +31663,7 @@ com.nostra13.universalimageloader.cache.memory.impl.FuzzyKeyMemoryCache -> com.c
     java.lang.Object remove(java.lang.Object) -> b
     java.lang.Object get(java.lang.Object) -> a
     boolean put(java.lang.Object,java.lang.Object) -> a
-com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache -> com.c.a.a.b.a.b:
+com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache -> com.b.a.a.b.a.b:
     java.util.LinkedHashMap map -> a
     int maxSize -> b
     int size -> c
@@ -31667,7 +31677,7 @@ com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache -> com.c.a.a.
     java.lang.Object remove(java.lang.Object) -> b
     java.lang.Object get(java.lang.Object) -> a
     boolean put(java.lang.Object,java.lang.Object) -> a
-com.nostra13.universalimageloader.core.DefaultConfigurationFactory -> com.c.a.b.a:
+com.nostra13.universalimageloader.core.DefaultConfigurationFactory -> com.b.a.b.a:
     java.util.concurrent.Executor createExecutor(int,int,com.nostra13.universalimageloader.core.assist.QueueProcessingType) -> a
     java.util.concurrent.Executor createTaskDistributor() -> a
     com.nostra13.universalimageloader.cache.disc.naming.FileNameGenerator createFileNameGenerator() -> b
@@ -31678,14 +31688,14 @@ com.nostra13.universalimageloader.core.DefaultConfigurationFactory -> com.c.a.b.
     com.nostra13.universalimageloader.core.decode.ImageDecoder createImageDecoder(boolean) -> a
     com.nostra13.universalimageloader.core.display.BitmapDisplayer createBitmapDisplayer() -> c
     java.util.concurrent.ThreadFactory createThreadFactory(int,java.lang.String) -> a
-com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> com.c.a.b.a$a:
+com.nostra13.universalimageloader.core.DefaultConfigurationFactory$DefaultThreadFactory -> com.b.a.b.a$a:
     java.util.concurrent.atomic.AtomicInteger poolNumber -> a
     java.lang.ThreadGroup group -> b
     java.util.concurrent.atomic.AtomicInteger threadNumber -> c
     java.lang.String namePrefix -> d
     int threadPriority -> e
     java.lang.Thread newThread(java.lang.Runnable) -> newThread
-com.nostra13.universalimageloader.core.DisplayBitmapTask -> com.c.a.b.b:
+com.nostra13.universalimageloader.core.DisplayBitmapTask -> com.b.a.b.b:
     android.graphics.Bitmap bitmap -> a
     java.lang.String imageUri -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -31696,7 +31706,7 @@ com.nostra13.universalimageloader.core.DisplayBitmapTask -> com.c.a.b.b:
     com.nostra13.universalimageloader.core.assist.LoadedFrom loadedFrom -> h
     void run() -> run
     boolean isViewWasReused() -> a
-com.nostra13.universalimageloader.core.DisplayImageOptions -> com.c.a.b.c:
+com.nostra13.universalimageloader.core.DisplayImageOptions -> com.b.a.b.c:
     int imageResOnLoading -> a
     int imageResForEmptyUri -> b
     int imageResOnFail -> c
@@ -31758,8 +31768,8 @@ com.nostra13.universalimageloader.core.DisplayImageOptions -> com.c.a.b.c:
     com.nostra13.universalimageloader.core.display.BitmapDisplayer access$3500(com.nostra13.universalimageloader.core.DisplayImageOptions) -> q
     android.os.Handler access$3600(com.nostra13.universalimageloader.core.DisplayImageOptions) -> r
     boolean access$3700(com.nostra13.universalimageloader.core.DisplayImageOptions) -> s
-com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> com.c.a.b.c$1:
-com.nostra13.universalimageloader.core.DisplayImageOptions$Builder -> com.c.a.b.c$a:
+com.nostra13.universalimageloader.core.DisplayImageOptions$1 -> com.b.a.b.c$1:
+com.nostra13.universalimageloader.core.DisplayImageOptions$Builder -> com.b.a.b.c$a:
     int imageResOnLoading -> a
     int imageResForEmptyUri -> b
     int imageResOnFail -> c
@@ -31808,7 +31818,7 @@ com.nostra13.universalimageloader.core.DisplayImageOptions$Builder -> com.c.a.b.
     com.nostra13.universalimageloader.core.display.BitmapDisplayer access$1600(com.nostra13.universalimageloader.core.DisplayImageOptions$Builder) -> q
     android.os.Handler access$1700(com.nostra13.universalimageloader.core.DisplayImageOptions$Builder) -> r
     boolean access$1800(com.nostra13.universalimageloader.core.DisplayImageOptions$Builder) -> s
-com.nostra13.universalimageloader.core.ImageLoader -> com.c.a.b.d:
+com.nostra13.universalimageloader.core.ImageLoader -> com.b.a.b.d:
     java.lang.String TAG -> a
     com.nostra13.universalimageloader.core.ImageLoaderConfiguration configuration -> b
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> c
@@ -31820,7 +31830,7 @@ com.nostra13.universalimageloader.core.ImageLoader -> com.c.a.b.d:
     void displayImage(java.lang.String,android.widget.ImageView,com.nostra13.universalimageloader.core.DisplayImageOptions) -> a
     void checkConfiguration() -> b
     android.os.Handler defineHandler(com.nostra13.universalimageloader.core.DisplayImageOptions) -> a
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration -> com.c.a.b.e:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration -> com.b.a.b.e:
     android.content.res.Resources resources -> a
     int maxImageWidthForMemoryCache -> b
     int maxImageHeightForMemoryCache -> c
@@ -31842,9 +31852,9 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration -> com.c.a.b.e:
     com.nostra13.universalimageloader.core.download.ImageDownloader networkDeniedDownloader -> s
     com.nostra13.universalimageloader.core.download.ImageDownloader slowNetworkDownloader -> t
     com.nostra13.universalimageloader.core.assist.ImageSize getMaxImageSize() -> a
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> com.c.a.b.e$1:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$1 -> com.b.a.b.e$1:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.c.a.b.e$a:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.b.a.b.e$a:
     com.nostra13.universalimageloader.core.assist.QueueProcessingType DEFAULT_TASK_PROCESSING_TYPE -> a
     android.content.Context context -> b
     int maxImageWidthForMemoryCache -> c
@@ -31897,13 +31907,13 @@ com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder -> com.c
     boolean access$1600(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> q
     boolean access$1700(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> r
     boolean access$1800(com.nostra13.universalimageloader.core.ImageLoaderConfiguration$Builder) -> s
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration$NetworkDeniedImageDownloader -> com.c.a.b.e$b:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$NetworkDeniedImageDownloader -> com.b.a.b.e$b:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     java.io.InputStream getStream(java.lang.String,java.lang.Object) -> a
-com.nostra13.universalimageloader.core.ImageLoaderConfiguration$SlowNetworkImageDownloader -> com.c.a.b.e$c:
+com.nostra13.universalimageloader.core.ImageLoaderConfiguration$SlowNetworkImageDownloader -> com.b.a.b.e$c:
     com.nostra13.universalimageloader.core.download.ImageDownloader wrappedDownloader -> a
     java.io.InputStream getStream(java.lang.String,java.lang.Object) -> a
-com.nostra13.universalimageloader.core.ImageLoaderEngine -> com.c.a.b.f:
+com.nostra13.universalimageloader.core.ImageLoaderEngine -> com.b.a.b.f:
     com.nostra13.universalimageloader.core.ImageLoaderConfiguration configuration -> a
     java.util.concurrent.Executor taskExecutor -> b
     java.util.concurrent.Executor taskExecutorForCachedImages -> c
@@ -31930,11 +31940,11 @@ com.nostra13.universalimageloader.core.ImageLoaderEngine -> com.c.a.b.f:
     void access$000(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> a
     java.util.concurrent.Executor access$100(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> b
     java.util.concurrent.Executor access$200(com.nostra13.universalimageloader.core.ImageLoaderEngine) -> c
-com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> com.c.a.b.g:
+com.nostra13.universalimageloader.core.ImageLoaderEngine$1 -> com.b.a.b.g:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask val$task -> a
     com.nostra13.universalimageloader.core.ImageLoaderEngine this$0 -> b
     void run() -> run
-com.nostra13.universalimageloader.core.ImageLoadingInfo -> com.c.a.b.h:
+com.nostra13.universalimageloader.core.ImageLoadingInfo -> com.b.a.b.h:
     java.lang.String uri -> a
     java.lang.String memoryCacheKey -> b
     com.nostra13.universalimageloader.core.imageaware.ImageAware imageAware -> c
@@ -31943,7 +31953,7 @@ com.nostra13.universalimageloader.core.ImageLoadingInfo -> com.c.a.b.h:
     com.nostra13.universalimageloader.core.listener.ImageLoadingListener listener -> f
     com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener progressListener -> g
     java.util.concurrent.locks.ReentrantLock loadFromUriLock -> h
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> com.c.a.b.i:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> com.b.a.b.i:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> f
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> g
     android.os.Handler handler -> h
@@ -31985,28 +31995,28 @@ com.nostra13.universalimageloader.core.LoadAndDisplayImageTask -> com.c.a.b.i:
     java.lang.String getLoadingUri() -> a
     void runTask(java.lang.Runnable,boolean,android.os.Handler,com.nostra13.universalimageloader.core.ImageLoaderEngine) -> a
     com.nostra13.universalimageloader.core.ImageLoaderConfiguration access$000(com.nostra13.universalimageloader.core.LoadAndDisplayImageTask) -> a
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> com.c.a.b.j:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$1 -> com.b.a.b.j:
     int val$current -> a
     int val$total -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> com.c.a.b.k:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$2 -> com.b.a.b.k:
     com.nostra13.universalimageloader.core.assist.FailReason$FailType val$failType -> a
     java.lang.Throwable val$failCause -> b
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> c
     void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> com.c.a.b.l:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$3 -> com.b.a.b.l:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
     void run() -> run
-com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> com.c.a.b.i$a:
+com.nostra13.universalimageloader.core.LoadAndDisplayImageTask$TaskCancelledException -> com.b.a.b.i$a:
     com.nostra13.universalimageloader.core.LoadAndDisplayImageTask this$0 -> a
-com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> com.c.a.b.m:
+com.nostra13.universalimageloader.core.ProcessAndDisplayImageTask -> com.b.a.b.m:
     com.nostra13.universalimageloader.core.ImageLoaderEngine engine -> a
     android.graphics.Bitmap bitmap -> b
     com.nostra13.universalimageloader.core.ImageLoadingInfo imageLoadingInfo -> c
     android.os.Handler handler -> d
     void run() -> run
-com.nostra13.universalimageloader.core.assist.ContentLengthInputStream -> com.c.a.b.a.a:
+com.nostra13.universalimageloader.core.assist.ContentLengthInputStream -> com.b.a.b.a.a:
     java.io.InputStream stream -> a
     int length -> b
     int available() -> available
@@ -32018,10 +32028,10 @@ com.nostra13.universalimageloader.core.assist.ContentLengthInputStream -> com.c.
     void reset() -> reset
     long skip(long) -> skip
     boolean markSupported() -> markSupported
-com.nostra13.universalimageloader.core.assist.FailReason -> com.c.a.b.a.b:
+com.nostra13.universalimageloader.core.assist.FailReason -> com.b.a.b.a.b:
     com.nostra13.universalimageloader.core.assist.FailReason$FailType type -> a
     java.lang.Throwable cause -> b
-com.nostra13.universalimageloader.core.assist.FailReason$FailType -> com.c.a.b.a.b$a:
+com.nostra13.universalimageloader.core.assist.FailReason$FailType -> com.b.a.b.a.b$a:
     com.nostra13.universalimageloader.core.assist.FailReason$FailType IO_ERROR -> a
     com.nostra13.universalimageloader.core.assist.FailReason$FailType DECODING_ERROR -> b
     com.nostra13.universalimageloader.core.assist.FailReason$FailType NETWORK_DENIED -> c
@@ -32030,9 +32040,9 @@ com.nostra13.universalimageloader.core.assist.FailReason$FailType -> com.c.a.b.a
     com.nostra13.universalimageloader.core.assist.FailReason$FailType[] $VALUES -> f
     com.nostra13.universalimageloader.core.assist.FailReason$FailType[] values() -> values
     com.nostra13.universalimageloader.core.assist.FailReason$FailType valueOf(java.lang.String) -> valueOf
-com.nostra13.universalimageloader.core.assist.FlushedInputStream -> com.c.a.b.a.c:
+com.nostra13.universalimageloader.core.assist.FlushedInputStream -> com.b.a.b.a.c:
     long skip(long) -> skip
-com.nostra13.universalimageloader.core.assist.ImageScaleType -> com.c.a.b.a.d:
+com.nostra13.universalimageloader.core.assist.ImageScaleType -> com.b.a.b.a.d:
     com.nostra13.universalimageloader.core.assist.ImageScaleType NONE -> a
     com.nostra13.universalimageloader.core.assist.ImageScaleType NONE_SAFE -> b
     com.nostra13.universalimageloader.core.assist.ImageScaleType IN_SAMPLE_POWER_OF_2 -> c
@@ -32042,7 +32052,7 @@ com.nostra13.universalimageloader.core.assist.ImageScaleType -> com.c.a.b.a.d:
     com.nostra13.universalimageloader.core.assist.ImageScaleType[] $VALUES -> g
     com.nostra13.universalimageloader.core.assist.ImageScaleType[] values() -> values
     com.nostra13.universalimageloader.core.assist.ImageScaleType valueOf(java.lang.String) -> valueOf
-com.nostra13.universalimageloader.core.assist.ImageSize -> com.c.a.b.a.e:
+com.nostra13.universalimageloader.core.assist.ImageSize -> com.b.a.b.a.e:
     int width -> a
     int height -> b
     int getWidth() -> a
@@ -32050,34 +32060,34 @@ com.nostra13.universalimageloader.core.assist.ImageSize -> com.c.a.b.a.e:
     com.nostra13.universalimageloader.core.assist.ImageSize scaleDown(int) -> a
     com.nostra13.universalimageloader.core.assist.ImageSize scale(float) -> a
     java.lang.String toString() -> toString
-com.nostra13.universalimageloader.core.assist.LoadedFrom -> com.c.a.b.a.f:
+com.nostra13.universalimageloader.core.assist.LoadedFrom -> com.b.a.b.a.f:
     com.nostra13.universalimageloader.core.assist.LoadedFrom NETWORK -> a
     com.nostra13.universalimageloader.core.assist.LoadedFrom DISC_CACHE -> b
     com.nostra13.universalimageloader.core.assist.LoadedFrom MEMORY_CACHE -> c
     com.nostra13.universalimageloader.core.assist.LoadedFrom[] $VALUES -> d
     com.nostra13.universalimageloader.core.assist.LoadedFrom[] values() -> values
     com.nostra13.universalimageloader.core.assist.LoadedFrom valueOf(java.lang.String) -> valueOf
-com.nostra13.universalimageloader.core.assist.QueueProcessingType -> com.c.a.b.a.g:
+com.nostra13.universalimageloader.core.assist.QueueProcessingType -> com.b.a.b.a.g:
     com.nostra13.universalimageloader.core.assist.QueueProcessingType FIFO -> a
     com.nostra13.universalimageloader.core.assist.QueueProcessingType LIFO -> b
     com.nostra13.universalimageloader.core.assist.QueueProcessingType[] $VALUES -> c
     com.nostra13.universalimageloader.core.assist.QueueProcessingType[] values() -> values
     com.nostra13.universalimageloader.core.assist.QueueProcessingType valueOf(java.lang.String) -> valueOf
-com.nostra13.universalimageloader.core.assist.ViewScaleType -> com.c.a.b.a.h:
+com.nostra13.universalimageloader.core.assist.ViewScaleType -> com.b.a.b.a.h:
     com.nostra13.universalimageloader.core.assist.ViewScaleType FIT_INSIDE -> a
     com.nostra13.universalimageloader.core.assist.ViewScaleType CROP -> b
     com.nostra13.universalimageloader.core.assist.ViewScaleType[] $VALUES -> c
     com.nostra13.universalimageloader.core.assist.ViewScaleType[] values() -> values
     com.nostra13.universalimageloader.core.assist.ViewScaleType valueOf(java.lang.String) -> valueOf
     com.nostra13.universalimageloader.core.assist.ViewScaleType fromImageView(android.widget.ImageView) -> a
-com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> com.c.a.b.a.h$1:
+com.nostra13.universalimageloader.core.assist.ViewScaleType$1 -> com.b.a.b.a.h$1:
     int[] $SwitchMap$android$widget$ImageView$ScaleType -> a
-com.nostra13.universalimageloader.core.assist.deque.BlockingDeque -> com.c.a.b.a.a.a:
-com.nostra13.universalimageloader.core.assist.deque.Deque -> com.c.a.b.a.a.b:
-com.nostra13.universalimageloader.core.assist.deque.LIFOLinkedBlockingDeque -> com.c.a.b.a.a.c:
+com.nostra13.universalimageloader.core.assist.deque.BlockingDeque -> com.b.a.b.a.a.a:
+com.nostra13.universalimageloader.core.assist.deque.Deque -> com.b.a.b.a.a.b:
+com.nostra13.universalimageloader.core.assist.deque.LIFOLinkedBlockingDeque -> com.b.a.b.a.a.c:
     boolean offer(java.lang.Object) -> offer
     java.lang.Object remove() -> remove
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque -> com.c.a.b.a.a.d:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque -> com.b.a.b.a.a.d:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node first -> a
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node last -> b
     int count -> d
@@ -32125,8 +32135,8 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque -> com.c
     java.util.Iterator iterator() -> iterator
     void writeObject(java.io.ObjectOutputStream) -> writeObject
     void readObject(java.io.ObjectInputStream) -> readObject
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> com.c.a.b.a.a.d$1:
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> com.c.a.b.a.a.d$a:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$1 -> com.b.a.b.a.a.d$1:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$AbstractItr -> com.b.a.b.a.a.d$a:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> a
     java.lang.Object nextItem -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node lastRet -> d
@@ -32138,15 +32148,15 @@ com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Abstract
     boolean hasNext() -> hasNext
     java.lang.Object next() -> next
     void remove() -> remove
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> com.c.a.b.a.a.d$b:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Itr -> com.b.a.b.a.a.d$b:
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque this$0 -> d
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node firstNode() -> a
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node nextNode(com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node) -> a
-com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> com.c.a.b.a.a.d$c:
+com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node -> com.b.a.b.a.a.d$c:
     java.lang.Object item -> a
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node prev -> b
     com.nostra13.universalimageloader.core.assist.deque.LinkedBlockingDeque$Node next -> c
-com.nostra13.universalimageloader.core.decode.BaseImageDecoder -> com.c.a.b.b.a:
+com.nostra13.universalimageloader.core.decode.BaseImageDecoder -> com.b.a.b.b.a:
     boolean loggingEnabled -> a
     android.graphics.Bitmap decode(com.nostra13.universalimageloader.core.decode.ImageDecodingInfo) -> a
     java.io.InputStream getImageStream(com.nostra13.universalimageloader.core.decode.ImageDecodingInfo) -> b
@@ -32156,15 +32166,15 @@ com.nostra13.universalimageloader.core.decode.BaseImageDecoder -> com.c.a.b.b.a:
     android.graphics.BitmapFactory$Options prepareDecodingOptions(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.decode.ImageDecodingInfo) -> a
     java.io.InputStream resetStream(java.io.InputStream,com.nostra13.universalimageloader.core.decode.ImageDecodingInfo) -> b
     android.graphics.Bitmap considerExactScaleAndOrientatiton(android.graphics.Bitmap,com.nostra13.universalimageloader.core.decode.ImageDecodingInfo,int,boolean) -> a
-com.nostra13.universalimageloader.core.decode.BaseImageDecoder$ExifInfo -> com.c.a.b.b.a$a:
+com.nostra13.universalimageloader.core.decode.BaseImageDecoder$ExifInfo -> com.b.a.b.b.a$a:
     int rotation -> a
     boolean flipHorizontal -> b
-com.nostra13.universalimageloader.core.decode.BaseImageDecoder$ImageFileInfo -> com.c.a.b.b.a$b:
+com.nostra13.universalimageloader.core.decode.BaseImageDecoder$ImageFileInfo -> com.b.a.b.b.a$b:
     com.nostra13.universalimageloader.core.assist.ImageSize imageSize -> a
     com.nostra13.universalimageloader.core.decode.BaseImageDecoder$ExifInfo exif -> b
-com.nostra13.universalimageloader.core.decode.ImageDecoder -> com.c.a.b.b.b:
+com.nostra13.universalimageloader.core.decode.ImageDecoder -> com.b.a.b.b.b:
     android.graphics.Bitmap decode(com.nostra13.universalimageloader.core.decode.ImageDecodingInfo) -> a
-com.nostra13.universalimageloader.core.decode.ImageDecodingInfo -> com.c.a.b.b.c:
+com.nostra13.universalimageloader.core.decode.ImageDecodingInfo -> com.b.a.b.b.c:
     java.lang.String imageKey -> a
     java.lang.String imageUri -> b
     java.lang.String originalImageUri -> c
@@ -32187,13 +32197,13 @@ com.nostra13.universalimageloader.core.decode.ImageDecodingInfo -> com.c.a.b.b.c
     java.lang.Object getExtraForDownloader() -> g
     boolean shouldConsiderExifParams() -> h
     android.graphics.BitmapFactory$Options getDecodingOptions() -> i
-com.nostra13.universalimageloader.core.display.BitmapDisplayer -> com.c.a.b.c.a:
+com.nostra13.universalimageloader.core.display.BitmapDisplayer -> com.b.a.b.c.a:
     void display(android.graphics.Bitmap,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.LoadedFrom) -> a
-com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer -> com.c.a.b.c.b:
+com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer -> com.b.a.b.c.b:
     int cornerRadius -> a
     int margin -> b
     void display(android.graphics.Bitmap,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.LoadedFrom) -> a
-com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer$RoundedDrawable -> com.c.a.b.c.b$a:
+com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer$RoundedDrawable -> com.b.a.b.c.b$a:
     float cornerRadius -> a
     int margin -> b
     android.graphics.RectF mRect -> c
@@ -32205,9 +32215,9 @@ com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer$RoundedDra
     int getOpacity() -> getOpacity
     void setAlpha(int) -> setAlpha
     void setColorFilter(android.graphics.ColorFilter) -> setColorFilter
-com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer -> com.c.a.b.c.c:
+com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer -> com.b.a.b.c.c:
     void display(android.graphics.Bitmap,com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.LoadedFrom) -> a
-com.nostra13.universalimageloader.core.download.BaseImageDownloader -> com.c.a.b.d.a:
+com.nostra13.universalimageloader.core.download.BaseImageDownloader -> com.b.a.b.d.a:
     android.content.Context context -> a
     int connectTimeout -> b
     int readTimeout -> c
@@ -32220,11 +32230,11 @@ com.nostra13.universalimageloader.core.download.BaseImageDownloader -> com.c.a.b
     java.io.InputStream getStreamFromDrawable(java.lang.String,java.lang.Object) -> g
     java.io.InputStream getStreamFromOtherSource(java.lang.String,java.lang.Object) -> h
     boolean isVideoUri(android.net.Uri) -> a
-com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> com.c.a.b.d.a$1:
+com.nostra13.universalimageloader.core.download.BaseImageDownloader$1 -> com.b.a.b.d.a$1:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$download$ImageDownloader$Scheme -> a
-com.nostra13.universalimageloader.core.download.ImageDownloader -> com.c.a.b.d.b:
+com.nostra13.universalimageloader.core.download.ImageDownloader -> com.b.a.b.d.b:
     java.io.InputStream getStream(java.lang.String,java.lang.Object) -> a
-com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme -> com.c.a.b.d.b$a:
+com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme -> com.b.a.b.d.b$a:
     com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme HTTP -> a
     com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme HTTPS -> b
     com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme FILE -> c
@@ -32241,7 +32251,7 @@ com.nostra13.universalimageloader.core.download.ImageDownloader$Scheme -> com.c.
     boolean belongsTo(java.lang.String) -> d
     java.lang.String wrap(java.lang.String) -> b
     java.lang.String crop(java.lang.String) -> c
-com.nostra13.universalimageloader.core.imageaware.ImageAware -> com.c.a.b.e.a:
+com.nostra13.universalimageloader.core.imageaware.ImageAware -> com.b.a.b.e.a:
     int getWidth() -> a
     int getHeight() -> b
     com.nostra13.universalimageloader.core.assist.ViewScaleType getScaleType() -> c
@@ -32250,7 +32260,7 @@ com.nostra13.universalimageloader.core.imageaware.ImageAware -> com.c.a.b.e.a:
     int getId() -> f
     boolean setImageDrawable(android.graphics.drawable.Drawable) -> a
     boolean setImageBitmap(android.graphics.Bitmap) -> a
-com.nostra13.universalimageloader.core.imageaware.ImageViewAware -> com.c.a.b.e.b:
+com.nostra13.universalimageloader.core.imageaware.ImageViewAware -> com.b.a.b.e.b:
     int getWidth() -> a
     int getHeight() -> b
     com.nostra13.universalimageloader.core.assist.ViewScaleType getScaleType() -> c
@@ -32259,7 +32269,7 @@ com.nostra13.universalimageloader.core.imageaware.ImageViewAware -> com.c.a.b.e.
     void setImageBitmapInto(android.graphics.Bitmap,android.view.View) -> a
     int getImageViewFieldValue(java.lang.Object,java.lang.String) -> a
     android.view.View getWrappedView() -> d
-com.nostra13.universalimageloader.core.imageaware.ViewAware -> com.c.a.b.e.c:
+com.nostra13.universalimageloader.core.imageaware.ViewAware -> com.b.a.b.e.c:
     java.lang.ref.Reference viewRef -> a
     boolean checkActualViewSize -> b
     int getWidth() -> a
@@ -32272,37 +32282,37 @@ com.nostra13.universalimageloader.core.imageaware.ViewAware -> com.c.a.b.e.c:
     boolean setImageBitmap(android.graphics.Bitmap) -> a
     void setImageDrawableInto(android.graphics.drawable.Drawable,android.view.View) -> a
     void setImageBitmapInto(android.graphics.Bitmap,android.view.View) -> a
-com.nostra13.universalimageloader.core.listener.ImageLoadingListener -> com.c.a.b.f.a:
+com.nostra13.universalimageloader.core.listener.ImageLoadingListener -> com.b.a.b.f.a:
     void onLoadingStarted(java.lang.String,android.view.View) -> a
     void onLoadingFailed(java.lang.String,android.view.View,com.nostra13.universalimageloader.core.assist.FailReason) -> a
     void onLoadingComplete(java.lang.String,android.view.View,android.graphics.Bitmap) -> a
     void onLoadingCancelled(java.lang.String,android.view.View) -> b
-com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener -> com.c.a.b.f.b:
+com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener -> com.b.a.b.f.b:
     void onProgressUpdate(java.lang.String,android.view.View,int,int) -> a
-com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener -> com.c.a.b.f.c:
+com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener -> com.b.a.b.f.c:
     void onLoadingStarted(java.lang.String,android.view.View) -> a
     void onLoadingFailed(java.lang.String,android.view.View,com.nostra13.universalimageloader.core.assist.FailReason) -> a
     void onLoadingComplete(java.lang.String,android.view.View,android.graphics.Bitmap) -> a
     void onLoadingCancelled(java.lang.String,android.view.View) -> b
-com.nostra13.universalimageloader.core.process.BitmapProcessor -> com.c.a.b.g.a:
+com.nostra13.universalimageloader.core.process.BitmapProcessor -> com.b.a.b.g.a:
     android.graphics.Bitmap process(android.graphics.Bitmap) -> a
-com.nostra13.universalimageloader.utils.ImageSizeUtils -> com.c.a.c.a:
+com.nostra13.universalimageloader.utils.ImageSizeUtils -> com.b.a.c.a:
     com.nostra13.universalimageloader.core.assist.ImageSize maxBitmapSize -> a
     com.nostra13.universalimageloader.core.assist.ImageSize defineTargetSizeForView(com.nostra13.universalimageloader.core.imageaware.ImageAware,com.nostra13.universalimageloader.core.assist.ImageSize) -> a
     int computeImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> a
     int considerMaxTextureSize(int,int,int,boolean) -> a
     int computeMinImageSampleSize(com.nostra13.universalimageloader.core.assist.ImageSize) -> a
     float computeImageScale(com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ImageSize,com.nostra13.universalimageloader.core.assist.ViewScaleType,boolean) -> b
-com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> com.c.a.c.a$1:
+com.nostra13.universalimageloader.utils.ImageSizeUtils$1 -> com.b.a.c.a$1:
     int[] $SwitchMap$com$nostra13$universalimageloader$core$assist$ViewScaleType -> a
-com.nostra13.universalimageloader.utils.IoUtils -> com.c.a.c.b:
+com.nostra13.universalimageloader.utils.IoUtils -> com.b.a.c.b:
     boolean copyStream(java.io.InputStream,java.io.OutputStream,com.nostra13.universalimageloader.utils.IoUtils$CopyListener,int) -> a
     boolean shouldStopLoading(com.nostra13.universalimageloader.utils.IoUtils$CopyListener,int,int) -> a
     void readAndCloseStream(java.io.InputStream) -> a
     void closeSilently(java.io.Closeable) -> a
-com.nostra13.universalimageloader.utils.IoUtils$CopyListener -> com.c.a.c.b$a:
+com.nostra13.universalimageloader.utils.IoUtils$CopyListener -> com.b.a.c.b$a:
     boolean onBytesCopied(int,int) -> a
-com.nostra13.universalimageloader.utils.L -> com.c.a.c.c:
+com.nostra13.universalimageloader.utils.L -> com.b.a.c.c:
     boolean writeDebugLogs -> a
     boolean writeLogs -> b
     void writeDebugLogs(boolean) -> a
@@ -32312,13 +32322,13 @@ com.nostra13.universalimageloader.utils.L -> com.c.a.c.c:
     void e(java.lang.Throwable) -> a
     void e(java.lang.String,java.lang.Object[]) -> d
     void log(int,java.lang.Throwable,java.lang.String,java.lang.Object[]) -> a
-com.nostra13.universalimageloader.utils.MemoryCacheUtils -> com.c.a.c.d:
+com.nostra13.universalimageloader.utils.MemoryCacheUtils -> com.b.a.c.d:
     java.lang.String generateKey(java.lang.String,com.nostra13.universalimageloader.core.assist.ImageSize) -> a
     java.util.Comparator createFuzzyKeyComparator() -> a
-com.nostra13.universalimageloader.utils.MemoryCacheUtils$1 -> com.c.a.c.e:
+com.nostra13.universalimageloader.utils.MemoryCacheUtils$1 -> com.b.a.c.e:
     int compare(java.lang.String,java.lang.String) -> a
     int compare(java.lang.Object,java.lang.Object) -> compare
-com.nostra13.universalimageloader.utils.StorageUtils -> com.c.a.c.f:
+com.nostra13.universalimageloader.utils.StorageUtils -> com.b.a.c.f:
     java.io.File getCacheDirectory(android.content.Context) -> a
     java.io.File getCacheDirectory(android.content.Context,boolean) -> a
     java.io.File getIndividualCacheDirectory(android.content.Context) -> b
@@ -32493,7 +32503,7 @@ com.ultrapower.mcs.engine.video.OrientationChangedNotify -> com.ultrapower.mcs.e
 com.ultrapower.mcs.engine.video.OrientationChangedNotify$1 -> com.ultrapower.mcs.engine.a.c:
     com.ultrapower.mcs.engine.video.OrientationChangedNotify this$0 -> a
     void onOrientationChanged(int) -> onOrientationChanged
-com.umeng.analytics.AnalyticsConfig -> com.d.a.a:
+com.umeng.analytics.AnalyticsConfig -> com.c.a.a:
     java.lang.String a -> o
     java.lang.String b -> p
     java.lang.String mWrapperType -> a
@@ -32517,7 +32527,7 @@ com.umeng.analytics.AnalyticsConfig -> com.d.a.a:
     java.lang.String getChannel(android.content.Context) -> b
     double[] getLocation() -> a
     int[] getReportPolicy(android.content.Context) -> c
-com.umeng.analytics.Gender -> com.d.a.b:
+com.umeng.analytics.Gender -> com.c.a.b:
     com.umeng.analytics.Gender Male -> a
     com.umeng.analytics.Gender Female -> b
     com.umeng.analytics.Gender Unknown -> c
@@ -32526,49 +32536,49 @@ com.umeng.analytics.Gender -> com.d.a.b:
     com.umeng.analytics.Gender[] values() -> values
     com.umeng.analytics.Gender valueOf(java.lang.String) -> valueOf
     u.aly.ap transGender(com.umeng.analytics.Gender) -> a
-com.umeng.analytics.Gender$1 -> com.d.a.c:
+com.umeng.analytics.Gender$1 -> com.c.a.c:
     java.lang.String toString() -> toString
-com.umeng.analytics.Gender$2 -> com.d.a.d:
+com.umeng.analytics.Gender$2 -> com.c.a.d:
     java.lang.String toString() -> toString
-com.umeng.analytics.Gender$3 -> com.d.a.e:
+com.umeng.analytics.Gender$3 -> com.c.a.e:
     java.lang.String toString() -> toString
-com.umeng.analytics.Gender$4 -> com.d.a.b$1:
+com.umeng.analytics.Gender$4 -> com.c.a.b$1:
     int[] a -> a
-com.umeng.analytics.MobclickAgent -> com.d.a.f:
+com.umeng.analytics.MobclickAgent -> com.c.a.f:
     com.umeng.analytics.c b -> a
     void onPageStart(java.lang.String) -> a
     void onPageEnd(java.lang.String) -> b
     void onPause(android.content.Context) -> a
     void onResume(android.content.Context) -> b
     void onEvent(android.content.Context,java.lang.String) -> a
-com.umeng.analytics.ReportPolicy -> com.d.a.g:
-com.umeng.analytics.ReportPolicy$a -> com.d.a.g$a:
+com.umeng.analytics.ReportPolicy -> com.c.a.g:
+com.umeng.analytics.ReportPolicy$a -> com.c.a.g$a:
     boolean a(boolean) -> a
-com.umeng.analytics.ReportPolicy$b -> com.d.a.g$b:
+com.umeng.analytics.ReportPolicy$b -> com.c.a.g$b:
     long a -> a
     long b -> b
     u.aly.w c -> c
     boolean a(boolean) -> a
-com.umeng.analytics.ReportPolicy$c -> com.d.a.g$c:
+com.umeng.analytics.ReportPolicy$c -> com.c.a.g$c:
     int a -> a
     u.aly.q b -> b
     boolean a(boolean) -> a
-com.umeng.analytics.ReportPolicy$d -> com.d.a.g$d:
+com.umeng.analytics.ReportPolicy$d -> com.c.a.g$d:
     long a -> a
     u.aly.w b -> b
     boolean a(boolean) -> a
-com.umeng.analytics.ReportPolicy$e -> com.d.a.g$e:
+com.umeng.analytics.ReportPolicy$e -> com.c.a.g$e:
     boolean a(boolean) -> a
-com.umeng.analytics.ReportPolicy$f -> com.d.a.g$f:
+com.umeng.analytics.ReportPolicy$f -> com.c.a.g$f:
     android.content.Context a -> a
     boolean a(boolean) -> a
-com.umeng.analytics.a -> com.d.a.h:
+com.umeng.analytics.a -> com.c.a.h:
     java.lang.String[] f -> a
     java.lang.String[] g -> b
-com.umeng.analytics.b -> com.d.a.i:
+com.umeng.analytics.b -> com.c.a.i:
     void a() -> a
     void b() -> b
-com.umeng.analytics.c -> com.d.a.j:
+com.umeng.analytics.c -> com.c.a.j:
     com.umeng.analytics.onlineconfig.a a -> a
     android.content.Context b -> b
     com.umeng.analytics.b c -> c
@@ -32589,25 +32599,25 @@ com.umeng.analytics.c -> com.d.a.j:
     void a(java.lang.Throwable) -> a
     void a(com.umeng.analytics.c,android.content.Context) -> a
     void b(com.umeng.analytics.c,android.content.Context) -> b
-com.umeng.analytics.c$1 -> com.d.a.k:
+com.umeng.analytics.c$1 -> com.c.a.k:
     android.content.Context a -> a
     com.umeng.analytics.c b -> b
     void a() -> a
-com.umeng.analytics.c$2 -> com.d.a.l:
+com.umeng.analytics.c$2 -> com.c.a.l:
     android.content.Context a -> a
     com.umeng.analytics.c b -> b
     void a() -> a
-com.umeng.analytics.d -> com.d.a.m:
+com.umeng.analytics.d -> com.c.a.m:
     java.util.concurrent.ExecutorService a -> a
     long b -> b
     java.util.concurrent.ExecutorService c -> c
     void a(java.lang.Runnable) -> a
     void a() -> a
     void b(java.lang.Runnable) -> b
-com.umeng.analytics.e -> com.d.a.n:
+com.umeng.analytics.e -> com.c.a.n:
     void run() -> run
     void a() -> a
-com.umeng.analytics.f -> com.d.a.o:
+com.umeng.analytics.f -> com.c.a.o:
     com.umeng.analytics.f a -> a
     android.content.Context b -> b
     java.lang.String c -> c
@@ -32627,15 +32637,15 @@ com.umeng.analytics.f -> com.d.a.o:
     java.lang.String l() -> h
     java.lang.String m() -> i
     java.lang.String n() -> j
-com.umeng.analytics.onlineconfig.UmengOnlineConfigureListener -> com.d.a.a.a:
-com.umeng.analytics.onlineconfig.a -> com.d.a.a.b:
+com.umeng.analytics.onlineconfig.UmengOnlineConfigureListener -> com.c.a.a.a:
+com.umeng.analytics.onlineconfig.a -> com.c.a.a.b:
     java.lang.String h -> a
     java.lang.String i -> b
     java.lang.String j -> c
     com.umeng.analytics.onlineconfig.UmengOnlineConfigureListener k -> d
     com.umeng.analytics.onlineconfig.c l -> e
     long m -> f
-com.umeng.analytics.onlineconfig.c -> com.d.a.a.c:
+com.umeng.analytics.onlineconfig.c -> com.c.a.a.c:
 de.greenrobot.dao.AbstractDao -> de.greenrobot.a.a:
     android.database.sqlite.SQLiteDatabase db -> db
     de.greenrobot.dao.internal.DaoConfig config -> config
@@ -42610,6 +42620,15 @@ me.imid.swipebacklayout.lib.app.SwipeBackPreferenceActivity -> me.imid.swipeback
     void onCreate(android.os.Bundle) -> onCreate
     void onPostCreate(android.os.Bundle) -> onPostCreate
     android.view.View findViewById(int) -> findViewById
+org.apache.commons.codec.binary.Base64 -> org.a.a.a.a.a:
+    byte[] CHUNK_SEPARATOR -> a
+    byte[] base64Alphabet -> b
+    byte[] lookUpBase64Alphabet -> c
+    boolean isBase64(byte) -> a
+    byte[] encodeBase64(byte[]) -> a
+    byte[] encodeBase64(byte[],boolean) -> a
+    byte[] decodeBase64(byte[]) -> b
+    byte[] discardNonBase64(byte[]) -> c
 org.parceler.Generated -> org.parceler.Generated:
     java.lang.String[] value() -> value
     java.lang.String date() -> date

@@ -99,4 +99,26 @@ public class ColorTemplate {
         return PortfolioApplication.getInstance().getResources().getColor(clsResId);
     }
 
+
+    public static int getPercentColor(String percentText) {
+        percentText = percentText.replace("%", "");
+        int textColor = 0;
+        try {
+            float percent = Float.valueOf(percentText);
+            if (percent < 0) {
+                textColor = ColorTemplate.DEF_GREEN;
+            } else if (percent == 0) {
+                textColor = Color.BLACK;
+            } else {
+                textColor = ColorTemplate.DEF_RED;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return textColor;
+    }
+
 }
