@@ -135,7 +135,7 @@ public class TrendGridChart extends View {
     /**
      * 默认经线刻度字体颜色 *
      */
-    private int DEFAULT_LATITUDE_FONT_COLOR = Color.GRAY;
+    private int DEFAULT_LATITUDE_FONT_COLOR = Color.BLACK;
 
     /**
      * 默认经线刻度字体字体 *
@@ -594,7 +594,7 @@ public class TrendGridChart extends View {
                         mTextPaint.setColor(getLongtitudeFontColor());
                     }
                     if (displayYRightTitleByZero) {
-                        mTextPaint.setColor(getYTitlePaintColorZero(axisRightYTitles.get(i)));
+                        mTextPaint.setColor(ColorTemplate.getPercentColor(axisRightYTitles.get(i)));
                     }
 
                     if (i == 0) {
@@ -719,28 +719,6 @@ public class TrendGridChart extends View {
             textColor = ColorTemplate.DEF_RED;
 
         }
-        return textColor;
-    }
-
-    private int getYTitlePaintColorZero(String percentText) {
-//        double midIndex = Math.ceil(counts / 2.0) - 1;
-        percentText = percentText.replace("%", "");
-        int textColor = 0;
-        try {
-            float percent = Float.valueOf(percentText);
-            if (percent < 0) {
-                textColor = ColorTemplate.DEF_GREEN;
-            } else if (percent == 0) {
-                textColor = DEFAULT_LONGTITUDE_FONT_COLOR_MID;
-            } else {
-                textColor = ColorTemplate.DEF_RED;
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
         return textColor;
     }
 

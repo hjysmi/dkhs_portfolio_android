@@ -431,15 +431,15 @@ public class TrendChart extends TrendGridChart {
     protected void drawLines(Canvas canvas) {
         // lineLength = (super.getWidth() - startPointX - super.getAxisMarginRight());
         // 点线距离
-        pointLineLength = ((mGridLineLenght - 2) / (this.getMaxPointNum() - 1));
+        pointLineLength = ((mGridLineLenght - lineStrokeWidth) / (this.getMaxPointNum() - 1));
 
         // 起始位置
         float startX;
 
-        // float lineHeight = super.getHeight() - axisMarginTop - super.getAxisMarginBottom() - xTitleTextHeight;
         lineHeight = mGridLineHeight - axisMarginBottom - 2 - mStartLineYpoint;
+        //如果需要控制画线的上下区域不超出矩形的范围，还需要减去线宽
+//        lineHeight = mGridLineHeight - axisMarginBottom - lineStrokeWidth - mStartLineYpoint;
 
-        // Paint fillPaint = new Paint();
         fillPaint.reset();
         Path linePath = new Path();
         if (null == lineData) {
@@ -886,7 +886,9 @@ public class TrendChart extends TrendGridChart {
 
                 firtLineText = "七日年化：";
                 canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
-                firtLineText = StringFromatUtils.get2PointPercent(((SepFundPointEntity) data).getValue());
+                float percentValue = ((SepFundPointEntity) data).getValue();
+                firtLineText = StringFromatUtils.get2PointPercent(percentValue);
+                selectPaint.setColor(ColorTemplate.getPercentColor(firtLineText));
                 xTitleWidth = selectPaint.measureText(firtLineText);
                 canvas.drawText(firtLineText, borderEnd - xTitleWidth, preYpoint, selectPaint);
 
