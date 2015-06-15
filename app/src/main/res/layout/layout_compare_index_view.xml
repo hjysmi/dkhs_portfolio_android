@@ -25,14 +25,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
 
         <RelativeLayout
             android:id="@+id/rl_compare_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/top_line"
+            android:layout_below="@+id/rl_chart"
             android:padding="14dp">
 
             <TextView
@@ -74,16 +75,16 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/rl_compare_title"
-            android:paddingBottom="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_chart"
             android:paddingLeft="10dp"
+            android:paddingTop="16dp"
             android:paddingRight="10dp">
 
             <com.dkhs.portfolio.ui.widget.TrendChart
                 android:id="@+id/machart"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 app:gridHeightWeight="5"
                 app:gridWidthWeight="7" />
         </RelativeLayout>

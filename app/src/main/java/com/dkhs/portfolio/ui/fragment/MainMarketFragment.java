@@ -140,14 +140,12 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     public void onPageSelected(int i) {
         Fragment f = fragmentList.get(i);
         tabWidget.setSelection(i);
-        LogUtils.e("onPageSelected");
         switch (i) {
             case 0:
                 mBtnsearch.setVisibility(View.VISIBLE);
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-
                 break;
             case 1:
                 mBtnrefresh.setVisibility(View.VISIBLE);
@@ -158,9 +156,7 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
             case 2:
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setVisibility(View.GONE);
-                mBtnrefresh.setOnClickListener(null);
-
-
+                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
         }
 

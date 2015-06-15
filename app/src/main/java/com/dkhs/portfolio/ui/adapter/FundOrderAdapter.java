@@ -52,7 +52,7 @@ public class FundOrderAdapter extends AutoAdapter {
          (307, '理财型','lc'),
          */
         vh.get(R.id.ll_percent_value).setBackgroundColor(0);
-        vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         vh.getTextView(R.id.tv_percent_value).setPadding(0, 0, context.getResources().getDimensionPixelOffset(R.dimen.padding_kline), 0);
 
         if (!TextUtils.isEmpty(fundBean.getAbbrname()) && fundBean.getAbbrname().length() > 8) {
@@ -63,24 +63,32 @@ public class FundOrderAdapter extends AutoAdapter {
 
         vh.getImageView(R.id.iv_qiri).setImageResource(R.drawable.ic_qiri_gray);
 
+
+
         if (StockUitls.isSepFund(fundBean.getSymbol_stype())) {
 
-            vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
-            vh.getImageView(R.id.iv_qiri).setVisibility(View.VISIBLE);
+            if (fundType.equals("hb") || fundType.equals("lc")) {
+                vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
+                vh.getImageView(R.id.iv_qiri).setVisibility(View.GONE);
+            }else {
+                vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
+                vh.getImageView(R.id.iv_qiri).setVisibility(View.VISIBLE);
+            }
 
             vh.setTextView(R.id.tv_current_value, fundBean.getTenthou_unit_incm() + "");
             vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2PointPercent(fundBean.getValue(sort)));
         } else {
-
-
             vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
-
             vh.getImageView(R.id.iv_qiri).setVisibility(View.GONE);
             vh.setTextView(R.id.tv_current_value, fundBean.getNet_value() + "");
             vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2PointPercent(fundBean.getValue(sort)));
         }
 
 
+//        if(sort.equals("net_value")){
+//
+//            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.theme_color));
+//        }else
         if (value > 0) {
 
             vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_red));
