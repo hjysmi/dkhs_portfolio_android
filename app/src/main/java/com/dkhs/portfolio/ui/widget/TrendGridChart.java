@@ -535,11 +535,15 @@ public class TrendGridChart extends View {
                             canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
                                     + latitudeFontSize / 2f, mTextPaint);
                         } else if (i == counts - 1) {
+//                            canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
+//                                    + latitudeFontSize / 2f + xTitleTextHeight, mTextPaint);
                             canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
-                                    + latitudeFontSize / 2f + xTitleTextHeight, mTextPaint);
+                                    + latitudeFontSize + latitudeFontSize / 2, mTextPaint);
                         } else {
+//                            canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
+//                                    + latitudeFontSize / 2f + xTitleTextHeight / 2, mTextPaint);
                             canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
-                                    + latitudeFontSize / 2f + xTitleTextHeight / 2, mTextPaint);
+                                    + latitudeFontSize, mTextPaint);
                         }
 
                         // canvas.drawText(axisYTitles.get(i), axisMarginLeft, super.getHeight() - this.axisMarginBottom
@@ -589,10 +593,10 @@ public class TrendGridChart extends View {
                                 / 2f, mTextPaint);
                     } else if (i == counts - 1) {
                         canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize
-                                / 2f + xTitleTextHeight, mTextPaint);
+                                / 2f + latitudeFontSize, mTextPaint);
                     } else {
                         canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize
-                                / 2f + xTitleTextHeight / 2, mTextPaint);
+                                , mTextPaint);
                     }
 
                     // canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize / 2f,
@@ -1012,8 +1016,8 @@ public class TrendGridChart extends View {
         return displayAxisYTitle;
     }
 
-    public void setDisplayAxisYTitleColor(boolean displayAxisXTitleColor) {
-        this.displayAxisYTitleColor = displayAxisXTitle;
+    public void setDisplayAxisYTitleColor(boolean isDisplayYtitleColor) {
+        this.displayAxisYTitleColor = isDisplayYtitleColor;
     }
 
     public boolean isMidAxisYTitle() {

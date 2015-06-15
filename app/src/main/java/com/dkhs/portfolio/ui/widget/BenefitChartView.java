@@ -234,6 +234,11 @@ public class BenefitChartView {
         maChartView.setLineData(lineEntityList);
         maChartView.setIsFundTrendCompare(true);
 
+        if (mFundQuoteBean.getSymbol_stype() == 300)//股票型基金
+        {
+            maChartView.setDisplayAxisYTitleColor(false);
+        }
+
         onFinishUpdateUI();
     }
 
@@ -249,6 +254,7 @@ public class BenefitChartView {
         float off1 = Math.max(maxOffsetValue - base1, base1 - minOffsetValue);
         setYTitle(base1, off1);
         maChartView.setLineData(lineEntityList);
+        maChartView.setDisplayAxisYTitleColor(false);
         onFinishUpdateUI();
     }
 
@@ -468,7 +474,7 @@ public class BenefitChartView {
                         lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
                     } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
                         lineEntity = new DefFundLineEntity();
-                        lineEntity.setTitle("涨幅");
+                        lineEntity.setTitle(mFundQuoteBean.getCode());
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;
                     } else {
