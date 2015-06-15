@@ -12,11 +12,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;

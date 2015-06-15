@@ -35,12 +35,13 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午1:56:21
  */
-public class MarketCombinationFragment extends VisiableLoadFragment {
+public class MarketCombinationFragment extends VisiableLoadFragment  implements View.OnClickListener{
 
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
     public static List<CombinationBean> mVisitorData = new ArrayList<CombinationBean>();
     private int titleIndex = 0;
+    private ArrayList<Fragment> fragmentList;
 
     @Override
     public int setContentLayoutId() {
@@ -69,7 +70,7 @@ public class MarketCombinationFragment extends VisiableLoadFragment {
         hsTitle.setTitleList(getResources().getStringArray(R.array.combination_order));
         hsTitle.setSelectPositionListener(titleSelectPostion);
 
-        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
         fragmentList.add(CombinationRankFragment.getFragment(CombinationRankEngineImpl.ORDER_DAY));
         fragmentList.add(CombinationRankFragment.getFragment(CombinationRankEngineImpl.ORDER_WEEK));
@@ -101,29 +102,22 @@ public class MarketCombinationFragment extends VisiableLoadFragment {
 
         @Override
         public void onPageSelected(int arg0) {
-            // if (!isFromTitle) {
             hsTitle.setSelectIndex(arg0);
-            // }
-            // isFromTitle = false;
-
         }
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
-            // TODO Auto-generated method stub
 
         }
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
-            // TODO Auto-generated method stub
 
         }
     };
 
     @Override
     public void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPause(getActivity());
@@ -132,7 +126,6 @@ public class MarketCombinationFragment extends VisiableLoadFragment {
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(getActivity());
@@ -147,11 +140,21 @@ public class MarketCombinationFragment extends VisiableLoadFragment {
 
     @Override
     public void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         if (null != mVisitorData) {
             mVisitorData = null;
         }
     }
 
+    @Override
+    public void onClick(View v) {
+
+
+        switch (v.getId()){
+            case R.id.btn_refresh: {
+                fragmentList.get(pager.getCurrentItem()).onResume();
+            }
+            break;
+        }
+    }
 }

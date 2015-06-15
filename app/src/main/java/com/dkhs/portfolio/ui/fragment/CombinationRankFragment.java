@@ -67,7 +67,6 @@ public class CombinationRankFragment extends LoadMoreListFragment {
 
     @Override
     public void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
         Bundle bundle = getArguments();
 
@@ -106,7 +105,6 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     @Override
     public void loadData() {
         if (getUserVisibleHint()) {
-
             BusProvider.getInstance().post(new RotateRefreshEvent());
             setHttpHandler(getLoadEngine().loadData());
         }
@@ -121,7 +119,6 @@ public class CombinationRankFragment extends LoadMoreListFragment {
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         mListView.setDividerHeight(0);
     }
@@ -183,6 +180,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
             if (mDataList.isEmpty()) {
                 loadData();
             } else {
+                BusProvider.getInstance().post(new RotateRefreshEvent());
                 setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
                 isRefresh = true;
             }
@@ -200,24 +198,18 @@ public class CombinationRankFragment extends LoadMoreListFragment {
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         MobclickAgent.onPageStart(mPageName);
-
-//        if (isvisible) {
-        // loadData();
         dataHandler.removeCallbacks(runnable);
         dataHandler.postDelayed(runnable, 60);
-//        }
+
     }
 
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        // TODO Auto-generated method stub
         if (isVisibleToUser) {
             Bundle bundle = getArguments();
-
             if (null != bundle) {
                 mOrderType = bundle.getString(ARGUMENT_ORDER_TYPE);
             }
@@ -267,11 +259,11 @@ public class CombinationRankFragment extends LoadMoreListFragment {
      */
     @Override
     OnRefreshListener setOnRefreshListener() {
-        // TODO Auto-generated method stub
         return new OnRefreshListener() {
 
             @Override
             public void onRefresh() {
+                BusProvider.getInstance().post(new RotateRefreshEvent());
                 setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
                 isRefresh = true;
             }

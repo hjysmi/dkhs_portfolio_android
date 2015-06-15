@@ -63,18 +63,22 @@ public class FundOrderAdapter extends AutoAdapter {
 
         vh.getImageView(R.id.iv_qiri).setImageResource(R.drawable.ic_qiri_gray);
 
+
+
         if (StockUitls.isSepFund(fundBean.getSymbol_stype())) {
 
-            vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
-            vh.getImageView(R.id.iv_qiri).setVisibility(View.VISIBLE);
+            if (fundType.equals("hb") || fundType.equals("lc")) {
+                vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
+                vh.getImageView(R.id.iv_qiri).setVisibility(View.GONE);
+            }else {
+                vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
+                vh.getImageView(R.id.iv_qiri).setVisibility(View.VISIBLE);
+            }
 
             vh.setTextView(R.id.tv_current_value, fundBean.getTenthou_unit_incm() + "");
             vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2PointPercent(fundBean.getValue(sort)));
         } else {
-
-
             vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
-
             vh.getImageView(R.id.iv_qiri).setVisibility(View.GONE);
             vh.setTextView(R.id.tv_current_value, fundBean.getNet_value() + "");
             vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2PointPercent(fundBean.getValue(sort)));
