@@ -888,7 +888,7 @@ public class TrendChart extends TrendGridChart {
                 canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
                 float percentValue = ((SepFundPointEntity) data).getValue();
                 firtLineText = StringFromatUtils.get2PointPercent(percentValue);
-                selectPaint.setColor(ColorTemplate.getPercentColor(firtLineText));
+//                selectPaint.setColor(ColorTemplate.getPercentColor(firtLineText));
                 xTitleWidth = selectPaint.measureText(firtLineText);
                 canvas.drawText(firtLineText, borderEnd - xTitleWidth, preYpoint, selectPaint);
 

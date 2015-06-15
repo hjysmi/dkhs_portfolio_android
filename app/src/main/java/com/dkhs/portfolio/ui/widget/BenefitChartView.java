@@ -227,10 +227,10 @@ public class BenefitChartView {
         lineEntityList.addAll(compareLinesList);
 
         float base = (maxOffsetValue + minOffsetValue) / 2;
-        float off = Math.max(maxOffsetValue - base, base - minOffsetValue) * 1.2f;
-        float base1 = maxOffsetValue + minOffsetValue / 2;
-        float off1 = Math.max(maxOffsetValue - base1, base1 - minOffsetValue) * 1.2f;
-        setYTitle(base, off, base1, off1);
+        float off = Math.max(maxOffsetValue - base, base - minOffsetValue);
+//        float baseNetValue = (maxOffsetNetValue + minOffsetNetValue) / 2;
+//        float offNetValue = Math.max(maxOffsetNetValue - baseNetValue, baseNetValue - minOffsetNetValue);
+        setYTitle(base, off, baseNetValue);
         maChartView.setLineData(lineEntityList);
         maChartView.setIsFundTrendCompare(true);
 
@@ -293,44 +293,37 @@ public class BenefitChartView {
     /**
      * 设置纵坐标标题，并设置曲线的最大值和最小值
      */
-    private void setYTitle(float baseNum, float maxOffsetNetValue, float base, float offetYvalue) {
+    private void setYTitle(float basePercentvalue, float maxOffPercentValue, float baseNetValue) {
         // int baseNum = 1;
 
         List<String> yValueTitles = new ArrayList<String>();
-
-
-        maxOffsetNetValue = maxOffsetNetValue / 0.8f;
-        float halfOffetValue = maxOffsetNetValue / 2.0f;
-        yValueTitles.add(StringFromatUtils.get4Point((baseNum - maxOffsetNetValue) / 100));
-        yValueTitles.add(StringFromatUtils.get4Point((baseNum - halfOffetValue) / 100));
-        yValueTitles.add(StringFromatUtils.get4Point((baseNum) / 100));
-        yValueTitles.add(StringFromatUtils.get4Point((baseNum + halfOffetValue) / 100));
-        yValueTitles.add(StringFromatUtils.get4Point((baseNum + maxOffsetNetValue) / 100));
-
-
         List<String> yPercenttitle = new ArrayList<String>();
 
-        yPercenttitle.add(StringFromatUtils.get2PointPercent(base - maxOffsetNetValue));
-        yPercenttitle.add(StringFromatUtils.get2PointPercent(base - halfOffetValue));
-        yPercenttitle.add(StringFromatUtils.get2PointPercent(base));
-        yPercenttitle.add(StringFromatUtils.get2PointPercent(base + halfOffetValue));
-        yPercenttitle.add(StringFromatUtils.get2PointPercent(base + maxOffsetNetValue));
+        maxOffPercentValue = maxOffPercentValue / 0.8f;
+        float halfOffetValue = maxOffPercentValue / 2.0f;
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(basePercentvalue - maxOffPercentValue));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(basePercentvalue - halfOffetValue));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(basePercentvalue));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(basePercentvalue + halfOffetValue));
+        yPercenttitle.add(StringFromatUtils.get2PointPercent(basePercentvalue + maxOffPercentValue));
 
 
-        if (offetYvalue > 0) {
+        float netValuePercent = 0;
 
-            maChartView.setAxisYTitles(yValueTitles);
-            maChartView.setDrawRightYTitle(true);
-            maChartView.setAxisRightYTitles(yPercenttitle);
-        } else {
+        for (int i = 0; i < 5; i++) {
+            netValuePercent = (1 + (basePercentvalue + (-2 + i) * halfOffetValue) / 100);
 
-            maChartView.setAxisYTitles(yPercenttitle);
-            maChartView.setDrawRightYTitle(false);
+            yValueTitles.add(StringFromatUtils.get4Point(baseNetValue * netValuePercent));
         }
 
 
-        maChartView.setMaxValue(baseNum + maxOffsetNetValue);
-        maChartView.setMinValue(baseNum - maxOffsetNetValue);
+        maChartView.setAxisYTitles(yValueTitles);
+        maChartView.setDrawRightYTitle(true);
+        maChartView.setAxisRightYTitles(yPercenttitle);
+
+
+        maChartView.setMaxValue(basePercentvalue + maxOffPercentValue);
+        maChartView.setMinValue(basePercentvalue - maxOffPercentValue);
 
 
     }
@@ -369,8 +362,9 @@ public class BenefitChartView {
 
     float maxOffsetValue;
     float minOffsetValue;
-//    float maxOffsetNetValue;
-//    float minOffsetNetValue;
+    float maxOffsetNetValue;
+    float minOffsetNetValue;
+    float baseNetValue;
 
 
     ParseHttpListener sepFundHttpListener = new ParseHttpListener<List<LineEntity>>() {
@@ -435,11 +429,15 @@ public class BenefitChartView {
     };
 
 
+    /**
+     * 在当前曲线的时间范围内，如果有现任基金经理任职，则要加一个小圆点，用于标注基金经理的任职信息。
+     * 如果有多个任职经理，就显示多个圆圈
+     * 如果基金经理任职日期，有在当前曲线范围内，但是没有对应到tradedate上（节假日到任），那么这个圆圈就画在TA到任后的第一个交易日上。
+     */
     private String getManagerByData(String day) {
         StringBuilder sbMangerText = new StringBuilder();
 //        List<ManagersEntity> managersEntityList = null;
         if (null != mFundQuoteBean && null != mFundQuoteBean.getManagers() && !mFundQuoteBean.getManagers().isEmpty()) {
-
             for (ManagersEntity managerEntity : mFundQuoteBean.getManagers()) {
                 if (managerEntity.getStart_date().equals(day)) {
                     sbMangerText.append(managerEntity.getName() + "  ");
@@ -478,6 +476,7 @@ public class BenefitChartView {
                         lineEntity.setTitle(mFundQuoteBean.getCode());
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;
+                        baseNetValue = bean.getChartlist().get(0).getNetvalue();
                     } else {
                         lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
                     }
@@ -485,9 +484,11 @@ public class BenefitChartView {
 
                     List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
                     setXTitleByComparePoint(bean.getChartlist());
+                    float netValue = 0;
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         DefFundPointEntity pointEntity = new DefFundPointEntity();
                         float value = cPoint.getPercentage();
+
                         pointEntity.setDesc(cPoint.getDate());
                         pointEntity.setValue(value);
                         lineDataList.add(pointEntity);
@@ -497,16 +498,16 @@ public class BenefitChartView {
                             minOffsetValue = value;
                         }
                         if (isCurrentFund) {
-
+                            netValue = cPoint.getNetvalue();
                             pointEntity.setNetvalue(cPoint.getNetvalue());
                             pointEntity.setInfo(getManagerByData(cPoint.getDate()));
+                            if (netValue > maxOffsetNetValue) {
+                                maxOffsetNetValue = netValue;
+                            } else if (netValue < minOffsetNetValue) {
+                                minOffsetNetValue = netValue;
+                            }
                         }
 
-//                        if (netV > maxOffsetNetValue) {
-//                            maxOffsetNetValue = netV;
-//                        } else if (netV < minOffsetNetValue) {
-//                            minOffsetNetValue = netV;
-//                        }
                     }
                     lineEntity.setLineData(lineDataList);
                     linesList.add(lineEntity);
