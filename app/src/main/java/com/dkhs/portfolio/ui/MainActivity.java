@@ -77,6 +77,7 @@ public class MainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
+
     }
 
     @Override

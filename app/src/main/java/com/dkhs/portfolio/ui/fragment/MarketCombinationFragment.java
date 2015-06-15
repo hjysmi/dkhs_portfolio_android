@@ -149,7 +149,6 @@ public class MarketCombinationFragment extends VisiableLoadFragment  implements 
     @Override
     public void onClick(View v) {
 
-
         switch (v.getId()){
             case R.id.btn_refresh: {
                 fragmentList.get(pager.getCurrentItem()).onResume();

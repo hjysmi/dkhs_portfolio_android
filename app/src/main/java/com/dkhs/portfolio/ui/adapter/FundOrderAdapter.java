@@ -52,7 +52,7 @@ public class FundOrderAdapter extends AutoAdapter {
          (307, '理财型','lc'),
          */
         vh.get(R.id.ll_percent_value).setBackgroundColor(0);
-        vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         vh.getTextView(R.id.tv_percent_value).setPadding(0, 0, context.getResources().getDimensionPixelOffset(R.dimen.padding_kline), 0);
 
         if (!TextUtils.isEmpty(fundBean.getAbbrname()) && fundBean.getAbbrname().length() > 8) {
@@ -85,6 +85,10 @@ public class FundOrderAdapter extends AutoAdapter {
         }
 
 
+//        if(sort.equals("net_value")){
+//
+//            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.theme_color));
+//        }else
         if (value > 0) {
 
             vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_red));
