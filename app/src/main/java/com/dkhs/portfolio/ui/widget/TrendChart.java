@@ -1051,7 +1051,7 @@ public class TrendChart extends TrendGridChart {
                 if (pointEntity instanceof DefFundPointEntity) {
                     valueText = ((DefFundPointEntity) pointEntity).getNetvalue() + "";
                     preYpoint += textMargin + floatTextHeight;
-                    firtLineText = "净值：";
+                    firtLineText = "单位净值：";
                     canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 
                     valueWidth = selectPaint.measureText(valueText);

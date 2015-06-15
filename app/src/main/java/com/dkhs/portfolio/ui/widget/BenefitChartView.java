@@ -249,6 +249,11 @@ public class BenefitChartView {
     }
 
     private void onFinishUpdateUI() {
+        if (StockUitls.isSepFund(symbol_stype)) {
+            titleView.setVisibility(View.GONE);
+        } else {
+            titleView.setVisibility(View.VISIBLE);
+        }
         contentView.setVisibility(View.VISIBLE);
         loadView.setVisibility(View.GONE);
     }
@@ -402,7 +407,6 @@ public class BenefitChartView {
                     lineDataList.add(pointEntity);
 
                     SepFundPointEntity sepFloat = new SepFundPointEntity();
-
 
 
                     if (value > maxOffsetValue) {
