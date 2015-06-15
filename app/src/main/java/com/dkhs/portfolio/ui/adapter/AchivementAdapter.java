@@ -44,10 +44,10 @@ public class AchivementAdapter extends AutoAdapter {
         super(context, list);
 
         String[]   key=context.getResources().getStringArray(R.array.fund_type_keys);
-        String[]  values=context.getResources().getStringArray(R.array.fund_stype_values);
+        int[]  values=context.getResources().getIntArray(R.array.fund_stype_values);
 
         for (int i = 0; i < values.length; i++) {
-            String value = values[i];
+            String value = values[i]+"";
             map.put(value,key[i]);
         }
         benefitChartView=new BenefitChartView(context);
