@@ -415,7 +415,7 @@
 
     <!-- optional tab -->
     <string name="net_value">净值</string>
-    <string name="tenthou_unit_incm">万分收益</string>
+    <string name="tenthou_unit_incm">万份收益</string>
     <string name="year_yld">七日年化</string>
     <string name="today_up_ratio">今日涨幅</string>
     <string name="day_income">日收益</string>
