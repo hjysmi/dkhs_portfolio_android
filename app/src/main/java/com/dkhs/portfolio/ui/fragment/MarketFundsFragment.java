@@ -186,7 +186,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
                 m.setValue("-year_yld");
                 sortTypeMenuChooserL.notifyDataSetChanged();
                 tvCurrent.setText(R.string.tenthou_unit_incm);
-                sorts.getLast().setEnable(false);
+//                sorts.getLast().setEnable(false);
                 tvPercentgae.setText(R.string.year_yld);
 
             } else {
@@ -196,7 +196,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
                 m.setValue("-percent_day");
                 tvCurrent.setText(R.string.net_value);
                 MenuBean allNetValue = new MenuBean();
-                sorts.getLast().setEnable(true);
+//                sorts.getLast().setEnable(true);
 //                m.setKey("累计净值");
 //                m.setValue("-net_cumulative");
 //                sorts.addLast(allNetValue);

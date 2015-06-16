@@ -159,6 +159,7 @@
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
     <string name="rate">收益率</string>
+    <string name="rate_total">任职回报</string>
     <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
@@ -415,7 +416,7 @@
 
     <!-- optional tab -->
     <string name="net_value">净值</string>
-    <string name="tenthou_unit_incm">万分收益</string>
+    <string name="tenthou_unit_incm">万份收益</string>
     <string name="year_yld">七日年化</string>
     <string name="today_up_ratio">今日涨幅</string>
     <string name="day_income">日收益</string>
@@ -478,7 +479,7 @@
     <string name="following">关注</string>
     <string name="unfollowing">取消关注</string>
     <string name="unfollow_alert_content">确定取消关注 ?</string>
-    <string name="null_number">--</string>
+    <string name="null_number">- -</string>
     <string name="toast_remind_success">提醒设置成功</string>
     <string name="toast_click_once_more">再按一次退出程序</string>
     <string name="float_menu_follow">加入自选</string>

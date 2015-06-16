@@ -160,7 +160,7 @@
         <item>-percent_year</item>
         <item>-percent_tyear</item>
         <item>-latest_cp_rate</item>
-        <item>-net_cumulative</item>
+        <!--<item>-net_cumulative</item>-->
     </string-array>
 
 
@@ -172,7 +172,7 @@
         <item>@string/percent_year</item>
         <item>@string/percent_tyear</item>
         <item>@string/office_tenure</item>
-        <item>@string/net_cumulative</item>
+        <!--<item>@string/net_cumulative</item>-->
     </string-array>
     <string-array name="fund_tab_titles">
         <item>@string/fund_tenure</item>
