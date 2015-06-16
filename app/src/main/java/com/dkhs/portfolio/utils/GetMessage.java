@@ -63,8 +63,8 @@ public class GetMessage {
             Uri uri = Uri.parse(url);
             cur = cr.query(uri, projection, selection, selectionArgs, orderBy);
             if (cur.moveToFirst()) {
-                for (int i = 0; i < projection.length; i++) {
-                    smsBuilder.append(projection[i]);
+                for (String aProjection : projection) {
+                    smsBuilder.append(aProjection);
                 }
             } else {
                 smsBuilder.append("");
