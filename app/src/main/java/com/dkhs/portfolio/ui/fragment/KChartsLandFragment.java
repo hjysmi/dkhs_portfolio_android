@@ -610,18 +610,22 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     }
 
     private void updateCheckView(String checkvalue) {
-        if (checkvalue.equals(UNCHEK)) {
-            tvUnCheck.setSelected(true);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(false);
-        } else if (checkvalue.equals(BEFORECHEK)) {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(true);
-            tvAfterCheck.setSelected(false);
-        } else {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(true);
+        switch (checkvalue) {
+            case UNCHEK:
+                tvUnCheck.setSelected(true);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(false);
+                break;
+            case BEFORECHEK:
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(true);
+                tvAfterCheck.setSelected(false);
+                break;
+            default:
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(true);
+                break;
         }
     }
 

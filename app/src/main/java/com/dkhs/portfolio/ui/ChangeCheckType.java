@@ -45,18 +45,22 @@ public class ChangeCheckType extends Activity implements OnClickListener {
     }
 
     private void setSelect() {
-        if (checkValue.equals("0")) {
-            tvUnCheck.setSelected(true);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(false);
-        } else if (checkValue.equals("1")) {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(true);
-            tvAfterCheck.setSelected(false);
-        } else {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(true);
+        switch (checkValue) {
+            case "0":
+                tvUnCheck.setSelected(true);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(false);
+                break;
+            case "1":
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(true);
+                tvAfterCheck.setSelected(false);
+                break;
+            default:
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(true);
+                break;
         }
     }
 

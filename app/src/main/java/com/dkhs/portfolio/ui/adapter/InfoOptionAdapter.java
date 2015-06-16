@@ -84,21 +84,25 @@ public class InfoOptionAdapter extends BaseAdapter {
                 viewHolder.text.setVisibility(View.GONE);
             }
 
-            if (mOptionNewsBean.getContentType().equals("20")) {
-                if (isSecondNotice) {
-                    viewHolder.tvStockName.setVisibility(View.GONE);
-                    viewHolder.tvType.setVisibility(View.GONE);
-                } else {
+            switch (mOptionNewsBean.getContentType()) {
+                case "20":
+                    if (isSecondNotice) {
+                        viewHolder.tvStockName.setVisibility(View.GONE);
+                        viewHolder.tvType.setVisibility(View.GONE);
+                    } else {
 
-                    viewHolder.tvType.setText("【公告】");
-                }
-                viewHolder.text.setVisibility(View.GONE);
-            } else if (mOptionNewsBean.getContentType().equals("30")) {
+                        viewHolder.tvType.setText("【公告】");
+                    }
+                    viewHolder.text.setVisibility(View.GONE);
+                    break;
+                case "30":
 
-                viewHolder.tvType.setText("【研报】");
-                viewHolder.text.setVisibility(View.VISIBLE);
-            } else {
-                viewHolder.tvType.setText("");
+                    viewHolder.tvType.setText("【研报】");
+                    viewHolder.text.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    viewHolder.tvType.setText("");
+                    break;
             }
 
             viewHolder.tv.setText(mOptionNewsBean.getTitle());

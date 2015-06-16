@@ -876,16 +876,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void setFuquanView() {
-        if (checkValue.equals("0")) {
-            klinVirtulCheck.setText("不复权  ▼");
-            // PortfolioApplication.getInstance().setCheckValue("0");
-            // setc
-        } else if (checkValue.equals("1")) {
-            klinVirtulCheck.setText("前复权  ▼");
-            // PortfolioApplication.getInstance().setCheckValue("1");
-        } else {
-            klinVirtulCheck.setText("后复权  ▼");
-            // PortfolioApplication.getInstance().setCheckValue("2");
+        switch (checkValue) {
+            case "0":
+                klinVirtulCheck.setText("不复权  ▼");
+                // PortfolioApplication.getInstance().setCheckValue("0");
+                // setc
+                break;
+            case "1":
+                klinVirtulCheck.setText("前复权  ▼");
+                // PortfolioApplication.getInstance().setCheckValue("1");
+                break;
+            default:
+                klinVirtulCheck.setText("后复权  ▼");
+                // PortfolioApplication.getInstance().setCheckValue("2");
+                break;
         }
 
     }

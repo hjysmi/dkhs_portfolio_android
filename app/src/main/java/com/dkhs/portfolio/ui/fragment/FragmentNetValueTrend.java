@@ -495,15 +495,19 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         hsTitle.setSelectPositionListener(titleSelectPostion);
 
         if (null != type) {
-            if (type.equals(CombinationRankEngineImpl.ORDER_DAY)) {
-                // hsTitle.setSelectIndex(0);
-
-            } else if (type.equals(CombinationRankEngineImpl.ORDER_WEEK)) {
-                hsTitle.setSelectIndex(1);
-            } else if (type.equals(CombinationRankEngineImpl.ORDER_MONTH)) {
-                hsTitle.setSelectIndex(2);
-            } else if (type.equals(CombinationRankEngineImpl.ORDER_ALL)) {
-                hsTitle.setSelectIndex(3);
+            switch (type) {
+                case CombinationRankEngineImpl.ORDER_DAY:
+                    // hsTitle.setSelectIndex(0);
+                    break;
+                case CombinationRankEngineImpl.ORDER_WEEK:
+                    hsTitle.setSelectIndex(1);
+                    break;
+                case CombinationRankEngineImpl.ORDER_MONTH:
+                    hsTitle.setSelectIndex(2);
+                    break;
+                case CombinationRankEngineImpl.ORDER_ALL:
+                    hsTitle.setSelectIndex(3);
+                    break;
             }
 
         }

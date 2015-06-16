@@ -135,12 +135,16 @@ public class FragmentReportForm extends Fragment {
 
     private void loadData() {
         if (!TextUtils.isEmpty(trendType)) {
-            if (trendType.equals(TrendChartFragment.TREND_TYPE_SEVENDAY)) {
-                mNetValueDataEngine.requerySevenDayReport();
-            } else if (trendType.equals(TrendChartFragment.TREND_TYPE_MONTH)) {
-                mNetValueDataEngine.requeryMonthReport();
-            } else if (trendType.equals(TrendChartFragment.TREND_TYPE_HISTORY)) {
-                mNetValueDataEngine.requeryHistoryReport();
+            switch (trendType) {
+                case TrendChartFragment.TREND_TYPE_SEVENDAY:
+                    mNetValueDataEngine.requerySevenDayReport();
+                    break;
+                case TrendChartFragment.TREND_TYPE_MONTH:
+                    mNetValueDataEngine.requeryMonthReport();
+                    break;
+                case TrendChartFragment.TREND_TYPE_HISTORY:
+                    mNetValueDataEngine.requeryHistoryReport();
+                    break;
             }
         }
     }
