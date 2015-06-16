@@ -27,8 +27,6 @@
         android:orientation="vertical"
         android:visibility="gone"
         >
-    
-
 
         <RelativeLayout
             android:id="@+id/rl_compare_title"
@@ -61,14 +59,14 @@
                 android:drawablePadding="4dp"
                 android:singleLine="true"
                 android:textSize="14sp" />
-            <View
 
-                android:visibility="invisible"
-                android:id="@+id/line"
-                android:layout_alignParentBottom="true"
-                style="@style/divider_line"
-              />
         </RelativeLayout>
+        <View
+            android:visibility="invisible"
+            android:id="@+id/line"
+            android:layout_alignParentBottom="true"
+            style="@style/divider_line"
+            />
 
         <RelativeLayout
             android:id="@+id/rl_chart"
@@ -77,7 +75,6 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="16dp">
-
             <com.dkhs.portfolio.ui.widget.TrendChart
                 android:id="@+id/machart"
                 android:layout_width="fill_parent"

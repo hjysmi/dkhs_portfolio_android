@@ -13,6 +13,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.nineoldandroids.animation.Animator;
 
@@ -110,7 +111,27 @@ public class AchivementAdapter extends AutoAdapter {
         }
 
         setText(vh.getTextView(R.id.cp_rate),achivementsEntity.getCp_rate());
-        setText(vh.getTextView(R.id.sh_rate),achivementsEntity.getSh300_rate());
+
+        TextView shRateTV=vh.getTextView(R.id.sh_rate);
+        TextView sh300TV=vh.getTextView(R.id.sh300);
+
+        if(StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())){
+
+            shRateTV.setText(R.string.null_number);
+            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+            shRateTV.setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
+            sh300TV.setVisibility(View.GONE);
+
+        }else {
+
+            shRateTV.setText(R.string.null_number);
+            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            sh300TV.setVisibility(View.VISIBLE);
+            setText(vh.getTextView(R.id.sh_rate), achivementsEntity.getSh300_rate());
+        }
+
+
+
         vh.get(R.id.ll_chart_switch).setOnClickListener(new OnClickImp(vh,achivementsEntity,position));
         vh.getRootView().setOnClickListener(new OnItemClick ((FundManagerInfoBean.AchivementsEntity) list.get(position)));
 

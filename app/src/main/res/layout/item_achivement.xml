@@ -83,7 +83,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="- -"
+                    android:text="@string/null_number"
                     android:textSize="24sp" />
 
             </LinearLayout>
@@ -108,6 +108,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/sh300"
+
+                    android:id="@+id/sh300"
                     android:textColor="@color/tag_gray"
                     android:textSize="11sp" />
 
@@ -117,7 +119,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="- -"
+                    android:layout_gravity="center"
+
+                    android:text="@string/null_number"
                     android:textSize="20sp" />
 
             </LinearLayout>

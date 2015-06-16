@@ -478,7 +478,7 @@
     <string name="following">关注</string>
     <string name="unfollowing">取消关注</string>
     <string name="unfollow_alert_content">确定取消关注 ?</string>
-    <string name="null_number">--</string>
+    <string name="null_number">- -</string>
     <string name="toast_remind_success">提醒设置成功</string>
     <string name="toast_click_once_more">再按一次退出程序</string>
     <string name="float_menu_follow">加入自选</string>
