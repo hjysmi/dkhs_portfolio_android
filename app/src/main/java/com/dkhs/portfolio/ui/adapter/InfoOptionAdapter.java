@@ -1,53 +1,35 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.support.v4.view.MarginLayoutParamsCompat;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter.ViewHodler;
 import com.dkhs.portfolio.utils.TimeUtils;
+
+import java.util.Calendar;
+import java.util.List;
 
 public class InfoOptionAdapter extends BaseAdapter {
     private Context mContext;
     private List<OptionNewsBean> mDataList;
-    private OptionNewsBean mOptionNewsBean;
-    private ViewHodler viewHolder = null;
-    private DisplayMetrics dm;
-    private Rect rect;
     private boolean isSecondNotice;
 
     public InfoOptionAdapter(Context mContext, List<OptionNewsBean> mDataList) {
         this.mContext = mContext;
         this.mDataList = mDataList;
-        dm = new DisplayMetrics();
-        WindowManager m = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        m.getDefaultDisplay().getMetrics(dm);
-        Paint p = new Paint();
-        rect = new Rect();
-        String text = "正正正正正";
-        p.setTextSize(mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
-        p.getTextBounds(text, 0, text.length(), rect);
+//        DisplayMetrics dm = new DisplayMetrics();
+//        WindowManager m = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+//        m.getDefaultDisplay().getMetrics(dm);
+//        Paint p = new Paint();
+//        Rect rect = new Rect();
+//        String text = "正正正正正";
+//        p.setTextSize(mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
+//        p.getTextBounds(text, 0, text.length(), rect);
     }
 
     public void setSecondNotice(boolean isSecondNotice) {
@@ -78,8 +60,9 @@ public class InfoOptionAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
+        ViewHodler viewHolder = null;
         try {
-            mOptionNewsBean = mDataList.get(position);
+            OptionNewsBean mOptionNewsBean = mDataList.get(position);
             if (null == convertView) {
                 viewHolder = new ViewHodler();
                 convertView = View.inflate(mContext, R.layout.adapter_info_optional, null);
@@ -138,7 +121,7 @@ public class InfoOptionAdapter extends BaseAdapter {
             viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
                     + "-"
                     + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
-                            .get(Calendar.DAY_OF_MONTH)));
+                    .get(Calendar.DAY_OF_MONTH)));
             // }
             // viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0,
             // mOptionNewsBean.getCreatedTime().length()-6) + "00");

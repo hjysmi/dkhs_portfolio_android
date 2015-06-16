@@ -19,7 +19,6 @@ import org.parceler.Parcels;
 public class FundProfileFragment extends BaseFragment {
 
     public static final String TAG = "FundProfileFragment";
-    private LinearLayout mContentView;
     public static final String EXTRA_TAB_TYPE = "extra_tab_type";
     public static final String EXTRA_FUND_QUOTE = "extra_fund_quote";
     private Context mContext;
@@ -73,7 +72,7 @@ public class FundProfileFragment extends BaseFragment {
 
 
     private void initView(View view) {
-        mContentView = (LinearLayout) view.findViewById(R.id.proflie_content);
+        LinearLayout mContentView = (LinearLayout) view.findViewById(R.id.proflie_content);
         mContentView.removeAllViews();
         View profileView = new F10ViewParse(mContext).parseFundProfileView(mFundQuoteBean);
         mContentView.addView(profileView);

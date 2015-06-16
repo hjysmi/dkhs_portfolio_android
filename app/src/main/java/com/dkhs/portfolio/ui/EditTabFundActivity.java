@@ -38,8 +38,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     LoadMoreDataEngine mLoadDataEngine;
     private DragStockAdapter adapter;
     private Context context;
-    private Button btnRight;
-    private LinearLayout layout;
+
 
     public static Intent newIntent(Context context, List<SelectStockBean> dataList) {
         Intent intent = new Intent(context, EditTabFundActivity.class);
@@ -80,13 +79,13 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
 
     private void initView() {
         optionEditList = (DragListView) findViewById(R.id.option_edit_list);
-        layout = (LinearLayout) findViewById(R.id.layout);
-        btnRight = getRightButton();
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
+        Button btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
 
-        adapter = new DragStockAdapter(context, optionEditList,true);
+        adapter = new DragStockAdapter(context, optionEditList, true);
         adapter.setAdapterData(mStockList);
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());

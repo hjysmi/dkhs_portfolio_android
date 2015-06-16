@@ -27,11 +27,11 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName OptionalStockAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-25 下午3:35:49
- * @version 1.0
  */
 public class OptionalStockAdapter extends BaseAdapter {
     private Context mContext;
@@ -87,7 +87,12 @@ public class OptionalStockAdapter extends BaseAdapter {
         // } else {
         // viewHolder = (ViewHolder) convertView.getTag();
         // }
-        convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, null);
+
+        //
+        // Unconditional layout inflation from view adapter: Should use View Holder pattern
+        // (use recycled view passed into this method as the second parameter) for smoother scrolling
+
+        convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, parent, false);
         View colorView = convertView.findViewById(R.id.view_color);
         TextView tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
         TextView tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);

@@ -53,7 +53,6 @@ public class FragmentSelectAdapter {
     private int oneTextSize = 0;
     private int imageAddSize = 0;
     private ScrollViewPager pager;
-    private DisplayMetrics dm;
     private int totalLength = 0;
     private StockQuotesActivity OutLaoyout;
     private HorizontalScrollView selectScroll;
@@ -92,7 +91,7 @@ public class FragmentSelectAdapter {
     }
 
     private void initDate() {
-        dm = new DisplayMetrics();
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         textWid = new int[nameList.length];

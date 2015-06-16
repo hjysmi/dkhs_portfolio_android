@@ -54,7 +54,6 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     private CombinationRankAdapter mAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private CombinationRankEngineImpl orderEngine;
-    private boolean isvisible = false;
 
     public static CombinationRankFragment getFragment(String orderType) {
         CombinationRankFragment fragment = new CombinationRankFragment();
@@ -213,12 +212,10 @@ public class CombinationRankFragment extends LoadMoreListFragment {
             if (null != bundle) {
                 mOrderType = bundle.getString(ARGUMENT_ORDER_TYPE);
             }
-            isvisible = true;
             // loadData();
             dataHandler.postDelayed(runnable, 60);
 
         } else {
-            isvisible = false;
             dataHandler.removeCallbacks(runnable);
         }
         super.setUserVisibleHint(isVisibleToUser);

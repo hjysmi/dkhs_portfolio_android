@@ -51,7 +51,6 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
-import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
@@ -162,11 +161,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     }
 
-    private boolean isFromOrder;
 
     private void handleArguments(Bundle arguments) {
         // TODO Auto-generated method stub
-        isFromOrder = arguments.getBoolean(ARGUMENT_ISFROM_ORDER, false);
         type = arguments.getString("type");
     }
 
@@ -306,9 +303,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         }
     }
 
-    private HScrollTitleView hsTitle;
+
     private ScrollViewPager mViewPager;
-    private ArrayList<Fragment> fragmentList;
 
     TrendChartFragment mtrendFragment = new TrendChartFragment();
 
@@ -491,9 +487,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     private void initTabPage(View view) {
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
-        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+        List<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
+        HScrollTitleView hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
         // String[] titleArray =
         // getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
@@ -804,12 +800,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     ;
 
-
-    private ITouchListener mTouchListener;
-
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_fund_order_line);
 

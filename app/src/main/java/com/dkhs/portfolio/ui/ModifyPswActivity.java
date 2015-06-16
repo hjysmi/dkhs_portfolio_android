@@ -22,9 +22,8 @@ import com.umeng.analytics.MobclickAgent;
 
 /**
  * 密码设置
- * 
+ *
  * @author weiting
- * 
  */
 public class ModifyPswActivity extends ModelAcitivity implements OnClickListener {
     private EditText passwordSettingOld;
@@ -32,7 +31,6 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
     private CheckBox passwordSettingCheck;
     // private Button btnCancle;
     private Button btnSave;
-    private UserEngineImpl mUserEngineImpl;
     private static final int CHANGE_PASSWORD_MODE = 2002;
     private Context context;
 
@@ -110,7 +108,7 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
                     return;
                 }
                 if (oldPassword.length() > 5 && newPassword.length() > 5) {
-                    mUserEngineImpl = new UserEngineImpl();
+                    UserEngineImpl mUserEngineImpl = new UserEngineImpl();
                     listener.setLoadingDialog(context);
                     mUserEngineImpl.changePassword(oldPassword, newPassword, listener);
                 } else {
@@ -128,12 +126,16 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
         public void onHttpFailure(int errCode, String errMsg) {
             PromptManager.closeProgressDialog();
             super.onHttpFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         public void onFailure(int errCode, String errMsg) {
             PromptManager.closeProgressDialog();
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected Object parseDateTask(String jsonData) {

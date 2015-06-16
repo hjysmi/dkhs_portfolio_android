@@ -24,7 +24,6 @@ public class TabF10Fragment extends BaseFragment {
 
     public static final String TAG = "TabF10Fragment";
     private boolean isViewShown;
-    private F10DataEngineImpl mDataEngine;
     private LinearLayout mContentView;
     public static final String EXTRA_TAB_TYPE = "extra_tab_type";
     public static final String EXTRA_SYMBOL = "extra_symbol";
@@ -76,7 +75,7 @@ public class TabF10Fragment extends BaseFragment {
     }
 
     private void loadDate() {
-        mDataEngine = new F10DataEngineImpl();
+        F10DataEngineImpl mDataEngine = new F10DataEngineImpl();
         if (mTabtype == TabType.INTRODUCTION) {
             mDataEngine.getIntroduction(mSymbol, requestListener);
         } else if (mTabtype == TabType.STOCK_HODLER) {
@@ -90,7 +89,7 @@ public class TabF10Fragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getActivity() instanceof StockQuotesActivity && getadle) {
+        if (getActivity() instanceof StockQuotesActivity) {
 //            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         initView(view);
@@ -102,7 +101,6 @@ public class TabF10Fragment extends BaseFragment {
         mContentView = (LinearLayout) view.findViewById(R.id.f10_tab_content);
     }
 
-    private boolean getadle = false;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

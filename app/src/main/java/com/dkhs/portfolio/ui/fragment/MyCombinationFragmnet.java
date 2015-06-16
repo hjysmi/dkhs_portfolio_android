@@ -64,7 +64,6 @@ import java.util.TimerTask;
 public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBackListener {
     // private List<ApplicationInfo> mAppList;
     private CombinationAdapter mAdapter;
-    private SwipeMenuListView mListView;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private UserCombinationEngineImpl dataEngine;
 
@@ -118,7 +117,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
             }
         });
-        mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
+        SwipeMenuListView mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
         mAdapter = new CombinationAdapter();
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(tvEmptyText);

@@ -82,7 +82,6 @@ public class StockQuotesChartFragment extends BaseFragment {
     private CombinationBean mCombinationBean;
     //
     private FiveRangeAdapter mBuyAdapter, mSellAdapter;
-    private ListView mListviewBuy, mListviewSell;
 
     private View viewFiveRange;
 
@@ -238,7 +237,6 @@ public class StockQuotesChartFragment extends BaseFragment {
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
-        mMaChart.setContext(getActivity());
         mMaChart.setCallBack((StockViewCallBack) getActivity());
         initMaChart(mMaChart);
         initView(view);
@@ -252,8 +250,8 @@ public class StockQuotesChartFragment extends BaseFragment {
             mMaChart.resetLayoutWeight(0, 0);
         } else {
 
-            mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
-            mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
+            ListView mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
+            ListView mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
             mBuyAdapter.setContainerView(mListviewBuy);
             mListviewBuy.setAdapter(mBuyAdapter);
             mSellAdapter.setContainerView(mListviewSell);

@@ -65,7 +65,6 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
 
     private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
     // 涨幅相关
-    private ListViewEx lvStock;
     private PositionDetailIncreaAdapter stockAdapter;
 
     // 净值贡献相关
@@ -81,7 +80,6 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
 
     private PositionDetail mPositionDetail;
 
-    private TextView tvHistory;
 
     private static final String ARGUMENT_COMBINTAION_ID = "combination_id";
 
@@ -248,7 +246,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
         // initView(view);
         initPieView(view);
         initIncreaseList(view);
-        tvHistory = (TextView) view.findViewById(R.id.tv_history);
+        TextView tvHistory = (TextView) view.findViewById(R.id.tv_history);
         tvHistory.setOnClickListener(this);
         // initContributeView(view);
         // initAdjustHistoryView(view);
@@ -269,7 +267,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
     }
 
     private void initIncreaseList(View view) {
-        lvStock = (ListViewEx) view.findViewById(R.id.lv_optional_layout);
+        ListViewEx lvStock = (ListViewEx) view.findViewById(R.id.lv_optional_layout);
         stockAdapter = new PositionDetailIncreaAdapter(getActivity(), stockList);
         View headerView = View.inflate(getActivity(), R.layout.layout_detail_pos_increase_title, null);
         lvStock.addHeaderView(headerView);

@@ -24,7 +24,6 @@ public class FriendsOrFollowersActivity extends ModelAcitivity {
     public static final String FOLLOWER = "follower";
 
     private Button btnRefresh;
-    private FriendsOrFollowersFragment listFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class FriendsOrFollowersActivity extends ModelAcitivity {
         } else if (getTypeStr.equals(FriendsOrFollowersActivity.FOLLOWER)) {
             setTitle(R.string.followers);
         }
-        listFragment = new FriendsOrFollowersFragment();
+        FriendsOrFollowersFragment listFragment = new FriendsOrFollowersFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new FriendsOrFollowersFragment())
                 .commitAllowingStateLoss();

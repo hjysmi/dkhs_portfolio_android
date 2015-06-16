@@ -27,7 +27,8 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
     public MarketCenterItemAdapter(Context context) {
         super(context);
     }
-    public MarketCenterItemAdapter(Context context,boolean isDefColor) {
+
+    public MarketCenterItemAdapter(Context context, boolean isDefColor) {
         super(context);
         this.isDefColor = isDefColor;
     }
@@ -42,7 +43,6 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         this.isDefColor = isDefColor;
     }
 
-    private SelectStockBean mStockQuotesBean;
 
     @Override
     public long getItemId(int position) {
@@ -54,7 +54,7 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
 
 
         ViewHodler viewHolder = null;
-        mStockQuotesBean = mDataList.get(position);
+        SelectStockBean mStockQuotesBean = mDataList.get(position);
 //        Log.e("MarketCenterItemAdapter", " getView postion:" + position);
 //        Log.e("MarketCenterItemAdapter", " getView name:" + mStockQuotesBean.name);
 

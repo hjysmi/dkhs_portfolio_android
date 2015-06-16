@@ -91,7 +91,6 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
 
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 10;
-    private boolean isTimerStart = true;
 
     public SwipeRefreshLayout mSwipeLayout;
 
@@ -109,7 +108,7 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
         super.onResume();
 
         if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
-            if (mMarketTimer == null && isTimerStart) {
+            if (mMarketTimer == null) {
                 mMarketTimer = new Timer(true);
                 mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
             }
@@ -221,10 +220,9 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private LayoutTransition mTransitioner;
 
     private void setDefTransittion() {
-        mTransitioner = new LayoutTransition();
+        LayoutTransition mTransitioner = new LayoutTransition();
         AnimationHelper.setupCustomAnimations(mTransitioner, this);
         gvMainIndex.setLayoutTransition(mTransitioner);
         gvPlate.setLayoutTransition(mTransitioner);

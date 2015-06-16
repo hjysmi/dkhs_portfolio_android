@@ -27,7 +27,6 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-8-26 下午3:10:51
  */
 public class MyCombinationActivity extends ModelAcitivity implements OnClickListener {
-    private Button btnMore;
     private Button btnRefresh;
 
     private MyCombinationFragmnet listFragment;
@@ -49,7 +48,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     }
 
     private void initTitleView() {
-        btnMore = getRightButton();
+        Button btnMore = getRightButton();
         btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null,
                 null, null);
         btnMore.setOnClickListener(this);

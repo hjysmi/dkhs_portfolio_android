@@ -1,26 +1,20 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.engine.LoadNewsTextEngine;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.lidroid.xutils.BitmapUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class YanbaoDetailActivity extends ModelAcitivity {
-    private ImageView newsTitleIcon;
     private TextView newsTitleName;
     private TextView newsTitleDate;
     private TextView newsTitleNum;
@@ -31,11 +25,8 @@ public class YanbaoDetailActivity extends ModelAcitivity {
     private static final String EXTRA_NUM = "num";
     private static final String EXTRA_NAME = "name";
     private String textId;
-    private LoadNewsTextEngine mLoadDataEngine;
     private OptionNewsBean mOptionNewsBean;
-    private String optionNum;
     private String optionName;
-    private Context context;
     private static final String KEY_CONTENTTYPE = "key_contenttype";
     private String mContentType;
 
@@ -44,7 +35,6 @@ public class YanbaoDetailActivity extends ModelAcitivity {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         setContentView(R.layout.activity_yanbao_news);
-        context = this;
         initView();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -56,8 +46,8 @@ public class YanbaoDetailActivity extends ModelAcitivity {
         } else {
             setTitle("研报正文");
         }
-        mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
-        mLoadDataEngine.setLoadingDialog(context);
+        NewsTextEngineImple mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
+        mLoadDataEngine.setLoadingDialog(this);
         mLoadDataEngine.loadData();
 
     }
@@ -73,13 +63,11 @@ public class YanbaoDetailActivity extends ModelAcitivity {
 
     public void getId(Bundle b) {
         textId = b.getString(EXTRA);
-        optionNum = b.getString(EXTRA_NUM);
         optionName = b.getString(EXTRA_NAME);
         mContentType = b.getString(KEY_CONTENTTYPE);
     }
 
     public void initView() {
-        newsTitleIcon = (ImageView) findViewById(R.id.news_title_icon);
         newsTitleName = (TextView) findViewById(R.id.news_title_name);
         newsTitleDate = (TextView) findViewById(R.id.news_title_date);
         newsTitleNum = (TextView) findViewById(R.id.news_title_num);

@@ -60,7 +60,6 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     private TextView tvTurnover;
     private TextView tvMacd;
     private int page = 1;
-    private boolean addmore = true;
     private View pbLoadMore;
 
     public static KChartsLandFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
@@ -281,10 +280,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     }
 
     public void loadMordKline() {
-        if (addmore) {
-            page++;
-            getOHLCDatas();
-        }
+        page++;
+        getOHLCDatas();
     }
 
     private IHttpListener mKlineHttpListener = new ParseHttpListener<List<OHLCEntity>>() {

@@ -17,7 +17,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -37,15 +36,11 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
     private boolean isCombination;
     VisitorDataEngine mVisitorDataEngine;
-    private List<SelectStockBean> localList;
 
     public SearchStockAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
         super(context, datas);
         this.isCombination = isCombination;
         mVisitorDataEngine = new VisitorDataEngine();
-        if (!PortfolioApplication.hasUserLogin()) {
-            localList = mVisitorDataEngine.getOptionalStockList();
-        }
     }
 
     @Override

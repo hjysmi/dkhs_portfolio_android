@@ -119,7 +119,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
-    private long mStockId;
     private String mStockCode;
     private Context context;
     private HScrollTitleView hsTitle;
@@ -129,7 +128,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private ArrayList<Fragment> fragmentList;
     private StockQuotesChartFragment mStockQuotesChartFragment;
     private View bottomLayout;
-    private StockQuotesActivity layouts;
     private View viewHeader;
     private String symbolType;
     //    private List<Fragment> bottmoTabFragmentList;
@@ -164,7 +162,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (extras != null) {
             mStockBean = Parcels.unwrap(extras.getParcelable(EXTRA_STOCK));
             if (null != mStockBean) {
-                mStockId = mStockBean.id;
                 mStockCode = mStockBean.symbol;
                 symbolType = mStockBean.symbol_type;
                 setTitleDate();
@@ -184,7 +181,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         setContentView(R.layout.activity_stockquotes);
         context = this;
-        layouts = this;
 
         mVisitorDataEngine = new VisitorDataEngine();
 
@@ -326,7 +322,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
 
-    private int mTitleBarBottom;
     private int mMaxListHeight;
 
     @Override
@@ -334,7 +329,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            mTitleBarBottom = getTitleView().getBottom();
             View contentView = findViewById(android.R.id.content);
             int contentHeight = contentView.getHeight();
             int hsTitleHeight = hsTitleBottom.getHeight();
@@ -589,7 +583,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             return false;
         }
     });
-    
+
     ScrollViewListener mScrollViewListener = new ScrollViewListener() {
 
         @Override

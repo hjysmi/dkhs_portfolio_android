@@ -68,7 +68,6 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     private boolean isItemClickBack;
     private String mSearchType;
 
-    private ListView mListView;
     private BaseAdatperSelectStockFund mAdapterConbinStock;
 
     private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
@@ -259,7 +258,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     private void initView(View view) {
         // mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) view.findViewById(android.R.id.list);
+        ListView mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         // mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);

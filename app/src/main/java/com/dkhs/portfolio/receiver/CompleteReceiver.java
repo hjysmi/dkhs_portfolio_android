@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 public class CompleteReceiver extends BroadcastReceiver {
-    private DownloadManager downloadManager;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -23,10 +23,10 @@ public class CompleteReceiver extends BroadcastReceiver {
                 long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0); // TODO
                 // 判断这个id与之前的id是否相等，如果相等说明是之前的那个要下载的文件
                 /*long oldId = Integer.getInteger(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_APP_ID));
-				if(id == oldId){*/
+                if(id == oldId){*/
                 Query query = new Query();
                 query.setFilterById(id);
-                downloadManager = (DownloadManager) context
+                DownloadManager downloadManager = (DownloadManager) context
                         .getSystemService(Context.DOWNLOAD_SERVICE);
                 Cursor cursor = downloadManager.query(query);
 

@@ -40,7 +40,6 @@ import java.util.List;
 public class FragmentCombinationNews extends BaseFragment {
     public static final String DATA = "mCombinationBean";
     private CombinationBean mCombinationBean;
-    private LinearLayout comLayout;
 
     public static FragmentCombinationNews newInstance() {
         FragmentCombinationNews fragment = new FragmentCombinationNews();
@@ -82,7 +81,7 @@ public class FragmentCombinationNews extends BaseFragment {
     }
 
     private void initTabPage(View view) {
-        comLayout = (LinearLayout) view.findViewById(R.id.com_layout);
+        LinearLayout comLayout = (LinearLayout) view.findViewById(R.id.com_layout);
         String[] titleArray = getResources().getStringArray(R.array.detail_news_titles);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 

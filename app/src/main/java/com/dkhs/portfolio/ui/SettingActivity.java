@@ -59,13 +59,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private static final String EDIT_MODE = "userInfo";
 
 
-    private LinearLayout settingLayoutGroup;
     private Context context;
     private ImageView settingImageHead;
-    private TextView settingTextAccountText;
     private TextView settingTextNameText;
     // private Button btnLogin;
-    private View viewUserInfo;
     // private View viewLogin;
     private View viewPassword;
     private UserEntity ue;
@@ -167,11 +164,11 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         setTitle(R.string.setting);
         // btnLogin = (Button) findViewById(R.id.btn_login);
         // btnLogin.setOnClickListener(this);
-        viewUserInfo = findViewById(R.id.person_setting_parent);
+        View viewUserInfo = findViewById(R.id.person_setting_parent);
         // viewLogin = findViewById(R.id.ll_login_layout);
-        settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
+        LinearLayout settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
-        settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
+        TextView settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
         settingTextNameText = (TextView) findViewById(R.id.setting_text_name_text);
         settingAccountLayout = (LinearLayout) findViewById(R.id.setting_account_layout);
         String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);

@@ -31,11 +31,9 @@ import java.util.List;
  */
 public class SearchFundAdatper extends BaseAdatperSelectStockFund {
 
-    private boolean isCombination;
 
     public SearchFundAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
         super(context, datas);
-        this.isCombination = isCombination;
     }
 
     @Override

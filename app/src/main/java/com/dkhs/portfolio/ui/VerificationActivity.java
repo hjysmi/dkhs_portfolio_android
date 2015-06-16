@@ -43,7 +43,6 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private String phoneNum;
     private String mVerifyCode;
     private Button rlfbutton;
-    private TextView tvPhoneNum;
     private EditText etVerifucode;
     private Button btn_get_code;
     private Context context;
@@ -89,7 +88,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
         rlfbutton.setEnabled(false);
-        tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
+        TextView tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
         tvPhoneNum.setText(phoneNum);
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
         btn_get_code = (Button) findViewById(R.id.btn_getCode);

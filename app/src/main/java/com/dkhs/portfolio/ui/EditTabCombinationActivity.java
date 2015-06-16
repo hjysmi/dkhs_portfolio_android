@@ -51,8 +51,7 @@ public class EditTabCombinationActivity extends ModelAcitivity implements OnClic
     LoadMoreDataEngine mLoadDataEngine;
     private DragCombinationAdapter adapter;
     // private Context context;
-    private Button btnRight;
-    private LinearLayout layout;
+
 
     private List<CombinationBean> mdateList = new ArrayList<CombinationBean>();
     private FollowComListEngineImpl dataEngine;
@@ -136,8 +135,8 @@ public class EditTabCombinationActivity extends ModelAcitivity implements OnClic
 
     private void initView() {
         optionEditList = (DragListView) findViewById(R.id.option_edit_list);
-        layout = (LinearLayout) findViewById(R.id.layout);
-        btnRight = getRightButton();
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
+        Button btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);

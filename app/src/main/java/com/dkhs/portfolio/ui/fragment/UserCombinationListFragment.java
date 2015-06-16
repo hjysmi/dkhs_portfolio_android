@@ -60,11 +60,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     private View footView;
     private float animPercent;
 
-    /**
-     * 头部高度
-     */
-    private int headerHeight;
-
 
     private HttpHandler mHttpHandler;
 
@@ -100,7 +95,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
+        int headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
         headerView = new View(getActivity());
         footView = new View(getActivity());
         headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, headerHeight));

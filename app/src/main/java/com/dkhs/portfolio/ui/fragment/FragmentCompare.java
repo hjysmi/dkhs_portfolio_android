@@ -93,7 +93,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     private Button btnStartTime;
     private Button btnEndTime;
     private Button btnCompare;
-    private Button btnSelectFund;
     private TextView tvTimeDuration;
     // private TextView tvNoData;
     private TextView tvIncreaseValue;
@@ -367,7 +366,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
         btnStartTime = (Button) view.findViewById(R.id.tv_compare_ftime);
         btnEndTime = (Button) view.findViewById(R.id.tv_compare_ttime);
-        btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
+        Button btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
         btnCompare = (Button) view.findViewById(R.id.btn_compare_fund);
         tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
         // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);

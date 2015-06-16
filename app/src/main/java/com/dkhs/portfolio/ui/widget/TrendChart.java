@@ -95,7 +95,6 @@ public class TrendChart extends TrendGridChart {
     // 移动的阈值
     private static final int TOUCH_SLOP = 20;
     private boolean moves = false;
-    private Context context;
 
     private StockViewCallBack callBack;
 
@@ -1242,9 +1241,6 @@ public class TrendChart extends TrendGridChart {
     // public void setDrawDashLine(boolean isDrawDashLine) {
     // this.isDrawDashLine = isDrawDashLine;
     // }
-    public void setContext(Context context) {
-        this.context = context;
-    }
 
     //
     // public SelectStockBean getmStockBean() {

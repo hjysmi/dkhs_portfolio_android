@@ -1,40 +1,27 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
 
 public class SetPasswordActivity extends ModelAcitivity implements OnClickListener {
@@ -76,7 +63,6 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
     private EditText etPassword;
     private Button rlfbutton;
 
-    private CheckBox cbShowPassword;
 
     private UserEngineImpl engine;
 
@@ -113,9 +99,9 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
      */
     private void initViews() {
         rlfbutton = (Button) findViewById(R.id.rlbutton);
@@ -123,7 +109,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
         rlfbutton.setText(R.string.confirm);
         rlfbutton.setEnabled(false);
         etPassword = (EditText) findViewById(R.id.et_password);
-        cbShowPassword = (CheckBox) findViewById(R.id.cb_show_psw);
+        CheckBox cbShowPassword = (CheckBox) findViewById(R.id.cb_show_psw);
 
         cbShowPassword.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
@@ -238,24 +224,27 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
         protected void afterParseData(Object object) {
             // TODO Auto-generated method stub
 
-        };
+        }
+
+        ;
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_resetting_password);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

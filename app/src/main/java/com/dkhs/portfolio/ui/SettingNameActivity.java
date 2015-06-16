@@ -33,8 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SettingNameActivity extends ModelAcitivity implements OnClickListener {
-    private CheckBox cbShowPassword;
-    private CheckBox cbShowRePassword;
     private EditText etPassword;
     private EditText etRePassword;
     private EditText etUserName;
@@ -89,43 +87,43 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
         rlfbutton.setEnabled(false);
-        cbShowPassword = (CheckBox) findViewById(R.id.cb_show_psw);
-        cbShowRePassword = (CheckBox) findViewById(R.id.cb_show_repsw);
+        CheckBox cbShowPassword = (CheckBox) findViewById(R.id.cb_show_psw);
+        CheckBox cbShowRePassword = (CheckBox) findViewById(R.id.cb_show_repsw);
 
         etPassword = (EditText) findViewById(R.id.et_password);
         etRePassword = (EditText) findViewById(R.id.et_repassword);
         etUserName = (EditText) findViewById(R.id.et_username);
 
         cbShowPassword.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // 显示密码
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                } else { // 隐藏密码
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                                      @Override
+                                                      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                          if (isChecked) {
+                                                              // 显示密码
+                                                              etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                                          } else { // 隐藏密码
+                                                              etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
-                }
-                int textEnd = etPassword.getText().length();
-                etPassword.setSelection(textEnd);
-            }
-        }
+                                                          }
+                                                          int textEnd = etPassword.getText().length();
+                                                          etPassword.setSelection(textEnd);
+                                                      }
+                                                  }
 
         );
         cbShowRePassword.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // 显示密码
-                    etRePassword.setInputType(InputType.TYPE_CLASS_TEXT
-                            | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                } else { // 隐藏密码
-                    etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                                        @Override
+                                                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                            if (isChecked) {
+                                                                // 显示密码
+                                                                etRePassword.setInputType(InputType.TYPE_CLASS_TEXT
+                                                                        | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                                                            } else { // 隐藏密码
+                                                                etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
-                }
+                                                            }
 
-            }
-        }
+                                                        }
+                                                    }
 
         );
 
@@ -416,13 +414,17 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         protected void afterParseData(Object object) {
             // TODO Auto-generated method stub
 
-        };
+        }
+
+        ;
     };
     private ParseHttpListener<UserEntity> registerListener = new ParseHttpListener<UserEntity>() {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {

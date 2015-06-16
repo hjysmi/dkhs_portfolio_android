@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -47,7 +46,7 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     private float mCompareValue;
 
-    private ListView.LayoutParams mItemViewLayoutParams;
+    //    private ListView.LayoutParams mItemViewLayoutParams;
     private boolean isLandspace;
 
     private int mLandTextFont;
@@ -63,8 +62,8 @@ public class FiveRangeAdapter extends BaseAdapter {
     public FiveRangeAdapter(Context mContext, boolean isBuy, boolean isLandspace) {
         this.mContext = mContext;
         this.isBuy = isBuy;
-        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        mItemViewLayoutParams.height = (int) (mContext.getResources().getDisplayMetrics().widthPixels / 13f);
+//        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+//        mItemViewLayoutParams.height = (int) (mContext.getResources().getDisplayMetrics().widthPixels / 13f);
 
         if (isLandspace) {
             mLandTextFont = 14;
@@ -78,7 +77,6 @@ public class FiveRangeAdapter extends BaseAdapter {
     public void setContainerView(View containerView) {
         this.containerView = containerView;
     }
-
 
 
     public FiveRangeAdapter(Context mContext, boolean isBuy, String symbol, boolean isLandspace) {
@@ -144,10 +142,10 @@ public class FiveRangeAdapter extends BaseAdapter {
                 }
 
 
-                if(null != containerView) {
+                if (null != containerView) {
                     viewHolder.linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, containerView.getMeasuredHeight() / 5));
-                }else{
-                    LogUtils.e("  isBuy   "+isBuy);
+                } else {
+                    LogUtils.e("  isBuy   " + isBuy);
                 }
 
                 convertView.setTag(viewHolder);

@@ -99,7 +99,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private EditText etConbinationDesc;
     private Button btnConfirm;
     private Button btnAverage;
-    private View viewCombinationInfo;
 
     private PositionDetail mPositionDetailBean;
     private String mCombinationId;
@@ -192,7 +191,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         findViewById(R.id.btn_confirm).setOnClickListener(this);
         positionTextValue = (TextView) findViewById(R.id.position_text_value);
         positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
-        viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
+//        View viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
         btnAverage = (Button) findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
         etConbinationName = (EditText) findViewById(R.id.et_myconbina_name);
@@ -507,7 +506,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
-    private boolean isModiyName;
     private boolean isModifyPosition;
 
     private void adjustPositionDetailToServer() {
@@ -516,7 +514,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         String descText = etConbinationDesc.getText().toString();
         List<SubmitSymbol> submitList = generateSymbols();
         isModifyPosition = submitList.size() > 0;
-        isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
+        boolean isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
                 || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDefDescription());
         if (!isModifyPosition && !isModiyName) {
 

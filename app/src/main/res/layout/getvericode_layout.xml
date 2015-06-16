@@ -68,8 +68,8 @@
             android:layout_toLeftOf="@+id/code_reveive"
             android:background="@drawable/edittext_bg"
             android:hint="输入验证码"
-            android:maxLength="4"
-            android:numeric="integer" />
+            android:inputType="number"
+            android:maxLength="4" />
     </RelativeLayout>
 
     <TextView

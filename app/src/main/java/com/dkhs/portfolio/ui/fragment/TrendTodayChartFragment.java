@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -55,8 +54,6 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private String trendType = TREND_TYPE_TODAY;
     // private boolean isTodayNetValue;
-    private TextView tvTimeLeft;
-    private TextView tvTimeRight;
 
     private View viewDashLineTip;
 
@@ -142,8 +139,6 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private void initView(View view) {
         viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
-        tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
-        tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
     }
 
     public void startRequry() {

@@ -84,7 +84,6 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
     private CombinationBean mCombinationBean;
 
     private FiveRangeAdapter mBuyAdapter, mSellAdapter;
-    private ListView mListviewBuy, mListviewSell;
 
     private View viewFiveRange;
 
@@ -227,8 +226,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
 
     private void initView(View view) {
         viewFiveRange = view.findViewById(R.id.rl_fiverange);
-        mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
-        mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
+        ListView mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
+        ListView mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
         mBuyAdapter.setContainerView(mListviewBuy);
         mListviewBuy.setAdapter(mBuyAdapter);
 

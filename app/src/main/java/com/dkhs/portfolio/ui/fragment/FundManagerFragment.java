@@ -25,7 +25,6 @@ public class FundManagerFragment extends BaseFragment {
     private ListViewEx lvManger;
     @ViewInject(R.id.tv_empty)
     private TextView tvEmpty;
-    private FundManagerAdapter mManagerAdapter;
     private List<ManagersEntity> mListManager;
 
     public static FundManagerFragment newInstance(List<ManagersEntity> managersEntities) {
@@ -66,7 +65,7 @@ public class FundManagerFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         if (null != mListManager) {
             tvEmpty.setVisibility(View.GONE);
-            mManagerAdapter = new FundManagerAdapter(getActivity(), mListManager);
+            FundManagerAdapter mManagerAdapter = new FundManagerAdapter(getActivity(), mListManager);
             lvManger.setAdapter(mManagerAdapter);
             lvManger.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

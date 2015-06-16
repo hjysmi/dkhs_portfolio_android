@@ -84,7 +84,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     private Context context;
 
-    private boolean isLoading;
     private String mUserId;
 
 
@@ -218,7 +217,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     private void reloadData() {
         if (null != loadDataListFragment) {
-            isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
             loadDataListFragment.refreshNoCaseTime();
         }
