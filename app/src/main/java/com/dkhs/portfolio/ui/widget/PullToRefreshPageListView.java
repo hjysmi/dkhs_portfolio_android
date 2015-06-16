@@ -1,11 +1,5 @@
 package com.dkhs.portfolio.ui.widget;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import com.dkhs.portfolio.R;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -24,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
 
 /**
  * ListView下拉刷新和加载更多
@@ -446,12 +442,8 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
         mFirstItemIndex = pFirstVisibleItem;
         mLastItemIndex = pFirstVisibleItem + pVisibleItemCount - 2;
         mCount = pTotalItemCount - 2;
-        if (pTotalItemCount > pVisibleItemCount) {
-            mEnoughCount = true;
-            // endingView.setVisibility(View.VISIBLE);
-        } else {
-            mEnoughCount = false;
-        }
+        // endingView.setVisibility(View.VISIBLE);
+        mEnoughCount = pTotalItemCount > pVisibleItemCount;
     }
 
     /**

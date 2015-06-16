@@ -264,10 +264,7 @@ public class FragmentForOptionOnr extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
-        if (isVisibleToUser) {
-
-            getadble = true;
-//            if (null == mDataList || mDataList.size() < 2) {
+        //            if (null == mDataList || mDataList.size() < 2) {
 //                if (null != context && context instanceof StockQuotesActivity && getadble) {
 //                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
 //                }
@@ -283,9 +280,7 @@ public class FragmentForOptionOnr extends Fragment {
 //                    ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 //                }
 //            }
-        } else {
-            getadble = false;
-        }
+        getadble = isVisibleToUser;
         super.setUserVisibleHint(isVisibleToUser);
     }
 

@@ -15,16 +15,16 @@ package com.dkhs.portfolio.utils;
  * @date 2014-11-17 下午4:45:53
  * @version 1.0
  */
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+
+import com.dkhs.portfolio.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.dkhs.portfolio.R;
-
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 
 /**
  * copy数据库到apk包
@@ -61,7 +61,7 @@ public class DataBaseUtil {
                 db.close();
             }
         }
-        return db != null ? true : false;
+        return db != null;
     }
 
     /**

@@ -503,7 +503,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     private boolean isBetween7day() {
         long between_days = (cEnd.getTimeInMillis() - cStart.getTimeInMillis()) / (1000 * 3600 * 24);
-        return between_days < 7 ? true : false;
+        return between_days < 7;
     }
 
     private void requestCompare() {
@@ -528,8 +528,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
         @Override
         protected HistoryNetValue parseDateTask(String jsonData) {
-            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            return histroyValue;
+            return DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
         }
 
         @Override
@@ -999,8 +998,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     private boolean isBeforeMonthCreateDate(Calendar cStart) {
         Calendar beforeMonthCaleder = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
         beforeMonthCaleder.add(Calendar.MONTH, -1);
-        boolean isBeforeCreateDate = cStart.before(beforeMonthCaleder);
-        return isBeforeCreateDate;
+        return cStart.before(beforeMonthCaleder);
 
     }
 

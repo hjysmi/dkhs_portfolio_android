@@ -71,6 +71,6 @@ public class PortfolioAlertBean {
     }
 
     public boolean isAdjustAlert() {
-        return getPortfolio_adjust_alert() == 1 ? true : false;
+        return getPortfolio_adjust_alert() == 1;
     }
 }

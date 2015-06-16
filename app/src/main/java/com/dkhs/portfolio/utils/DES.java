@@ -27,8 +27,7 @@ public class DES {
 			NoSuchAlgorithmException {
 		DES des = new DES();
 		if (des.key == null) {
-			SecretKeySpec spec = new SecretKeySpec(key, "DES");
-			des.key = spec;
+			des.key = new SecretKeySpec(key, "DES");
 		}
 		des.cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 		return des;

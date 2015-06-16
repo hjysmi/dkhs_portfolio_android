@@ -111,8 +111,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener 
         protected FeedBackBean parseDateTask(String jsonData) {
             try {
                 JSONObject json = new JSONObject(jsonData);
-                FeedBackBean ue = DataParse.parseObjectJson(FeedBackBean.class, json);
-                return ue;
+                return DataParse.parseObjectJson(FeedBackBean.class, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

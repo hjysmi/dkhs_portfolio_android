@@ -202,19 +202,11 @@ public class CombinationBean extends DragListItem {
 //    }
 
     public boolean isPubilc() {
-        if (ispublic.equals("0")) {
-            return true;
-        } else {
-            return false;
-        }
+        return ispublic.equals("0");
     }
 
     public boolean isRank() {
-        if (is_rank.equals("0")) {
-            return true;
-        } else {
-            return false;
-        }
+        return is_rank.equals("0");
     }
 
     public UserEntity getUser() {
@@ -332,7 +324,7 @@ public class CombinationBean extends DragListItem {
      */
     @Override
     public boolean isItemTixing() {
-        return this.alertBean == null ? false : true;
+        return this.alertBean != null;
     }
 
     public PortfolioAlertBean getAlertBean() {

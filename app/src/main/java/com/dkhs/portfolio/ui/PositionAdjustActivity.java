@@ -784,10 +784,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                             e.printStackTrace();
                         }
 
-                        PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+                        return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
 
-
-                        return bean;
                     }
 
                     @Override

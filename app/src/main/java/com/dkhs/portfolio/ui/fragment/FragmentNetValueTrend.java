@@ -246,8 +246,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            List<CombinationBean> object = DataParse.parseArrayJson(CombinationBean.class, jsonObject);
-            return object;
+            return DataParse.parseArrayJson(CombinationBean.class, jsonObject);
         }
 
         @Override
@@ -749,8 +748,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
-            return bean;
+            return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
         }
 
         @Override

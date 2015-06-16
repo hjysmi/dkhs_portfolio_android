@@ -147,7 +147,6 @@ public class OptionalStockAdapter extends BaseAdapter {
                     maxScoll = maxScoll < 0 ? 0 : maxScoll;
                     seekbar.setProgress(maxScoll);
                     tvPercent.setText(StringFromatUtils.get2PointPercent(maxScoll));
-                    return;
                 } else {
                     p = progress < 0 ? 0 : progress;
                     // p = progress;

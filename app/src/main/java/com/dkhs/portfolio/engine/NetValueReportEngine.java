@@ -121,10 +121,9 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
 
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-        MoreDataBean<NetValueReportBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+        return (MoreDataBean) gson.fromJson(jsonData,
                 new TypeToken<MoreDataBean<NetValueReportBean>>() {
                 }.getType());
-        return moreBean;
     }
 
     /**

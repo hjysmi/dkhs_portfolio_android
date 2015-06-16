@@ -8,6 +8,9 @@
  */
 package com.dkhs.portfolio.utils;
 
+import android.content.Context;
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,9 +18,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import android.content.Context;
-import android.text.TextUtils;
 
 /**
  * @ClassName TimeUtils
@@ -104,11 +104,8 @@ public class TimeUtils {
 
     public static boolean compareTime(Calendar old) {
         Calendar c = Calendar.getInstance();
-        if (old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH)
-                && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH)) {
-            return true;
-        }
-        return false;
+        return old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH)
+                && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH);
     }
 
     public static String getTimeString(Calendar calendar) {
@@ -142,8 +139,7 @@ public class TimeUtils {
     }
 
     public static String getTimeByMSecond(float second) {
-        String time = new SimpleDateFormat("HH:mm").format(float2Date(second));
-        return time;
+        return new SimpleDateFormat("HH:mm").format(float2Date(second));
 
     }
 
@@ -169,7 +165,6 @@ public class TimeUtils {
             try {
                 return format.parse(timestamp);
             } catch (ParseException ex) {
-                continue;
             }
         }
 

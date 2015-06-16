@@ -288,9 +288,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
         @Override
         protected List<OHLCEntity> parseDateTask(String jsonData) {
-            List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonData);
+            return getOHLCDatasFromJson(jsonData);
 
-            return ohlc;
         }
 
         public void onFailure(int errCode, String errMsg) {
@@ -360,9 +359,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
      * @return
      */
     private List<OHLCEntity> getTestDatas() {
-        List<OHLCEntity> ohlc = new ArrayList<OHLCEntity>();
+        return new ArrayList<OHLCEntity>();
 
-        return ohlc;
     }
 
     public void large(View view) {

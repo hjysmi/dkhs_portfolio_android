@@ -130,8 +130,6 @@ public class DragListView extends ListView {
         if (itemView1 != null) {
             itemView1.getLocationOnScreen(tempLocation1);
             mItemVerticalSpacing = Math.abs(tempLocation1[1] - tempLocation0[1]);
-        } else {
-            return;
         }
     }
 

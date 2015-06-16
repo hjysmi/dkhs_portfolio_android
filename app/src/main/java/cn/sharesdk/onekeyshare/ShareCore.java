@@ -108,32 +108,25 @@ public class ShareCore {
 
 	/** 判断指定平台是否可以用来授权 */
 	public static boolean canAuthorize(Context context, String platform) {
-		if ("WechatMoments".equals(platform)
+		return !("WechatMoments".equals(platform)
 				|| "WechatFavorite".equals(platform) || "ShortMessage".equals(platform)
 				|| "Email".equals(platform) || "GooglePlus".equals(platform)
 				|| "Pinterest".equals(platform) || "Yixin".equals(platform)
 				|| "YixinMoments".equals(platform) || "Line".equals(platform)
 				|| "KakaoStory".equals(platform) || "KakaoTalk".equals(platform)
-				|| "Bluetooth".equals(platform) || "WhatsApp".equals(platform)
-				) {
-			return false;
-		}
-		return true;
+				|| "Bluetooth".equals(platform) || "WhatsApp".equals(platform));
 	}
 
 
 	/** 判断指定平台是否可以用来获取用户资料 */
 	public static boolean canGetUserInfo(Context context, String platform) {
-		if ("WechatMoments".equals(platform)
+		return !("WechatMoments".equals(platform)
 				|| "WechatFavorite".equals(platform) || "ShortMessage".equals(platform)
 				|| "Email".equals(platform) || "GooglePlus".equals(platform)
 				|| "Pinterest".equals(platform) || "Yixin".equals(platform)
 				|| "YixinMoments".equals(platform) || "Line".equals(platform)
 				|| "KakaoStory".equals(platform) || "KakaoTalk".equals(platform)
 				|| "Bluetooth".equals(platform) || "WhatsApp".equals(platform)
-				|| "Pocket".equals(platform)) {
-			return false;
-		}
-		return true;
+				|| "Pocket".equals(platform));
 	}
 }

@@ -197,10 +197,7 @@ public class FiveRangeAdapter extends BaseAdapter {
     private boolean isFloatText(String str) {
         try {
             float value = Float.parseFloat(str);
-            if (value != 0) {
-                return true;
-            }
-            return false;
+            return value != 0;
         } catch (NumberFormatException e) {
             // TODO Auto-generated catch block
             return false;

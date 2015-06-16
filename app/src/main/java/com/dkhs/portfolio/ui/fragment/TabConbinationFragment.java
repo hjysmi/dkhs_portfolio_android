@@ -357,25 +357,19 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
     }
 
     private boolean isUpOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
                 || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_UP)
                 || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
-                .equals(FollowComListEngineImpl.ORDER_MONTH_UP))) {
-            return true;
-        }
-        return false;
+                .equals(FollowComListEngineImpl.ORDER_MONTH_UP));
     }
 
     private boolean isDownOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
                 || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN)
                 || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_DOWN) || orderType
-                .equals(FollowComListEngineImpl.ORDER_MONTH_DOWN))) {
-            return true;
-        }
-        return false;
+                .equals(FollowComListEngineImpl.ORDER_MONTH_DOWN));
     }
 
     private boolean isDefOrder(String orderType) {
@@ -389,16 +383,13 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
     }
 
     private boolean isPercentType(String type) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
                 || orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
                 || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
                 .equals(FollowComListEngineImpl.ORDER_WEEK_DOWN))
                 || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_UP)
-                || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_DOWN)) {
-            return true;
-        }
-        return false;
+                || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_DOWN);
     }
 
     private int lastPercentTextIds = 0;

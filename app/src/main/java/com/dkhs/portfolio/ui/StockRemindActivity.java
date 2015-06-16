@@ -613,8 +613,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private float priceUpTip(String input, float compareValue) {
         try {
             float inputValue = Float.parseFloat(input);
-            float uPercent = ((inputValue - compareValue) / compareValue) * 100;
-            return uPercent;
+            return ((inputValue - compareValue) / compareValue) * 100;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

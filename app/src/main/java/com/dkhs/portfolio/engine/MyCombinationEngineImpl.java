@@ -1,16 +1,7 @@
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.text.TextUtils;
-import android.view.View;
 
-import com.dkhs.portfolio.bean.AlertSetBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PortfolioAlertBean;
@@ -24,6 +15,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyCombinationEngineImpl {
 
@@ -46,10 +44,9 @@ public class MyCombinationEngineImpl {
 
             Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-            MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+            return (MoreDataBean) gson.fromJson(jsonData,
                     new TypeToken<MoreDataBean<CombinationBean>>() {
                     }.getType());
-            return moreBean;
 
             // return combinationList;
         }

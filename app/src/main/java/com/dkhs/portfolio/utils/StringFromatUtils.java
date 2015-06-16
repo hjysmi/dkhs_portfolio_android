@@ -9,12 +9,9 @@
 package com.dkhs.portfolio.utils;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import android.R.integer;
 
 /**
  * @author zjz
@@ -61,11 +58,7 @@ public class StringFromatUtils {
     public static boolean isCN(String str) {
         try {
             byte[] bytes = str.getBytes("UTF-8");
-            if (bytes.length == str.length()) {
-                return false;
-            } else {
-                return true;
-            }
+            return bytes.length != str.length();
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

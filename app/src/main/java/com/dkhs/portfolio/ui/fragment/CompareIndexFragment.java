@@ -143,8 +143,7 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
 
         @Override
         protected HistoryNetValue parseDateTask(String jsonData) {
-            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            return histroyValue;
+            return DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
         }
 
         @Override

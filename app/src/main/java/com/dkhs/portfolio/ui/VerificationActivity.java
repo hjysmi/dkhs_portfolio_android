@@ -171,8 +171,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     try {
                         JSONObject json = new JSONObject(jsonData);
                         if (json.has("status")) {
-                            boolean bool = json.getBoolean("status");
-                            return bool;
+                            return json.getBoolean("status");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

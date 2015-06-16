@@ -458,8 +458,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         protected UserEntity parseDateTask(String jsonData) {
             try {
                 JSONObject json = new JSONObject(jsonData);
-                UserEntity ue = DataParse.parseObjectJson(UserEntity.class, json);
-                return ue;
+                return DataParse.parseObjectJson(UserEntity.class, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -488,9 +487,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         protected List<BindThreePlat> parseDateTask(String jsonData) {
-            List<BindThreePlat> bindList = DataParse.parseArrayJson(BindThreePlat.class, jsonData);
 
-            return bindList;
+            return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
         }
 
         @Override

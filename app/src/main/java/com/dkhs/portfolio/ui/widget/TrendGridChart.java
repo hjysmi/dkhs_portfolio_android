@@ -587,8 +587,7 @@ public class TrendGridChart extends View {
                 float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight - getVolHight();
 
                 for (int i = 0; i < counts; i++) {
-                    float xTitleWidth = mTextPaint.measureText(axisRightYTitles.get(i));
-                    float offetText = xTitleWidth;
+                    float offetText = mTextPaint.measureText(axisRightYTitles.get(i));
                     float startX = (super.getWidth() - axisMarginLeft - offetText);
                     if (displayAxisYTitleColor) {
                         mTextPaint.setColor(getLongtitudeFontColor());

@@ -180,11 +180,7 @@ public class SelectStockBean extends DragListItem {
 
     public boolean equals(Object obj) {
         SelectStockBean param = (SelectStockBean) obj;
-        if (this.id == param.id || this.code.equals(param.code)) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.id == param.id || this.code.equals(param.code);
     }
 
     public long getSortId() {
@@ -327,7 +323,7 @@ public class SelectStockBean extends DragListItem {
 
     @Override
     public boolean isItemTixing() {
-        return this.alertSetBean == null ? false : true;
+        return this.alertSetBean != null;
     }
 
 }

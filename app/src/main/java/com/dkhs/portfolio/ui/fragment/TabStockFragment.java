@@ -267,38 +267,26 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private boolean isUpOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
-                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP));
     }
 
     private boolean isDownOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
-                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN));
     }
 
     private boolean isPercentType(String type) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CHANGE_DOWN)
                 || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
-                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN));
     }
 
     private boolean isDefOrder(String orderType) {
-        if (orderType.equals(TYPE_DEFALUT)) {
-            return true;
-        }
-        return false;
+        return orderType.equals(TYPE_DEFALUT);
     }
 
     private int lastPercentTextIds = 0;

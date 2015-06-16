@@ -225,9 +225,8 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
         @Override
         protected List<BindThreePlat> parseDateTask(String jsonData) {
-            List<BindThreePlat> bindList = DataParse.parseArrayJson(BindThreePlat.class, jsonData);
 
-            return bindList;
+            return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
         }
 
         @Override

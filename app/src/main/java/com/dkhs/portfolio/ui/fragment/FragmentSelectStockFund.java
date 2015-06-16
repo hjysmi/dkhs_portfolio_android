@@ -333,14 +333,11 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
 
 
     private boolean isLoadStockType() {
-        if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
+        return mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
                 || mViewType == StockViewType.MARKET_STOCK_AMPLIT || mViewType == StockViewType.MARKET_STOCK_AMPLIT_ACE
                 || mViewType == StockViewType.MARKET_STOCK_TURNOVER
                 || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
-                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
-            return true;
-        }
-        return false;
+                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE;
     }
 
     private void requestEngine() {

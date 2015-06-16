@@ -1681,10 +1681,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     }
 
     public boolean iscanSmoll() {
-        if (mOHLCData == null || mOHLCData.size() < MIN_CANDLE_NUM) {
-            return true;
-        }
-        return false;
+        return mOHLCData == null || mOHLCData.size() < MIN_CANDLE_NUM;
     }
 
     /**

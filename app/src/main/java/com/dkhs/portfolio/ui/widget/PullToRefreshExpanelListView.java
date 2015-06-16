@@ -1,11 +1,5 @@
 package com.dkhs.portfolio.ui.widget;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import com.dkhs.portfolio.R;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -22,9 +16,14 @@ import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -419,12 +418,7 @@ public class PullToRefreshExpanelListView extends ExpandableListView implements 
 		mFirstItemIndex = pFirstVisibleItem;
 		mLastItemIndex = pFirstVisibleItem + pVisibleItemCount - 2;
 		mCount = pTotalItemCount - 2;
-		if (pTotalItemCount > pVisibleItemCount ) {
-			mEnoughCount = true;
-//			endingView.setVisibility(View.VISIBLE);
-		} else {
-			mEnoughCount = false;
-		}
+		mEnoughCount = pTotalItemCount > pVisibleItemCount;
 	}
 
 	/**

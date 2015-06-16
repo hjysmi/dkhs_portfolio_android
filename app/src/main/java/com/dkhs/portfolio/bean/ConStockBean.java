@@ -98,11 +98,7 @@ public class ConStockBean extends StockBean {
 
     public boolean equals(Object obj) {
         ConStockBean param = (ConStockBean) obj;
-        if (this.stockId == param.stockId) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.stockId == param.stockId;
     }
 
     /**
@@ -157,7 +153,7 @@ public class ConStockBean extends StockBean {
     }
 
     public boolean isStop() {
-        return isStop == 1 ? true : false;
+        return isStop == 1;
     }
 
     public void setIsStop(int isStop) {

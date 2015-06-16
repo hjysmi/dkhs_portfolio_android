@@ -161,8 +161,7 @@ public class ModifyPrivacyActivity extends ModelAcitivity implements OnClickList
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            List<CombinationBean> object = DataParse.parseArrayJson(CombinationBean.class, jsonObject);
-            return object;
+            return DataParse.parseArrayJson(CombinationBean.class, jsonObject);
         }
 
         @Override

@@ -267,9 +267,8 @@ public class TrendChartFragment extends BaseFragment {
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.buildDrawingCache();
-        Bitmap bitmap = view.getDrawingCache();
+        return view.getDrawingCache();
 
-        return bitmap;
     }
 
     private static final String FILE_NAME = "share_image.jpg";

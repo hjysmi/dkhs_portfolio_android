@@ -115,6 +115,6 @@ public class SearchStockBean extends DBEntityBase {
         if (TextUtils.isEmpty(is_stop)) {
             return false;
         }
-        return this.is_stop.equalsIgnoreCase("1") ? true : false;
+        return this.is_stop.equalsIgnoreCase("1");
     }
 }

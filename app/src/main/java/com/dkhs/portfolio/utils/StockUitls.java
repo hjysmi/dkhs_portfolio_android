@@ -54,28 +54,19 @@ public class StockUitls {
         if (TextUtils.isEmpty(status)) {
             return false;
         }
-        if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("3")) {
-            return true;
-        }
-        return false;
+        return status.equalsIgnoreCase("2") || status.equalsIgnoreCase("3");
     }
 
     public static boolean isNewStock(String status) {
         if (TextUtils.isEmpty(status)) {
             return false;
         }
-        if (status.equalsIgnoreCase("7")) {
-            return true;
-        }
-        return false;
+        return status.equalsIgnoreCase("7");
     }
 
 
     public static boolean isSepFund(int stype) {
-        if (stype == STYPE_EF || stype == STYPE_MBS) {
-            return true;
-        }
-        return false;
+        return stype == STYPE_EF || stype == STYPE_MBS;
     }
 
     public static boolean isFundType(String symbolType) {
