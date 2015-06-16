@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -25,12 +26,12 @@ import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DataEntry;
+import com.dkhs.portfolio.common.WeakHandler;
 
 import java.util.List;
 
 /**
  * 有隐藏
- * 
  */
 @SuppressLint("NewApi")
 public class DragListView extends ListView {
@@ -71,8 +72,9 @@ public class DragListView extends ListView {
     public static final int MSG_DRAG_MOVE = 0x1002;
     private static final int ANIMATION_DURATION = 200;
 
-    Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_DRAG_STOP:
                     stopDrag();
@@ -84,8 +86,9 @@ public class DragListView extends ListView {
                 default:
                     break;
             }
-        };
-    };
+            return true;
+        }
+    });
 
     public void setLock(boolean isLock) {
         this.isLock = isLock;
@@ -152,7 +155,7 @@ public class DragListView extends ListView {
         }
     }
 
-    /***
+    /**
      * touch事件拦截 在这里我进行相应拦截，
      */
     @Override
@@ -504,7 +507,7 @@ public class DragListView extends ListView {
 
     /**
      * 准备拖动，初始化拖动项的图像
-     * 
+     *
      * @param bm
      * @param y
      */
@@ -540,7 +543,7 @@ public class DragListView extends ListView {
 
     /**
      * 拖动执行，在Move方法中执行
-     * 
+     *
      * @param y
      */
     public void onDrag(int y) {
@@ -562,10 +565,9 @@ public class DragListView extends ListView {
 
     }
 
-    /***
+    /**
      * ListView的移动.
      * 要明白移动原理：当我移动到下端的时候，ListView向上滑动，当我移动到上端的时候，ListView要向下滑动。正好和实际的相反.
-     * 
      */
 
     private boolean isScroll = false;
@@ -607,7 +609,7 @@ public class DragListView extends ListView {
 
     /**
      * 拖动放下的时候
-     * 
+     *
      * @param y
      */
     public void onDrop(int y) {

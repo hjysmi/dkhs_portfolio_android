@@ -27,6 +27,7 @@ import android.widget.ListView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
@@ -157,11 +158,12 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void loadFinish(MoreDataBean object) {
             if (null != object && null != object.getResults()) {
-                Message msg = updateHandler.obtainMessage(777);
+                Message msg = new Message();
 //                msg.obj = mDataList.addAll(object.getResults());
+                msg.what = 777;
                 msg.obj = object;
-                msg.sendToTarget();
-
+//                msg.sendToTarget();
+                updateHandler.sendMessage(msg);
             }
         }
 
@@ -173,17 +175,28 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     };
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    private WeakHandler updateHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
             MoreDataBean bean = (MoreDataBean) msg.obj;
             if (null != bean && null != bean.getResults()) {
                 mDataList.addAll(bean.getResults());
                 mAdapterConbinStock.notifyDataSetChanged();
             }
+            return true;
         }
+    });
 
-        ;
-    };
+//    WeakHandler updateHandler = new WeakHandler() {
+//        public void handleMessage(android.os.Message msg) {
+//            MoreDataBean bean = (MoreDataBean) msg.obj;
+//            if (null != bean && null != bean.getResults()) {
+//                mDataList.addAll(bean.getResults());
+//                mAdapterConbinStock.notifyDataSetChanged();
+//            }
+//        }
+//    };
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
 

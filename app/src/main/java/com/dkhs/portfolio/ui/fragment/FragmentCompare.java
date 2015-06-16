@@ -43,6 +43,7 @@ import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -283,13 +284,13 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             showShare();
+            return true;
         }
-
-        ;
-    };
+    });
 
     private void showShare() {
         if (null != mCombinationBean) {

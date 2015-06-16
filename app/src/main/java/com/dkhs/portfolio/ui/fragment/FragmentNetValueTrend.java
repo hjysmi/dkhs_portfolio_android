@@ -39,6 +39,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
@@ -269,13 +270,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         }
     }
 
-    Handler updateHandler = new Handler() {
+    WeakHandler updateHandler = new WeakHandler() {
         public void handleMessage(android.os.Message msg) {
 
             replaceFragment(todayFragment);
         }
-
-        ;
     };
 
     private void updateIncreaseRatio(float netValue) {
@@ -346,13 +345,15 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            showShare();
-        }
 
-        ;
-    };
+    private WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            showShare();
+            return true;
+        }
+    });
+
 
     private void showShare() {
         if (null != mPositionDetail) {

@@ -8,17 +8,7 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,11 +20,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.receiver.SMSBroadcastReceiver;
@@ -44,12 +33,18 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName ForgetPswActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-11-3 下午5:03:25
- * @version 1.0
  */
 public class ForgetPswActivity extends ModelAcitivity implements OnClickListener {
     private Button btn_get_code;
@@ -238,8 +233,9 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
         }, 0, 1000);
     }
 
-    private Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
+    private WeakHandler handler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case GET_CODE_ABLE:
                     btn_get_code.setText(R.string.get_code);
@@ -259,8 +255,9 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
                 default:
                     break;
             }
-        };
-    };
+            return true;
+        }
+    });
 
     private String telephone;
     private String verifyCode;

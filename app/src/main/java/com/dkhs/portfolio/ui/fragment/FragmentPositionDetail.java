@@ -39,6 +39,7 @@ import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionAdjustBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -486,13 +487,14 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            showShare();
-        }
 
-        ;
-    };
+    private WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            showShare();
+            return true;
+        }
+    });
 
     private void showShare() {
         if (null != mPositionDetail) {

@@ -1,8 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +7,21 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.BindThreePlat;
+import com.dkhs.portfolio.bean.ThreePlatform;
+import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PromptManager;
+import com.umeng.analytics.MobclickAgent;
+
+import java.util.HashMap;
+import java.util.List;
+
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
@@ -19,21 +31,10 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.utils.WechatClientNotExistException;
 import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.BindThreePlat;
-import com.dkhs.portfolio.bean.ThreePlatform;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
-
 /**
  * 绑定第三方账号
- * 
+ *
  * @author weiting
- * 
  */
 public class BoundAccountActivity extends ModelAcitivity implements OnClickListener {
     private TextView boundTextEmail;
@@ -80,7 +81,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
             case R.id.bound_text_phone: {
                 startActivity(RLFActivity.settingPasswordIntent(this));
             }
-                break;
+            break;
             case R.id.bound_text_email:
                 Intent intent = new Intent(this, BoundEmailActivity.class);
                 startActivityForResult(intent, 5);
@@ -149,7 +150,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
         }
     };
-    Handler platFormAction = new Handler() {
+    WeakHandler platFormAction = new WeakHandler() {
         public void handleMessage(Message msg) {
             switch (msg.arg1) {
                 case 1: {
@@ -182,7 +183,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                                 bindsListener.setLoadingDialog(BoundAccountActivity.this));
                     }
                 }
-                    break;
+                break;
                 case 2: {
                     String failtext = "";
                     if (msg.obj instanceof WechatClientNotExistException) {
@@ -201,22 +202,26 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                     }
                     PromptManager.showToast(failtext);
                 }
-                    break;
+                break;
                 case 3: {
                 }
-                    break;
+                break;
 
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
     private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected List<BindThreePlat> parseDateTask(String jsonData) {
@@ -228,16 +233,19 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         @Override
         protected void afterParseData(List<BindThreePlat> entity) {
             if (null != entity && entity.size() > 0) {
-                Message msg = updateHandler.obtainMessage(777);
+                Message msg = new Message();
+                msg.what = 777;
                 msg.obj = entity;
-                msg.sendToTarget();
+                updateHandler.sendMessage(msg);
             }
 
         }
     };
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+
+    WeakHandler updateHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             List<BindThreePlat> bindList = (List<BindThreePlat>) msg.obj;
             for (BindThreePlat plat : bindList) {
                 if (plat.isStatus()) {
@@ -259,8 +267,9 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                     }
                 }
             }
-        };
-    };
+            return true;
+        }
+    });
 
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
