@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerInfoBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -110,6 +112,7 @@ public class AchivementAdapter extends AutoAdapter {
         setText(vh.getTextView(R.id.cp_rate),achivementsEntity.getCp_rate());
         setText(vh.getTextView(R.id.sh_rate),achivementsEntity.getSh300_rate());
         vh.get(R.id.ll_chart_switch).setOnClickListener(new OnClickImp(vh,achivementsEntity,position));
+        vh.getRootView().setOnClickListener(new OnItemClick ((FundManagerInfoBean.AchivementsEntity) list.get(position)));
 
     }
 
@@ -125,6 +128,21 @@ public class AchivementAdapter extends AutoAdapter {
 
         }
         textView.setText(StringFromatUtils.get2PointPercent((float) value));
+    }
+
+
+    class OnItemClick implements View.OnClickListener{
+        FundManagerInfoBean.AchivementsEntity achivementsEntity;
+
+        public OnItemClick(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
+            this.achivementsEntity = achivementsEntity;
+        }
+
+        @Override
+        public void onClick(View v) {
+            context.startActivity(FundDetailActivity.newIntent(context, SelectStockBean.copy(achivementsEntity)));
+
+        }
     }
 
 

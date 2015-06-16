@@ -83,6 +83,18 @@ public class SelectStockBean extends DragListItem {
         bean.list_status = stockBean.getList_status();
         return bean;
     }
+    public static SelectStockBean copy(FundManagerInfoBean.AchivementsEntity stockBean) {
+
+        SelectStockBean bean = new SelectStockBean();
+        bean.name = stockBean.getFund().getAbbr_name();
+        // bean.percentage = stockBean.getPercent();
+        bean.symbol = stockBean.getFund().getSymbol();
+        bean.id = stockBean.getFund().getId();
+//        bean.code = stockBean.getFund().getSymbol();
+//        bean.isStop = stockBean.isStop();
+        bean.list_status = stockBean.getFund().getList_status()+"";
+        return bean;
+    }
 
     public static SelectStockBean copy(SearchStockBean stockBean) {
 

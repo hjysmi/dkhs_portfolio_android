@@ -101,8 +101,10 @@ public class BenefitChartView {
         return view;
     }
 
+    private FundManagerInfoBean.AchivementsEntity achivementsEntity;
     public void draw(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
         loadView.setVisibility(View.VISIBLE);
+        this.achivementsEntity=achivementsEntity;
         contentView.setVisibility(View.GONE);
         if (null != achivementsEntity.getEnd_date()) {
             cEnd = TimeUtils.simpleDateToCalendar(achivementsEntity.getEnd_date());
@@ -493,6 +495,9 @@ public class BenefitChartView {
                         lineEntity = new DefFundLineEntity();
                         if(mFundQuoteBean!=null) {
                             lineEntity.setTitle(mFundQuoteBean.getCode());
+                        }else if(achivementsEntity !=null ){
+                            if(!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
+                            lineEntity.setTitle(achivementsEntity.getFund().getSymbol().replaceAll("\\D",""));
                         }
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;
