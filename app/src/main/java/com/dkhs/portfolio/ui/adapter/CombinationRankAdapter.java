@@ -246,7 +246,7 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
     }
 
     private void delFollowCombinatio(CombinationBean mCombinationBean) {
-        if (PortfolioApplication.getInstance().hasUserLogin()) {
+        if (PortfolioApplication.hasUserLogin()) {
 
             if (mCombinationBean.isFollowed()) {
                 new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);

@@ -313,7 +313,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         return userInfo;
     }
     private void cancelAllNotification(Context context) {
-        NotificationManager nManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.cancelAll();
     }
 

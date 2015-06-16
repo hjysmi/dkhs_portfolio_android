@@ -617,7 +617,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     }
 
     private void delFollowCombinatio() {
-        if (PortfolioApplication.getInstance().hasUserLogin()) {
+        if (PortfolioApplication.hasUserLogin()) {
 
             if (mCombinationBean.isFollowed()) {
                 new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);

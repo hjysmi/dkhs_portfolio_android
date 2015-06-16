@@ -1044,7 +1044,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     public void setCheckValue(String checkValue) {
-        this.checkValue = checkValue;
+        StockQuotesActivity.checkValue = checkValue;
         setFuquanView();
     }
 

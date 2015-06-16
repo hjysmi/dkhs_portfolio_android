@@ -238,7 +238,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 CombinationBean selectBean = mDataList.get(position);
-                if (null != MarketCombinationFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
+                if (null != MarketCombinationFragment.mVisitorData && !PortfolioApplication.hasUserLogin()) {
                     selectBean.setFollowed(MarketCombinationFragment.mVisitorData.contains(selectBean));
                 }
                 startActivity(CombinationDetailActivity.newIntent(getActivity(), selectBean));

@@ -116,7 +116,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initData() {
         UserEngineImpl engine = new UserEngineImpl();
         engine.getSettingMessage(listener);
-        engine.queryThreePlatBind(bindsListener);
+        UserEngineImpl.queryThreePlatBind(bindsListener);
         listener.setLoadingDialog(context);
         if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
             engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
@@ -214,8 +214,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
                 // url = DKHSUrl.BASE_DEV_URL + url;
-                BitmapUtils bitmapUtils = new BitmapUtils(context);
-                bitmapUtils.display(settingImageHead, url);
+                BitmapUtils.display(settingImageHead, url);
 
             } else {
                 Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
@@ -431,8 +430,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url)) {
                 // url = DKHSUrl.BASE_DEV_URL + url;
-                BitmapUtils bitmapUtils = new BitmapUtils(context);
-                bitmapUtils.display(settingImageHead, url);
+                BitmapUtils.display(settingImageHead, url);
             }
         }
     }
