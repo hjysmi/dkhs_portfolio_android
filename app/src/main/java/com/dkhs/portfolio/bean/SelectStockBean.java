@@ -179,6 +179,9 @@ public class SelectStockBean extends DragListItem {
     }
 
     public boolean equals(Object obj) {
+        if (!(obj instanceof SelectStockBean)) {
+            return false;
+        }
         SelectStockBean param = (SelectStockBean) obj;
         return this.id == param.id || this.code.equals(param.code);
     }

@@ -456,7 +456,7 @@ public class BenefitChartView {
             while (it.hasNext()) {
                 ManagersEntity managerEntity = it.next();
                 if (managerEntity.getStart_date().equals(day) || TimeUtils.simpleDateToCalendar(day).after(TimeUtils.simpleDateToCalendar(managerEntity.getStart_date()))) {
-                    sbMangerText.append(managerEntity.getName() + "  ");
+                    sbMangerText.append(managerEntity.getName()).append("  ");
                     it.remove();
                     Log.d("InsertManagerData", " manager:" + managerEntity.getName() + " is  insert to" + day);
                 }

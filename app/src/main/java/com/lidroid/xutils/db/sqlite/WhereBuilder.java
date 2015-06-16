@@ -121,7 +121,7 @@ public class WhereBuilder {
 
         // append conj
         if (!TextUtils.isEmpty(conj)) {
-            sqlSb.append(conj + " ");
+            sqlSb.append(conj).append(" ");
         }
 
         // append columnName
@@ -141,10 +141,10 @@ public class WhereBuilder {
             } else if ("<>".equals(op)) {
                 sqlSb.append(" IS NOT NULL");
             } else {
-                sqlSb.append(" " + op + " NULL");
+                sqlSb.append(" ").append(op).append(" NULL");
             }
         } else {
-            sqlSb.append(" " + op + " ");
+            sqlSb.append(" ").append(op).append(" ");
 
             if ("IN".equalsIgnoreCase(op)) {
                 Iterable<?> items = null;
@@ -167,7 +167,7 @@ public class WhereBuilder {
                             if (valueStr.indexOf('\'') != -1) { // convert single quotations
                                 valueStr = valueStr.replace("'", "''");
                             }
-                            stringBuffer.append("'" + valueStr + "'");
+                            stringBuffer.append("'").append(valueStr).append("'");
                         } else {
                             stringBuffer.append(itemColValue);
                         }
@@ -210,9 +210,9 @@ public class WhereBuilder {
                         if (endStr.indexOf('\'') != -1) { // convert single quotations
                             endStr = endStr.replace("'", "''");
                         }
-                        sqlSb.append("'" + startStr + "'");
+                        sqlSb.append("'").append(startStr).append("'");
                         sqlSb.append(" AND ");
-                        sqlSb.append("'" + endStr + "'");
+                        sqlSb.append("'").append(endStr).append("'");
                     } else {
                         sqlSb.append(startColValue);
                         sqlSb.append(" AND ");
@@ -228,7 +228,7 @@ public class WhereBuilder {
                     if (valueStr.indexOf('\'') != -1) { // convert single quotations
                         valueStr = valueStr.replace("'", "''");
                     }
-                    sqlSb.append("'" + valueStr + "'");
+                    sqlSb.append("'").append(valueStr).append("'");
                 } else {
                     sqlSb.append(value);
                 }

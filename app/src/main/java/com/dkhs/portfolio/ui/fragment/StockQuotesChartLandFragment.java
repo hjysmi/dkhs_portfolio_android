@@ -726,7 +726,7 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
                 return;
             }
             // todayListener.setLoadingDialog(getActivity());
-            if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
+            if ( TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
                 todayListener.setFromYanbao(true);

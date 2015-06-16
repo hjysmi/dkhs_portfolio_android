@@ -256,7 +256,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
         String result = info.toString();
         printWriter.close();
-        crashinfo.append(STACK_TRACE + result + "\n \n");
+        crashinfo.append(STACK_TRACE).append(result).append("\n \n");
         Log.i("STACK_TRACE", result);
         try {
             // long timestamp = System.currentTimeMillis();
@@ -318,14 +318,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
             PackageManager pm = ctx.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
-                crashinfo.append(VERSION_NAME + (pi.versionName == null ? "not set" : pi.versionName) + "\n");
-                crashinfo.append(VERSION_CODE + String.valueOf(pi.versionCode) + "\n");
-                crashinfo.append(PACKAGENAME + pi.packageName + "\n");
-                crashinfo.append(BRAND + (Build.BRAND == null ? "unknown" : Build.BRAND) + "\n");
-                crashinfo.append(MODEL + (Build.MODEL == null ? "unknown" : Build.MODEL) + "\n");
-                crashinfo.append(BASEBAND + getBaseBand() + "\n");
-                crashinfo.append(SDKVERSION + (Build.VERSION.RELEASE == null ? "unknown" : Build.VERSION.RELEASE)
-                        + "\n");
+                crashinfo.append(VERSION_NAME).append(pi.versionName == null ? "not set" : pi.versionName).append("\n");
+                crashinfo.append(VERSION_CODE).append(String.valueOf(pi.versionCode)).append("\n");
+                crashinfo.append(PACKAGENAME).append(pi.packageName).append("\n");
+                crashinfo.append(BRAND).append(Build.BRAND == null ? "unknown" : Build.BRAND).append("\n");
+                crashinfo.append(MODEL).append(Build.MODEL == null ? "unknown" : Build.MODEL).append("\n");
+                crashinfo.append(BASEBAND).append(getBaseBand()).append("\n");
+                crashinfo.append(SDKVERSION).append(Build.VERSION.RELEASE == null ? "unknown" : Build.VERSION.RELEASE).append("\n");
             }
         } catch (NameNotFoundException e) {
             Log.e(TAG, "Error while collect package info", e);

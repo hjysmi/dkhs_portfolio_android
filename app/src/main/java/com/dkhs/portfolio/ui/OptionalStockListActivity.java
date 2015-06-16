@@ -246,7 +246,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            if (orderType == typeChangeDown || orderType == typeCurrentDown || orderType == typePercentageDown) {
+            if (orderType.equals(typeChangeDown) || orderType.equals(typeCurrentDown) || orderType.equals(typePercentageDown)) {
                 setUpType(currentSelectView);
             } else {
                 setDownType(currentSelectView);

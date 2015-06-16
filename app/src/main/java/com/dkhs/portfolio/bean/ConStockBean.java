@@ -97,8 +97,12 @@ public class ConStockBean extends StockBean {
     }
 
     public boolean equals(Object obj) {
-        ConStockBean param = (ConStockBean) obj;
-        return this.stockId == param.stockId;
+        if (obj instanceof ConStockBean) {
+
+            ConStockBean param = (ConStockBean) obj;
+            return this.stockId == param.stockId;
+        }
+        return false;
     }
 
     /**

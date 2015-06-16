@@ -378,7 +378,7 @@ public class StickChart extends GridChart {
             String value = String.valueOf((int) Math.floor(minValue + i * average));
             if (value.length() < super.getAxisYMaxTitleLength()) {
                 while (value.length() < super.getAxisYMaxTitleLength()) {
-                    value = new String(" ") + value;
+                    value = " " + value;
                 }
             }
             TitleY.add(value);
@@ -387,7 +387,7 @@ public class StickChart extends GridChart {
         String value = maxValue + "";
         if (value.length() < super.getAxisYMaxTitleLength()) {
             while (value.length() < super.getAxisYMaxTitleLength()) {
-                value = new String(" ") + value;
+                value = " " + value;
             }
         }
         TitleY.add(value);

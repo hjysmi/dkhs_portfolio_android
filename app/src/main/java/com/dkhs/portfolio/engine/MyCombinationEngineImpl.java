@@ -181,21 +181,17 @@ public class MyCombinationEngineImpl {
 
     public void changeCombinationIsPublic(String id, String ispublic, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        StringBuilder sb = new StringBuilder();
         // sb.append("[");
-        sb.append(ispublic);
         // sb.append("]");
-        params.addBodyParameter("is_public", sb.toString());
+        params.addBodyParameter("is_public", ispublic);
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id), params, listener);
     }
 
     public void setCombinationRank(String id, String isRank, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        StringBuilder sb = new StringBuilder();
         // sb.append("[");
-        sb.append(isRank);
         // sb.append("]");
-        params.addBodyParameter("is_rank", sb.toString());
+        params.addBodyParameter("is_rank", isRank);
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.setrank, id), params, listener);
     }
 
