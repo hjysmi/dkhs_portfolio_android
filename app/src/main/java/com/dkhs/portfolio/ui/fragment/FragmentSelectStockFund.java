@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
@@ -608,17 +610,17 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
         tvEmptyText.setVisibility(View.GONE);
     }
 
-    Handler updateHander = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    WeakHandler updateHander = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             if (msg.what == 777) {
                 showEmptyNotice();
             } else if (msg.what == 888) {
                 hideEmptyNotice();
             }
+            return false;
         }
-
-        ;
-    };
+    });
 
     protected void showEmptyNotice() {
 

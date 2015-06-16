@@ -8,9 +8,11 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -55,13 +58,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TrendChartFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午10:32:39
- * @version 1.0
  */
-public class StockQuotesChartLandFragment extends BaseFragment implements  FragmentLifecycle {
+public class StockQuotesChartLandFragment extends BaseFragment implements FragmentLifecycle {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String ARGUMENT_STOCK_CODE = "stock_code";
 
@@ -128,8 +131,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.symbol,true);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.symbol,true);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.symbol, true);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.symbol, true);
 
     }
 
@@ -161,10 +164,10 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -199,11 +202,11 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -351,8 +354,10 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
 
     }
 
-    private Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
             if (StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
                 viewFiveRange.setVisibility(View.GONE);
 
@@ -373,8 +378,9 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
                 // mMaChart.invalidate();
                 setStopYTitle(mStockBean.getLastClose());
             }
-        };
-    };
+            return false;
+        }
+    });
 
     private boolean isStopStock() {
         return mSelectStockBean != null && mSelectStockBean.isStop;
@@ -403,7 +409,9 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             pb.setVisibility(View.GONE);
-        };
+        }
+
+        ;
 
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
@@ -664,17 +672,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
         mMaChart.setPointTitleList(titles);
     }
 
-    Handler dataHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            if (trendType.equals(TREND_TYPE_TODAY)) {
-
-                // setLineData(initMA(new Random().nextInt(240)));
-
-            } else {
-
-            }
-        };
-    };
+    @SuppressLint("HandlerLeak")
+    Handler dataHandler = new Handler();
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
@@ -696,7 +695,9 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
             dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
         }
 
-    };
+    }
+
+    ;
 
     @Override
     public void onDestroy() {
@@ -758,10 +759,9 @@ public class StockQuotesChartLandFragment extends BaseFragment implements  Fragm
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {

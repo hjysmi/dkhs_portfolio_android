@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -26,6 +25,7 @@ import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
@@ -525,8 +525,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         }
     };
-    Handler platFormAction = new Handler() {
-        public void handleMessage(Message msg) {
+    WeakHandler platFormAction = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             PromptManager.closeProgressDialog();
             switch (msg.arg1) {
                 case 1: {
@@ -589,10 +590,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 default:
                     break;
             }
+            return false;
         }
-
-        ;
-    };
+    });
 
     private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
@@ -672,7 +672,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(Object object) {
 
-            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
             goMainPage();
 
         }

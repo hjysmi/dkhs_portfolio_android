@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -109,14 +110,8 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     }
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            // reloadData();
-
-        }
-
-        ;
-    };
+    @SuppressLint("HandlerLeak")
+    Handler updateHandler = new Handler();
 
 
     @Override

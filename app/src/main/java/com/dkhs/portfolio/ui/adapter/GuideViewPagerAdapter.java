@@ -1,7 +1,5 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +16,8 @@ import com.dkhs.portfolio.ui.LoginActivity;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
 import com.dkhs.portfolio.utils.UIUtils;
+
+import java.util.List;
 
 /**
  * 
@@ -135,7 +135,7 @@ public class GuideViewPagerAdapter extends PagerAdapter {
         // 存入数据
         editor.putBoolean("isFirstIn", false);
         // 提交修改
-        editor.commit();
+        editor.apply();
     }
 
     // 判断是否由对象生成界面

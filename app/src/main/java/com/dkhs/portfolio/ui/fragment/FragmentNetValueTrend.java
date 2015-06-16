@@ -447,7 +447,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         if (!newFragment.isAdded()) {
             try {
                 // FragmentTransaction trasection =
-                getChildFragmentManager().beginTransaction();
+//                getChildFragmentManager().beginTransaction();
                 // trasection.replace(R.id.rl_trend_layout, newFragment);
                 // trasection.addToBackStack(null);
                 // trasection.add(R.id.rl_trend_layout, newFragment);
@@ -471,7 +471,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         if (!newFragment.isAdded()) {
             try {
                 // FragmentTransaction trasection =
-                getChildFragmentManager().beginTransaction();
+//                getChildFragmentManager().beginTransaction();
                 trasection.replace(R.id.rl_trend_layout, newFragment);
                 trasection.addToBackStack(null);
                 trasection.commit();

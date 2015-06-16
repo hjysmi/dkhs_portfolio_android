@@ -14,15 +14,14 @@ import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.umeng.analytics.MobclickAgent;
 
 /**
- *
  * class desc: 启动画面 (1)判断是否是首次加载应用--采取读取SharedPreferences的方法
  * (2)是，则进入GuideActivity；否，则进入MainActivity (3)2s后执行(2)操作
- *
  */
 public class SplashActivity extends FragmentActivity {
     boolean isFirstIn = false;
@@ -40,10 +39,9 @@ public class SplashActivity extends FragmentActivity {
     /**
      * Handler:跳转到不同界面
      */
-    private Handler mHandler = new Handler() {
-
+    private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case GO_NOACCOUNT_MAIN:
                     // goNoAccountMain();
@@ -56,10 +54,9 @@ public class SplashActivity extends FragmentActivity {
                     goAccountMain();
                     break;
             }
-            super.handleMessage(msg);
+            return false;
         }
-
-    };
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

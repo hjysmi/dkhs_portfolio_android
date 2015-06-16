@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Adapter wrapper to insert extra views and otherwise hack around GridView to
  * add sections and headers.
- * 
+ *
  * @author Tonic Artos
  */
 public class StickyGridHeadersSimpleAdapterWrapper extends BaseAdapter implements StickyGridHeadersBaseAdapter {

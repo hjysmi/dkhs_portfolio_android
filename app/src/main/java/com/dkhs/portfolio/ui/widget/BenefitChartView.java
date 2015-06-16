@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -95,7 +96,7 @@ public class BenefitChartView {
     }
 
     public View initView() {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view, null);
+        View view = LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view, new LinearLayout(ctx), false);
         ViewUtils.inject(this, view); // 注入view和事件
         moreFundView.setVisibility(View.GONE);
         return view;

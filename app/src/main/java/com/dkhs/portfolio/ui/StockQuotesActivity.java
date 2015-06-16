@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -33,6 +34,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
@@ -569,9 +571,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
-    Handler requestUiHandler = new Handler() {
-
-        public void handleMessage(android.os.Message msg) {
+    WeakHandler requestUiHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_WHAT_BEFORE_REQUEST: {
                     rotateRefreshButton();
@@ -584,10 +586,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 default:
                     break;
             }
+            return false;
         }
-
-        ;
-    };
+    });
+    
     ScrollViewListener mScrollViewListener = new ScrollViewListener() {
 
         @Override

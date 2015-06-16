@@ -35,11 +35,11 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午4:57:34
- * @version 1.0
  */
 public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChangeListener {
 
@@ -54,10 +54,9 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int getCount() {
@@ -67,11 +66,10 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param position
      * @return
-     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public Object getItem(int position) {
@@ -80,11 +78,10 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param position
      * @return
-     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public long getItemId(int position) {
@@ -93,13 +90,12 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param position
      * @param convertView
      * @param parent
      * @return
-     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -127,7 +123,7 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
         }
         if (row == null || row.getTag().equals("champion")) {
             viewHolder = new ViewHolder();
-            row = LayoutInflater.from(mContext).inflate(R.layout.item_funds_order_list, null);
+            row = LayoutInflater.from(mContext).inflate(R.layout.item_funds_order_list, parent, false);
             viewHolder.tvCombinationName = (TextView) row.findViewById(R.id.tv_champion_combination);
             viewHolder.cbFollowed = (CheckBox) row.findViewById(R.id.cb_add_follow);
             viewHolder.tvUserName = (TextView) row.findViewById(R.id.tv_create_user);
@@ -219,7 +215,7 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
 
     public void showDelDialog(final CompoundButton buttonView, final boolean isChecked) {
 
-      MAlertDialog builder = PromptManager.getAlertDialog(mContext);
+        MAlertDialog builder = PromptManager.getAlertDialog(mContext);
         builder.setMessage(R.string.dialog_message_delfollow_combination);
         // builder.setTitle(R.string.tips);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -294,7 +290,9 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
         @Override
         public void requestCallBack() {
             super.requestCallBack();
-        };
+        }
+
+        ;
 
         @Override
         protected Object parseDateTask(String jsonData) {
@@ -314,7 +312,9 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
         @Override
         public void requestCallBack() {
             super.requestCallBack();
-        };
+        }
+
+        ;
 
         @Override
         protected Object parseDateTask(String jsonData) {

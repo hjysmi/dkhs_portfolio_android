@@ -33,8 +33,6 @@
                 android:id="@+id/btn_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/titletab_view"
                 android:background="@null"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
@@ -44,9 +42,6 @@
                 android:id="@+id/btn_search"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/btn_refresh"
 
                 android:background="@null"
                 android:padding="8dp"

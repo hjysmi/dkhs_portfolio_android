@@ -33,7 +33,6 @@
                 android:id="@+id/btn_detail_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/line"
                 android:addStatesFromChildren="true"
                 android:background="@drawable/gray_bg_selector"
                 android:gravity="center"
@@ -58,7 +57,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_below="@id/btn_detail_date"
                 android:background="@color/person_setting_line" />
 
             <!-- 持仓配置 -->
@@ -117,7 +115,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginTop="15dp"
                 android:background="@color/theme_color"
                 android:paddingBottom="3dp"
@@ -143,7 +140,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_gray_cion"
             android:paddingBottom="3dp"

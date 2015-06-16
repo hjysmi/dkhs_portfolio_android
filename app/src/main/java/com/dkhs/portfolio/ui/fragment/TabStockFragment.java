@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -108,14 +109,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     }
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            // reloadData();
-
-        }
-
-        ;
-    };
+    @SuppressLint("HandlerLeak")
+    Handler updateHandler = new Handler();
 
 
     @Override
@@ -130,7 +125,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         super.onResume();
 
         reloadData();
-        updateHandler.postDelayed(updateRunnable, 5*1000);
+        updateHandler.postDelayed(updateRunnable, 5 * 1000);
 
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
@@ -172,7 +167,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(StockViewType.STOCK_OPTIONAL_PRICE,mUserId);
+            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(StockViewType.STOCK_OPTIONAL_PRICE, mUserId);
             // if (null != dataUpdateListener) {
             loadDataListFragment.setDataUpdateListener(this);
             // }

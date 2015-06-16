@@ -33,11 +33,10 @@ import com.dkhs.portfolio.utils.PromptManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/***
+/**
  * 自定义适配器
- * 
+ *
  * @author zhangjia
- * 
  */
 public abstract class DragListAdapter extends BaseAdapter implements OnCheckedChangeListener {
     private static final String TAG = "DragListAdapter";
@@ -62,7 +61,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         this.mDragListView = mDragListView;
 
     }
-    public DragListAdapter(Context context,DragListView mDragListView,boolean isLoadByFund) {
+
+    public DragListAdapter(Context context, DragListView mDragListView, boolean isLoadByFund) {
         this.context = context;
         this.mDragListView = mDragListView;
         this.isLoadByFund = isLoadByFund;
@@ -98,11 +98,11 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
          * 在这里尽可能每次都进行实例化新的，这样在拖拽ListView的时候不会出现错乱.
          * 具体原因不明，不过这样经过测试，目前没有发现错乱。虽说效率不高，但是做拖拽LisView足够了。
          */
-        if(isLoadByFund){
-            convertView = LayoutInflater.from(context).inflate(R.layout.drag_fund_list_item, null);
-        }else{
+        if (isLoadByFund) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.drag_fund_list_item, parent, false);
+        } else {
 
-            convertView = LayoutInflater.from(context).inflate(R.layout.drag_list_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.drag_list_item, parent, false);
         }
         RelativeLayout layout = (RelativeLayout) convertView.findViewById(R.id.layout);
         TextView tvName = (TextView) convertView.findViewById(R.id.drag_list_item_text);
@@ -128,7 +128,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         // System.out.println("setViewDate position:" + position + " name:" + item.getName());
 
         tvName.setText(item.getItemName());
-        if(item.getItemName().length()>8){
+        if (item.getItemName().length() > 8) {
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         } else {
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
@@ -267,9 +267,9 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     }
 
-    /***
+    /**
      * 动态修改ListVIiw的方位.
-     * 
+     *
      * @param start
      * 点击移动的position
      * @param down

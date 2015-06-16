@@ -8,9 +8,11 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -387,13 +390,9 @@ public class StockQuotesChartFragment extends BaseFragment {
 
     }
 
-    private Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            // if (StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
-            // viewFiveRange.setVisibility(View.GONE);
-            //
-            // } else {
-            //
+    private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             if (viewFiveRange.getVisibility() == View.VISIBLE) {
                 mBuyAdapter.setList(mStockBean.getBuyPrice().getBuyVol(), mStockBean.getBuyPrice().getBuyPrice(),
                         mStockBean.getSymbol());
@@ -411,10 +410,9 @@ public class StockQuotesChartFragment extends BaseFragment {
                 // mMaChart.invalidate();
                 setStopYTitle(mStockBean.getLastClose());
             }
+            return false;
         }
-
-        ;
-    };
+    });
 
     private boolean isStopStock() {
         return mSelectStockBean != null && mSelectStockBean.isStop;
@@ -723,19 +721,8 @@ public class StockQuotesChartFragment extends BaseFragment {
         mMaChart.setPointTitleList(titles);
     }
 
-    Handler dataHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            if (trendType.equals(TREND_TYPE_TODAY)) {
-
-                // setLineData(initMA(new Random().nextInt(240)));
-
-            } else {
-
-            }
-        }
-
-        ;
-    };
+    @SuppressLint("HandlerLeak")
+    Handler dataHandler = new Handler();
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
