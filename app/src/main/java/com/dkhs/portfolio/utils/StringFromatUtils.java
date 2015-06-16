@@ -128,6 +128,15 @@ public class StringFromatUtils {
         }
     }
 
+    public static String get4PointPlus(float value) {
+        if (value > 0) {
+            return String.format("+%.4f", value);
+
+        } else {
+            return String.format("%.4f", value);
+        }
+    }
+
     public static String convertToWan(float value) {
         // value = value / 100;
         float wan = 10000f;

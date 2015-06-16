@@ -20,11 +20,11 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TimeUtils
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-10 下午2:06:56
- * @version 1.0
  */
 public class TimeUtils {
     private static final int SECOND = 1000;
@@ -70,7 +70,7 @@ public class TimeUtils {
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA),
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CHINA),
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA) };
+            new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)};
 
     private static final SimpleDateFormat VALID_IFMODIFIEDSINCE_FORMAT = new SimpleDateFormat(
             "EEE, dd MMM yyyy HH:mm:ss Z", Locale.CHINA);
@@ -187,7 +187,9 @@ public class TimeUtils {
         return d == null ? defaultValue : d.getTime();
     }
 
-    /** Transform ISO 8601 string to Calendar. */
+    /**
+     * Transform ISO 8601 string to Calendar.
+     */
     public static Calendar toCalendar(final String iso8601string) {
         Calendar calendar = GregorianCalendar.getInstance();
         String s = iso8601string.replace("Z", "+00:00");
@@ -255,6 +257,22 @@ public class TimeUtils {
             e.printStackTrace();
         }
         return calendar;
+    }
+
+    public static String simpleDateToMonthDay(final String simpleDate) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        String monthDayText = "";
+        try {
+
+            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(simpleDate);
+            calendar.setTime(date);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+            monthDayText = sdf.format(calendar.getTime());
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return monthDayText;
     }
 
     public static Date toDate(final String iso8601string) {

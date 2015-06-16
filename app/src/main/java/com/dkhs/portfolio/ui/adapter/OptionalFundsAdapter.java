@@ -26,6 +26,7 @@ import com.dkhs.portfolio.ui.fragment.TabFundsFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
         final SelectStockBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.symbol);
-        viewHolder.tvTradeDay.setText(item.tradeDay);
+        viewHolder.tvTradeDay.setText(TimeUtils.simpleDateToMonthDay(item.tradeDay));
 
         if (!TextUtils.isEmpty(item.name) && item.name.length() > 8) {
             viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -80,7 +81,7 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
 
         if (StockUitls.isSepFund(item.symbol_stype)) { //显示万份收益，七日年化
             viewHolder.ivWanShou.setVisibility(View.VISIBLE);
-            viewHolder.tvCurrentValue.setText(item.tenthou_unit_incm + "");
+            viewHolder.tvCurrentValue.setText(StringFromatUtils.get4Point(item.tenthou_unit_incm));
             if (tabIndex == 0) {
                 perValue = item.year_yld;
                 viewHolder.tvPercentValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_qiri, 0, 0
@@ -95,7 +96,7 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
 
         } else {
             viewHolder.ivWanShou.setVisibility(View.GONE);
-            viewHolder.tvPercentValue.setCompoundDrawablesWithIntrinsicBounds (0, 0, 0
+            viewHolder.tvPercentValue.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0
                     , 0);
             if (tabIndex == 0) {
                 perValue = item.percentage;
@@ -104,7 +105,7 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
             } else if (tabIndex == 2) {
                 perValue = item.total_capital;
             }
-            viewHolder.tvCurrentValue.setText(item.currentValue + "");
+            viewHolder.tvCurrentValue.setText(StringFromatUtils.get4Point(item.currentValue));
             viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(perValue));
 
         }

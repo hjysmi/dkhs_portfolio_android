@@ -476,7 +476,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             tvWanshou.setTextColor(ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getNet_value()));
             tvWanshou.setTextColor(cls);
             tvQirinianhua.setTextColor(cls);
-            tvWanshou.setText(mFundQuoteBean.getTenthou_unit_incm() + "");
+            tvWanshou.setText(StringFromatUtils.get4Point(mFundQuoteBean.getTenthou_unit_incm()));
             tvQirinianhua.setText(StringFromatUtils.get2PointPercent(mFundQuoteBean.getYear_yld()));
 
         } else {
@@ -485,11 +485,11 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             tvUpPrice.setTextColor(cls);
             tvUpPrecent.setTextColor(cls);
 
-            tvNetvalue.setText(mFundQuoteBean.getNet_value() + "");
-            tvAllNetvalue.setText(mFundQuoteBean.getNet_cumulative() + "");
+            tvNetvalue.setText(StringFromatUtils.get4Point(mFundQuoteBean.getNet_value()));
+            tvAllNetvalue.setText(StringFromatUtils.get4Point(mFundQuoteBean.getNet_cumulative()));
             tvUpPrecent.setText(StringFromatUtils.get2PointPercentPlus(mFundQuoteBean.getPercentage()));
-            tvUpPrice.setText(StringFromatUtils.get2PointPlus(mFundQuoteBean.getChange()));
-            tvPreNetvalue.setText(mFundQuoteBean.getLast_net_value() + "");
+            tvUpPrice.setText(StringFromatUtils.get4PointPlus(mFundQuoteBean.getChange()));
+            tvPreNetvalue.setText(StringFromatUtils.get4Point(mFundQuoteBean.getLast_net_value()));
         }
     }
 
