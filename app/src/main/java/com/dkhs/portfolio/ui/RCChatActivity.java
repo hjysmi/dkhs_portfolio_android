@@ -6,36 +6,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.fragment.InvalidStateFragment;
-import com.dkhs.portfolio.ui.messagecenter.DKImgTextMsg;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
-
-import java.util.List;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.RongIM.ConversationBehaviorListener;
 import io.rong.imkit.UiConversation;
 import io.rong.imkit.fragment.ConversationFragment;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Conversation.ConversationType;
 import io.rong.imlib.model.Message;
-import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
-import io.rong.message.ImageMessage;
-import io.rong.message.RichContentMessage;
-import io.rong.message.TextMessage;
-import io.rong.message.VoiceMessage;
 
 /**
  * @author zwm
@@ -65,7 +49,7 @@ public class RCChatActivity extends ModelAcitivity {
         String title = uri.getQueryParameter("title");
         String conversationTypeStr = uri.getLastPathSegment();
         RongIM.setConversationBehaviorListener(new ConversationBehaviorListener());
-        messageHandler=new MessageHandler(this);
+        messageHandler = new MessageHandler(this);
         conversationType = ConversationType.valueOf(conversationTypeStr.toUpperCase());
         if (TextUtils.isEmpty(title)) {
             new GetConversationTitleTask().execute(targetId);
@@ -117,10 +101,7 @@ public class RCChatActivity extends ModelAcitivity {
     }
 
 
-
-
-
-    class GetConversationTitleTask extends AsyncTask<String,Void,UserInfo>{
+    class GetConversationTitleTask extends AsyncTask<String, Void, UserInfo> {
 
         @Override
         protected UserInfo doInBackground(String... params) {
@@ -141,7 +122,7 @@ public class RCChatActivity extends ModelAcitivity {
     }
 
 
-    class ConversationBehaviorListener implements RongIM.ConversationBehaviorListener{
+    class ConversationBehaviorListener implements RongIM.ConversationBehaviorListener {
 
         @Override
         public boolean onUserPortraitClick(Context context, ConversationType conversationType, UserInfo userInfo) {
@@ -150,7 +131,7 @@ public class RCChatActivity extends ModelAcitivity {
 
         @Override
         public boolean onMessageClick(Context context, Message message) {
-            return    messageHandler.handleMessage(message);
+            return messageHandler.handleMessage(message);
 
         }
 

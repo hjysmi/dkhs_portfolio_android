@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,17 +17,18 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName OptionalStockAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-25 下午3:35:49
- * @version 1.0
  */
 public class UserCombinationAdapter extends BaseAdapter {
     private Context mContext;

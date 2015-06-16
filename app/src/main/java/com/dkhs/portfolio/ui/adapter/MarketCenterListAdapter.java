@@ -8,29 +8,26 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MarketCenterGridItem;
-import com.dkhs.portfolio.ui.widget.stickygridheaders.StickyGridHeadersSimpleAdapter;
+
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName MarketCenterGridAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-12-18 下午5:24:37
- * @version 1.0
  */
 public class MarketCenterListAdapter extends BaseAdapter {
 

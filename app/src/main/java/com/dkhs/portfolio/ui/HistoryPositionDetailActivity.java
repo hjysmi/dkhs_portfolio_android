@@ -1,11 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +12,6 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryPositionDetail;
 import com.dkhs.portfolio.bean.HistoryPositionDetail.HistoryPositionBean;
 import com.dkhs.portfolio.bean.HistoryPositionDetail.HistoryPositionItem;
@@ -33,6 +26,12 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HistoryPositionDetailActivity extends ModelAcitivity implements OnLoadMoreListener {
     public static final String EXTRA_COMBINATION = "extra_combination";
@@ -257,7 +256,7 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 
         @Override
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
-                ViewGroup parent) {
+                                 ViewGroup parent) {
             ChildViewHolder holder;
             if (convertView == null) {
                 convertView = View.inflate(getApplicationContext(), R.layout.item_child_history_position, null);

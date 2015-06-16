@@ -23,7 +23,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 
 import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 import static android.view.View.VISIBLE;
 
@@ -260,8 +259,8 @@ public class AnimationHelper {
         if (anim) {
             ValueAnimator vA = expandViewAnim(v, height);
 
-            if(listener !=null)
-            vA.addListener(listener);
+            if (listener != null)
+                vA.addListener(listener);
             vA.start();
         } else {
             v.getLayoutParams().height = height;
@@ -297,17 +296,17 @@ public class AnimationHelper {
                 }
             }
         });
-        anim.setDuration(ANIM_DURATION/2);
+        anim.setDuration(ANIM_DURATION / 2);
         anim.setInterpolator(new DecelerateInterpolator());
         anim.setTarget(v);
         return anim;
     }
 
-    public static void collapseView(View view, boolean isAnim,com.nineoldandroids.animation.Animator.AnimatorListener listener) {
+    public static void collapseView(View view, boolean isAnim, com.nineoldandroids.animation.Animator.AnimatorListener listener) {
         if (isAnim) {
             ValueAnimator vA = collapseAnim(view);
-            if(null != listener)
-            vA.addListener(listener);
+            if (null != listener)
+                vA.addListener(listener);
             vA.start();
         } else {
             view.getLayoutParams().height = 0;
@@ -328,7 +327,7 @@ public class AnimationHelper {
             }
         });
         anim.setInterpolator(new AccelerateInterpolator());
-        anim.setDuration(ANIM_DURATION/2);
+        anim.setDuration(ANIM_DURATION / 2);
         anim.setTarget(v);
         return anim;
     }

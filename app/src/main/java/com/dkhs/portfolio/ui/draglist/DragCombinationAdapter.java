@@ -26,11 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockDragAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-4-9 下午3:23:45
- * @version 1.0
  */
 public class DragCombinationAdapter extends DragListAdapter {
 

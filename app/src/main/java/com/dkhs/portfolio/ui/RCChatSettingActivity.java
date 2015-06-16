@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.dkhs.portfolio.R;
 
-import io.rong.imkit.fragment.SetConversationNotificationFragment;
 import io.rong.imkit.fragment.SetConversationToTopFragment;
 
 /**
@@ -24,7 +23,7 @@ public class RCChatSettingActivity extends ModelAcitivity {
         setTitle(R.string.setting);
 
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,new SetConversationToTopFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new SetConversationToTopFragment()).commit();
 
 
     }

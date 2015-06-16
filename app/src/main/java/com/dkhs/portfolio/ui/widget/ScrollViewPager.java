@@ -11,7 +11,6 @@ package com.dkhs.portfolio.ui.widget;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -62,11 +61,11 @@ public class ScrollViewPager extends ViewPager {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param arg0
      * @param arg1
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     protected void onMeasure(int arg0, int arg1) {

@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.widget;
 
 import android.support.annotation.ArrayRes;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
 
@@ -25,7 +24,7 @@ public class TabWidget implements View.OnClickListener {
     private View view;
 
     public TabWidget(View view) {
-        this.view=view;
+        this.view = view;
         mBtntitletableft = (Button) view.findViewById(R.id.btn_titletab_left);
         mBtntitletabcenter = (Button) view.findViewById(R.id.btn_titletab_center);
         mBtntitletabright = (Button) view.findViewById(R.id.btn_titletab_right);
@@ -34,8 +33,8 @@ public class TabWidget implements View.OnClickListener {
         mBtntitletabright.setOnClickListener(this);
     }
 
-    public void  setTitles(String[] titles ){
-        if(titles.length==3){
+    public void setTitles(String[] titles) {
+        if (titles.length == 3) {
 
             mBtntitletableft.setText(titles[0]);
             mBtntitletabcenter.setText(titles[1]);
@@ -43,8 +42,8 @@ public class TabWidget implements View.OnClickListener {
         }
     }
 
-    public void  setTitles(@ArrayRes int titlesRes ) {
-        setTitles(  view.getContext().getResources().getStringArray(titlesRes));
+    public void setTitles(@ArrayRes int titlesRes) {
+        setTitles(view.getContext().getResources().getStringArray(titlesRes));
     }
 
 

@@ -184,7 +184,7 @@ public class StringFromatUtils {
 
         String dateFormatStr = "";
 
-        if(dateLong>0){
+        if (dateLong > 0) {
             Date date = new Date(dateLong);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             dateFormatStr = simpleDateFormat.format(date);

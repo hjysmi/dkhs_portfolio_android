@@ -47,7 +47,6 @@ public class AdjustHistoryAdapter extends BaseAdapter {
     // }
 
     /**
-     * @param activity
      * @param mAdjustList
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
