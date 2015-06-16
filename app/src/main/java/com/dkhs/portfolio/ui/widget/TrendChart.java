@@ -381,7 +381,7 @@ public class TrendChart extends TrendGridChart {
     protected void drawWithFingerClick(Canvas canvas, int pointIndex) {
 
         // 水平线长度
-        float lineHLength = getWidth() - 2f;
+        float lineHLength = getWidth() - lineStrokeWidth;
         // 垂直线高度
         float lineVLength = super.getmGridLineHeight() - axisMarginBottom;
 
@@ -390,7 +390,7 @@ public class TrendChart extends TrendGridChart {
 
         }
 
-        if (clickPostX > 0 && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
+        if (clickPostX > mStartLineXpoint && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
             if (!isTouch) {
                 fingerPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
             }
