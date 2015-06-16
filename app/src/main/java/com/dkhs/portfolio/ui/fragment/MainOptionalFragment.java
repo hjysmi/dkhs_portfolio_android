@@ -120,7 +120,7 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         btnRight.setVisibility(View.GONE);
         btnLeft.setVisibility(View.VISIBLE);
         btnLeft.setText("");
-        btnLeft.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.btn_back_selector, 0, 0, 0);
+        btnLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_back_selector, 0, 0, 0);
         btnLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

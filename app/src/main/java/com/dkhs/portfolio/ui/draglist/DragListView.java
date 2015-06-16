@@ -1,17 +1,11 @@
 package com.dkhs.portfolio.ui.draglist;
 
-import java.util.List;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.DataEntry;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +22,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.DataEntry;
+
+import java.util.List;
 
 /**
  * 有隐藏
@@ -101,7 +100,7 @@ public class DragListView extends ListView {
     }
 
     private void init() {
-        windowManager = (WindowManager) getContext().getSystemService("window");
+        windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         // for(int i=0; i<6; i++){
         // listOrder.add(i);
         // }

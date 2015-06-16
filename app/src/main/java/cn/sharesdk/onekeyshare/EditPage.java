@@ -53,7 +53,6 @@ import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.FakeActivity;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.TitleLayout;
 import cn.sharesdk.framework.utils.UIHandler;
 
 import static cn.sharesdk.framework.utils.BitmapHelper.blur;
@@ -61,11 +60,12 @@ import static cn.sharesdk.framework.utils.BitmapHelper.captureView;
 import static cn.sharesdk.framework.utils.BitmapHelper.getBitmap;
 import static cn.sharesdk.framework.utils.R.dipToPx;
 import static cn.sharesdk.framework.utils.R.getBitmapRes;
-import static cn.sharesdk.framework.utils.R.getColorRes;
 import static cn.sharesdk.framework.utils.R.getScreenWidth;
 import static cn.sharesdk.framework.utils.R.getStringRes;
 
-/** 执行图文分享的页面，此页面不支持微信平台的分享 */
+/**
+ * 执行图文分享的页面，此页面不支持微信平台的分享
+ */
 public class EditPage extends FakeActivity implements OnClickListener, TextWatcher {
     private static final int MAX_TEXT_COUNT = 140;
     private static final int DIM_COLOR = 0x7f323232;
@@ -101,7 +101,9 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
         reqData = data;
     }
 
-    /** 设置显示模式为Dialog模式 */
+    /**
+     * 设置显示模式为Dialog模式
+     */
     public void setDialogMode() {
         dialogMode = true;
     }
@@ -167,7 +169,14 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
 
     private RelativeLayout getPageView() {
         rlPage = new RelativeLayout(getContext());
-        rlPage.setBackground(background);
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            rlPage.setBackgroundDrawable(background);
+        } else {
+            rlPage.setBackground(background);
+        }
+
+
         if (dialogMode) {
             RelativeLayout rlDialog = new RelativeLayout(getContext());
             rlDialog.setBackgroundResource(R.drawable.bg_dialog);
@@ -195,11 +204,11 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
     private View getPageTitle() {
 
 
-        llTitle= LayoutInflater.from(getContext()).inflate(R.layout.layout_share_title_bar,null);
+        llTitle = LayoutInflater.from(getContext()).inflate(R.layout.layout_share_title_bar, null);
 
 
-        TextView titleTV= (TextView) llTitle.findViewById(R.id.tv_title);
-        Button shareBtn= (Button) llTitle.findViewById(R.id.btn_share);
+        TextView titleTV = (TextView) llTitle.findViewById(R.id.tv_title);
+        Button shareBtn = (Button) llTitle.findViewById(R.id.btn_share);
 
         // int resId = getBitmapRes(activity, "title_back");
         // if (resId > 0) {
@@ -218,14 +227,13 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
         shareBtn.setOnClickListener(this);
 
 
-
         return llTitle;
     }
 
     // 页面主体
     private LinearLayout getPageBody() {
         llBody = new LinearLayout(getContext());
-        llBody.setId(2);
+        llBody.setId(R.id.llBody);
         int resId = getBitmapRes(activity, "edittext_back");
         if (resId > 0) {
             llBody.setBackgroundResource(resId);
@@ -269,7 +277,13 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
         // 文字输入区域
         etContent = new EditText(getContext());
         etContent.setGravity(Gravity.LEFT | Gravity.TOP);
-        etContent.setBackground(null);
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            etContent.setBackgroundDrawable(null);
+        } else {
+            etContent.setBackground(null);
+        }
+
         etContent.setTextColor(getContext().getResources().getColor(R.color.tag_gray));
         etContent.setText(String.valueOf(reqData.get("text")));
         etContent.addTextChangedListener(this);
@@ -288,7 +302,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
     // 输入区域的图片
     private RelativeLayout getThumbView() {
         rlThumb = new RelativeLayout(getContext());
-        rlThumb.setId(1);
+        rlThumb.setId(R.id.rlThumb);
         int dp_82 = dipToPx(getContext(), 82);
         int dp_98 = dipToPx(getContext(), 98);
         LinearLayout.LayoutParams lpThumb = new LinearLayout.LayoutParams(dp_82, dp_98);
@@ -559,7 +573,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
                 Bitmap bgBm = captureView(tmpBgView, tmpBgView.getWidth(), tmpBgView.getHeight());
                 bgBm = blur(bgBm, 20, 8);
                 BitmapDrawable blurBm = new BitmapDrawable(activity.getResources(), bgBm);
-                background = new LayerDrawable(new Drawable[] { blurBm, background });
+                background = new LayerDrawable(new Drawable[]{blurBm, background});
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -594,7 +608,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
 //        }
 
         // 取消分享的统计
-        if (v.getId()==(R.id.btn_share)) {
+        if (v.getId() == (R.id.btn_share)) {
             String text = etContent.getText().toString();
             reqData.put("text", text);
             if (!shareImage) {
@@ -658,7 +672,9 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
         }
     }
 
-    /** 显示平台列表 */
+    /**
+     * 显示平台列表
+     */
     public void afterPlatformListGot() {
         String name = String.valueOf(reqData.get("platform"));
         int size = platformList == null ? 0 : platformList.length;
@@ -785,7 +801,16 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
             rlPage.postDelayed(new Runnable() {
                 public void run() {
                     genBackground();
-                    rlPage.setBackground(background);
+
+
+                    int sdk = android.os.Build.VERSION.SDK_INT;
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        rlPage.setBackgroundDrawable(background);
+                    } else {
+                        rlPage.setBackground(background);
+                    }
+
+
                 }
             }, 1000);
         } else {
@@ -797,7 +822,15 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
             rlPage.postDelayed(new Runnable() {
                 public void run() {
                     genBackground();
-                    rlPage.setBackground(background);
+
+                    int sdk = android.os.Build.VERSION.SDK_INT;
+                    if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        rlPage.setBackgroundDrawable(background);
+                    } else {
+                        rlPage.setBackground(background);
+                    }
+
+
                 }
             }, 1000);
         }

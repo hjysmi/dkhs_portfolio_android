@@ -66,7 +66,7 @@ public class FloatingActionMenu extends FloatingActionView {
         this.containerView = new LinearLayout(getContext());
         this.containerView.setLayoutParams(new LinearLayout.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-        this.containerView.setOrientation(0);
+        this.containerView.setOrientation(LinearLayout.HORIZONTAL);
         addView(this.containerView);
     }
 
@@ -125,7 +125,7 @@ public class FloatingActionMenu extends FloatingActionView {
     }
 
     private void init() {
-        setOrientation(1);
+        setOrientation(LinearLayout.VERTICAL);
         addBorderInTop();
     }
 

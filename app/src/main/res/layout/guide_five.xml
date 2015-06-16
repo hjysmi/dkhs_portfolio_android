@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <com.dkhs.portfolio.ui.widget.PowerImageView
         android:layout_width="match_parent"
@@ -13,35 +13,37 @@
         android:src="@drawable/gif_guide_five" />
 
     <LinearLayout
+        android:id="@+id/guide_layout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:id="@+id/guide_layout">
+        android:paddingRight="20dp">
 
         <Button
             android:id="@+id/btn_start_login"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:background="@drawable/btn_red_selector"
+            android:gravity="center"
             android:text="登录注册"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_start_register"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:gravity="center"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:background="@drawable/btn_tiyan_selector"
+            android:gravity="center"
             android:text="随便看看"
             android:textColor="@color/red"
             android:textSize="18sp" />
@@ -58,7 +60,7 @@
         android:layout_marginTop="10dip"
         android:background="@drawable/btn_tiyan_selector"
         android:clickable="true"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_start"
