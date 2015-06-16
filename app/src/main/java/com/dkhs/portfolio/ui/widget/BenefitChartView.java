@@ -62,12 +62,13 @@ public class BenefitChartView {
     @ViewInject(R.id.machart)
     private TrendChart maChartView;
 
-    @ViewInject(R.id.tv_more_funds)
-    private View moreFundView;
+
     @ViewInject(R.id.rl_compare_title)
     private View titleView;
     @ViewInject(R.id.loadView)
     private View loadView;
+    @ViewInject(R.id.line)
+    private View lineView;
     @ViewInject(R.id.contentView)
     private View contentView;
     private Context ctx;
@@ -97,7 +98,6 @@ public class BenefitChartView {
     public View initView() {
         View view = LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view, null);
         ViewUtils.inject(this, view); // 注入view和事件
-        moreFundView.setVisibility(View.GONE);
         return view;
     }
 
@@ -113,6 +113,7 @@ public class BenefitChartView {
         symbol_stype = achivementsEntity.getFund().getSymbol_stype();
         fundId = achivementsEntity.getFund().getId() + "";
         abbrName = achivementsEntity.getFund().getAbbr_name();
+        lineView.setVisibility(View.VISIBLE);
         onRequest();
     }
 
@@ -178,7 +179,7 @@ public class BenefitChartView {
     private void onRequest() {
         initMaChart(maChartView);
         if (StockUitls.isSepFund(symbol_stype)) {
-            tvCombinationName.setVisibility(View.GONE);
+            titleView.setVisibility(View.GONE);
             requestSepFund();
         } else {
             tvCombinationName.setText(abbrName);
@@ -490,7 +491,9 @@ public class BenefitChartView {
                         lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
                     } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
                         lineEntity = new DefFundLineEntity();
-                        lineEntity.setTitle(mFundQuoteBean.getCode());
+                        if(mFundQuoteBean!=null) {
+                            lineEntity.setTitle(mFundQuoteBean.getCode());
+                        }
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;
                         baseNetValue = bean.getChartlist().get(0).getNetvalue();
