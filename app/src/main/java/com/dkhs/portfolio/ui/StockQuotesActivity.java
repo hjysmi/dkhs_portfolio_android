@@ -246,6 +246,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 @Override
                 public boolean onMenuItemSelected(int paramInt) {
 
+                    if (landStockview.getVisibility() == View.VISIBLE) {
+                        return true;
+                    }
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                         return false;
                     }
