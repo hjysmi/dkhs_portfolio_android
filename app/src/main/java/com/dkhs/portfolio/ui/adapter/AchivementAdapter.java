@@ -80,6 +80,7 @@ public class AchivementAdapter extends AutoAdapter {
             stringBuilder.append(context.getString(R.string.between_date)).append(achivementsEntity.getEnd_date());
         }
         vh.setTextView(R.id.tv_date,stringBuilder.toString());
+        vh.setTextView(R.id.rateTV,context. getString(R.string.rate_total));
         if(selectIndex ==position){
 
 
@@ -118,7 +119,7 @@ public class AchivementAdapter extends AutoAdapter {
         if(StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())){
 
             shRateTV.setText(R.string.null_number);
-            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
             shRateTV.setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
             sh300TV.setVisibility(View.GONE);
 

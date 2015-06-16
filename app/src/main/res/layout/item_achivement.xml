@@ -73,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/rate"
+                    android:id="@+id/rateTV"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                     android:textColor="@color/tag_gray"
                     android:textSize="10sp" />
