@@ -9,8 +9,11 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerInfoBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.nineoldandroids.animation.Animator;
 
@@ -77,6 +80,7 @@ public class AchivementAdapter extends AutoAdapter {
             stringBuilder.append(context.getString(R.string.between_date)).append(achivementsEntity.getEnd_date());
         }
         vh.setTextView(R.id.tv_date,stringBuilder.toString());
+        vh.setTextView(R.id.rateTV,context. getString(R.string.rate_total));
         if(selectIndex ==position){
 
 
@@ -108,8 +112,29 @@ public class AchivementAdapter extends AutoAdapter {
         }
 
         setText(vh.getTextView(R.id.cp_rate),achivementsEntity.getCp_rate());
-        setText(vh.getTextView(R.id.sh_rate),achivementsEntity.getSh300_rate());
+
+        TextView shRateTV=vh.getTextView(R.id.sh_rate);
+        TextView sh300TV=vh.getTextView(R.id.sh300);
+
+        if(StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())){
+
+            shRateTV.setText(R.string.null_number);
+            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+            shRateTV.setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
+            sh300TV.setVisibility(View.GONE);
+
+        }else {
+
+            shRateTV.setText(R.string.null_number);
+            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            sh300TV.setVisibility(View.VISIBLE);
+            setText(vh.getTextView(R.id.sh_rate), achivementsEntity.getSh300_rate());
+        }
+
+
+
         vh.get(R.id.ll_chart_switch).setOnClickListener(new OnClickImp(vh,achivementsEntity,position));
+        vh.getRootView().setOnClickListener(new OnItemClick ((FundManagerInfoBean.AchivementsEntity) list.get(position)));
 
     }
 
@@ -125,6 +150,21 @@ public class AchivementAdapter extends AutoAdapter {
 
         }
         textView.setText(StringFromatUtils.get2PointPercent((float) value));
+    }
+
+
+    class OnItemClick implements View.OnClickListener{
+        FundManagerInfoBean.AchivementsEntity achivementsEntity;
+
+        public OnItemClick(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
+            this.achivementsEntity = achivementsEntity;
+        }
+
+        @Override
+        public void onClick(View v) {
+            context.startActivity(FundDetailActivity.newIntent(context, SelectStockBean.copy(achivementsEntity)));
+
+        }
     }
 
 

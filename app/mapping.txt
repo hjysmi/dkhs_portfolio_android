@@ -14042,6 +14042,7 @@ com.dkhs.portfolio.R$drawable -> com.dkhs.portfolio.R$drawable:
     int transparent -> transparent
     int tv_combination_currentnet -> tv_combination_currentnet
     int tv_gray_text -> tv_gray_text
+    int type_red_dot_bg -> type_red_dot_bg
     int u1f004 -> u1f004
     int u1f30f -> u1f30f
     int u1f319 -> u1f319
@@ -14702,6 +14703,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int rl_adjust_remind -> rl_adjust_remind
     int rl_base_add_view -> rl_base_add_view
     int rl_center -> rl_center
+    int rl_chart -> rl_chart
     int rl_combina -> rl_combina
     int rl_combina_title -> rl_combina_title
     int rl_combination_list -> rl_combination_list
@@ -23829,6 +23831,7 @@ com.dkhs.portfolio.ui.fragment.MarketCombinationFragment -> com.dkhs.portfolio.u
     com.dkhs.portfolio.ui.widget.ScrollViewPager pager -> e
     java.util.List mVisitorData -> a
     int titleIndex -> f
+    java.util.ArrayList fragmentList -> g
     com.dkhs.portfolio.ui.widget.HScrollTitleView$ISelectPostionListener titleSelectPostion -> b
     android.support.v4.view.ViewPager$OnPageChangeListener pageChangeListener -> c
     int setContentLayoutId() -> h
@@ -23839,6 +23842,7 @@ com.dkhs.portfolio.ui.fragment.MarketCombinationFragment -> com.dkhs.portfolio.u
     void onResume() -> onResume
     void loadVisitorCombinationList() -> a
     void onDestroy() -> onDestroy
+    void onClick(android.view.View) -> onClick
     com.dkhs.portfolio.ui.widget.ScrollViewPager access$000(com.dkhs.portfolio.ui.fragment.MarketCombinationFragment) -> a
     com.dkhs.portfolio.ui.widget.HScrollTitleView access$100(com.dkhs.portfolio.ui.fragment.MarketCombinationFragment) -> b
 com.dkhs.portfolio.ui.fragment.MarketCombinationFragment$1 -> com.dkhs.portfolio.ui.fragment.ci:
@@ -25225,29 +25229,33 @@ com.dkhs.portfolio.ui.widget.BaseLayoutManager$SavedState$1 -> com.dkhs.portfoli
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
 com.dkhs.portfolio.ui.widget.BenefitChartView -> com.dkhs.portfolio.ui.widget.d:
-    java.lang.String mCompareIds -> h
-    android.widget.TextView tvCombinationName -> i
-    com.dkhs.portfolio.engine.CompareEngine mCompareEngine -> j
+    java.lang.String mCompareIds -> k
+    android.widget.TextView tvCombinationName -> l
+    com.dkhs.portfolio.engine.CompareEngine mCompareEngine -> m
     java.util.Calendar cStart -> a
     java.util.Calendar cEnd -> b
-    com.dkhs.portfolio.ui.widget.TrendChart maChartView -> k
-    android.view.View moreFundView -> l
-    android.view.View titleView -> m
-    android.view.View loadView -> n
-    android.view.View contentView -> o
-    android.content.Context ctx -> p
-    java.lang.String fundId -> q
-    int symbol_stype -> r
-    java.lang.String abbrName -> s
-    java.util.List lineEntityList -> t
-    android.view.View benifitView -> u
-    com.dkhs.portfolio.bean.FundQuoteBean mFundQuoteBean -> v
-    com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType trendType -> w
+    com.dkhs.portfolio.ui.widget.TrendChart maChartView -> n
+    android.view.View titleView -> o
+    android.view.View loadView -> p
+    android.view.View lineView -> q
+    android.view.View contentView -> r
+    android.content.Context ctx -> s
+    java.lang.String fundId -> t
+    int symbol_stype -> u
+    java.lang.String abbrName -> v
+    java.util.List lineEntityList -> w
+    android.view.View benifitView -> x
+    com.dkhs.portfolio.bean.FundQuoteBean mFundQuoteBean -> y
+    java.util.LinkedList inertManagerList -> z
+    com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType trendType -> A
     java.util.List compareLinesList -> c
     float maxOffsetValue -> d
     float minOffsetValue -> e
-    com.dkhs.portfolio.net.ParseHttpListener sepFundHttpListener -> f
-    com.dkhs.portfolio.net.ParseHttpListener compareListener -> g
+    float maxOffsetNetValue -> f
+    float minOffsetNetValue -> g
+    float baseNetValue -> h
+    com.dkhs.portfolio.net.ParseHttpListener sepFundHttpListener -> i
+    com.dkhs.portfolio.net.ParseHttpListener compareListener -> j
     android.view.View getBenifitView() -> a
     android.view.View initView() -> b
     void draw(com.dkhs.portfolio.bean.FundManagerInfoBean$AchivementsEntity) -> a
@@ -25262,7 +25270,7 @@ com.dkhs.portfolio.ui.widget.BenefitChartView -> com.dkhs.portfolio.ui.widget.d:
     void setSepFundLineList() -> h
     void setXTitleByComparePoint(java.util.List) -> a
     void setXTitleBySepFundChartBean(java.util.List) -> b
-    void setYTitle(float,float,float,float) -> a
+    void setYTitle(float,float,float) -> a
     void setYTitle(float,float) -> a
     java.lang.String getManagerByData(java.lang.String) -> a
     void access$000(com.dkhs.portfolio.ui.widget.BenefitChartView,java.util.List) -> a
@@ -25271,8 +25279,9 @@ com.dkhs.portfolio.ui.widget.BenefitChartView -> com.dkhs.portfolio.ui.widget.d:
     void access$300(com.dkhs.portfolio.ui.widget.BenefitChartView) -> b
     java.lang.String access$400(com.dkhs.portfolio.ui.widget.BenefitChartView) -> c
     java.lang.String access$500(com.dkhs.portfolio.ui.widget.BenefitChartView) -> d
-    void access$600(com.dkhs.portfolio.ui.widget.BenefitChartView,java.util.List) -> b
-    void access$700(com.dkhs.portfolio.ui.widget.BenefitChartView) -> e
+    com.dkhs.portfolio.bean.FundQuoteBean access$600(com.dkhs.portfolio.ui.widget.BenefitChartView) -> e
+    void access$700(com.dkhs.portfolio.ui.widget.BenefitChartView,java.util.List) -> b
+    void access$800(com.dkhs.portfolio.ui.widget.BenefitChartView) -> f
 com.dkhs.portfolio.ui.widget.BenefitChartView$1 -> com.dkhs.portfolio.ui.widget.e:
     com.dkhs.portfolio.ui.widget.BenefitChartView this$0 -> a
     java.util.List parseDateTask(java.lang.String) -> a
@@ -26357,9 +26366,9 @@ com.dkhs.portfolio.ui.widget.TrendChart -> com.dkhs.portfolio.ui.widget.TrendCha
     void onDetachedFromWindow() -> onDetachedFromWindow
     com.dkhs.portfolio.ui.widget.StockViewCallBack getCallBack() -> getCallBack
     void setCallBack(com.dkhs.portfolio.ui.widget.StockViewCallBack) -> setCallBack
-    int access$000(com.dkhs.portfolio.ui.widget.TrendChart) -> a
-    boolean access$100(com.dkhs.portfolio.ui.widget.TrendChart) -> b
-    int access$010(com.dkhs.portfolio.ui.widget.TrendChart) -> c
+    int access$010(com.dkhs.portfolio.ui.widget.TrendChart) -> a
+    int access$000(com.dkhs.portfolio.ui.widget.TrendChart) -> b
+    boolean access$100(com.dkhs.portfolio.ui.widget.TrendChart) -> c
     boolean access$202(com.dkhs.portfolio.ui.widget.TrendChart,boolean) -> a
     boolean access$300(com.dkhs.portfolio.ui.widget.TrendChart) -> d
     int access$008(com.dkhs.portfolio.ui.widget.TrendChart) -> e
@@ -26399,37 +26408,38 @@ com.dkhs.portfolio.ui.widget.TrendGridChart -> com.dkhs.portfolio.ui.widget.Tren
     boolean displayAxisXTitle -> F
     boolean displayAxisYTitle -> G
     boolean displayAxisYTitleColor -> H
-    boolean displayLongitude -> I
-    boolean dashLongitude -> J
-    boolean displayLatitude -> K
-    boolean dashLatitude -> L
-    android.graphics.PathEffect dashEffect -> M
-    boolean displayBorder -> N
-    int borderColor -> O
-    int longtitudeFontColor -> P
-    int longtitudeFontSize -> Q
-    int latitudeFontColor -> R
-    int latitudeFontSize -> S
-    java.util.List axisXTitles -> T
-    java.util.List axisYTitles -> U
-    java.util.List axisRightYTitles -> V
-    int axisYMaxTitleLength -> W
-    boolean displayCrossXOnTouch -> aa
-    boolean displayCrossYOnTouch -> ab
-    boolean isDrawXBorke -> ac
-    boolean isDrawRightYTitle -> ad
-    int xLineCounts -> ae
-    int yLineCounts -> af
-    android.graphics.Paint mTextPaint -> ag
+    boolean displayYRightTitleByZero -> I
+    boolean displayLongitude -> J
+    boolean dashLongitude -> K
+    boolean displayLatitude -> L
+    boolean dashLatitude -> M
+    android.graphics.PathEffect dashEffect -> N
+    boolean displayBorder -> O
+    int borderColor -> P
+    int longtitudeFontColor -> Q
+    int longtitudeFontSize -> R
+    int latitudeFontColor -> S
+    int latitudeFontSize -> T
+    java.util.List axisXTitles -> U
+    java.util.List axisYTitles -> V
+    java.util.List axisRightYTitles -> W
+    int axisYMaxTitleLength -> aa
+    boolean displayCrossXOnTouch -> ab
+    boolean displayCrossYOnTouch -> ac
+    boolean isDrawXBorke -> ad
+    boolean isDrawRightYTitle -> ae
+    int xLineCounts -> af
+    int yLineCounts -> ag
+    android.graphics.Paint mTextPaint -> ah
     int xTitleTextHeight -> r
     float mGridLineHeight -> s
     float mGridLineLenght -> t
     float mStartLineYpoint -> u
     float mStartLineXpoint -> v
     float volHight -> w
-    boolean isMeasure -> ah
-    int mHightWeight -> ai
-    int mWidthWeight -> aj
+    boolean isMeasure -> ai
+    int mHightWeight -> aj
+    int mWidthWeight -> ak
     void init(android.content.Context,android.util.AttributeSet) -> a
     void onMeasure(int,int) -> onMeasure
     void resetLayoutWeight(int,int) -> a
@@ -26506,6 +26516,7 @@ com.dkhs.portfolio.ui.widget.TrendGridChart -> com.dkhs.portfolio.ui.widget.Tren
     android.graphics.Paint getmTextPaint() -> getmTextPaint
     int getyLineCounts() -> getyLineCounts
     void setYlineCounts(int) -> setYlineCounts
+    void setDisplayYRightTitleByZero(boolean) -> setDisplayYRightTitleByZero
 com.dkhs.portfolio.ui.widget.chart.GridChart -> com.dkhs.portfolio.ui.widget.chart.GridChart:
     int PADDING_LEFT -> a
     boolean DEFAULT_DISPLAY_LONGTITUDE -> b
@@ -27465,6 +27476,7 @@ com.dkhs.portfolio.utils.ColorTemplate -> com.dkhs.portfolio.d.l:
     android.content.res.ColorStateList getTextColor(int) -> c
     android.content.res.ColorStateList getUpOrDrownCSL(float) -> a
     int getUpOrDrowBgColor(float) -> b
+    int getPercentColor(java.lang.String) -> a
 com.dkhs.portfolio.utils.DES -> com.dkhs.portfolio.d.m:
     java.security.Key key -> a
     javax.crypto.Cipher cipher -> b
