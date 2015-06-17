@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.dkhs.portfolio.R;
@@ -1047,6 +1048,9 @@ public class TrendChart extends TrendGridChart {
 
                 LinePointEntity pointEntity = (LinePointEntity) lineEntity.getLineData().get(pointIndex);
                 if (pointEntity instanceof DefFundPointEntity) {
+
+                    Log.e("TTTTT", "  pointEntity instanceof DefFundPointEntity");
+
                     valueText = ((DefFundPointEntity) pointEntity).getNetvalue() + "";
                     preYpoint += textMargin + floatTextHeight;
                     firtLineText = "单位净值：";

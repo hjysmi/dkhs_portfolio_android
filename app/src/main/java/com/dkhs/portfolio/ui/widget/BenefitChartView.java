@@ -398,6 +398,7 @@ public class BenefitChartView {
                 List<SepFundPointEntity> lineDataList = new ArrayList<SepFundPointEntity>();
                 setXTitleBySepFundChartBean(sepFundChartBeans);
                 float value = sepFundChartBeans.get(0).getYear_yld();
+                String firstDay = sepFundChartBeans.get(0).getDate();
                 maxOffsetValue = value;
                 minOffsetValue = value;
                 for (SepFundChartBean cPoint : sepFundChartBeans) {
@@ -407,7 +408,7 @@ public class BenefitChartView {
                     value = cPoint.getYear_yld();
                     pointEntity.setDesc(cPoint.getDate());
                     pointEntity.setNetvalue(cPoint.getTenthou_unit_incm());
-                    pointEntity.setInfo(getManagerByData(cPoint.getDate()));
+                    pointEntity.setInfo(getManagerByData(firstDay, cPoint.getDate()));
                     pointEntity.setValue(value);
                     lineDataList.add(pointEntity);
 
@@ -453,16 +454,21 @@ public class BenefitChartView {
      * 如果有多个任职经理，就显示多个圆圈
      * 如果基金经理任职日期，有在当前曲线范围内，但是没有对应到tradedate上（节假日到任），那么这个圆圈就画在TA到任后的第一个交易日上。
      */
-    private String getManagerByData(String day) {
+    private String getManagerByData(String firstDay, String day) {
         StringBuilder sbMangerText = new StringBuilder();
         if (null != inertManagerList && !inertManagerList.isEmpty()) {
             Iterator<ManagersEntity> it = inertManagerList.iterator();
             while (it.hasNext()) {
                 ManagersEntity managerEntity = it.next();
-                if (managerEntity.getStart_date().equals(day) || TimeUtils.simpleDateToCalendar(day).after(TimeUtils.simpleDateToCalendar(managerEntity.getStart_date()))) {
-                    sbMangerText.append(managerEntity.getName()).append("  ");
-                    it.remove();
-                    Log.d("InsertManagerData", " manager:" + managerEntity.getName() + " is  insert to" + day);
+                Calendar firstCal = TimeUtils.simpleDateToCalendar(firstDay);
+                Calendar managerCal = TimeUtils.simpleDateToCalendar(managerEntity.getStart_date());
+                if (!managerCal.before(firstCal)) {
+                    Calendar currentCal = TimeUtils.simpleDateToCalendar(day);
+                    if (managerCal.equals(currentCal) || currentCal.after(managerCal)) {
+                        sbMangerText.append(managerEntity.getName()).append("  ");
+                        it.remove();
+                        Log.d("InsertManagerData", " manager:" + managerEntity.getName() + " is  insert to" + day);
+                    }
                 }
 
             }
@@ -487,14 +493,17 @@ public class BenefitChartView {
 //                maxOffsetValue = beanList.get(0).getChartlist().get(0).getPercentage();
 //                minOffsetValue = maxOffsetValue;
                 boolean isCurrentFund;
+                String firstDay = null;
+                LineEntity lineEntity;
                 for (CompareFundsBean bean : beanList) {
+                    lineEntity = new LineEntity();
                     isCurrentFund = false;
-                    LineEntity lineEntity = new LineEntity();
                     if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(mCompareIds)) {
                         lineEntity.setTitle("沪深300");
                         lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
                     } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
                         lineEntity = new DefFundLineEntity();
+                        Log.e("TTTTT", "  new DefFundLineEntity");
                         if (mFundQuoteBean != null) {
                             lineEntity.setTitle(mFundQuoteBean.getSymbol());
                         } else if (achivementsEntity != null) {
@@ -504,6 +513,7 @@ public class BenefitChartView {
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;
                         baseNetValue = bean.getChartlist().get(0).getNetvalue();
+                        firstDay = bean.getChartlist().get(0).getDate();
                     } else {
                         lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
                     }
@@ -512,6 +522,7 @@ public class BenefitChartView {
                     List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
                     setXTitleByComparePoint(bean.getChartlist());
                     float net_cumulative = 0;
+
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         DefFundPointEntity pointEntity = new DefFundPointEntity();
                         float value = cPoint.getPercentage();
@@ -529,7 +540,7 @@ public class BenefitChartView {
                             net_cumulative = cPoint.getNet_cumulative();
                             pointEntity.setNet_cumulative(net_cumulative);
                             pointEntity.setNetvalue(cPoint.getNetvalue());
-                            pointEntity.setInfo(getManagerByData(cPoint.getDate()));
+                            pointEntity.setInfo(getManagerByData(firstDay, cPoint.getDate()));
                             if (net_cumulative > maxOffsetNetValue) {
                                 maxOffsetNetValue = net_cumulative;
                             } else if (net_cumulative < minOffsetNetValue) {

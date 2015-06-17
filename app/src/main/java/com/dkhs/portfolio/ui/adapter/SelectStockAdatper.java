@@ -143,7 +143,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
         } else if (StockUitls.isNewStock(item.list_status) && !isAddNewStock) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
-            viewHolder.tvSuspend.setText("新股");
+            viewHolder.tvSuspend.setText(R.string.new_stock);
             viewHolder.mCheckbox.setVisibility(View.GONE);
         } else {
             viewHolder.tvSuspend.setVisibility(View.GONE);

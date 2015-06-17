@@ -74,11 +74,11 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.percentage));
         }
         if (StockUitls.isDelistStock(item.list_status)) {
-            viewHolder.tvPercentValue.setText("退市");
+            viewHolder.tvPercentValue.setText(R.string.exit_stock);
             viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
             // viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
         } else if (item.isStop) {
-            viewHolder.tvPercentValue.setText("停牌");
+            viewHolder.tvPercentValue.setText(R.string.stop_stock);
             // viewHolder.tvPercentValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
             viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
         } else {
