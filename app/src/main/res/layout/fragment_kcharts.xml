@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_first"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.dkhs.portfolio.ui.widget.chart.StickChart
+        	android:id="@+id/chart_volumn"
+        	android:layout_width="match_parent"
+	        android:layout_height="70dp"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginLeft="10dp"
+	        android:layout_marginRight="10dp"
+
+			android:background="@null"
+	        />
+
+        <com.dkhs.portfolio.ui.widget.kline.KChartsView
+	        android:id="@+id/my_charts_view"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+			android:layout_marginBottom="1dp"
+	        android:layout_marginLeft="10dp"
+	        android:layout_marginRight="10dp"
+	        android:layout_above="@id/chart_volumn"/>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_above="@id/chart_volumn"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="16dp">
+	         <ImageButton
+	            android:id="@+id/btn_large"
+	            android:layout_width="30dp"
+	            android:layout_height="30dp"
+	            android:scaleType="fitCenter"
+	            android:src="@drawable/btn_zoom_in_select"
+	            android:background="@null"/>
+
+	         <ImageButton
+	            android:id="@+id/btn_small"
+	            android:layout_width="30dp"
+	            android:layout_height="30dp"
+	            android:scaleType="fitCenter"
+	            android:src="@drawable/btn_zoom_out_select"
+	            android:background="@null"
+	            android:layout_toRightOf="@id/btn_large"
+	            android:layout_marginLeft="10dip"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+	<include layout="@layout/progressbar"
+        android:id="@android:id/progress"
+	    android:visibility="gone"
+        />
+</RelativeLayout>

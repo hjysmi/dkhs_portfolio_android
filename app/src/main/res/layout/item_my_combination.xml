@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="12dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_combination_item_selector"
+        android:focusable="false"
+        android:focusableInTouchMode="false" >
+
+        <RelativeLayout
+            android:id="@+id/rl_combina_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:id="@+id/rl_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/red_cornericon" >
+
+                <TextView
+                    android:id="@+id/tv_combination_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingLeft="6dp"
+                    android:text="66"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <CheckBox
+                android:id="@+id/cb_select_conbin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:button="@drawable/cb_title_edit"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rl_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" >
+
+                <TextView
+                    android:id="@+id/tv_mycob_current"
+                    style="@style/hw_wrap"
+                    android:text="今日:"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_mycob_add"
+                    style="@style/hw_wrap"
+                    android:layout_below="@+id/tv_mycob_current"
+                    android:text="@string/add_up"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_mycob_curren_value"
+                    android:layout_width="@dimen/mycombina_list_text_wid"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_mycob_current"
+                    android:layout_toRightOf="@+id/tv_mycob_current"
+                    android:gravity="right"
+                    android:text="-12.52%"
+                    android:textColor="@color/green"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_mycob_add_value"
+                    android:layout_width="@dimen/mycombina_list_text_wid"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_mycob_add"
+                    android:layout_toRightOf="@+id/tv_mycob_add"
+                    android:gravity="right"
+                    android:text="-12.52%"
+                    android:textColor="@color/green"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_combin_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/rl_value"
+                android:layout_toRightOf="@+id/rl_index"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="组合名称"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_combination_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_combina_title"
+            android:background="@drawable/bg_com_desc"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingBottom="6dp"
+            android:paddingLeft="14dp"
+            android:paddingTop="6dp"
+            android:singleLine="true"
+            android:text="描述:"
+            android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/ib_del_conbin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/ic_delete_item"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_additem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/gray_main_plus_selector"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,8 @@
+<resources>
+
+    <integer name="select_touch_text">22</integer>
+
+    <dimen name="float_text_margin">5dp</dimen>
+    <dimen name="title_text_font">10sp</dimen>
+
+</resources>

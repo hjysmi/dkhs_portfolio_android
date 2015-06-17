@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+       android:background="@drawable/bg_dkimgtextmsg"
+        android:layout_margin="8dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingTop="6dp"
+            android:paddingLeft="2dp"
+            android:paddingBottom="2dp"
+            android:paddingRight="2dp"
+            android:id="@+id/tv_title"
+            style="@style/CommonTextAppearance_Middle_Black"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:paddingTop="2dp"
+            android:paddingLeft="2dp"
+            android:paddingBottom="2dp"
+            android:paddingRight="2dp"
+            android:id="@+id/tv_date_line"
+           style="@style/CommonTextAppearance_super_Mini_Gray"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/im_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+
+            android:layout_width="fill_parent"
+            android:scaleType="centerCrop"
+            android:minHeight="160dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:id="@+id/tv_content"
+            android:paddingTop="2dp"
+            android:paddingLeft="2dp"
+            android:paddingBottom="2dp"
+            android:paddingRight="2dp"
+            style="@style/CommonTextAppearance_Mini_Gray"
+            android:textColor="@color/ma5_color"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_marginTop="8dp"
+            style="@style/divider_line"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:text="@string/detail"
+
+            android:padding="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+
+            style="@style/CommonTextAppearance_Mini_Black"
+            android:drawableRight="@drawable/setting_image_right"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+</LinearLayout>
