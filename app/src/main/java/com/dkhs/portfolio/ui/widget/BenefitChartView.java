@@ -121,6 +121,7 @@ public class BenefitChartView {
         fundId = achivementsEntity.getFund().getId() + "";
         abbrName = achivementsEntity.getFund().getAbbr_name();
         lineView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
         onRequest();
     }
 
@@ -179,6 +180,7 @@ public class BenefitChartView {
         if(StockUitls.isDelistStock(mFundQuoteBean.getList_status()+"")){
             setError();
         }else {
+            emptyView.setVisibility(View.GONE);
             draw(fundQuoteBean);
         }
     }

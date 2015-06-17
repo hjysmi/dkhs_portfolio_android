@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.Animation;
@@ -482,8 +483,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             if (StockUitls.isDelistStock(mFundBean.getList_status())) {
 
                 tvWanshou.setTextColor(getResources().getColor(R.color.theme_color));
-                tvWanshou.setTextColor(cls);
                 tvWanshou.setText(R.string.exit_stock);
+                tvWanshou.setTextSize(TypedValue.COMPLEX_UNIT_SP, 21);
             } else {
                 tvWanshou.setTextColor(ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getNet_value()));
                 tvWanshou.setTextColor(cls);
