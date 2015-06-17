@@ -95,7 +95,6 @@ public class TrendChart extends TrendGridChart {
     // 移动的阈值
     private static final int TOUCH_SLOP = 20;
     private boolean moves = false;
-    private Context context;
 
     private StockViewCallBack callBack;
 
@@ -295,8 +294,7 @@ public class TrendChart extends TrendGridChart {
                 clickPostX = event.getX();
                 clickPostY = event.getY();
 
-                PointF point = new PointF(clickPostX, clickPostY);
-                touchPoint = point;
+                touchPoint = new PointF(clickPostX, clickPostY);
                 // super.invalidate();
                 super.invalidate();
 
@@ -381,7 +379,7 @@ public class TrendChart extends TrendGridChart {
     protected void drawWithFingerClick(Canvas canvas, int pointIndex) {
 
         // 水平线长度
-        float lineHLength = getWidth() - 2f;
+        float lineHLength = getWidth() - lineStrokeWidth;
         // 垂直线高度
         float lineVLength = super.getmGridLineHeight() - axisMarginBottom;
 
@@ -390,7 +388,7 @@ public class TrendChart extends TrendGridChart {
 
         }
 
-        if (clickPostX > 0 && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
+        if (clickPostX > mStartLineXpoint && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
             if (!isTouch) {
                 fingerPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
             }
@@ -896,7 +894,7 @@ public class TrendChart extends TrendGridChart {
 
                 //显示基金经理
                 if (!TextUtils.isEmpty(((SepFundPointEntity) data).getInfo())) {
-                    String managerName = ((SepFundPointEntity) data).getInfo();
+                    String managerName = ((SepFundPointEntity) data).getInfo() + " 到任";
                     preYpoint += textMargin + floatTextHeight;
                     selectPaint.setColor(ColorTemplate.DEF_RED);
                     canvas.drawText(managerName, startX + textMargin, preYpoint, selectPaint);
@@ -977,7 +975,7 @@ public class TrendChart extends TrendGridChart {
         }
         if (isFundTrendCompare) {
 
-            mFloatViewHeight = (floatTextHeight + textMargin) * (size + 2) + textMargin;
+            mFloatViewHeight = (floatTextHeight + textMargin) * (size + 3) + textMargin;
 
 
             for (LineEntity lineEntity : lineData) {
@@ -985,7 +983,7 @@ public class TrendChart extends TrendGridChart {
                     LinePointEntity pointEntity = (LinePointEntity) lineEntity.getLineData().get(pointIndex);
                     String manager = ((DefFundPointEntity) pointEntity).getInfo() + "";
                     if (!TextUtils.isEmpty(manager)) {
-                        mFloatViewHeight = (floatTextHeight + textMargin) * (size + 3) + textMargin;
+                        mFloatViewHeight = (floatTextHeight + textMargin) * (size + 4) + textMargin;
                     }
                 }
 
@@ -1056,6 +1054,14 @@ public class TrendChart extends TrendGridChart {
 
                     valueWidth = selectPaint.measureText(valueText);
                     canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
+
+                    valueText = ((DefFundPointEntity) pointEntity).getNet_cumulative() + "";
+                    preYpoint += textMargin + floatTextHeight;
+                    firtLineText = "累计净值：";
+                    canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
+
+                    valueWidth = selectPaint.measureText(valueText);
+                    canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
                 }
 
 
@@ -1115,7 +1121,7 @@ public class TrendChart extends TrendGridChart {
                 LinePointEntity pointEntity = (LinePointEntity) lineEntity.getLineData().get(pointIndex);
                 if (pointEntity instanceof DefFundPointEntity) {
                     if (!TextUtils.isEmpty(((DefFundPointEntity) pointEntity).getInfo())) {
-                        String managerName = ((DefFundPointEntity) pointEntity).getInfo();
+                        String managerName = ((DefFundPointEntity) pointEntity).getInfo() + " 到任";
                         preYpoint += textMargin + floatTextHeight;
                         selectPaint.setColor(ColorTemplate.DEF_RED);
                         canvas.drawText(managerName, startX + textMargin, preYpoint, selectPaint);
@@ -1242,9 +1248,6 @@ public class TrendChart extends TrendGridChart {
     // public void setDrawDashLine(boolean isDrawDashLine) {
     // this.isDrawDashLine = isDrawDashLine;
     // }
-    public void setContext(Context context) {
-        this.context = context;
-    }
 
     //
     // public SelectStockBean getmStockBean() {

@@ -66,7 +66,6 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     public static final String ARGUMENT_COMBINATION = "agrument_combination";
     public static final String ARGUMENT_IS_COMBINATION = "agrument_is_combination";
     public static final String ARGUMENT_IS_FUND = "agrument_is_fund";
-    private Button btnRight;
     private SelectStockBean mStockBean;
     private CombinationBean mComBean;
 
@@ -179,7 +178,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initView() {
-        btnRight = getRightButton();
+        Button btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
 
@@ -614,8 +613,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private float priceUpTip(String input, float compareValue) {
         try {
             float inputValue = Float.parseFloat(input);
-            float uPercent = ((inputValue - compareValue) / compareValue) * 100;
-            return uPercent;
+            return ((inputValue - compareValue) / compareValue) * 100;
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

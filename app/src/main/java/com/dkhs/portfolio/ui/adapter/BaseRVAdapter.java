@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.dkhs.portfolio.R;
-
 import java.util.List;
 
 /**
@@ -24,7 +22,7 @@ public abstract class BaseRVAdapter extends RecyclerView.Adapter<RVHolder> {
 
     private Context context;
 
-    public BaseRVAdapter( Context context,List<?> list) {
+    public BaseRVAdapter(Context context, List<?> list) {
         this.list = list;
         this.context = context;
     }
@@ -36,7 +34,7 @@ public abstract class BaseRVAdapter extends RecyclerView.Adapter<RVHolder> {
         return new RVHolder(view);
     }
 
-    public abstract int  onCreateViewLayoutID(int viewType);
+    public abstract int onCreateViewLayoutID(int viewType);
 
 
     @Override
@@ -45,10 +43,10 @@ public abstract class BaseRVAdapter extends RecyclerView.Adapter<RVHolder> {
     }
 
     @Override
-    public  void onBindViewHolder(final RVHolder holder, final int position) {
+    public void onBindViewHolder(final RVHolder holder, final int position) {
 
-        onBindViewHolder(holder.getViewHolder(),position);
-        if(onItemClickListener !=null ){
+        onBindViewHolder(holder.getViewHolder(), position);
+        if (onItemClickListener != null) {
             holder.getViewHolder().getRootView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,7 +57,7 @@ public abstract class BaseRVAdapter extends RecyclerView.Adapter<RVHolder> {
 
     }
 
-    public  void onBindViewHolder(ViewHolderUtils.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolderUtils.ViewHolder holder, int position) {
 
     }
 

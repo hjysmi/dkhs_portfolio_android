@@ -48,7 +48,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         onCreate(arg0, R.layout.layout_model_default);
     }
 
-    private SwipeBackLayout mSwipeBackLayout;
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
@@ -63,7 +62,7 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         super.setContentView(R.layout.layout_model);
 
-        mSwipeBackLayout = getSwipeBackLayout();
+        SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
         // 设置可以滑动的区域，推荐用屏幕像素的一半来指定
         mSwipeBackLayout.setEdgeSize(100);
         // 设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM

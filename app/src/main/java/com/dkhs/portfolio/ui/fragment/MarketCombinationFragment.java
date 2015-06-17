@@ -40,7 +40,6 @@ public class MarketCombinationFragment extends VisiableLoadFragment  implements 
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
     public static List<CombinationBean> mVisitorData = new ArrayList<CombinationBean>();
-    private int titleIndex = 0;
     private ArrayList<Fragment> fragmentList;
 
     @Override
@@ -81,7 +80,7 @@ public class MarketCombinationFragment extends VisiableLoadFragment  implements 
         pager.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
         pager.setOffscreenPageLimit(1);
-        pager.setCurrentItem(titleIndex);
+        pager.setCurrentItem(0);
 
     }
 

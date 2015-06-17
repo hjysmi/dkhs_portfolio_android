@@ -8,14 +8,6 @@
 
 package cn.sharesdk.onekeyshare;
 
-import static cn.sharesdk.framework.utils.BitmapHelper.captureView;
-import static cn.sharesdk.framework.utils.R.getBitmapRes;
-import static cn.sharesdk.framework.utils.R.getStringRes;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-import com.dkhs.portfolio.R;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -26,24 +18,27 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.dkhs.portfolio.R;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.FakeActivity;
 import cn.sharesdk.framework.Platform;
@@ -51,9 +46,13 @@ import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.framework.utils.UIHandler;
 
+import static cn.sharesdk.framework.utils.BitmapHelper.captureView;
+import static cn.sharesdk.framework.utils.R.getBitmapRes;
+import static cn.sharesdk.framework.utils.R.getStringRes;
+
 /**
  * 快捷分享的入口
- * <p>
+ * <p/>
  * 通过不同的setter设置参数，然后调用{@link #show(Context)}方法启动快捷分享
  */
 public class OnekeyShare extends FakeActivity implements OnClickListener, PlatformActionListener, Callback {
@@ -96,13 +95,17 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         super.show(context, null);
     }
 
-    /** 分享时Notification的图标和文字 */
+    /**
+     * 分享时Notification的图标和文字
+     */
     public void setNotification(int icon, String title) {
         notifyIcon = icon;
         notifyTitle = title;
     }
 
-    /** address是接收人地址，仅在信息和邮件使用，否则可以不提供 */
+    /**
+     * address是接收人地址，仅在信息和邮件使用，否则可以不提供
+     */
     public void setAddress(String address) {
         reqMap.put("address", address);
     }
@@ -115,124 +118,172 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         reqMap.put("title", title);
     }
 
-    /** titleUrl是标题的网络链接，仅在人人网和QQ空间使用，否则可以不提供 */
+    /**
+     * titleUrl是标题的网络链接，仅在人人网和QQ空间使用，否则可以不提供
+     */
     public void setTitleUrl(String titleUrl) {
         reqMap.put("titleUrl", titleUrl);
     }
 
-    /** text是分享文本，所有平台都需要这个字段 */
+    /**
+     * text是分享文本，所有平台都需要这个字段
+     */
     public void setText(String text) {
         reqMap.put("text", text);
     }
 
-    /** 获取text字段的值 */
+    /**
+     * 获取text字段的值
+     */
     public String getText() {
         return reqMap.containsKey("text") ? String.valueOf(reqMap.get("text")) : null;
     }
 
-    /** imagePath是本地的图片路径，除Linked-In外的所有平台都支持这个字段 */
+    /**
+     * imagePath是本地的图片路径，除Linked-In外的所有平台都支持这个字段
+     */
     public void setImagePath(String imagePath) {
         if (!TextUtils.isEmpty(imagePath))
             reqMap.put("imagePath", imagePath);
     }
 
-    /** imageUrl是图片的网络路径，新浪微博、人人网、QQ空间和Linked-In支持此字段 */
+    /**
+     * imageUrl是图片的网络路径，新浪微博、人人网、QQ空间和Linked-In支持此字段
+     */
     public void setImageUrl(String imageUrl) {
         if (!TextUtils.isEmpty(imageUrl))
             reqMap.put("imageUrl", imageUrl);
     }
 
-    /** url在微信（包括好友、朋友圈收藏）和易信（包括好友和朋友圈）中使用，否则可以不提供 */
+    /**
+     * url在微信（包括好友、朋友圈收藏）和易信（包括好友和朋友圈）中使用，否则可以不提供
+     */
     public void setUrl(String url) {
         reqMap.put("url", url);
     }
 
-    /** filePath是待分享应用程序的本地路劲，仅在微信（易信）好友和Dropbox中使用，否则可以不提供 */
+    /**
+     * filePath是待分享应用程序的本地路劲，仅在微信（易信）好友和Dropbox中使用，否则可以不提供
+     */
     public void setFilePath(String filePath) {
         reqMap.put("filePath", filePath);
     }
 
-    /** comment是我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供 */
+    /**
+     * comment是我对这条分享的评论，仅在人人网和QQ空间使用，否则可以不提供
+     */
     public void setComment(String comment) {
         reqMap.put("comment", comment);
     }
 
-    /** site是分享此内容的网站名称，仅在QQ空间使用，否则可以不提供 */
+    /**
+     * site是分享此内容的网站名称，仅在QQ空间使用，否则可以不提供
+     */
     public void setSite(String site) {
         reqMap.put("site", site);
     }
 
-    /** siteUrl是分享此内容的网站地址，仅在QQ空间使用，否则可以不提供 */
+    /**
+     * siteUrl是分享此内容的网站地址，仅在QQ空间使用，否则可以不提供
+     */
     public void setSiteUrl(String siteUrl) {
         reqMap.put("siteUrl", siteUrl);
     }
 
-    /** foursquare分享时的地方名 */
+    /**
+     * foursquare分享时的地方名
+     */
     public void setVenueName(String venueName) {
         reqMap.put("venueName", venueName);
     }
 
-    /** foursquare分享时的地方描述 */
+    /**
+     * foursquare分享时的地方描述
+     */
     public void setVenueDescription(String venueDescription) {
         reqMap.put("venueDescription", venueDescription);
     }
 
-    /** 分享地纬度，新浪微博、腾讯微博和foursquare支持此字段 */
+    /**
+     * 分享地纬度，新浪微博、腾讯微博和foursquare支持此字段
+     */
     public void setLatitude(float latitude) {
         reqMap.put("latitude", latitude);
     }
 
-    /** 分享地经度，新浪微博、腾讯微博和foursquare支持此字段 */
+    /**
+     * 分享地经度，新浪微博、腾讯微博和foursquare支持此字段
+     */
     public void setLongitude(float longitude) {
         reqMap.put("longitude", longitude);
     }
 
-    /** 是否直接分享 */
+    /**
+     * 是否直接分享
+     */
     public void setSilent(boolean silent) {
         this.silent = silent;
     }
 
-    /** 设置编辑页的初始化选中平台 */
+    /**
+     * 设置编辑页的初始化选中平台
+     */
     public void setPlatform(String platform) {
         reqMap.put("platform", platform);
     }
 
-    /** 设置KakaoTalk的应用下载地址 */
+    /**
+     * 设置KakaoTalk的应用下载地址
+     */
     public void setInstallUrl(String installurl) {
         reqMap.put("installurl", installurl);
     }
 
-    /** 设置KakaoTalk的应用打开地址 */
+    /**
+     * 设置KakaoTalk的应用打开地址
+     */
     public void setExecuteUrl(String executeurl) {
         reqMap.put("executeurl", executeurl);
     }
 
-    /** 设置微信分享的音乐的地址 */
+    /**
+     * 设置微信分享的音乐的地址
+     */
     public void setMusicUrl(String musicUrl) {
         reqMap.put("musicUrl", musicUrl);
     }
 
-    /** 设置自定义的外部回调 */
+    /**
+     * 设置自定义的外部回调
+     */
     public void setCallback(PlatformActionListener callback) {
         this.callback = callback;
     }
 
-    /** 返回操作回调 */
+    /**
+     * 返回操作回调
+     */
     public PlatformActionListener getCallback() {
         return callback;
     }
 
-    /** 设置用于分享过程中，根据不同平台自定义分享内容的回调 */
+    /**
+     * 设置用于分享过程中，根据不同平台自定义分享内容的回调
+     */
     public void setShareContentCustomizeCallback(ShareContentCustomizeCallback callback) {
         customizeCallback = callback;
     }
 
-    /** 返回自定义分享内容的回调 */
+    /**
+     * 返回自定义分享内容的回调
+     */
     public ShareContentCustomizeCallback getShareContentCustomizeCallback() {
         return customizeCallback;
     }
 
-    /** 设置自己图标和点击事件，可以重复调用添加多次 */
+    /**
+     * 设置自己图标和点击事件，可以重复调用添加多次
+     */
     public void setCustomerLogo(Bitmap logo, String label, OnClickListener ocListener) {
         CustomerLogo cl = new CustomerLogo();
         cl.label = label;
@@ -241,23 +292,31 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         customers.add(cl);
     }
 
-    /** 设置一个总开关，用于在分享前若需要授权，则禁用sso功能 */
+    /**
+     * 设置一个总开关，用于在分享前若需要授权，则禁用sso功能
+     */
     public void disableSSOWhenAuthorize() {
         disableSSO = true;
     }
 
-    /** 设置编辑页面的显示模式为Dialog模式 */
+    /**
+     * 设置编辑页面的显示模式为Dialog模式
+     */
     public void setDialogMode() {
         dialogMode = true;
         reqMap.put("dialogMode", dialogMode);
     }
 
-    /** 添加一个隐藏的platform */
+    /**
+     * 添加一个隐藏的platform
+     */
     public void addHiddenPlatform(String platform) {
         hiddenPlatforms.put(platform, platform);
     }
 
-    /** 设置一个将被截图分享的View , surfaceView是截不了图片的 */
+    /**
+     * 设置一个将被截图分享的View , surfaceView是截不了图片的
+     */
     public void setViewToShare(View viewToShare) {
         try {
             Bitmap bm = captureView(viewToShare, viewToShare.getWidth(), viewToShare.getHeight());
@@ -267,7 +326,9 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         }
     }
 
-    /** 腾讯微博分享多张图片 */
+    /**
+     * 腾讯微博分享多张图片
+     */
     public void setImageArray(String[] imageArray) {
         reqMap.put("imageArray", imageArray);
     }
@@ -472,7 +533,9 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         return super.onFinish();
     }
 
-    /** 循环执行分享 */
+    /**
+     * 循环执行分享
+     */
     public void share(HashMap<Platform, HashMap<String, Object>> shareData) {
         boolean started = false;
         for (Entry<Platform, HashMap<String, Object>> ent : shareData.entrySet()) {
@@ -660,7 +723,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
                 String text = String.valueOf(msg.obj);
                 Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
             }
-                break;
+            break;
             case MSG_ACTION_CCALLBACK: {
                 switch (msg.arg1) {
                     case 1: {
@@ -670,7 +733,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
                             showNotification(2000, getContext().getString(resId));
                         }
                     }
-                        break;
+                    break;
                     case 2: {
                         // 失败
                         String expName = msg.obj.getClass().getSimpleName();
@@ -719,7 +782,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
                             }
                         }
                     }
-                        break;
+                    break;
                     case 3: {
                         // 取消
                         int resId = getStringRes(getContext(), "share_canceled");
@@ -727,17 +790,17 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
                             showNotification(2000, getContext().getString(resId));
                         }
                     }
-                        break;
+                    break;
                 }
             }
-                break;
+            break;
             case MSG_CANCEL_NOTIFY: {
                 NotificationManager nm = (NotificationManager) msg.obj;
                 if (nm != null) {
                     nm.cancel(msg.arg1);
                 }
             }
-                break;
+            break;
         }
         return false;
     }
@@ -779,7 +842,9 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         }
     }
 
-    /** 是否支持QQ,QZone授权登录后发微博 */
+    /**
+     * 是否支持QQ,QZone授权登录后发微博
+     */
     public void setShareFromQQAuthSupport(boolean shareFromQQLogin) {
         reqMap.put("isShareTencentWeibo", shareFromQQLogin);
     }

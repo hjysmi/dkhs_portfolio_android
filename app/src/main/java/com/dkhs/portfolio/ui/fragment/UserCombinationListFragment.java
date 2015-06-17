@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -25,11 +26,12 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FloatingActionMenu;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
@@ -57,11 +59,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
 
     private View footView;
     private float animPercent;
-
-    /**
-     * 头部高度
-     */
-    private int headerHeight;
 
 
     private HttpHandler mHttpHandler;
@@ -98,7 +95,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
+        int headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
         headerView = new View(getActivity());
         footView = new View(getActivity());
         headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, headerHeight));
@@ -152,8 +149,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                     getResources().getDimensionPixelOffset(R.dimen.header_height);
             int footHeight;
 
-            if (totalHeight < (getListView().getHeight()+getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance))) {
-                footHeight = (getListView().getHeight()+getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)) - totalHeight;
+            if (totalHeight < (getListView().getHeight() + getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance))) {
+                footHeight = (getListView().getHeight() + getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)) - totalHeight;
             } else {
                 footHeight = getResources().getDimensionPixelOffset(R.dimen.foot_height);
             }
@@ -267,11 +264,9 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     }
 
 
-    private android.os.Handler handler = new android.os.Handler() {
+    private WeakHandler handler = new WeakHandler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
 
                 case 0:
@@ -285,8 +280,9 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
             if (animPercent < 1 && animPercent > 0) {
                 handler.sendEmptyMessage(msg.what);
             }
+            return false;
         }
-    };
+    });
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {

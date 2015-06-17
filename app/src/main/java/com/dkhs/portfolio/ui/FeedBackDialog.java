@@ -1,14 +1,13 @@
 package com.dkhs.portfolio.ui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -19,14 +18,15 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class FeedBackDialog extends Activity implements OnClickListener {
     public static final String HAVING = "havingDelete";
@@ -138,8 +138,7 @@ public class FeedBackDialog extends Activity implements OnClickListener {
         protected UserEntity parseDateTask(String jsonData) {
             try {
                 JSONObject json = new JSONObject(jsonData);
-                UserEntity ue = DataParse.parseObjectJson(UserEntity.class, json);
-                return ue;
+                return DataParse.parseObjectJson(UserEntity.class, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

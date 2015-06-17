@@ -1,10 +1,5 @@
 package com.dkhs.portfolio.utils;
 
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -12,6 +7,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * 用于获取友萌统计，相关平台的动态获取
@@ -116,7 +116,7 @@ public class ChannelUtil {
         Editor editor = sp.edit();
         editor.putString(CHANNEL_KEY, channel);
         editor.putInt(CHANNEL_VERSION_KEY, getVersionCode(context));
-        editor.commit();
+        editor.apply();
     }
 
     /**

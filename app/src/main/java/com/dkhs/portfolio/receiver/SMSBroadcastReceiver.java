@@ -59,7 +59,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
     }
 
     public void setOnReceivedMessageListener(MessageListener messageListener) {
-        this.mMessageListener = messageListener;
+        mMessageListener = messageListener;
     }
 
 }

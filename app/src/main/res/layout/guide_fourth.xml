@@ -28,6 +28,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_red_selector"
             android:text="@string/login"
+            style="?android:attr/buttonBarButtonStyle"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -37,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
             android:background="@drawable/btn_tiyan_selector"
             android:text="@string/register"
             android:textColor="@color/red"

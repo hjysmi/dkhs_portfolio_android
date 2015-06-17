@@ -44,7 +44,7 @@ import java.util.List;
  * 需要优化界面
  * 个股行情界面，个股界面时（公告 TAB）
  */
-public class FragmentNewsList extends Fragment implements Serializable , IScrollExchangeListener {
+public class FragmentNewsList extends Fragment implements Serializable, IScrollExchangeListener {
     /**
      *
      */
@@ -59,14 +59,12 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
-    private View view;
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
 
     private static final String TAG = "FragmentNewsList";
     private NewsforModel vo;
-    private int types;
     private TextView tv;
     private boolean getadle = false;
     private OptionForOnelistAdapter mOptionlistAdapter;
@@ -99,7 +97,7 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        view = inflater.inflate(R.layout.activity_option_market_news, null);
+        View view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
 
         if (null != context && context instanceof StockQuotesActivity && getadle) {
@@ -123,7 +121,7 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
         if (null != bundle) {
             vo = Parcels.unwrap(bundle.getParcelable(VO));
             // layouts = vo.getLayout();
-            types = bundle.getInt(NEWS_TYPE);
+            int types = bundle.getInt(NEWS_TYPE);
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
             // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
@@ -155,7 +153,6 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
         // }
 
         mListView.removeFooterView(mFootView);
-
 
 
         mListView.setOnScrollListener(new OnScrollListener() {
@@ -341,6 +338,7 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
     public void setStockQuoteScrollListener(IStockQuoteScrollListener scrollListener) {
         this.mStockQuoteScrollListener = scrollListener;
     }
+
     @Override
     public void onPause() {
         // TODO Auto-generated method stub

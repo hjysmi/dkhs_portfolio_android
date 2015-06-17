@@ -43,6 +43,7 @@ import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -92,7 +93,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     private Button btnStartTime;
     private Button btnEndTime;
     private Button btnCompare;
-    private Button btnSelectFund;
     private TextView tvTimeDuration;
     // private TextView tvNoData;
     private TextView tvIncreaseValue;
@@ -283,13 +283,13 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             showShare();
+            return true;
         }
-
-        ;
-    };
+    });
 
     private void showShare() {
         if (null != mCombinationBean) {
@@ -366,7 +366,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
         btnStartTime = (Button) view.findViewById(R.id.tv_compare_ftime);
         btnEndTime = (Button) view.findViewById(R.id.tv_compare_ttime);
-        btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
+        Button btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
         btnCompare = (Button) view.findViewById(R.id.btn_compare_fund);
         tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
         // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
@@ -503,7 +503,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     private boolean isBetween7day() {
         long between_days = (cEnd.getTimeInMillis() - cStart.getTimeInMillis()) / (1000 * 3600 * 24);
-        return between_days < 7 ? true : false;
+        return between_days < 7;
     }
 
     private void requestCompare() {
@@ -528,8 +528,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
         @Override
         protected HistoryNetValue parseDateTask(String jsonData) {
-            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            return histroyValue;
+            return DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
         }
 
         @Override
@@ -999,8 +998,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     private boolean isBeforeMonthCreateDate(Calendar cStart) {
         Calendar beforeMonthCaleder = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
         beforeMonthCaleder.add(Calendar.MONTH, -1);
-        boolean isBeforeCreateDate = cStart.before(beforeMonthCaleder);
-        return isBeforeCreateDate;
+        return cStart.before(beforeMonthCaleder);
 
     }
 

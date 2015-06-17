@@ -1,20 +1,6 @@
 package com.dkhs.portfolio.ui.widget.kline;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.R.color;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.widget.KChartDataListener;
-import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
-import com.dkhs.portfolio.ui.widget.chart.StickChart;
-import com.dkhs.portfolio.utils.UIUtils;
-
 import android.content.Context;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,63 +9,101 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.test.UiThreadTest;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
+import com.dkhs.portfolio.ui.widget.chart.StickChart;
+import com.dkhs.portfolio.utils.UIUtils;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 public class KChartsLandView extends GridChart implements GridChart.OnTabClickListener {
 
-    /** 触摸模式 */
+    /**
+     * 触摸模式
+     */
     private static int TOUCH_MODE;
     private final static int NONE = 0;
     private final static int DOWN = 1;
     private final static int MOVE = 2;
     private final static int ZOOM = 3;
 
-    /** 默认Y轴字体颜色 **/
+    /**
+     * 默认Y轴字体颜色 *
+     */
     private static final int DEFAULT_AXIS_Y_TITLE_COLOR = Color.GRAY;
 
-    /** 默认X轴字体颜色 **/
+    /**
+     * 默认X轴字体颜色 *
+     */
     private static final int DEFAULT_AXIS_X_TITLE_COLOR = Color.GRAY;
 
-    /** 显示的最小Candle数 */
+    /**
+     * 显示的最小Candle数
+     */
     private final static int MIN_CANDLE_NUM = 50;
 
-    /** 默认显示的Candle数 */
+    /**
+     * 默认显示的Candle数
+     */
     private final static int DEFAULT_CANDLE_NUM = 50;
-    /** 显示最多的candle数 */
+    /**
+     * 显示最多的candle数
+     */
     private final static int MAX_CANDLE_NUM = 300;
-    /** 最小可识别的移动距离 */
+    /**
+     * 最小可识别的移动距离
+     */
     private final static int MIN_MOVE_DISTANCE = 15;
     protected static final String TAG = "KChartsLandView";
 
-    /** Candle宽度 */
+    /**
+     * Candle宽度
+     */
     private float mCandleWidth;
 
-    /** 触摸点 */
+    /**
+     * 触摸点
+     */
     private float mStartX = 6;
     private float mStartY;
 
-    /** OHLC数据 */
+    /**
+     * OHLC数据
+     */
     private List<OHLCEntity> mOHLCData;
 
-    /** 显示的OHLC数据起始位置 */
+    /**
+     * 显示的OHLC数据起始位置
+     */
     private int mDataStartIndext = 0;
 
-    /** 显示的OHLC数据个数 */
+    /**
+     * 显示的OHLC数据个数
+     */
     private int mShowDataNum = DEFAULT_CANDLE_NUM;
 
-    /** 是否显示蜡烛详情 */
+    /**
+     * 是否显示蜡烛详情
+     */
     private boolean showDetails;
 
-    /** 当前数据的最大最小值 */
+    /**
+     * 当前数据的最大最小值
+     */
     private double mMaxPrice;
     private double mMinPrice;
 
-    /** MA数据 */
+    /**
+     * MA数据
+     */
     private List<MALineEntity> MALineData;
     String textforFlush = "加载数据";
     private String mTabTitle;
@@ -905,8 +929,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             - (float) mCandleWidth * (i - mDataStartIndext) + (float) mCandleWidth / 2, dea, whitePaint);
 
                     canvas.drawLine(viewWidth - 1 - (float) mCandleWidth * (i + 1 - mDataStartIndext)
-                            + (float) mCandleWidth / 2, (float) ((high - DIF.get(i)) * rate) + lowertop, viewWidth - 2
-                            - (float) mCandleWidth * (i - mDataStartIndext) + (float) mCandleWidth / 2, dif,
+                                    + (float) mCandleWidth / 2, (float) ((high - DIF.get(i)) * rate) + lowertop, viewWidth - 2
+                                    - (float) mCandleWidth * (i - mDataStartIndext) + (float) mCandleWidth / 2, dif,
                             yellowPaint);
                 }
                 dea = (float) ((high - DEA.get(i)) * rate) + lowertop;
@@ -989,7 +1013,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         e = event;
 
         switch (event.getAction()) {
-        // 设置触摸模式
+            // 设置触摸模式
             case MotionEvent.ACTION_POINTER_2_DOWN:
                 twoFingle = true;
                 longs = Math.abs(event.getX(0) - event.getX(event.getPointerCount() - 1));
@@ -1178,7 +1202,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         if (loadAble
                                 && mOHLCData.size() > MIN_CANDLE_NUM
                                 && currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData
-                                        .size()) {
+                                .size()) {
                             dragValue = (hisDrag + (currentDate + mShowDataNum
                                     + (horizontalSpacing / (mCandleWidth + 3)) - mOHLCData.size())
                                     * (mCandleWidth + 3)) / 2;
@@ -1330,7 +1354,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     /**
      * 获取显示的数据
-     * 
+     *
      * @return
      */
     public ArrayList<OHLCEntity> getDisplayOHLCEntitys() {
@@ -1363,7 +1387,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     }
 
-    /** 缩小 */
+    /**
+     * 缩小
+     */
     private void zoomIn(int size) {
         if (zoomNum < 5) {
             mShowDataNum += size;
@@ -1389,7 +1415,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         }
     }
 
-    /** 放大 */
+    /**
+     * 放大
+     */
     private void zoomOut(int size) {
         if (zoomNum > 0) {
 
@@ -1432,7 +1460,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     /**
      * 初始化MA值，从数组的最后一个数据开始初始化
-     * 
+     *
      * @param entityList
      * @param days
      * @return
@@ -1601,7 +1629,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     private boolean hasMoreData(int page) {
         if (null != mOHLCData) {
-            int fullDataSize = (299/* second page size */* (page - 1) + 300/* first page size */);
+            int fullDataSize = (299/* second page size */ * (page - 1) + 300/* first page size */);
             if (mOHLCData.size() < fullDataSize) {
                 return false;
             }
@@ -1658,7 +1686,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     /**
      * 判断是否是最大
-     * 
+     *
      * @return
      */
     public boolean isLargest() {
@@ -1673,7 +1701,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     /**
      * 是否是最小
-     * 
+     *
      * @return
      */
     public boolean isSmallest() {
@@ -1681,10 +1709,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     }
 
     public boolean iscanSmoll() {
-        if (mOHLCData == null || mOHLCData.size() < MIN_CANDLE_NUM) {
-            return true;
-        }
-        return false;
+        return mOHLCData == null || mOHLCData.size() < MIN_CANDLE_NUM;
     }
 
     /**
@@ -1706,15 +1731,14 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     /**
      * 显示数据变化
-     * 
+     *
      * @author linbing
-     * 
      */
     public interface DisplayDataChangeListener {
 
         /**
          * 显示的数据变化
-         * 
+         *
          * @param entitys
          */
         void onDisplayDataChange(List<OHLCEntity> entitys);

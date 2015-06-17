@@ -1,7 +1,5 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -17,20 +15,22 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.UIUtils;
+
+import java.util.List;
 
 public class FragmentSelectAdapter {
     private Context context;
@@ -53,30 +53,27 @@ public class FragmentSelectAdapter {
     private int oneTextSize = 0;
     private int imageAddSize = 0;
     private ScrollViewPager pager;
-    private DisplayMetrics dm;
     private int totalLength = 0;
     private StockQuotesActivity OutLaoyout;
     private HorizontalScrollView selectScroll;
 
     /**
-     * 
      * @param context
-     * @param nameListRTl 标题栏的名字
-     * @param fragmentList 下面Fragment界面
-     * @param layout 当前需要添加此控件的父控件
+     * @param fragmentList    下面Fragment界面
+     * @param layout          当前需要添加此控件的父控件
      * @param fragmentManager fragment管理器
      */
     public FragmentSelectAdapter(Context context, String[] nameList, List<Fragment> fragmentList, LinearLayout layout,
-            FragmentManager fragmentManager) {
+                                 FragmentManager fragmentManager) {
         this.context = context;
         this.nameList = nameList;
         this.fragmentList = fragmentList;
         this.titleLayout = layout;
         this.mFragmentManager = fragmentManager;
         inflater = LayoutInflater.from(context);
-        if(nameList.length>4){
+        if (nameList.length > 4) {
             offset = context.getResources().getDimensionPixelSize(R.dimen.single_index_padding);
-        }else{
+        } else {
 
             offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
         }
@@ -89,12 +86,12 @@ public class FragmentSelectAdapter {
         pager.setCurrentItem(0);
     }
 
-    public int getCurrentItem(){
+    public int getCurrentItem() {
         return pager.getCurrentItem();
     }
 
     private void initDate() {
-        dm = new DisplayMetrics();
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         textWid = new int[nameList.length];
@@ -209,16 +206,13 @@ public class FragmentSelectAdapter {
 
     }
 
-    Handler mHandler = new Handler() {
-
+    WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
+        public boolean handleMessage(Message msg) {
             scroll(msg.what);
-            super.handleMessage(msg);
+            return false;
         }
-
-    };
+    });
 
     public void scroll(int position) {
         iv.getLayoutParams().width = textWid[position] + imageAddSize * 2;
@@ -294,7 +288,7 @@ public class FragmentSelectAdapter {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             // TODO Auto-generated method stub
-            if (null != OutLaoyout&&(position==1||position==2)) {
+            if (null != OutLaoyout && (position == 1 || position == 2)) {
                 switch (event.getAction()) {
 
                     case MotionEvent.ACTION_DOWN:

@@ -40,7 +40,6 @@
         android:id="@+id/adapter_web"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
         android:layout_margin="10dip" />
         
     </LinearLayout>

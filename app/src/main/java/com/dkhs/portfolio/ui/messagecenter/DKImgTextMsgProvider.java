@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.messagecenter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
 

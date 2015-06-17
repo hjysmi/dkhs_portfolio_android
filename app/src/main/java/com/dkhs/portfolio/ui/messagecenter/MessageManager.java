@@ -9,21 +9,18 @@
 package com.dkhs.portfolio.ui.messagecenter;
 
 
-import android.app.NotificationManager;
 import android.content.Context;
 
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
-import io.rong.imkit.RongIM;
-
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName MessageManager
  * @Description 消息中心/消息推送管理者
- * @author zjz
  * @date 2015-4-20 下午3:50:03
- * @version 1.0
  */
 public final class MessageManager {
 
@@ -46,7 +43,7 @@ public final class MessageManager {
         mConnct = new RongConnect();
     }
 
-    public static final MessageManager getInstance() {
+    public static MessageManager getInstance() {
         return SingleMessageManager.INSTANCE;
     }
 
@@ -68,7 +65,6 @@ public final class MessageManager {
     }
 
 
-
     public boolean isHasNewUnread() {
         return hasNewUnread;
     }
@@ -84,11 +80,12 @@ public final class MessageManager {
     }
 
 
-    public void startPrivateChat(Context context,String id,String name){
-        mConnct.startPrivateChat(context,id,name);
+    public void startPrivateChat(Context context, String id, String name) {
+        mConnct.startPrivateChat(context, id, name);
 
     }
-    public void startConversationList(Context context){
+
+    public void startConversationList(Context context) {
         mConnct.startConversationList(context);
     }
 

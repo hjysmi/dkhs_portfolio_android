@@ -50,7 +50,6 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
     public final static String VO = "bigvo";
     private TextView tv;
     private String subType;
-    private boolean uservivible = false;
     private RelativeLayout pb;
 
     public SwipeRefreshLayout mSwipeLayout;
@@ -278,7 +277,6 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         } else {
             // 不可见时不执行操作
         }
-        uservivible = isVisibleToUser;
         super.setUserVisibleHint(isVisibleToUser);
     }
 

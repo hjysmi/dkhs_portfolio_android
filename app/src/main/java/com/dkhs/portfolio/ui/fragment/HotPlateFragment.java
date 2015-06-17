@@ -9,7 +9,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SectorBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
 import com.dkhs.portfolio.ui.MarketListActivity;
@@ -185,7 +185,7 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
 
     }
 
-    Handler dataHandler = new Handler() {
+    WeakHandler dataHandler = new WeakHandler() {
 
     };
     Runnable runnable = new Runnable() {

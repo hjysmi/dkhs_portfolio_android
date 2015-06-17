@@ -12,13 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
@@ -40,8 +38,6 @@ import io.rong.imlib.model.Message;
  */
 public class MainActivity extends ModelAcitivity {
 
-    private MenuItemFragment mMenuFragment;
-    private Fragment mContentFragment;
 
     private MessageHandler handler;
 
@@ -58,19 +54,19 @@ public class MainActivity extends ModelAcitivity {
         handIntent(getIntent());
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-            mMenuFragment = new MenuItemFragment();
+            MenuItemFragment mMenuFragment = new MenuItemFragment();
             Bundle bunlde = new Bundle();
             // bunlde.putInt("content", mIndex);
             mMenuFragment.setArguments(bunlde);
             t.replace(R.id.bottom_layout, mMenuFragment);
-            fragmentA = new MainOptionalFragment();
-            mContentFragment = fragmentA;
-            t.replace(R.id.content_layout, mContentFragment);
+            MainOptionalFragment fragmentA = new MainOptionalFragment();
+//            mContentFragment = fragmentA;
+            t.replace(R.id.content_layout, fragmentA);
             t.commit();
 
         } else {
-            mMenuFragment = (MenuItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.bottom_layout);
-            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
+//            mMenuFragment = (MenuItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.bottom_layout);
+//            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         }
         fragmentB = new MainMarketFragment();

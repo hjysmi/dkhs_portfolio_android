@@ -40,13 +40,10 @@ import java.util.List;
  */
 public class FragmentReportForm extends Fragment {
 
-    private int pageIndex = 1;
 
-    private ListView mListView;
     private ReportFromAdapter mAdapter;
 
     private String trendType;
-    private CombinationBean mCombinationBean;
     private NetValueReportEngine mNetValueDataEngine;
 
     List<NetValueReportBean> mReportList = new ArrayList<NetValueReportBean>();
@@ -90,7 +87,7 @@ public class FragmentReportForm extends Fragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
+        CombinationBean mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueReportEngine(mCombinationBean.getId(), mLoadBackListener);
 
     }
@@ -105,7 +102,7 @@ public class FragmentReportForm extends Fragment {
     }
 
     private void initView(View view) {
-        mListView = (ListView) view.findViewById(R.id.lv_report_form);
+        ListView mListView = (ListView) view.findViewById(R.id.lv_report_form);
         mListView.setAdapter(mAdapter);
 
     }
@@ -138,12 +135,16 @@ public class FragmentReportForm extends Fragment {
 
     private void loadData() {
         if (!TextUtils.isEmpty(trendType)) {
-            if (trendType.equals(TrendChartFragment.TREND_TYPE_SEVENDAY)) {
-                mNetValueDataEngine.requerySevenDayReport();
-            } else if (trendType.equals(TrendChartFragment.TREND_TYPE_MONTH)) {
-                mNetValueDataEngine.requeryMonthReport();
-            } else if (trendType.equals(TrendChartFragment.TREND_TYPE_HISTORY)) {
-                mNetValueDataEngine.requeryHistoryReport(pageIndex);
+            switch (trendType) {
+                case TrendChartFragment.TREND_TYPE_SEVENDAY:
+                    mNetValueDataEngine.requerySevenDayReport();
+                    break;
+                case TrendChartFragment.TREND_TYPE_MONTH:
+                    mNetValueDataEngine.requeryMonthReport();
+                    break;
+                case TrendChartFragment.TREND_TYPE_HISTORY:
+                    mNetValueDataEngine.requeryHistoryReport();
+                    break;
             }
         }
     }

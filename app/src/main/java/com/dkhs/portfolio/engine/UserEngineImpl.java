@@ -214,11 +214,7 @@ public class UserEngineImpl {
 
     public boolean hasUserLogin() {
         UserEntity user = getUserEntity();
-        if (user == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return user != null;
 
     }
 

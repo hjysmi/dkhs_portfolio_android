@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="13"
-    android:versionName="1.7.0615">
+    android:versionName="1.7.0616">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -35,7 +35,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".app.PortfolioApplication"
@@ -69,7 +68,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name="com.dkhs.portfolio.ui.NoAccountMainActivity" />
         <activity android:name="com.dkhs.portfolio.ui.RLFActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SetPasswordActivity" />
         <activity android:name="com.dkhs.portfolio.ui.RegisterSuccessActivity" />

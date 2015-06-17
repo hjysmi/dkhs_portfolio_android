@@ -144,24 +144,31 @@ public class FundPriceBean extends StockPriceBean {
 
     public float getValue(String key) {
         float value = 0;
-        if (key.equals("-percent_day")) {
-            value = percent_day;
-        } else if (key.equals("-percent_day")) {
-            value = percent_day;
-        } else if (key.equals("-percent_month")) {
-            value = percent_month;
-        } else if (key.equals("-percent_year")) {
-            value = percent_year;
-        } else if (key.equals("-percent_tyear")) {
-            value = percent_tyear;
-        } else if (key.equals("-percent_season")) {
-            value = percent_season;
-        } else if (key.equals("-percent_six_month")) {
-            value = percent_six_month;
-        } else if (key.equals("-year_yld")) {
-            value = year_yld;
-        } else if (key.equals("-net_cumulative")) {
-            value = net_cumulative;
+        switch (key) {
+            case "-percent_day":
+                value = percent_day;
+                break;
+            case "-percent_month":
+                value = percent_month;
+                break;
+            case "-percent_year":
+                value = percent_year;
+                break;
+            case "-percent_tyear":
+                value = percent_tyear;
+                break;
+            case "-percent_season":
+                value = percent_season;
+                break;
+            case "-percent_six_month":
+                value = percent_six_month;
+                break;
+            case "-year_yld":
+                value = year_yld;
+                break;
+            case "-net_cumulative":
+                value = net_cumulative;
+                break;
         }
         return value;
     }

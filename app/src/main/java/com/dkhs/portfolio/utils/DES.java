@@ -1,6 +1,8 @@
 package com.dkhs.portfolio.utils;
 
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -10,8 +12,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
 
 public class DES {
 
@@ -27,8 +27,7 @@ public class DES {
 			NoSuchAlgorithmException {
 		DES des = new DES();
 		if (des.key == null) {
-			SecretKeySpec spec = new SecretKeySpec(key, "DES");
-			des.key = spec;
+			des.key = new SecretKeySpec(key, "DES");
 		}
 		des.cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 		return des;
@@ -55,7 +54,7 @@ public class DES {
 	public static byte[] getKeyByStr(String str) {
 		byte bRet[] = new byte[str.length() / 2];
 		for (int i = 0; i < str.length() / 2; i++) {
-			Integer itg = new Integer(16 * getChrInt(str.charAt(2 * i))
+			Integer itg = Integer.valueOf(16 * getChrInt(str.charAt(2 * i))
 					+ getChrInt(str.charAt(2 * i + 1)));
 			bRet[i] = itg.byteValue();
 		}

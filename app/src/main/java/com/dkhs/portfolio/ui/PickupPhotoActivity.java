@@ -40,7 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PickupPhotoActivity extends Activity implements OnClickListener {
-    private File file_go;
     private UserEngineImpl mUserEngineImpl;
     private Context context;
     private Uri photoUri;
@@ -110,7 +109,7 @@ public class PickupPhotoActivity extends Activity implements OnClickListener {
                 String file_str = Environment.getExternalStorageDirectory().getPath();
                 Uri uri = data.getData();
 
-                String[] proj = { MediaStore.Images.Media.DATA };
+                String[] proj = {MediaStore.Images.Media.DATA};
                 Cursor cursor = managedQuery(uri, proj, null, null, null);
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
@@ -149,7 +148,7 @@ public class PickupPhotoActivity extends Activity implements OnClickListener {
                 if (uri == null) {
                     return;
                 }
-                String[] proj = { MediaStore.Images.Media.DATA };
+                String[] proj = {MediaStore.Images.Media.DATA};
                 Cursor cursor = managedQuery(uri, proj, null, null, null);
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
@@ -220,7 +219,7 @@ public class PickupPhotoActivity extends Activity implements OnClickListener {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             String file_str = Environment.getExternalStorageDirectory().getPath();
             File mars_file = new File(file_str + "/my_camera");
-            file_go = new File(file_str + "/my_camera/file.jpg");
+            File file_go = new File(file_str + "/my_camera/file.jpg");
             // 先创建父目录，如果新创建一个文件的时候，父目录没有存在，那么必须先创建父目录，再新建文件。
             if (!mars_file.exists()) {
                 mars_file.mkdirs();
@@ -250,14 +249,15 @@ public class PickupPhotoActivity extends Activity implements OnClickListener {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
             try {
                 JSONObject json = new JSONObject(jsonData);
-                UserEntity ue = DataParse.parseObjectJson(UserEntity.class, json);
-                return ue;
+                return DataParse.parseObjectJson(UserEntity.class, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

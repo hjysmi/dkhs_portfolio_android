@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -83,7 +84,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     private Context context;
 
-    private boolean isLoading;
     private String mUserId;
 
 
@@ -108,14 +108,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     }
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            // reloadData();
-
-        }
-
-        ;
-    };
+    @SuppressLint("HandlerLeak")
+    Handler updateHandler = new Handler();
 
 
     @Override
@@ -130,7 +124,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         super.onResume();
 
         reloadData();
-        updateHandler.postDelayed(updateRunnable, 5*1000);
+        updateHandler.postDelayed(updateRunnable, 5 * 1000);
 
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
@@ -172,7 +166,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(StockViewType.STOCK_OPTIONAL_PRICE,mUserId);
+            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(StockViewType.STOCK_OPTIONAL_PRICE, mUserId);
             // if (null != dataUpdateListener) {
             loadDataListFragment.setDataUpdateListener(this);
             // }
@@ -223,7 +217,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     private void reloadData() {
         if (null != loadDataListFragment) {
-            isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
             loadDataListFragment.refreshNoCaseTime();
         }
@@ -274,38 +267,26 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private boolean isUpOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
-                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP));
     }
 
     private boolean isDownOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
-                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN));
     }
 
     private boolean isPercentType(String type) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CHANGE_DOWN)
                 || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
-                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN));
     }
 
     private boolean isDefOrder(String orderType) {
-        if (orderType.equals(TYPE_DEFALUT)) {
-            return true;
-        }
-        return false;
+        return orderType.equals(TYPE_DEFALUT);
     }
 
     private int lastPercentTextIds = 0;

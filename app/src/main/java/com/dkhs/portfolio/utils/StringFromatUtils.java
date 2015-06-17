@@ -9,12 +9,9 @@
 package com.dkhs.portfolio.utils;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import android.R.integer;
 
 /**
  * @author zjz
@@ -61,11 +58,7 @@ public class StringFromatUtils {
     public static boolean isCN(String str) {
         try {
             byte[] bytes = str.getBytes("UTF-8");
-            if (bytes.length == str.length()) {
-                return false;
-            } else {
-                return true;
-            }
+            return bytes.length != str.length();
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -135,6 +128,15 @@ public class StringFromatUtils {
         }
     }
 
+    public static String get4PointPlus(float value) {
+        if (value > 0) {
+            return String.format("+%.4f", value);
+
+        } else {
+            return String.format("%.4f", value);
+        }
+    }
+
     public static String convertToWan(float value) {
         // value = value / 100;
         float wan = 10000f;
@@ -191,7 +193,7 @@ public class StringFromatUtils {
 
         String dateFormatStr = "";
 
-        if(dateLong>0){
+        if (dateLong > 0) {
             Date date = new Date(dateLong);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             dateFormatStr = simpleDateFormat.format(date);

@@ -8,17 +8,15 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.List;
-
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
+
+import java.util.List;
 
 /**
  * \
- * 
+ *
  * @author weiting
- * 
  */
 public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNewsBean>> {
 
@@ -53,10 +51,10 @@ public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNe
     public abstract void loadData();
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param object
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     protected void afterParseData(List<OptionNewsBean> object) {
@@ -67,11 +65,11 @@ public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNe
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param errCode
      * @param errMsg
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onFailure(int errCode, String errMsg) {
@@ -83,9 +81,9 @@ public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNe
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void requestCallBack() {

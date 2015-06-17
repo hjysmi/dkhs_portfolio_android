@@ -8,12 +8,8 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,12 +24,15 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName OptionalStockListActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-22 上午9:21:53
- * @version 1.0
  */
 public class OptionalStockListActivity extends ModelAcitivity implements OnClickListener {
     private FragmentSelectStockFund loadDataListFragment;
@@ -78,7 +77,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
         MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -161,9 +160,9 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     private String orderType;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onStart() {
@@ -173,9 +172,9 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onRestart() {
@@ -193,16 +192,16 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             case R.id.tv_current: {
                 setViewOrderIndicator(tvCurrent);
             }
-                break;
+            break;
             case R.id.tv_percentage: {
                 setViewOrderIndicator(tvPercentgae);
 
             }
-                break;
+            break;
             case R.id.tv_increase: {
                 setViewOrderIndicator(tvChange);
             }
-                break;
+            break;
 
             default:
                 break;
@@ -247,7 +246,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            if (orderType == typeChangeDown || orderType == typeCurrentDown || orderType == typePercentageDown) {
+            if (orderType.equals(typeChangeDown) || orderType.equals(typeCurrentDown) || orderType.equals(typePercentageDown)) {
                 setUpType(currentSelectView);
             } else {
                 setDownType(currentSelectView);
@@ -277,13 +276,15 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         }
         setDrawableUp(currentSelectView);
     }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
+
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
 }

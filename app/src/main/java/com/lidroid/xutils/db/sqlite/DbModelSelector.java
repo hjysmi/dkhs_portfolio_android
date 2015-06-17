@@ -132,8 +132,8 @@ public class DbModelSelector {
         StringBuffer result = new StringBuffer();
         result.append("SELECT ");
         if (columnExpressions != null && columnExpressions.length > 0) {
-            for (int i = 0; i < columnExpressions.length; i++) {
-                result.append(columnExpressions[i]);
+            for (String columnExpression : columnExpressions) {
+                result.append(columnExpression);
                 result.append(",");
             }
             result.deleteCharAt(result.length() - 1);

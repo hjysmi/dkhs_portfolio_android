@@ -8,23 +8,12 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -32,12 +21,15 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName QuetosStockEngineImple
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-18 下午6:11:27
- * @version 1.0
  */
 public class MainIndexEngineImple extends LoadMoreDataEngine {
 
@@ -180,10 +172,10 @@ public class MainIndexEngineImple extends LoadMoreDataEngine {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param dataSize
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {

@@ -8,28 +8,27 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.TextImageButton;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.TextImageButton;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName BaseFragmentTitle
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-5 下午12:48:51
- * @version 1.0
  */
 public abstract class BaseTitleFragment extends BaseFragment {
 

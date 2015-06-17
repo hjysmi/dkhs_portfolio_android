@@ -9,7 +9,6 @@
         android:id="@+id/rl_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_account"
         android:layout_marginTop="40dip"
         android:layout_marginLeft="-1dp"
         android:layout_marginRight="-1dp"

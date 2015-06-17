@@ -71,7 +71,7 @@ public class DragStockAdapter extends DragListAdapter {
     public void onDeleteClick(final int position) {
         PromptManager.showProgressDialog(context, null);
         SelectStockBean stockBean = (SelectStockBean) getDataList().get(position).elment;
-        if (PortfolioApplication.getInstance().hasUserLogin()) {
+        if (PortfolioApplication.hasUserLogin()) {
             mQuotesEngine.delfollow(stockBean.id, baseListener);
             setStation(position);
         } else {

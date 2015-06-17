@@ -8,21 +8,17 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.List;
-
-import android.util.Log;
-
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.lidroid.xutils.http.HttpHandler;
 
 /**
+ * @param <T>
+ * @author zjz
+ * @version 1.0
  * @ClassName LoadMoreDataEngine
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-22 上午9:46:30
- * @version 1.0
- * @param <T>
  */
 public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean> {
 
@@ -30,7 +26,6 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     private int totalpage;
     private int currentpage;
     private int statu = -1;
-
 
 
     private MoreDataBean moreDataBean;
@@ -67,10 +62,10 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     public abstract HttpHandler refreshDatabySize(int dataSize);
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param object
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     protected void afterParseData(MoreDataBean object) {
@@ -89,11 +84,11 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param errCode
      * @param errMsg
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onFailure(int errCode, String errMsg) {
@@ -140,6 +135,7 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     public void setStatu(int statu) {
         this.statu = statu;
     }
+
     public MoreDataBean getMoreDataBean() {
         return moreDataBean;
     }

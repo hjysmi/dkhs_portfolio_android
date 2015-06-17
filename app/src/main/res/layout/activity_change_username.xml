@@ -3,11 +3,11 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    
+
     android:paddingTop="30dp"
     android:background="@color/person_setting_backgroud"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout 
+    <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -15,7 +15,7 @@
     android:paddingRight="20dp"
         android:background="@drawable/edittext_bg"
         >
-    <com.dkhs.portfolio.ui.widget.ClearableEditText 
+    <com.dkhs.portfolio.ui.widget.ClearableEditText
         android:id="@+id/change_edit_name"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:background="@null"
         />
     </LinearLayout>
-    <LinearLayout 
+    <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -32,14 +32,14 @@
         android:paddingTop="10dp"
     	android:paddingRight="20dp"
         >
-        <ImageView 
+        <ImageView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:paddingTop="2dp"
             android:src="@drawable/change_name_icon"
             />
         <TextView
-            android:paddingLeft="2dp" 
+            android:paddingLeft="2dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:textColor="@color/light_gray"

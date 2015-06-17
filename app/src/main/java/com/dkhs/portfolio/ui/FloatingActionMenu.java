@@ -66,7 +66,7 @@ public class FloatingActionMenu extends FloatingActionView {
         this.containerView = new LinearLayout(getContext());
         this.containerView.setLayoutParams(new LinearLayout.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-        this.containerView.setOrientation(0);
+        this.containerView.setOrientation(LinearLayout.HORIZONTAL);
         addView(this.containerView);
     }
 
@@ -92,7 +92,7 @@ public class FloatingActionMenu extends FloatingActionView {
 
         View flaotMenu = View.inflate(getContext(), R.layout.item_float_menu, null);
         // RelativeLayout localRelativeLayout = new RelativeLayout(getContext());
-        flaotMenu.setTag(Integer.valueOf(paramInt1));
+        flaotMenu.setTag(paramInt1);
         flaotMenu.setLayoutParams(new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height), 1.0F));
         TextView tvConntent = (TextView) flaotMenu.findViewById(R.id.tv_floatmenu);
@@ -108,7 +108,7 @@ public class FloatingActionMenu extends FloatingActionView {
         flaotMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = ((Integer) v.getTag()).intValue();
+                int index = (Integer) v.getTag();
                 if (null != menuItemSelectedListener) {
                     menuItemSelectedListener.onMenuItemSelected(index);
                 }
@@ -125,7 +125,7 @@ public class FloatingActionMenu extends FloatingActionView {
     }
 
     private void init() {
-        setOrientation(1);
+        setOrientation(LinearLayout.VERTICAL);
         addBorderInTop();
     }
 
@@ -203,7 +203,7 @@ public class FloatingActionMenu extends FloatingActionView {
         }
 
         public MoreMenuItemBuilder addItem(int positionIndex, String titleString) {
-            this.positionItemIdMap.put(this.adapter.getCount(), Integer.valueOf(positionIndex));
+            this.positionItemIdMap.put(this.adapter.getCount(), positionIndex);
             this.adapter.add(titleString);
             this.adapter.notifyDataSetChanged();
             return this;

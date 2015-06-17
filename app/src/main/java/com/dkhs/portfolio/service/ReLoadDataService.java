@@ -29,7 +29,7 @@ public class ReLoadDataService extends Service {
 
     private static final String TAG = "ReLoadDataService";
     // 30分钟
-    private int repeatTime = 30 * 60 * 1000;
+    private final int repeatTime = 30 * 60 * 1000;
     private boolean isLoadData = true;
 
     @Override

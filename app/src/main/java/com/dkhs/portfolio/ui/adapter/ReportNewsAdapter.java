@@ -1,47 +1,27 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter.ViewHodler;
 import com.dkhs.portfolio.utils.TimeUtils;
+
+import java.util.Calendar;
+import java.util.List;
 
 public class ReportNewsAdapter extends BaseAdapter {
     private Context mContext;
     private List<OptionNewsBean> mDataList;
-    private OptionNewsBean mOptionNewsBean;
-    private DisplayMetrics dm;
-    private Rect rects;
     private boolean isSecondYanbao;
 
     public ReportNewsAdapter(Context mContext, List<OptionNewsBean> mDataList) {
         this.mContext = mContext;
         this.mDataList = mDataList;
-        dm = new DisplayMetrics();
-        WindowManager m = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        m.getDefaultDisplay().getMetrics(dm);
-        Paint p = new Paint();
-        rects = new Rect();
-        String text = "正正正正正";
-        p.setTextSize(mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
-        p.getTextBounds(text, 0, text.length(), rects);
 
     }
 
@@ -152,7 +132,7 @@ public class ReportNewsAdapter extends BaseAdapter {
         // }
 
         try {
-            mOptionNewsBean = mDataList.get(position);
+            OptionNewsBean mOptionNewsBean = mDataList.get(position);
             if (null == convertView) {
                 viewHolder = new ViewHodler();
                 convertView = View.inflate(mContext, R.layout.adapter_info_optional, null);
@@ -202,7 +182,7 @@ public class ReportNewsAdapter extends BaseAdapter {
             viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
                     + "-"
                     + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
-                            .get(Calendar.DAY_OF_MONTH)));
+                    .get(Calendar.DAY_OF_MONTH)));
             // if (TimeUtils.compareTime(old)) {
             // viewHolder.tvTextDate
             // .setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old

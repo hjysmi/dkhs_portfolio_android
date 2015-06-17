@@ -8,19 +8,6 @@
 
 package cn.sharesdk.onekeyshare;
 
-import static cn.sharesdk.framework.utils.R.*;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import com.dkhs.portfolio.utils.PhoneInfo;
-import com.umeng.analytics.MobclickAgent;
-
-import m.framework.ui.widget.viewpager.ViewPagerAdapter;
-import m.framework.ui.widget.viewpager.ViewPagerClassic;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,17 +24,32 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.utils.PhoneInfo;
+import com.umeng.analytics.MobclickAgent;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.FakeActivity;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import m.framework.ui.widget.viewpager.ViewPagerAdapter;
+import m.framework.ui.widget.viewpager.ViewPagerClassic;
 
-/** 平台宫格列表显示工具。 */
+import static cn.sharesdk.framework.utils.R.getBitmapRes;
+
+/**
+ * 平台宫格列表显示工具。
+ */
 public class PlatformGridView extends LinearLayout implements OnClickListener, Callback {
     private static final int MIN_CLICK_INTERVAL = 1000;
     private static final int MSG_PLATFORM_LIST_GOT = 1;
@@ -144,12 +146,14 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
             case MSG_PLATFORM_LIST_GOT: {
                 afterPlatformListGot();
             }
-                break;
+            break;
         }
         return false;
     }
 
-    /** 初始化宫格列表ui */
+    /**
+     * 初始化宫格列表ui
+     */
     public void afterPlatformListGot() {
         PlatformAdapter adapter = new PlatformAdapter(this);
         pager.setAdapter(adapter);
@@ -201,7 +205,9 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
         // points[curPage].setImageBitmap(whitePoint);
     }
 
-    /** 屏幕旋转后，此方法会被调用，以刷新宫格列表的布局 */
+    /**
+     * 屏幕旋转后，此方法会被调用，以刷新宫格列表的布局
+     */
     public void onConfigurationChanged() {
         int curFirst = pager.getCurrentScreen() * PAGE_SIZE;
         calPageSize();
@@ -222,7 +228,9 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
         this.hiddenPlatforms = hiddenPlatforms;
     }
 
-    /** 设置自己图标的点击事件 */
+    /**
+     * 设置自己图标的点击事件
+     */
     public void setCustomerLogos(ArrayList<CustomerLogo> customers) {
         this.customers = customers;
     }
@@ -231,7 +239,9 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
         this.bgView = bgView;
     }
 
-    /** 设置分享操作的回调页面 */
+    /**
+     * 设置分享操作的回调页面
+     */
     public void setParent(OnekeyShare parent) {
         this.parent = parent;
     }
@@ -297,15 +307,17 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
             return;
         }
         try {
-            Method m = View.class.getMethod("setOverScrollMode", new Class[] { Integer.TYPE });
+            Method m = View.class.getMethod("setOverScrollMode", new Class[]{Integer.TYPE});
             m.setAccessible(true);
-            m.invoke(view, new Object[] { Integer.valueOf(2) });
+            m.invoke(view, new Object[]{Integer.valueOf(2)});
         } catch (Throwable t) {
             t.printStackTrace();
         }
     }
 
-    /** 宫格列表数据适配器 */
+    /**
+     * 宫格列表数据适配器
+     */
     private static class PlatformAdapter extends ViewPagerAdapter {
         private GridView[] girds;
         private List<Object> logos;
@@ -385,7 +397,9 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
             return girds[position];
         }
 
-        /** 屏幕滑动后，此方法会被调用 */
+        /**
+         * 屏幕滑动后，此方法会被调用
+         */
         public void onScreenChange(int currentScreen, int lastScreen) {
             // ImageView[] points = platformGridView.points;
             // for (int i = 0; i < points.length; i++) {
@@ -397,7 +411,9 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
 
     }
 
-    /** 简易的宫格列表控件 */
+    /**
+     * 简易的宫格列表控件
+     */
     private static class GridView extends LinearLayout {
         private Object[] beans;
         private OnClickListener callback;

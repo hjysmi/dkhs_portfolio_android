@@ -28,13 +28,14 @@ import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.TodayNetBean;
 import com.dkhs.portfolio.bean.TodayNetValue;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.LinePoint.TrendLinePointEntity;
+import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -151,13 +152,13 @@ public class TrendChartFragment extends BaseFragment {
         // }
     }
 
-    Handler drawCharHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    WeakHandler drawCharHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             updateView();
+            return false;
         }
-
-        ;
-    };
+    });
 
     public void showShareImage() {
         if (null != mMaChart) {
@@ -173,13 +174,13 @@ public class TrendChartFragment extends BaseFragment {
         }
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             showShare();
+            return false;
         }
-
-        ;
-    };
+    });
 
     private String SHARE_IMAGE;
 
@@ -266,15 +267,15 @@ public class TrendChartFragment extends BaseFragment {
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.buildDrawingCache();
-        Bitmap bitmap = view.getDrawingCache();
+        return view.getDrawingCache();
 
-        return bitmap;
     }
 
     private static final String FILE_NAME = "share_image.jpg";
 
     private void initImagePath() {
-        File file = new File("/sdcard/portfolio/", FILE_NAME);
+        String filePath = Environment.getExternalStorageDirectory().getPath() + "portfolio/";
+        File file = new File(filePath, FILE_NAME);
         SHARE_IMAGE = file.getAbsolutePath();
         try {
 
@@ -720,8 +721,9 @@ public class TrendChartFragment extends BaseFragment {
 
     }
 
-    Handler dataHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    WeakHandler dataHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             if (trendType.equals(TREND_TYPE_TODAY)) {
 
                 // setLineData(initMA(new Random().nextInt(240)));
@@ -729,10 +731,9 @@ public class TrendChartFragment extends BaseFragment {
             } else {
 
             }
+            return false;
         }
-
-        ;
-    };
+    });
 
     ParseHttpListener historyNetValueListener = new ParseHttpListener<DrawLineDataEntity>() {
 

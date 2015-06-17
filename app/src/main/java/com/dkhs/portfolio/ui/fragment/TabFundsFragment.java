@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -109,14 +110,8 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     }
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            // reloadData();
-
-        }
-
-        ;
-    };
+    @SuppressLint("HandlerLeak")
+    Handler updateHandler = new Handler();
 
 
     @Override
@@ -268,29 +263,20 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
     }
 
     private boolean isDownOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_PER_MONTH_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
-                || orderType.equals(TYPE_PER_DAY_DOWN) || orderType.equals(TYPE_PER_TYEAR_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PER_DAY_DOWN) || orderType.equals(TYPE_PER_TYEAR_DOWN));
     }
 
     private boolean isPercentType(String type) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_PER_MONTH_UP) || orderType.equals(TYPE_PER_MONTH_DOWN)
                 || orderType.equals(TYPE_PER_DAY_UP) || orderType.equals(TYPE_PER_DAY_DOWN)
-                || orderType.equals(TYPE_PER_TYEAR_UP) || orderType.equals(TYPE_PER_TYEAR_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PER_TYEAR_UP) || orderType.equals(TYPE_PER_TYEAR_DOWN));
     }
 
     private boolean isDefOrder(String orderType) {
-        if (orderType.equals(TYPE_DEFALUT)) {
-            return true;
-        }
-        return false;
+        return orderType.equals(TYPE_DEFALUT);
     }
 
     private void setDownType(TextView currentSelectView) {

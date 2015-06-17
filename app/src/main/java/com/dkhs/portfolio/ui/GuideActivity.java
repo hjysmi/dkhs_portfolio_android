@@ -1,31 +1,24 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.adapter.GuideViewPagerAdapter;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * 
  * class desc: 引导界面
- * 
  */
 public class GuideActivity extends BaseActivity implements OnPageChangeListener {
 
-    private ViewPager vp;
-    private GuideViewPagerAdapter vpAdapter;
-    private List<View> views;
 
     // 底部小点图片
     // private ImageView[] dots;
@@ -48,7 +41,7 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
     private void initViews() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        views = new ArrayList<View>();
+        List<View> views = new ArrayList<View>();
         // 初始化引导图片列表
         views.add(inflater.inflate(R.layout.guide_first, null));
         views.add(inflater.inflate(R.layout.guide_second, null));
@@ -57,9 +50,9 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
         views.add(inflater.inflate(R.layout.guide_five, null));
 
         // 初始化Adapter
-        vpAdapter = new GuideViewPagerAdapter(views, this);
+        GuideViewPagerAdapter vpAdapter = new GuideViewPagerAdapter(views, this);
 
-        vp = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager vp = (ViewPager) findViewById(R.id.viewpager);
         vp.setAdapter(vpAdapter);
         // 绑定回调
         vp.setOnPageChangeListener(this);

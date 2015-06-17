@@ -162,7 +162,7 @@ public class StockPriceBean {
     }
 
     public boolean isStop() {
-        return isStop == 1 ? true : false;
+        return isStop == 1;
     }
 
     public void setIsStop(int isStop) {

@@ -8,12 +8,8 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,12 +31,15 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName CombinationAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-26 下午3:44:16
- * @version 1.0
  */
 public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeListener, OnClickListener {
     private Context mContext;

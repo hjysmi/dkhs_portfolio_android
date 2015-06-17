@@ -20,14 +20,13 @@ import com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet;
 import com.umeng.analytics.MobclickAgent;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName MyCombinationActivity
  * @Description 我的组合
- * @author zjz
  * @date 2014-8-26 下午3:10:51
- * @version 1.0
  */
 public class MyCombinationActivity extends ModelAcitivity implements OnClickListener {
-    private Button btnMore;
     private Button btnRefresh;
 
     private MyCombinationFragmnet listFragment;
@@ -49,7 +48,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     }
 
     private void initTitleView() {
-        btnMore = getRightButton();
+        Button btnMore = getRightButton();
         btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null,
                 null, null);
         btnMore.setOnClickListener(this);
@@ -94,11 +93,6 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         } else if (id == SECONDRIGHTBUTTON_ID) {
             clickSecondButton();
             // clickSecondButton();
-        } else if (id == R.id.tv_add_combina) {
-            // mCombinationAdapter.addItem();
-            // mPopMoreWindow.dismiss();
-
-            addNewCombination();
         }
 
     }

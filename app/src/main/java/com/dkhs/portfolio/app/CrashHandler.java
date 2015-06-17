@@ -8,6 +8,16 @@
  */
 package com.dkhs.portfolio.app;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.Toast;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,50 +30,56 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.lidroid.xutils.util.LogUtils;
-
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Build;
-import android.os.Environment;
-import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
-
 /**
+ * @author zhoujunzhou
+ * @version 1.0
  * @ClassName: CrashHandler
  * @Description: 全局异常处理
- * @author zhoujunzhou
  * @date 2014-4-25 下午1:47:26
- * @version 1.0
  */
 public class CrashHandler implements UncaughtExceptionHandler {
-    /** Debug Log tag */
+    /**
+     * Debug Log tag
+     */
     public static final String TAG = "CrashHandler";
     private Context mContext;
-    /** 系统默认的UncaughtException处理类 */
+    /**
+     * 系统默认的UncaughtException处理类
+     */
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     // private static final String ErrorReportName = "crash-";
     private static String ErrorReportName = "crash-";
-    /** 错误报告文件的扩展名 */
+    /**
+     * 错误报告文件的扩展名
+     */
     private static final String CRASH_REPORTER_EXTENSION = ".txt";
-    /** 错误报告的文件长度 500K */
+    /**
+     * 错误报告的文件长度 500K
+     */
     private static final long FILELEGTH = 1024 * 500;
 
-    /** 保存设备的信息和错误堆栈信息 */
+    /**
+     * 保存设备的信息和错误堆栈信息
+     */
     private static String VERSION_NAME = "versionName: ";
     private static String VERSION_CODE = "versionCode: ";
     private static String STACK_TRACE = "STACK_TRACE: ";
     private static String PACKAGENAME = "packageName: ";
-    /** 基带 */
+    /**
+     * 基带
+     */
     private static String BASEBAND = "baseBand: ";
-    /** 設備名 */
+    /**
+     * 設備名
+     */
     private static String MODEL = "model: ";
-    /** 设备厂商名 */
+    /**
+     * 设备厂商名
+     */
     private static String BRAND = "brand: ";
-    /** 设备的SDK版本号 */
+    /**
+     * 设备的SDK版本号
+     */
     private static String SDKVERSION = "sdkversion: ";
 
     private static StringBuffer crashinfo;
@@ -71,7 +87,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private volatile static CrashHandler crashhandler;
 
     private CrashHandler() {
-    };
+    }
+
+    ;
 
     public static CrashHandler getInstance(Context ctx) {
 
@@ -88,7 +106,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 初始化,注册Context对象, 获取系统默认的UncaughtException处理器, 设置该CrashHandler为程序的默认处理器
-     * 
+     *
      * @param ctx
      */
     public void init(Context ctx) {
@@ -121,10 +139,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     }
 
     /**
-     * 
+     * @param @param ex
      * @Title: handleException
      * @Description: 自定义异常处理方法
-     * @param @param ex
      */
     private boolean handleException(final Throwable ex) {
         Log.i("CrashHandler", "come into handleException");
@@ -140,7 +157,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 Looper.prepare();
                 Toast.makeText(mContext, "程序出错了：" + msg, Toast.LENGTH_LONG).show();
                 Looper.loop();
-            };
+            }
+
+            ;
         }.start();
 
         // 收集设备信息
@@ -156,21 +175,24 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 把错误报告发送给服务器.
-     * 
+     *
      * @param ctx
      */
     public void sendCrashReportsToServer(Context ctx) {
 
         Log.i("CrashHandler", "come into sendCrashReportToServer");
+        String filePath = Environment.getExternalStorageDirectory().getPath() + "portfolio/";
 
-        final File cr = new File("/sdcard/portfolio/", ErrorReportName);
+        final File cr = new File(filePath, ErrorReportName);
         if (cr.length() >= FILELEGTH) {
             Log.i("CrashHandler", "sendCrashReportToServer");
             new Thread() {
                 public void run() {
                     postReport(cr);
                     // cr.delete(); // 删除已发送的报告
-                };
+                }
+
+                ;
             }.start();
         }
 
@@ -196,7 +218,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 获取错误报告文件名
-     * 
+     *
      * @param ctx
      * @return
      */
@@ -212,7 +234,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 保存错误信息到文件中
-     * 
+     *
      * @param ex
      * @return
      */
@@ -234,7 +256,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
         String result = info.toString();
         printWriter.close();
-        crashinfo.append(STACK_TRACE + result + "\n \n");
+        crashinfo.append(STACK_TRACE).append(result).append("\n \n");
         Log.i("STACK_TRACE", result);
         try {
             // long timestamp = System.currentTimeMillis();
@@ -287,7 +309,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 收集程序崩溃的设备信息
-     * 
+     *
      * @param ctx
      */
     public void collectCrashDeviceInfo(Context ctx) {
@@ -296,14 +318,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
             PackageManager pm = ctx.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
-                crashinfo.append(VERSION_NAME + (pi.versionName == null ? "not set" : pi.versionName) + "\n");
-                crashinfo.append(VERSION_CODE + String.valueOf(pi.versionCode) + "\n");
-                crashinfo.append(PACKAGENAME + pi.packageName + "\n");
-                crashinfo.append(BRAND + (Build.BRAND == null ? "unknown" : Build.BRAND) + "\n");
-                crashinfo.append(MODEL + (Build.MODEL == null ? "unknown" : Build.MODEL) + "\n");
-                crashinfo.append(BASEBAND + getBaseBand() + "\n");
-                crashinfo.append(SDKVERSION + (Build.VERSION.RELEASE == null ? "unknown" : Build.VERSION.RELEASE)
-                        + "\n");
+                crashinfo.append(VERSION_NAME).append(pi.versionName == null ? "not set" : pi.versionName).append("\n");
+                crashinfo.append(VERSION_CODE).append(String.valueOf(pi.versionCode)).append("\n");
+                crashinfo.append(PACKAGENAME).append(pi.packageName).append("\n");
+                crashinfo.append(BRAND).append(Build.BRAND == null ? "unknown" : Build.BRAND).append("\n");
+                crashinfo.append(MODEL).append(Build.MODEL == null ? "unknown" : Build.MODEL).append("\n");
+                crashinfo.append(BASEBAND).append(getBaseBand()).append("\n");
+                crashinfo.append(SDKVERSION).append(Build.VERSION.RELEASE == null ? "unknown" : Build.VERSION.RELEASE).append("\n");
             }
         } catch (NameNotFoundException e) {
             Log.e(TAG, "Error while collect package info", e);
@@ -312,7 +333,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     /**
      * 获取手机基带信息
-     * 
+     *
      * @return String 基带信息
      */
     private static String getBaseBand() {
@@ -320,8 +341,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
         try {
             Class clazz = Class.forName("android.os.SystemProperties");
             Object invoker = clazz.newInstance();
-            Method method = clazz.getMethod("get", new Class[] { String.class, String.class });
-            Object result = method.invoke(invoker, new Object[] { "gsm.version.baseband", "no message" });
+            Method method = clazz.getMethod("get", new Class[]{String.class, String.class});
+            Object result = method.invoke(invoker, new Object[]{"gsm.version.baseband", "no message"});
             baseband = (String) result;
             // Toast.makeText(this, (String)result, Toast.LENGTH_LONG).show();
 

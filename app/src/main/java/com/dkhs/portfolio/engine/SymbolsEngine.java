@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.engine;
 
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -17,11 +16,11 @@ import com.lidroid.xutils.http.client.HttpRequest;
 public class SymbolsEngine {
 
 
-    public void getFundManagerInfo(String pk, IHttpListener listener){
+    public void getFundManagerInfo(String pk, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
 
-        DKHSClient.request(HttpRequest.HttpMethod.GET, String.format(DKHSUrl.Fund.managerInfo,pk), null, listener);
+        DKHSClient.request(HttpRequest.HttpMethod.GET, String.format(DKHSUrl.Fund.managerInfo, pk), null, listener);
 
     }
 }

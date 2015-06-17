@@ -47,7 +47,7 @@ public class ChangeFollowCombView {
     }
 
     private void followCombination() {
-        if (PortfolioApplication.getInstance().hasUserLogin()) {
+        if (PortfolioApplication.hasUserLogin()) {
 
             if (mCombinationBean.isFollowed()) {
                 new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);

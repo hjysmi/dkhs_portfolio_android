@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.umeng.analytics.MobclickAgent;
 
 public class ChangeCheckType extends Activity implements OnClickListener {
-    private Context context;
     public static String CHECK_TYPE = "checktype";
     private String checkValue;
     private TextView tvUnCheck;
@@ -26,7 +24,6 @@ public class ChangeCheckType extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_check_layout);
         getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        context = this;
         checkValue = getIntent().getExtras().getString(CHECK_TYPE);
         initView();
         setListener();
@@ -48,18 +45,22 @@ public class ChangeCheckType extends Activity implements OnClickListener {
     }
 
     private void setSelect() {
-        if (checkValue.equals("0")) {
-            tvUnCheck.setSelected(true);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(false);
-        } else if (checkValue.equals("1")) {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(true);
-            tvAfterCheck.setSelected(false);
-        } else {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(true);
+        switch (checkValue) {
+            case "0":
+                tvUnCheck.setSelected(true);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(false);
+                break;
+            case "1":
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(true);
+                tvAfterCheck.setSelected(false);
+                break;
+            default:
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(true);
+                break;
         }
     }
 

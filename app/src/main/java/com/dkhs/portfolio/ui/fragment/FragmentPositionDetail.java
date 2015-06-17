@@ -39,6 +39,7 @@ import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionAdjustBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -80,7 +81,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class FragmentPositionDetail extends Fragment implements OnClickListener {
 
     private PieGraph pgView;
-    private View btnDate;
     private View btnAdjust;
     private TextView tvCurrentDay;
     // private TextView tvCombinationName;
@@ -89,20 +89,16 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
     private View shareView;
 
     private ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
-    private float surValue;
-
     private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
+
     // 涨幅相关
-    private ListViewEx lvStock;
     private PositionDetailIncreaAdapter stockAdapter;
 
     // 净值贡献相关
-    private ListViewEx lvContribute;
     private PositionContributedapter mContributeAdapter;
 
     // 持仓调整相关
     private List<PositionAdjustBean> mAdjustList = new ArrayList<PositionAdjustBean>();
-    private ListViewEx lvAdjustHistory;
     private PositionAdjustHistoryAdapter mAdjustAdapter;
 
     private String mCombinationId;
@@ -342,13 +338,13 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private void initAdjustHistoryView(View view) {
 
-        lvAdjustHistory = (ListViewEx) view.findViewById(R.id.lv_adjust_history);
+        ListViewEx lvAdjustHistory = (ListViewEx) view.findViewById(R.id.lv_adjust_history);
         mAdjustAdapter = new PositionAdjustHistoryAdapter(getActivity(), mAdjustList);
         lvAdjustHistory.setAdapter(mAdjustAdapter);
     }
 
     private void initContributeView(View view) {
-        lvContribute = (ListViewEx) view.findViewById(R.id.lv_contribute_layout);
+        ListViewEx lvContribute = (ListViewEx) view.findViewById(R.id.lv_contribute_layout);
         mContributeAdapter = new PositionContributedapter(getActivity(), stockList);
         View headerView = View.inflate(getActivity(), R.layout.layout_detail_contribute_title, null);
         lvContribute.addHeaderView(headerView);
@@ -360,7 +356,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         btnAdjust = view.findViewById(R.id.btn_adjust_position);
         btnAdjust.setOnClickListener(this);
         btnAdjust.setEnabled(false);
-        btnDate = view.findViewById(R.id.btn_detail_date);
+        View btnDate = view.findViewById(R.id.btn_detail_date);
         btnDate.setOnClickListener(this);
         tvCurrentDay = (TextView) view.findViewById(R.id.tv_current_day);
         tvCurrentDay.setOnClickListener(this);
@@ -376,7 +372,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
     }
 
     private void initIncreaseList(View view) {
-        lvStock = (ListViewEx) view.findViewById(R.id.lv_optional_layout);
+        ListViewEx lvStock = (ListViewEx) view.findViewById(R.id.lv_optional_layout);
         stockAdapter = new PositionDetailIncreaAdapter(getActivity(), stockList);
         View headerView = View.inflate(getActivity(), R.layout.layout_detail_pos_increase_title, null);
         lvStock.addHeaderView(headerView);
@@ -415,15 +411,15 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     }
 
-    private float surpulsValue() {
-        float total = 100;
-        for (int i = 0; i < stockList.size(); i++) {
-            total -= stockList.get(i).getPercent();
-        }
-        surValue = total;
-
-        return total;
-    }
+//    private float surpulsValue() {
+//        float total = 100;
+//        for (int i = 0; i < stockList.size(); i++) {
+//            total -= stockList.get(i).getPercent();
+//        }
+//        surValue = total;
+//
+//        return total;
+//    }
 
     /**
      * @return
@@ -486,13 +482,14 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            showShare();
-        }
 
-        ;
-    };
+    private WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            showShare();
+            return true;
+        }
+    });
 
     private void showShare() {
         if (null != mPositionDetail) {

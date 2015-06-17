@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -96,15 +97,16 @@ public class BenefitChartView {
     }
 
     public View initView() {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view, null);
+        View view = LayoutInflater.from(ctx).inflate(R.layout.layout_compare_index_view, new LinearLayout(ctx), false);
         ViewUtils.inject(this, view); // 注入view和事件
         return view;
     }
 
     private FundManagerInfoBean.AchivementsEntity achivementsEntity;
+
     public void draw(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
         loadView.setVisibility(View.VISIBLE);
-        this.achivementsEntity=achivementsEntity;
+        this.achivementsEntity = achivementsEntity;
         contentView.setVisibility(View.GONE);
         if (null != achivementsEntity.getEnd_date()) {
             cEnd = TimeUtils.simpleDateToCalendar(achivementsEntity.getEnd_date());
@@ -458,7 +460,7 @@ public class BenefitChartView {
             while (it.hasNext()) {
                 ManagersEntity managerEntity = it.next();
                 if (managerEntity.getStart_date().equals(day) || TimeUtils.simpleDateToCalendar(day).after(TimeUtils.simpleDateToCalendar(managerEntity.getStart_date()))) {
-                    sbMangerText.append(managerEntity.getName() + "  ");
+                    sbMangerText.append(managerEntity.getName()).append("  ");
                     it.remove();
                     Log.d("InsertManagerData", " manager:" + managerEntity.getName() + " is  insert to" + day);
                 }
@@ -493,11 +495,11 @@ public class BenefitChartView {
                         lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
                     } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
                         lineEntity = new DefFundLineEntity();
-                        if(mFundQuoteBean!=null) {
-                            lineEntity.setTitle(mFundQuoteBean.getCode());
-                        }else if(achivementsEntity !=null ){
-                            if(!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
-                            lineEntity.setTitle(achivementsEntity.getFund().getSymbol().replaceAll("\\D",""));
+                        if (mFundQuoteBean != null) {
+                            lineEntity.setTitle(mFundQuoteBean.getSymbol());
+                        } else if (achivementsEntity != null) {
+                            if (!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
+                                lineEntity.setTitle(achivementsEntity.getFund().getSymbol().replaceAll("\\D", ""));
                         }
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;
@@ -509,7 +511,7 @@ public class BenefitChartView {
 
                     List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
                     setXTitleByComparePoint(bean.getChartlist());
-                    float netValue = 0;
+                    float net_cumulative = 0;
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         DefFundPointEntity pointEntity = new DefFundPointEntity();
                         float value = cPoint.getPercentage();
@@ -523,13 +525,15 @@ public class BenefitChartView {
                             minOffsetValue = value;
                         }
                         if (isCurrentFund) {
-                            netValue = cPoint.getNetvalue();
+//                            net_cumulative = cPoint.getNetvalue();
+                            net_cumulative = cPoint.getNet_cumulative();
+                            pointEntity.setNet_cumulative(net_cumulative);
                             pointEntity.setNetvalue(cPoint.getNetvalue());
                             pointEntity.setInfo(getManagerByData(cPoint.getDate()));
-                            if (netValue > maxOffsetNetValue) {
-                                maxOffsetNetValue = netValue;
-                            } else if (netValue < minOffsetNetValue) {
-                                minOffsetNetValue = netValue;
+                            if (net_cumulative > maxOffsetNetValue) {
+                                maxOffsetNetValue = net_cumulative;
+                            } else if (net_cumulative < minOffsetNetValue) {
+                                minOffsetNetValue = net_cumulative;
                             }
                         }
 

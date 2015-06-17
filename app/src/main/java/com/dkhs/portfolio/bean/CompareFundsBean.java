@@ -8,16 +8,16 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.util.List;
-
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName CompareFundsBean
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-14 上午10:35:14
- * @version 1.0
  */
 public class CompareFundsBean {
     /**
@@ -31,7 +31,7 @@ public class CompareFundsBean {
      * "date": "2014-09-01",
      * "percentage": 0
      * },
-     * */
+     */
 
     @SerializedName("pk")
     private String fundsId;
@@ -42,6 +42,9 @@ public class CompareFundsBean {
 
     public class ComparePoint {
         private float netvalue;
+
+
+        private float net_cumulative;
         private String date;
 
         private float percentage;
@@ -77,6 +80,15 @@ public class CompareFundsBean {
         public void setNetvalue(float netvalue) {
             this.netvalue = netvalue;
         }
+
+        public float getNet_cumulative() {
+            return net_cumulative;
+        }
+
+        public void setNet_cumulative(float net_cumulative) {
+            this.net_cumulative = net_cumulative;
+        }
+
     }
 
     public String getFundsId() {

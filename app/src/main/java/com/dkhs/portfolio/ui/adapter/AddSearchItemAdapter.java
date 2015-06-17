@@ -13,9 +13,6 @@ import android.widget.CompoundButton;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockPriceBean;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.utils.NetUtil;
@@ -56,28 +53,13 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
         @Override
         public void onChange(SelectStockBean stockBean) {
             if (null != stockBean) {
-//                if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
 
                 if (stockBean.isFollowed()) {
                     SelectAddOptionalActivity.mFollowList.add(stockBean);
                 } else {
                     SelectAddOptionalActivity.mFollowList.remove(stockBean);
                 }
-//                }
 
-//
-//            } else {
-//
-//
-////                if (stockBean.isFollowed()) {
-////                    int index = mDataList.indexOf(stockBean);
-////                    mDataList.get(index).isFollowed = true;
-////                } else {
-////                    int index = mDataList.indexOf(stockBean);
-////                    mDataList.get(index).isFollowed = false;
-////                }
-//
-//            }
             }
         }
     };
@@ -97,93 +79,5 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
         }
     }
 
-//        if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
-//            if (null != csBean) {
-//                if (isChecked) {
-//                    csBean.isFollowed = true;
-//                    csBean.sortId = 0;
-//                    mVisitorDataEngine.saveOptionalStock(csBean);
-//                    SelectAddOptionalActivity.mFollowList.add(csBean);
-//                    PromptManager.showFollowToast();
-//
-//                } else {
-//                    mVisitorDataEngine.delOptionalStock(csBean);
-//                    SelectAddOptionalActivity.mFollowList.remove(csBean);
-//                    PromptManager.showDelFollowToast();
-//                }
-//            }
-//
-//        } else if (NetUtil.checkNetWork()) {
-//            if (null != csBean) {
-//
-//                if (isChecked) {
-//                    new QuotesEngineImpl().symbolfollow(csBean.id, followListener);
-//                } else {
-//                    new QuotesEngineImpl().delfollow(csBean.id, delFollowListener);
-//                }
-//            }
-//        } else {
-//            buttonView.setChecked(!isChecked);
-//            PromptManager.showNoNetWork();
-//        }
-    // System.out.println("remove mSelectIdList lenght:" + BaseSelectActivity.mSelectList.size());
-
-
-    ParseHttpListener delFollowListener = new ParseHttpListener<Object>() {
-
-        @Override
-        protected Object parseDateTask(String jsonData) {
-            StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, jsonData);
-            SelectStockBean selectBean = new SelectStockBean();
-            selectBean.id = stockBean.getId();
-            selectBean.name = stockBean.getAbbrname();
-            selectBean.currentValue = stockBean.getCurrent();
-            selectBean.code = stockBean.getCode();
-            selectBean.symbol = stockBean.getSymbol();
-            selectBean.percentage = stockBean.getPercentage();
-            selectBean.percentage = stockBean.getPercentage();
-            selectBean.change = stockBean.getChange();
-            selectBean.isStop = stockBean.isStop();
-            SelectAddOptionalActivity.mFollowList.remove(selectBean);
-            return selectBean;
-        }
-
-        @Override
-        protected void afterParseData(Object object) {
-            notifyDataSetChanged();
-            PromptManager.showDelFollowToast();
-
-        }
-
-    };
-    ParseHttpListener followListener = new ParseHttpListener<Object>() {
-
-        @Override
-        protected Object parseDateTask(String jsonData) {
-            List<StockPriceBean> stockBeanList = DataParse.parseArrayJson(StockPriceBean.class, jsonData);
-            for (StockPriceBean stockBean : stockBeanList) {
-
-                SelectStockBean selectBean = new SelectStockBean();
-                selectBean.id = stockBean.getId();
-                selectBean.name = stockBean.getAbbrname();
-                selectBean.currentValue = stockBean.getCurrent();
-                selectBean.code = stockBean.getSymbol();
-                selectBean.percentage = stockBean.getPercentage();
-                selectBean.percentage = stockBean.getPercentage();
-                selectBean.change = stockBean.getChange();
-                selectBean.isStop = stockBean.isStop();
-                SelectAddOptionalActivity.mFollowList.add(selectBean);
-            }
-            return stockBeanList;
-        }
-
-        @Override
-        protected void afterParseData(Object object) {
-            notifyDataSetChanged();
-            PromptManager.showFollowToast();
-
-        }
-
-    };
 
 }

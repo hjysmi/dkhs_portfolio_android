@@ -15,24 +15,23 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/CommonTextAppearance_Big_Black"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
             android:paddingBottom="1dp"
-         />
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp" />
 
         <Button
             android:id="@+id/btn_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:paddingLeft="12dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="1dp"
-            android:paddingRight="12dp"
             android:layout_marginRight="8dp"
+            android:background="@null"
+            android:paddingBottom="1dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="8dp"
             android:text="@string/share"
             android:textColor="@color/gray_text_selector" />
 

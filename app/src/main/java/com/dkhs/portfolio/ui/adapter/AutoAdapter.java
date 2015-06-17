@@ -16,13 +16,8 @@ import java.util.List;
 public abstract class AutoAdapter extends MBaseAdapter {
 
 
-    //    private int layoutID;
-    protected ViewHolderUtils vh;
-
     public AutoAdapter(Context context, List<?> list) {
         super(context, list);
-//        this.layoutID = setLayoutID();
-        vh = new ViewHolderUtils();
     }
 
     @Override
@@ -31,7 +26,7 @@ public abstract class AutoAdapter extends MBaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(setLayoutID(), parent, false);
         }
-        onViewCreated(position, convertView, vh.get(convertView));
+        onViewCreated(position, convertView, ViewHolderUtils.get(convertView));
         return convertView;
     }
 

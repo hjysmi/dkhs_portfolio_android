@@ -129,8 +129,7 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
         protected UserEntity parseDateTask(String jsonData) {
             try {
                 JSONObject json = new JSONObject(jsonData);
-                UserEntity ue = DataParse.parseObjectJson(UserEntity.class, json);
-                return ue;
+                return DataParse.parseObjectJson(UserEntity.class, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

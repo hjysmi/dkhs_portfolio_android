@@ -37,13 +37,11 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
     LoadMoreDataEngine mLoadDataEngine;
     private DragStockAdapter adapter;
     private Context context;
-    private Button btnRight;
-    private LinearLayout layout;
 
     public static Intent newIntent(Context context, List<SelectStockBean> dataList) {
         Intent intent = new Intent(context, EditTabStockActivity.class);
         // extras
-        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, Parcels.wrap( dataList));
+        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, Parcels.wrap(dataList));
 
         return intent;
     }
@@ -79,8 +77,8 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
 
     private void initView() {
         optionEditList = (DragListView) findViewById(R.id.option_edit_list);
-        layout = (LinearLayout) findViewById(R.id.layout);
-        btnRight = getRightButton();
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
+        Button btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);

@@ -15,6 +15,7 @@
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
         android:text="@string/tab_stock"
+        style="?android:attr/buttonBarButtonStyle"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 
@@ -30,6 +31,7 @@
         android:paddingTop="6dp"
         android:singleLine="true"
         android:text="@string/tab_fund"
+        style="?android:attr/buttonBarButtonStyle"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
     <Button
@@ -43,6 +45,7 @@
         android:paddingTop="6dp"
         android:singleLine="true"
         android:text="@string/tab_funds"
+        style="?android:attr/buttonBarButtonStyle"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 

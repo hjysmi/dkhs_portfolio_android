@@ -26,13 +26,12 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_weight="2">
 
                 <me.grantland.widget.AutofitTextView
@@ -126,6 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -159,15 +159,12 @@
                 <TextView
                     android:id="@+id/tv_lowest"
                     style="@style/text_stock_name"
-                    android:layout_below="@+id/tv_highest"
 
                     android:text="@string/low" />
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_lowest_value"
-                    style="@style/text_stock_value"
-                    android:layout_alignBaseline="@+id/tv_lowest"
-                    android:layout_toRightOf="@+id/tv_lowest" />
+                    style="@style/text_stock_value" />
 
 
             </LinearLayout>
@@ -184,16 +181,11 @@
                 <TextView
                     android:id="@+id/tv_liang"
                     style="@style/text_stock_name"
-                    android:layout_below="@+id/tv_today_open"
-
-
                     android:text="@string/volume" />
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_liang_value"
-                    style="@style/text_stock_value"
-                    android:layout_alignBaseline="@+id/tv_liang"
-                    android:layout_toRightOf="@+id/tv_liang" />
+                    style="@style/text_stock_value" />
 
             </LinearLayout>
 

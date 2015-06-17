@@ -16,13 +16,13 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="1dp"
 
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_weight="2">
 
                 <me.grantland.widget.AutofitTextView
@@ -115,7 +115,8 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -170,8 +171,6 @@
                 <TextView
                     android:id="@+id/tv_e_value"
                     style="@style/text_stock_value"
-                    android:layout_alignBaseline="@+id/tv_e"
-                    android:layout_toRightOf="@+id/tv_e"
                     android:visibility="gone" />
 
 
@@ -201,7 +200,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"

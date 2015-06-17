@@ -1,24 +1,18 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SectorBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+
+import java.util.List;
 
 public class HotPlateAdapter extends BaseAdapter {
 

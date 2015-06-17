@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName MainInfoFragment
  * @Description 主界面资讯tab页
- * @author zjz
  * @date 2015-2-26 下午3:31:46
- * @version 1.0
  */
 public class MainInfoFragment extends BaseTitleFragment {
 
@@ -38,7 +38,6 @@ public class MainInfoFragment extends BaseTitleFragment {
     // @ViewInject(R.id.pager)
     // private ScrollViewPager pager;
     //
-    private LinearLayout layout;
 
     @Override
     public int setContentLayoutId() {
@@ -54,7 +53,7 @@ public class MainInfoFragment extends BaseTitleFragment {
     }
 
     private void initView(View view) {
-        layout = (LinearLayout) view.findViewById(R.id.yanbao_layout);
+        LinearLayout layout = (LinearLayout) view.findViewById(R.id.yanbao_layout);
         String userId = null;
         UserEntity user = UserEngineImpl.getUserEntity();
         if (user != null) {

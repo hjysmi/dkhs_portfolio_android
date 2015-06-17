@@ -1,8 +1,11 @@
 package com.dkhs.portfolio.ui.widget.chart;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.util.AttributeSet;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.kline.MALineEntity;
@@ -10,63 +13,85 @@ import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.util.AttributeSet;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StickChart extends GridChart {
 
     // //////////默认值///////////////
 
-    /** 显示纬线数 */
+    /**
+     * 显示纬线数
+     */
     public static final int DEFAULT_LATITUDE_NUM = 4;
 
-    /** 显示纬线数 */
+    /**
+     * 显示纬线数
+     */
     public static final int DEFAULT_LONGTITUDE_NUM = 4;
 
-    /** 柱条边�?��色 */
+    /**
+     * 柱条边框默认色
+     */
     public static final int DEFAULT_STICK_BORDER_COLOR = Color.RED;
 
-    /** 柱条填�?��色 */
+    /**
+     * 柱条填充默认色
+     */
     public static final int DEFAULT_STICK_FILL_COLOR = Color.RED;
 
     // //////////属�?列表/////////////////
 
-    /** 柱条边�?��色 */
+    /**
+     * 柱条边框色
+     */
     private int stickBorderColor = DEFAULT_STICK_BORDER_COLOR;
 
-    /** 柱条填�?��色 */
+    /**
+     * 柱条填充色
+     */
     private int stickFillColorUp = DEFAULT_STICK_FILL_COLOR;
 
     private int stickFillColorDown = DEFAULT_STICK_FILL_COLOR;
 
-    /** 显示纬线数 */
+    /**
+     * 显示纬线数
+     */
     private int latitudeNum = DEFAULT_LATITUDE_NUM;
 
-    /** 显示经线数 */
+    /**
+     * 显示经线数
+     */
     private int longtitudeNum = DEFAULT_LONGTITUDE_NUM;
 
-    /** K线数据 */
+    /**
+     * K线数据
+     */
     private ArrayList<OHLCEntity> StickData;
 
-    /** 图表中�?��蜡烛线 */
+    /**
+     * 图表中最大蜡烛线
+     */
     private int maxStickDataNum;
 
-    /** K线显示�?��价格 */
+    /**
+     * K线显示最大价格
+     */
     protected float maxValue;
 
-    /** K线显示�?��价格 */
+    /**
+     * K线显最小价格
+     */
     protected float minValue;
-    /** K线显示MACD负值 */
+    /**
+     * K线显示MACD负值
+     */
     protected float loseValue;
-    /** MA数据 */
+    /**
+     * MA数据
+     */
     private List<MALineEntity> MALineData;
     private int currentIndex;
-    // ///////////////�??函数///////////////
     private int mShowDate;
     private double dragValue = 0;
     private boolean isTouch = false;
@@ -142,7 +167,7 @@ public class StickChart extends GridChart {
             default:
                 break;
         }
-        // 绘制十字坐�?,防止被盖住
+        // 绘制十字坐标防止被盖住
         if (isDisplayCrossXOnTouch() || isDisplayCrossYOnTouch()) {
             drawWithFingerClick(canvas);
         }
@@ -217,8 +242,8 @@ public class StickChart extends GridChart {
     }
 
     /**
-     * 获取X轴刻度位置,�?�??�最大1
-     * 
+     * 获取X轴刻度位置,最大1
+     *
      * @param value
      * @return
      */
@@ -237,8 +262,8 @@ public class StickChart extends GridChart {
     }
 
     /**
-     * 获取Y轴刻度位置,�?�??�最大1
-     * 
+     * 获取Y轴刻度位置,最大1
+     *
      * @param value
      * @return
      */
@@ -249,7 +274,7 @@ public class StickChart extends GridChart {
     }
 
     /**
-     * 获得来自其他图�?��通知
+     * 获得来自其他图更新通知
      */
     @Override
     public void notifyEvent(GridChart chart) {
@@ -346,22 +371,19 @@ public class StickChart extends GridChart {
     protected void initAxisY() {
         List<String> TitleY = new ArrayList<String>();
         float average = ((maxValue - minValue) / latitudeNum);
-        ;
-        // �?��刻度
         for (int i = 0; i < latitudeNum; i++) {
             String value = String.valueOf((int) Math.floor(minValue + i * average));
             if (value.length() < super.getAxisYMaxTitleLength()) {
                 while (value.length() < super.getAxisYMaxTitleLength()) {
-                    value = new String(" ") + value;
+                    value = " " + value;
                 }
             }
             TitleY.add(value);
         }
-        // �?���?��值
         String value = maxValue + "";
         if (value.length() < super.getAxisYMaxTitleLength()) {
             while (value.length() < super.getAxisYMaxTitleLength()) {
-                value = new String(" ") + value;
+                value = " " + value;
             }
         }
         TitleY.add(value);
@@ -390,7 +412,7 @@ public class StickChart extends GridChart {
 
     /**
      * 绘制柱状线
-     * 
+     *
      * @param canvas
      */
     protected void drawSticks(Canvas canvas) {
@@ -466,7 +488,7 @@ public class StickChart extends GridChart {
 
     /**
      * 绘制MACD线
-     * 
+     *
      * @param canvas
      */
     protected void drawMADC(Canvas canvas) {
@@ -613,14 +635,14 @@ public class StickChart extends GridChart {
                         paint);
                 String k = "DIFF:"
                         + StringFromatUtils.get4Point((float) StickData.get(StickData.size() - selectIndext - 1)
-                                .getDiff());
+                        .getDiff());
                 p.getTextBounds(k, 0, k.length(), rect);
                 canvas.drawText(k, PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font),
                         paint);
                 wid = rect.width() + 32 + wid;
                 String dea = "DEA:"
                         + StringFromatUtils.get4Point((float) StickData.get(StickData.size() - selectIndext - 1)
-                                .getDea());
+                        .getDea());
                 p.getTextBounds(dea, 0, dea.length(), rect);
                 paint.setColor(getResources().getColor(R.color.ma10_color));
                 canvas.drawText(dea, PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font),
@@ -628,7 +650,7 @@ public class StickChart extends GridChart {
                 wid = wid + rect.width() + 32;
                 String macd = "MACD:"
                         + StringFromatUtils.get4Point((float) StickData.get(StickData.size() - selectIndext - 1)
-                                .getMacd());
+                        .getMacd());
                 p.getTextBounds(macd, 0, macd.length(), rect);
                 paint.setColor(getResources().getColor(R.color.ma20_color));
                 canvas.drawText(macd, PADDING_LEFT + wid,
@@ -752,7 +774,7 @@ public class StickChart extends GridChart {
                                 (float) (startX + 3 + stickWidth + dragValue),
                                 (float) ((1f - (StickData.get(j).getVol5() - minValue) / (maxValue - minValue))
                                         * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                            .getAxisMarginTop()) + mTitleHeight, paint);
+                                        .getAxisMarginTop()) + mTitleHeight, paint);
                     }
                     if (StickData.get(j).getVol10() > 0 && draw10) {
                         paint.setColor(getResources().getColor(R.color.ma10_color));
@@ -762,7 +784,7 @@ public class StickChart extends GridChart {
                                 (float) (startX + 3 + stickWidth + dragValue),
                                 (float) ((1f - (StickData.get(j).getVol10() - minValue) / (maxValue - minValue))
                                         * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                            .getAxisMarginTop()) + mTitleHeight, paint);
+                                        .getAxisMarginTop()) + mTitleHeight, paint);
                     }
                     if (StickData.get(j).getVol20() > 0 && draw20) {
                         paint.setColor(getResources().getColor(R.color.ma20_color));
@@ -772,7 +794,7 @@ public class StickChart extends GridChart {
                                 (float) (startX + 3 + stickWidth + dragValue),
                                 (float) ((1f - (StickData.get(j).getVol20() - minValue) / (maxValue - minValue))
                                         * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                            .getAxisMarginTop()) + mTitleHeight, paint);
+                                        .getAxisMarginTop()) + mTitleHeight, paint);
                     }
                 }
                 startX = startX + 3 + stickWidth;
@@ -780,19 +802,19 @@ public class StickChart extends GridChart {
                     if (StickData.get(j).getVol5() > 0) {
                         startY5 = (float) ((1f - (StickData.get(j).getVol5() - minValue) / (maxValue - minValue))
                                 * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                    .getAxisMarginTop()) + mTitleHeight;
+                                .getAxisMarginTop()) + mTitleHeight;
                         draw5 = true;
                     }
                     if (StickData.get(j).getVol10() > 0) {
                         startY10 = (float) ((1f - (StickData.get(j).getVol10() - minValue) / (maxValue - minValue))
                                 * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                    .getAxisMarginTop()) + mTitleHeight;
+                                .getAxisMarginTop()) + mTitleHeight;
                         draw10 = true;
                     }
                     if (StickData.get(j).getVol20() > 0) {
                         startY20 = (float) ((1f - (StickData.get(j).getVol20() - minValue) / (maxValue - minValue))
                                 * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                    .getAxisMarginTop()) + mTitleHeight;
+                                .getAxisMarginTop()) + mTitleHeight;
                         draw20 = true;
                     }
                 }

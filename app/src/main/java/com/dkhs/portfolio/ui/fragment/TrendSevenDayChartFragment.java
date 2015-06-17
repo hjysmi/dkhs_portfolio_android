@@ -9,7 +9,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +21,14 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.LinePoint.TrendLinePointEntity;
+import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -326,12 +326,7 @@ public class TrendSevenDayChartFragment extends BaseFragment {
 
     }
 
-    Handler dataHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-        }
-
-        ;
-    };
+    WeakHandler dataHandler = new WeakHandler();
 
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值

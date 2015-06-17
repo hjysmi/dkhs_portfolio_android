@@ -8,21 +8,17 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -39,12 +35,13 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -52,17 +49,21 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName MyCombinationFragmnet
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-3-30 上午9:00:48
- * @version 1.0
  */
 public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBackListener {
     // private List<ApplicationInfo> mAppList;
     private CombinationAdapter mAdapter;
-    private SwipeMenuListView mListView;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private UserCombinationEngineImpl dataEngine;
 
@@ -74,10 +75,10 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
             }
         });
-        mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
+        SwipeMenuListView mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
         mAdapter = new CombinationAdapter();
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(tvEmptyText);
@@ -389,8 +390,9 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
         }
     }
 
-    Handler uiHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    WeakHandler uiHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 777:
                     startLoadData();
@@ -402,8 +404,9 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
                 default:
                     break;
             }
-        };
-    };
+            return false;
+        }
+    });
 
     public void refresh() {
         uiHandler.sendEmptyMessage(777);
@@ -416,10 +419,10 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     private boolean isRefresh;
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param object
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void loadFinish(MoreDataBean object) {
@@ -442,9 +445,9 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void loadFail() {

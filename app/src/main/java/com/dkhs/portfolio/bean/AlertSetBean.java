@@ -113,19 +113,19 @@ public class AlertSetBean {
     }
 
     public boolean isNoticeRemind() {
-        return getStock_company_report() == 1 ? true : false;
+        return getStock_company_report() == 1;
     }
 
     public boolean isYanbaoRemind() {
-        return getStock_company_research() == 1 ? true : false;
+        return getStock_company_research() == 1;
     }
 
     public boolean isFund7dayRemind() {
-        return getFund_year_yld() == 1 ? true : false;
+        return getFund_year_yld() == 1;
     }
 
     public boolean isFundNetvalueRemind() {
-        return getFund_net_value() == 1 ? true : false;
+        return getFund_net_value() == 1;
     }
 
 }

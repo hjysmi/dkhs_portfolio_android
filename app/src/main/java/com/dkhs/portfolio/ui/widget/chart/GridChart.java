@@ -1,13 +1,5 @@
 package com.dkhs.portfolio.ui.widget.chart;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,6 +12,14 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 坐�?轴使用的View
@@ -325,8 +325,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         this.ismove = ismove;
         clickPostX = event.getX();
         clickPostY = event.getY();
-        PointF point = new PointF(clickPostX, clickPostY);
-        touchPoint = point;
+        touchPoint = new PointF(clickPostX, clickPostY);
         // super.invalidate();
         notifyEventAll(this);
         postInvalidate();

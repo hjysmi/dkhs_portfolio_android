@@ -8,23 +8,21 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
-import android.R;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TextImageButton
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-4-23 下午3:30:47
- * @version 1.0
  */
 public class TextImageButton extends FrameLayout {
 

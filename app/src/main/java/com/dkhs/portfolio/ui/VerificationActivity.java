@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -42,7 +43,6 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private String phoneNum;
     private String mVerifyCode;
     private Button rlfbutton;
-    private TextView tvPhoneNum;
     private EditText etVerifucode;
     private Button btn_get_code;
     private Context context;
@@ -88,7 +88,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
         rlfbutton.setEnabled(false);
-        tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
+        TextView tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
         tvPhoneNum.setText(phoneNum);
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
         btn_get_code = (Button) findViewById(R.id.btn_getCode);
@@ -171,8 +171,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     try {
                         JSONObject json = new JSONObject(jsonData);
                         if (json.has("status")) {
-                            boolean bool = json.getBoolean("status");
-                            return bool;
+                            return json.getBoolean("status");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -266,8 +265,9 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         }, 0, 1000);
     }
 
-    private Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
+    private WeakHandler handler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case GET_CODE_ABLE:
                     btn_get_code.setText(R.string.get_code);
@@ -296,10 +296,10 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 default:
                     break;
             }
+            return false;
         }
+    });
 
-        ;
-    };
     private String verifyCode;
 
     /**

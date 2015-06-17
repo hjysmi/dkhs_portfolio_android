@@ -16,14 +16,6 @@
 
 package com.dkhs.portfolio.ui.widget.stickygridheaders;
 
-import com.dkhs.portfolio.ui.widget.stickygridheaders.StickyGridHeadersBaseAdapterWrapper.HeaderFillerView;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -49,10 +41,18 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 
+import com.dkhs.portfolio.ui.widget.stickygridheaders.StickyGridHeadersBaseAdapterWrapper.HeaderFillerView;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * GridView that displays items in sections with headers that stick to the top
  * of the view.
- * 
+ *
  * @author Tonic Artos, Emil Sjölander, caguilar187
  */
 public class StickyGridHeadersGridView extends GridView implements OnScrollListener, OnItemClickListener,
@@ -203,7 +203,7 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
     /**
      * Gets the header at an item position. However, the position must be that
      * of a HeaderFiller.
-     * 
+     *
      * @param position Position of HeaderFiller.
      * @return Header View wrapped in HeaderFiller or null if no header was
      * found.
@@ -222,7 +222,7 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
 
     /**
      * Get the currently stickied header.
-     * 
+     *
      * @return Current stickied header.
      */
     public View getStickiedHeader() {
@@ -516,7 +516,7 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
 
     /**
      * If set to true, headers will ignore horizontal padding.
-     * 
+     *
      * @param b if true, horizontal padding is ignored by headers
      */
     public void setHeadersIgnorePadding(boolean b) {
@@ -589,7 +589,7 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
         }
 
         int vi = 0;
-        for (int i = getFirstVisiblePosition(); i <= getLastVisiblePosition();) {
+        for (int i = getFirstVisiblePosition(); i <= getLastVisiblePosition(); ) {
             long id = getItemIdAtPosition(i);
             if (id == StickyGridHeadersBaseAdapterWrapper.ID_HEADER) {
                 View headerWrapper = getChildAt(vi);
@@ -791,9 +791,8 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
         for (int i = 0; i < pointerCount; i++) {
             pointerCoords[i].y -= headerHolder.getTop();
         }
-        MotionEvent n = MotionEvent.obtain(downTime, eventTime, action, pointerCount, pointerIds, pointerCoords,
+        return MotionEvent.obtain(downTime, eventTime, action, pointerCount, pointerIds, pointerCoords,
                 metaState, xPrecision, yPrecision, deviceId, edgeFlags, source, flags);
-        return n;
     }
 
     @Override
@@ -830,7 +829,7 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
         // Find headers.
         List<Integer> headerPositions = new ArrayList<Integer>();
         int vi = 0;
-        for (int i = getFirstVisiblePosition(); i <= getLastVisiblePosition();) {
+        for (int i = getFirstVisiblePosition(); i <= getLastVisiblePosition(); ) {
             long id = getItemIdAtPosition(i);
             if (id == StickyGridHeadersBaseAdapterWrapper.ID_HEADER) {
                 headerPositions.add(vi);
@@ -1005,11 +1004,11 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
 
         measureHeader();
 
-        
-        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,   
-                MeasureSpec.AT_MOST);   
-        super.onMeasure(widthMeasureSpec, expandSpec);   
-        
+
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
+                MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, expandSpec);
+
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

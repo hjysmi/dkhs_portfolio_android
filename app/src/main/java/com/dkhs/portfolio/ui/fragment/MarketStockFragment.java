@@ -91,7 +91,6 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
 
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 10;
-    private boolean isTimerStart = true;
 
     public SwipeRefreshLayout mSwipeLayout;
 
@@ -109,7 +108,7 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
         super.onResume();
 
         if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
-            if (mMarketTimer == null && isTimerStart) {
+            if (mMarketTimer == null) {
                 mMarketTimer = new Timer(true);
                 mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
             }
@@ -221,10 +220,9 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private LayoutTransition mTransitioner;
 
     private void setDefTransittion() {
-        mTransitioner = new LayoutTransition();
+        LayoutTransition mTransitioner = new LayoutTransition();
         AnimationHelper.setupCustomAnimations(mTransitioner, this);
         gvMainIndex.setLayoutTransition(mTransitioner);
         gvPlate.setLayoutTransition(mTransitioner);
@@ -329,34 +327,36 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
                         hasSetLVIncreaseHigh = true;
                         UIUtils.setListViewHeightBasedOnChildren(lvIncease);
                     }
-                } else if (type.equals(OpitionCenterStockEngineImple.ORDER_DOWN)) {
-                    mDownDataList.clear();
-                    mDownDataList.addAll(dataList);
-                    mDownAdapter.notifyDataSetChanged();
-                    if (!hasSetLVDownHigh) {
-                        hasSetLVDownHigh = true;
-                        UIUtils.setListViewHeightBasedOnChildren(lvDown);
+                } else {
+                    if (type.equals(OpitionCenterStockEngineImple.ORDER_DOWN)) {
+                        mDownDataList.clear();
+                        mDownDataList.addAll(dataList);
+                        mDownAdapter.notifyDataSetChanged();
+                        if (!hasSetLVDownHigh) {
+                            hasSetLVDownHigh = true;
+                            UIUtils.setListViewHeightBasedOnChildren(lvDown);
+                        }
+                    } else if (type.equals(OpitionCenterStockEngineImple.ORDER_TURNOVER)) {
+                        mTurnOverDataList.clear();
+                        mTurnOverDataList.addAll(dataList);
+                        mTurnOverAdapter.notifyDataSetChanged();
+                        if (!hasSetLVHandoverHigh) {
+                            hasSetLVHandoverHigh = true;
+                            UIUtils.setListViewHeightBasedOnChildren(lvHandover);
+                        }
+                    } else if (type.equals(OpitionCenterStockEngineImple.ORDER_AMPLITU)) {
+                        mAmpliDataList.clear();
+                        mAmpliDataList.addAll(dataList);
+                        mAmplitAdapter.notifyDataSetChanged();
+                        if (!hasSetLVAmpltHigh) {
+                            hasSetLVAmpltHigh = true;
+                            UIUtils.setListViewHeightBasedOnChildren(lvAmplit);
+                        }
+                    } else if (type.equals(INLAND_INDEX)) {
+                        mIndexDataList.clear();
+                        mIndexDataList.addAll(dataList);
+                        mIndexAdapter.notifyDataSetChanged();
                     }
-                } else if (type.equals(OpitionCenterStockEngineImple.ORDER_TURNOVER)) {
-                    mTurnOverDataList.clear();
-                    mTurnOverDataList.addAll(dataList);
-                    mTurnOverAdapter.notifyDataSetChanged();
-                    if (!hasSetLVHandoverHigh) {
-                        hasSetLVHandoverHigh = true;
-                        UIUtils.setListViewHeightBasedOnChildren(lvHandover);
-                    }
-                } else if (type.equals(OpitionCenterStockEngineImple.ORDER_AMPLITU)) {
-                    mAmpliDataList.clear();
-                    mAmpliDataList.addAll(dataList);
-                    mAmplitAdapter.notifyDataSetChanged();
-                    if (!hasSetLVAmpltHigh) {
-                        hasSetLVAmpltHigh = true;
-                        UIUtils.setListViewHeightBasedOnChildren(lvAmplit);
-                    }
-                } else if (type.equals(INLAND_INDEX)) {
-                    mIndexDataList.clear();
-                    mIndexDataList.addAll(dataList);
-                    mIndexAdapter.notifyDataSetChanged();
                 }
 
             }

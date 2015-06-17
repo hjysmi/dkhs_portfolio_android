@@ -61,7 +61,6 @@ public class CircularProgress extends View {
     private RectF arcRectF;
     private int mMax;
     private int mProgress;
-    private int mDuration;
     private boolean mHasAnimation;
     private boolean mAttached;
     private long mLastDrawTime;
@@ -87,7 +86,7 @@ public class CircularProgress extends View {
                 getResources().getBoolean(R.bool.circular_progress_indeterminate));
         mBorderWidth = attributes.getDimensionPixelSize(R.styleable.CircularProgress_circular_progress_border_width,
                 getResources().getDimensionPixelSize(R.dimen.circular_progress_border_width));
-        mDuration = attributes.getInteger(R.styleable.CircularProgress_circular_progress_duration, ANIMATION_RESOLUTION);
+       int mDuration = attributes.getInteger(R.styleable.CircularProgress_circular_progress_duration, ANIMATION_RESOLUTION);
         mMax = attributes.getInteger(R.styleable.CircularProgress_circular_progress_max,
                 getResources().getInteger(R.integer.circular_progress_max));
         attributes.recycle();

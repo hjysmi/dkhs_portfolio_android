@@ -64,7 +64,6 @@ public class MarketListActivity extends RefreshModelActivity {
 
     private LoadViewType mLoadType;
     private String mPlateName;
-    private String mPlateId;
 
     public static final String EXTRA_PLATE_NAME = "plate_name";
     public static final String EXTRA_PLATE_ID = "plate_id";
@@ -107,7 +106,6 @@ public class MarketListActivity extends RefreshModelActivity {
 
     private void handleExtras(Bundle extras) {
         mLoadType = (LoadViewType) extras.getSerializable(EXTRA_LOAD_TYPE);
-        mPlateId = extras.getString(EXTRA_PLATE_ID);
         mPlateName = extras.getString(EXTRA_PLATE_NAME);
     }
 
