@@ -72,6 +72,8 @@ public class BenefitChartView {
     private View lineView;
     @ViewInject(R.id.contentView)
     private View contentView;
+    @ViewInject(R.id.rl_empty)
+    private View emptyView;
     private Context ctx;
 
     private String fundId;
@@ -122,6 +124,22 @@ public class BenefitChartView {
     }
 
 
+
+
+
+    private boolean mError;
+
+
+    public void setError(){
+        mError=true;
+        emptyView.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
+        loadView.setVisibility(View.GONE);
+
+
+    }
+
+
     // key :period value:如：m:月; 3m:三个月; 6m:半年; "y":最近一年; "ty":今年以来;
 
     private FundTrendType trendType = FundTrendType.Default;
@@ -157,7 +175,11 @@ public class BenefitChartView {
     public void draw(FundQuoteBean fundQuoteBean, FundTrendType type) {
         this.trendType = type;
         this.mFundQuoteBean = fundQuoteBean;
-        draw(fundQuoteBean);
+        if(StockUitls.isDelistStock(mFundQuoteBean.getList_status()+"")){
+            setError();
+        }else {
+            draw(fundQuoteBean);
+        }
     }
 
 
@@ -254,6 +276,7 @@ public class BenefitChartView {
     }
 
     private void onFinishUpdateUI() {
+        if(!mError){
         if (StockUitls.isSepFund(symbol_stype)) {
             titleView.setVisibility(View.GONE);
         } else {
@@ -261,6 +284,7 @@ public class BenefitChartView {
         }
         contentView.setVisibility(View.VISIBLE);
         loadView.setVisibility(View.GONE);
+        }
     }
 
     private void setSepFundLineList() {

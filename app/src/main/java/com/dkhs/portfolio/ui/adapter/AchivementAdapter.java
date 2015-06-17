@@ -186,7 +186,6 @@ public class AchivementAdapter extends AutoAdapter {
 
                 ViewGroup chatView=vh.get(R.id.ll_chart);
 
-                // FIXME: 2015/6/9  使用同一个View 进行缓存
                 chatView.removeAllViews();
                 AnimationHelper.collapseView(  vh.get(R.id.ll_chart),true,null);
                 achivementsEntity.setExpend(false);
