@@ -31,24 +31,24 @@ public class StickChart extends GridChart {
     public static final int DEFAULT_LONGTITUDE_NUM = 4;
 
     /**
-     * 柱条边�?��色
+     * 柱条边框默认色
      */
     public static final int DEFAULT_STICK_BORDER_COLOR = Color.RED;
 
     /**
-     * 柱条填�?��色
+     * 柱条填充默认色
      */
     public static final int DEFAULT_STICK_FILL_COLOR = Color.RED;
 
     // //////////属�?列表/////////////////
 
     /**
-     * 柱条边�?��色
+     * 柱条边框色
      */
     private int stickBorderColor = DEFAULT_STICK_BORDER_COLOR;
 
     /**
-     * 柱条填�?��色
+     * 柱条填充色
      */
     private int stickFillColorUp = DEFAULT_STICK_FILL_COLOR;
 
@@ -70,17 +70,17 @@ public class StickChart extends GridChart {
     private ArrayList<OHLCEntity> StickData;
 
     /**
-     * 图表中�?��蜡烛线
+     * 图表中最大蜡烛线
      */
     private int maxStickDataNum;
 
     /**
-     * K线显示�?��价格
+     * K线显示最大价格
      */
     protected float maxValue;
 
     /**
-     * K线显示�?��价格
+     * K线显最小价格
      */
     protected float minValue;
     /**
@@ -92,7 +92,6 @@ public class StickChart extends GridChart {
      */
     private List<MALineEntity> MALineData;
     private int currentIndex;
-    // ///////////////�??函数///////////////
     private int mShowDate;
     private double dragValue = 0;
     private boolean isTouch = false;
@@ -168,7 +167,7 @@ public class StickChart extends GridChart {
             default:
                 break;
         }
-        // 绘制十字坐�?,防止被盖住
+        // 绘制十字坐标防止被盖住
         if (isDisplayCrossXOnTouch() || isDisplayCrossYOnTouch()) {
             drawWithFingerClick(canvas);
         }
@@ -243,7 +242,7 @@ public class StickChart extends GridChart {
     }
 
     /**
-     * 获取X轴刻度位置,�?�??�最大1
+     * 获取X轴刻度位置,最大1
      *
      * @param value
      * @return
@@ -263,7 +262,7 @@ public class StickChart extends GridChart {
     }
 
     /**
-     * 获取Y轴刻度位置,�?�??�最大1
+     * 获取Y轴刻度位置,最大1
      *
      * @param value
      * @return
@@ -275,7 +274,7 @@ public class StickChart extends GridChart {
     }
 
     /**
-     * 获得来自其他图�?��通知
+     * 获得来自其他图更新通知
      */
     @Override
     public void notifyEvent(GridChart chart) {
@@ -372,8 +371,6 @@ public class StickChart extends GridChart {
     protected void initAxisY() {
         List<String> TitleY = new ArrayList<String>();
         float average = ((maxValue - minValue) / latitudeNum);
-        ;
-        // �?��刻度
         for (int i = 0; i < latitudeNum; i++) {
             String value = String.valueOf((int) Math.floor(minValue + i * average));
             if (value.length() < super.getAxisYMaxTitleLength()) {
@@ -383,7 +380,6 @@ public class StickChart extends GridChart {
             }
             TitleY.add(value);
         }
-        // �?���?��值
         String value = maxValue + "";
         if (value.length() < super.getAxisYMaxTitleLength()) {
             while (value.length() < super.getAxisYMaxTitleLength()) {
