@@ -93,11 +93,11 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvLayoutTitle.setOnClickListener(new OnItemListener(position));
 
         if (StockUitls.isDelistStock(mStockQuotesBean.list_status)) {
-            viewHolder.tvTextPercent.setText("退市");
+            viewHolder.tvTextPercent.setText(R.string.exit_stock);
             viewHolder.tvTextPercent.setTypeface(Typeface.DEFAULT);
             viewHolder.tvTextPercent.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
         } else if (mStockQuotesBean.isStop) {
-            viewHolder.tvTextPercent.setText("停牌");
+            viewHolder.tvTextPercent.setText(R.string.stop_stock);
             viewHolder.tvTextPercent.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
             viewHolder.tvTextPercent.setTypeface(Typeface.DEFAULT);
         } else {

@@ -398,6 +398,7 @@
     <string name="market_title_index">国内指数</string>
     <string name="stop_stock">停牌</string>
     <string name="exit_stock">退市</string>
+    <string name="new_stock">新股</string>
 
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
