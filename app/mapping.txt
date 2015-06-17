@@ -27335,9 +27335,10 @@ com.dkhs.portfolio.utils.StringFromatUtils -> com.dkhs.portfolio.d.v:
     java.lang.String get3Point(float) -> f
     java.lang.String get2PointPlus(float) -> g
     java.lang.String get3PointPlus(float) -> h
-    java.lang.String convertToWan(float) -> i
+    java.lang.String get4PointPlus(float) -> i
+    java.lang.String convertToWan(float) -> j
     java.lang.String handleNumber(int) -> a
-    java.lang.String convertToWanHand(float) -> j
+    java.lang.String convertToWanHand(float) -> k
     java.lang.String dateFormat(long) -> a
 com.dkhs.portfolio.utils.TimeUtils -> com.dkhs.portfolio.d.w:
     java.text.SimpleDateFormat[] ACCEPTED_TIMESTAMP_FORMATS -> a
@@ -27356,7 +27357,8 @@ com.dkhs.portfolio.utils.TimeUtils -> com.dkhs.portfolio.d.w:
     java.util.Calendar toCalendarAddHour(java.lang.String) -> i
     java.lang.String addHour(java.lang.String) -> j
     java.util.Calendar simpleDateToCalendar(java.lang.String) -> k
-    java.util.Date toDate(java.lang.String) -> l
+    java.lang.String simpleDateToMonthDay(java.lang.String) -> l
+    java.util.Date toDate(java.lang.String) -> m
 com.dkhs.portfolio.utils.UIUtils -> com.dkhs.portfolio.d.x:
     long sAppLoadTime -> a
     void setListViewHeightBasedOnChildren(android.widget.ListView) -> a

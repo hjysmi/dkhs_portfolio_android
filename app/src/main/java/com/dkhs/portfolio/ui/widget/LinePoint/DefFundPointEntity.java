@@ -7,6 +7,16 @@ package com.dkhs.portfolio.ui.widget.LinePoint;
 public class DefFundPointEntity extends FundLinePointEntity {
 
     private float netvalue;
+
+    public float getNet_cumulative() {
+        return net_cumulative;
+    }
+
+    public void setNet_cumulative(float net_cumulative) {
+        this.net_cumulative = net_cumulative;
+    }
+
+    private float net_cumulative;
     private float compareValue;
 
     private String info;

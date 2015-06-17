@@ -975,7 +975,7 @@ public class TrendChart extends TrendGridChart {
         }
         if (isFundTrendCompare) {
 
-            mFloatViewHeight = (floatTextHeight + textMargin) * (size + 2) + textMargin;
+            mFloatViewHeight = (floatTextHeight + textMargin) * (size + 3) + textMargin;
 
 
             for (LineEntity lineEntity : lineData) {
@@ -983,7 +983,7 @@ public class TrendChart extends TrendGridChart {
                     LinePointEntity pointEntity = (LinePointEntity) lineEntity.getLineData().get(pointIndex);
                     String manager = ((DefFundPointEntity) pointEntity).getInfo() + "";
                     if (!TextUtils.isEmpty(manager)) {
-                        mFloatViewHeight = (floatTextHeight + textMargin) * (size + 3) + textMargin;
+                        mFloatViewHeight = (floatTextHeight + textMargin) * (size + 4) + textMargin;
                     }
                 }
 
@@ -1050,6 +1050,14 @@ public class TrendChart extends TrendGridChart {
                     valueText = ((DefFundPointEntity) pointEntity).getNetvalue() + "";
                     preYpoint += textMargin + floatTextHeight;
                     firtLineText = "单位净值：";
+                    canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
+
+                    valueWidth = selectPaint.measureText(valueText);
+                    canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
+
+                    valueText = ((DefFundPointEntity) pointEntity).getNet_cumulative() + "";
+                    preYpoint += textMargin + floatTextHeight;
+                    firtLineText = "累计净值：";
                     canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 
                     valueWidth = selectPaint.measureText(valueText);

@@ -103,9 +103,10 @@ public class BenefitChartView {
     }
 
     private FundManagerInfoBean.AchivementsEntity achivementsEntity;
+
     public void draw(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
         loadView.setVisibility(View.VISIBLE);
-        this.achivementsEntity=achivementsEntity;
+        this.achivementsEntity = achivementsEntity;
         contentView.setVisibility(View.GONE);
         if (null != achivementsEntity.getEnd_date()) {
             cEnd = TimeUtils.simpleDateToCalendar(achivementsEntity.getEnd_date());
@@ -494,11 +495,11 @@ public class BenefitChartView {
                         lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
                     } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
                         lineEntity = new DefFundLineEntity();
-                        if(mFundQuoteBean!=null) {
+                        if (mFundQuoteBean != null) {
                             lineEntity.setTitle(mFundQuoteBean.getCode());
-                        }else if(achivementsEntity !=null ){
-                            if(!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
-                            lineEntity.setTitle(achivementsEntity.getFund().getSymbol().replaceAll("\\D",""));
+                        } else if (achivementsEntity != null) {
+                            if (!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
+                                lineEntity.setTitle(achivementsEntity.getFund().getSymbol().replaceAll("\\D", ""));
                         }
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;
@@ -510,7 +511,7 @@ public class BenefitChartView {
 
                     List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
                     setXTitleByComparePoint(bean.getChartlist());
-                    float netValue = 0;
+                    float net_cumulative = 0;
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         DefFundPointEntity pointEntity = new DefFundPointEntity();
                         float value = cPoint.getPercentage();
@@ -524,13 +525,15 @@ public class BenefitChartView {
                             minOffsetValue = value;
                         }
                         if (isCurrentFund) {
-                            netValue = cPoint.getNetvalue();
+//                            net_cumulative = cPoint.getNetvalue();
+                            net_cumulative = cPoint.getNet_cumulative();
+                            pointEntity.setNet_cumulative(net_cumulative);
                             pointEntity.setNetvalue(cPoint.getNetvalue());
                             pointEntity.setInfo(getManagerByData(cPoint.getDate()));
-                            if (netValue > maxOffsetNetValue) {
-                                maxOffsetNetValue = netValue;
-                            } else if (netValue < minOffsetNetValue) {
-                                minOffsetNetValue = netValue;
+                            if (net_cumulative > maxOffsetNetValue) {
+                                maxOffsetNetValue = net_cumulative;
+                            } else if (net_cumulative < minOffsetNetValue) {
+                                minOffsetNetValue = net_cumulative;
                             }
                         }
 
