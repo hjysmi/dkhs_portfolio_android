@@ -496,7 +496,7 @@ public class BenefitChartView {
                     } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
                         lineEntity = new DefFundLineEntity();
                         if (mFundQuoteBean != null) {
-                            lineEntity.setTitle(mFundQuoteBean.getCode());
+                            lineEntity.setTitle(mFundQuoteBean.getSymbol());
                         } else if (achivementsEntity != null) {
                             if (!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
                                 lineEntity.setTitle(achivementsEntity.getFund().getSymbol().replaceAll("\\D", ""));
