@@ -84,7 +84,6 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private TextView mDelistingTV;
 
 
-
     private Button btnRefresh;
 
     private QuotesEngineImpl mQuotesEngine;
@@ -468,7 +467,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         updataTitle();
         updateNetValue();
         replaceFundProfile();
-        if(!StockUitls.isDelistStock(mFundBean.getList_status())
+        if (!StockUitls.isDelistStock(mFundBean.getList_status())
                 ) {
             replaceManagerView();
         }
@@ -480,29 +479,31 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         if (StockUitls.isSepFund(mFundBean.symbol_stype)) {
             cls = ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getYear_yld());
 
-            if(StockUitls.isDelistStock(mFundBean.getList_status())){
+            if (StockUitls.isDelistStock(mFundBean.getList_status())) {
 
                 tvWanshou.setTextColor(getResources().getColor(R.color.theme_color));
                 tvWanshou.setTextColor(cls);
                 tvWanshou.setText(R.string.exit_stock);
-            }else {
+            } else {
                 tvWanshou.setTextColor(ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getNet_value()));
                 tvWanshou.setTextColor(cls);
+                tvWanshou.setText(StringFromatUtils.get4Point(mFundQuoteBean.getTenthou_unit_incm()));
             }
 
             tvQirinianhua.setTextColor(cls);
-            tvWanshou.setText(StringFromatUtils.get4Point(mFundQuoteBean.getTenthou_unit_incm()));
+
             tvQirinianhua.setText(StringFromatUtils.get2PointPercent(mFundQuoteBean.getYear_yld()));
 
         } else {
             cls = ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getPercentage());
 
-            if(StockUitls.isDelistStock(mFundBean.getList_status())){
+            if (StockUitls.isDelistStock(mFundBean.getList_status())) {
 
                 tvUpPrice.setVisibility(View.GONE);
                 tvUpPrecent.setVisibility(View.GONE);
+                mDelistingTV.setVisibility(View.VISIBLE);
                 mDelistingTV.setText(R.string.exit_stock);
-            }else {
+            } else {
                 tvNetvalue.setTextColor(cls);
 
             }

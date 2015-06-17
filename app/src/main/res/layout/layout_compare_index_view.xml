@@ -41,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:text="暂无数据"
                 android:textColor="@color/tag_gray"
+                android:textSize="20sp"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
     </RelativeLayout>

@@ -13706,6 +13706,7 @@ com.dkhs.portfolio.R$drawable -> com.dkhs.portfolio.R$drawable:
     int ic_jinpai -> ic_jinpai
     int ic_launcher -> ic_launcher
     int ic_mycombinaton_main -> ic_mycombinaton_main
+    int ic_not_data -> ic_not_data
     int ic_plus -> ic_plus
     int ic_plus_hl -> ic_plus_hl
     int ic_qiri -> ic_qiri
@@ -14329,6 +14330,8 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int emoticon_gridview -> emoticon_gridview
     int end -> end
     int enter -> enter
+    int errIM -> errIM
+    int errTV -> errTV
     int et_daypercent -> et_daypercent
     int et_mobile -> et_mobile
     int et_myconbina_desc -> et_myconbina_desc
@@ -14650,6 +14653,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int rl_compare_title -> rl_compare_title
     int rl_create_user -> rl_create_user
     int rl_desc -> rl_desc
+    int rl_empty -> rl_empty
     int rl_fiverange -> rl_fiverange
     int rl_fund_remind -> rl_fund_remind
     int rl_fund_type -> rl_fund_type
@@ -14818,6 +14822,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int tv_daypercent_text -> tv_daypercent_text
     int tv_daypercent_tip -> tv_daypercent_tip
     int tv_daypercent_units -> tv_daypercent_units
+    int tv_delisting -> tv_delisting
     int tv_desc -> tv_desc
     int tv_desc_text -> tv_desc_text
     int tv_detail_value -> tv_detail_value
@@ -15641,6 +15646,7 @@ com.dkhs.portfolio.R$string -> com.dkhs.portfolio.R$string:
     int netvalue_comtribute -> netvalue_comtribute
     int netvalue_trend -> netvalue_trend
     int netvalue_up -> netvalue_up
+    int new_stock -> new_stock
     int nickname -> nickname
     int nickname_hint -> nickname_hint
     int nickname_password_null -> nickname_password_null
@@ -16975,6 +16981,7 @@ com.dkhs.portfolio.bean.CompareFundsBean -> com.dkhs.portfolio.bean.CompareFunds
     void setBegin(float) -> setBegin
 com.dkhs.portfolio.bean.CompareFundsBean$ComparePoint -> com.dkhs.portfolio.bean.CompareFundsBean$ComparePoint:
     float netvalue -> netvalue
+    float net_cumulative -> net_cumulative
     java.lang.String date -> date
     float percentage -> percentage
     com.dkhs.portfolio.bean.CompareFundsBean this$0 -> this$0
@@ -16984,6 +16991,8 @@ com.dkhs.portfolio.bean.CompareFundsBean$ComparePoint -> com.dkhs.portfolio.bean
     void setPercentage(float) -> setPercentage
     float getNetvalue() -> getNetvalue
     void setNetvalue(float) -> setNetvalue
+    float getNet_cumulative() -> getNet_cumulative
+    void setNet_cumulative(float) -> setNet_cumulative
 com.dkhs.portfolio.bean.ConStockBean -> com.dkhs.portfolio.bean.ConStockBean:
     float percent -> percent
     int dutyValue -> dutyValue
@@ -17238,6 +17247,7 @@ com.dkhs.portfolio.bean.FundPriceBean -> com.dkhs.portfolio.bean.FundPriceBean:
     float net_value -> net_value
     int symbol_stype -> symbol_stype
     float percent_year -> percent_year
+    float latest_cp_rate -> latest_cp_rate
     java.lang.String chi_spell -> chi_spell
     int getSymbol_stype() -> getSymbol_stype
     void setSymbol_stype(int) -> setSymbol_stype
@@ -19792,21 +19802,22 @@ com.dkhs.portfolio.ui.FundDetailActivity -> com.dkhs.portfolio.ui.FundDetailActi
     android.widget.TextView tvUpPrecent -> s
     android.widget.TextView tvPreNetvalue -> t
     android.widget.TextView tvAllNetvalue -> u
-    android.widget.Button btnRefresh -> v
-    com.dkhs.portfolio.engine.QuotesEngineImpl mQuotesEngine -> w
-    com.dkhs.portfolio.engine.VisitorDataEngine mVisitorDataEngine -> x
-    java.util.List localList -> y
-    java.util.ArrayList fragmentList -> z
+    android.widget.TextView mDelistingTV -> v
+    android.widget.Button btnRefresh -> w
+    com.dkhs.portfolio.engine.QuotesEngineImpl mQuotesEngine -> x
+    com.dkhs.portfolio.engine.VisitorDataEngine mVisitorDataEngine -> y
+    java.util.List localList -> z
+    java.util.ArrayList fragmentList -> A
     com.dkhs.portfolio.ui.widget.HScrollTitleView$ISelectPostionListener titleSelectPostion -> b
-    com.dkhs.portfolio.ui.fragment.FundManagerFragment mFragmentManager -> A
-    com.dkhs.portfolio.ui.fragment.FundProfileFragment mFragmentProfile -> B
-    int MENU_FOLLOW -> C
-    int MENU_DELFOLLOW -> D
-    int MENU_REMIND -> E
-    int MENU_SHARE -> F
+    com.dkhs.portfolio.ui.fragment.FundManagerFragment mFragmentManager -> B
+    com.dkhs.portfolio.ui.fragment.FundProfileFragment mFragmentProfile -> C
+    int MENU_FOLLOW -> D
+    int MENU_DELFOLLOW -> E
+    int MENU_REMIND -> F
+    int MENU_SHARE -> G
     com.dkhs.portfolio.ui.FloatingActionMenu$OnMenuItemSelectedListener mFloatMenuSelectListner -> c
-    com.dkhs.portfolio.ui.widget.ChangeFollowView changeFollowView -> G
-    com.dkhs.portfolio.ui.widget.ChangeFollowView$IChangeSuccessListener changeFollowListener -> H
+    com.dkhs.portfolio.ui.widget.ChangeFollowView changeFollowView -> H
+    com.dkhs.portfolio.ui.widget.ChangeFollowView$IChangeSuccessListener changeFollowListener -> I
     com.dkhs.portfolio.net.ParseHttpListener quoteListener -> d
     android.content.Intent newIntent(android.content.Context,com.dkhs.portfolio.bean.SelectStockBean) -> a
     void onCreate(android.os.Bundle) -> onCreate
@@ -25008,16 +25019,18 @@ com.dkhs.portfolio.ui.widget.BenefitChartView -> com.dkhs.portfolio.ui.widget.d:
     android.view.View loadView -> p
     android.view.View lineView -> q
     android.view.View contentView -> r
-    android.content.Context ctx -> s
-    java.lang.String fundId -> t
-    int symbol_stype -> u
-    java.lang.String abbrName -> v
-    java.util.List lineEntityList -> w
-    android.view.View benifitView -> x
-    com.dkhs.portfolio.bean.FundQuoteBean mFundQuoteBean -> y
-    java.util.LinkedList inertManagerList -> z
-    com.dkhs.portfolio.bean.FundManagerInfoBean$AchivementsEntity achivementsEntity -> A
-    com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType trendType -> B
+    android.view.View emptyView -> s
+    android.content.Context ctx -> t
+    java.lang.String fundId -> u
+    int symbol_stype -> v
+    java.lang.String abbrName -> w
+    java.util.List lineEntityList -> x
+    android.view.View benifitView -> y
+    com.dkhs.portfolio.bean.FundQuoteBean mFundQuoteBean -> z
+    java.util.LinkedList inertManagerList -> A
+    com.dkhs.portfolio.bean.FundManagerInfoBean$AchivementsEntity achivementsEntity -> B
+    boolean mError -> C
+    com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType trendType -> D
     java.util.List compareLinesList -> c
     float maxOffsetValue -> d
     float minOffsetValue -> e
@@ -25029,22 +25042,23 @@ com.dkhs.portfolio.ui.widget.BenefitChartView -> com.dkhs.portfolio.ui.widget.d:
     android.view.View getBenifitView() -> a
     android.view.View initView() -> b
     void draw(com.dkhs.portfolio.bean.FundManagerInfoBean$AchivementsEntity) -> a
+    void setError() -> c
     void draw(com.dkhs.portfolio.bean.FundQuoteBean,com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType) -> a
     void draw(com.dkhs.portfolio.bean.FundQuoteBean) -> a
-    void onRequest() -> c
-    void requestSepFund() -> d
-    void requestCompare() -> e
+    void onRequest() -> d
+    void requestSepFund() -> e
+    void requestCompare() -> f
     void initMaChart(com.dkhs.portfolio.ui.widget.TrendChart) -> a
-    void setCompareLineList() -> f
-    void onFinishUpdateUI() -> g
-    void setSepFundLineList() -> h
+    void setCompareLineList() -> g
+    void onFinishUpdateUI() -> h
+    void setSepFundLineList() -> i
     void setXTitleByComparePoint(java.util.List) -> a
     void setXTitleBySepFundChartBean(java.util.List) -> b
     void setYTitle(float,float,float) -> a
     void setYTitle(float,float) -> a
-    java.lang.String getManagerByData(java.lang.String) -> a
+    java.lang.String getManagerByData(java.lang.String,java.lang.String) -> a
     void access$000(com.dkhs.portfolio.ui.widget.BenefitChartView,java.util.List) -> a
-    java.lang.String access$100(com.dkhs.portfolio.ui.widget.BenefitChartView,java.lang.String) -> a
+    java.lang.String access$100(com.dkhs.portfolio.ui.widget.BenefitChartView,java.lang.String,java.lang.String) -> a
     java.util.List access$200(com.dkhs.portfolio.ui.widget.BenefitChartView) -> a
     void access$300(com.dkhs.portfolio.ui.widget.BenefitChartView) -> b
     java.lang.String access$400(com.dkhs.portfolio.ui.widget.BenefitChartView) -> c
@@ -25057,12 +25071,15 @@ com.dkhs.portfolio.ui.widget.BenefitChartView$1 -> com.dkhs.portfolio.ui.widget.
     com.dkhs.portfolio.ui.widget.BenefitChartView this$0 -> a
     java.util.List parseDateTask(java.lang.String) -> a
     void afterParseData(java.util.List) -> a
+    void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
 com.dkhs.portfolio.ui.widget.BenefitChartView$2 -> com.dkhs.portfolio.ui.widget.f:
     com.dkhs.portfolio.ui.widget.BenefitChartView this$0 -> a
     java.util.List parseDateTask(java.lang.String) -> a
     void afterParseData(java.util.List) -> a
+    void onHttpFailure(int,java.lang.Throwable) -> onHttpFailure
+    void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
 com.dkhs.portfolio.ui.widget.BenefitChartView$FundTrendType -> com.dkhs.portfolio.ui.widget.d$a:
@@ -25514,14 +25531,17 @@ com.dkhs.portfolio.ui.widget.LineEntity -> com.dkhs.portfolio.ui.widget.x:
     void setMinVolNum(int) -> c
 com.dkhs.portfolio.ui.widget.LinePoint.DefFundPointEntity -> com.dkhs.portfolio.ui.widget.a.a:
     float netvalue -> a
-    java.lang.String info -> b
-    float getNetvalue() -> a
-    void setNetvalue(float) -> a
-    java.lang.String getInfo() -> b
+    float net_cumulative -> b
+    java.lang.String info -> c
+    float getNet_cumulative() -> a
+    void setNet_cumulative(float) -> a
+    float getNetvalue() -> b
+    void setNetvalue(float) -> b
+    java.lang.String getInfo() -> c
     void setInfo(java.lang.String) -> a
 com.dkhs.portfolio.ui.widget.LinePoint.FundLinePointEntity -> com.dkhs.portfolio.ui.widget.a.b:
     java.lang.String info -> a
-    java.lang.String getInfo() -> b
+    java.lang.String getInfo() -> c
     void setInfo(java.lang.String) -> a
 com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity -> com.dkhs.portfolio.ui.widget.a.c:
     java.lang.String desc -> a

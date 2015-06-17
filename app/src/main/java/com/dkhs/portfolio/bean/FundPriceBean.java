@@ -32,6 +32,7 @@ public class FundPriceBean extends StockPriceBean {
     private float net_value;
     private int symbol_stype;
     private float percent_year;
+    private float latest_cp_rate;
     private String chi_spell = "";
 
 
@@ -168,6 +169,9 @@ public class FundPriceBean extends StockPriceBean {
                 break;
             case "-net_cumulative":
                 value = net_cumulative;
+                break;
+            case "-latest_cp_rate":
+                value = latest_cp_rate;
                 break;
         }
         return value;

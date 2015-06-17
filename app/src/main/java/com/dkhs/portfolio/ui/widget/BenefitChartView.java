@@ -33,6 +33,7 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import org.json.JSONArray;
@@ -463,12 +464,23 @@ public class BenefitChartView {
             if (null != object && object.size() > 0) {
                 if (null != lineEntityList) {
                     lineEntityList.removeAll(compareLinesList);
+
                 }
                 compareLinesList.clear();
                 compareLinesList.addAll(object);
                 setSepFundLineList();
+
+
+            }else{
+                setError();
             }
 
+        }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            setError();
+            super.onFailure(errCode, errMsg);
         }
     };
 
@@ -504,6 +516,7 @@ public class BenefitChartView {
 
 
     ParseHttpListener compareListener = new ParseHttpListener<List<LineEntity>>() {
+
 
         @Override
         protected List<LineEntity> parseDateTask(String jsonData) {
@@ -580,6 +593,7 @@ public class BenefitChartView {
 
             } catch (JSONException e) {
 
+
                 e.printStackTrace();
             }
 
@@ -598,9 +612,25 @@ public class BenefitChartView {
                 compareLinesList.clear();
                 compareLinesList.addAll(object);
                 setCompareLineList();
+            }else{
+                setError();
             }
 
         }
+
+
+        // 这个方法不会走
+        @Override
+        public void onHttpFailure(int errCode, Throwable err) {
+            super.onHttpFailure(errCode, err);
+        }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            setError();
+            super.onFailure(errCode, errMsg);
+        }
+
     };
 
 
