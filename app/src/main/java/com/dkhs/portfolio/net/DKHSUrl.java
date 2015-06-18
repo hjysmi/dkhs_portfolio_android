@@ -223,6 +223,7 @@ public class DKHSUrl {
         String overview = "/api/v1/coins/exchange/overview/";
         String packages = "/api/v1/coins/exchange/packages/";
         String recharge = "/api/v1/coins/exchange/recharge/";
+        String invitecode = "/api/v1/accounts/invitations/invite/";
     }
 
 

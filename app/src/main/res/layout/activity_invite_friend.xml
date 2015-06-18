@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="-1dp"
         android:layout_marginRight="-1dp"
-  
+
         android:background="@drawable/edittext_bg">
 
         <TextView
@@ -54,6 +54,7 @@
 
     <Button
         android:id="@+id/rlbutton"
+        android:enabled="false"
         style="@style/btn_login_blue"
         android:layout_below="@+id/tv_invite_tip"
         android:layout_marginLeft="30dp"

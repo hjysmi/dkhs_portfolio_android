@@ -601,4 +601,6 @@
     <string name="hint_invite_code">输入邀请码</string>
     <string name="hint_invite_code_tip">提交成功，立即获得50M流量</string>
     <string name="post">提交</string>
+    <string name="post_success_tip">提交成功</string>
+    <string name="post_failure_tip">提交失败</string>
 </resources>

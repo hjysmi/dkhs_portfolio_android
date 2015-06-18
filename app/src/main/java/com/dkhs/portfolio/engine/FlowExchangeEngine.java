@@ -30,4 +30,11 @@ public class FlowExchangeEngine {
 
     }
 
+    public static void invitecode(String code, IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("code", code);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.FlowExchange.invitecode, params, listener);
+
+    }
+
 }
