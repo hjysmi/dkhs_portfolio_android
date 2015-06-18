@@ -28,7 +28,7 @@
 
             <ImageView
                 android:id="@+id/errIM"
-                android:src="@drawable/ic_not_data"
+                android:src="@drawable/ic_no_data"
                 android:scaleType="fitCenter"
                 android:layout_width="wrap_content"
                 android:layout_alignTop="@+id/errTV"
