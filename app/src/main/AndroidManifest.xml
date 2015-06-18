@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
-<<<<<<< HEAD
-<<<<<<< HEAD
     android:versionCode="14"
     android:versionName="1.8.0618">
-=======
-    android:versionCode="13"
-    android:versionName="1.7.0617">
->>>>>>> 9a45b9407d41a411b4e9c523392856805eda1d07
-=======
-    android:versionCode="14"
-    android:versionName="1.8.0618">
->>>>>>> f0b1a2e31cc3fefee39f0a05a633d48e93a64afe
+
 
     <uses-sdk
         android:minSdkVersion="14"

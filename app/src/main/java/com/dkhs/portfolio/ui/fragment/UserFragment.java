@@ -28,6 +28,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -229,10 +230,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
-<<<<<<< HEAD
-=======
-
->>>>>>> f0b1a2e31cc3fefee39f0a05a633d48e93a64afe
         startActivity(intent);
         // UIUtils.startAminationActivity(getActivity(), intent);
     }
