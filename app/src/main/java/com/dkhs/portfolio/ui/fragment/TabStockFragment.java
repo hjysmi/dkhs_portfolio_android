@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
@@ -109,7 +109,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     @SuppressLint("HandlerLeak")
-    Handler updateHandler = new Handler();
+    WeakHandler updateHandler = new WeakHandler();
 
 
     @Override
