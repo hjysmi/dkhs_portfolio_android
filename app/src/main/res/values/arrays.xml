@@ -189,5 +189,29 @@
         <item>@string/fund_create_date</item>
         <item>@string/fund_asset</item>
     </string-array>
+    <string-array name="flow_pack_lvtitle">
+        <item>@string/bind_phone</item>
+        <item>@string/input_invite_code</item>
+        <item>@string/invite_friend</item>
+        <item>@string/creat_combination</item>
+    </string-array>
+    <string-array name="flow_pack_lvtitle_tip">
+        <item>@string/flow_bind_tip</item>
+        <item>@string/flow_input_tip</item>
+        <item>@string/flow_invite_tip</item>
+        <item>@string/flow_create_tip</item>
+    </string-array>
+    <string-array name="flow_pack_btn_text">
+        <item>@string/bind_now</item>
+        <item>@string/input_now</item>
+        <item>@string/invite_now</item>
+        <item>@string/create_now</item>
+    </string-array>
+    <integer-array name="flow_pack_lv_icon">
+        <item>@drawable/ic_bind_phone</item>
+        <item>@drawable/ic_input_code</item>
+        <item>@drawable/ic_invite_friend</item>
+        <item>@drawable/ic_flow_create</item>
+    </integer-array>
 
 </resources>

@@ -368,6 +368,9 @@
         <activity
             android:name=".ui.FundManagerActivity"
             android:label="@string/title_activity_fund_manager"></activity>
+        <activity
+            android:name=".ui.FlowPackageActivity"
+            android:label="@string/flow_package"></activity>
     </application>
 
 </manifest>
