@@ -86,7 +86,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         // view.findViewById(R.id.ll_followers).setOnClickListener(this);
         // view.findViewById(R.id.ll_following).setOnClickListener(this);
-
+        titleRL.setClickable(true);
         initView(view);
         setTitle(R.string.title_user);
 

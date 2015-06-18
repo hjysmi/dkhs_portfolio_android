@@ -76,12 +76,10 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentList = new ArrayList<Fragment>();
-
-        LogUtils.e("start");
+        mRlheadertitle.setClickable(true);
         fragmentList.add(new MarketStockFragment());
         fragmentList.add(new MarketFundsFragment());
         fragmentList.add(new MarketCombinationFragment());
-        LogUtils.e("end");
         vp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));
         vp.setOnPageChangeListener(this);
         tabWidget = new TabWidget(view);
@@ -95,6 +93,7 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
                 vp.setCurrentItem(position);
             }
         });
+
         vp.setCurrentItem(0);
         mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
