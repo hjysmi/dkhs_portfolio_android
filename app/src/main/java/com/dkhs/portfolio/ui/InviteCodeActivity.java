@@ -20,7 +20,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 /**
  * Created by zjz on 2015/6/18.
  */
-public class InviteFriendActivity extends ModelAcitivity {
+public class InviteCodeActivity extends ModelAcitivity {
 
     @ViewInject(R.id.et_invite_code)
     private EditText etInviteCode;
@@ -28,7 +28,7 @@ public class InviteFriendActivity extends ModelAcitivity {
     private Button btnConfirm;
 
     public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, InviteFriendActivity.class);
+        Intent intent = new Intent(context, InviteCodeActivity.class);
         return intent;
     }
 

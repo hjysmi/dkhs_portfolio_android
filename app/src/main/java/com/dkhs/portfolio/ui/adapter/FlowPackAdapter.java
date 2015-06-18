@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,8 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FlowOverViewBean;
-import com.dkhs.portfolio.ui.InviteFriendActivity;
+import com.dkhs.portfolio.ui.InviteCodeActivity;
+import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
 
@@ -142,10 +144,11 @@ public class FlowPackAdapter extends BaseAdapter {
                 }
                 break;
                 case 1: {
+                    mContext.startActivity(InviteCodeActivity.newIntent(mContext));
                 }
                 break;
                 case 2: {
-                    mContext.startActivity(InviteFriendActivity.newIntent(mContext));
+                    mContext.startActivity(new Intent(mContext,InviteFriendsActivity.class));
                 }
                 break;
                 case 3: {

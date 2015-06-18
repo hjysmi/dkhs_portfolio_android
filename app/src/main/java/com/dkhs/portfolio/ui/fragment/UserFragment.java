@@ -32,6 +32,7 @@ import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
+import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
@@ -228,8 +229,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     // }
 
     private void startSettingActivity() {
-//        Intent intent = new Intent(getActivity(), SettingActivity.class);
-        Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+        Intent intent = new Intent(getActivity(), SettingActivity.class);
+
         startActivity(intent);
         // UIUtils.startAminationActivity(getActivity(), intent);
     }
@@ -278,8 +279,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             case R.id.ll_flowPackage:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-                    // FIXME: 2015/6/18   跳转到流量包的界面
-
+                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.ll_inviteFriends:

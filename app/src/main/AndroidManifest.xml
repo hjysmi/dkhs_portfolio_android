@@ -377,7 +377,7 @@
             android:name=".ui.ExchangeActivity"
             android:label="@string/title_flow_exchange"></activity>
         <activity
-            android:name=".ui.InviteFriendActivity"
+            android:name=".ui.InviteCodeActivity"
             android:label="@string/title_invite_friend"></activity>
     </application>
 
