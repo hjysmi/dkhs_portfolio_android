@@ -61,13 +61,16 @@ public class InviteCodeActivity extends ModelAcitivity {
                 }
             }
         });
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnConfirm.setEnabled(false);
+                FlowExchangeEngine.invitecode(etInviteCode.getText().toString(), postCodeListener);
+            }
+        });
     }
 
-    @OnClick(R.id.rlbutton)
-    private void onclick(View view) {
-        btnConfirm.setEnabled(false);
-        FlowExchangeEngine.invitecode(etInviteCode.getText().toString(), postCodeListener);
-    }
+
 
 
     BasicHttpListener postCodeListener = new BasicHttpListener() {

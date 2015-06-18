@@ -8,10 +8,12 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -28,6 +30,11 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
+import com.dkhs.portfolio.ui.widget.ScaleRelativeLayout;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
+import com.lidroid.xutils.util.LogUtils;
+
+import org.parceler.apache.commons.logging.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,18 +55,31 @@ public class MainInfoFragment extends BaseTitleFragment {
     //
 
     private SliderLayout slider;
+    private ScaleRelativeLayout scaleRelativeLayout;
 
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_yanbao;
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext=getActivity();
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+
         initView(view);
+        titleRL.setClickable(true);
         setTitle(R.string.title_info);
+        // FIXME: 2015/6/18  待优化
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)(DisplayUtil.getScreenWidth(mContext)*0.3125));
+        slider.setLayoutParams(params);
     }
 
     private void initView(View view) {
@@ -75,12 +95,7 @@ public class MainInfoFragment extends BaseTitleFragment {
         NewsforModel infoEngine;
         List<Fragment> fragmentList = new ArrayList<Fragment>();
 
-        infoEngine = new NewsforModel();
-        infoEngine.setUserid(userId);
-        infoEngine.setContentSubType("304");
-        Fragment optionalInfoFragment = ReportListForAllFragment.getFragment(infoEngine,
-                OpitionNewsEngineImple.NEWS_GROUP);
-        fragmentList.add(optionalInfoFragment);
+
 
         infoEngine = new NewsforModel();
         infoEngine.setUserid(userId);
@@ -88,6 +103,13 @@ public class MainInfoFragment extends BaseTitleFragment {
         Fragment hongguanFragment = ReportListForAllFragment.getFragment(infoEngine,
                 OpitionNewsEngineImple.NEWS_GROUP_TWO);
         fragmentList.add(hongguanFragment);
+
+        infoEngine = new NewsforModel();
+        infoEngine.setUserid(userId);
+        infoEngine.setContentSubType("304");
+        Fragment optionalInfoFragment = ReportListForAllFragment.getFragment(infoEngine,
+                OpitionNewsEngineImple.NEWS_GROUP);
+        fragmentList.add(optionalInfoFragment);
 
         infoEngine = new NewsforModel();
         infoEngine.setUserid(userId);
@@ -100,6 +122,7 @@ public class MainInfoFragment extends BaseTitleFragment {
 
 
         slider = (SliderLayout) view.findViewById(R.id.slider);
+//        scaleRelativeLayout = (ScaleRelativeLayout) view.findViewById(R.id.scaleRl);
         AdEngineImpl.getNewsBannerAds(new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
@@ -117,10 +140,14 @@ public class MainInfoFragment extends BaseTitleFragment {
         });
 
     }
+    private Context mContext;
 
     private void updateAdBanner(AdBean adBean) {
 
 
+//        slider=new SliderLayout(mContext);
+
+//        scaleRelativeLayout.addView(slider,params);
         int duration=1;
         for (AdBean.AdsEntity item : adBean.getAds()){
             TextSliderView textSliderView = new TextSliderView(getActivity());
@@ -137,7 +164,7 @@ public class MainInfoFragment extends BaseTitleFragment {
             slider.addSlider(textSliderView);
         }
         slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        slider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
+        slider.setPresetTransformer(SliderLayout.Transformer.Default);
         slider.setCustomAnimation(new DescriptionAnimation());
         slider.setDuration(duration*1000);
         slider.startAutoCycle();
@@ -147,6 +174,22 @@ public class MainInfoFragment extends BaseTitleFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(slider!=null){
+            slider.startAutoCycle();
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(slider!=null){
+            slider.stopAutoCycle();
+        }
+    }
 
     class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickListener{
 

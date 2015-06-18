@@ -46,6 +46,8 @@ public abstract class BaseTitleFragment extends BaseFragment {
 
     @ViewInject(R.id.tv_title)
     private TextView tvTitle;
+//    @ViewInject(R.id.includeHead)
+    protected RelativeLayout titleRL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ViewUtils.inject(this, view); // 注入view和事件
         btnBack = (TextImageButton) view.findViewById(BACKBUTTON_ID);
+        titleRL = (RelativeLayout) view.findViewById(R.id.includeHead);
         btnRight = (Button) view.findViewById(RIGHTBUTTON_ID);
         btnSecondRight = (Button) view.findViewById(SECONDRIGHTBUTTON_ID);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);

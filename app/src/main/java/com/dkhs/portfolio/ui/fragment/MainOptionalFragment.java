@@ -52,6 +52,7 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
 
     private String mUserId;
     private TabWidget tabWidget;
+    private BasePagerFragmentAdapter adapter;
 
     public static MainOptionalFragment getMainFragment(String userId) {
         MainOptionalFragment fragment = new MainOptionalFragment();
@@ -103,6 +104,7 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         fragments.add(tabStockFragment);
         fragments.add(tabFundsFragment);
         fragments.add(tabConbinationFragment);
+       adapter= new BasePagerFragmentAdapter(getChildFragmentManager(), fragments);
         mVp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragments));
         mVp.setOnPageChangeListener(new OnPagerListener());
         tabWidget = new TabWidget(view);
@@ -161,6 +163,14 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.getItem(mVp.getCurrentItem()).onResume();
+
+
+    }
+
     private void setCombinationBar() {
 
         btnRight.setVisibility(View.VISIBLE);
@@ -217,6 +227,7 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
     private TabStockFragment tabStockFragment;
     private TabFundsFragment tabFundsFragment;
     private TabConbinationFragment tabConbinationFragment;
+    private Fragment selectFragemnt;
 
     protected void displayFragmentA() {
         if (TextUtils.isEmpty(mUserId)) {
@@ -279,6 +290,8 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
             tabFundsFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+
 
 
     class OnPagerListener implements ViewPager.OnPageChangeListener {

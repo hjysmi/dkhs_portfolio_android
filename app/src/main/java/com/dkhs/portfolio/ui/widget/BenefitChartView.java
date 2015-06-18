@@ -547,7 +547,7 @@ public class BenefitChartView {
                             lineEntity.setTitle(mFundQuoteBean.getSymbol());
                         } else if (achivementsEntity != null) {
                             if (!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
-                                lineEntity.setTitle(achivementsEntity.getFund().getSymbol().replaceAll("\\D", ""));
+                                lineEntity.setTitle(achivementsEntity.getFund().getSymbol());
                         }
                         lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                         isCurrentFund = true;

@@ -123,15 +123,20 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
     @Override
     public void requestData() {
         replaceDataList();
+//        reloadData();
 
+    }
+
+    @Override
+    public void onViewShow() {
+        reloadData();
+        super.onViewShow();
     }
 
     @Override
     public void onResume() {
 
         super.onResume();
-        reloadData();
-
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
 
