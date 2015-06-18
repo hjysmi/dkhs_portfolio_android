@@ -132,7 +132,8 @@ public class DKHSUrl {
 
         String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
         String getSplashAds = "/api/v1/ads/area/splash/";
-        String getInvitingInfo = "/api/v1/accounts/invitations/code//";
+        String getInvitingInfo = "/api/v1/accounts/invitations/code/";
+        String getInvitations = "/api/v1/accounts/invitations/invitations/";
 
     }
 

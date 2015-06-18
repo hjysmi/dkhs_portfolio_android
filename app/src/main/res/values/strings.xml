@@ -606,4 +606,7 @@
     <string name="post">提交</string>
     <string name="post_success_tip">提交成功</string>
     <string name="post_failure_tip">提交失败</string>
+    <string name="invite_history">邀请历史</string>
+    <string name="nick_name">昵称</string>
+    <string name="register_date">注册时间</string>
 </resources>

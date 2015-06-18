@@ -17364,7 +17364,6 @@ com.dkhs.portfolio.R$drawable -> com.dkhs.portfolio.R$drawable:
     int indicator_corner_bg -> indicator_corner_bg
     int indicator_open -> indicator_open
     int invite_friends_bg -> invite_friends_bg
-    int inviting_selector -> inviting_selector
     int ios7_switch_off -> ios7_switch_off
     int ios7_switch_on -> ios7_switch_on
     int iv_tiyan_selector -> iv_tiyan_selector

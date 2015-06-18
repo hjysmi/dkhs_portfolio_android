@@ -25,6 +25,12 @@ public class AdEngineImpl {
         DKHSClient.request(HttpRequest.HttpMethod.GET,DKHSUrl.Ads.getInvitingInfo, null, listener);
     }
 
+     public static void getInvitations( IHttpListener listener) {
+        DKHSClient.request(HttpRequest.HttpMethod.GET,DKHSUrl.Ads.getInvitations, null, listener);
+    }
+
+
+
 
 
 }
