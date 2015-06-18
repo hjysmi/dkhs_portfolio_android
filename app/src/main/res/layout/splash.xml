@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:visibility="visible" />
 
     <ImageView
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/dkhs_flash"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:visibility="visible" />
 
     <TextView  android:layout_width="match_parent"

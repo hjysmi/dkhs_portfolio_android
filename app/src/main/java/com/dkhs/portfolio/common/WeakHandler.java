@@ -235,6 +235,9 @@ public class WeakHandler {
     public final boolean sendEmptyMessageDelayed(int what, long delayMillis) {
         return mExec.sendEmptyMessageDelayed(what, delayMillis);
     }
+    public void removeAll(){
+
+    }
 
     /**
      * Sends a Message containing only the what value, to be delivered
@@ -388,8 +391,11 @@ public class WeakHandler {
             if (callback == null) { // Already disposed
                 return;
             }
+
             callback.handleMessage(msg);
         }
+
+
     }
 
     static class WeakRunnable implements Runnable {

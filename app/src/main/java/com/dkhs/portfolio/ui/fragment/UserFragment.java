@@ -29,6 +29,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
+import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -282,7 +283,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 break;
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
-                    // FIXME: 2015/6/18   邀请好友
+                    startActivity(new Intent(getActivity(), InviteFriendsActivity.class));
 
                 }
 

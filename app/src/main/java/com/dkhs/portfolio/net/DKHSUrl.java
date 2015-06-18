@@ -132,6 +132,8 @@ public class DKHSUrl {
 
         String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
         String getSplashAds = "/api/v1/ads/area/splash/";
+        String getInvitingInfo = "/api/v1/accounts/invitations/code//";
+
     }
 
     public interface NetValue {

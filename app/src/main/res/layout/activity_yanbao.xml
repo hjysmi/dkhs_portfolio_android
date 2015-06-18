@@ -7,7 +7,7 @@
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="96dp"
         />
     <LinearLayout
         android:id="@+id/yanbao_layout"

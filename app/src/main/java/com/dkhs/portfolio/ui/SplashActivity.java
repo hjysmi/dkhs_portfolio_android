@@ -53,12 +53,18 @@ public class SplashActivity extends FragmentActivity {
 
     private ImageView adIm;
     private ImageView splashIM;
+
+    private boolean goAdActivity;
     /**
      * Handler:跳转到不同界面
      */
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
+
+            if(goAdActivity){
+                return  false;
+            }
             switch (msg.what) {
                 case GO_NOACCOUNT_MAIN:
                     // goNoAccountMain();
@@ -104,11 +110,13 @@ public class SplashActivity extends FragmentActivity {
             adIm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    goAdActivity=true;
+                    // FIXME: 2015/6/18   这边先做简单的标识, 往后优化需要更改 WeakHandler 源码
                     Intent[] intents=new Intent[2];
                     intents[0]=  new Intent(SplashActivity.this, MainActivity.class);
                     intents[1]=  AdActivity.getIntent(context,adsEntity.getTitle(),adsEntity.getRedirect_url());
                     context.startActivities(intents);
+
                     SplashActivity.this.finish();
 
                 }

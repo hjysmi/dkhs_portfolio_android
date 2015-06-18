@@ -21,5 +21,10 @@ public class AdEngineImpl {
     public static void getSplashAds( IHttpListener listener) {
         DKHSClient.request(HttpRequest.HttpMethod.GET,DKHSUrl.Ads.getSplashAds, null, listener);
     }
+    public static void getInvitingInfo( IHttpListener listener) {
+        DKHSClient.request(HttpRequest.HttpMethod.GET,DKHSUrl.Ads.getInvitingInfo, null, listener);
+    }
+
+
 
 }

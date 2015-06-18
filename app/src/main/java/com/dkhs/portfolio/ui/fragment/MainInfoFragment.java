@@ -113,7 +113,6 @@ public class MainInfoFragment extends BaseTitleFragment {
                     AdBean adBean= (AdBean) object;
                     updateAdBanner(adBean);
                 }
-
             }
         });
 
@@ -128,7 +127,7 @@ public class MainInfoFragment extends BaseTitleFragment {
             textSliderView
                     .description(item.getTitle())
                     .image(item.getImage())
-                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
             ;
             duration=item.getDisplay_time();
             Bundle bundle=new Bundle();
@@ -138,7 +137,7 @@ public class MainInfoFragment extends BaseTitleFragment {
             slider.addSlider(textSliderView);
         }
         slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        slider.setPresetTransformer(SliderLayout.Transformer.CubeIn);
+        slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
         slider.setCustomAnimation(new DescriptionAnimation());
         slider.setDuration(duration*1000);
         slider.startAutoCycle();

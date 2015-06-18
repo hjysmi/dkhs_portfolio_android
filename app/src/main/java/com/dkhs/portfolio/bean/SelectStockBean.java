@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import android.text.TextUtils;
+
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
@@ -106,6 +108,9 @@ public class SelectStockBean extends DragListItem {
         bean.code = stockBean.getStockCode();
         bean.symbol = stockBean.getSymbol();
         bean.symbol_type = stockBean.getSymbol_type();
+        if (!TextUtils.isEmpty(stockBean.getSymbol()) ) {
+            bean.symbol_stype = Integer.parseInt(stockBean.getSymbol_stype());
+        }
         bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getList_status();
         return bean;

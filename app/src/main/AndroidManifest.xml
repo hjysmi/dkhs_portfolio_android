@@ -121,6 +121,7 @@
         <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
         <activity android:name="com.dkhs.portfolio.ui.WebActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AdActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.InviteFriendsActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FundDetailActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity"

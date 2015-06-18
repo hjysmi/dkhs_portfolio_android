@@ -56,7 +56,6 @@ dependencies {
     compile files('libs/ShareSDK-Core-2.5.2.jar')
     compile files('libs/ShareSDK-QQ-2.5.2.jar')
     compile files('libs/ShareSDK-QZone-2.5.2.jar')
-    compile files('libs/ShareSDK-SinaWeibo-2.5.2.jar')
     compile files('libs/ShareSDK-Wechat-2.5.2.jar')
     compile files('libs/ShareSDK-Wechat-Core-2.5.2.jar')
     compile files('libs/ShareSDK-Wechat-Favorite-2.5.2.jar')
@@ -68,4 +67,5 @@ dependencies {
     provided 'org.parceler:parceler:1.0.0'
     compile project(':library')
     compile project(':baselibrary')
+    compile files('libs/ShareSDK-SinaWeibo-2.5.2.jar')
 }
