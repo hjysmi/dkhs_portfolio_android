@@ -122,8 +122,8 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     @Override
     public void requestData() {
-        Log.d(TAG, "=============> requestData");
         replaceDataList();
+//        reloadData();
 
     }
 
@@ -137,7 +137,6 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
     public void onResume() {
 
         super.onResume();
-        Log.d(TAG, "=============> onResume");
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
 

@@ -48,6 +48,7 @@ public class ExchangeActivity extends ModelAcitivity {
         setContentView(R.layout.activity_flow_exchange);
         ViewUtils.inject(this);
 
+        tvMaxtip.setText(getString(R.string.max_flow_tip, 0));
         FlowExchangeEngine.packages(overViewListener);
         btnExchange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +141,7 @@ public class ExchangeActivity extends ModelAcitivity {
             boolean isSuccess = false;
             try {
                 JSONObject jsonObject = new JSONObject(jsonData);
-                isSuccess = jsonObject.optInt("statusCode") == 1 ? true : false;
+                isSuccess = jsonObject.optInt("statusCode") == 1 ;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -151,7 +152,7 @@ public class ExchangeActivity extends ModelAcitivity {
         protected void afterParseData(Boolean object) {
             btnExchange.setEnabled(true);
             if (null != object) {
-                showExchangeToast(object.booleanValue());
+                showExchangeToast(object);
             }
 
         }
