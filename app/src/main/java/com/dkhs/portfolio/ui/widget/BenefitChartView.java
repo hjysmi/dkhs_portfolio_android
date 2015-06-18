@@ -33,7 +33,6 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import org.json.JSONArray;
@@ -197,7 +196,7 @@ public class BenefitChartView {
 
         this.symbol_stype = fundQuoteBean.getSymbol_stype();
         fundId = fundQuoteBean.getId() + "";
-        abbrName = fundQuoteBean.getName();
+        abbrName = fundQuoteBean.getAbbrName();
         inertManagerList.clear();
         inertManagerList.addAll(fundQuoteBean.getManagers());
         onRequest();
