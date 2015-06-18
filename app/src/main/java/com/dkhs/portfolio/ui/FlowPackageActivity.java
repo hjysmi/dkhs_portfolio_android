@@ -53,7 +53,9 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
         FlowExchangeEngine.overview(overViewListener);
     }
 
+    private  FlowOverViewBean mOverViewBean;
     public void updateUI(FlowOverViewBean overViewBean) {
+        mOverViewBean=overViewBean;
         tvFlowCout.setText(overViewBean.getTraffic_amount() + "");
         tvPointCout.setText(getResources().getString(R.string.flow_point, overViewBean.getBalance()));
         FlowPackAdapter flowPackAdapter = (FlowPackAdapter) lvFlowAction.getAdapter();
@@ -81,7 +83,16 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
 
     @OnClick({R.id.layout_flowcount})
     public void onClick(View v) {
-        startActivity(new Intent(this, ExchangeActivity.class));
+
+        if(mOverViewBean != null) {
+
+            if(mOverViewBean.getTasks().isBind_mobile()) {
+
+                startActivity(new Intent(this, ExchangeActivity.class));
+            }else{
+                startActivity(RLFActivity.settingPasswordIntent(this));
+            }
+        }
     }
 
 
