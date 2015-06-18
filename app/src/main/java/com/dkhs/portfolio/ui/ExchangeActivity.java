@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FlowPackageBean;
@@ -23,6 +24,12 @@ public class ExchangeActivity extends ModelAcitivity {
     @ViewInject(R.id.HorizontalListView)
     private HorizontalListView mHlvFlow;
     private FlowExPackAdatper packAdapter;
+
+
+    @ViewInject(R.id.tv_exchange_maxtip)
+    private TextView tvMaxtip;
+    @ViewInject(R.id.tv_prephone_num)
+    private TextView tvPaidPhone;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -68,5 +75,8 @@ public class ExchangeActivity extends ModelAcitivity {
                 packAdapter.notifyDataSetChanged();
             }
         });
+
+        tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount()));
+        tvPaidPhone.setText(packBean.getMobile());
     }
 }

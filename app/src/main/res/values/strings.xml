@@ -582,6 +582,7 @@
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
     <string name="title_flow_exchange">流量兑换</string>
-
+    <string name="max_flow_tip">当前最高可兑换%1$dM流量</string>
+    <string name="prepaid_phone_num">充值手机号：</string>
 
 </resources>
