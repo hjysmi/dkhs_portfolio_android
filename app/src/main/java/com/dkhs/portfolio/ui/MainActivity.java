@@ -144,6 +144,7 @@ public class MainActivity extends ModelAcitivity {
         }
         if (fragmentA.isAdded()) { // if the fragment is already in container
             ft.show(fragmentA);
+            fragmentA.onResume();
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentA, "A");
         }

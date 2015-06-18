@@ -45,33 +45,30 @@ public class InviteFriendsActivity extends ModelAcitivity {
         setContentView(R.layout.activity_invite_friends);
         ViewUtils.inject(this);
         setTitle(R.string.invite_friends);
-
-
-    }
-
-
-    @OnClick(R.id.invitingBtn)
-    public void invitingActin(View v) {
-
-
-        AdEngineImpl.getInvitingInfo(new SimpleParseHttpListener() {
+        invitingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public Class getClassType() {
-                return ShareBean.class;
-            }
+            public void onClick(View v) {
+                AdEngineImpl.getInvitingInfo(new SimpleParseHttpListener() {
+                    @Override
+                    public Class getClassType() {
+                        return ShareBean.class;
+                    }
 
-            @Override
-            protected void afterParseData(Object object) {
+                    @Override
+                    protected void afterParseData(Object object) {
 
-                if(object!=null ){
-                    invitingFriendAction((ShareBean)object);
-                }
+                        if(object!=null ){
+                            invitingFriendAction((ShareBean)object);
+                        }
 
+                    }
+                });
             }
         });
 
 
     }
+
 
     private void invitingFriendAction(ShareBean object) {
 
