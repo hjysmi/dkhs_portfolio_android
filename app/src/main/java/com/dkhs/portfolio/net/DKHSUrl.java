@@ -227,6 +227,14 @@ public class DKHSUrl {
 
     }
 
+    public interface FlowExchange {
+        String overview = "/api/v1/coins/exchange/overview/";
+        String packages = "/api/v1/coins/exchange/packages/";
+        String recharge = "/api/v1/coins/exchange/recharge/";
+        String invitecode = "/api/v1/accounts/invitations/invite/";
+    }
+
+
     public interface MainPage {
         String zhishu = "/api/v1/symbols/{0}/quote/";
     }
@@ -241,5 +249,6 @@ public class DKHSUrl {
             DKHSUrl.StockSymbol.stocklist,
 
     };
+
 
 }

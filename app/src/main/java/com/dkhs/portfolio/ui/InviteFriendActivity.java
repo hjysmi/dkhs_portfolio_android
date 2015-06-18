@@ -1,0 +1,91 @@
+package com.dkhs.portfolio.ui;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.FlowExchangeEngine;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+
+/**
+ * Created by zjz on 2015/6/18.
+ */
+public class InviteFriendActivity extends ModelAcitivity {
+
+    @ViewInject(R.id.et_invite_code)
+    private EditText etInviteCode;
+    @ViewInject(R.id.rlbutton)
+    private Button btnConfirm;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, InviteFriendActivity.class);
+        return intent;
+    }
+
+    @Override
+    protected void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        setTitle(R.string.title_invite_friend);
+        setContentView(R.layout.activity_invite_friend);
+        ViewUtils.inject(this);
+
+
+        etInviteCode.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0 && etInviteCode.getText().length() > 0) {
+                    btnConfirm.setEnabled(true);
+                } else {
+                    btnConfirm.setEnabled(false);
+                }
+            }
+        });
+    }
+
+    @OnClick(R.id.rlbutton)
+    private void onclick(View view) {
+        btnConfirm.setEnabled(false);
+        FlowExchangeEngine.invitecode(etInviteCode.getText().toString(), postCodeListener);
+    }
+
+
+    BasicHttpListener postCodeListener = new BasicHttpListener() {
+        @Override
+        public void onSuccess(String result) {
+            btnConfirm.setEnabled(true);
+            PromptManager.showSuccessToast(R.string.post_success_tip);
+            finish();
+
+        }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            btnConfirm.setEnabled(true);
+            PromptManager.showCancelToast(R.string.post_failure_tip);
+        }
+    };
+
+
+}
