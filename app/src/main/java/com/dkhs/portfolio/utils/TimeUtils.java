@@ -94,6 +94,7 @@ public class TimeUtils {
         return new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
     }
 
+
     public static String getHourString(String iso8601Time) {
         if (TextUtils.isEmpty(iso8601Time)) {
             return "";

@@ -2,6 +2,8 @@ package com.dkhs.portfolio.net;
 
 import android.text.TextUtils;
 
+import com.lidroid.xutils.util.LogUtils;
+
 /**
  * @author zwm
  * @version 2.0
@@ -17,6 +19,8 @@ public abstract class SimpleParseHttpListener  extends  ParseHttpListener {
     @Override
     protected Object parseDateTask(String jsonData) {
 
+
+        LogUtils.e(jsonData);
         if(TextUtils.isEmpty(jsonData)){
             return  null;
         }

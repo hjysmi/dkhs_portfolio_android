@@ -258,7 +258,7 @@ public abstract class BaseSliderView {
                 if(v.findViewById(R.id.loading_bar) != null){
                     ProgressBar progressBar= (ProgressBar) v.findViewById(R.id.loading_bar);
                     progressBar .setVisibility(View.VISIBLE);
-                    progressBar.setProgressDrawable(new IndeterminateProgressDrawable(getContext().getResources().getColor(R.color.tag_red),4));
+
                 }
             }
 

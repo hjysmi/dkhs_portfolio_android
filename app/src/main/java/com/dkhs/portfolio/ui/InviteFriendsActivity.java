@@ -66,6 +66,15 @@ public class InviteFriendsActivity extends ModelAcitivity {
             }
         });
 
+        Button rightButton=getRightButton();
+
+        rightButton.setText("历史");
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InviteFriendsActivity.this,InviteHistoryActivity.class));
+            }
+        });
 
     }
 
