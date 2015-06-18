@@ -109,7 +109,7 @@ public class SelectStockBean extends DragListItem {
         bean.code = stockBean.getStockCode();
         bean.symbol = stockBean.getSymbol();
         bean.symbol_type = stockBean.getSymbol_type();
-        if (!TextUtils.isEmpty(stockBean.getSymbol_stype().trim())) {
+        if (!TextUtils.isEmpty(stockBean.getSymbol_stype())) {
             try {
                 bean.symbol_stype = Integer.parseInt(stockBean.getSymbol_stype().trim());
             } catch (Exception e) {
