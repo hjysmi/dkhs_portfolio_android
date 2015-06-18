@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.daimajia.slider.library.R;
+import com.dkhs.drawable.IndeterminateProgressDrawable;
 import com.dkhs.utils.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -254,7 +256,9 @@ public abstract class BaseSliderView {
             @Override
             public void onLoadingStarted(String s, View view) {
                 if(v.findViewById(R.id.loading_bar) != null){
-                    v.findViewById(R.id.loading_bar).setVisibility(View.VISIBLE);
+                    ProgressBar progressBar= (ProgressBar) v.findViewById(R.id.loading_bar);
+                    progressBar .setVisibility(View.VISIBLE);
+                    progressBar.setProgressDrawable(new IndeterminateProgressDrawable(getContext().getResources().getColor(R.color.tag_red),4));
                 }
             }
 

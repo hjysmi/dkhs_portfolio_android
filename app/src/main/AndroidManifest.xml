@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
-    android:versionCode="13"
-    android:versionName="1.7.0617">
+    android:versionCode="14"
+    android:versionName="1.8.0618">
+
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -370,6 +371,15 @@
         <activity
             android:name=".ui.FundManagerActivity"
             android:label="@string/title_activity_fund_manager"></activity>
+        <activity
+            android:name=".ui.FlowPackageActivity"
+            android:label="@string/flow_package"></activity>
+        <activity
+            android:name=".ui.ExchangeActivity"
+            android:label="@string/title_flow_exchange"></activity>
+        <activity
+            android:name=".ui.InviteCodeActivity"
+            android:label="@string/title_invite_friend"></activity>
     </application>
 
 </manifest>
