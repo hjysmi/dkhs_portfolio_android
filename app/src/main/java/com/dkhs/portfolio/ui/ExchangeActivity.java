@@ -18,7 +18,6 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.json.JSONObject;
 
@@ -50,6 +49,12 @@ public class ExchangeActivity extends ModelAcitivity {
         ViewUtils.inject(this);
 
         FlowExchangeEngine.packages(overViewListener);
+        btnExchange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showExchangeDialog();
+            }
+        });
     }
 
 
@@ -91,12 +96,6 @@ public class ExchangeActivity extends ModelAcitivity {
 
         tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount()));
         tvPaidPhone.setText(packBean.getMobile());
-    }
-
-    @OnClick({R.id.exchange})
-    public void exchangeClick(View v) {
-        showExchangeDialog();
-
     }
 
 

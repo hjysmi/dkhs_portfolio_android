@@ -230,7 +230,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
-
         startActivity(intent);
         // UIUtils.startAminationActivity(getActivity(), intent);
     }

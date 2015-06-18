@@ -84,23 +84,47 @@ public class MessageHandler {
             MessageManager.getInstance().startPrivateChat(context, message.getSenderUserId(), null);
             return;
         }
-        Uri uri = Uri.parse(messageContent.getUrl());
+//        Uri uri = Uri.parse(messageContent.getUrl());
+//        List<String> segments = uri.getPathSegments();
+//        if (!handleURL(messageContent.getUrl())) {
+//            if (segments.get(0).equals("s") && segments.size() >= 3) {
+//                gotoStockQuotesActivity(segments);
+//            } else if (segments.get(0).equals("p") && segments.size() >= 2) {
+//                gotoOrderFundDetailActivity(segments.get(1));
+//            } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
+//                gotoNewOrYaoBaoDetail(segments.get(1));
+//            } else {
+//                //不在定义范围内 ,使用WebActivity去处理
+//                context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+//            }
+//        } else {
+//            //不在定义范围内 ,使用WebActivity去处理
+//            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+//        }
+        if (!handleURL(messageContent.getUrl())) {
+            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+        }
+    }
+
+
+    public boolean handleURL(String url) {
+        Uri uri = Uri.parse(url);
+        boolean hasHandle = false;
         List<String> segments = uri.getPathSegments();
         if (segments.size() > 0) {
             if (segments.get(0).equals("s") && segments.size() >= 3) {
                 gotoStockQuotesActivity(segments);
+                hasHandle = true;
             } else if (segments.get(0).equals("p") && segments.size() >= 2) {
+                hasHandle = true;
                 gotoOrderFundDetailActivity(segments.get(1));
             } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
+                hasHandle = true;
                 gotoNewOrYaoBaoDetail(segments.get(1));
-            } else {
-                //不在定义范围内 ,使用WebActivity去处理
-                context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
             }
-        } else {
-            //不在定义范围内 ,使用WebActivity去处理
-            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
         }
+
+        return hasHandle;
     }
 
     /**
@@ -200,7 +224,7 @@ public class MessageHandler {
         new QuotesEngineImpl().quotes(segments.get(1), new BasicHttpListener() {
             @Override
             public void beforeRequest() {
-            //fixme 由于用的到 PromptManager.showProgressDialog,里面维护一个静态的进度框,所以还没走到requestCallBack 就会被关闭
+                //fixme 由于用的到 PromptManager.showProgressDialog,里面维护一个静态的进度框,所以还没走到requestCallBack 就会被关闭
                 PromptManager.showProgressDialog(context, "", true);
                 super.beforeRequest();
             }
@@ -213,10 +237,10 @@ public class MessageHandler {
                     JSONObject jsonOb = jsonArray.getJSONObject(0);
                     StockQuotesBean stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
 
-                    if(StockUitls.isFundType( stockQuotesBean.getSymbol_type())){
-                        SelectStockBean     itemStock=SelectStockBean.copy(stockQuotesBean);
+                    if (StockUitls.isFundType(stockQuotesBean.getSymbol_type())) {
+                        SelectStockBean itemStock = SelectStockBean.copy(stockQuotesBean);
                         context.startActivity(FundDetailActivity.newIntent(context, itemStock));
-                    }else {
+                    } else {
                         itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
                         itemStock.setName(stockQuotesBean.getAbbrName());
                         context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
