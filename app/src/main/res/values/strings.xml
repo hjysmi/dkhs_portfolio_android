@@ -566,7 +566,7 @@
     <!--流量活动-->
     <string name="flow_package">流量包</string>
     <string name="exchange_flow">可兑换流量</string>
-    <string name="flow_point">流量积分：%1$s分</string>
+    <string name="flow_point">流量积分：%1$d分</string>
     <string name="bind_now">立即绑定</string>
     <string name="has_done">已经完成</string>
     <string name="invite_now">立即邀请</string>
@@ -580,6 +580,8 @@
     <string name="flow_input_tip">填写成功立即获得50M流量</string>
     <string name="flow_invite_tip">每要求1位好友成功注册送50M流量</string>
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
+
+    <string name="title_flow_exchange">流量兑换</string>
 
 
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
+
+    <CheckBox
+        android:id="@+id/tv_flow_count"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/btn_flow_circle_selector"
+        android:button="@null"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:text="100M"
+        android:textColor="@color/flow_circle_selector"
+        android:textSize="22sp">
+
+    </CheckBox>
+
+</FrameLayout>

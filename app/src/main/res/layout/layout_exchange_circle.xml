@@ -7,6 +7,7 @@
 
 
     <LinearLayout
+        android:id="@+id/layout_flowcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/rl_flowcount"
             android:layout_centerHorizontal="true"
-            android:text="可兑换流量"
+            android:text="@string/exchange_flow"
             android:textColor="@color/gray_textcolor"
             android:textSize="16dp" />
 
@@ -32,7 +33,7 @@
                 android:id="@+id/tv_flow_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="500"
+                android:text="0"
                 android:textColor="@color/tag_red"
                 android:textSize="42dp" />
 
@@ -51,9 +52,9 @@
 
 
         <TextView
+            android:id="@+id/tv_point_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="流量积分：5000分"
             android:textColor="@color/gray_textcolor"
             android:textSize="16dp" />
 

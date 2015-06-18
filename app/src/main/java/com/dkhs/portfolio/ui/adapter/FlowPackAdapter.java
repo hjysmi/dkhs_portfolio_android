@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.bean.FlowOverViewBean;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.RLFActivity;
 
 /**
  * Created by zjz on 2015/6/18.
@@ -26,6 +28,17 @@ public class FlowPackAdapter extends BaseAdapter {
     int[] iconRes;
 
     private Context mContext;
+
+    public FlowOverViewBean getmOverViewBean() {
+        return mOverViewBean;
+    }
+
+    public void setOverViewBean(FlowOverViewBean mOverViewBean) {
+        this.mOverViewBean = mOverViewBean;
+        notifyDataSetChanged();
+    }
+
+    private FlowOverViewBean mOverViewBean;
 
     public FlowPackAdapter(Context context) {
         this.mContext = context;
@@ -68,11 +81,43 @@ public class FlowPackAdapter extends BaseAdapter {
         TextView tvTip = vholder.get(R.id.tv_flow_tip);
         tvTitle.setText(titleTexts[position]);
         tvTip.setText(tipTexts[position]);
-        btnAction.setText(btnTexts[position]);
+
         ivIcon.setImageResource(iconRes[position]);
 
 
-        btnAction.setOnClickListener(new ButtonListener(position));
+        if (null != mOverViewBean) {
+
+            boolean hasDone = false;
+            switch (position) {
+                case 0: {
+                    hasDone = mOverViewBean.getTasks().isBind_mobile();
+                }
+                break;
+                case 1: {
+                    hasDone = mOverViewBean.getTasks().isInvite_code();
+                }
+                break;
+                case 2: {
+                    hasDone = mOverViewBean.getTasks().isInvite_friends();
+                }
+                break;
+                case 3: {
+                    hasDone = mOverViewBean.getTasks().isBind_mobile();
+                }
+                break;
+            }
+            if (hasDone) {
+                btnAction.setEnabled(false);
+                btnAction.setText(R.string.has_done);
+            } else {
+                btnAction.setText(btnTexts[position]);
+                btnAction.setOnClickListener(new ButtonListener(position));
+            }
+
+
+        } else {
+            btnAction.setText(btnTexts[position]);
+        }
         return convertView;
     }
 
@@ -90,7 +135,23 @@ public class FlowPackAdapter extends BaseAdapter {
 //            if (vid == holder.buttonClose.getId())
 //                removeItem(position);
 
-            PromptManager.showToastTest("click postion:" + position);
+            switch (position) {
+                case 0: {
+                    mContext.startActivity(RLFActivity.settingPasswordIntent(mContext));
+                }
+                break;
+                case 1: {
+                }
+                break;
+                case 2: {
+                }
+                break;
+                case 3: {
+
+                    mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
+                }
+                break;
+            }
         }
     }
 

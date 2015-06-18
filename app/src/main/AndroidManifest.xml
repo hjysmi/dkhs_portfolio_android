@@ -371,6 +371,9 @@
         <activity
             android:name=".ui.FlowPackageActivity"
             android:label="@string/flow_package"></activity>
+        <activity
+            android:name=".ui.ExchangeActivity"
+            android:label="@string/title_flow_exchange"></activity>
     </application>
 
 </manifest>

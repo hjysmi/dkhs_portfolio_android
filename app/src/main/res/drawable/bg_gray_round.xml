@@ -3,6 +3,6 @@
 
     <!-- 边缘线的宽度和颜色 -->
     <corners android:radius="6dp" />
-    <solid android:color="@color/white_60" />
+    <solid android:color="@color/person_setting_backgroud" />
 
 </shape>
