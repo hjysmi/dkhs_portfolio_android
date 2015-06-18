@@ -35,7 +35,7 @@ public class InvitationsAdapter extends  AutoAdapter {
         InvitationBean invitationBean = (InvitationBean) list.get(position);
         vh.setTextView(R.id.tv_name, invitationBean.getUsername());
 
-        vh.setTextView(R.id.tv_date, TimeUtils.getYYYYMMDDString(invitationBean.getDate_joined()));
+        vh.setTextView(R.id.tv_date, TimeUtils.getSimpleDay(invitationBean.getDate_joined()));
     }
 
 

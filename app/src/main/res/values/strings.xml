@@ -609,4 +609,5 @@
     <string name="invite_history">邀请历史</string>
     <string name="nick_name">昵称</string>
     <string name="register_date">注册时间</string>
+    <string name="no_invitations_tips">你还没有邀请。</string>
 </resources>
