@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tv_prephone_text"
                 android:layout_toRightOf="@+id/tv_prephone_text"
-                android:text="15260557557"
+                android:text=""
                 android:textColor="@color/light_gray"
                 android:textSize="20sp" />
         </RelativeLayout>

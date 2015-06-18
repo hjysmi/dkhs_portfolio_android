@@ -13,6 +13,7 @@
         android:layout_centerInParent="true"
         android:background="@drawable/bg_flow_circle_selector"
         android:gravity="center"
+        android:clickable="false"
         android:orientation="vertical">
 
         <TextView

@@ -23802,6 +23802,7 @@ com.dkhs.portfolio.ui.FlowPackageActivity -> com.dkhs.portfolio.ui.FlowPackageAc
     com.dkhs.portfolio.ui.widget.ListViewEx lvFlowAction -> b
     android.widget.TextView tvPointCout -> c
     android.widget.TextView tvFlowCout -> d
+    android.widget.Button btnExchange -> e
     com.dkhs.portfolio.net.ParseHttpListener overViewListener -> a
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume

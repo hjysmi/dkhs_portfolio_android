@@ -14,12 +14,11 @@ import com.dkhs.portfolio.ui.adapter.FlowPackAdapter;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 /**
  * Created by zjz on 2015/6/18.
  */
-public class FlowPackageActivity extends ModelAcitivity implements View.OnClickListener {
+public class FlowPackageActivity extends ModelAcitivity {
 
     @ViewInject(R.id.lv_flow)
     private ListViewEx lvFlowAction;
@@ -30,8 +29,8 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
 
     @ViewInject(R.id.tv_flow_count)
     private TextView tvFlowCout;
-
-
+    @ViewInject(R.id.layout_flowcount)
+    private View btnExchange;
     private FlowOverViewBean overViewBean;
 
     @Override
@@ -43,8 +42,6 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
 
         lvFlowAction.setAdapter(new FlowPackAdapter(this));
 
-
-
     }
 
     @Override
@@ -54,6 +51,13 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
     }
 
     public void updateUI(FlowOverViewBean overViewBean) {
+        btnExchange.setClickable(true);
+        btnExchange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FlowPackageActivity.this, ExchangeActivity.class));
+            }
+        });
         tvFlowCout.setText(overViewBean.getTraffic_amount() + "");
         tvPointCout.setText(getResources().getString(R.string.flow_point, overViewBean.getBalance()));
         FlowPackAdapter flowPackAdapter = (FlowPackAdapter) lvFlowAction.getAdapter();
@@ -79,10 +83,10 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
         }
     };
 
-    @OnClick({R.id.layout_flowcount})
-    public void onClick(View v) {
-        startActivity(new Intent(this, ExchangeActivity.class));
-    }
+//    @OnClick({R.id.layout_flowcount})
+//    public void onClick(View v) {
+//        startActivity(new Intent(this, ExchangeActivity.class));
+//    }
 
 
 }
