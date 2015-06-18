@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FlowOverViewBean;
+import com.dkhs.portfolio.ui.InviteFriendActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
 
@@ -144,6 +145,7 @@ public class FlowPackAdapter extends BaseAdapter {
                 }
                 break;
                 case 2: {
+                    mContext.startActivity(InviteFriendActivity.newIntent(mContext));
                 }
                 break;
                 case 3: {

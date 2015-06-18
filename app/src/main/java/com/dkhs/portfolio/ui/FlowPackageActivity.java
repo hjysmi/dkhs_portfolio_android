@@ -43,10 +43,15 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
 
         lvFlowAction.setAdapter(new FlowPackAdapter(this));
 
-        FlowExchangeEngine.overview(overViewListener);
+
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlowExchangeEngine.overview(overViewListener);
+    }
 
     public void updateUI(FlowOverViewBean overViewBean) {
         tvFlowCout.setText(overViewBean.getTraffic_amount() + "");

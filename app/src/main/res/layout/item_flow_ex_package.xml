@@ -8,6 +8,8 @@
         android:id="@+id/tv_flow_count"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/btn_flow_circle_selector"
         android:button="@null"
         android:clickable="false"
