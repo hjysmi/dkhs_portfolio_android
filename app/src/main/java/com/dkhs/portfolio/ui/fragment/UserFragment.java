@@ -229,6 +229,10 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
+<<<<<<< HEAD
+=======
+
+>>>>>>> f0b1a2e31cc3fefee39f0a05a633d48e93a64afe
         startActivity(intent);
         // UIUtils.startAminationActivity(getActivity(), intent);
     }
@@ -277,8 +281,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             case R.id.ll_flowPackage:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-                    // FIXME: 2015/6/18   跳转到流量包的界面
-
+                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+                    startActivity(intent);
                 }
                 break;
             case R.id.ll_inviteFriends:
