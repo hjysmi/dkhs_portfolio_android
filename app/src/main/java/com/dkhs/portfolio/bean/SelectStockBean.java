@@ -90,7 +90,7 @@ public class SelectStockBean extends DragListItem {
         // bean.percentage = stockBean.getPercent();
         bean.symbol = stockBean.getFund().getSymbol();
         bean.id = stockBean.getFund().getId();
-//        bean.code = stockBean.getFund().getSymbol();
+        bean.symbol_stype = stockBean.getFund().getSymbol_stype();
 //        bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getFund().getList_status()+"";
         return bean;
