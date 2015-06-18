@@ -561,6 +561,10 @@
     <string name="between_date"> 至 </string>
     <string name="sh300">沪深300</string>
     <string name="more_fund_compare">更多基金比较</string>
+    <string name="ad3">成功注册即送50M流量，限量抢！</string>
+    <string name="flow_package">流量包</string>
+    <string name="invite_friends">邀请好友</string>
+    <string name="inviting">立即邀请</string>
 
 
 </resources>

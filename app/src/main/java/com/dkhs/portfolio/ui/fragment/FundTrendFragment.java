@@ -95,6 +95,8 @@ public class FundTrendFragment extends VisiableLoadFragment {
     @Override
     public void requestData() {
         if (mFundQuoteBean != null && mFundQuoteBean.getManagers() != null && mFundQuoteBean.getManagers().size() > 0) {
+
+
             benefitChartView.draw(mFundQuoteBean, mTrendType);
         }
     }
@@ -107,6 +109,9 @@ public class FundTrendFragment extends VisiableLoadFragment {
     }
 
     private boolean isViewShown;
+
+
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

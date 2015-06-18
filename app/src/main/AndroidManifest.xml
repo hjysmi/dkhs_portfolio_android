@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="13"
-    android:versionName="1.7.0616">
+    android:versionName="1.7.0617">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -120,6 +120,8 @@
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
         <activity android:name="com.dkhs.portfolio.ui.WebActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.AdActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.InviteFriendsActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FundDetailActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity"

@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.Animation;
@@ -81,6 +82,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private TextView tvUpPrecent;
     private TextView tvPreNetvalue;
     private TextView tvAllNetvalue;
+    private TextView mDelistingTV;
 
 
     private Button btnRefresh;
@@ -194,6 +196,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             tvUpPrice = (TextView) header.findViewById(R.id.tv_up_price);
             tvUpPrecent = (TextView) header.findViewById(R.id.tv_percentage);
             tvPreNetvalue = (TextView) header.findViewById(R.id.tv_pre_netvalue);
+            mDelistingTV = (TextView) header.findViewById(R.id.tv_delisting);
             tvAllNetvalue = (TextView) header.findViewById(R.id.tv_all_netvalue);
         }
 
@@ -465,7 +468,10 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         updataTitle();
         updateNetValue();
         replaceFundProfile();
-        replaceManagerView();
+        if (!StockUitls.isDelistStock(mFundBean.getList_status())
+                ) {
+            replaceManagerView();
+        }
         replaceTrendView();
     }
 
@@ -473,15 +479,35 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         ColorStateList cls = null;
         if (StockUitls.isSepFund(mFundBean.symbol_stype)) {
             cls = ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getYear_yld());
-            tvWanshou.setTextColor(ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getNet_value()));
-            tvWanshou.setTextColor(cls);
+
+            if (StockUitls.isDelistStock(mFundBean.getList_status())) {
+
+                tvWanshou.setTextColor(getResources().getColor(R.color.theme_color));
+                tvWanshou.setText(R.string.exit_stock);
+                tvWanshou.setTextSize(TypedValue.COMPLEX_UNIT_SP, 21);
+            } else {
+                tvWanshou.setTextColor(ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getNet_value()));
+                tvWanshou.setTextColor(cls);
+                tvWanshou.setText(StringFromatUtils.get4Point(mFundQuoteBean.getTenthou_unit_incm()));
+            }
+
             tvQirinianhua.setTextColor(cls);
-            tvWanshou.setText(StringFromatUtils.get4Point(mFundQuoteBean.getTenthou_unit_incm()));
+
             tvQirinianhua.setText(StringFromatUtils.get2PointPercent(mFundQuoteBean.getYear_yld()));
 
         } else {
             cls = ColorTemplate.getUpOrDrownCSL(mFundQuoteBean.getPercentage());
-            tvNetvalue.setTextColor(cls);
+
+            if (StockUitls.isDelistStock(mFundBean.getList_status())) {
+
+                tvUpPrice.setVisibility(View.GONE);
+                tvUpPrecent.setVisibility(View.GONE);
+                mDelistingTV.setVisibility(View.VISIBLE);
+                mDelistingTV.setText(R.string.exit_stock);
+            } else {
+                tvNetvalue.setTextColor(cls);
+
+            }
             tvUpPrice.setTextColor(cls);
             tvUpPrecent.setTextColor(cls);
 

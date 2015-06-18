@@ -239,6 +239,87 @@
                     android:visibility="gone" />
                 <!--  -->
             </RelativeLayout>
+            <RelativeLayout
+                style="@style/white_grayborder_layout"
+                android:layout_marginTop="@dimen/combin_horSpacing"
+                >
+                <LinearLayout
+                    android:id="@+id/ll_inviteFriends"
+                    android:layout_width="fill_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="10dp"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_invite_friends"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/invite_friends"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_text_name" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/setting_image_right" />
+
+                </LinearLayout>
+
+
+
+
+                <View
+
+                    android:layout_below="@+id/ll_inviteFriends"
+                    style="@style/divider_line"
+                    />
+                <LinearLayout
+                    android:layout_below="@+id/ll_inviteFriends"
+                    android:id="@+id/ll_flowPackage"
+                    android:layout_width="fill_parent"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="10dp"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_flow_package"
+                        android:drawablePadding="6dp"
+                        android:gravity="center_vertical"
+
+                        android:text="@string/flow_package"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_text_name" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:text="(千万流量疯狂送, 快来抢 ! )"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/setting_sub_text_name"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+
+                        android:src="@drawable/setting_image_right" />
+
+                </LinearLayout>
+
+
+
+                <!--  -->
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
