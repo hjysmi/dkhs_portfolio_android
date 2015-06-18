@@ -137,7 +137,7 @@ public class MainInfoFragment extends BaseTitleFragment {
             slider.addSlider(textSliderView);
         }
         slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
+        slider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
         slider.setCustomAnimation(new DescriptionAnimation());
         slider.setDuration(duration*1000);
         slider.startAutoCycle();
