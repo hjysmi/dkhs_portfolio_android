@@ -22,6 +22,7 @@
     <dimen name="circle_center_text">15sp</dimen>
     <dimen name="land_text_size">18sp</dimen>
     <dimen name="setting_text_name">18sp</dimen>
+    <dimen name="setting_sub_text_name">14sp</dimen>
     <dimen name="setting_text_phone">14sp</dimen>
     <dimen name="mark_symbol_size">10sp</dimen>
     <dimen name="combin_horSpacing">15dp</dimen>

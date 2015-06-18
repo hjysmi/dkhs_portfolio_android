@@ -1,18 +1,20 @@
-package com.dkhs.portfolio.utils;
+package com.dkhs.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.DrawableRes;
+import android.view.View;
 import android.widget.ImageView;
 
-import com.dkhs.portfolio.R;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 
 public class ImageLoaderUtils {
@@ -44,22 +46,13 @@ public class ImageLoaderUtils {
         loader.displayImage(url, new_phone1, options);
     }
 
-    public static void setImage(String url, ImageView new_phone1) {
+    public static void setImage(String url, ImageView new_phone1, ImageLoadingListener loadingListener) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory().cacheOnDisc()
                 .displayer(new SimpleBitmapDisplayer())
                 .build();
-        loader.displayImage(url, new_phone1, options);
-
-    }
-    public static void loadImage(String url) {
-        ImageLoader loader = ImageLoader.getInstance();
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
-                .displayer(new FadeInBitmapDisplayer(600))
-                .build();
-        loader.loadImage(url, options,null);
+        loader.displayImage(url, new_phone1, options,loadingListener);
 
     }
 
@@ -75,18 +68,7 @@ public class ImageLoaderUtils {
     }
 
 
-    public static void setHeanderImage(String url, ImageView new_phone1) {
-        ImageLoader loader = ImageLoader.getInstance();
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
-                .displayer(new RoundedBitmapDisplayer(300))
-                .showImageForEmptyUri(R.drawable.ic_user_head)
-                .showImageOnFail(R.drawable.ic_user_head)
-                .showImageOnLoading(R.drawable.ic_user_head)
-                .showImageForEmptyUri(R.drawable.ic_user_head)
-                .build();
-        loader.displayImage(url, new_phone1, options);
-    }
+
 
 
 }

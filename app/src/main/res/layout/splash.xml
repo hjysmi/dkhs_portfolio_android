@@ -3,14 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity" >
-
     <ImageView
+        android:id="@+id/adIM"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:background="@drawable/dkhs_flash"
         android:scaleType="centerCrop"
         android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/splashIM"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dkhs_flash"
+        android:scaleType="fitXY"
+        android:visibility="visible" />
+
     <TextView  android:layout_width="match_parent"
         android:gravity="center"
         android:layout_alignParentBottom="true"

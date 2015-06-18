@@ -77,5 +77,16 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="6dp"
         android:text="下一步" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/ad3"
+        android:textColor="@color/orange"
+        android:layout_marginTop="12dp"
+        android:drawablePadding="8dp"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_remind"
+
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

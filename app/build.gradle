@@ -38,7 +38,9 @@ android {
 }
 
 dependencies {
-//    compile 'com.android.support:design:22.2.0'
+
+    //    compile 'com.android.support:design:22.2.0'
+
     //ANR catch
     compile 'com.github.anrwatchdog:anrwatchdog:1.1.+'
     compile 'com.android.support:support-v4:22.1.0'
@@ -60,10 +62,10 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Favorite-2.5.2.jar')
     compile files('libs/ShareSDK-Wechat-Moments-2.5.2.jar')
     compile files('libs/umeng-analytics-v5.2.4.jar')
-    compile files('libs/universal-image-loader-1.9.3.jar')
     compile 'me.grantland:autofittextview:0.2.+'
     compile project(':kit')
-    compile "org.parceler:parceler-api:1.0.0"
+    compile 'org.parceler:parceler-api:1.0.0'
     provided 'org.parceler:parceler:1.0.0'
-
+    compile project(':library')
+    compile project(':baselibrary')
 }

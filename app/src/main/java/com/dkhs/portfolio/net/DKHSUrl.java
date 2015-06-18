@@ -128,6 +128,12 @@ public class DKHSUrl {
 
     }
 
+    public interface  Ads{
+
+        String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
+        String getSplashAds = "/api/v1/ads/area/splash/";
+    }
+
     public interface NetValue {
         String queryDaily = "/api/v1/portfolio/{0}/netvalue_daily_chart/";
 
