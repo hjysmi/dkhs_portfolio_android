@@ -85,6 +85,7 @@ public class SelectStockBean extends DragListItem {
         bean.list_status = stockBean.getList_status();
         return bean;
     }
+
     public static SelectStockBean copy(FundManagerInfoBean.AchivementsEntity stockBean) {
 
         SelectStockBean bean = new SelectStockBean();
@@ -94,7 +95,7 @@ public class SelectStockBean extends DragListItem {
         bean.id = stockBean.getFund().getId();
         bean.symbol_stype = stockBean.getFund().getSymbol_stype();
 //        bean.isStop = stockBean.isStop();
-        bean.list_status = stockBean.getFund().getList_status()+"";
+        bean.list_status = stockBean.getFund().getList_status() + "";
         return bean;
     }
 
@@ -108,8 +109,12 @@ public class SelectStockBean extends DragListItem {
         bean.code = stockBean.getStockCode();
         bean.symbol = stockBean.getSymbol();
         bean.symbol_type = stockBean.getSymbol_type();
-        if (!TextUtils.isEmpty(stockBean.getSymbol()) ) {
-            bean.symbol_stype = Integer.parseInt(stockBean.getSymbol_stype());
+        if (!TextUtils.isEmpty(stockBean.getSymbol_stype())) {
+            try {
+                bean.symbol_stype = Integer.parseInt(stockBean.getSymbol_stype().trim());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getList_status();

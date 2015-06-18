@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -29,7 +30,7 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
 
-//        Log.e(TAG, this + "=============> setUserVisibleHint isVisibleToUser:" + isVisibleToUser + " isViewShown:" + isViewShown);
+        Log.e(TAG, this + "=============> setUserVisibleHint isVisibleToUser:" + isVisibleToUser + " isViewShown:" + isViewShown);
         if (isVisibleToUser && isViewShown) {
             onViewShow();
         } else {
@@ -50,6 +51,16 @@ public abstract class VisiableLoadFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.e(TAG, this + "=============> onHiddenChanged" + hidden);
+        if (hidden) {
+            //do when hidden
+        } else {
+            //do when show
+        }
+    }
 
     @Override
     public void onResume() {

@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -200,6 +201,9 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
 
     private void updateView() {
 
+
+        Log.d("PieGragh", "updateView");
+
         // setCombinationInfo();
         setStockList();
         setPieList();
@@ -291,6 +295,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
     private void setPieList() {
         int valueSize = stockList.size();
 
+        pieList.clear();
         for (int i = 0; i < valueSize; i++) {
             PieSlice slice1 = new PieSlice();
 
@@ -341,6 +346,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
     @Subscribe
     public void updateListener(UpdatePositinoEvent event) {
         if (null != event) {
+
             new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
         }
     }

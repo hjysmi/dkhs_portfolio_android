@@ -1,7 +1,5 @@
 package com.dkhs.portfolio.ui.widget;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,6 +15,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
+
+import java.util.ArrayList;
 
 public class PieGraph extends View {
 
@@ -107,6 +107,7 @@ public class PieGraph extends View {
         int count = 0;
         Path p = new Path();
         for (PieSlice slice : slices) {
+
             p.reset();
             paint.setColor(slice.getColor());
             RectF rectF;
@@ -229,37 +230,39 @@ public class PieGraph extends View {
         return sweepAngle;
     }
 
-    private void addEmptyPieSlice(float value) {
-        PieSlice slice = new PieSlice();
-        slice.setColor(Color.RED);
-        slice.setValue(value);
-        this.slices.add(slice);
-    }
+//    private void addEmptyPieSlice(float value) {
+//        PieSlice slice = new PieSlice();
+//        slice.setColor(Color.RED);
+//        slice.setValue(value);
+//        this.slices.add(slice);
+//    }
 
-    public ArrayList<PieSlice> getSlices() {
-        return slices;
-    }
+//    public ArrayList<PieSlice> getSlices() {
+//        return slices;
+//    }
 
     public void setSlices(ArrayList<PieSlice> slices) {
-        this.slices = slices;
+        this.slices.clear();
+        this.slices.addAll(slices);
         setSweepAngle(0);
         postInvalidate();
-    }
 
-    public void updateSlices(int position, int value) {
-        // this.slices.remove(slices.size() - 1);
-        this.slices.get(position).setValue(value);
-        postInvalidate();
     }
+//
+//    public void updateSlices(int position, int value) {
+//        // this.slices.remove(slices.size() - 1);
+//        this.slices.get(position).setValue(value);
+//        postInvalidate();
+//    }
 
-    public PieSlice getSlice(int index) {
-        return slices.get(index);
-    }
-
-    public void addSlice(PieSlice slice) {
-        this.slices.add(slice);
-        postInvalidate();
-    }
+//    public PieSlice getSlice(int index) {
+//        return slices.get(index);
+//    }
+//
+//    public void addSlice(PieSlice slice) {
+//        this.slices.add(slice);
+//        postInvalidate();
+//    }
 
     public void setOnSliceClickedListener(OnSliceClickedListener listener) {
         this.listener = listener;
@@ -274,12 +277,12 @@ public class PieGraph extends View {
         postInvalidate();
     }
 
-    public void removeSlices() {
-        for (int i = slices.size() - 1; i >= 0; i--) {
-            slices.remove(i);
-        }
-        postInvalidate();
-    }
+//    public void removeSlices() {
+//        for (int i = slices.size() - 1; i >= 0; i--) {
+//            slices.remove(i);
+//        }
+//        postInvalidate();
+//    }
 
     public static interface OnSliceClickedListener {
         public abstract void onClick(int index);

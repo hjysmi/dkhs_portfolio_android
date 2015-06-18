@@ -9,22 +9,22 @@
 package com.dkhs.portfolio.bean;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SubmitSymbol
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-12 下午1:14:05
- * @version 1.0
  */
 public class SubmitSymbol {
     // symbol: 股票ID(int)
-    private long symbol;
+    private String symbol;
     private int percent;
 
-    public long getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(long symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
