@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.engine;
 
 import com.dkhs.portfolio.bean.AlertSetBean;
+import com.dkhs.portfolio.bean.PostStockAlertBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -99,7 +100,7 @@ public class QuotesEngineImpl {
     public void stockRemind(String stockId, float priceUp, float priceDown, float percent, boolean setNotice,
                             boolean setYanbao, IHttpListener listener) {
 
-        AlertSetBean alertSetBean = new AlertSetBean(priceUp, priceDown, percent, setNotice, setYanbao);
+        PostStockAlertBean alertSetBean = new PostStockAlertBean(priceUp, priceDown, percent, setNotice, setYanbao);
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("is_alert", "1");
