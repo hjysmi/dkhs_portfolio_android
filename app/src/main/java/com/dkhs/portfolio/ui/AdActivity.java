@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -21,16 +22,16 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  */
 public class AdActivity extends ModelAcitivity {
 
-    public static final String  KEY_URI="key_uri";
-    public static final String  KEY_TITLE="key_title";
+    public static final String KEY_URI = "key_uri";
+    public static final String KEY_TITLE = "key_title";
 
 
-    public static  Intent getIntent(Context ctx,String title,String uri){
-        Intent intent=new Intent();
-        intent.putExtra(KEY_URI,uri);
-        intent.putExtra(KEY_TITLE,title);
-        intent.setClass(ctx,AdActivity.class);
-        return  intent;
+    public static Intent getIntent(Context ctx, String title, String uri) {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_URI, uri);
+        intent.putExtra(KEY_TITLE, title);
+        intent.setClass(ctx, AdActivity.class);
+        return intent;
     }
 
 
@@ -45,18 +46,37 @@ public class AdActivity extends ModelAcitivity {
         handleIntent(getIntent());
         setContentView(R.layout.activity_ad);
         ViewUtils.inject(this);
+
+        messageHandler = new MessageHandler(this);
         initView();
+
     }
 
     private void handleIntent(Intent intent) {
-        title=intent.getStringExtra(KEY_TITLE);
-        uri=intent.getStringExtra(KEY_URI);
+        title = intent.getStringExtra(KEY_TITLE);
+        uri = intent.getStringExtra(KEY_URI);
     }
+
+    private MessageHandler messageHandler;
 
     private void initView() {
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.loadUrl(uri);
         webView.setWebViewClient(new WebViewClient());
         setTitle(title);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                if (messageHandler.handleURL(url))){
+//                    // magic
+//                    return true;
+//                }
+//                return false;
+
+                return messageHandler.handleURL(url);
+            }
+        });
+
     }
 }
