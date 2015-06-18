@@ -14,11 +14,19 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 
 import java.util.ArrayList;
@@ -38,6 +46,8 @@ public class MainInfoFragment extends BaseTitleFragment {
     // @ViewInject(R.id.pager)
     // private ScrollViewPager pager;
     //
+
+    private SliderLayout slider;
 
     @Override
     public int setContentLayoutId() {
@@ -88,54 +98,67 @@ public class MainInfoFragment extends BaseTitleFragment {
 
         new FragmentSelectAdapter(getActivity(), name, fragmentList, layout, getChildFragmentManager());
 
-        // hsTitle.setTitleList(getResources().getStringArray(R.array.main_info_title));
-        // hsTitle.setSelectPositionListener(titleSelectListener);
-        //
-        // ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        //
-        // fragmentList.add(new TestFragment());
-        // fragmentList.add(new TestFragment());
-        // fragmentList.add(new TestFragment());
-        //
-        // pager.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));
-        // pager.setOnPageChangeListener(pageChangeListener);
-        // pager.setCurrentItem(titleIndex);
+
+        slider = (SliderLayout) view.findViewById(R.id.slider);
+        AdEngineImpl.getNewsBannerAds(new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return AdBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+
+                if (object != null) {
+                    AdBean adBean= (AdBean) object;
+                    updateAdBanner(adBean);
+                }
+            }
+        });
 
     }
 
-    // ISelectPostionListener titleSelectListener = new ISelectPostionListener() {
-    //
-    // @Override
-    // public void onSelectPosition(int position) {
-    // if (null != pager) {
-    // pager.setCurrentItem(position);
-    // // isFromTitle = true;
-    // }
-    // }
-    // };
-    //
-    // OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
-    //
-    // @Override
-    // public void onPageSelected(int arg0) {
-    // // if (!isFromTitle) {
-    // hsTitle.setSelectIndex(arg0);
-    // // }
-    // // isFromTitle = false;
-    //
-    // }
-    //
-    // @Override
-    // public void onPageScrolled(int arg0, float arg1, int arg2) {
-    // // TODO Auto-generated method stub
-    //
-    // }
-    //
-    // @Override
-    // public void onPageScrollStateChanged(int arg0) {
-    // // TODO Auto-generated method stub
-    //
-    // }
-    // };
+    private void updateAdBanner(AdBean adBean) {
+
+
+        int duration=1;
+        for (AdBean.AdsEntity item : adBean.getAds()){
+            TextSliderView textSliderView = new TextSliderView(getActivity());
+            textSliderView
+                    .description(item.getTitle())
+                    .image(item.getImage())
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+            ;
+            duration=item.getDisplay_time();
+            Bundle bundle=new Bundle();
+            bundle.putString("redirect_url",item.getRedirect_url());
+            textSliderView.bundle(bundle);
+            textSliderView.setOnSliderClickListener(new OnSliderClickListenerImp());
+            slider.addSlider(textSliderView);
+        }
+        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
+        slider.setCustomAnimation(new DescriptionAnimation());
+        slider.setDuration(duration*1000);
+        slider.startAutoCycle();
+
+
+
+
+    }
+
+
+    class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickListener{
+
+        @Override
+        public void onSliderClick(BaseSliderView slider) {
+
+            Bundle bundle=slider.getBundle();
+            String    redirectUrl=  bundle.getString("redirect_url");
+
+            getActivity().startActivity(AdActivity.getIntent(getActivity(),slider.getDescription(),redirectUrl));
+
+        }
+    }
 
 }

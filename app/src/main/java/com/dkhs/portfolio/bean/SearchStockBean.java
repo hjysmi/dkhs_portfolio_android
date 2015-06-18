@@ -54,6 +54,14 @@ public class SearchStockBean extends DBEntityBase {
     @Column(column = "is_stop")
     private String is_stop;
 
+    public String getSymbol_stype() {
+        return symbol_stype;
+    }
+
+    public void setSymbol_stype(String symbol_stype) {
+        this.symbol_stype = symbol_stype;
+    }
+
     public String getStockName() {
         return stockName;
     }

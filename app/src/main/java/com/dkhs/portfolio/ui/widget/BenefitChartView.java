@@ -33,6 +33,7 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import org.json.JSONArray;
@@ -72,6 +73,8 @@ public class BenefitChartView {
     private View lineView;
     @ViewInject(R.id.contentView)
     private View contentView;
+    @ViewInject(R.id.rl_empty)
+    private View emptyView;
     private Context ctx;
 
     private String fundId;
@@ -118,7 +121,24 @@ public class BenefitChartView {
         fundId = achivementsEntity.getFund().getId() + "";
         abbrName = achivementsEntity.getFund().getAbbr_name();
         lineView.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
         onRequest();
+    }
+
+
+
+
+
+    private boolean mError;
+
+
+    public void setError(){
+        mError=true;
+        emptyView.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
+        loadView.setVisibility(View.GONE);
+
+
     }
 
 
@@ -157,7 +177,12 @@ public class BenefitChartView {
     public void draw(FundQuoteBean fundQuoteBean, FundTrendType type) {
         this.trendType = type;
         this.mFundQuoteBean = fundQuoteBean;
-        draw(fundQuoteBean);
+        if(StockUitls.isDelistStock(mFundQuoteBean.getList_status()+"")){
+            setError();
+        }else {
+            emptyView.setVisibility(View.GONE);
+            draw(fundQuoteBean);
+        }
     }
 
 
@@ -254,6 +279,7 @@ public class BenefitChartView {
     }
 
     private void onFinishUpdateUI() {
+        if(!mError){
         if (StockUitls.isSepFund(symbol_stype)) {
             titleView.setVisibility(View.GONE);
         } else {
@@ -261,6 +287,7 @@ public class BenefitChartView {
         }
         contentView.setVisibility(View.VISIBLE);
         loadView.setVisibility(View.GONE);
+        }
     }
 
     private void setSepFundLineList() {
@@ -439,12 +466,23 @@ public class BenefitChartView {
             if (null != object && object.size() > 0) {
                 if (null != lineEntityList) {
                     lineEntityList.removeAll(compareLinesList);
+
                 }
                 compareLinesList.clear();
                 compareLinesList.addAll(object);
                 setSepFundLineList();
+
+
+            }else{
+                setError();
             }
 
+        }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            setError();
+            super.onFailure(errCode, errMsg);
         }
     };
 
@@ -480,6 +518,7 @@ public class BenefitChartView {
 
 
     ParseHttpListener compareListener = new ParseHttpListener<List<LineEntity>>() {
+
 
         @Override
         protected List<LineEntity> parseDateTask(String jsonData) {
@@ -556,6 +595,7 @@ public class BenefitChartView {
 
             } catch (JSONException e) {
 
+
                 e.printStackTrace();
             }
 
@@ -574,9 +614,25 @@ public class BenefitChartView {
                 compareLinesList.clear();
                 compareLinesList.addAll(object);
                 setCompareLineList();
+            }else{
+                setError();
             }
 
         }
+
+
+        // 这个方法不会走
+        @Override
+        public void onHttpFailure(int errCode, Throwable err) {
+            super.onHttpFailure(errCode, err);
+        }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            setError();
+            super.onFailure(errCode, errMsg);
+        }
+
     };
 
 

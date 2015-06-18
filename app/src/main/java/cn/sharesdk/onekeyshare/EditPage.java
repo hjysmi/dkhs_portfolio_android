@@ -607,7 +607,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
 //            return;
 //        }
 
-        // 取消分享的统计
+
         if (v.getId() == (R.id.btn_share)) {
             String text = etContent.getText().toString();
             reqData.put("text", text);

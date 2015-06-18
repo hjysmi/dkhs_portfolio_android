@@ -8,15 +8,26 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.BitmapUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -25,23 +36,32 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class SplashActivity extends FragmentActivity {
     boolean isFirstIn = false;
+    private static final String ST_SPLASH_KEY = "splashAds";
 
     private static final int GO_ACCOUNT_MAIN = 1000;
     private static final int GO_GUIDE = 1001;
     private static final int GO_NOACCOUNT_MAIN = 1002;
+    private static final int SHOW_AD = 1003;
     // 延迟2000豪秒
-    private static final long SPLASH_DELAY_MILLIS = 2000;
+    private long splashDelayMills = 2000;
+    private static final long SHOW_AD_MILLIS = 800;
 
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
 
     protected static final String TAG = "SplashActivity";
     private Context context;
+
+    private ImageView adIm;
+    private ImageView splashIM;
+
     /**
      * Handler:跳转到不同界面
      */
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
+
+
             switch (msg.what) {
                 case GO_NOACCOUNT_MAIN:
                     // goNoAccountMain();
@@ -53,10 +73,56 @@ public class SplashActivity extends FragmentActivity {
                 case GO_ACCOUNT_MAIN:
                     goAccountMain();
                     break;
+                case SHOW_AD:
+                    showAD();
+                    break;
             }
             return false;
         }
     });
+
+    private void showAD() {
+        if (adsEntity != null) {
+            AlphaAnimation alphaAnimation=new AlphaAnimation(1,0);
+            alphaAnimation.setInterpolator(new DecelerateInterpolator());
+            alphaAnimation.setDuration(800);
+            alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    splashIM.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            splashIM.startAnimation(alphaAnimation);
+            BitmapUtils.displayNoEffect(adIm, adsEntity.getImage());
+            adIm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mHandler.removeMessages(GO_GUIDE);
+                    mHandler.removeMessages(GO_NOACCOUNT_MAIN);
+                    mHandler.removeMessages(GO_ACCOUNT_MAIN);
+                    Intent[] intents=new Intent[2];
+                    intents[0]=  new Intent(SplashActivity.this, MainActivity.class);
+                    intents[1]=  AdActivity.getIntent(context,adsEntity.getTitle(),adsEntity.getRedirect_url());
+                    context.startActivities(intents);
+                    SplashActivity.this.finish();
+
+                }
+            });
+        }
+
+    }
+
+    private AdBean.AdsEntity adsEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +134,47 @@ public class SplashActivity extends FragmentActivity {
         if (!AppConfig.isDebug) {
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
         }
+        adIm = (ImageView) findViewById(R.id.adIM);
+        splashIM = (ImageView) findViewById(R.id.splashIM);
     }
+
+
+    public void getSplashAds() {
+        AdEngineImpl.getSplashAds(new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return AdBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+                if (null != object) {
+                    AdBean adBean = (AdBean) object;
+                    if (adBean.getAds().size() > 0) {
+                        AdBean.AdsEntity adsEntity = adBean.getAds().get(0);
+                        PortfolioPreferenceManager.saveValue(ST_SPLASH_KEY, DataParse.objectToJson(adsEntity));
+                        ImageLoaderUtils.loadImage(adBean.getAds().get(0).getImage());
+                    }
+
+                }
+            }
+        });
+    }
+
 
     private void init() {
         UserEntity user;
 
-        // user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+        String splashAdStr = PortfolioPreferenceManager.getStringValue(ST_SPLASH_KEY);
+        if (!TextUtils.isEmpty(splashAdStr)) {
+            adsEntity = DataParse.parseObjectJson(AdBean.AdsEntity.class, splashAdStr);
+        }
+        if (adsEntity != null) {
+            mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
+            splashDelayMills = SHOW_AD + adsEntity.getDisplay_time() * 1000;
+        }
+
+        getSplashAds();
         user = UserEngineImpl.getUserEntity();
         if (user != null) {
             if (!TextUtils.isEmpty(user.getAccess_token())
@@ -82,10 +183,12 @@ public class SplashActivity extends FragmentActivity {
                 GlobalParams.USERNAME = user.getUsername();
                 GlobalParams.MOBILE = user.getMobile();
                 // 直接登陆
-                mHandler.sendEmptyMessageDelayed(GO_ACCOUNT_MAIN, SPLASH_DELAY_MILLIS);
+
+
+                mHandler.sendEmptyMessageDelayed(GO_ACCOUNT_MAIN, splashDelayMills);
             } else {
                 // 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
-                mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, SPLASH_DELAY_MILLIS);
+                mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, splashDelayMills);
             }
         } else {
             // 读取SharedPreferences中需要的数据
@@ -98,9 +201,9 @@ public class SplashActivity extends FragmentActivity {
             // 判断程序与第几次运行，如果是第一次运行则跳转到引导界面，否则跳转到主界面
             if (!isFirstIn) {
                 // 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
-                mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, SPLASH_DELAY_MILLIS);
+                mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, splashDelayMills);
             } else {
-                mHandler.sendEmptyMessageDelayed(GO_GUIDE, SPLASH_DELAY_MILLIS);
+                mHandler.sendEmptyMessageDelayed(GO_GUIDE, splashDelayMills);
             }
         }
 

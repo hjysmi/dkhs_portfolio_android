@@ -18,6 +18,32 @@
             android:layout_centerInParent="true"
             android:alpha="0.5"
             app:circular_progress_color="@color/tag_red" />
+        <RelativeLayout
+            android:id="@+id/rl_empty"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/errIM"
+                android:src="@drawable/ic_no_data"
+                android:scaleType="fitCenter"
+                android:layout_width="wrap_content"
+                android:layout_alignTop="@+id/errTV"
+                android:layout_alignBottom="@+id/errTV"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/errTV"
+                android:paddingLeft="8dp"
+                android:layout_toRightOf="@+id/errIM"
+                android:layout_width="wrap_content"
+                android:text="@string/nodate_tip"
+                android:textColor="@color/tag_gray"
+                android:textSize="19sp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -61,12 +87,7 @@
                 android:textSize="14sp" />
 
         </RelativeLayout>
-        <View
-            android:visibility="invisible"
-            android:id="@+id/line"
-            android:layout_alignParentBottom="true"
-            style="@style/divider_line"
-            />
+
 
         <RelativeLayout
             android:id="@+id/rl_chart"
@@ -83,5 +104,11 @@
                 app:gridWidthWeight="7" />
         </RelativeLayout>
     </RelativeLayout>
+    <View
+        android:visibility="invisible"
+        android:id="@+id/line"
+        android:layout_alignParentBottom="true"
+        style="@style/divider_line"
+        />
 
 </RelativeLayout>

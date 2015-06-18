@@ -29,6 +29,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
+import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -239,46 +240,56 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.message_center_layout,
-            R.id.ll_following, R.id.ll_followers})
+            R.id.ll_following, R.id.ll_followers,R.id.ll_flowPackage,R.id.ll_inviteFriends})
     public void onClick(View v) {
         int id = v.getId();
-        if (R.id.btn_login == id) {
-            UIUtils.iStartLoginActivity(getActivity());
-        } else if (R.id.setting_layout_icon == id) {
-            startUserInfoActivity();
-        } else if (R.id.user_myfunds_layout == id) {
-            if (!UIUtils.iStartLoginActivity(getActivity())) {
-                // getActivity().UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(),
-                // MyCombinationActivity.class)));
-                startActivity(new Intent(getActivity(), MyCombinationActivity.class));
-            }
-        } else if (R.id.message_center_layout == id) {
-            if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-                // RongIM rongIM = RongIM.getInstance();
-                //
-                // if (rongIM == null) {
-                // // 请求重新连接
-                // // BusProvider.getInstance().post(new RongConnectEvent());
-                // MessageManager.getInstance().connect();
-                // }
-                RongIM.getInstance().startConversationList(getActivity());
-            }
-        } else if (R.id.ll_following == id) {
+        switch (id){
+            case R.id.btn_login:
+                UIUtils.iStartLoginActivity(getActivity());
+                break;
+            case R.id.setting_layout_icon:
+                startUserInfoActivity();
+                break;
+            case R.id.user_myfunds_layout:
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
+                    startActivity(new Intent(getActivity(), MyCombinationActivity.class));
+                }
+                break;
+            case R.id.message_center_layout:
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-            Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
-            followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
-            followIntent.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
-            startActivity(followIntent);
+                    RongIM.getInstance().startConversationList(getActivity());
+                }
+                break;
+            case R.id.ll_following:
+                Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
+                followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
+                followIntent.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
+                startActivity(followIntent);
+                break;
+            case R.id.ll_followers:
+                Intent intent1 = new Intent(getActivity(), FriendsOrFollowersActivity.class);
+                intent1.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FOLLOWER);
+                intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
+                startActivity(intent1);
+                break;
+            case R.id.ll_flowPackage:
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-        } else if (R.id.ll_followers == id) {
+                    // FIXME: 2015/6/18   跳转到流量包的界面
 
-            Intent intent1 = new Intent(getActivity(), FriendsOrFollowersActivity.class);
-            intent1.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FOLLOWER);
-            intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
-            startActivity(intent1);
+                }
+                break;
+            case R.id.ll_inviteFriends:
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
+                    startActivity(new Intent(getActivity(), InviteFriendsActivity.class));
 
+                }
+
+                break;
         }
+
 
     }
 
