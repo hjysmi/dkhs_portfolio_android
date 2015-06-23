@@ -236,7 +236,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void startUserInfoActivity() {
         Intent intent = CombinationUserActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(),
-                UserEngineImpl.getUserEntity().getId() + "", true);
+                UserEngineImpl.getUserEntity().getId() + "");
         startActivity(intent);
     }
 

@@ -58,7 +58,7 @@ public class InviteHistoryActivity extends ModelAcitivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 InvitationBean invitationBean=dataL.get(position);
-                InviteHistoryActivity.this.startActivity( CombinationUserActivity.getIntent(InviteHistoryActivity.this,invitationBean.getUsername(),invitationBean.getId()+"",false));
+                InviteHistoryActivity.this.startActivity( CombinationUserActivity.getIntent(InviteHistoryActivity.this,invitationBean.getUsername(),invitationBean.getId()+""));
             }
         });
         initData();

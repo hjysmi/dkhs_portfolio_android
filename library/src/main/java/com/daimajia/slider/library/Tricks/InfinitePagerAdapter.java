@@ -31,9 +31,6 @@ public class InfinitePagerAdapter extends PagerAdapter {
     public int getCount() {
         // warning: scrolling to very high values (1,000,000+) results in
         // strange drawing behaviour
-//        if(adapter.getCount()==1){
-//            return  1;
-//        }
         return Integer.MAX_VALUE;
     }
 

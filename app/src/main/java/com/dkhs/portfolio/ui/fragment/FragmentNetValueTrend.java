@@ -616,7 +616,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
         if (v.getId() == R.id.rl_create_user) {
             startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
-                    mCombinationBean.getUser().getId() + "", false));
+                    mCombinationBean.getUser().getId() + ""));
         }
     }
 

@@ -64,11 +64,10 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     private HttpHandler mHttpHandler;
 
 
-    public static UserCombinationListFragment getFragment(String username, String userId) {
+    public static UserCombinationListFragment getFragment( String userId) {
 
         UserCombinationListFragment fragment = new UserCombinationListFragment();
         Bundle args = new Bundle();
-        args.putString("username", username);
         args.putString("userId", userId);
         fragment.setArguments(args);
         return fragment;
@@ -76,11 +75,9 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
 
     @Override
     public void onCreate(Bundle arg0) {
-
         super.onCreate(arg0);
         Bundle bundle = getArguments();
         if (null != bundle) {
-            mUserName = bundle.getString("username");
             mUserId = bundle.getString("userId");
         }
     }
@@ -102,7 +99,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
 
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
-
         localFloatingActionMenu = ((CombinationUserActivity) getActivity()).localFloatingActionMenu;
         localFloatingActionMenu.attachToListView(getListView(), null, this);
         super.onViewCreated(view, savedInstanceState);
@@ -154,8 +150,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
             } else {
                 footHeight = getResources().getDimensionPixelOffset(R.dimen.foot_height);
             }
-
-
             footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
             getListView().addFooterView(footView);
         }
@@ -200,14 +194,17 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                     return;
                 }
 
-                CombinationBean cBean = mDataList.get(position - 1);
-                UserEntity user = new UserEntity();
-                user.setId(Integer.parseInt(mUserId));
-                user.setUsername(mUserName);
-                cBean.setUser(user);
-                startActivity(CombinationDetailActivity.newIntent(getActivity(), cBean));
+                if (((CombinationUserActivity) getActivity()).mUserName != null) {
+                    CombinationBean cBean = mDataList.get(position - 1);
+                    UserEntity user = new UserEntity();
+                    user.setId(Integer.parseInt(mUserId));
+                    user.setUsername(((CombinationUserActivity) getActivity()).mUserName);
+                    cBean.setUser(user);
+                    startActivity(CombinationDetailActivity.newIntent(getActivity(), cBean));
 //                getActivity().startActivity(NewCombinationDetailActivity.getIntent(getActivity(), cBean, false, null));
+                }
             }
+
         };
     }
 

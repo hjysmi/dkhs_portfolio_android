@@ -16,6 +16,7 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.WebActivity;
@@ -121,10 +122,17 @@ public class MessageHandler {
             } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
                 hasHandle = true;
                 gotoNewOrYaoBaoDetail(segments.get(1));
+            }else if(segments.get(0).equals("u") && segments.size() >= 2){
+                hasHandle = true;
+                gotoCombinationUserActivity(segments.get(1));
             }
         }
 
         return hasHandle;
+    }
+
+    public void gotoCombinationUserActivity(String userId){
+        context.startActivity(CombinationUserActivity.getIntent(context,null,userId));
     }
 
     /**

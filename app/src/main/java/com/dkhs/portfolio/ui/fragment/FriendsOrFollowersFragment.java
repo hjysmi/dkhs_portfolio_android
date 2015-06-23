@@ -149,15 +149,11 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                boolean isMyInfo;
 
-                if (UserEngineImpl.getUserEntity() != null && dataList.get(position).getId() == UserEngineImpl.getUserEntity().getId()) {
-                    isMyInfo = true;
-                } else {
-                    isMyInfo = false;
-                }
+
+
                 startActivity(CombinationUserActivity.getIntent(getActivity(), dataList.get(position).getUsername(),
-                        dataList.get(position).getId() + "", isMyInfo));
+                        dataList.get(position).getId() + ""));
             }
         };
     }
