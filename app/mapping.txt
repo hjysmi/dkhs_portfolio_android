@@ -19391,6 +19391,7 @@ com.dkhs.portfolio.R$string -> com.dkhs.portfolio.R$string:
     int nickname -> nickname
     int nickname_hint -> nickname_hint
     int nickname_password_null -> nickname_password_null
+    int no_invitations_tips -> no_invitations_tips
     int no_net -> no_net
     int no_net_connect -> no_net_connect
     int noaccout -> noaccout
@@ -31760,19 +31761,18 @@ com.dkhs.portfolio.utils.TimeUtils -> com.dkhs.portfolio.d.w:
     java.util.Date parseISOTime(java.lang.String) -> a
     java.lang.String getTimeString(java.lang.String) -> b
     java.lang.String getMDTimeString(java.lang.String) -> c
-    java.lang.String getYYYYMMDDString(java.lang.String) -> d
-    java.lang.String getHourString(java.lang.String) -> e
+    java.lang.String getHourString(java.lang.String) -> d
     boolean compareTime(java.util.Calendar) -> a
     java.lang.String getTimeString(java.util.Calendar) -> b
-    java.lang.String getDateString(java.lang.String) -> f
-    java.lang.String getSimpleFormatTime(java.lang.String) -> g
-    java.lang.String getSimpleDay(java.lang.String) -> h
-    java.util.Calendar toCalendar(java.lang.String) -> i
-    java.util.Calendar toCalendarAddHour(java.lang.String) -> j
-    java.lang.String addHour(java.lang.String) -> k
-    java.util.Calendar simpleDateToCalendar(java.lang.String) -> l
-    java.lang.String simpleDateToMonthDay(java.lang.String) -> m
-    java.util.Date toDate(java.lang.String) -> n
+    java.lang.String getDateString(java.lang.String) -> e
+    java.lang.String getSimpleFormatTime(java.lang.String) -> f
+    java.lang.String getSimpleDay(java.lang.String) -> g
+    java.util.Calendar toCalendar(java.lang.String) -> h
+    java.util.Calendar toCalendarAddHour(java.lang.String) -> i
+    java.lang.String addHour(java.lang.String) -> j
+    java.util.Calendar simpleDateToCalendar(java.lang.String) -> k
+    java.lang.String simpleDateToMonthDay(java.lang.String) -> l
+    java.util.Date toDate(java.lang.String) -> m
 com.dkhs.portfolio.utils.UIUtils -> com.dkhs.portfolio.d.x:
     long sAppLoadTime -> a
     void setListViewHeightBasedOnChildren(android.widget.ListView) -> a

@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public final class AppConfig {
 
-    public static final boolean isDebug = true;
+    public static final boolean isDebug = false;
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
@@ -41,9 +41,9 @@ public final class AppConfig {
 
         //融云API，根据不同的版本配置不同的APP key,默认为debug key
         //正式版本需要修改为release key
-        if (!isDebug) {
-            setRongYunMetaData();
-        }
+//        if (!isDebug) {
+//            setRongYunMetaData();
+//        }
 
 
         //是否替换本地raw里面的数据库
