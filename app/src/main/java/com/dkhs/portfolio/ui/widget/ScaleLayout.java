@@ -18,55 +18,43 @@ import com.dkhs.portfolio.R;
  */
 public class ScaleLayout extends RelativeLayout {
 
-
-
         public float mScale;
+
         public ScaleLayout(Context context) {
             super(context);
         }
 
-
         public ScaleLayout(Context context, AttributeSet attrs) {
             super(context, attrs);
-
-
             init(attrs);
         }
-
 
         private void init(AttributeSet attrs) {
             TypedArray typedArray=getContext().obtainStyledAttributes(attrs, R.styleable.ScaleLayout);
             mScale= typedArray.getFloat(R.styleable.ScaleLayout_scale,-1);
             typedArray.recycle();
-
-
         }
-
 
         public ScaleLayout(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
+            init(attrs);
         }
-
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         public ScaleLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
             super(context, attrs, defStyleAttr, defStyleRes);
+            init(attrs);
         }
 
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-
             if(mScale != -1){
                 super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec((int) (MeasureSpec.getSize(widthMeasureSpec) * mScale), MeasureSpec.getMode(widthMeasureSpec)));
-
-
             }else{
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             }
-
-
         }
 
 

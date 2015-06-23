@@ -514,6 +514,7 @@ public class ViewPagerEx extends ViewGroup{
      * @param smoothScroll True to smoothly scroll to the new item, false to transition immediately
      */
     public void setCurrentItem(int item, boolean smoothScroll) {
+
         mPopulatePending = false;
         setCurrentItemInternal(item, smoothScroll, false);
     }
@@ -968,7 +969,7 @@ public class ViewPagerEx extends ViewGroup{
         final int N = mAdapter.getCount();
         final int endPos = Math.min(N-1, mCurItem + pageLimit);
 
-        if (N != mExpectedAdapterCount) {
+        if (N != mExpectedAdapterCount && N !=  1 ) {
             String resName;
             try {
                 resName = getResources().getResourceName(getId());
@@ -1971,7 +1972,6 @@ public class ViewPagerEx extends ViewGroup{
                 mScroller.abortAnimation();
                 mPopulatePending = false;
                 populate();
-
                 // Remember where the motion event started
                 mLastMotionX = mInitialMotionX = ev.getX();
                 mLastMotionY = mInitialMotionY = ev.getY();

@@ -15,7 +15,7 @@ import com.daimajia.slider.library.SliderAdapter;
 public class InfinitePagerAdapter extends PagerAdapter {
 
     private static final String TAG = "InfinitePagerAdapter";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     private SliderAdapter adapter;
 
@@ -31,6 +31,9 @@ public class InfinitePagerAdapter extends PagerAdapter {
     public int getCount() {
         // warning: scrolling to very high values (1,000,000+) results in
         // strange drawing behaviour
+//        if(adapter.getCount()==1){
+//            return  1;
+//        }
         return Integer.MAX_VALUE;
     }
 
