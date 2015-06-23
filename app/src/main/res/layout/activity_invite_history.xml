@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/activity_bg_color"
@@ -34,10 +34,8 @@
                 android:layout_height="wrap_content"
                 />
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <com.dkhs.portfolio.ui.widget.CircularProgress
+
+        <com.dkhs.widget.CircularProgress
             android:id="@+id/loadView"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -46,34 +44,27 @@
             app:circular_progress_color="@color/tag_red" />
     <ListView
         android:id="@+id/listView"
+        android:layout_below="@+id/view_stock_title"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"/>
         <RelativeLayout
             android:id="@+id/rl_empty"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/errIM"
-                android:src="@drawable/ic_no_data"
-                android:scaleType="fitCenter"
-                android:layout_width="wrap_content"
-                android:layout_alignTop="@+id/errTV"
-                android:layout_alignBottom="@+id/errTV"
-                android:layout_height="wrap_content" />
+            android:layout_width="fill_parent"
+            android:background="@color/activity_bg_color"
+            android:layout_height="fill_parent">
             <TextView
                 android:id="@+id/errTV"
+                android:layout_centerInParent="true"
                 android:paddingLeft="8dp"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:drawableLeft="@drawable/ic_no_data"
                 android:layout_toRightOf="@+id/errIM"
                 android:layout_width="wrap_content"
                 android:text="@string/no_invitations_tips"
                 android:textColor="@color/tag_gray"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
-    </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

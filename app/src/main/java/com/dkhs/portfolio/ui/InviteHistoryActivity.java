@@ -10,6 +10,7 @@ import com.dkhs.portfolio.bean.InvitationBean;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.InvitationsAdapter;
+import com.dkhs.widget.CircularProgress;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -31,7 +32,7 @@ public class InviteHistoryActivity extends ModelAcitivity {
     @ViewInject(R.id.view_stock_title)
     android.widget.LinearLayout mViewstocktitle;
     @ViewInject(R.id.loadView)
-    com.dkhs.portfolio.ui.widget.CircularProgress mLoadView;
+    CircularProgress mLoadView;
     @ViewInject(R.id.listView)
     android.widget.ListView mListView;
     @ViewInject(R.id.errIM)
@@ -57,7 +58,7 @@ public class InviteHistoryActivity extends ModelAcitivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 InvitationBean invitationBean=dataL.get(position);
-                InviteHistoryActivity.this.startActivity( CombinationUserActivity.getIntent(InviteHistoryActivity.this,invitationBean.getUsername(),invitationBean.getId()+"",false));
+                InviteHistoryActivity.this.startActivity( CombinationUserActivity.getIntent(InviteHistoryActivity.this,invitationBean.getUsername(),invitationBean.getId()+""));
             }
         });
         initData();

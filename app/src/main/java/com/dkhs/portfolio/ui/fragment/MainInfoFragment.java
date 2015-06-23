@@ -30,11 +30,8 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.dkhs.portfolio.ui.widget.ScaleRelativeLayout;
+import com.dkhs.portfolio.ui.widget.ScaleLayout;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
-import com.lidroid.xutils.util.LogUtils;
-
-import org.parceler.apache.commons.logging.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,14 +45,9 @@ import java.util.List;
  */
 public class MainInfoFragment extends BaseTitleFragment {
 
-    // @ViewInject(R.id.hs_title)
-    // private HScrollTitleView hsTitle;
-    // @ViewInject(R.id.pager)
-    // private ScrollViewPager pager;
-    //
 
     private SliderLayout slider;
-    private ScaleRelativeLayout scaleRelativeLayout;
+    private Context mContext;
 
     @Override
     public int setContentLayoutId() {
@@ -77,9 +69,6 @@ public class MainInfoFragment extends BaseTitleFragment {
         initView(view);
         titleRL.setClickable(true);
         setTitle(R.string.title_info);
-        // FIXME: 2015/6/18  待优化
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)(DisplayUtil.getScreenWidth(mContext)*0.3125));
-        slider.setLayoutParams(params);
     }
 
     private void initView(View view) {
@@ -90,11 +79,9 @@ public class MainInfoFragment extends BaseTitleFragment {
             userId = user.getId() + "";
         }
 
-        // System.out.println("userId:" + userId);
         String[] name = getResources().getStringArray(R.array.main_info_title);
         NewsforModel infoEngine;
         List<Fragment> fragmentList = new ArrayList<Fragment>();
-
 
 
         infoEngine = new NewsforModel();
@@ -122,7 +109,6 @@ public class MainInfoFragment extends BaseTitleFragment {
 
 
         slider = (SliderLayout) view.findViewById(R.id.slider);
-//        scaleRelativeLayout = (ScaleRelativeLayout) view.findViewById(R.id.scaleRl);
         AdEngineImpl.getNewsBannerAds(new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
@@ -140,14 +126,10 @@ public class MainInfoFragment extends BaseTitleFragment {
         });
 
     }
-    private Context mContext;
 
     private void updateAdBanner(AdBean adBean) {
 
 
-//        slider=new SliderLayout(mContext);
-
-//        scaleRelativeLayout.addView(slider,params);
         int duration=1;
         for (AdBean.AdsEntity item : adBean.getAds()){
             TextSliderView textSliderView = new TextSliderView(getActivity());
@@ -168,10 +150,6 @@ public class MainInfoFragment extends BaseTitleFragment {
         slider.setCustomAnimation(new DescriptionAnimation());
         slider.setDuration(duration*1000);
         slider.startAutoCycle();
-
-
-
-
     }
 
     @Override
@@ -198,9 +176,7 @@ public class MainInfoFragment extends BaseTitleFragment {
 
             Bundle bundle=slider.getBundle();
             String    redirectUrl=  bundle.getString("redirect_url");
-
             getActivity().startActivity(AdActivity.getIntent(getActivity(),slider.getDescription(),redirectUrl));
-
         }
     }
 

@@ -303,7 +303,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_weight="1"
-                        android:text="(千万流量疯狂送, 快来抢 ! )"
+                        android:text="@string/ad1"
                         android:textColor="@color/orange"
                         android:textSize="@dimen/setting_sub_text_name"
                         android:layout_height="wrap_content" />
@@ -311,7 +311,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-
                         android:src="@drawable/setting_image_right" />
 
                 </LinearLayout>

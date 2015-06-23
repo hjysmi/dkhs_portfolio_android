@@ -66,7 +66,9 @@ import android.view.animation.LinearInterpolator;
                 sweepAngle += MIN_SWEEP_ANGLE;
             }
             canvas.drawArc(mDrawableBounds, startAngle, sweepAngle, false, mPaint);
+
         }
+
 
         @Override
         public void setAlpha(int alpha) {

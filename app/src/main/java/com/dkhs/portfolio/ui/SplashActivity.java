@@ -83,26 +83,10 @@ public class SplashActivity extends FragmentActivity {
 
     private void showAD() {
         if (adsEntity != null) {
-            AlphaAnimation alphaAnimation=new AlphaAnimation(1,0);
+            AlphaAnimation alphaAnimation=new AlphaAnimation(0.2f,1);
             alphaAnimation.setInterpolator(new DecelerateInterpolator());
             alphaAnimation.setDuration(800);
-            alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    splashIM.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            splashIM.startAnimation(alphaAnimation);
+            adIm.startAnimation(alphaAnimation);
             BitmapUtils.displayNoEffect(adIm, adsEntity.getImage());
             adIm.setOnClickListener(new View.OnClickListener() {
                 @Override

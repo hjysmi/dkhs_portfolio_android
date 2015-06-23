@@ -48,7 +48,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private final int MENU_FOLLOW_OR_UNFOLLOWE = 0;
     private String mUserId;
-    private String mUserName;
+    public String mUserName;
     private boolean isMyInfo;
 
     private ImageView ivHeader;
@@ -80,11 +80,10 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private UserEngineImpl userEngine;
 
 
-    public static Intent getIntent(Context context, String username, String userId, boolean isMyInfo) {
+    public static Intent getIntent(Context context, String username, String userId) {
         Intent intent = new Intent(context, CombinationUserActivity.class);
         intent.putExtra("user_id", userId);
         intent.putExtra("username", username);
-        intent.putExtra("is_my_info", isMyInfo);
         return intent;
     }
 
@@ -99,7 +98,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         userEngine = new UserEngineImpl();
         if (extras != null) {
             handleExtras(extras);
-
 
             if (null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(mUserId)) {
                 isMyInfo = true;
@@ -132,8 +130,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private void handleExtras(Bundle extras) {
         mUserId = extras.getString("user_id");
         mUserName = extras.getString("username");
-        isMyInfo = extras.getBoolean("is_my_info");
-
     }
 
 
@@ -203,7 +199,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void replaceCombinationListView() {
         UserCombinationListFragment userCombinationListFragment;
-        userCombinationListFragment = UserCombinationListFragment.getFragment(mUserName, mUserId);
+        userCombinationListFragment = UserCombinationListFragment.getFragment( mUserId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rl_combination_list, userCombinationListFragment)
                 .commitAllowingStateLoss();
@@ -289,6 +285,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             bitmapUtils.display(ivHeader, object.getAvatar_md());
         }
         tvUName.setText(object.getUsername());
+        mUserName=object.getUsername();
         if (TextUtils.isEmpty(object.getDescription())) {
             tvUserDesc.setText(getResources().getString(R.string.nodata_user_description));
         } else {

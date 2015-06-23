@@ -68,11 +68,6 @@ public class AdActivity extends ModelAcitivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                if (messageHandler.handleURL(url))){
-//                    // magic
-//                    return true;
-//                }
-//                return false;
 
                 return messageHandler.handleURL(url);
             }

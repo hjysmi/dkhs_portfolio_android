@@ -15,7 +15,7 @@ import com.daimajia.slider.library.SliderAdapter;
 public class InfinitePagerAdapter extends PagerAdapter {
 
     private static final String TAG = "InfinitePagerAdapter";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     private SliderAdapter adapter;
 
