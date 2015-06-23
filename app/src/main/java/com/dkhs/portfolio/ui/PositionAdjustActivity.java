@@ -652,10 +652,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         for (ConStockBean stock : tempList) {
             SubmitSymbol symbol = new SubmitSymbol();
-            symbol.setSymbol(stock.getStockCode());
-            // symbol.setPercent(stock.getPercent() / 100);
+            if (isAdjustCombination) {
+                symbol.setSymbol(stock.getStockCode());
+            } else {
+
+                symbol.setSymbol(stock.getStockId() + "");
+            }
             symbol.setPercent((int) stock.getPercent());
-            // System.out.println("symbols stock id:" + symbol.getSymbol() + " value:" + symbol.getPercent());
             symbols.add(symbol);
         }
         return symbols;
