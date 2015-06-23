@@ -256,9 +256,7 @@ public abstract class BaseSliderView {
             @Override
             public void onLoadingStarted(String s, View view) {
                 if(v.findViewById(R.id.loading_bar) != null){
-                    ProgressBar progressBar= (ProgressBar) v.findViewById(R.id.loading_bar);
-                    progressBar .setVisibility(View.VISIBLE);
-
+                            v.findViewById(R.id.loading_bar).setVisibility(View.VISIBLE);
                 }
             }
 

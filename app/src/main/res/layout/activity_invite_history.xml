@@ -37,7 +37,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-        <com.dkhs.portfolio.ui.widget.CircularProgress
+        <com.dkhs.widget.CircularProgress
             android:id="@+id/loadView"
             android:layout_width="32dp"
             android:layout_height="32dp"

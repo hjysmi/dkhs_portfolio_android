@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.ui.widget;
+package com.dkhs.widget;
 
 import android.content.Context;
 import android.content.res.Resources;

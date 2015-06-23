@@ -1,8 +1,5 @@
-package com.dkhs.portfolio.ui.widget;
+package com.dkhs.widget;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -11,18 +8,13 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Property;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
 
+import com.dkhs.R;
 import com.dkhs.drawable.IndeterminateProgressDrawable;
-import com.dkhs.portfolio.R;
 
 
 /**

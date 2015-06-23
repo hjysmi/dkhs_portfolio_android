@@ -216,7 +216,7 @@ public class QuotesBean {
         } else if (getSymbol_stype() == 301) {
             stypeText = "混合型";
         } else if (getSymbol_stype() == 302) {
-            stypeText = "债卷型";
+            stypeText = "债劵型";
         } else if (getSymbol_stype() == 303) {
             stypeText = "指数型";
         } else if (getSymbol_stype() == 305) {
