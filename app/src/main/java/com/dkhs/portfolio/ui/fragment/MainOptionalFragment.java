@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-5 下午3:02:49
  */
-public class MainOptionalFragment extends BaseFragment implements IDataUpdateListener {
+public class MainOptionalFragment extends VisiableLoadFragment implements IDataUpdateListener {
 
     @ViewInject(R.id.vp)
     ViewPager mVp;
@@ -104,7 +104,7 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         fragments.add(tabStockFragment);
         fragments.add(tabFundsFragment);
         fragments.add(tabConbinationFragment);
-       adapter= new BasePagerFragmentAdapter(getChildFragmentManager(), fragments);
+        adapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragments);
         mVp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragments));
         mVp.setOnPageChangeListener(new OnPagerListener());
         tabWidget = new TabWidget(view);
@@ -114,6 +114,11 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
                 mVp.setCurrentItem(position);
             }
         });
+
+    }
+
+    @Override
+    public void requestData() {
 
     }
 
@@ -166,9 +171,24 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
     @Override
     public void onResume() {
         super.onResume();
+
+
+    }
+
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
+        Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+        if (fragment instanceof VisiableLoadFragment) {
+            ((VisiableLoadFragment) fragment).onViewHide();
+        }
+    }
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
         adapter.getItem(mVp.getCurrentItem()).onResume();
-
-
     }
 
     private void setCombinationBar() {
@@ -292,8 +312,6 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
     }
 
 
-
-
     class OnPagerListener implements ViewPager.OnPageChangeListener {
 
         @Override
@@ -325,7 +343,6 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
 
         }
     }
-
 
 
 }
