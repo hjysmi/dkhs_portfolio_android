@@ -75,6 +75,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_LOGINANNOY = "extra_loginannoy";
 
     private boolean isLoginByAnnoy = false;
+    WeakHandler weakHandler=new WeakHandler(){
+
+    };
 
     public static Intent getLoginActivity(Context context, String phoneNum) {
         Intent intent = new Intent(context, LoginActivity.class);

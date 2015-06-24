@@ -8,13 +8,10 @@
 
 package cn.sharesdk.onekeyshare;
 
-import android.graphics.Bitmap;
-import android.view.View.OnClickListener;
+import java.util.HashMap;
 
-/** 九宫格自定义的图标对象 */
-public class CustomerLogo {
-	public String label;
-	public Bitmap enableLogo;
-	public Bitmap disableLogo;
-	public OnClickListener listener;
+import cn.sharesdk.framework.Platform;
+
+public interface ThemeShareCallback {
+	public void doShare(HashMap<Platform, HashMap<String, Object>> shareData);
 }

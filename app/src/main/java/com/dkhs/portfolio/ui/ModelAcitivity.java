@@ -339,6 +339,10 @@ public class ModelAcitivity extends SwipeBackActivity {
         UIUtils.setOverridePendingAmin(this);
     }
 
+    public void startActivityNoAnim(Intent intent) {
+        super.startActivity(intent);
+    }
+
     public void updateTitleBackgroud(int resId) {
         getTitleView().setBackgroundResource(resId);
     }

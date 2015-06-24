@@ -496,7 +496,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
             Context context = getActivity();
             final OnekeyShare oks = new OnekeyShare();
 
-            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+//            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
             oks.setTitle(mPositionDetail.getPortfolio().getName() + "持仓明细");
             String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationId;
             oks.setTitleUrl(shareUrl);

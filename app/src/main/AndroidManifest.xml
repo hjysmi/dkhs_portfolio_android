@@ -164,7 +164,7 @@
                     android:theme="@style/Theme.PageIndicatorDefaults"
                     android:windowSoftInputMode="stateHidden" />-->
         <activity
-            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
