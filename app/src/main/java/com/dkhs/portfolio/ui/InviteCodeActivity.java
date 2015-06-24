@@ -15,7 +15,6 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 /**
  * Created by zjz on 2015/6/18.
@@ -71,8 +70,6 @@ public class InviteCodeActivity extends ModelAcitivity {
     }
 
 
-
-
     BasicHttpListener postCodeListener = new BasicHttpListener() {
         @Override
         public void onSuccess(String result) {
@@ -86,7 +83,7 @@ public class InviteCodeActivity extends ModelAcitivity {
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             btnConfirm.setEnabled(true);
-            PromptManager.showCancelToast(R.string.post_failure_tip);
+//            PromptManager.showCancelToast(R.string.post_failure_tip);
         }
     };
 

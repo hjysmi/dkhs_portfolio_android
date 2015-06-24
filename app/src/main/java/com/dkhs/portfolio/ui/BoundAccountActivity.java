@@ -79,7 +79,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bound_text_phone: {
-                startActivity(RLFActivity.settingPasswordIntent(this));
+                startActivity(RLFActivity.bindPhoneIntent(this));
             }
             break;
             case R.id.bound_text_email:
