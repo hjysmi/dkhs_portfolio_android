@@ -152,14 +152,14 @@ public class MainInfoFragment extends BaseTitleFragment {
         slider.setPresetTransformer(SliderLayout.Transformer.Default);
         slider.setCustomAnimation(new DescriptionAnimation());
         slider.setDuration(duration*1000);
-        slider.startAutoCycle();
+//        slider.startAutoCycle();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if(slider!=null){
-            slider.startAutoCycle();
+//            slider.startAutoCycle();
         }
     }
 

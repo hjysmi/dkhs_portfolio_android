@@ -1,5 +1,6 @@
 package cn.sharesdk.onekeyshare;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -10,16 +11,24 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.mob.tools.FakeActivity;
+import com.mob.tools.MobUIShell;
+
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 
-public class PlatformListFakeActivity extends FakeActivity {
+public class PlatformListFakeActivity  extends  FakeActivity {
 	protected HashMap<String, Object> shareParamsMap;
 	protected boolean silent;
 	protected ArrayList<CustomerLogo> customerLogos;
 	protected HashMap<String, String> hiddenPlatforms;
 	private boolean canceled = false;
 	protected View backgroundView;
+	private static Class<? extends MobUIShell> shell;
+	protected Activity activity;
+	private FakeActivity resultReceiver;
+	private HashMap<String, Object> result;
+	private View contentView;
+
 
 	protected OnShareButtonClickListener onShareButtonClickListener;
 	protected boolean dialogMode = false;
@@ -31,9 +40,7 @@ public class PlatformListFakeActivity extends FakeActivity {
 
 	public void onCreate() {
 		super.onCreate();
-
 		canceled = false;
-
 		if(themeShareCallback == null) {
 			finish();
 		}

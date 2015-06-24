@@ -408,7 +408,8 @@ public class PagerIndicator extends LinearLayout implements ViewPagerEx.OnPageCh
                 }
             }
             mItemCount = count;
-            mPager.setCurrentItem(mItemCount*20 + mPager.getCurrentItem());
+//            mPager.setCurrentItem(mItemCount*20 + mPager.getCurrentItem());
+            mPager.setCurrentItem(mItemCount+1 + mPager.getCurrentItem());
         }
 
         @Override

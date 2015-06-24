@@ -567,6 +567,8 @@ public class ViewPagerEx extends ViewGroup{
 
     private void scrollToItem(int item, boolean smoothScroll, int velocity,
                               boolean dispatchSelected) {
+
+        Log.e("scrollToItem",""+item);
         final ItemInfo curInfo = infoForPosition(item);
         int destX = 0;
         if (curInfo != null) {
@@ -1803,6 +1805,14 @@ public class ViewPagerEx extends ViewGroup{
          * scrolling there.
          */
 
+
+        if(getAdapter() instanceof  InfinitePagerAdapter){
+            InfinitePagerAdapter infinitePagerAdapter= (InfinitePagerAdapter) getAdapter();
+            if(infinitePagerAdapter.getRealCount()==1){
+                return false;
+            }
+        }
+
         final int action = ev.getAction() & MotionEventCompat.ACTION_MASK;
 
         // Always take care of the touch gesture being complete.
@@ -1941,6 +1951,13 @@ public class ViewPagerEx extends ViewGroup{
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        if(getAdapter() instanceof  InfinitePagerAdapter){
+            InfinitePagerAdapter infinitePagerAdapter= (InfinitePagerAdapter) getAdapter();
+            if(infinitePagerAdapter.getRealCount()==1){
+                return false;
+            }
+        }
+
         if (mFakeDragging) {
             // A fake drag is in progress already, ignore this real one
             // but still eat the touch events.
