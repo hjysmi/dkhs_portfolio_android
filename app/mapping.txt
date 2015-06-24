@@ -13444,6 +13444,12 @@ com.daimajia.slider.library.R$attr -> com.daimajia.slider.library.R$attr:
     int buttonStyleSmall -> buttonStyleSmall
     int checkboxStyle -> checkboxStyle
     int checkedTextViewStyle -> checkedTextViewStyle
+    int circular_progress_border_width -> circular_progress_border_width
+    int circular_progress_color -> circular_progress_color
+    int circular_progress_duration -> circular_progress_duration
+    int circular_progress_indeterminate -> circular_progress_indeterminate
+    int circular_progress_max -> circular_progress_max
+    int circular_progress_size -> circular_progress_size
     int closeIcon -> closeIcon
     int closeItemLayout -> closeItemLayout
     int collapseContentDescription -> collapseContentDescription
@@ -13621,6 +13627,7 @@ com.daimajia.slider.library.R$bool -> com.daimajia.slider.library.R$bool:
     int abc_config_allowActionMenuItemTextWithIcon -> abc_config_allowActionMenuItemTextWithIcon
     int abc_config_closeDialogWhenTouchOutside -> abc_config_closeDialogWhenTouchOutside
     int abc_config_showMenuShortcutsWhenKeyboardPresent -> abc_config_showMenuShortcutsWhenKeyboardPresent
+    int circular_progress_indeterminate -> circular_progress_indeterminate
 com.daimajia.slider.library.R$color -> com.daimajia.slider.library.R$color:
     int abc_background_cache_hint_selector_material_dark -> abc_background_cache_hint_selector_material_dark
     int abc_background_cache_hint_selector_material_light -> abc_background_cache_hint_selector_material_light
@@ -13657,6 +13664,7 @@ com.daimajia.slider.library.R$color -> com.daimajia.slider.library.R$color:
     int bright_foreground_material_light -> bright_foreground_material_light
     int button_material_dark -> button_material_dark
     int button_material_light -> button_material_light
+    int circular_progress_color -> circular_progress_color
     int color_alert_icon_bg -> color_alert_icon_bg
     int color_bg -> color_bg
     int color_content_text -> color_content_text
@@ -13872,6 +13880,10 @@ com.daimajia.slider.library.R$dimen -> com.daimajia.slider.library.R$dimen:
     int abc_text_size_subtitle_material_toolbar -> abc_text_size_subtitle_material_toolbar
     int abc_text_size_title_material -> abc_text_size_title_material
     int abc_text_size_title_material_toolbar -> abc_text_size_title_material_toolbar
+    int circular_progress_border_width -> circular_progress_border_width
+    int circular_progress_large_size -> circular_progress_large_size
+    int circular_progress_normal_size -> circular_progress_normal_size
+    int circular_progress_small_size -> circular_progress_small_size
     int dialog_fixed_height_major -> dialog_fixed_height_major
     int dialog_fixed_height_minor -> dialog_fixed_height_minor
     int dialog_fixed_width_major -> dialog_fixed_width_major
@@ -13969,8 +13981,11 @@ com.daimajia.slider.library.R$id -> com.daimajia.slider.library.R$id:
     int FlipHorizontal -> FlipHorizontal
     int FlipPage -> FlipPage
     int Foreground2Background -> Foreground2Background
+    int Large -> Large
+    int Normal -> Normal
     int RotateDown -> RotateDown
     int RotateUp -> RotateUp
+    int Small -> Small
     int Stack -> Stack
     int Tablet -> Tablet
     int ZoomIn -> ZoomIn
@@ -14075,6 +14090,7 @@ com.daimajia.slider.library.R$integer -> com.daimajia.slider.library.R$integer:
     int abc_config_activityDefaultDur -> abc_config_activityDefaultDur
     int abc_config_activityShortDur -> abc_config_activityShortDur
     int abc_max_action_buttons -> abc_max_action_buttons
+    int circular_progress_max -> circular_progress_max
 com.daimajia.slider.library.R$layout -> com.daimajia.slider.library.R$layout:
     int abc_action_bar_title_item -> abc_action_bar_title_item
     int abc_action_bar_up_container -> abc_action_bar_up_container
@@ -14469,6 +14485,13 @@ com.daimajia.slider.library.R$styleable -> com.daimajia.slider.library.R$styleab
     int[] AppCompatTextView -> AppCompatTextView
     int AppCompatTextView_android_textAppearance -> AppCompatTextView_android_textAppearance
     int AppCompatTextView_textAllCaps -> AppCompatTextView_textAllCaps
+    int[] CircularProgress -> CircularProgress
+    int CircularProgress_circular_progress_border_width -> CircularProgress_circular_progress_border_width
+    int CircularProgress_circular_progress_color -> CircularProgress_circular_progress_color
+    int CircularProgress_circular_progress_duration -> CircularProgress_circular_progress_duration
+    int CircularProgress_circular_progress_indeterminate -> CircularProgress_circular_progress_indeterminate
+    int CircularProgress_circular_progress_max -> CircularProgress_circular_progress_max
+    int CircularProgress_circular_progress_size -> CircularProgress_circular_progress_size
     int[] DrawerArrowToggle -> DrawerArrowToggle
     int DrawerArrowToggle_barSize -> DrawerArrowToggle_barSize
     int DrawerArrowToggle_color -> DrawerArrowToggle_color
@@ -15242,6 +15265,12 @@ com.dkhs.R$attr -> com.dkhs.R$attr:
     int barSize -> barSize
     int buttonBarButtonStyle -> buttonBarButtonStyle
     int buttonBarStyle -> buttonBarStyle
+    int circular_progress_border_width -> circular_progress_border_width
+    int circular_progress_color -> circular_progress_color
+    int circular_progress_duration -> circular_progress_duration
+    int circular_progress_indeterminate -> circular_progress_indeterminate
+    int circular_progress_max -> circular_progress_max
+    int circular_progress_size -> circular_progress_size
     int closeIcon -> closeIcon
     int closeItemLayout -> closeItemLayout
     int collapseContentDescription -> collapseContentDescription
@@ -15378,6 +15407,7 @@ com.dkhs.R$bool -> com.dkhs.R$bool:
     int abc_config_actionMenuItemAllCaps -> abc_config_actionMenuItemAllCaps
     int abc_config_allowActionMenuItemTextWithIcon -> abc_config_allowActionMenuItemTextWithIcon
     int abc_config_showMenuShortcutsWhenKeyboardPresent -> abc_config_showMenuShortcutsWhenKeyboardPresent
+    int circular_progress_indeterminate -> circular_progress_indeterminate
 com.dkhs.R$color -> com.dkhs.R$color:
     int abc_background_cache_hint_selector_material_dark -> abc_background_cache_hint_selector_material_dark
     int abc_background_cache_hint_selector_material_light -> abc_background_cache_hint_selector_material_light
@@ -15414,6 +15444,7 @@ com.dkhs.R$color -> com.dkhs.R$color:
     int bright_foreground_material_light -> bright_foreground_material_light
     int button_material_dark -> button_material_dark
     int button_material_light -> button_material_light
+    int circular_progress_color -> circular_progress_color
     int color_alert_icon_bg -> color_alert_icon_bg
     int color_bg -> color_bg
     int color_content_text -> color_content_text
@@ -15602,6 +15633,10 @@ com.dkhs.R$dimen -> com.dkhs.R$dimen:
     int abc_text_size_subtitle_material_toolbar -> abc_text_size_subtitle_material_toolbar
     int abc_text_size_title_material -> abc_text_size_title_material
     int abc_text_size_title_material_toolbar -> abc_text_size_title_material_toolbar
+    int circular_progress_border_width -> circular_progress_border_width
+    int circular_progress_large_size -> circular_progress_large_size
+    int circular_progress_normal_size -> circular_progress_normal_size
+    int circular_progress_small_size -> circular_progress_small_size
     int dialog_fixed_height_major -> dialog_fixed_height_major
     int dialog_fixed_height_minor -> dialog_fixed_height_minor
     int dialog_fixed_width_major -> dialog_fixed_width_major
@@ -15679,6 +15714,9 @@ com.dkhs.R$drawable -> com.dkhs.R$drawable:
     int theme_gray -> theme_gray
     int theme_gray_press -> theme_gray_press
 com.dkhs.R$id -> com.dkhs.R$id:
+    int Large -> Large
+    int Normal -> Normal
+    int Small -> Small
     int action_bar -> action_bar
     int action_bar_activity_content -> action_bar_activity_content
     int action_bar_container -> action_bar_container
@@ -15744,6 +15782,7 @@ com.dkhs.R$id -> com.dkhs.R$id:
     int wrap_content -> wrap_content
 com.dkhs.R$integer -> com.dkhs.R$integer:
     int abc_max_action_buttons -> abc_max_action_buttons
+    int circular_progress_max -> circular_progress_max
 com.dkhs.R$layout -> com.dkhs.R$layout:
     int abc_action_bar_title_item -> abc_action_bar_title_item
     int abc_action_bar_up_container -> abc_action_bar_up_container
@@ -16055,6 +16094,13 @@ com.dkhs.R$styleable -> com.dkhs.R$styleable:
     int[] ActivityChooserView -> ActivityChooserView
     int ActivityChooserView_expandActivityOverflowButtonDrawable -> ActivityChooserView_expandActivityOverflowButtonDrawable
     int ActivityChooserView_initialActivityCount -> ActivityChooserView_initialActivityCount
+    int[] CircularProgress -> CircularProgress
+    int CircularProgress_circular_progress_border_width -> CircularProgress_circular_progress_border_width
+    int CircularProgress_circular_progress_color -> CircularProgress_circular_progress_color
+    int CircularProgress_circular_progress_duration -> CircularProgress_circular_progress_duration
+    int CircularProgress_circular_progress_indeterminate -> CircularProgress_circular_progress_indeterminate
+    int CircularProgress_circular_progress_max -> CircularProgress_circular_progress_max
+    int CircularProgress_circular_progress_size -> CircularProgress_circular_progress_size
     int[] DrawerArrowToggle -> DrawerArrowToggle
     int DrawerArrowToggle_barSize -> DrawerArrowToggle_barSize
     int DrawerArrowToggle_color -> DrawerArrowToggle_color
@@ -16590,6 +16636,7 @@ com.dkhs.portfolio.R$attr -> com.dkhs.portfolio.R$attr:
     int rcheaderLayout -> rcheaderLayout
     int rowCount -> rowCount
     int rowOrderPreserved -> rowOrderPreserved
+    int scale -> scale
     int searchHintIcon -> searchHintIcon
     int searchIcon -> searchIcon
     int searchViewStyle -> searchViewStyle
@@ -17277,7 +17324,6 @@ com.dkhs.portfolio.R$drawable -> com.dkhs.portfolio.R$drawable:
     int dia70_red_circle -> dia70_red_circle
     int dialog_black_selector -> dialog_black_selector
     int dialog_item_log -> dialog_item_log
-    int dkhs_flash -> dkhs_flash
     int dksh_flash -> dksh_flash
     int dot -> dot
     int dot_combination -> dot_combination
@@ -17322,6 +17368,7 @@ com.dkhs.portfolio.R$drawable -> com.dkhs.portfolio.R$drawable:
     int ic_invite_friends -> ic_invite_friends
     int ic_jinpai -> ic_jinpai
     int ic_launcher -> ic_launcher
+    int ic_logo -> ic_logo
     int ic_mycombinaton_main -> ic_mycombinaton_main
     int ic_no_data -> ic_no_data
     int ic_plus -> ic_plus
@@ -19014,6 +19061,7 @@ com.dkhs.portfolio.R$string -> com.dkhs.portfolio.R$string:
     int about_weixin -> about_weixin
     int account -> account
     int accumulative_comtribute -> accumulative_comtribute
+    int ad1 -> ad1
     int ad3 -> ad3
     int add_combination -> add_combination
     int add_disscusion -> add_disscusion
@@ -20314,6 +20362,8 @@ com.dkhs.portfolio.R$styleable -> com.dkhs.portfolio.R$styleable:
     int[] RatioLayout -> RatioLayout
     int RatioLayout_height_ratio -> RatioLayout_height_ratio
     int RatioLayout_width_ratio -> RatioLayout_width_ratio
+    int[] ScaleLayout -> ScaleLayout
+    int ScaleLayout_scale -> ScaleLayout_scale
     int[] SearchView -> SearchView
     int SearchView_android_focusable -> SearchView_android_focusable
     int SearchView_android_imeOptions -> SearchView_android_imeOptions
@@ -23492,9 +23542,9 @@ com.dkhs.portfolio.ui.CombinationNewsActivity -> com.dkhs.portfolio.ui.Combinati
     android.content.Intent newIntent(android.content.Context,com.dkhs.portfolio.bean.CombinationBean) -> a
     void onCreate(android.os.Bundle) -> onCreate
 com.dkhs.portfolio.ui.CombinationUserActivity -> com.dkhs.portfolio.ui.CombinationUserActivity:
-    int MENU_FOLLOW_OR_UNFOLLOWE -> e
-    java.lang.String mUserId -> f
-    java.lang.String mUserName -> k
+    int MENU_FOLLOW_OR_UNFOLLOWE -> f
+    java.lang.String mUserId -> k
+    java.lang.String mUserName -> a
     boolean isMyInfo -> l
     android.widget.ImageView ivHeader -> m
     android.widget.TextView tvUName -> n
@@ -23513,12 +23563,12 @@ com.dkhs.portfolio.ui.CombinationUserActivity -> com.dkhs.portfolio.ui.Combinati
     int userDescTop -> A
     int userNameLeft -> B
     int userDescLeft -> C
-    com.dkhs.portfolio.ui.FloatingActionMenu localFloatingActionMenu -> a
+    com.dkhs.portfolio.ui.FloatingActionMenu localFloatingActionMenu -> b
     com.dkhs.portfolio.engine.UserEngineImpl userEngine -> D
-    com.dkhs.portfolio.net.ParseHttpListener userInfoListener -> b
-    com.dkhs.portfolio.net.ParseHttpListener unfollowListener -> c
-    com.dkhs.portfolio.net.ParseHttpListener followListener -> d
-    android.content.Intent getIntent(android.content.Context,java.lang.String,java.lang.String,boolean) -> a
+    com.dkhs.portfolio.net.ParseHttpListener userInfoListener -> c
+    com.dkhs.portfolio.net.ParseHttpListener unfollowListener -> d
+    com.dkhs.portfolio.net.ParseHttpListener followListener -> e
+    android.content.Intent getIntent(android.content.Context,java.lang.String,java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
     void startSettingActivity() -> a
     void handleExtras(android.os.Bundle) -> b
@@ -24168,7 +24218,7 @@ com.dkhs.portfolio.ui.InviteFriendsActivity$2 -> com.dkhs.portfolio.ui.bs:
     com.dkhs.portfolio.ui.InviteFriendsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
 com.dkhs.portfolio.ui.InviteHistoryActivity -> com.dkhs.portfolio.ui.InviteHistoryActivity:
-    com.dkhs.portfolio.ui.widget.CircularProgress mLoadView -> a
+    com.dkhs.widget.CircularProgress mLoadView -> a
     android.widget.ListView mListView -> b
     android.widget.RelativeLayout mRlempty -> c
     android.widget.BaseAdapter adapter -> d
@@ -25220,22 +25270,16 @@ com.dkhs.portfolio.ui.SplashActivity -> com.dkhs.portfolio.ui.SplashActivity:
     void access$000(com.dkhs.portfolio.ui.SplashActivity) -> a
     void access$100(com.dkhs.portfolio.ui.SplashActivity) -> b
     void access$200(com.dkhs.portfolio.ui.SplashActivity) -> c
-    android.widget.ImageView access$300(com.dkhs.portfolio.ui.SplashActivity) -> d
-    com.dkhs.portfolio.common.WeakHandler access$400(com.dkhs.portfolio.ui.SplashActivity) -> e
-    android.content.Context access$500(com.dkhs.portfolio.ui.SplashActivity) -> f
-    com.dkhs.portfolio.bean.AdBean$AdsEntity access$600(com.dkhs.portfolio.ui.SplashActivity) -> g
+    com.dkhs.portfolio.common.WeakHandler access$300(com.dkhs.portfolio.ui.SplashActivity) -> d
+    android.content.Context access$400(com.dkhs.portfolio.ui.SplashActivity) -> e
+    com.dkhs.portfolio.bean.AdBean$AdsEntity access$500(com.dkhs.portfolio.ui.SplashActivity) -> f
 com.dkhs.portfolio.ui.SplashActivity$1 -> com.dkhs.portfolio.ui.es:
     com.dkhs.portfolio.ui.SplashActivity this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.SplashActivity$2 -> com.dkhs.portfolio.ui.et:
     com.dkhs.portfolio.ui.SplashActivity this$0 -> a
-    void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
-    void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
-    void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
-com.dkhs.portfolio.ui.SplashActivity$3 -> com.dkhs.portfolio.ui.eu:
-    com.dkhs.portfolio.ui.SplashActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.SplashActivity$4 -> com.dkhs.portfolio.ui.ev:
+com.dkhs.portfolio.ui.SplashActivity$3 -> com.dkhs.portfolio.ui.eu:
     com.dkhs.portfolio.ui.SplashActivity this$0 -> a
     java.lang.Class getClassType() -> a
     void afterParseData(java.lang.Object) -> a
@@ -25276,10 +25320,10 @@ com.dkhs.portfolio.ui.StockLandView -> com.dkhs.portfolio.ui.StockLandView:
     com.dkhs.portfolio.ui.widget.StockViewCallBack access$000(com.dkhs.portfolio.ui.StockLandView) -> a
     com.dkhs.portfolio.ui.widget.ScrollViewPager access$100(com.dkhs.portfolio.ui.StockLandView) -> b
     com.dkhs.portfolio.ui.widget.LandStockViewCallBack access$200(com.dkhs.portfolio.ui.StockLandView) -> c
-com.dkhs.portfolio.ui.StockLandView$1 -> com.dkhs.portfolio.ui.ew:
+com.dkhs.portfolio.ui.StockLandView$1 -> com.dkhs.portfolio.ui.ev:
     com.dkhs.portfolio.ui.StockLandView this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.StockLandView$2 -> com.dkhs.portfolio.ui.ex:
+com.dkhs.portfolio.ui.StockLandView$2 -> com.dkhs.portfolio.ui.ew:
     com.dkhs.portfolio.ui.StockLandView this$0 -> a
     void onSelectPosition(int) -> a
 com.dkhs.portfolio.ui.StockQuotesActivity -> com.dkhs.portfolio.ui.StockQuotesActivity:
@@ -25439,56 +25483,56 @@ com.dkhs.portfolio.ui.StockQuotesActivity -> com.dkhs.portfolio.ui.StockQuotesAc
     android.view.View access$2800(com.dkhs.portfolio.ui.StockQuotesActivity) -> y
     com.dkhs.portfolio.ui.FloatingActionMenu access$2900(com.dkhs.portfolio.ui.StockQuotesActivity) -> z
     java.util.ArrayList access$3000(com.dkhs.portfolio.ui.StockQuotesActivity) -> A
-com.dkhs.portfolio.ui.StockQuotesActivity$1 -> com.dkhs.portfolio.ui.ey:
+com.dkhs.portfolio.ui.StockQuotesActivity$1 -> com.dkhs.portfolio.ui.ex:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.StockQuotesActivity$10 -> com.dkhs.portfolio.ui.ez:
+com.dkhs.portfolio.ui.StockQuotesActivity$10 -> com.dkhs.portfolio.ui.ey:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     com.dkhs.portfolio.bean.StockQuotesBean parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.bean.StockQuotesBean) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.StockQuotesActivity$11 -> com.dkhs.portfolio.ui.fa:
+com.dkhs.portfolio.ui.StockQuotesActivity$11 -> com.dkhs.portfolio.ui.ez:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.StockQuotesActivity$12 -> com.dkhs.portfolio.ui.fb:
+com.dkhs.portfolio.ui.StockQuotesActivity$12 -> com.dkhs.portfolio.ui.fa:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.StockQuotesActivity$13 -> com.dkhs.portfolio.ui.fc:
+com.dkhs.portfolio.ui.StockQuotesActivity$13 -> com.dkhs.portfolio.ui.fb:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.StockQuotesActivity$14 -> com.dkhs.portfolio.ui.fd:
+com.dkhs.portfolio.ui.StockQuotesActivity$14 -> com.dkhs.portfolio.ui.fc:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.StockQuotesActivity$15 -> com.dkhs.portfolio.ui.fe:
+com.dkhs.portfolio.ui.StockQuotesActivity$15 -> com.dkhs.portfolio.ui.fd:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
-com.dkhs.portfolio.ui.StockQuotesActivity$16 -> com.dkhs.portfolio.ui.ff:
+com.dkhs.portfolio.ui.StockQuotesActivity$16 -> com.dkhs.portfolio.ui.fe:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onAnimationEnd(com.nineoldandroids.animation.Animator) -> a
     void onAnimationStart(com.nineoldandroids.animation.Animator) -> b
-com.dkhs.portfolio.ui.StockQuotesActivity$2 -> com.dkhs.portfolio.ui.fg:
+com.dkhs.portfolio.ui.StockQuotesActivity$2 -> com.dkhs.portfolio.ui.ff:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     boolean onMenuItemSelected(int) -> a
-com.dkhs.portfolio.ui.StockQuotesActivity$3 -> com.dkhs.portfolio.ui.fh:
+com.dkhs.portfolio.ui.StockQuotesActivity$3 -> com.dkhs.portfolio.ui.fg:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.StockQuotesActivity$4 -> com.dkhs.portfolio.ui.fi:
+com.dkhs.portfolio.ui.StockQuotesActivity$4 -> com.dkhs.portfolio.ui.fh:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.StockQuotesActivity$5 -> com.dkhs.portfolio.ui.fj:
+com.dkhs.portfolio.ui.StockQuotesActivity$5 -> com.dkhs.portfolio.ui.fi:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onChange(com.dkhs.portfolio.bean.SelectStockBean) -> a
-com.dkhs.portfolio.ui.StockQuotesActivity$6 -> com.dkhs.portfolio.ui.fk:
+com.dkhs.portfolio.ui.StockQuotesActivity$6 -> com.dkhs.portfolio.ui.fj:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onSelectPosition(int) -> a
-com.dkhs.portfolio.ui.StockQuotesActivity$7 -> com.dkhs.portfolio.ui.fl:
+com.dkhs.portfolio.ui.StockQuotesActivity$7 -> com.dkhs.portfolio.ui.fk:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.StockQuotesActivity$8 -> com.dkhs.portfolio.ui.fm:
+com.dkhs.portfolio.ui.StockQuotesActivity$8 -> com.dkhs.portfolio.ui.fl:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onScrollChanged(com.dkhs.portfolio.ui.widget.InterceptScrollView,int,int,int,int) -> a
-com.dkhs.portfolio.ui.StockQuotesActivity$9 -> com.dkhs.portfolio.ui.fn:
+com.dkhs.portfolio.ui.StockQuotesActivity$9 -> com.dkhs.portfolio.ui.fm:
     com.dkhs.portfolio.ui.StockQuotesActivity this$0 -> a
     void onSelectPosition(int) -> a
 com.dkhs.portfolio.ui.StockQuotesActivity$IndexTabSelectListener -> com.dkhs.portfolio.ui.StockQuotesActivity$a:
@@ -25573,26 +25617,26 @@ com.dkhs.portfolio.ui.StockRemindActivity -> com.dkhs.portfolio.ui.StockRemindAc
     void access$1100(com.dkhs.portfolio.ui.StockRemindActivity,float) -> b
     android.widget.EditText access$1200(com.dkhs.portfolio.ui.StockRemindActivity) -> i
     boolean access$1300(com.dkhs.portfolio.ui.StockRemindActivity,java.lang.String) -> c
-com.dkhs.portfolio.ui.StockRemindActivity$1 -> com.dkhs.portfolio.ui.fo:
+com.dkhs.portfolio.ui.StockRemindActivity$1 -> com.dkhs.portfolio.ui.fn:
     com.dkhs.portfolio.ui.StockRemindActivity this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.dkhs.portfolio.ui.StockRemindActivity$2 -> com.dkhs.portfolio.ui.fp:
+com.dkhs.portfolio.ui.StockRemindActivity$2 -> com.dkhs.portfolio.ui.fo:
     com.dkhs.portfolio.ui.StockRemindActivity this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.dkhs.portfolio.ui.StockRemindActivity$3 -> com.dkhs.portfolio.ui.fq:
+com.dkhs.portfolio.ui.StockRemindActivity$3 -> com.dkhs.portfolio.ui.fp:
     com.dkhs.portfolio.ui.StockRemindActivity this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.dkhs.portfolio.ui.StockRemindActivity$4 -> com.dkhs.portfolio.ui.fr:
+com.dkhs.portfolio.ui.StockRemindActivity$4 -> com.dkhs.portfolio.ui.fq:
     int val$messageId -> a
     com.dkhs.portfolio.ui.StockRemindActivity this$0 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.dkhs.portfolio.ui.StockRemindActivity$5 -> com.dkhs.portfolio.ui.fs:
+com.dkhs.portfolio.ui.StockRemindActivity$5 -> com.dkhs.portfolio.ui.fr:
     com.dkhs.portfolio.ui.StockRemindActivity this$0 -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
@@ -25636,31 +25680,31 @@ com.dkhs.portfolio.ui.VerificationActivity -> com.dkhs.portfolio.ui.Verification
     int access$608(com.dkhs.portfolio.ui.VerificationActivity) -> i
     android.widget.Button access$800(com.dkhs.portfolio.ui.VerificationActivity) -> j
     int access$602(com.dkhs.portfolio.ui.VerificationActivity,int) -> a
-com.dkhs.portfolio.ui.VerificationActivity$1 -> com.dkhs.portfolio.ui.ft:
+com.dkhs.portfolio.ui.VerificationActivity$1 -> com.dkhs.portfolio.ui.fs:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void onReceived(java.lang.String) -> a
-com.dkhs.portfolio.ui.VerificationActivity$2 -> com.dkhs.portfolio.ui.fu:
+com.dkhs.portfolio.ui.VerificationActivity$2 -> com.dkhs.portfolio.ui.ft:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.dkhs.portfolio.ui.VerificationActivity$3 -> com.dkhs.portfolio.ui.fv:
+com.dkhs.portfolio.ui.VerificationActivity$3 -> com.dkhs.portfolio.ui.fu:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     java.lang.Boolean parseDateTask(java.lang.String) -> a
     void afterParseData(java.lang.Boolean) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.VerificationActivity$4 -> com.dkhs.portfolio.ui.fw:
+com.dkhs.portfolio.ui.VerificationActivity$4 -> com.dkhs.portfolio.ui.fv:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void onSuccess(java.lang.String) -> onSuccess
-com.dkhs.portfolio.ui.VerificationActivity$5 -> com.dkhs.portfolio.ui.fx:
+com.dkhs.portfolio.ui.VerificationActivity$5 -> com.dkhs.portfolio.ui.fw:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
-com.dkhs.portfolio.ui.VerificationActivity$6 -> com.dkhs.portfolio.ui.fy:
+com.dkhs.portfolio.ui.VerificationActivity$6 -> com.dkhs.portfolio.ui.fx:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.VerificationActivity$7 -> com.dkhs.portfolio.ui.fz:
+com.dkhs.portfolio.ui.VerificationActivity$7 -> com.dkhs.portfolio.ui.fy:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.WebActivity -> com.dkhs.portfolio.ui.WebActivity:
@@ -25700,7 +25744,7 @@ com.dkhs.portfolio.ui.YanbaoDetailActivity -> com.dkhs.portfolio.ui.YanbaoDetail
     void onPause() -> onPause
     void onResume() -> onResume
     com.dkhs.portfolio.bean.OptionNewsBean access$002(com.dkhs.portfolio.ui.YanbaoDetailActivity,com.dkhs.portfolio.bean.OptionNewsBean) -> a
-com.dkhs.portfolio.ui.YanbaoDetailActivity$1 -> com.dkhs.portfolio.ui.ga:
+com.dkhs.portfolio.ui.YanbaoDetailActivity$1 -> com.dkhs.portfolio.ui.fz:
     com.dkhs.portfolio.ui.YanbaoDetailActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.OptionNewsBean) -> a
 com.dkhs.portfolio.ui.adapter.AchivementAdapter -> com.dkhs.portfolio.ui.adapter.a:
@@ -28971,17 +29015,16 @@ com.dkhs.portfolio.ui.fragment.UserCombinationListFragment -> com.dkhs.portfolio
     com.dkhs.portfolio.ui.adapter.UserCombinationAdapter mAdapter -> b
     java.util.List mDataList -> c
     com.dkhs.portfolio.engine.UserCombinationEngineImpl dataEngine -> d
-    java.lang.String mUserName -> e
-    java.lang.String mUserId -> f
-    android.view.View headerView -> g
-    android.view.View footView -> h
-    float animPercent -> i
-    com.lidroid.xutils.http.HttpHandler mHttpHandler -> j
-    com.dkhs.portfolio.ui.FloatingActionMenu localFloatingActionMenu -> k
-    java.lang.String mPageName -> l
-    com.dkhs.portfolio.common.WeakHandler handler -> m
-    com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$OnFragmentInteractionListener mListener -> n
-    com.dkhs.portfolio.ui.fragment.UserCombinationListFragment getFragment(java.lang.String,java.lang.String) -> a
+    java.lang.String mUserId -> e
+    android.view.View headerView -> f
+    android.view.View footView -> g
+    float animPercent -> h
+    com.lidroid.xutils.http.HttpHandler mHttpHandler -> i
+    com.dkhs.portfolio.ui.FloatingActionMenu localFloatingActionMenu -> j
+    java.lang.String mPageName -> k
+    com.dkhs.portfolio.common.WeakHandler handler -> l
+    com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$OnFragmentInteractionListener mListener -> m
+    com.dkhs.portfolio.ui.fragment.UserCombinationListFragment getFragment(java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
     android.widget.ListView getListView() -> c
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
@@ -29005,9 +29048,8 @@ com.dkhs.portfolio.ui.fragment.UserCombinationListFragment -> com.dkhs.portfolio
     void setHttpHandler(com.lidroid.xutils.http.HttpHandler) -> a
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> a
     java.lang.String access$100(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> b
-    java.lang.String access$200(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> c
-    float access$300(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> d
-    com.dkhs.portfolio.common.WeakHandler access$400(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> e
+    float access$200(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> c
+    com.dkhs.portfolio.common.WeakHandler access$300(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> d
 com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$1 -> com.dkhs.portfolio.ui.fragment.eg:
     com.dkhs.portfolio.ui.fragment.UserCombinationListFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
@@ -29104,6 +29146,7 @@ com.dkhs.portfolio.ui.messagecenter.MessageHandler -> com.dkhs.portfolio.ui.mess
     boolean handleMessage(io.rong.imlib.model.Message) -> handleMessage
     void handleDKImgTextMsg(io.rong.imlib.model.Message) -> handleDKImgTextMsg
     boolean handleURL(java.lang.String) -> handleURL
+    void gotoCombinationUserActivity(java.lang.String) -> gotoCombinationUserActivity
     void gotoNewOrYaoBaoDetail(java.lang.String) -> gotoNewOrYaoBaoDetail
     void gotoOrderFundDetailActivity(java.lang.String) -> gotoOrderFundDetailActivity
     void gotoStockQuotesActivity(java.util.List) -> gotoStockQuotesActivity
@@ -29424,45 +29467,6 @@ com.dkhs.portfolio.ui.widget.ChangeFollowView$3 -> com.dkhs.portfolio.ui.widget.
     void onSuccess(java.lang.String) -> onSuccess
 com.dkhs.portfolio.ui.widget.ChangeFollowView$IChangeSuccessListener -> com.dkhs.portfolio.ui.widget.g$a:
     void onChange(com.dkhs.portfolio.bean.SelectStockBean) -> a
-com.dkhs.portfolio.ui.widget.CircularProgress -> com.dkhs.portfolio.ui.widget.CircularProgress:
-    int mColor -> a
-    int mSize -> b
-    boolean mIndeterminate -> c
-    int mBorderWidth -> d
-    android.graphics.RectF arcRectF -> e
-    int mMax -> f
-    int mProgress -> g
-    boolean mAttached -> h
-    com.dkhs.drawable.IndeterminateProgressDrawable mIndeterminateProgressDrawable -> i
-    com.dkhs.portfolio.ui.widget.CircularProgress$DeterminateProgressDrawable mDeterminateProgressDrawable -> j
-    void setColor(int) -> setColor
-    void setIndeterminate(boolean) -> setIndeterminate
-    void startAnimation() -> a
-    void stopAnimation() -> b
-    void setProgress(int) -> setProgress
-    int getProgress() -> getProgress
-    int getMax() -> getMax
-    void setMax(int) -> setMax
-    android.graphics.RectF getArcRectF() -> getArcRectF
-    void onMeasure(int,int) -> onMeasure
-    void draw(android.graphics.Canvas) -> draw
-    void onVisibilityChanged(android.view.View,int) -> onVisibilityChanged
-    boolean verifyDrawable(android.graphics.drawable.Drawable) -> verifyDrawable
-    void onSizeChanged(int,int,int,int) -> onSizeChanged
-    void onAttachedToWindow() -> onAttachedToWindow
-    void onDetachedFromWindow() -> onDetachedFromWindow
-com.dkhs.portfolio.ui.widget.CircularProgress$DeterminateProgressDrawable -> com.dkhs.portfolio.ui.widget.CircularProgress$a:
-    android.graphics.Paint mPaint -> b
-    float mBorderWidth -> c
-    float mEndAngle -> d
-    android.graphics.RectF mDrawableBounds -> e
-    com.dkhs.portfolio.ui.widget.CircularProgress this$0 -> a
-    void setAngle(float) -> a
-    void draw(android.graphics.Canvas) -> draw
-    void setAlpha(int) -> setAlpha
-    void setColorFilter(android.graphics.ColorFilter) -> setColorFilter
-    int getOpacity() -> getOpacity
-    void onBoundsChange(android.graphics.Rect) -> onBoundsChange
 com.dkhs.portfolio.ui.widget.ClearableEditText -> com.dkhs.portfolio.ui.widget.ClearableEditText:
     android.graphics.drawable.Drawable mClearDrawable -> a
     boolean hasFoucs -> b
@@ -29476,16 +29480,6 @@ com.dkhs.portfolio.ui.widget.ClearableEditText -> com.dkhs.portfolio.ui.widget.C
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     void setShakeAnimation() -> setShakeAnimation
     android.view.animation.Animation shakeAnimation(int) -> a
-com.dkhs.portfolio.ui.widget.CustomView -> com.dkhs.portfolio.ui.widget.CustomView:
-    int minWidth -> a
-    int minHeight -> b
-    int backgroundColor -> c
-    int backgroundResId -> d
-    boolean isLastTouch -> e
-    void onInitDefaultValues() -> a
-    void setAttributes(android.util.AttributeSet) -> setAttributes
-    int dpToPx(float,android.content.res.Resources) -> a
-    void setBackgroundAttributes(android.util.AttributeSet) -> setBackgroundAttributes
 com.dkhs.portfolio.ui.widget.DefFundLineEntity -> com.dkhs.portfolio.ui.widget.k:
 com.dkhs.portfolio.ui.widget.F10ViewParse -> com.dkhs.portfolio.ui.widget.l:
     com.dkhs.portfolio.bean.F10DataBean mDataBean -> a
@@ -30364,9 +30358,10 @@ com.dkhs.portfolio.ui.widget.RatioLayout -> com.dkhs.portfolio.ui.widget.RatioLa
     float mHeightRatio -> b
     void init(android.content.Context,android.util.AttributeSet) -> a
     void onMeasure(int,int) -> onMeasure
-com.dkhs.portfolio.ui.widget.ScaleRelativeLayout -> com.dkhs.portfolio.ui.widget.ScaleRelativeLayout:
+com.dkhs.portfolio.ui.widget.ScaleLayout -> com.dkhs.portfolio.ui.widget.ScaleLayout:
+    float mScale -> a
+    void init(android.util.AttributeSet) -> a
     void onMeasure(int,int) -> onMeasure
-    int measureWidth(int) -> a
 com.dkhs.portfolio.ui.widget.ScrollViewPager -> com.dkhs.portfolio.ui.widget.ScrollViewPager:
     boolean isCanScroll -> a
     void setCanScroll(boolean) -> setCanScroll
@@ -31802,6 +31797,55 @@ com.dkhs.portfolio.wxapi.WXEntryActivity -> com.dkhs.portfolio.wxapi.WXEntryActi
     void onShowMessageFromWXReq(cn.sharesdk.wechat.utils.WXMediaMessage) -> onShowMessageFromWXReq
 com.dkhs.utils.ImageLoaderUtils -> com.dkhs.b.a:
     void setImage(java.lang.String,android.widget.ImageView,com.nostra13.universalimageloader.core.listener.ImageLoadingListener) -> a
+com.dkhs.widget.CircularProgress -> com.dkhs.widget.CircularProgress:
+    int mColor -> a
+    int mSize -> b
+    boolean mIndeterminate -> c
+    int mBorderWidth -> d
+    android.graphics.RectF arcRectF -> e
+    int mMax -> f
+    int mProgress -> g
+    boolean mAttached -> h
+    com.dkhs.drawable.IndeterminateProgressDrawable mIndeterminateProgressDrawable -> i
+    com.dkhs.widget.CircularProgress$DeterminateProgressDrawable mDeterminateProgressDrawable -> j
+    void setColor(int) -> setColor
+    void setIndeterminate(boolean) -> setIndeterminate
+    void startAnimation() -> a
+    void stopAnimation() -> b
+    void setProgress(int) -> setProgress
+    int getProgress() -> getProgress
+    int getMax() -> getMax
+    void setMax(int) -> setMax
+    android.graphics.RectF getArcRectF() -> getArcRectF
+    void onMeasure(int,int) -> onMeasure
+    void draw(android.graphics.Canvas) -> draw
+    void onVisibilityChanged(android.view.View,int) -> onVisibilityChanged
+    boolean verifyDrawable(android.graphics.drawable.Drawable) -> verifyDrawable
+    void onSizeChanged(int,int,int,int) -> onSizeChanged
+    void onAttachedToWindow() -> onAttachedToWindow
+    void onDetachedFromWindow() -> onDetachedFromWindow
+com.dkhs.widget.CircularProgress$DeterminateProgressDrawable -> com.dkhs.widget.CircularProgress$a:
+    android.graphics.Paint mPaint -> b
+    float mBorderWidth -> c
+    float mEndAngle -> d
+    android.graphics.RectF mDrawableBounds -> e
+    com.dkhs.widget.CircularProgress this$0 -> a
+    void setAngle(float) -> a
+    void draw(android.graphics.Canvas) -> draw
+    void setAlpha(int) -> setAlpha
+    void setColorFilter(android.graphics.ColorFilter) -> setColorFilter
+    int getOpacity() -> getOpacity
+    void onBoundsChange(android.graphics.Rect) -> onBoundsChange
+com.dkhs.widget.CustomView -> com.dkhs.widget.CustomView:
+    int minWidth -> a
+    int minHeight -> b
+    int backgroundColor -> c
+    int backgroundResId -> d
+    boolean isLastTouch -> e
+    void onInitDefaultValues() -> a
+    void setAttributes(android.util.AttributeSet) -> setAttributes
+    int dpToPx(float,android.content.res.Resources) -> a
+    void setBackgroundAttributes(android.util.AttributeSet) -> setBackgroundAttributes
 com.google.gson.DefaultDateTypeAdapter -> com.google.gson.DefaultDateTypeAdapter:
     java.text.DateFormat enUsFormat -> enUsFormat
     java.text.DateFormat localFormat -> localFormat

@@ -17,6 +17,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
+//import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.utils.WechatClientNotExistException;
@@ -42,6 +44,14 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
     private TextView boundTextWeibo;
     private TextView boundTextPhone;
     private TextView boundTextWechat;
+    private  WeakHandler platFormAction = new WeakHandler(new Handler.Callback(){
+
+        @Override
+        public boolean handleMessage(Message msg) {
+                BoundAccountActivity.this.handleMessage(msg);
+            return false;
+        }
+    }) ;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -76,7 +86,6 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bound_text_phone: {
                 startActivity(RLFActivity.settingPasswordIntent(this));
@@ -108,10 +117,11 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
             plat.removeAccount();
         }
         // 这里开启一下SSO，防止OneKeyShare分享时调用了oks.disableSSOWhenAuthorize();把SSO关闭了
-        // plat.SSOSetting(false);
+        plat.SSOSetting(true);
         plat.setPlatformActionListener(platFormActionListener);
-        plat.showUser(null);
-        // plat.authorize();
+//        plat.showUser(null);
+        plat.authorize();
+
     }
 
     PlatformActionListener platFormActionListener = new PlatformActionListener() {
@@ -124,20 +134,17 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
             msg.arg1 = 2;
             msg.arg2 = action;
             msg.obj = t;
-            platFormAction.sendMessage(msg);
+            platFormAction.sendMessage( msg);
         }
 
         @Override
         public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
-
-            res.put("plat", plat);
             Message msg = new Message();
             msg.arg1 = 1;
             msg.arg2 = action;
-            msg.obj = res;
+            msg.obj = plat;
 
             platFormAction.sendMessage(msg);
-
         }
 
         @Override
@@ -150,70 +157,67 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
         }
     };
-    WeakHandler platFormAction = new WeakHandler() {
-        public void handleMessage(Message msg) {
-            switch (msg.arg1) {
-                case 1: {
-                    HashMap<String, Object> res = (HashMap<String, Object>) msg.obj;
-                    // Platform plat = (Platform) msg.obj;
-                    Platform plat = (Platform) (res.containsKey("plat") ? res.get("plat") : null);
 
-                    if (null != plat) {
+    public void handleMessage(Message msg) {
 
-                        String platname = plat.getName();
-                        String imageUrl = "";
-                        if (platname.contains(SinaWeibo.NAME)) {
-                            platname = "weibo";
-                            imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
-                            System.out.println("avatar_large:" + imageUrl);
-                        } else if (platname.contains(Wechat.NAME)) {
-                            platname = "weixin";
-                        } else {
-                            platname = "qq";
-                            imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");
-                            System.out.println("avatar_large:" + imageUrl);
-                        }
-                        ThreePlatform platData = new ThreePlatform();
-                        platData.setAccess_token(plat.getDb().getToken());
-                        platData.setOpenid(plat.getDb().getUserId());
-                        platData.setAvatar(imageUrl);
-                        platData.setRefresh_token("");
-                        platData.setUsername(plat.getDb().getUserName());
-                        UserEngineImpl.bindThreePlatform(plat.getDb().getUserId(), platname, platData,
-                                bindsListener.setLoadingDialog(BoundAccountActivity.this));
-                    }
-                }
-                break;
-                case 2: {
-                    String failtext = "";
-                    if (msg.obj instanceof WechatClientNotExistException) {
-                        failtext = getResources().getString(R.string.wechat_client_inavailable);
-                    } else if (msg.obj instanceof WechatTimelineNotSupportedException) {
-                        failtext = getResources().getString(R.string.wechat_client_inavailable);
-                    } else if (msg.obj instanceof java.lang.Throwable && msg.obj.toString() != null
-                            && msg.obj.toString().contains("prevent duplicate publication")) {
 
-                        failtext = getResources().getString(R.string.oauth_fail);
-                    } else if (msg.obj.toString().contains("error")) {
-                        failtext = getResources().getString(R.string.oauth_fail);
-
+        switch (msg.arg1) {
+            case 1: {
+                Platform plat  = (Platform) msg.obj;
+                if (null != plat) {
+                    String platname = plat.getName();
+                    String imageUrl = "";
+                    if (platname.contains(SinaWeibo.NAME)) {
+                        platname = "weibo";
+                        imageUrl = (String) (plat.getDb().get("icon"));
+                        System.out.println("avatar_large:" + imageUrl);
+                    } else if (platname.contains(Wechat.NAME)) {
+                        platname = "weixin";
+                        imageUrl = (String) (plat.getDb().get("icon"));
                     } else {
-                        failtext = getResources().getString(R.string.oauth_fail);
+                        platname = "qq";
+                        imageUrl = (String) (plat.getDb().get("icon"));
+                        System.out.println("avatar_large:" + imageUrl);
                     }
-                    PromptManager.showToast(failtext);
+                    ThreePlatform platData = new ThreePlatform();
+                    platData.setAccess_token(plat.getDb().getToken());
+                    platData.setOpenid(plat.getDb().getUserId());
+                    platData.setAvatar(imageUrl);
+                    platData.setRefresh_token("");
+                    platData.setUsername(plat.getDb().getUserName());
+                    UserEngineImpl.bindThreePlatform(plat.getDb().getUserId(), platname, platData,
+                            bindsListener);
                 }
-                break;
-                case 3: {
-                }
-                break;
-
-                default:
-                    break;
             }
-        }
+            break;
+            case 2: {
+                String failtext = "";
+                if (msg.obj instanceof WechatClientNotExistException) {
+                    failtext = getResources().getString(R.string.wechat_client_inavailable);
+                } else if (msg.obj instanceof WechatTimelineNotSupportedException) {
+                    failtext = getResources().getString(R.string.wechat_client_inavailable);
+                } else if (msg.obj instanceof java.lang.Throwable && msg.obj.toString() != null
+                        && msg.obj.toString().contains("prevent duplicate publication")) {
 
-        ;
-    };
+                    failtext = getResources().getString(R.string.oauth_fail);
+                } else if (msg.obj.toString().contains("error")) {
+                    failtext = getResources().getString(R.string.oauth_fail);
+
+                } else {
+                    failtext = getResources().getString(R.string.oauth_fail);
+                }
+                PromptManager.showToast(failtext);
+            }
+            break;
+            case 3: {
+            }
+            break;
+
+            default:
+                break;
+        }
+    }
+
 
     private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
 
@@ -221,11 +225,9 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
             super.onFailure(errCode, errMsg);
         }
 
-        ;
-
         @Override
         protected List<BindThreePlat> parseDateTask(String jsonData) {
-
+            LogUtils.e(jsonData);
             return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
         }
 
@@ -272,7 +274,6 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        // TODO Auto-generated method stub
         switch (arg0) {
             case 5:
 

@@ -8,21 +8,21 @@
 
 package cn.sharesdk.onekeyshare;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.text.TextUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-
+import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.utils.R;
+import com.mob.tools.utils.R;
 
 /**
  * ShareCore是快捷分享的实际出口，此类使用了反射的方式，配合传递进来的HashMap，
@@ -85,6 +85,8 @@ public class ShareCore {
 				|| "Mingdao".equals(platform) || "Line".equals(platform)
 				|| "KakaoStory".equals(platform) || "KakaoTalk".equals(platform)
 				|| "Bluetooth".equals(platform) || "WhatsApp".equals(platform)
+				|| "BaiduTieba".equals(platform) || "Laiwang".equals(platform)
+				|| "LaiwangMoments".equals(platform)
 				) {
 			return true;
 		} else if ("Evernote".equals(platform)) {
@@ -110,11 +112,12 @@ public class ShareCore {
 	public static boolean canAuthorize(Context context, String platform) {
 		return !("WechatMoments".equals(platform)
 				|| "WechatFavorite".equals(platform) || "ShortMessage".equals(platform)
-				|| "Email".equals(platform) || "GooglePlus".equals(platform)
+				|| "Email".equals(platform)
 				|| "Pinterest".equals(platform) || "Yixin".equals(platform)
 				|| "YixinMoments".equals(platform) || "Line".equals(platform)
-				|| "KakaoStory".equals(platform) || "KakaoTalk".equals(platform)
-				|| "Bluetooth".equals(platform) || "WhatsApp".equals(platform));
+				|| "Bluetooth".equals(platform) || "WhatsApp".equals(platform)
+				|| "BaiduTieba".equals(platform)) || "Laiwang".equals(platform)
+				|| "LaiwangMoments".equals(platform);
 	}
 
 
@@ -122,11 +125,16 @@ public class ShareCore {
 	public static boolean canGetUserInfo(Context context, String platform) {
 		return !("WechatMoments".equals(platform)
 				|| "WechatFavorite".equals(platform) || "ShortMessage".equals(platform)
-				|| "Email".equals(platform) || "GooglePlus".equals(platform)
+				|| "Email".equals(platform)
 				|| "Pinterest".equals(platform) || "Yixin".equals(platform)
 				|| "YixinMoments".equals(platform) || "Line".equals(platform)
-				|| "KakaoStory".equals(platform) || "KakaoTalk".equals(platform)
 				|| "Bluetooth".equals(platform) || "WhatsApp".equals(platform)
-				|| "Pocket".equals(platform));
+				|| "Pocket".equals(platform) || "BaiduTieba".equals(platform)
+				|| "Laiwang".equals(platform) || "LaiwangMoments".equals(platform));
+	}
+
+	/** 判断是否直接分享 */
+	public static boolean isDirectShare(Platform platform) {
+		return platform instanceof CustomPlatform || isUseClientToShare(platform.getName());
 	}
 }

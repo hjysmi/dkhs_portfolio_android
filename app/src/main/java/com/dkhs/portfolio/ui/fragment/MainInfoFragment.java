@@ -12,6 +12,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.AutoScrollHelper;
+import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -59,6 +61,7 @@ public class MainInfoFragment extends BaseTitleFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext=getActivity();
+
     }
 
     @Override
