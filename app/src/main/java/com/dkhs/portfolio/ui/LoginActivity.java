@@ -297,9 +297,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tv_register: {
-                Intent intent2 = new Intent(this, RLFActivity.class);
-                intent2.putExtra("activity_type", RLFActivity.REGIST_TYPE);
-                startActivity(intent2);
+
+                startActivity(RLFActivity.registerIntent(this));
             }
             break;
             case R.id.iv_weibo: {

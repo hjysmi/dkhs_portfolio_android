@@ -140,7 +140,7 @@ public class FlowPackAdapter extends BaseAdapter {
 
             switch (position) {
                 case 0: {
-                    mContext.startActivity(RLFActivity.settingPasswordIntent(mContext));
+                    mContext.startActivity(RLFActivity.bindPhoneIntent(mContext));
                 }
                 break;
                 case 1: {

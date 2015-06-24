@@ -90,6 +90,7 @@
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
+    <string name="reinput">重新输入</string>
     <string name="more">更多</string>
     <string name="portfolio_position">持仓组合</string>
     <string name="duty_percent">%1$d&#037;</string>
@@ -179,6 +180,7 @@
     <string name="get_code_success">获取验证码成功</string>
     <string name="forget_password">忘记密码</string>
     <string name="login_by_captcha">该手机号已经注册过,是否直接登录?</string>
+    <string name="has_bind_message">该手机号已经绑定过</string>
     <string name="success_desc_f">恭喜您 , 注册成功 !</string>
     <string name="success_desc_s">系统为您生成的用户名:</string>
     <string name="success_desc_t">可通过设置个人帐号信息修改并完善您的个人资料!</string>

@@ -88,7 +88,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bound_text_phone: {
-                startActivity(RLFActivity.settingPasswordIntent(this));
+                startActivity(RLFActivity.bindPhoneIntent(this));
             }
             break;
             case R.id.bound_text_email:
