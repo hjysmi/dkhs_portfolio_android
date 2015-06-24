@@ -65,12 +65,24 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_ACTIVITY_TYPE = "activity_type";
     public static final int REQUESTCODE_SET_PASSWROD = 999;
 
-    public static Intent settingPasswordIntent(Context context) {
+    public static Intent bindPhoneIntent(Context context) {
         Intent intent = new Intent(context, RLFActivity.class);
         intent.putExtra(EXTRA_SETTING_PASSWORD, true);
         intent.putExtra(EXTRA_ACTIVITY_TYPE, SETTING_PASSWORD_TYPE);
         return intent;
     }
+
+    public static Intent registerIntent(Context context) {
+        Intent intent = new Intent(context, RLFActivity.class);
+        intent.putExtra(EXTRA_ACTIVITY_TYPE, REGIST_TYPE);
+        return intent;
+    }
+//    public static Intent bindPhoneIntent(Context context) {
+//        Intent intent = new Intent(context, RLFActivity.class);
+//        intent.putExtra(EXTRA_SETTING_PASSWORD, true);
+//        intent.putExtra(EXTRA_ACTIVITY_TYPE, SETTING_PASSWORD_TYPE);
+//        return intent;
+//    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +109,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         final MAlertDialog dpg = PromptManager.getAlertDialog(this);
         dpg.setCancelable(false);
         dpg.setMessage(R.string.login_by_captcha);
-        dpg.setPositiveButton (R.string.confirm, new DialogInterface.OnClickListener() {
+        dpg.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -107,7 +119,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 finish();
             }
         });
-        dpg.setNegativeButton( R.string.cancel, new DialogInterface.OnClickListener() {
+        dpg.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -115,6 +127,32 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 dpg.dismiss();
             }
         });
+        dpg.show();
+
+    }
+
+    private void showHasBindnDailog() {
+        PromptManager.closeProgressDialog();
+        final MAlertDialog dpg = PromptManager.getAlertDialog(this);
+        dpg.setCancelable(false);
+        dpg.setMessage(R.string.has_bind_message);
+        dpg.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                dpg.dismiss();
+                // startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+//                finish();
+            }
+        });
+//        dpg.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dpg.dismiss();
+//            }
+//        });
         dpg.show();
 
     }
@@ -283,7 +321,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         public void requestCallBack() {
             super.requestCallBack();
             PromptManager.closeProgressDialog();
-        };
+        }
+
+        ;
 
         @Override
         protected Boolean parseDateTask(String jsonData) {
@@ -312,7 +352,12 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
                 // startActivity(i);
                 // finish();
-                showCaptchaLoginDailog();
+                if (isSettingPsw) {
+                    showHasBindnDailog();
+                } else {
+
+                    showCaptchaLoginDailog();
+                }
             }
         }
     };
@@ -339,7 +384,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             isLoginByCaptcha = false;
             PromptManager.closeProgressDialog();
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         public void onHttpSuccess(String result) {
             if (result.startsWith("{")) {
@@ -349,8 +396,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                     if (jsonObject.has("errors")) {
                         JSONObject errors = jsonObject.getJSONObject("errors");
                         if (errors.has("mobile_registered")) {
-                            showCaptchaLoginDailog();
+//                            showCaptchaLoginDailog();
+                            showHasBindnDailog();
                         } else {
+
                             onFailure(777, result);
                         }
                         return;
@@ -361,7 +410,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 }
             }
             onSuccess(result);
-        };
+        }
+
+        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
@@ -476,7 +527,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                     finish();
                 }
 
-                    break;
+                break;
             }
         }
     }

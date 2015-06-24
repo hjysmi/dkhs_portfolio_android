@@ -90,7 +90,7 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
 
                 startActivity(new Intent(this, ExchangeActivity.class));
             }else{
-                startActivity(RLFActivity.settingPasswordIntent(this));
+                startActivity(RLFActivity.bindPhoneIntent(this));
             }
         }
     }
