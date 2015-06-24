@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -129,13 +128,11 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         reloadData();
         updateHandler.postDelayed(updateRunnable, 5 * 1000);
 
-        Log.e("TabStockFragment", "---------------onViewShow  ");
 
     }
 
     @Override
     public void onViewHide() {
-        Log.e("TabStockFragment", "-----------onViewHide  ");
         updateHandler.removeCallbacks(updateRunnable);
     }
 
