@@ -61,7 +61,7 @@ import java.util.TimerTask;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-3-30 上午9:00:48
  */
-public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBackListener {
+public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoadDataBackListener {
     // private List<ApplicationInfo> mAppList;
     private CombinationAdapter mAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
@@ -204,6 +204,11 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
             }
         });
+    }
+
+    @Override
+    public void requestData() {
+
     }
 
     private void delCombination(int position) {
@@ -365,19 +370,31 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     @Override
     public void onResume() {
         super.onResume();
-        if (mCombinationTimer == null) {
-            mCombinationTimer = new Timer(true);
-            mCombinationTimer.schedule(new RequestCombinationTask(), 20, mCombinationRequestTime);
-        }
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
+
+    }
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
         if (mCombinationTimer != null) {
             mCombinationTimer.cancel();
             mCombinationTimer = null;
+        }
+    }
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
+        if (mCombinationTimer == null) {
+            mCombinationTimer = new Timer(true);
+            mCombinationTimer.schedule(new RequestCombinationTask(), 20, mCombinationRequestTime);
         }
     }
 

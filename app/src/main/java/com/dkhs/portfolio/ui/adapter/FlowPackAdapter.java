@@ -105,7 +105,7 @@ public class FlowPackAdapter extends BaseAdapter {
                 }
                 break;
                 case 3: {
-                    hasDone = mOverViewBean.getTasks().isBind_mobile();
+                    hasDone = mOverViewBean.getTasks().isFirst_portfolio();
                 }
                 break;
             }

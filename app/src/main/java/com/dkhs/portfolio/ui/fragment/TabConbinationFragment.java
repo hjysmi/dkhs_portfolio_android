@@ -50,7 +50,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-7 上午11:03:26
  */
-public class TabConbinationFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
+public class TabConbinationFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
@@ -199,6 +199,11 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
 //        }
     }
 
+    @Override
+    public void requestData() {
+
+    }
+
     protected PullToRefreshListView mListView;
     private RelativeLayout pb;
     public SwipeRefreshLayout mSwipeLayout;
@@ -285,8 +290,10 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
 
     public void refresh() {
         // isRefresh = true;
+        if (null != dataEngine) {
 
-        dataEngine.loadAllData();
+            dataEngine.loadAllData();
+        }
         // UserCombinationEngineImpl.loadAllData(this);
 
     }

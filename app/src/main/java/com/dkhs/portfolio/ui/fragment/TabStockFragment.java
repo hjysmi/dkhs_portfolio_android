@@ -42,7 +42,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-7 上午11:03:07
  */
-public class TabStockFragment extends BaseFragment implements OnClickListener, IDataUpdateListener {
+public class TabStockFragment extends VisiableLoadFragment implements OnClickListener, IDataUpdateListener {
 
     @Override
     public int setContentLayoutId() {
@@ -119,12 +119,28 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     @Override
+    public void requestData() {
+
+    }
+
+    @Override
+    public void onViewShow() {
+        reloadData();
+        updateHandler.postDelayed(updateRunnable, 5 * 1000);
+
+
+    }
+
+    @Override
+    public void onViewHide() {
+        updateHandler.removeCallbacks(updateRunnable);
+    }
+
+    @Override
     public void onResume() {
 
         super.onResume();
 
-        reloadData();
-        updateHandler.postDelayed(updateRunnable, 5 * 1000);
 
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
@@ -152,6 +168,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         super.onStop();
 
     }
+
 
     Runnable updateRunnable = new Runnable() {
         @Override
@@ -356,7 +373,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        updateHandler.removeCallbacks(updateRunnable);
+
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);

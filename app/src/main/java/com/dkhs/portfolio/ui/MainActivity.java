@@ -23,6 +23,7 @@ import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
+import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
@@ -144,7 +145,10 @@ public class MainActivity extends ModelAcitivity {
         }
         if (fragmentA.isAdded()) { // if the fragment is already in container
             ft.show(fragmentA);
-            fragmentA.onResume();
+            if (fragmentA instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragmentA).onViewShow();
+            }
+//            fragmentA.onResume();
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentA, "A");
         }
@@ -189,6 +193,9 @@ public class MainActivity extends ModelAcitivity {
         }
         if (null != fragmentA && fragmentA.isAdded()) {
             ft.hide(fragmentA);
+            if (fragmentA instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragmentA).onViewHide();
+            }
         }
         if (null != fragmentC && fragmentC.isAdded()) {
             ft.hide(fragmentC);
@@ -214,6 +221,9 @@ public class MainActivity extends ModelAcitivity {
         }
         if (null != fragmentA && fragmentA.isAdded()) {
             ft.hide(fragmentA);
+            if (fragmentA instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragmentA).onViewHide();
+            }
         }
         if (null != fragmentD && fragmentD.isAdded()) {
             ft.hide(fragmentD);
@@ -239,6 +249,9 @@ public class MainActivity extends ModelAcitivity {
         }
         if (null != fragmentA && fragmentA.isAdded()) {
             ft.hide(fragmentA);
+            if (fragmentA instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragmentA).onViewHide();
+            }
         }
         ft.commit();
     }
