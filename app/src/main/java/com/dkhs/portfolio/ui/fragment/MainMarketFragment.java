@@ -108,7 +108,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
 
     @Override
     public void onViewHide() {
-        BusProvider.getInstance().unregister(this);
+
         if (null != mAdapter && null != vp) {
             Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
             if (fragment instanceof VisiableLoadFragment) {
@@ -119,7 +119,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
 
     @Override
     public void onViewShow() {
-        BusProvider.getInstance().register(this);
+
         if (null != mAdapter && null != vp) {
 
             Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
@@ -129,6 +129,19 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 fragment.onResume();
             }
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
     }
 
     private static final String TAG = MainMarketFragment.class.getSimpleName();
