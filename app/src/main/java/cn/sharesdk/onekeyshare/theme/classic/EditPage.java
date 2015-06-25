@@ -206,8 +206,9 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			rlPage.addView(getPageBody());
 			rlPage.addView(getImagePin());
 		}
+		llTitle.setFocusableInTouchMode(true);
 		llTitle.setFocusable(true);
-		llTitle.requestFocus();
+
 		return rlPage;
 	}
 
@@ -217,8 +218,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 		llTitle = LayoutInflater.from(getContext()).inflate(R.layout.layout_share_title_bar, null);
 
-		llTitle.setFocusableInTouchMode(true);
-		llTitle.setFocusable(true);
+
 
 		TextView titleTV = (TextView) llTitle.findViewById(R.id.tv_title);
 		Button shareBtn = (Button) llTitle.findViewById(R.id.btn_share);

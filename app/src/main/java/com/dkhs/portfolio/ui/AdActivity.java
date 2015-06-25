@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -45,6 +46,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
             "window.shareMan.setTitleAction(document.title);" +
             "window.shareMan.getShareEntity(share());" +
             "})();";
+    private static  final  String functionJS="javascript:%s();";
 
     private WeakHandler mWeakHandler =new WeakHandler(new Handler.Callback() {
         @Override
@@ -63,7 +65,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
         }
     });
 
-    private static  final  String functionJS="javascript:%s();";
+
 
     private WapShareBean mWapShareBean;
 
@@ -109,7 +111,8 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setUserAgentString("dkhs_shuiniu");
-        mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
+        mWebView.setWebChromeClient(new WebChromeClient());
+
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -135,7 +138,9 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 //
 //                "javascript:window.share.shareAction(document.body.innerHTML);"
 //                );
+                mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
                 mWebView.loadUrl(js);
+
                 super.onPageFinished(view, url);
 
             }
@@ -201,6 +206,8 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                 @Override
                 public void onCancel(Platform platform, int i) {
 
+//                    LogUtils.e(String.format(functionJS,mWapShareBean.getSuccessCallback()));
+//                    mWebView.loadUrl(String.format(functionJS,mWapShareBean.getSuccessCallback()));
                 }
             });
         }
