@@ -45,7 +45,7 @@ import java.util.TimerTask;
  * @Description TODO(股票)
  * @date 2015/5/25.
  */
-public class MarketStockFragment extends BaseFragment implements View.OnClickListener {
+public class MarketStockFragment extends VisiableLoadFragment implements View.OnClickListener {
 
 
     @Override
@@ -58,6 +58,11 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+    }
+
+    @Override
+    public void requestData() {
+
     }
 
     public final static String INLAND_INDEX = "inland_index";
@@ -107,6 +112,13 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
     public void onResume() {
         super.onResume();
 
+
+        // MobclickAgent.onResume(getActivity());
+
+    }
+
+    @Override
+    public void onViewShow() {
         if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
             if (mMarketTimer == null) {
                 mMarketTimer = new Timer(true);
@@ -122,18 +134,20 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
         } else {
             endAnimaRefresh();
         }
-        // MobclickAgent.onResume(getActivity());
+    }
 
+    @Override
+    public void onViewHide() {
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        if (mMarketTimer != null) {
-            mMarketTimer.cancel();
-            mMarketTimer = null;
-        }
 
     }
 
@@ -498,9 +512,9 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
     }
 
     public void endAnimaRefresh() {
-        if (isAdded() && !getUserVisibleHint()) {
-            BusProvider.getInstance().post(new StopRefreshEvent());
-        }
+//        if (isAdded() && !getUserVisibleHint()) {
+        BusProvider.getInstance().post(new StopRefreshEvent());
+//        }
     }
 
 

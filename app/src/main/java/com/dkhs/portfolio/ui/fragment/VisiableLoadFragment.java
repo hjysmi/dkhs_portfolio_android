@@ -9,6 +9,28 @@ import android.view.View;
  */
 public abstract class VisiableLoadFragment extends BaseFragment {
 
+
+//    public VisiableLoadFragment getChildFragment() {
+//        return childFragment;
+//    }
+//
+//    public void setChildFragment(VisiableLoadFragment childFragment) {
+//        this.childFragment = childFragment;
+//    }
+//
+//    @Override
+//    public VisiableLoadFragment getParentFragment() {
+//        return parentFragment;
+//    }
+//
+//    public void setParentFragment(VisiableLoadFragment parentFragment) {
+//        this.parentFragment = parentFragment;
+//    }
+
+//    private VisiableLoadFragment childFragment;
+//    private VisiableLoadFragment parentFragment;
+
+
     private static final String TAG = VisiableLoadFragment.class.getSimpleName();
 
     @Override
@@ -18,6 +40,8 @@ public abstract class VisiableLoadFragment extends BaseFragment {
             isViewShown = true;
             requestData();
         }
+
+        getParentFragment();
     }
 
 
@@ -29,13 +53,14 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
 
-        if (isVisibleToUser && isViewShown) {
+
+        if (isVisibleToUser && isViewShown && isVisible()) {
             onViewShow();
         } else {
             onViewHide();
         }
 
-        if (isVisibleToUser && !isViewShown) {
+        if (isVisibleToUser && !isViewShown && isVisible()) {
 
             if (getView() != null) {
                 isViewShown = true;
@@ -62,12 +87,20 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        Log.e(TAG, this + "=============> onResume");
-        if (getUserVisibleHint()) {
+        if (iStrictVisible()) {
             onViewShow();
         }
     }
 
+    private boolean iStrictVisible() {
+        if (getParentFragment() != null) {
+
+            return getUserVisibleHint() && !isHidden() && isVisible() && getParentFragment().isVisible();
+        } else {
+            return getUserVisibleHint() && !isHidden() && isVisible();
+
+        }
+    }
 
     @Override
     public void onPause() {

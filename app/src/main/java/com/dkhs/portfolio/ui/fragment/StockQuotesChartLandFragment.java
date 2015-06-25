@@ -262,7 +262,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
         } else {
             // initTrendTitle();
         }
-
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
         mMaChart.setDoubleClicklistener(new OnDoubleClickListener() {
 
             @Override
@@ -726,7 +727,7 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
                 return;
             }
             // todayListener.setLoadingDialog(getActivity());
-            if ( TextUtils.isEmpty(mFsDataBean.getCurtime())) {
+            if (TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
                 todayListener.setFromYanbao(true);

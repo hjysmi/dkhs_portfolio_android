@@ -290,7 +290,8 @@ public class StockQuotesChartFragment extends BaseFragment {
         ytitle.add("—");
 
         mMaChart.setAxisYTitles(ytitle);
-
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
         if (isTodayNetValue) {
             initTodayTrendTitle();
         } else {

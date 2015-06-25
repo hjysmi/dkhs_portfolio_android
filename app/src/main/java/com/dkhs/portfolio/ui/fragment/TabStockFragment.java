@@ -123,6 +123,8 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
 
     }
 
+    private static final String TAG = TabStockFragment.class.getSimpleName();
+
     @Override
     public void onViewShow() {
         reloadData();
@@ -133,6 +135,7 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
 
     @Override
     public void onViewHide() {
+
         updateHandler.removeCallbacks(updateRunnable);
     }
 
@@ -140,8 +143,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     public void onResume() {
 
         super.onResume();
-
-
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
         // refreshEditView();
