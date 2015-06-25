@@ -171,14 +171,13 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
     @Override
     public void onResume() {
         super.onResume();
-
-
     }
 
 
+    private static final String TAG = MainOptionalFragment.class.getSimpleName();
+
     @Override
     public void onViewHide() {
-        super.onViewHide();
         Fragment fragment = adapter.getItem(mVp.getCurrentItem());
         if (fragment instanceof VisiableLoadFragment) {
             ((VisiableLoadFragment) fragment).onViewHide();
@@ -187,8 +186,12 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     @Override
     public void onViewShow() {
-        super.onViewShow();
-        adapter.getItem(mVp.getCurrentItem()).onResume();
+        Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+        if (fragment instanceof VisiableLoadFragment) {
+            ((VisiableLoadFragment) fragment).onViewShow();
+        } else {
+            fragment.onResume();
+        }
     }
 
     private void setCombinationBar() {

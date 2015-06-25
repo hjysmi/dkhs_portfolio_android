@@ -208,7 +208,7 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
     @Override
     public void requestData() {
-
+refresh();
     }
 
     private void delCombination(int position) {
