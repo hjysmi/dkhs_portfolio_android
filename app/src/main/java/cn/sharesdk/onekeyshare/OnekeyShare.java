@@ -29,6 +29,8 @@ import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+
+import com.dkhs.portfolio.bean.WapShareBean;
 import com.mob.tools.utils.UIHandler;
 
 /**
@@ -468,6 +470,11 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 
 	public void onComplete(Platform platform, int action,
 			HashMap<String, Object> res) {
+
+
+		if(platformActionListener !=null ){
+			platformActionListener.onComplete(platform,action,res);
+		}
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
 		msg.arg1 = 1;
@@ -478,6 +485,9 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 
 	public void onError(Platform platform, int action, Throwable t) {
 		t.printStackTrace();
+		if(platformActionListener !=null){
+			platformActionListener.onError(platform,action,t);
+		}
 
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
@@ -491,6 +501,9 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 	}
 
 	public void onCancel(Platform platform, int action) {
+		if(platformActionListener !=null){
+			platformActionListener.onCancel(platform,action);
+		}
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
 		msg.arg1 = 3;
@@ -510,67 +523,71 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				switch (msg.arg1) {
 					case 1: {
 						// 成功
-						int resId = getStringRes(context, "share_completed");
-						if (resId > 0) {
-							showNotification(context.getString(resId));
-						}
+
+							showNotification(getSuccessText());
+
 					}
 					break;
 					case 2: {
 						// 失败
-						String expName = msg.obj.getClass().getSimpleName();
-						if ("WechatClientNotExistException".equals(expName)
-								|| "WechatTimelineNotSupportedException".equals(expName)
-								|| "WechatFavoriteNotSupportedException".equals(expName)) {
-							int resId = getStringRes(context, "wechat_client_inavailable");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
-							}
-						} else if ("GooglePlusClientNotExistException".equals(expName)) {
-							int resId = getStringRes(context, "google_plus_client_inavailable");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
-							}
-						} else if ("QQClientNotExistException".equals(expName)) {
-							int resId = getStringRes(context, "qq_client_inavailable");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
-							}
-						} else if ("YixinClientNotExistException".equals(expName)
-								|| "YixinTimelineNotSupportedException".equals(expName)) {
-							int resId = getStringRes(context, "yixin_client_inavailable");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
-							}
-						} else if ("KakaoTalkClientNotExistException".equals(expName)) {
-							int resId = getStringRes(context, "kakaotalk_client_inavailable");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
-							}
-						}else if ("KakaoStoryClientNotExistException".equals(expName)) {
-							int resId = getStringRes(context, "kakaostory_client_inavailable");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
-							}
-						}else if("WhatsAppClientNotExistException".equals(expName)){
-							int resId = getStringRes(context, "whatsapp_client_inavailable");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
-							}
+
+						if(!TextUtils.isEmpty(getErrorText())){
+							showNotification(getErrorText());
 						}else {
-							int resId = getStringRes(context, "share_failed");
-							if (resId > 0) {
-								showNotification(context.getString(resId));
+
+							String expName = msg.obj.getClass().getSimpleName();
+							if ("WechatClientNotExistException".equals(expName)
+									|| "WechatTimelineNotSupportedException".equals(expName)
+									|| "WechatFavoriteNotSupportedException".equals(expName)) {
+								int resId = getStringRes(context, "wechat_client_inavailable");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
+							} else if ("GooglePlusClientNotExistException".equals(expName)) {
+								int resId = getStringRes(context, "google_plus_client_inavailable");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
+							} else if ("QQClientNotExistException".equals(expName)) {
+								int resId = getStringRes(context, "qq_client_inavailable");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
+							} else if ("YixinClientNotExistException".equals(expName)
+									|| "YixinTimelineNotSupportedException".equals(expName)) {
+								int resId = getStringRes(context, "yixin_client_inavailable");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
+							} else if ("KakaoTalkClientNotExistException".equals(expName)) {
+								int resId = getStringRes(context, "kakaotalk_client_inavailable");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
+							} else if ("KakaoStoryClientNotExistException".equals(expName)) {
+								int resId = getStringRes(context, "kakaostory_client_inavailable");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
+							} else if ("WhatsAppClientNotExistException".equals(expName)) {
+								int resId = getStringRes(context, "whatsapp_client_inavailable");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
+							} else {
+								int resId = getStringRes(context, "share_failed");
+								if (resId > 0) {
+									showNotification(context.getString(resId));
+								}
 							}
 						}
 					}
 					break;
 					case 3: {
 						// 取消
-						int resId = getStringRes(context, "share_canceled");
-						if (resId > 0) {
-							showNotification(context.getString(resId));
-						}
+
+							showNotification(getCancelText());
+
 					}
 					break;
 				}
@@ -596,5 +613,65 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 	public void setShareFromQQAuthSupport(boolean shareFromQQLogin)
 	{
 		shareParamsMap.put("isShareTencentWeibo", shareFromQQLogin);
+	}
+
+
+
+	private String successText;
+	private String cancelText;
+	private String errorText;
+
+	public void setSuccessText(String successText) {
+		this.successText = successText;
+	}
+
+	public void setCancelText(String cancelText) {
+		this.cancelText = cancelText;
+	}
+
+	public void setErrorText(String errorText) {
+		this.errorText = errorText;
+	}
+
+	public String getSuccessText() {
+		if(TextUtils.isEmpty(successText)){
+			return  context.getString( getStringRes(context, "share_completed"));
+		}
+		return successText;
+	}
+
+	public String getCancelText() {
+		if(TextUtils.isEmpty(cancelText)){
+			return  context.getString( getStringRes(context, "share_canceled"));
+		}
+		return cancelText;
+	}
+
+	public String getErrorText() {
+		return errorText;
+	}
+
+
+	public void setWapShareBean(WapShareBean wapShareBean){
+		this.setTitleUrl(wapShareBean.getUrl());
+		this.setUrl(wapShareBean.getUrl());
+		this.setTitle(wapShareBean.getTitle());
+		this.setText(wapShareBean.getContent() + wapShareBean.getUrl());
+		this.setImageUrl(wapShareBean.getImg());
+//            oks.setFilePath(SHARE_IMAGE);
+		this.setSilent(false);
+		this.setShareFromQQAuthSupport(false);
+		// 令编辑页面显示为Dialog模式
+		this.setDialogMode();
+	}
+
+	public PlatformActionListener platformActionListener;
+
+	public PlatformActionListener getPlatformActionListener() {
+		return platformActionListener;
+	}
+
+	public void setPlatformActionListener(PlatformActionListener platformActionListener) {
+		this.platformActionListener = platformActionListener;
 	}
 }

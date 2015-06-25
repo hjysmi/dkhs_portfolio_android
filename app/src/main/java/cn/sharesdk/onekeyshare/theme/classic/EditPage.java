@@ -58,10 +58,13 @@ import android.widget.Toast;
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.TitleLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.utils.ImageLoaderUtils;
 import com.mob.tools.utils.UIHandler;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
 import cn.sharesdk.onekeyshare.EditPageFakeActivity;
 import cn.sharesdk.onekeyshare.PicViewer;
 import cn.sharesdk.onekeyshare.ShareCore;
@@ -203,6 +206,8 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			rlPage.addView(getPageBody());
 			rlPage.addView(getImagePin());
 		}
+		llTitle.setFocusable(true);
+		llTitle.requestFocus();
 		return rlPage;
 	}
 
@@ -212,6 +217,8 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 		llTitle = LayoutInflater.from(getContext()).inflate(R.layout.layout_share_title_bar, null);
 
+		llTitle.setFocusableInTouchMode(true);
+		llTitle.setFocusable(true);
 
 		TextView titleTV = (TextView) llTitle.findViewById(R.id.tv_title);
 		Button shareBtn = (Button) llTitle.findViewById(R.id.btn_share);
@@ -220,13 +227,17 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		// if (resId > 0) {
 		// llTitle.setBackgroundResource(resId);
 		// }
-
-		int resId = getStringRes(activity, "multi_share");
-		if (resId > 0) {
-			titleTV.setText(resId);
+		String title= (String) reqData.get("title");
+		if(!TextUtils.isEmpty(title)){
+			titleTV.setText(title);
+		}else {
+			int resId = getStringRes(activity, "multi_share");
+			if (resId > 0) {
+				titleTV.setText(resId);
+			}
 		}
 		shareBtn.setVisibility(View.VISIBLE);
-		resId = getStringRes(activity, "share");
+		int resId = getStringRes(activity, "share");
 		if (resId > 0) {
 			shareBtn.setText(resId);
 		}
@@ -298,6 +309,8 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpEt.weight = 1;
 		etContent.setLayoutParams(lpEt);
 		llContent.addView(etContent);
+
+
 
 		llContent.addView(getThumbView());
 		llMainBody.addView(getBodyBottom());
@@ -398,32 +411,45 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 				ivImage.setImageBitmap(image);
 			}
 		} else if (reqData.containsKey("imageUrl")) {
-			new Thread() {
-				public void run() {
-					String imageUrl = String.valueOf(reqData.get("imageUrl"));
-					try {
-						shareImage = true;
-						image = getBitmap( imageUrl);
-					} catch (Throwable t) {
-						t.printStackTrace();
-						shareImage = false;
-						image = null;
-					}
 
-					if (shareImage) {
-						UIHandler.sendEmptyMessage(1, new Callback() {
-							public boolean handleMessage(Message msg) {
-								rlThumb.setVisibility(View.VISIBLE);
-								ivPin.setVisibility(View.VISIBLE);
-								ivImage.setImageBitmap(image);
-								return false;
-							}
-						});
-					}
-				}
-			}.start();
+			String imageUrl = String.valueOf(reqData.get("imageUrl"));
+			rlThumb.setVisibility(View.GONE);
+			ivPin.setVisibility(View.GONE);
+
+//			ImageLoaderUtils.setImage(imageUrl,ivImage,new ImageLoadingListener(){
+//
+//				@Override
+//				public void onLoadingStarted(String s, View view) {
+//
+//				}
+//
+//				@Override
+//				public void onLoadingFailed(String s, View view, FailReason failReason) {
+//					rlThumb.setVisibility(View.GONE);
+//					ivPin.setVisibility(View.GONE);
+//					shareImage = false;
+//				}
+//
+//				@Override
+//				public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+//					UIHandler.sendEmptyMessage(1, new Callback() {
+//						public boolean handleMessage(Message msg) {
+//							rlThumb.setVisibility(View.VISIBLE);
+//							ivPin.setVisibility(View.VISIBLE);
+//							shareImage = true;
+//							return false;
+//						}
+//					});
+//				}
+//
+//				@Override
+//				public void onLoadingCancelled(String s, View view) {
+//
+//				}
+//			});
 		}
 	}
+
 
 	private LinearLayout getBodyBottom() {
 		LinearLayout llBottom = new LinearLayout(getContext());
@@ -445,7 +471,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 				LayoutParams.WRAP_CONTENT);
 		lpCounter.gravity = Gravity.CENTER_VERTICAL;
 		tvCounter.setLayoutParams(lpCounter);
-		llBottom.addView(tvCounter);
+//		llBottom.addView(tvCounter);
 
 		return llBottom;
 	}
@@ -595,23 +621,6 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 	}
 
 	public void onClick(View v) {
-//        if (v.equals(.getBtnBack())) {
-//            Platform plat = null;
-//            for (int i = 0; i < views.length; i++) {
-//                if (views[i].getVisibility() == View.INVISIBLE) {
-//                    plat = platformList[i];
-//                    break;
-//                }
-//            }
-//
-//            // 取消分享的统计
-//            if (plat != null) {
-//                ShareSDK.logDemoEvent(5, plat);
-//            }
-//            finish();
-//            return;
-//        }
-
 
 		if (v.getId() == (R.id.btn_share)) {
 			String text = etContent.getText().toString();
@@ -714,12 +723,12 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			if (name != null && name.equals(platformList[i].getName())) {
 				views[i].setVisibility(View.INVISIBLE);
 				selection = i;
-
 				// 编辑分享内容的统计
 				ShareSDK.logDemoEvent(3, platformList[i]);
 			}
 			views[i].setLayoutParams(lpMask);
 			fl.addView(views[i]);
+			views[i].performClick();
 		}
 
 		final int postSel = selection;
