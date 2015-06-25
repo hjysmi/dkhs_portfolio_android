@@ -5,7 +5,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+
+import org.parceler.guava.annotations.VisibleForTesting;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.locks.Lock;

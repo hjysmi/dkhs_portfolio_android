@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -129,7 +128,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     @Override
     public void onViewShow() {
         reloadData();
-        Log.e(TAG, " ------------------->onviewshow");
         updateHandler.postDelayed(updateRunnable, 5 * 1000);
 
 
@@ -138,14 +136,12 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     @Override
     public void onViewHide() {
 
-        Log.e(TAG, " ------------------->onViewHide");
         updateHandler.removeCallbacks(updateRunnable);
     }
 
     @Override
     public void onResume() {
 
-        Log.e(TAG, " ------------------->onResume");
         super.onResume();
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
