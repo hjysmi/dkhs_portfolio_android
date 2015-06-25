@@ -470,8 +470,6 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 
 	public void onComplete(Platform platform, int action,
 			HashMap<String, Object> res) {
-
-
 		if(platformActionListener !=null ){
 			platformActionListener.onComplete(platform,action,res);
 		}
@@ -523,9 +521,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 				switch (msg.arg1) {
 					case 1: {
 						// 成功
-
 							showNotification(getSuccessText());
-
 					}
 					break;
 					case 2: {

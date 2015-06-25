@@ -132,12 +132,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
             public void onPageFinished(WebView view, String url) {
 
 
-//                mWebView.loadUrl("javascript:(function()");
-                LogUtils.e("onPageFinished");
-//                mWebView.loadUrl("javascript:" +
-//
-//                "javascript:window.share.shareAction(document.body.innerHTML);"
-//                );
                 mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
                 mWebView.loadUrl(js);
 

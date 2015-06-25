@@ -3,15 +3,21 @@ package cn.sharesdk.onekeyshare;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
+import com.dkhs.portfolio.ui.ModelAcitivity;
 import com.mob.tools.FakeActivity;
 import com.mob.tools.MobUIShell;
+import com.mob.tools.utils.UIHandler;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
@@ -23,11 +29,7 @@ public class PlatformListFakeActivity  extends  FakeActivity {
 	protected HashMap<String, String> hiddenPlatforms;
 	private boolean canceled = false;
 	protected View backgroundView;
-	private static Class<? extends MobUIShell> shell;
-	protected Activity activity;
-	private FakeActivity resultReceiver;
-	private HashMap<String, Object> result;
-	private View contentView;
+
 
 
 	protected OnShareButtonClickListener onShareButtonClickListener;
@@ -71,6 +73,69 @@ public class PlatformListFakeActivity  extends  FakeActivity {
 	public void show(Context context, Intent i) {
 		super.show(context, i);
 	}
+
+	public void showForResult(Context var1, Intent var2, FakeActivity var3) {
+		setField("resultReceiver", var3);
+
+		Message var4 = new Message();
+
+		Class<? extends MobUIShell> shell= (Class<? extends MobUIShell>) getField("shell");
+
+		Intent var5 = new Intent(var1, shell == null?MobUIShell.class:shell);
+		String var6 = MobUIShell.registerExecutor(this);
+		var5.putExtra("launch_time", var6);
+		var5.putExtra("executor_name", this.getClass().getName());
+		if(var2 != null) {
+			var5.putExtras(var2);
+		}
+
+		var4.obj = new Object[]{var1, var5};
+		UIHandler.sendMessage(var4, new Handler.Callback() {
+			public boolean handleMessage(Message var1) {
+				Object[] var2 = (Object[]) ((Object[]) var1.obj);
+				Context var3 = (Context) var2[0];
+				Intent var4 = (Intent) var2[1];
+				if (!(var3 instanceof Activity)) {
+					var4.addFlags(268435456);
+				}
+
+				if (var3 instanceof ModelAcitivity) {
+					((ModelAcitivity) var3).startActivityNoAnim(var4);
+				} else {
+					var3.startActivity(var4);
+				}
+				return false;
+			}
+		});
+	}
+
+	public void setField(String fieldStr,Object value){
+		Field field = null;
+		try {
+			field = getClass().getDeclaredField(fieldStr);
+			field.setAccessible(true);
+			field.set(this, value);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public  Object getField(String fieldStr){
+		Field field = null;
+		try {
+			field = getClass().getDeclaredField(fieldStr);
+
+			return  field.get(this);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return  null;
+	}
+
 
 	public HashMap<String, Object> getShareParamsMap() {
 		return shareParamsMap;
