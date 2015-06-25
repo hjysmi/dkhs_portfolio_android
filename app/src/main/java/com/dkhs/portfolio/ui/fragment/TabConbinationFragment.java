@@ -139,7 +139,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
     }
 
     public void refreshEditView() {
-        if (!mDataList.isEmpty()) {
+        if (null != mDataList && !mDataList.isEmpty()) {
             dataUpdate(false);
         } else {
             dataUpdate(true);

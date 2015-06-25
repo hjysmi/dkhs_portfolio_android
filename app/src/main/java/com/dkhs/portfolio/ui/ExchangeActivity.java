@@ -141,7 +141,7 @@ public class ExchangeActivity extends ModelAcitivity {
             boolean isSuccess = false;
             try {
                 JSONObject jsonObject = new JSONObject(jsonData);
-                isSuccess = jsonObject.optInt("statusCode") == 1 ;
+                isSuccess = jsonObject.optInt("statusCode") == 1;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -162,7 +162,7 @@ public class ExchangeActivity extends ModelAcitivity {
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             btnExchange.setEnabled(true);
-            showExchangeToast(false);
+//            showExchangeToast(false);
         }
     };
 

@@ -26,7 +26,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.TabWidget;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
 
@@ -39,7 +38,7 @@ import java.util.ArrayList;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-6 上午9:46:52
  */
-public class MainMarketFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
+public class MainMarketFragment extends VisiableLoadFragment implements ViewPager.OnPageChangeListener {
 
 
     @ViewInject(R.id.rl_header_title)
@@ -51,6 +50,7 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     @ViewInject(R.id.btn_search)
     Button mBtnsearch;
 
+    BasePagerFragmentAdapter mAdapter;
     private TabWidget tabWidget;
     private ArrayList<Fragment> fragmentList;
 
@@ -67,7 +67,6 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        BusProvider.getInstance().register(this);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -80,7 +79,8 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
         fragmentList.add(new MarketStockFragment());
         fragmentList.add(new MarketFundsFragment());
         fragmentList.add(new MarketCombinationFragment());
-        vp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));
+        mAdapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList);
+        vp.setAdapter(mAdapter);
         vp.setOnPageChangeListener(this);
         tabWidget = new TabWidget(view);
         mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
@@ -100,12 +100,42 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
         vp.setOffscreenPageLimit(3);
     }
 
+    @Override
+    public void requestData() {
+
+    }
+
+
+    @Override
+    public void onViewHide() {
+        BusProvider.getInstance().unregister(this);
+        if (null != mAdapter && null != vp) {
+            Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
+            if (fragment instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragment).onViewHide();
+            }
+        }
+    }
+
+    @Override
+    public void onViewShow() {
+        BusProvider.getInstance().register(this);
+        if (null != mAdapter && null != vp) {
+
+            Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
+            if (fragment instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragment).onViewShow();
+            } else {
+                fragment.onResume();
+            }
+        }
+    }
+
+    private static final String TAG = MainMarketFragment.class.getSimpleName();
 
     @Subscribe
     public void rotateRefreshButton(RotateRefreshEvent rotateRefreshEvent) {
-
         if (isAdded() && !isHidden()) {
-
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
                     null, null, null);
             Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
@@ -115,7 +145,6 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
 
     @Subscribe
     public void stopRefreshAnimation(StopRefreshEvent stopRefreshEvent) {
-
         if (isAdded() && !isHidden()) {
             mBtnrefresh.clearAnimation();
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
@@ -127,7 +156,7 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     public void onDestroy() {
         super.onDestroy();
 
-        BusProvider.getInstance().unregister(this);
+
     }
 
     @Override

@@ -9,7 +9,6 @@
 package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -118,7 +117,6 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
 
                 if (null != sbIds && sbIds.length() > 1) {
 
-                    Log.i("OptionalStockEngineImpl", "ids:" + sbIds.substring(0, sbIds.length() - 1));
 
                     RequestParams params = new RequestParams();
                     if (!orderType.equals(DEF_ORDER_TYPE)) {

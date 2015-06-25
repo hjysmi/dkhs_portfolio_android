@@ -193,6 +193,8 @@ public class TrendTodayChartFragment extends BaseFragment {
         rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
         rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
     }
 
     private void setTipVisible(boolean isShow) {
@@ -497,6 +499,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+        stopRequry();
     }
 
     @Override
