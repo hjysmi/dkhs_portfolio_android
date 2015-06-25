@@ -48,7 +48,6 @@ public class InviteFriendsActivity extends ModelAcitivity {
             public void onClick(View v) {
 
                 invitingFriendAction();
-
             }
         });
 

@@ -206,8 +206,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                 @Override
                 public void onCancel(Platform platform, int i) {
 
-//                    LogUtils.e(String.format(functionJS,mWapShareBean.getSuccessCallback()));
-//                    mWebView.loadUrl(String.format(functionJS,mWapShareBean.getSuccessCallback()));
                 }
             });
         }

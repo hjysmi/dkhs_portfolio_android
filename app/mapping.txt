@@ -3,61 +3,28 @@ android.support.annotation.AnimatorRes -> android.support.annotation.AnimatorRes
 android.support.annotation.AnyRes -> android.support.annotation.AnyRes:
 android.support.annotation.ArrayRes -> android.support.annotation.ArrayRes:
 android.support.annotation.AttrRes -> android.support.annotation.AttrRes:
-android.support.annotation.BinderThread -> android.support.annotation.BinderThread:
 android.support.annotation.BoolRes -> android.support.annotation.BoolRes:
-android.support.annotation.CallSuper -> android.support.annotation.CallSuper:
-android.support.annotation.CheckResult -> android.support.annotation.CheckResult:
-    java.lang.String suggest() -> suggest
-android.support.annotation.ColorInt -> android.support.annotation.ColorInt:
 android.support.annotation.ColorRes -> android.support.annotation.ColorRes:
 android.support.annotation.DimenRes -> android.support.annotation.DimenRes:
 android.support.annotation.DrawableRes -> android.support.annotation.DrawableRes:
-android.support.annotation.FloatRange -> android.support.annotation.FloatRange:
-    double from() -> from
-    double to() -> to
-    boolean fromInclusive() -> fromInclusive
-    boolean toInclusive() -> toInclusive
 android.support.annotation.FractionRes -> android.support.annotation.FractionRes:
 android.support.annotation.IdRes -> android.support.annotation.IdRes:
 android.support.annotation.IntDef -> android.support.annotation.IntDef:
     long[] value() -> value
     boolean flag() -> flag
-android.support.annotation.IntRange -> android.support.annotation.IntRange:
-    long from() -> from
-    long to() -> to
 android.support.annotation.IntegerRes -> android.support.annotation.IntegerRes:
 android.support.annotation.InterpolatorRes -> android.support.annotation.InterpolatorRes:
-android.support.annotation.Keep -> android.support.annotation.Keep:
 android.support.annotation.LayoutRes -> android.support.annotation.LayoutRes:
-android.support.annotation.MainThread -> android.support.annotation.MainThread:
 android.support.annotation.MenuRes -> android.support.annotation.MenuRes:
 android.support.annotation.NonNull -> android.support.annotation.NonNull:
 android.support.annotation.Nullable -> android.support.annotation.Nullable:
 android.support.annotation.PluralsRes -> android.support.annotation.PluralsRes:
 android.support.annotation.RawRes -> android.support.annotation.RawRes:
-android.support.annotation.RequiresPermission -> android.support.annotation.RequiresPermission:
-    java.lang.String value() -> value
-    java.lang.String[] allOf() -> allOf
-    java.lang.String[] anyOf() -> anyOf
-    boolean conditional() -> conditional
-android.support.annotation.RequiresPermission$Read -> android.support.annotation.RequiresPermission$Read:
-    android.support.annotation.RequiresPermission value() -> value
-android.support.annotation.RequiresPermission$Write -> android.support.annotation.RequiresPermission$Write:
-    android.support.annotation.RequiresPermission value() -> value
-android.support.annotation.Size -> android.support.annotation.Size:
-    long value() -> value
-    long min() -> min
-    long max() -> max
-    long multiple() -> multiple
 android.support.annotation.StringDef -> android.support.annotation.StringDef:
     java.lang.String[] value() -> value
 android.support.annotation.StringRes -> android.support.annotation.StringRes:
 android.support.annotation.StyleRes -> android.support.annotation.StyleRes:
 android.support.annotation.StyleableRes -> android.support.annotation.StyleableRes:
-android.support.annotation.TransitionRes -> android.support.annotation.TransitionRes:
-android.support.annotation.UiThread -> android.support.annotation.UiThread:
-android.support.annotation.VisibleForTesting -> android.support.annotation.VisibleForTesting:
-android.support.annotation.WorkerThread -> android.support.annotation.WorkerThread:
 android.support.annotation.XmlRes -> android.support.annotation.XmlRes:
 android.support.v4.app.ActivityCompat -> android.support.v4.app.a:
     void finishAffinity(android.app.Activity) -> a
@@ -23419,7 +23386,10 @@ com.dkhs.portfolio.ui.AdActivity -> com.dkhs.portfolio.ui.AdActivity:
     void access$100(com.dkhs.portfolio.ui.AdActivity) -> b
     com.dkhs.portfolio.ui.messagecenter.MessageHandler access$200(com.dkhs.portfolio.ui.AdActivity) -> c
     android.webkit.WebView access$300(com.dkhs.portfolio.ui.AdActivity) -> d
-    com.dkhs.portfolio.bean.WapShareBean access$400(com.dkhs.portfolio.ui.AdActivity) -> e
+    com.dkhs.portfolio.bean.WapShareBean access$402(com.dkhs.portfolio.ui.AdActivity,com.dkhs.portfolio.bean.WapShareBean) -> a
+    com.dkhs.portfolio.common.WeakHandler access$500(com.dkhs.portfolio.ui.AdActivity) -> e
+    java.lang.String access$002(com.dkhs.portfolio.ui.AdActivity,java.lang.String) -> a
+    com.dkhs.portfolio.bean.WapShareBean access$400(com.dkhs.portfolio.ui.AdActivity) -> f
 com.dkhs.portfolio.ui.AdActivity$1 -> com.dkhs.portfolio.ui.a:
     com.dkhs.portfolio.ui.AdActivity this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
@@ -23433,8 +23403,10 @@ com.dkhs.portfolio.ui.AdActivity$3 -> com.dkhs.portfolio.ui.c:
     void onComplete(cn.sharesdk.framework.Platform,int,java.util.HashMap) -> onComplete
     void onError(cn.sharesdk.framework.Platform,int,java.lang.Throwable) -> onError
     void onCancel(cn.sharesdk.framework.Platform,int) -> onCancel
-com.dkhs.portfolio.ui.AdActivity$JavascriptInterface -> com.dkhs.portfolio.ui.AdActivity$a:
+com.dkhs.portfolio.ui.AdActivity$JavascriptInterface -> com.dkhs.portfolio.ui.AdActivity$JavascriptInterface:
     com.dkhs.portfolio.ui.AdActivity this$0 -> a
+    void getShareEntity(java.lang.String) -> getShareEntity
+    void setTitleAction(java.lang.String) -> setTitleAction
 com.dkhs.portfolio.ui.AgreementTextActivity -> com.dkhs.portfolio.ui.AgreementTextActivity:
     android.webkit.WebView agreement_webview_web -> a
     android.content.Context context -> b
@@ -24406,19 +24378,26 @@ com.dkhs.portfolio.ui.InviteCodeActivity$3 -> com.dkhs.portfolio.ui.br:
     void onFailure(int,java.lang.String) -> onFailure
 com.dkhs.portfolio.ui.InviteFriendsActivity -> com.dkhs.portfolio.ui.InviteFriendsActivity:
     android.widget.Button invitingBtn -> a
+    com.dkhs.portfolio.bean.ShareBean mShareBean -> b
     void onCreate(android.os.Bundle) -> onCreate
+    void invitingFriendAction() -> a
+    void getDataForNet(boolean) -> a
     void invitingFriendAction(com.dkhs.portfolio.bean.ShareBean) -> a
-    void access$000(com.dkhs.portfolio.ui.InviteFriendsActivity,com.dkhs.portfolio.bean.ShareBean) -> a
+    void access$000(com.dkhs.portfolio.ui.InviteFriendsActivity) -> a
+    com.dkhs.portfolio.bean.ShareBean access$102(com.dkhs.portfolio.ui.InviteFriendsActivity,com.dkhs.portfolio.bean.ShareBean) -> a
+    com.dkhs.portfolio.bean.ShareBean access$100(com.dkhs.portfolio.ui.InviteFriendsActivity) -> b
+    void access$200(com.dkhs.portfolio.ui.InviteFriendsActivity,com.dkhs.portfolio.bean.ShareBean) -> b
 com.dkhs.portfolio.ui.InviteFriendsActivity$1 -> com.dkhs.portfolio.ui.bs:
     com.dkhs.portfolio.ui.InviteFriendsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.InviteFriendsActivity$1$1 -> com.dkhs.portfolio.ui.bt:
-    com.dkhs.portfolio.ui.InviteFriendsActivity$1 this$1 -> a
-    java.lang.Class getClassType() -> a
-    void afterParseData(java.lang.Object) -> a
-com.dkhs.portfolio.ui.InviteFriendsActivity$2 -> com.dkhs.portfolio.ui.bu:
+com.dkhs.portfolio.ui.InviteFriendsActivity$2 -> com.dkhs.portfolio.ui.bt:
     com.dkhs.portfolio.ui.InviteFriendsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
+com.dkhs.portfolio.ui.InviteFriendsActivity$3 -> com.dkhs.portfolio.ui.bu:
+    boolean val$response -> a
+    com.dkhs.portfolio.ui.InviteFriendsActivity this$0 -> b
+    java.lang.Class getClassType() -> a
+    void afterParseData(java.lang.Object) -> a
 com.dkhs.portfolio.ui.InviteHistoryActivity -> com.dkhs.portfolio.ui.InviteHistoryActivity:
     com.dkhs.widget.CircularProgress mLoadView -> a
     android.widget.ListView mListView -> b
@@ -24564,10 +24543,11 @@ com.dkhs.portfolio.ui.MainActivity -> com.dkhs.portfolio.ui.MainActivity:
     void handIntent(android.content.Intent) -> b
     void showContentIndex(int) -> a
     void displayFragmentA() -> a
-    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
     void displayFragmentB() -> b
     void displayFragmentC() -> c
     void displayFragmentD() -> d
+    void hideAllFragment() -> k
+    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
 com.dkhs.portfolio.ui.MarketListActivity -> com.dkhs.portfolio.ui.MarketListActivity:
@@ -28132,12 +28112,17 @@ com.dkhs.portfolio.ui.fragment.MainMarketFragment -> com.dkhs.portfolio.ui.fragm
     android.support.v4.view.ViewPager vp -> b
     android.widget.Button mBtnrefresh -> c
     android.widget.Button mBtnsearch -> d
-    com.dkhs.portfolio.ui.widget.TabWidget tabWidget -> e
-    java.util.ArrayList fragmentList -> f
+    com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter mAdapter -> e
+    com.dkhs.portfolio.ui.widget.TabWidget tabWidget -> f
+    java.util.ArrayList fragmentList -> g
+    java.lang.String TAG -> h
     int setContentLayoutId() -> h
     void onCreate(android.os.Bundle) -> onCreate
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
+    void onViewHide() -> c_
+    void onViewShow() -> b_
     void rotateRefreshButton(com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent) -> rotateRefreshButton
     void stopRefreshAnimation(com.dkhs.portfolio.ui.eventbus.StopRefreshEvent) -> stopRefreshAnimation
     void onDestroy() -> onDestroy
@@ -28154,9 +28139,10 @@ com.dkhs.portfolio.ui.fragment.MainOptionalFragment -> com.dkhs.portfolio.ui.fra
     java.lang.String mUserId -> d
     com.dkhs.portfolio.ui.widget.TabWidget tabWidget -> e
     com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter adapter -> f
-    com.dkhs.portfolio.ui.fragment.TabStockFragment tabStockFragment -> g
-    com.dkhs.portfolio.ui.fragment.TabFundsFragment tabFundsFragment -> h
-    com.dkhs.portfolio.ui.fragment.TabConbinationFragment tabConbinationFragment -> i
+    java.lang.String TAG -> g
+    com.dkhs.portfolio.ui.fragment.TabStockFragment tabStockFragment -> h
+    com.dkhs.portfolio.ui.fragment.TabFundsFragment tabFundsFragment -> i
+    com.dkhs.portfolio.ui.fragment.TabConbinationFragment tabConbinationFragment -> j
     com.dkhs.portfolio.ui.fragment.MainOptionalFragment getMainFragment(java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
     void onAttach(android.app.Activity) -> onAttach
@@ -28294,19 +28280,22 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment -> com.dkhs.portfolio.ui.frag
     boolean hasSetLVAmpltHigh -> B
     int setContentLayoutId() -> h
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
+    void requestData() -> d
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
+    void onViewShow() -> b_
+    void onViewHide() -> c_
     void onStop() -> onStop
     void initView(android.view.View) -> a
-    void setDefTransittion() -> c
+    void setDefTransittion() -> f
     void onStart() -> onStart
-    void initData() -> d
+    void initData() -> g
     void onClick(android.view.View) -> onClick
     void startQuoteActivity(com.dkhs.portfolio.bean.SelectStockBean) -> a
     void onPause() -> onPause
-    void loadingAllData() -> e
-    void startAnimaRefresh() -> a
-    void endAnimaRefresh() -> b
+    void loadingAllData() -> i
+    void startAnimaRefresh() -> c
+    void endAnimaRefresh() -> e
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.MarketStockFragment) -> a
     java.util.List access$100(com.dkhs.portfolio.ui.fragment.MarketStockFragment) -> b
     void access$200(com.dkhs.portfolio.ui.fragment.MarketStockFragment,com.dkhs.portfolio.bean.SelectStockBean) -> a
@@ -28824,12 +28813,13 @@ com.dkhs.portfolio.ui.fragment.TabStockFragment -> com.dkhs.portfolio.ui.fragmen
     android.view.View titleView -> f
     java.lang.String mUserId -> g
     com.dkhs.portfolio.common.WeakHandler updateHandler -> a
-    com.dkhs.portfolio.ui.eventbus.IDataUpdateListener dataUpdateListener -> h
+    java.lang.String TAG -> h
+    com.dkhs.portfolio.ui.eventbus.IDataUpdateListener dataUpdateListener -> i
     java.lang.Runnable updateRunnable -> b
-    android.widget.TextView viewLastClick -> i
-    java.lang.String orderType -> j
-    int lastPercentTextIds -> k
-    java.lang.String mPageName -> l
+    android.widget.TextView viewLastClick -> j
+    java.lang.String orderType -> k
+    int lastPercentTextIds -> l
+    java.lang.String mPageName -> m
     int setContentLayoutId() -> h
     com.dkhs.portfolio.ui.fragment.TabStockFragment getTabStockFragment(java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
@@ -29327,6 +29317,7 @@ com.dkhs.portfolio.ui.fragment.VisiableLoadFragment -> com.dkhs.portfolio.ui.fra
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     void onHiddenChanged(boolean) -> onHiddenChanged
     void onResume() -> onResume
+    boolean iStrictVisible() -> c
     void onPause() -> onPause
     void onViewShow() -> b_
     void onViewHide() -> c_
