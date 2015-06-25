@@ -193,6 +193,8 @@ public class TrendTodayChartFragment extends BaseFragment {
         rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
         rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
     }
 
     private void setTipVisible(boolean isShow) {

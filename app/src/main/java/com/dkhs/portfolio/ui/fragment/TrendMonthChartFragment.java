@@ -178,6 +178,8 @@ public class TrendMonthChartFragment extends BaseFragment {
 
         mMaChart.setDrawRightYTitle(true);
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
     }
 
     private List<LineEntity> lines;
