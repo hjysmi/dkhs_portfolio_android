@@ -11755,6 +11755,11 @@ cn.sharesdk.onekeyshare.PlatformListFakeActivity -> cn.sharesdk.onekeyshare.Plat
     java.util.HashMap hiddenPlatforms -> hiddenPlatforms
     boolean canceled -> canceled
     android.view.View backgroundView -> backgroundView
+    java.lang.Class shell -> shell
+    android.app.Activity activity -> activity
+    com.mob.tools.FakeActivity resultReceiver -> resultReceiver
+    java.util.HashMap result -> result
+    android.view.View contentView -> contentView
     cn.sharesdk.onekeyshare.PlatformListFakeActivity$OnShareButtonClickListener onShareButtonClickListener -> onShareButtonClickListener
     boolean dialogMode -> dialogMode
     cn.sharesdk.onekeyshare.ThemeShareCallback themeShareCallback -> themeShareCallback
@@ -11763,9 +11768,6 @@ cn.sharesdk.onekeyshare.PlatformListFakeActivity -> cn.sharesdk.onekeyshare.Plat
     void setCanceled(boolean) -> setCanceled
     boolean onFinish() -> onFinish
     void show(android.content.Context,android.content.Intent) -> show
-    void showForResult(android.content.Context,android.content.Intent,com.mob.tools.FakeActivity) -> showForResult
-    void setField(java.lang.String,java.lang.Object) -> setField
-    java.lang.Object getField(java.lang.String) -> getField
     java.util.HashMap getShareParamsMap() -> getShareParamsMap
     void setShareParamsMap(java.util.HashMap) -> setShareParamsMap
     boolean isSilent() -> isSilent
@@ -11787,9 +11789,6 @@ cn.sharesdk.onekeyshare.PlatformListFakeActivity -> cn.sharesdk.onekeyshare.Plat
     void showEditPage(android.content.Context,cn.sharesdk.framework.Platform) -> showEditPage
     void showEditPage(android.content.Context,java.util.List) -> showEditPage
 cn.sharesdk.onekeyshare.PlatformListFakeActivity$1 -> cn.sharesdk.onekeyshare.PlatformListFakeActivity$1:
-    cn.sharesdk.onekeyshare.PlatformListFakeActivity this$0 -> this$0
-    boolean handleMessage(android.os.Message) -> handleMessage
-cn.sharesdk.onekeyshare.PlatformListFakeActivity$2 -> cn.sharesdk.onekeyshare.PlatformListFakeActivity$2:
     cn.sharesdk.onekeyshare.PlatformListFakeActivity this$0 -> this$0
     void onResult(java.util.HashMap) -> onResult
 cn.sharesdk.onekeyshare.PlatformListFakeActivity$OnShareButtonClickListener -> cn.sharesdk.onekeyshare.PlatformListFakeActivity$OnShareButtonClickListener:
@@ -23378,7 +23377,7 @@ com.dkhs.portfolio.ui.AdActivity -> com.dkhs.portfolio.ui.AdActivity:
     com.dkhs.portfolio.ui.messagecenter.MessageHandler messageHandler -> f
     android.content.Intent getIntent(android.content.Context,java.lang.String,java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
-    void handleIntent(android.content.Intent) -> b
+    void handleIntent(android.content.Intent) -> a
     void initView() -> a
     void showShareButton() -> b
     void onClick(android.view.View) -> onClick
@@ -24540,7 +24539,7 @@ com.dkhs.portfolio.ui.MainActivity -> com.dkhs.portfolio.ui.MainActivity:
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void onNewIntent(android.content.Intent) -> onNewIntent
-    void handIntent(android.content.Intent) -> b
+    void handIntent(android.content.Intent) -> a
     void showContentIndex(int) -> a
     void displayFragmentA() -> a
     void displayFragmentB() -> b
@@ -24612,7 +24611,6 @@ com.dkhs.portfolio.ui.ModelAcitivity -> com.dkhs.portfolio.ui.ModelAcitivity:
     com.dkhs.portfolio.ui.widget.TextImageButton getBtnBack() -> i
     android.view.View getTitleView() -> j
     void startActivity(android.content.Intent) -> startActivity
-    void startActivityNoAnim(android.content.Intent) -> a
     void updateTitleBackgroud(int) -> c
     void updateTitleBackgroudByValue(float) -> c
 com.dkhs.portfolio.ui.ModelAcitivity$1 -> com.dkhs.portfolio.ui.ck:
@@ -25909,7 +25907,7 @@ com.dkhs.portfolio.ui.WebActivity -> com.dkhs.portfolio.ui.WebActivity:
     android.webkit.WebView webView -> c
     android.content.Intent getIntent(android.content.Context,java.lang.String,java.lang.String) -> a
     void onCreate(android.os.Bundle) -> onCreate
-    void handleIntent(android.content.Intent) -> b
+    void handleIntent(android.content.Intent) -> a
     void initView() -> a
 com.dkhs.portfolio.ui.YanBaoActivity -> com.dkhs.portfolio.ui.YanBaoActivity:
     android.widget.LinearLayout layout -> a
@@ -28123,6 +28121,8 @@ com.dkhs.portfolio.ui.fragment.MainMarketFragment -> com.dkhs.portfolio.ui.fragm
     void requestData() -> d
     void onViewHide() -> c_
     void onViewShow() -> b_
+    void onResume() -> onResume
+    void onPause() -> onPause
     void rotateRefreshButton(com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent) -> rotateRefreshButton
     void stopRefreshAnimation(com.dkhs.portfolio.ui.eventbus.StopRefreshEvent) -> stopRefreshAnimation
     void onDestroy() -> onDestroy
