@@ -613,4 +613,8 @@
     <string name="register_date">注册时间</string>
     <string name="no_invitations_tips">你还没有邀请。</string>
     <string name="ad1">  ( 千万流量疯狂送, 快来抢 ! )</string>
+    <string name="history">历史</string>
+    <string name="invite_success">邀请成功</string>
+    <string name="invite_cancel">邀请取消</string>
+    <string name="invite_err">邀请失败</string>
 </resources>

@@ -245,6 +245,7 @@
                 >
                 <LinearLayout
                     android:id="@+id/ll_inviteFriends"
+                    android:background="@drawable/btn_white_selector"
                     android:layout_width="fill_parent"
                     android:paddingLeft="20dp"
                     android:paddingTop="10dp"
@@ -273,12 +274,6 @@
 
 
 
-
-                <View
-
-                    android:layout_below="@+id/ll_inviteFriends"
-                    style="@style/divider_line"
-                    />
                 <LinearLayout
                     android:layout_below="@+id/ll_inviteFriends"
                     android:id="@+id/ll_flowPackage"
@@ -288,6 +283,7 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="10dp"
                     android:orientation="horizontal"
+                    android:background="@drawable/btn_white_selector"
                     android:layout_height="wrap_content">
 
                     <TextView
@@ -315,6 +311,11 @@
                         android:src="@drawable/setting_image_right" />
 
                 </LinearLayout>
+                <View
+
+                    android:layout_below="@+id/ll_inviteFriends"
+                    style="@style/divider_line"
+                    />
 
 
 

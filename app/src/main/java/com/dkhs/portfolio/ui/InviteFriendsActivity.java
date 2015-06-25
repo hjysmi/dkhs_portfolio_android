@@ -14,7 +14,10 @@ import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.util.List;
+
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.PlatformListFakeActivity;
 
 /**
  * @author zwm
@@ -31,6 +34,8 @@ public class InviteFriendsActivity extends ModelAcitivity {
     @ViewInject(R.id.invitingBtn)
     private Button invitingBtn;
 
+    private ShareBean mShareBean;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,64 +46,73 @@ public class InviteFriendsActivity extends ModelAcitivity {
         invitingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdEngineImpl.getInvitingInfo(new SimpleParseHttpListener() {
-                    @Override
-                    public Class getClassType() {
-                        return ShareBean.class;
-                    }
 
-                    @Override
-                    protected void afterParseData(Object object) {
-
-                        if(object!=null ){
-                            invitingFriendAction((ShareBean)object);
-                        }
-
-                    }
-                });
+                invitingFriendAction();
             }
         });
 
-        Button rightButton=getRightButton();
+        getDataForNet(false);
 
-        rightButton.setText("历史");
+        Button rightButton = getRightButton();
+
+        rightButton.setText(R.string.history);
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InviteFriendsActivity.this,InviteHistoryActivity.class));
+                startActivity(new Intent(InviteFriendsActivity.this, InviteHistoryActivity.class));
             }
         });
 
     }
 
+    private void invitingFriendAction() {
+
+        if(mShareBean != null){
+            invitingFriendAction(mShareBean);
+        }else{
+            getDataForNet(true);
+        }
+    }
+
+    private void getDataForNet(final boolean response) {
+        AdEngineImpl.getInvitingInfo(new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return ShareBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+                if (object != null) {
+                    mShareBean= (ShareBean) object;
+                    if(response) {
+                        invitingFriendAction(mShareBean);
+                    }
+                }
+            }
+        }.setLoadingDialog(InviteFriendsActivity.this));
+    }
+
 
     private void invitingFriendAction(ShareBean object) {
 
-
-            /**
-             *
-             * "content": "领取免费流量，下载谁牛app，输入邀请码17350926,即可领取100M免费流量",
-             "url": "https://www.dkhs.com/portfolio/wap/?invite_code=17350926",
-             "code": "17350926",
-             "img": "https://www.dkhs.com/static/portfolio/img/shuiniuwap/favicon.png",
-             "title": "谁牛－免费流量跟踪牛股"
-             */
-            Context context = this;
-            final OnekeyShare oks = new OnekeyShare();
-//            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-            oks.setTitleUrl(object.getUrl());
-            oks.setUrl(object.getUrl());
-            oks.setTitle(object.getTitle());
-            oks.setText(object.getContent());
-            oks.setImageUrl(object.getImg());
+        Context context = this;
+        final OnekeyShare oks = new OnekeyShare();
+//          oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        oks.setTitleUrl(object.getUrl());
+        oks.setUrl(object.getUrl());
+        oks.setTitle(object.getTitle());
+        oks.setText(object.getContent()+object.getUrl());
+        oks.setImageUrl(object.getImg());
 //            oks.setFilePath(SHARE_IMAGE);
-            oks.setSilent(false);
-
-            oks.setShareFromQQAuthSupport(false);
-            // 令编辑页面显示为Dialog模式
-            oks.setDialogMode();
-
-            oks.show(context);
+        oks.setSilent(false);
+        oks.setShareFromQQAuthSupport(false);
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+        oks.setSuccessText(getString(R.string.invite_success));
+        oks.setCancelText(getString(R.string.invite_cancel));
+        oks.setErrorText(getString(R.string.invite_err));
+        oks.show(context);
 
 
     }

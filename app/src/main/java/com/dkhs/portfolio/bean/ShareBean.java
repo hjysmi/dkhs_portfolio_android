@@ -11,6 +11,7 @@ public class ShareBean {
 
 
     /**
+     *
      * content : 领取免费流量，下载谁牛app，输入邀请码17350926,即可领取100M免费流量
      * title : 谁牛－免费流量跟踪牛股
      * img : https://www.dkhs.com/static/portfolio/img/shuiniuwap/favicon.png
@@ -22,6 +23,9 @@ public class ShareBean {
     private String img;
     private String code;
     private String url;
+
+
+
 
     public void setContent(String content) {
         this.content = content;
