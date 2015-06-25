@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,9 +135,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
 
     @Subscribe
     public void rotateRefreshButton(RotateRefreshEvent rotateRefreshEvent) {
-        Log.e(TAG, " ------------------->rotateRefreshButton");
         if (isAdded() && !isHidden()) {
-            Log.e(TAG, " ------------------->startAnimation");
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
                     null, null, null);
             Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
@@ -148,9 +145,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
 
     @Subscribe
     public void stopRefreshAnimation(StopRefreshEvent stopRefreshEvent) {
-        Log.e(TAG, " ------------------->stopRefreshAnimation");
         if (isAdded() && !isHidden()) {
-            Log.e(TAG, " ------------------->clearAnimation");
             mBtnrefresh.clearAnimation();
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                     null, null, null);
