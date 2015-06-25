@@ -239,6 +239,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
         if (null != updateCombinationEvent && null != updateCombinationEvent.mCombinationBean) {
             this.mCombinationBean = updateCombinationEvent.mCombinationBean;
             initFloatingActionMenu();
+            updataTitle();
         }
     }
 
@@ -356,7 +357,6 @@ public class CombinationDetailActivity extends ModelAcitivity {
             }
 
             updataTitle();
-            ;
         }
     }
 
