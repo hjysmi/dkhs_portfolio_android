@@ -345,8 +345,8 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         protected void afterParseData(Boolean object) {
             if (!object) {
                 if (isSettingPsw) {
-                    startActivity(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
-                            null, false));
+                    startActivityForResult(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
+                            null, false), REQUESTCODE_SET_PASSWROD);
                 } else {
                     startActivityForResult((VerificationActivity.newSettPswIntent(RLFActivity.this, etPhoneNum
                             .getText().toString(), null)), REQUESTCODE_SET_PASSWROD);
@@ -529,7 +529,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
 
-            Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SET_PASSWROD: {
                     finish();
