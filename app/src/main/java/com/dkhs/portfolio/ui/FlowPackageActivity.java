@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FlowPackAdapter;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -90,7 +93,21 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
 
                 startActivity(new Intent(this, ExchangeActivity.class));
             }else{
-                startActivity(RLFActivity.bindPhoneIntent(this));
+
+                final MAlertDialog mAlertDialog= PromptManager.getAlertDialog(this);
+                mAlertDialog.setTitle(R.string.tips);
+                mAlertDialog.setMessage("绑定手机号才可以兑换流量哦");
+                mAlertDialog.setButton1("去绑定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(RLFActivity.bindPhoneIntent(FlowPackageActivity.this));
+                        mAlertDialog.dismiss();
+                    }
+                });
+                mAlertDialog.setButton3("取消",null);
+                mAlertDialog.show();
+
+
             }
         }
     }

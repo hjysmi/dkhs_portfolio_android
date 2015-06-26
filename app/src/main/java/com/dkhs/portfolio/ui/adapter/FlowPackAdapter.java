@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.dkhs.portfolio.ui.InviteCodeActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 
 /**
  * Created by zjz on 2015/6/18.
@@ -144,7 +147,21 @@ public class FlowPackAdapter extends BaseAdapter {
                 }
                 break;
                 case 1: {
-                    mContext.startActivity(InviteCodeActivity.newIntent(mContext));
+
+                    final MAlertDialog mAlertDialog= PromptManager.getAlertDialog(mContext);
+                    mAlertDialog.setTitle(R.string.tips);
+                    mAlertDialog.setMessage("绑定手机号才可以验证邀请码哦");
+                    mAlertDialog.setButton1("去绑定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mContext.startActivity(InviteCodeActivity.newIntent(mContext));
+                            mAlertDialog.dismiss();
+                        }
+                    });
+                    mAlertDialog.setButton3("取消",null);
+                    mAlertDialog.show();
+
+
                 }
                 break;
                 case 2: {

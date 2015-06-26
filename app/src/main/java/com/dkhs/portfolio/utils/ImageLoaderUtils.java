@@ -71,6 +71,16 @@ public class ImageLoaderUtils {
         loader.loadImage(url, options,null);
 
     }
+    public static void loadImage(String url,ImageLoadingListener imageLoadingListener) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory().cacheOnDisc()
+                .displayer(new FadeInBitmapDisplayer(600))
+                .build();
+
+        loader.loadImage(url, options,imageLoadingListener);
+
+    }
 
     public static void setRoundedImage(String url, ImageView new_phone1, @DrawableRes int loadingDrawableId, @DrawableRes int failedDrawableId) {
         ImageLoader loader = ImageLoader.getInstance();

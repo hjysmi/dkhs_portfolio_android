@@ -31,6 +31,7 @@ import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 
 import static com.mob.tools.utils.BitmapHelper.captureView;
 import static com.mob.tools.utils.R.getStringRes;
@@ -426,6 +427,15 @@ public class OnekeyShare implements PlatformActionListener, Callback {
                 UIHandler.sendMessage(msg, this);
                 continue;
             }
+            boolean isWeiBo = SinaWeibo.NAME.equals(name);
+            if (isWeiBo && !plat.isClientValid()) {
+                HashMap<String, Object> data = ent.getValue();
+
+
+                this.setText(data.get("text").toString() + data.get("url"));
+
+
+            }
 
             boolean isWhatsApp = "WhatsApp".equals(name);
             if (isWhatsApp && !plat.isClientValid()) {
@@ -725,8 +735,15 @@ public class OnekeyShare implements PlatformActionListener, Callback {
         this.setUrl(wapShareBean.getUrl());
         this.setTitle(wapShareBean.getTitle());
         this.setText(wapShareBean.getContent() + wapShareBean.getUrl());
-        this.setImageUrl(wapShareBean.getImg());
 
+
+
+        if(!TextUtils.isEmpty(wapShareBean.getImgPath()) &&new File(wapShareBean.getImgPath()).exists()){
+
+            this.setImagePath(wapShareBean.getImgPath());
+        }else{
+            this.setImageUrl(wapShareBean.getImg());
+        }
 
 //            oks.setFilePath(SHARE_IMAGE);
         this.setSilent(false);

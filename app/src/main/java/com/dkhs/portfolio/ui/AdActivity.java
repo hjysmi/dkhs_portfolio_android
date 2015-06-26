@@ -19,9 +19,13 @@ import com.dkhs.portfolio.bean.WapShareBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.HashMap;
 
@@ -179,28 +183,57 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
         if(mWapShareBean != null){
 
-            Context context = this;
-            OnekeyShare oks = new OnekeyShare();
-            oks.setWapShareBean(mWapShareBean);
-            oks.show(context);
-            oks.setPlatformActionListener(new PlatformActionListener() {
+
+            ImageLoaderUtils.loadImage(mWapShareBean.getImg(), new ImageLoadingListener() {
                 @Override
-                public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                    mWebView.loadUrl(String.format(functionJS,mWapShareBean.getSuccessCallback()));
+                public void onLoadingStarted(String s, View view) {
+
                 }
 
                 @Override
-                public void onError(Platform platform, int i, Throwable throwable) {
-                    mWebView.loadUrl(String.format(functionJS,mWapShareBean.getErrorCallback()));
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+                    shareAction();
                 }
 
                 @Override
-                public void onCancel(Platform platform, int i) {
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+
+                    ImageLoader loader = ImageLoader.getInstance();
+                    mWapShareBean.setImgPath(loader.getDiskCache().get(s).getPath());
+                    shareAction();
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
 
                 }
             });
+
         }
 
+    }
+
+    private void shareAction() {
+        Context context = AdActivity.this;
+        OnekeyShare oks = new OnekeyShare();
+        oks.setWapShareBean(mWapShareBean);
+        oks.show(context);
+        oks.setPlatformActionListener(new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                mWebView.loadUrl(String.format(functionJS,mWapShareBean.getSuccessCallback()));
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                mWebView.loadUrl(String.format(functionJS,mWapShareBean.getErrorCallback()));
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+
+            }
+        });
     }
 
 
