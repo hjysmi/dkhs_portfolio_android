@@ -470,22 +470,20 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 
 	public void onComplete(Platform platform, int action,
 			HashMap<String, Object> res) {
-		if(platformActionListener !=null ){
-			platformActionListener.onComplete(platform,action,res);
-		}
+
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
 		msg.arg1 = 1;
 		msg.arg2 = action;
 		msg.obj = platform;
 		UIHandler.sendMessage(msg, this);
+		if(platformActionListener !=null ){
+			platformActionListener.onComplete(platform,action,res);
+		}
 	}
 
 	public void onError(Platform platform, int action, Throwable t) {
 		t.printStackTrace();
-		if(platformActionListener !=null){
-			platformActionListener.onError(platform,action,t);
-		}
 
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
@@ -496,18 +494,23 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 
 		// 分享失败的统计
 		ShareSDK.logDemoEvent(4, platform);
+		if(platformActionListener !=null){
+			platformActionListener.onError(platform,action,t);
+		}
+
 	}
 
 	public void onCancel(Platform platform, int action) {
-		if(platformActionListener !=null){
-			platformActionListener.onCancel(platform,action);
-		}
+
 		Message msg = new Message();
 		msg.what = MSG_ACTION_CCALLBACK;
 		msg.arg1 = 3;
 		msg.arg2 = action;
 		msg.obj = platform;
 		UIHandler.sendMessage(msg, this);
+		if(platformActionListener !=null){
+			platformActionListener.onCancel(platform,action);
+		}
 	}
 
 	public boolean handleMessage(Message msg) {
