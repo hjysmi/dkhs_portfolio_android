@@ -55,6 +55,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     public static Intent newIntent(Context context, String phoneNum, String code, boolean resetPsw) {
         Intent intent = new Intent(context, VerificationActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_ISRESETPSW, resetPsw);
         intent.putExtra(EXTRA_SETPSW, resetPsw);
         intent.putExtra(EXTRA_CODE, code);
         return intent;
@@ -183,14 +184,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 @Override
                 protected void afterParseData(Boolean object) {
                     if (object) {
-                        if (isSetPsw) {
                             bindMobile();
-                        } else {
-//                            startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
-//                                    verifyCode, false));
-                            setResult(RESULT_OK);
-                            finish();
-                        }
                     } else {
                         PromptManager.showToast("验证码有误");
                     }
@@ -207,9 +201,15 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
 
             @Override
             public void onSuccess(String result) {
-                startActivityForResult(
-                        SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
-                        RLFActivity.REQUESTCODE_SET_PASSWROD);
+
+                if (isSetPsw) {
+                    startActivityForResult(
+                            SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
+                            RLFActivity.REQUESTCODE_SET_PASSWROD);
+                }else{
+                    setResult(RESULT_OK);
+                    finish();
+                }
 
             }
         });

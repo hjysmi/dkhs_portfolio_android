@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -11,8 +12,12 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 
@@ -94,16 +99,53 @@ public class InviteFriendsActivity extends ModelAcitivity {
     }
 
 
-    private void invitingFriendAction(ShareBean object) {
+    private ShareBean shareBean;
 
+    private void invitingFriendAction(ShareBean object) {
+        shareBean=object;
+            ImageLoaderUtils.loadImage(object.getImg(), new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String s, View view) {
+
+                }
+
+                @Override
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+                    shareAction(null);
+                }
+
+                @Override
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+
+                    ImageLoader loader = ImageLoader.getInstance();
+                    shareAction(loader.getDiskCache().get(s).getPath());
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
+
+                }
+            });
+
+    }
+
+    private void shareAction(String path) {
+
+        if(shareBean ==null ){
+            return;
+        }
         Context context = this;
         final OnekeyShare oks = new OnekeyShare();
 //          oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-        oks.setTitleUrl(object.getUrl());
-        oks.setUrl(object.getUrl());
-        oks.setTitle(object.getTitle());
-        oks.setText(object.getContent());
-        oks.setImageUrl(object.getImg());
+        oks.setTitleUrl(shareBean.getUrl());
+        oks.setUrl(shareBean.getUrl());
+        oks.setTitle(shareBean.getTitle());
+        oks.setText(shareBean.getContent());
+        if(path !=null) {
+            oks.setImagePath(path);
+        }else {
+            oks.setImageUrl(shareBean.getImg());
+        }
 //            oks.setFilePath(SHARE_IMAGE);
         oks.setSilent(false);
         oks.setShareFromQQAuthSupport(false);
@@ -113,7 +155,6 @@ public class InviteFriendsActivity extends ModelAcitivity {
         oks.setCancelText(getString(R.string.invite_cancel));
 //        oks.setErrorText(getString(R.string.invite_err));
         oks.show(context);
-
 
     }
 
