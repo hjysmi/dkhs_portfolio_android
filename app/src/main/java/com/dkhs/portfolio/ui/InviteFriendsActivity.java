@@ -111,7 +111,7 @@ public class InviteFriendsActivity extends ModelAcitivity {
         oks.setDialogMode();
         oks.setSuccessText(getString(R.string.invite_success));
         oks.setCancelText(getString(R.string.invite_cancel));
-        oks.setErrorText(getString(R.string.invite_err));
+//        oks.setErrorText(getString(R.string.invite_err));
         oks.show(context);
 
 

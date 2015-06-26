@@ -48,7 +48,6 @@ android {
 //    compile 'com.github.gfx.util.encrypt:android-encrypt-utils:2.0.0'
         compile files('libs/commons-codec.jar')
         compile files('libs/ShareSDK-Core-2.6.0.jar')
-        //    compile files('libs/ShareSDK-QQ-2.6.0.jar')
         compile files('libs/ShareSDK-QZone-2.6.0.jar')
         compile files('libs/ShareSDK-Wechat-2.6.0.jar')
         compile files('libs/ShareSDK-Wechat-Core-2.6.0.jar')
