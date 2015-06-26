@@ -20,6 +20,17 @@ public class WapShareBean  extends ShareBean {
     private String successCallback;
     private String errorCallback;
 
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    private String imgPath;
+
+
     public void setSuccessCallback(String successCallback) {
         this.successCallback = successCallback;
     }

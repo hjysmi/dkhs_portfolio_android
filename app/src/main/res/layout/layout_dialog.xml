@@ -125,14 +125,13 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:textColor="#1E88E5" />
-
                 <Button
-                    android:id="@+id/button1"
-                    style="@style/dialog_btn"
+                    android:id="@+id/button3"
+                    style="@style/dialog_btn_cancel"
                     android:layout_width="wrap_content"
+                    android:layout_marginRight="4dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textColor="#1E88E5"
                     android:visibility="gone" />
                 <Button
                     android:id="@+id/button2"
@@ -144,13 +143,16 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:visibility="gone" />
 
                 <Button
-                    android:id="@+id/button3"
-                    style="@style/dialog_btn_cancel"
+                    android:id="@+id/button1"
+                    style="@style/dialog_btn"
                     android:layout_width="wrap_content"
-                    android:layout_marginRight="4dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
+                    android:textColor="#1E88E5"
                     android:visibility="gone" />
+
+
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.view.View;
@@ -13,10 +14,13 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FlowOverViewBean;
+import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteCodeActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 
 /**
  * Created by zjz on 2015/6/18.
@@ -144,7 +148,24 @@ public class FlowPackAdapter extends BaseAdapter {
                 }
                 break;
                 case 1: {
-                    mContext.startActivity(InviteCodeActivity.newIntent(mContext));
+
+                    if(mOverViewBean.getTasks().isBind_mobile()) {
+                        mContext.startActivity(InviteCodeActivity.newIntent(mContext));
+                    }else{
+                    final MAlertDialog mAlertDialog= PromptManager.getAlertDialog(mContext);
+                    mAlertDialog.setTitle(R.string.tips);
+                    mAlertDialog.setMessage("绑定手机号才可以验证邀请码哦");
+
+                    mAlertDialog.setButton1("去绑定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mContext.startActivity(RLFActivity.bindPhoneIntent(mContext));
+                            mAlertDialog.dismiss();
+                        }
+                    });
+                    mAlertDialog.setButton3("取消",null);
+                    mAlertDialog.show();
+                    }
                 }
                 break;
                 case 2: {

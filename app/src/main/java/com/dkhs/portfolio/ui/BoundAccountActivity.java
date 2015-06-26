@@ -28,7 +28,6 @@ import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 //import cn.sharesdk.tencent.qzone.QZone;
-import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.utils.WechatClientNotExistException;
@@ -97,7 +96,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                 startActivityForResult(intent, 5);
                 break;
             case R.id.bound_text_qq:
-                authPlatform(QQ.NAME);
+                authPlatform(QZone.NAME);
                 break;
             case R.id.bound_text_weibo:
                 authPlatform(SinaWeibo.NAME);
@@ -118,10 +117,10 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
             plat.removeAccount();
         }
         // 这里开启一下SSO，防止OneKeyShare分享时调用了oks.disableSSOWhenAuthorize();把SSO关闭了
-        plat.SSOSetting(true);
+//        plat.SSOSetting(true);
         plat.setPlatformActionListener(platFormActionListener);
-//        plat.showUser(null);
-        plat.authorize();
+        plat.showUser(null);
+//        plat.authorize();
 
     }
 
