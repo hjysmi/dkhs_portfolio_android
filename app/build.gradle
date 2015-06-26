@@ -15,7 +15,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles 'proguard.cfg'
             debuggable false
         }
