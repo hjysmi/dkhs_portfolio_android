@@ -330,7 +330,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
         if (resId > 0) {
             ivImage.setBackgroundResource(resId);
         }
-        ivImage.setScaleType(ScaleType.FIT_XY);
+        ivImage.setScaleType(ScaleType.FIT_CENTER);
         ivImage.setImageBitmap(image);
         int dp_4 = dipToPx(getContext(), 4);
         ivImage.setPadding(dp_4, dp_4, dp_4, dp_4);
