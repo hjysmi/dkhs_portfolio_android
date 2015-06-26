@@ -108,7 +108,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mWebView.loadUrl(mUrl);
 
-
         mWebView.getSettings().setJavaScriptEnabled(true);
         String userAgent=    mWebView.getSettings().getUserAgentString();
 //        LogUtils.e(userAgent);

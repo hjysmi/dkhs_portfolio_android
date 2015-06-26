@@ -96,6 +96,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         initData();
         initLink();
 
+
+        if(isSettingPsw){
+            findViewById(R.id.ad).setVisibility(View.GONE);
+        }
     }
 
     private void handleExtras(Bundle extras) {
@@ -341,12 +345,12 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         protected void afterParseData(Boolean object) {
             if (!object) {
                 if (isSettingPsw) {
-                    startActivityForResult((VerificationActivity.newSettPswIntent(RLFActivity.this, etPhoneNum
-                            .getText().toString(), null)), REQUESTCODE_SET_PASSWROD);
-                } else {
-
                     startActivity(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
                             null, false));
+                } else {
+                    startActivityForResult((VerificationActivity.newSettPswIntent(RLFActivity.this, etPhoneNum
+                            .getText().toString(), null)), REQUESTCODE_SET_PASSWROD);
+
                 }
             } else {
                 // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
@@ -355,6 +359,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 if (isSettingPsw) {
                     showHasBindnDailog();
                 } else {
+
 
                     showCaptchaLoginDailog();
                 }
@@ -441,9 +446,12 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                     Intent intent = new Intent(RLFActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(RLFActivity.this, RegisterSuccessActivity.class);
-                    intent.putExtra("username", entity.getUsername());
-                    startActivity(intent);
+
+                    if (isSettingPsw) {
+                        Intent intent = new Intent(RLFActivity.this, RegisterSuccessActivity.class);
+                        intent.putExtra("username", entity.getUsername());
+                        startActivity(intent);
+                    }
                 }
             } else {
                 // Intent intent = new Intent(RLFActivity.this, SetPasswordActivity.class);
