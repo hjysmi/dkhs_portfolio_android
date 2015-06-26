@@ -110,16 +110,17 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
 
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setUserAgentString("dkhs_shuiniu");
+        String userAgent=    mWebView.getSettings().getUserAgentString();
+//        LogUtils.e(userAgent);
+        mWebView.getSettings().setUserAgentString(userAgent+" dkhs_shuiniu");
         mWebView.setWebChromeClient(new WebChromeClient());
-
+        mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
 //                mWebView.addJavascriptInterface(new JavascriptInterface(), "share");
-
             }
 
             @Override
@@ -131,10 +132,8 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
             @Override
             public void onPageFinished(WebView view, String url) {
 
-
-                mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
+                LogUtils.e("onPageFinished");
                 mWebView.loadUrl(js);
-
                 super.onPageFinished(view, url);
 
             }
@@ -160,7 +159,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
             mWeakHandler.sendEmptyMessage(1);
 
         }
-
 
     }
 
