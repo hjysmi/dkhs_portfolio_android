@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FlowOverViewBean;
+import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteCodeActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
@@ -148,20 +149,23 @@ public class FlowPackAdapter extends BaseAdapter {
                 break;
                 case 1: {
 
+                    if(mOverViewBean.getTasks().isBind_mobile()) {
+                        mContext.startActivity(InviteCodeActivity.newIntent(mContext));
+                    }else{
                     final MAlertDialog mAlertDialog= PromptManager.getAlertDialog(mContext);
                     mAlertDialog.setTitle(R.string.tips);
                     mAlertDialog.setMessage("绑定手机号才可以验证邀请码哦");
+
                     mAlertDialog.setButton1("去绑定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mContext.startActivity(InviteCodeActivity.newIntent(mContext));
+                            mContext.startActivity(RLFActivity.bindPhoneIntent(mContext));
                             mAlertDialog.dismiss();
                         }
                     });
                     mAlertDialog.setButton3("取消",null);
                     mAlertDialog.show();
-
-
+                    }
                 }
                 break;
                 case 2: {

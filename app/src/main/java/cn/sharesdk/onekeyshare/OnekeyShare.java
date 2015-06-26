@@ -734,7 +734,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
         this.setTitleUrl(wapShareBean.getUrl());
         this.setUrl(wapShareBean.getUrl());
         this.setTitle(wapShareBean.getTitle());
-        this.setText(wapShareBean.getContent() + wapShareBean.getUrl());
+        this.setText(wapShareBean.getContent() );
 
 
 

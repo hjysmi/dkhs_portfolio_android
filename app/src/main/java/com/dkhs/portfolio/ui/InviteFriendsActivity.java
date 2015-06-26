@@ -102,7 +102,7 @@ public class InviteFriendsActivity extends ModelAcitivity {
         oks.setTitleUrl(object.getUrl());
         oks.setUrl(object.getUrl());
         oks.setTitle(object.getTitle());
-        oks.setText(object.getContent()+object.getUrl());
+        oks.setText(object.getContent());
         oks.setImageUrl(object.getImg());
 //            oks.setFilePath(SHARE_IMAGE);
         oks.setSilent(false);
