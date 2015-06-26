@@ -130,7 +130,7 @@ public class ExchangeActivity extends ModelAcitivity {
 
     private void exchangePost() {
         btnExchange.setEnabled(false);
-        FlowExchangeEngine.recharge(packageBean.getOppackages().get(packAdapter.getSelectedIndex()).getAmount(), exchangeListener);
+        FlowExchangeEngine.recharge(packageBean.getOppackages().get(packAdapter.getSelectedIndex()).getAmount(), exchangeListener.setLoadingDialog(this));
 
     }
 
@@ -141,7 +141,7 @@ public class ExchangeActivity extends ModelAcitivity {
             boolean isSuccess = false;
             try {
                 JSONObject jsonObject = new JSONObject(jsonData);
-                isSuccess = jsonObject.optInt("statusCode") == 1;
+                isSuccess = jsonObject.optBoolean("status");
             } catch (Exception e) {
                 e.printStackTrace();
             }

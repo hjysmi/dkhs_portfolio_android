@@ -79,7 +79,9 @@
             android:launchMode="singleTask" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.MyCombinationActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name="com.dkhs.portfolio.ui.PositionAdjustActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -104,7 +106,9 @@
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
         <activity android:name=".ui.ModifyUserSignActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EditTabStockActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.BoundAccountActivity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.BoundAccountActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".ui.ModifyComNameActivity" />
         <activity android:name=".ui.ModifyPrivacyActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionListAcitivity" />
