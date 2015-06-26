@@ -484,8 +484,10 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
             return;
         }
         isLoading = true;
-        for (LoadMoreDataEngine mLoadDataEngine : engineList) {
-            mLoadDataEngine.loadData();
+        if(engineList != null) {
+            for (LoadMoreDataEngine mLoadDataEngine : engineList) {
+                mLoadDataEngine.loadData();
+            }
         }
 
         plateEngine.loadData();
