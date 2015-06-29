@@ -30320,7 +30320,7 @@ com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$4 -> com.dkhs.portfolio.u
     void onAnimationEnd(android.animation.Animator) -> onAnimationEnd
     void onAnimationCancel(android.animation.Animator) -> onAnimationCancel
     void onAnimationRepeat(android.animation.Animator) -> onAnimationRepeat
-com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$FloatMenuAdapter -> com.dkhs.portfolio.ui.widget.           :
+com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$FloatMenuAdapter -> com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout$a:
     int selectIndex -> c
     com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout this$0 -> b
     int onCreateViewLayoutID(int) -> c
