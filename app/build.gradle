@@ -14,48 +14,68 @@ android {
 
         versionCode 15
         versionName "1.9.0630"
-
+        //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
+        manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
 
     signingConfigs {
-        dkhsConfig {
-            storeFile file("xdsdkhs.keystore")//XXXX.keystore是要打包的Key（注意：要把key放到项目根目录下）
-            storePassword "xdsdkhs"//密钥库的密码
-            keyAlias "xdsdkhs"//key的别名
-            keyPassword "xdsdkhsadmin"//XXXX.keystore的密码（为方便记忆，可以和storePassword一样）
+
+        debug {
+            // No debug config
+        }
+        release {
+            storeFile file("xdsdkhs.keystore")
+            storePassword "xdsdkhs"
+            keyAlias "xdsdkhs"
+            keyPassword "xdsdkhsadmin"
         }
     }
 
 
     buildTypes {
         release {
-            signingConfig signingConfigs.dkhsConfig
+            buildConfigField 'boolean', 'isSandbox', 'false'
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles 'proguard.cfg'
             debuggable false
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+
+        }
+
+        pre_release {
+            buildConfigField 'boolean', 'isSandbox', 'true'
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            debuggable false
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+
         }
 
         debug {
-            signingConfig signingConfigs.dkhsConfig
-            minifyEnabled false  //不使用混淆
+            buildConfigField 'boolean', 'isSandbox', 'true'
+            minifyEnabled false
             debuggable true
+            zipAlignEnabled false
+            shrinkResources false
         }
     }
 
-//    productFlavors {
-//        release {
-//            applicationId = "com.dkhs.portfolio.release"
-//        }
-//        beta {
-//            applicationId = "com.dkhs.portfolio.beta"
-//        }
-//    }
-//
-//    buildTypes {
-//        debug {
-//            applicationIdSuffix ".debug"
-//        }
-//    }
+    productFlavors {
+        rong_release {
+            manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
+        }
+        rong_debug {
+            manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]
+        }
+       
+    }
+
+
 }
 dependencies {
     //    compile 'com.android.support:design:22.2.0'
