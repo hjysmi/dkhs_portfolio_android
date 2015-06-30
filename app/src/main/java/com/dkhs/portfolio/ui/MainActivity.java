@@ -12,11 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
@@ -37,7 +37,7 @@ import io.rong.imlib.model.Message;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-5 上午10:26:35
  */
-public class MainActivity extends ModelAcitivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private MessageHandler handler;
@@ -45,11 +45,13 @@ public class MainActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 模拟堆栈管理activity
+        PortfolioApplication.getInstance().addActivity(this);
         // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // PortfolioApplication.getInstance().addActivity(this);
         handler = new MessageHandler(this);
-        hideHead();
-        setSwipeBackEnable(false);
+//        hideHead();
+//        setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
         handIntent(getIntent());
         if (savedInstanceState == null) {
@@ -75,18 +77,12 @@ public class MainActivity extends ModelAcitivity {
     @Override
     protected void onResume() {
         MessageManager.getInstance().connect();
-//        BusProvider.getInstance().register(this);
         super.onResume();
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("A");
-        if (null != fragment) {
-            Log.e(TAG, " ------------------->fragment A isvisible:" + fragment.isVisible());
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        BusProvider.getInstance().unregister(this);
     }
 
     @Override

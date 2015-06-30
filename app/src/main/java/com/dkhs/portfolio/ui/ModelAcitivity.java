@@ -284,7 +284,7 @@ public class ModelAcitivity extends SwipeBackActivity {
         UIUtils.outAminationActivity(this);
         // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_right);
     }
-    
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
