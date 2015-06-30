@@ -78,5 +78,18 @@ public class AppBean {
 	public void setModified(String modified) {
 		this.modified = modified;
 	}
+
+	public int getVersionNameInt(){
+
+		String s = this.getVersion().replaceAll("\\.", "");
+
+		if(s.matches("\\d+")){
+
+			return   Integer.parseInt(s);
+		}else{
+			return  -1;
+		}
+
+	}
 	
 }

@@ -65,7 +65,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
 
@@ -87,7 +86,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     @Override
     public int setContentLayoutId() {
-        // TODO Auto-generated method stub
         return R.layout.fragment_main_optionalstock;
     }
 
@@ -153,11 +151,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
             @Override
             public void onClick(View v) {
-                // Intent intent = new Intent(getActivity(), OptionEditActivity.class);
-                // if (null != tabStockFragment) {
-                // intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST,
-                // (Serializable) tabStockFragment.getDataList());
-                // }
+
                 if (null != tabStockFragment && !tabStockFragment.getDataList().isEmpty()) {
                     Intent intent = EditTabStockActivity.newIntent(getActivity(), tabStockFragment.getDataList());
                     startActivityForResult(intent, 777);

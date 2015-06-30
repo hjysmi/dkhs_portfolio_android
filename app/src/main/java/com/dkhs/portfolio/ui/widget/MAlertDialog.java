@@ -37,7 +37,7 @@ public class MAlertDialog {
     private final Button button2;
     private final Button button3;
     private final RelativeLayout main;
-    private Context context;
+    protected Context context;
     private int mDuration = 500;
 
     private Dialog dialog;

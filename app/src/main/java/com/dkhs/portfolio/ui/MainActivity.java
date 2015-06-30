@@ -9,6 +9,8 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +19,11 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
@@ -28,6 +34,8 @@ import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
+import com.dkhs.portfolio.ui.widget.UpdateDialog;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 
 import io.rong.imlib.model.Message;
 
@@ -76,6 +84,9 @@ public class MainActivity extends ModelAcitivity {
 //        fragmentC = new MainInfoFragment();
 //        fragmentD = new UserFragment();
 
+        UserEngineImpl mUserEngineImpl = new UserEngineImpl();
+//        mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+
 
     }
 
@@ -87,6 +98,7 @@ public class MainActivity extends ModelAcitivity {
         if (null != fragment) {
             Log.e(TAG, " ------------------->fragment A isvisible:" + fragment.isVisible());
         }
+
     }
 
 
@@ -330,4 +342,40 @@ public class MainActivity extends ModelAcitivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+
+
+    ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
+
+        @Override
+        protected AppBean parseDateTask(String jsonData) {
+
+            return DataParse.parseObjectJson(AppBean.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(AppBean object) {
+                if (null != object) {
+                    try {
+                    final AppBean bean = object;
+                    // FIXME: 2015/6/30   这个判断有缺点,
+                    int service = object.getVersionNameInt();
+                    int local = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERSIONY);
+                    if(local==0) {
+                        PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+                        String version = info.versionName;
+                        String s = version.replaceAll("\\.", "");
+                        if(s.matches("\\d+")){
+                            local=Integer.parseInt(s);
+                        }
+                    }
+                    if (service > local) {
+                        UpdateDialog alert = new UpdateDialog(mContext);
+                        alert.showByAppBean(object);
+                    }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
+    };
 }

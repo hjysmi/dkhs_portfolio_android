@@ -480,17 +480,17 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
     private void loadingAllData() {
 
-        if (isLoading) {
+        if (isLoading && null != engineList) {
             return;
         }
         isLoading = true;
-        if(engineList != null) {
-            for (LoadMoreDataEngine mLoadDataEngine : engineList) {
-                mLoadDataEngine.loadData();
-            }
+        for (LoadMoreDataEngine mLoadDataEngine : engineList) {
+            mLoadDataEngine.loadData();
         }
 
-        plateEngine.loadData();
+        if (null != plateEngine) {
+            plateEngine.loadData();
+        }
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -514,7 +514,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     }
 
     public void endAnimaRefresh() {
-//        if (isAdded() && !getUserVisibleHint()) {
+//        if (isAdded() && !getUserVisibleHinGt()) {
         BusProvider.getInstance().post(new StopRefreshEvent());
 //        }
     }

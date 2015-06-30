@@ -98,6 +98,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         vp.setOffscreenPageLimit(3);
+
     }
 
     @Override

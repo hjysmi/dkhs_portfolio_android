@@ -513,7 +513,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void replaceBottomTabFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.stock_layout, fragment).commit();
+                .replace(R.id.stock_layout, fragment).commitAllowingStateLoss();
     }
 
 

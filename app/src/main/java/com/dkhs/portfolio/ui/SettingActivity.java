@@ -34,6 +34,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -377,38 +378,13 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     PackageManager manager = context.getPackageManager();
                     PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
                     String version = info.versionName;
-                    String s = bean.getVersion().replaceAll("\\.", "");
-                    int service = Integer.parseInt(s);
+                    int  code=   info.versionCode;
+                    // FIXME: 2015/6/30   这个判断有缺点,
+                    int service = object.getVersionNameInt();
                     int local = Integer.parseInt(version.replaceAll("\\.", ""));
                     if (service > local) {
-                        MAlertDialog alert = PromptManager.getAlertDialog(context);
-                        alert.setTitle("软件升级").setMessage("发现新版本,建议立即更新使用.")// "发现新版本,建议立即更新使用."
-                                .setCancelable(false).setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-
-                                Uri uri = Uri.parse(bean.getUrl());
-                                Request request = new Request(uri);
-                                // 设置允许使用的网络类型，这里是移动网络和wifi都可以
-                                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE
-                                        | DownloadManager.Request.NETWORK_WIFI);
-                                // 禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION
-                                request.setShowRunningNotification(true);
-                                // 不显示下载界面
-                                request.setVisibleInDownloadsUi(true);
-
-                                request.setDestinationInExternalFilesDir(context, null, "dkhs.apk");
-                                long id = downloadManager.enqueue(request);
-                                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_ID, id
-                                        + "");
-                                PromptManager.showToast("开始下载");
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.show();
+                        UpdateDialog alert = new UpdateDialog(context);
+                        alert.showByAppBean(object);
                     } else {
                         PromptManager.showToast("当前已经是最新版本");
                     }
