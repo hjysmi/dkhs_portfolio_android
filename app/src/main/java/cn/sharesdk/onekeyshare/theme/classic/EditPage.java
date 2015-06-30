@@ -300,7 +300,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
         }
 
         etContent.setTextColor(getContext().getResources().getColor(R.color.tag_gray));
-        etContent.setText(String.valueOf(reqData.get("text")));
+        etContent.setText(String.valueOf(reqData.get("text"))+reqData.get("url"));
         etContent.addTextChangedListener(this);
         LinearLayout.LayoutParams lpEt = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT);

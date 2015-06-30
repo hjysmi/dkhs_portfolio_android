@@ -43,7 +43,7 @@ public class CombinationRankEngineImpl extends LoadMoreDataEngine {
 
     private String mOrderType = ORDER_WEEK;
     private int pageIndex = 1;
-    private int pageSize = 99;
+    private int pageSize = 100;
 
     @Override
     public HttpHandler loadMore() {

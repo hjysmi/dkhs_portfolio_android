@@ -121,17 +121,11 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-//                mWebView.addJavascriptInterface(new JavascriptInterface(), "share");
-            }
-
+            public void onPageStarted(WebView view, String url, Bitmap favicon) { super.onPageStarted(view, url, favicon); /*                mWebView.addJavascriptInterface(new JavascriptInterface(), "share");*/ }
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-                return messageHandler.handleURL(url);
-            }
-
+                return messageHandler.handleURL(url); }
             @Override
             public void onPageFinished(WebView view, String url) {
 

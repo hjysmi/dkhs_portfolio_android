@@ -502,7 +502,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
             String customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」于"
-                    + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的组合吧." + shareUrl;
+                    + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的组合吧.";
             oks.setText(customText);
 
             oks.setImagePath(SHARE_IMAGE);
