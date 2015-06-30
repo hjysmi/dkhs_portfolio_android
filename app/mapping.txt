@@ -22754,7 +22754,39 @@ com.dkhs.portfolio.common.GlobalParams -> com.dkhs.portfolio.b.a:
     boolean IS_CONFERENCE_CONNECTED -> k
     boolean IS_APP_SHOWING -> l
     void clearUserInfo() -> a
-com.dkhs.portfolio.common.WeakHandler -> com.dkhs.portfolio.b.b:
+com.dkhs.portfolio.common.SecurePreferences -> com.dkhs.portfolio.b.b:
+    android.content.SharedPreferences sp -> a
+    javax.crypto.Cipher encrypter -> b
+    javax.crypto.Cipher decrypter -> c
+    java.util.Map getAll() -> getAll
+    java.lang.String getString(java.lang.String,java.lang.String) -> getString
+    java.util.Set getStringSet(java.lang.String,java.util.Set) -> getStringSet
+    int getInt(java.lang.String,int) -> getInt
+    long getLong(java.lang.String,long) -> getLong
+    float getFloat(java.lang.String,float) -> getFloat
+    boolean getBoolean(java.lang.String,boolean) -> getBoolean
+    boolean contains(java.lang.String) -> contains
+    android.content.SharedPreferences$Editor edit() -> edit
+    void registerOnSharedPreferenceChangeListener(android.content.SharedPreferences$OnSharedPreferenceChangeListener) -> registerOnSharedPreferenceChangeListener
+    void unregisterOnSharedPreferenceChangeListener(android.content.SharedPreferences$OnSharedPreferenceChangeListener) -> unregisterOnSharedPreferenceChangeListener
+    java.lang.String encrypt(java.lang.String) -> a
+    java.lang.String decrypt(java.lang.String) -> b
+    java.lang.String access$100(com.dkhs.portfolio.common.SecurePreferences,java.lang.String) -> a
+com.dkhs.portfolio.common.SecurePreferences$1 -> com.dkhs.portfolio.b.b$1:
+com.dkhs.portfolio.common.SecurePreferences$SecureEditor -> com.dkhs.portfolio.b.b$a:
+    android.content.SharedPreferences$Editor editor -> b
+    com.dkhs.portfolio.common.SecurePreferences this$0 -> a
+    android.content.SharedPreferences$Editor putString(java.lang.String,java.lang.String) -> putString
+    android.content.SharedPreferences$Editor putStringSet(java.lang.String,java.util.Set) -> putStringSet
+    android.content.SharedPreferences$Editor putInt(java.lang.String,int) -> putInt
+    android.content.SharedPreferences$Editor putLong(java.lang.String,long) -> putLong
+    android.content.SharedPreferences$Editor putFloat(java.lang.String,float) -> putFloat
+    android.content.SharedPreferences$Editor putBoolean(java.lang.String,boolean) -> putBoolean
+    android.content.SharedPreferences$Editor remove(java.lang.String) -> remove
+    android.content.SharedPreferences$Editor clear() -> clear
+    boolean commit() -> commit
+    void apply() -> apply
+com.dkhs.portfolio.common.WeakHandler -> com.dkhs.portfolio.b.c:
     android.os.Handler$Callback mCallback -> b
     com.dkhs.portfolio.common.WeakHandler$ExecHandler mExec -> c
     java.util.concurrent.locks.Lock mLock -> d
@@ -22766,7 +22798,7 @@ com.dkhs.portfolio.common.WeakHandler -> com.dkhs.portfolio.b.b:
     boolean sendEmptyMessageDelayed(int,long) -> a
     void removeMessages(int) -> b
     com.dkhs.portfolio.common.WeakHandler$WeakRunnable wrapRunnable(java.lang.Runnable) -> b
-com.dkhs.portfolio.common.WeakHandler$ChainedRef -> com.dkhs.portfolio.b.b$a:
+com.dkhs.portfolio.common.WeakHandler$ChainedRef -> com.dkhs.portfolio.b.c$a:
     com.dkhs.portfolio.common.WeakHandler$ChainedRef next -> a
     com.dkhs.portfolio.common.WeakHandler$ChainedRef prev -> b
     java.lang.Runnable runnable -> c
@@ -22775,10 +22807,10 @@ com.dkhs.portfolio.common.WeakHandler$ChainedRef -> com.dkhs.portfolio.b.b$a:
     com.dkhs.portfolio.common.WeakHandler$WeakRunnable remove() -> a
     void insertAfter(com.dkhs.portfolio.common.WeakHandler$ChainedRef) -> a
     com.dkhs.portfolio.common.WeakHandler$WeakRunnable remove(java.lang.Runnable) -> a
-com.dkhs.portfolio.common.WeakHandler$ExecHandler -> com.dkhs.portfolio.b.b$b:
+com.dkhs.portfolio.common.WeakHandler$ExecHandler -> com.dkhs.portfolio.b.c$b:
     java.lang.ref.WeakReference mCallback -> a
     void handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.common.WeakHandler$WeakRunnable -> com.dkhs.portfolio.b.b$c:
+com.dkhs.portfolio.common.WeakHandler$WeakRunnable -> com.dkhs.portfolio.b.c$c:
     java.lang.ref.WeakReference mDelegate -> a
     java.lang.ref.WeakReference mReference -> b
     void run() -> run
@@ -23486,7 +23518,7 @@ com.dkhs.portfolio.ui.BaseSelectActivity -> com.dkhs.portfolio.ui.BaseSelectActi
     void onDestroy() -> onDestroy
     void onClick(android.view.View) -> onClick
     void notifySelectDataChange(boolean) -> a
-    void setSelectBack(int) -> a
+    void setSelectBack(int) -> c
     com.dkhs.portfolio.ui.BaseSelectActivity$ListViewType getLoadByType() -> b
     int getTitleRes() -> c
     com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund getSearchFragment() -> d
@@ -24575,14 +24607,15 @@ com.dkhs.portfolio.ui.MainActivity -> com.dkhs.portfolio.ui.MainActivity:
     long exitTime -> f
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
+    void onPause() -> onPause
     void onNewIntent(android.content.Intent) -> onNewIntent
-    void handIntent(android.content.Intent) -> b
+    void handIntent(android.content.Intent) -> a
     void showContentIndex(int) -> a
     void displayFragmentA() -> a
     void displayFragmentB() -> b
     void displayFragmentC() -> c
     void displayFragmentD() -> d
-    void hideAllFragment() -> k
+    void hideAllFragment() -> e
     boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
     void onSaveInstanceState(android.os.Bundle) -> onSaveInstanceState
     void onRestoreInstanceState(android.os.Bundle) -> onRestoreInstanceState
@@ -24635,7 +24668,7 @@ com.dkhs.portfolio.ui.ModelAcitivity -> com.dkhs.portfolio.ui.ModelAcitivity:
     void stepTitleView() -> a
     void setTitle(java.lang.CharSequence) -> setTitle
     void setTitle(int) -> setTitle
-    void setBackTitle(int) -> b
+    void setBackTitle(int) -> a
     void setTitleTipString(java.lang.String) -> c
     android.widget.Button getRightButton() -> e
     android.widget.Button getSecondRightButton() -> f
@@ -24649,7 +24682,7 @@ com.dkhs.portfolio.ui.ModelAcitivity -> com.dkhs.portfolio.ui.ModelAcitivity:
     android.view.View getTitleView() -> j
     void startActivity(android.content.Intent) -> startActivity
     void startActivityNoAnim(android.content.Intent) -> a
-    void updateTitleBackgroud(int) -> c
+    void updateTitleBackgroud(int) -> b
     void updateTitleBackgroudByValue(float) -> c
 com.dkhs.portfolio.ui.ModelAcitivity$1 -> com.dkhs.portfolio.ui.cn:
     com.dkhs.portfolio.ui.ModelAcitivity this$0 -> a
@@ -25672,7 +25705,7 @@ com.dkhs.portfolio.ui.StockQuotesActivity -> com.dkhs.portfolio.ui.StockQuotesAc
     boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
     int getStickType() -> p
     com.dkhs.portfolio.bean.StockQuotesBean getStockQuotesBean() -> q
-    void setStickType(int) -> a
+    void setStickType(int) -> c
     int getTabPosition() -> r
     void setTabPosition(int) -> d
     java.util.List getDayLineDatas() -> s
@@ -25829,7 +25862,7 @@ com.dkhs.portfolio.ui.StockRemindActivity -> com.dkhs.portfolio.ui.StockRemindAc
     float priceUpTip(java.lang.String,float) -> a
     void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
     void onFocusChange(android.view.View,boolean) -> onFocusChange
-    void showAlertDialog(int) -> a
+    void showAlertDialog(int) -> c
     void postRemindToServer() -> k
     void postFundRemindToServer() -> l
     float parseToFloat(android.widget.EditText) -> a
@@ -28378,7 +28411,10 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment$4 -> com.dkhs.portfolio.ui.fr
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void loadFail() -> a
-com.dkhs.portfolio.ui.fragment.MarketStockFragment$5 -> com.dkhs.portfolio.ui.fragment.cp:
+com.dkhs.portfolio.ui.fragment.MarketStockFragment$4$1 -> com.dkhs.portfolio.ui.fragment.cp:
+    com.dkhs.portfolio.ui.fragment.MarketStockFragment$4 this$1 -> a
+    void run() -> run
+com.dkhs.portfolio.ui.fragment.MarketStockFragment$5 -> com.dkhs.portfolio.ui.fragment.cq:
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.MarketStockFragment$RequestMarketTask -> com.dkhs.portfolio.ui.fragment.MarketStockFragment$a:
@@ -28389,7 +28425,7 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener -> com.
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void loadFail() -> a
-com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener$1 -> com.dkhs.portfolio.ui.fragment.cq:
+com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener$1 -> com.dkhs.portfolio.ui.fragment.cr:
     com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener this$1 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.MenuItemFragment -> com.dkhs.portfolio.ui.fragment.MenuItemFragment:
@@ -28453,30 +28489,30 @@ com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet -> com.dkhs.portfolio.ui.fr
     java.util.List access$300(com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet) -> b
     void access$400(com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet) -> c
     void access$500(com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet) -> d
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$1 -> com.dkhs.portfolio.ui.fragment.cr:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$1 -> com.dkhs.portfolio.ui.fragment.cs:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$2 -> com.dkhs.portfolio.ui.fragment.cs:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$2 -> com.dkhs.portfolio.ui.fragment.ct:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void create(com.baoyz.swipemenulistview.SwipeMenu) -> a
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$3 -> com.dkhs.portfolio.ui.fragment.ct:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$3 -> com.dkhs.portfolio.ui.fragment.cu:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     boolean onMenuItemClick(int,com.baoyz.swipemenulistview.SwipeMenu,int) -> a
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$4 -> com.dkhs.portfolio.ui.fragment.cu:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$4 -> com.dkhs.portfolio.ui.fragment.cv:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onSwipeStart(int) -> a
     void onSwipeEnd(int) -> b
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$5 -> com.dkhs.portfolio.ui.fragment.cv:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$5 -> com.dkhs.portfolio.ui.fragment.cw:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     boolean onItemLongClick(android.widget.AdapterView,android.view.View,int,long) -> onItemLongClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$6 -> com.dkhs.portfolio.ui.fragment.cw:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$6 -> com.dkhs.portfolio.ui.fragment.cx:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7 -> com.dkhs.portfolio.ui.fragment.cx:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7 -> com.dkhs.portfolio.ui.fragment.cy:
     com.dkhs.portfolio.bean.CombinationBean val$mCombination -> a
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7$1 -> com.dkhs.portfolio.ui.fragment.cy:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7$1 -> com.dkhs.portfolio.ui.fragment.cz:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7 this$1 -> a
     void onSuccess(java.lang.String) -> onSuccess
     void onFailure(int,java.lang.String) -> onFailure
@@ -28484,10 +28520,10 @@ com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7$1 -> com.dkhs.portfolio.u
     void requestCallBack() -> requestCallBack
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$8 -> com.dkhs.portfolio.ui.fragment.cz:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$8 -> com.dkhs.portfolio.ui.fragment.da:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$9 -> com.dkhs.portfolio.ui.fragment.da:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$9 -> com.dkhs.portfolio.ui.fragment.db:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$CombinationAdapter -> com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$a:
@@ -28546,13 +28582,13 @@ com.dkhs.portfolio.ui.fragment.ReportListForAllFragment -> com.dkhs.portfolio.ui
     android.widget.BaseAdapter access$900(com.dkhs.portfolio.ui.fragment.ReportListForAllFragment) -> j
     void access$1000(com.dkhs.portfolio.ui.fragment.ReportListForAllFragment) -> k
     void access$1100(com.dkhs.portfolio.ui.fragment.ReportListForAllFragment) -> l
-com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$1 -> com.dkhs.portfolio.ui.fragment.db:
+com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$1 -> com.dkhs.portfolio.ui.fragment.dc:
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment this$0 -> a
     void onRefresh() -> a
-com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$2 -> com.dkhs.portfolio.ui.fragment.dc:
+com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$2 -> com.dkhs.portfolio.ui.fragment.dd:
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$3 -> com.dkhs.portfolio.ui.fragment.dd:
+com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$3 -> com.dkhs.portfolio.ui.fragment.de:
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment this$0 -> a
     void loadFinish(java.util.List) -> a
     void loadingFail() -> a
@@ -28618,17 +28654,17 @@ com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment -> com.dkhs.portfolio.ui
     void access$1000(com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment,java.util.List,java.util.List) -> a
     com.dkhs.portfolio.engine.QuotesEngineImpl access$1100(com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment) -> h
     java.lang.String access$1200(com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment) -> i
-com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$1 -> com.dkhs.portfolio.ui.fragment.de:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$1 -> com.dkhs.portfolio.ui.fragment.df:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$2 -> com.dkhs.portfolio.ui.fragment.df:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$2 -> com.dkhs.portfolio.ui.fragment.dg:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment this$0 -> a
     com.dkhs.portfolio.bean.FSDataBean parseDateTask(java.lang.String) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(com.dkhs.portfolio.bean.FSDataBean) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$3 -> com.dkhs.portfolio.ui.fragment.dg:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$3 -> com.dkhs.portfolio.ui.fragment.dh:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment -> com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment:
@@ -28699,20 +28735,20 @@ com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment -> com.dkhs.portfoli
     void access$1200(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment,java.util.List) -> a
     com.dkhs.portfolio.engine.QuotesEngineImpl access$1300(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> j
     java.lang.String access$1400(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> k
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$1 -> com.dkhs.portfolio.ui.fragment.dh:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$1 -> com.dkhs.portfolio.ui.fragment.di:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     void OnDoubleClick(android.view.View) -> a
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$2 -> com.dkhs.portfolio.ui.fragment.di:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$2 -> com.dkhs.portfolio.ui.fragment.dj:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$3 -> com.dkhs.portfolio.ui.fragment.dj:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$3 -> com.dkhs.portfolio.ui.fragment.dk:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     com.dkhs.portfolio.bean.FSDataBean parseDateTask(java.lang.String) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(com.dkhs.portfolio.bean.FSDataBean) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$4 -> com.dkhs.portfolio.ui.fragment.dk:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$4 -> com.dkhs.portfolio.ui.fragment.dl:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TabConbinationFragment -> com.dkhs.portfolio.ui.fragment.TabConbinationFragment:
@@ -28758,17 +28794,17 @@ com.dkhs.portfolio.ui.fragment.TabConbinationFragment -> com.dkhs.portfolio.ui.f
     void onTabTitleChange(com.dkhs.portfolio.ui.eventbus.TabComTitleChangeEvent) -> onTabTitleChange
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.TabConbinationFragment) -> a
     com.dkhs.portfolio.ui.adapter.TabFundsAdapter access$100(com.dkhs.portfolio.ui.fragment.TabConbinationFragment) -> b
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$1 -> com.dkhs.portfolio.ui.fragment.dl:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$1 -> com.dkhs.portfolio.ui.fragment.dm:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void loadFail() -> a
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$2 -> com.dkhs.portfolio.ui.fragment.dm:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$2 -> com.dkhs.portfolio.ui.fragment.dn:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$3 -> com.dkhs.portfolio.ui.fragment.dn:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$3 -> com.dkhs.portfolio.ui.fragment.do:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$4 -> com.dkhs.portfolio.ui.fragment.do:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$4 -> com.dkhs.portfolio.ui.fragment.dp:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void onRefresh() -> a
 com.dkhs.portfolio.ui.fragment.TabF10Fragment -> com.dkhs.portfolio.ui.fragment.TabF10Fragment:
@@ -28788,7 +28824,7 @@ com.dkhs.portfolio.ui.fragment.TabF10Fragment -> com.dkhs.portfolio.ui.fragment.
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     android.content.Context access$000(com.dkhs.portfolio.ui.fragment.TabF10Fragment) -> a
     android.widget.LinearLayout access$100(com.dkhs.portfolio.ui.fragment.TabF10Fragment) -> b
-com.dkhs.portfolio.ui.fragment.TabF10Fragment$1 -> com.dkhs.portfolio.ui.fragment.dp:
+com.dkhs.portfolio.ui.fragment.TabF10Fragment$1 -> com.dkhs.portfolio.ui.fragment.dq:
     com.dkhs.portfolio.ui.fragment.TabF10Fragment this$0 -> a
     java.util.List parseDateTask(java.lang.String) -> a
     void afterParseData(java.util.List) -> a
@@ -28845,7 +28881,7 @@ com.dkhs.portfolio.ui.fragment.TabFundsFragment -> com.dkhs.portfolio.ui.fragmen
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     java.util.List getDataList() -> e
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund access$000(com.dkhs.portfolio.ui.fragment.TabFundsFragment) -> a
-com.dkhs.portfolio.ui.fragment.TabFundsFragment$1 -> com.dkhs.portfolio.ui.fragment.dq:
+com.dkhs.portfolio.ui.fragment.TabFundsFragment$1 -> com.dkhs.portfolio.ui.fragment.dr:
     com.dkhs.portfolio.ui.fragment.TabFundsFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TabStockFragment -> com.dkhs.portfolio.ui.fragment.TabStockFragment:
@@ -28893,7 +28929,7 @@ com.dkhs.portfolio.ui.fragment.TabStockFragment -> com.dkhs.portfolio.ui.fragmen
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     java.util.List getDataList() -> e
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund access$000(com.dkhs.portfolio.ui.fragment.TabStockFragment) -> a
-com.dkhs.portfolio.ui.fragment.TabStockFragment$1 -> com.dkhs.portfolio.ui.fragment.dr:
+com.dkhs.portfolio.ui.fragment.TabStockFragment$1 -> com.dkhs.portfolio.ui.fragment.ds:
     com.dkhs.portfolio.ui.fragment.TabStockFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TestFragment -> com.dkhs.portfolio.ui.fragment.TestFragment:
@@ -28968,28 +29004,28 @@ com.dkhs.portfolio.ui.fragment.TrendChartFragment -> com.dkhs.portfolio.ui.fragm
     com.dkhs.portfolio.engine.NetValueEngine access$1100(com.dkhs.portfolio.ui.fragment.TrendChartFragment) -> d
     boolean access$1200(com.dkhs.portfolio.ui.fragment.TrendChartFragment) -> e
     void access$1300(com.dkhs.portfolio.ui.fragment.TrendChartFragment) -> f
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ds:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$1 -> com.dkhs.portfolio.ui.fragment.dt:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$3 -> com.dkhs.portfolio.ui.fragment.dt:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$3 -> com.dkhs.portfolio.ui.fragment.du:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$4 -> com.dkhs.portfolio.ui.fragment.du:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$4 -> com.dkhs.portfolio.ui.fragment.dv:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$5 -> com.dkhs.portfolio.ui.fragment.dv:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$5 -> com.dkhs.portfolio.ui.fragment.dw:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$6 -> com.dkhs.portfolio.ui.fragment.dw:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$6 -> com.dkhs.portfolio.ui.fragment.dx:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$7 -> com.dkhs.portfolio.ui.fragment.dx:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$7 -> com.dkhs.portfolio.ui.fragment.dy:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendChartFragment$a:
@@ -29052,14 +29088,14 @@ com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment -> com.dkhs.portfolio.u
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment,com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$1 -> com.dkhs.portfolio.ui.fragment.dy:
+com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$1 -> com.dkhs.portfolio.ui.fragment.dz:
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$2 -> com.dkhs.portfolio.ui.fragment.dz:
+com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ea:
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$a:
@@ -29120,14 +29156,14 @@ com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment -> com.dkhs.portfolio.ui.
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment,com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ea:
+com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$1 -> com.dkhs.portfolio.ui.fragment.eb:
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$2 -> com.dkhs.portfolio.ui.fragment.eb:
+com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ec:
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$a:
@@ -29188,14 +29224,14 @@ com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment -> com.dkhs.portfolio.
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment,com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ec:
+com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ed:
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ed:
+com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ee:
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$a:
@@ -29249,14 +29285,14 @@ com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment -> com.dkhs.portfolio.ui.
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment,com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ee:
+com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ef:
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ef:
+com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.eg:
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$a:
@@ -29308,10 +29344,10 @@ com.dkhs.portfolio.ui.fragment.UserCombinationListFragment -> com.dkhs.portfolio
     java.lang.String access$100(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> b
     float access$200(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> c
     com.dkhs.portfolio.common.WeakHandler access$300(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> d
-com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$1 -> com.dkhs.portfolio.ui.fragment.eg:
+com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$1 -> com.dkhs.portfolio.ui.fragment.eh:
     com.dkhs.portfolio.ui.fragment.UserCombinationListFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$2 -> com.dkhs.portfolio.ui.fragment.eh:
+com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$2 -> com.dkhs.portfolio.ui.fragment.ei:
     com.dkhs.portfolio.ui.fragment.UserCombinationListFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$OnFragmentInteractionListener -> com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$a:
@@ -29342,10 +29378,10 @@ com.dkhs.portfolio.ui.fragment.UserFragment -> com.dkhs.portfolio.ui.fragment.Us
     void updateMessageCenter(com.dkhs.portfolio.ui.eventbus.NewMessageEvent) -> updateMessageCenter
     void access$000(com.dkhs.portfolio.ui.fragment.UserFragment) -> a
     void access$100(com.dkhs.portfolio.ui.fragment.UserFragment,com.dkhs.portfolio.bean.UserEntity) -> a
-com.dkhs.portfolio.ui.fragment.UserFragment$1 -> com.dkhs.portfolio.ui.fragment.ei:
+com.dkhs.portfolio.ui.fragment.UserFragment$1 -> com.dkhs.portfolio.ui.fragment.ej:
     com.dkhs.portfolio.ui.fragment.UserFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.fragment.UserFragment$2 -> com.dkhs.portfolio.ui.fragment.ej:
+com.dkhs.portfolio.ui.fragment.UserFragment$2 -> com.dkhs.portfolio.ui.fragment.ek:
     com.dkhs.portfolio.ui.fragment.UserFragment this$0 -> a
     com.dkhs.portfolio.bean.UserEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.bean.UserEntity) -> a
@@ -30122,7 +30158,7 @@ com.dkhs.portfolio.ui.widget.LandStockViewCallBack -> com.dkhs.portfolio.ui.widg
     int getStickType() -> p
     com.dkhs.portfolio.bean.StockQuotesBean getStockQuotesBean() -> q
     void setCheckValue(java.lang.String) -> a
-    void setStickType(int) -> a
+    void setStickType(int) -> c
     int getTabPosition() -> r
     void setTabPosition(int) -> d
 com.dkhs.portfolio.ui.widget.LineChart -> com.dkhs.portfolio.ui.widget.LineChart:
@@ -31954,7 +31990,7 @@ com.dkhs.portfolio.utils.NetUtil -> com.dkhs.portfolio.d.p:
     boolean isMOBILEConnectivity(android.content.Context) -> a
     boolean isWIFIConnectivity(android.content.Context) -> b
 com.dkhs.portfolio.utils.PortfolioPreferenceManager -> com.dkhs.portfolio.d.q:
-    android.content.SharedPreferences getSharePreferences() -> a
+    com.dkhs.portfolio.common.SecurePreferences getSharePreferences() -> a
     android.content.SharedPreferences$Editor getSharePreferencesEditor() -> b
     java.lang.String getStringValue(java.lang.String) -> a
     int getIntValue(java.lang.String) -> b

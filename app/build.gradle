@@ -12,22 +12,31 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
 
-        versionCode 14
-        versionName "1.8.0630"
+        versionCode 15
+        versionName "1.9.0630"
 
     }
 
-
+    signingConfigs {
+        dkhsConfig {
+            storeFile file("xdsdkhs.keystore")//XXXX.keystore是要打包的Key（注意：要把key放到项目根目录下）
+            storePassword "xdsdkhs"//密钥库的密码
+            keyAlias "xdsdkhs"//key的别名
+            keyPassword "xdsdkhsadmin"//XXXX.keystore的密码（为方便记忆，可以和storePassword一样）
+        }
+    }
 
 
     buildTypes {
         release {
+            signingConfig signingConfigs.dkhsConfig
             minifyEnabled true
             proguardFiles 'proguard.cfg'
             debuggable false
         }
 
         debug {
+            signingConfig signingConfigs.dkhsConfig
             minifyEnabled false  //不使用混淆
             debuggable true
         }
