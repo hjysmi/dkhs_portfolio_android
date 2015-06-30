@@ -49,7 +49,7 @@ android {
             buildConfigField 'boolean', 'isSandbox', 'true'
             signingConfig signingConfigs.release
             minifyEnabled false
-            debuggable false
+            debuggable true
             zipAlignEnabled true
             // 移除无用的resource文件
             shrinkResources true
