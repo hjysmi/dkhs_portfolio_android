@@ -51,15 +51,7 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
     public int setContentLayoutId() {
         return R.layout.empty_listview;
     }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.empty_listview, null);
-//        initLoadMoreList(view);
-//
-//        // setListAdatper();
-//        return view;
-//    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

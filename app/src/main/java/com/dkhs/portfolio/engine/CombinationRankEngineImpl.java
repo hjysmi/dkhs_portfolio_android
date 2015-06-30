@@ -22,11 +22,11 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午5:07:15
- * @version 1.0
  */
 public class CombinationRankEngineImpl extends LoadMoreDataEngine {
 
@@ -58,13 +58,15 @@ public class CombinationRankEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("sort", mOrderType);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.rankingList, params, this);
+//        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.rankingList, params, this);
+        return null;
     }
 
+
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public HttpHandler loadData() {
@@ -81,11 +83,10 @@ public class CombinationRankEngineImpl extends LoadMoreDataEngine {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param jsonData
      * @return
-     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
@@ -98,6 +99,11 @@ public class CombinationRankEngineImpl extends LoadMoreDataEngine {
 
                 moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CombinationBean>>() {
                 }.getType());
+
+                //手动屏蔽掉加载更多
+                moreBean.setCurrentPage(1);
+                moreBean.setTotalPage(1);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -107,10 +113,10 @@ public class CombinationRankEngineImpl extends LoadMoreDataEngine {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param dataSize
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {

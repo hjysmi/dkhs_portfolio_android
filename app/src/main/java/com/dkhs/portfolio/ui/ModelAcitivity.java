@@ -22,6 +22,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
+
 public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
