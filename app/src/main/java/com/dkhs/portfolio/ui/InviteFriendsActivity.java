@@ -14,6 +14,7 @@ import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -34,12 +35,11 @@ import cn.sharesdk.onekeyshare.PlatformListFakeActivity;
 public class InviteFriendsActivity extends ModelAcitivity {
 
 
-    private String title;
-    private String uri;
     @ViewInject(R.id.invitingBtn)
     private Button invitingBtn;
 
     private ShareBean mShareBean;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

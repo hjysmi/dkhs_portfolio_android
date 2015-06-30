@@ -368,10 +368,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
             if (isMyCombination) {
                 customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
-                        + shareUrl;
+                        ;
             } else {
 
-                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!" + shareUrl;
+                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!" ;
             }
 
 

@@ -120,7 +120,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         Log.i("CrashHandler", "come into uncaughtException");
-        // TODO Auto-generated method stub
         if (!handleException(ex) && null != mDefaultHandler) {
             // 如果用户没有处理则让系统默认的异常处理器来处理
             mDefaultHandler.uncaughtException(thread, ex);
@@ -289,7 +288,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
         try {
             file = new File(filePath + fileName);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return file;
