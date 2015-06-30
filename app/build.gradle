@@ -72,7 +72,7 @@ android {
         rong_debug {
             manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]
         }
-       
+
     }
 
 
