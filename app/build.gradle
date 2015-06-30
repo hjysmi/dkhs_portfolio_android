@@ -13,7 +13,7 @@ android {
         targetSdkVersion 21
 
         versionCode 14
-        versionName "1.8.0629"
+        versionName "1.8.0630"
 
     }
 
@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles 'proguard.cfg'
             debuggable false
         }
