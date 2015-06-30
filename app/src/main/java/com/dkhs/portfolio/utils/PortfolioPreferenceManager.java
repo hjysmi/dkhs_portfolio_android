@@ -15,11 +15,11 @@ import android.content.SharedPreferences.Editor;
 import com.dkhs.portfolio.app.PortfolioApplication;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName PortfolioPreferenceManager
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-17 下午3:53:07
- * @version 1.0
  */
 public class PortfolioPreferenceManager {
     // Preference的文件名
@@ -43,10 +43,12 @@ public class PortfolioPreferenceManager {
      * app 显示新消息的key
      */
     // public static final String S_APP_NEW_MESSAGE="app_new_message";
-
     public static SharedPreferences getSharePreferences() {
         return PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
+//    public static SecurePreferences getSharePreferences() {
+//        return new SecurePreferences(PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE),"dkhs");
+//    }
 
     public static Editor getSharePreferencesEditor() {
         return getSharePreferences().edit();

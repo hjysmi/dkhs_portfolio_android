@@ -14,12 +14,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AppBean;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -46,7 +46,7 @@ import io.rong.imlib.model.Message;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-5 上午10:26:35
  */
-public class MainActivity extends ModelAcitivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private MessageHandler handler;
@@ -54,13 +54,14 @@ public class MainActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 模拟堆栈管理activity
+        PortfolioApplication.getInstance().addActivity(this);
         // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // PortfolioApplication.getInstance().addActivity(this);
         handler = new MessageHandler(this);
-        hideHead();
-        setSwipeBackEnable(false);
+//        hideHead();
+//        setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
-        BusProvider.getInstance().register(this);
         handIntent(getIntent());
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
@@ -69,9 +70,7 @@ public class MainActivity extends ModelAcitivity {
             // bunlde.putInt("content", mIndex);
             mMenuFragment.setArguments(bunlde);
             t.replace(R.id.bottom_layout, mMenuFragment);
-//            MainOptionalFragment fragmentA = new MainOptionalFragment();
-////            mContentFragment = fragmentA;
-//            t.replace(R.id.content_layout, fragmentA);
+
             t.commit();
             displayFragmentA();
 
@@ -80,9 +79,6 @@ public class MainActivity extends ModelAcitivity {
 //            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         }
-//        fragmentB = new MainMarketFragment();
-//        fragmentC = new MainInfoFragment();
-//        fragmentD = new UserFragment();
 
         UserEngineImpl mUserEngineImpl = new UserEngineImpl();
         mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
@@ -94,13 +90,12 @@ public class MainActivity extends ModelAcitivity {
     protected void onResume() {
         MessageManager.getInstance().connect();
         super.onResume();
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("A");
-        if (null != fragment) {
-            Log.e(TAG, " ------------------->fragment A isvisible:" + fragment.isVisible());
-        }
-
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -167,22 +162,11 @@ public class MainActivity extends ModelAcitivity {
             if (fragmentA instanceof VisiableLoadFragment) {
                 ((VisiableLoadFragment) fragmentA).onViewShow();
             }
-//            fragmentA.onResume();
+
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentA, "A");
         }
-//        if (null != fragmentB && fragmentB.isAdded()) {
-//            ft.hide(fragmentB);
-//            if (fragmentB instanceof VisiableLoadFragment) {
-//                ((VisiableLoadFragment) fragmentB).onViewHide();
-//            }
-//        }
-//        if (null != fragmentC && fragmentC.isAdded()) {
-//            ft.hide(fragmentC);
-//        }
-//        if (null != fragmentD && fragmentD.isAdded()) {
-//            ft.hide(fragmentD);
-//        }
+
         ft.commit();
     }
 
@@ -202,18 +186,7 @@ public class MainActivity extends ModelAcitivity {
         if (fragmentB instanceof VisiableLoadFragment) {
             ((VisiableLoadFragment) fragmentB).onViewShow();
         }
-//        if (null != fragmentA && fragmentA.isAdded()) {
-//            ft.hide(fragmentA);
-//            if (fragmentA instanceof VisiableLoadFragment) {
-//                ((VisiableLoadFragment) fragmentA).onViewHide();
-//            }
-//        }
-//        if (null != fragmentC && fragmentC.isAdded()) {
-//            ft.hide(fragmentC);
-//        }
-//        if (null != fragmentD && fragmentD.isAdded()) {
-//            ft.hide(fragmentD);
-//        }
+
         ft.commit();
     }
 
@@ -229,21 +202,7 @@ public class MainActivity extends ModelAcitivity {
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentC, "C");
         }
-//        if (null != fragmentB && fragmentB.isAdded()) {
-//            ft.hide(fragmentB);
-//            if (fragmentB instanceof VisiableLoadFragment) {
-//                ((VisiableLoadFragment) fragmentB).onViewHide();
-//            }
-//        }
-//        if (null != fragmentA && fragmentA.isAdded()) {
-//            ft.hide(fragmentA);
-//            if (fragmentA instanceof VisiableLoadFragment) {
-//                ((VisiableLoadFragment) fragmentA).onViewHide();
-//            }
-//        }
-//        if (null != fragmentD && fragmentD.isAdded()) {
-//            ft.hide(fragmentD);
-//        }
+
         ft.commit();
     }
 
@@ -259,21 +218,7 @@ public class MainActivity extends ModelAcitivity {
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentD, "D");
         }
-//        if (null != fragmentB && fragmentB.isAdded()) {
-//            ft.hide(fragmentB);
-//            if (fragmentB instanceof VisiableLoadFragment) {
-//                ((VisiableLoadFragment) fragmentB).onViewHide();
-//            }
-//        }
-//        if (null != fragmentC && fragmentC.isAdded()) {
-//            ft.hide(fragmentC);
-//        }
-//        if (null != fragmentA && fragmentA.isAdded()) {
-//            ft.hide(fragmentA);
-//            if (fragmentA instanceof VisiableLoadFragment) {
-//                ((VisiableLoadFragment) fragmentA).onViewHide();
-//            }
-//        }
+
         ft.commit();
     }
 

@@ -1,192 +1,204 @@
 package com.dkhs.portfolio.common;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+import java.util.Set;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by zjz on 2015/6/5.
  */
-public class SecurePreferences {
-    public static class SecurePreferencesException extends RuntimeException {
+public class SecurePreferences implements SharedPreferences {
+    private final SharedPreferences sp;
+    private final Cipher encrypter;
+    private final Cipher decrypter;
 
 
-        public SecurePreferencesException(Throwable e) {
-            super(e);
-        }
+    @SuppressLint("GetInstance")
+    public SecurePreferences(SharedPreferences sp, String pass) {
+        this.sp = sp;
 
 
-    }
-
-
-    private static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
-    private static final String KEY_TRANSFORMATION = "AES/ECB/PKCS5Padding";
-    private static final String SECRET_KEY_HASH_TRANSFORMATION = "SHA-256";
-    private static final String CHARSET = "UTF-8";
-
-
-    private final boolean encryptKeys;
-    private final Cipher writer;
-    private final Cipher reader;
-    private final Cipher keyWriter;
-    private final SharedPreferences preferences;
-
-
-    /**
-     * This will initialize an instance of the SecurePreferences class
-     * @param context your current context.
-     * @param preferenceName name of preferences file (preferenceName.xml)
-     * @param secureKey the key used for encryption, finding a good key scheme is hard.
-     * Hardcoding your key in the application is bad, but better than plaintext preferences. Having the user enter the key upon application launch is a safe(r) alternative, but annoying to the user.
-     * @param encryptKeys settings this to false will only encrypt the values,
-     * true will encrypt both values and keys. Keys can contain a lot of information about
-     * the plaintext value of the value which can be used to decipher the value.
-     * @throws SecurePreferencesException
-     */
-    public SecurePreferences(Context context, String preferenceName, String secureKey, boolean encryptKeys) throws SecurePreferencesException {
         try {
-            this.writer = Cipher.getInstance(TRANSFORMATION);
-            this.reader = Cipher.getInstance(TRANSFORMATION);
-            this.keyWriter = Cipher.getInstance(KEY_TRANSFORMATION);
-
-
-            initCiphers(secureKey);
-
-
-            this.preferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
-
-
-            this.encryptKeys = encryptKeys;
-        }
-        catch (GeneralSecurityException e) {
-            throw new SecurePreferencesException(e);
-        }
-        catch (UnsupportedEncodingException e) {
-            throw new SecurePreferencesException(e);
+            byte[] key = MessageDigest.getInstance("SHA-256").digest(pass.getBytes());
+            encrypter = Cipher.getInstance("AES");
+            encrypter.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
+            decrypter = Cipher.getInstance("AES");
+            decrypter.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
 
-    protected void initCiphers(String secureKey) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException,
-            InvalidAlgorithmParameterException {
-        IvParameterSpec ivSpec = getIv();
-        SecretKeySpec secretKey = getSecretKey(secureKey);
-
-
-        writer.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
-        reader.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
-        keyWriter.init(Cipher.ENCRYPT_MODE, secretKey);
-    }
-
-    protected IvParameterSpec getIv() {
-        byte[] iv = new byte[writer.getBlockSize()];
-        System.arraycopy("fldsjfodasjifudslfjdsaofshaufihadsf".getBytes(), 0, iv, 0, writer.getBlockSize());
-        return new IvParameterSpec(iv);
-    }
-
-    protected SecretKeySpec getSecretKey(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        byte[] keyBytes = createKeyBytes(key);
-        return new SecretKeySpec(keyBytes, TRANSFORMATION);
+    @Override
+    public Map<String, ?> getAll() {
+        throw new UnsupportedOperationException();
     }
 
 
-    protected byte[] createKeyBytes(String key) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance(SECRET_KEY_HASH_TRANSFORMATION);
-        md.reset();
-        return md.digest(key.getBytes(CHARSET));
+    @Override
+    public String getString(String key, String defValue) {
+        String v = sp.getString(encrypt(key), defValue == null ? null : encrypt(defValue));
+        return v == null ? null : decrypt(v);
     }
 
 
-    public void put(String key, String value) {
-        if (value == null) {
-            preferences.edit().remove(toKey(key)).commit();
-        }
-        else {
-            putValue(toKey(key), value);
-        }
+    @Override
+    public Set<String> getStringSet(String key, Set<String> defValues) {
+        throw new UnsupportedOperationException();
     }
 
 
-    public boolean containsKey(String key) {
-        return preferences.contains(toKey(key));
+    @Override
+    public int getInt(String key, int defValue) {
+        return Integer.parseInt(getString(key, Integer.toString(defValue)));
     }
 
 
-    public void removeValue(String key) {
-        preferences.edit().remove(toKey(key)).commit();
+    @Override
+    public long getLong(String key, long defValue) {
+        return Long.parseLong(getString(key, Long.toString(defValue)));
     }
 
 
-    public String getString(String key) throws SecurePreferencesException {
-        if (preferences.contains(toKey(key))) {
-            String securedEncodedValue = preferences.getString(toKey(key), "");
-            return decrypt(securedEncodedValue);
-        }
-        return null;
+    @Override
+    public float getFloat(String key, float defValue) {
+        return Float.parseFloat(getString(key, Float.toString(defValue)));
     }
 
 
-    public void clear() {
-        preferences.edit().clear().commit();
+    @Override
+    public boolean getBoolean(String key, boolean defValue) {
+        return Boolean.parseBoolean(getString(key, Boolean.toString(defValue)));
     }
 
 
-    private String toKey(String key) {
-        if (encryptKeys)
-            return encrypt(key, keyWriter);
-        else return key;
+    @Override
+    public boolean contains(String key) {
+        return sp.contains(encrypt(key));
     }
 
 
-    private void putValue(String key, String value) throws SecurePreferencesException {
-        String secureValueEncoded = encrypt(value, writer);
-
-
-        preferences.edit().putString(key, secureValueEncoded).commit();
+    @SuppressLint("CommitPrefEdits")
+    @Override
+    public Editor edit() {
+        return new SecureEditor(sp.edit());
     }
 
 
-    protected String encrypt(String value, Cipher writer) throws SecurePreferencesException {
-        byte[] secureValue;
+    @Override
+    public void registerOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+        sp.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+
+    @Override
+    public void unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+        sp.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+
+    private String encrypt(String value) {
         try {
-            secureValue = convert(writer, value.getBytes(CHARSET));
-        }
-        catch (UnsupportedEncodingException e) {
-            throw new SecurePreferencesException(e);
-        }
-        return Base64.encodeToString(secureValue, Base64.NO_WRAP);
-    }
-
-
-    protected String decrypt(String securedEncodedValue) {
-        byte[] securedValue = Base64.decode(securedEncodedValue, Base64.NO_WRAP);
-        byte[] value = convert(reader, securedValue);
-        try {
-            return new String(value, CHARSET);
-        }
-        catch (UnsupportedEncodingException e) {
-            throw new SecurePreferencesException(e);
+            return Base64.encodeToString(encrypter.doFinal(value.getBytes()), Base64.DEFAULT).trim();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 
 
-    private static byte[] convert(Cipher cipher, byte[] bs) throws SecurePreferencesException {
+    private String decrypt(String value) {
         try {
-            return cipher.doFinal(bs);
+            return new String(decrypter.doFinal(Base64.decode(value, Base64.DEFAULT))).trim();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
-        catch (Exception e) {
-            throw new SecurePreferencesException(e);
+    }
+
+
+    private class SecureEditor implements Editor {
+        private final Editor editor;
+
+
+        private SecureEditor(Editor editor) {
+            this.editor = editor;
+        }
+
+
+        @Override
+        public Editor putString(String key, String value) {
+            editor.putString(encrypt(key), encrypt(value));
+            return this;
+        }
+
+
+        @Override
+        public Editor putStringSet(String key, Set<String> values) {
+            throw new UnsupportedOperationException();
+        }
+
+
+        @Override
+        public Editor putInt(String key, int value) {
+            editor.putString(encrypt(key), encrypt(Integer.toString(value)));
+            return this;
+        }
+
+
+        @Override
+        public Editor putLong(String key, long value) {
+            editor.putString(encrypt(key), encrypt(Long.toString(value)));
+            return this;
+        }
+
+
+        @Override
+        public Editor putFloat(String key, float value) {
+            editor.putString(encrypt(key), encrypt(Float.toString(value)));
+            return this;
+        }
+
+
+        @Override
+        public Editor putBoolean(String key, boolean value) {
+            editor.putString(encrypt(key), encrypt(Boolean.toString(value)));
+            return this;
+        }
+
+
+        @Override
+        public Editor remove(String key) {
+            editor.remove(encrypt(key));
+            return this;
+        }
+
+
+        @Override
+        public Editor clear() {
+            editor.clear();
+            return this;
+        }
+
+
+        @Override
+        public boolean commit() {
+            return editor.commit();
+        }
+
+
+        @Override
+        public void apply() {
+            editor.apply();
         }
     }
 }

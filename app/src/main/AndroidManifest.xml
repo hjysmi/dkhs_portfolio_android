@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="14"
-    android:versionName="1.8.0611">
+    android:versionName="1.8.062615_release">
 
 
     <supports-screens

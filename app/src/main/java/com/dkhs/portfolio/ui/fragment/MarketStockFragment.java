@@ -298,8 +298,16 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
         @Override
         public void loadFail() {
-            endAnimaRefresh();
-            mSwipeLayout.setRefreshing(false);
+            if (isAdded()) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        endAnimaRefresh();
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                });
+            }
+
 
         }
 
