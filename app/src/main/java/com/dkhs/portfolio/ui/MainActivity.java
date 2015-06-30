@@ -85,7 +85,7 @@ public class MainActivity extends ModelAcitivity {
 //        fragmentD = new UserFragment();
 
         UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-//        mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+        mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
 
 
     }

@@ -16,7 +16,7 @@ import com.dkhs.portfolio.utils.PromptManager;
  * @author zwm
  * @version 2.0
  * @ClassName UpdateDialog
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO(更新对话框)
  * @date 2015/6/30.
  */
 public class UpdateDialog  extends  MAlertDialog{
@@ -55,7 +55,7 @@ public class UpdateDialog  extends  MAlertDialog{
            this.setMessage(context.getString(R.string.def_update_dec));
         }
         
-        if(!appBean.isUpgrade()){
+        if(appBean.isUpgrade()){
             this.setNegativeButton(context.getString(R.string.exit_app), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     PortfolioApplication.getInstance().exitApp();
