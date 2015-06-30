@@ -12,7 +12,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
 
-        versionCode 14
+        versionCode 1080630
         versionName "1.8.0630"
 
     }

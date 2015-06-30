@@ -51,6 +51,7 @@ public class MainActivity extends BaseActivity {
 
     private MessageHandler handler;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
