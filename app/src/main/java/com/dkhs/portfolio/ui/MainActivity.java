@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -289,7 +290,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
 
         @Override
@@ -300,28 +300,22 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void afterParseData(AppBean object) {
-                if (null != object) {
-                    try {
+            if (null != object) {
+                try {
                     final AppBean bean = object;
-                    // FIXME: 2015/6/30   这个判断有缺点,
-                    int service = object.getVersionNameInt();
-                    int local = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERSIONY);
-                    if(local==0) {
+                    String version = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_VERSIONY);
+                    if (TextUtils.isEmpty(version)) {
                         PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-                        String version = info.versionName;
-                        String s = version.replaceAll("\\.", "");
-                        if(s.matches("\\d+")){
-                            local=Integer.parseInt(s);
-                        }
+                        version = info.versionName;
                     }
-                    if (service > local) {
+                    if (object.isNewVersion(version)) {
                         UpdateDialog alert = new UpdateDialog(mContext);
                         alert.showByAppBean(object);
                     }
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
                 }
+            }
         }
     };
 }

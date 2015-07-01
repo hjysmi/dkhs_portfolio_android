@@ -65,12 +65,7 @@ public class UpdateDialog  extends  MAlertDialog{
         }else{
             this.setNegativeButton(context.getString(R.string.no_update), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-
-                    String s = appBean.getVersion().replaceAll("\\.", "");
-                    if (s.matches("\\d+")) {
-                        int service = Integer.parseInt(s);
-                        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERSIONY, service);
-                    }
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERSIONY, appBean.getVersion());
                     dialog.dismiss();
                 }
             });
