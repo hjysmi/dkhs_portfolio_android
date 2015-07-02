@@ -41,7 +41,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public static final int TABINDEX_2 = R.id.tab_2;
     public static final int TABINDEX_3 = R.id.tab_3;
     public static final int TABINDEX_4 = R.id.tab_4;
-    public static final int TABINDEX_5 = R.id.tab_5;
 
     @ViewInject(R.id.btn_tab1)
     private Button btnTab1;
@@ -62,10 +61,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     private Button btnTab4;
     @ViewInject(R.id.tv_tab4)
     private TextView tvTab4;
-    @ViewInject(R.id.btn_tab5)
-    private Button btnTab5;
-    @ViewInject(R.id.tv_tab5)
-    private TextView tvTab5;
 
     @ViewInject(R.id.tab_1)
     private View tabLayout1;
@@ -75,8 +70,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     private View tabLayout3;
     @ViewInject(R.id.tab_4)
     private View tabLayout4;
-    @ViewInject(R.id.tab_5)
-    private View tabLayout5;
     @ViewInject(R.id.tv_new_count)
     private TextView newCountTV;
 
@@ -130,7 +123,10 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public void clickTab(int index) {
         mIndex = index;
         setupView();
+
+        // BusProvider.getInstance().post(new TabSelectEvent(index));
         ((MainActivity) getActivity()).showContentIndex(index);
+        // App.getInstance().mTabIndex = index;
 
     }
 
@@ -153,11 +149,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectText(tvTab4);
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
-        }
-        else if (mIndex == TABINDEX_5) {
-            setSelectText(tvTab5);
-            setSelectView(btnTab5);
-            setSelectView(tabLayout5);
             MessageManager.getInstance().setHasNewUnread(false);
             AnimationHelper.dismissScale(newCountTV);
         }
@@ -169,18 +160,15 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         btnTab2.setEnabled(true);
         btnTab3.setEnabled(true);
         btnTab4.setEnabled(true);
-        btnTab5.setEnabled(true);
         tabLayout1.setEnabled(true);
         tabLayout2.setEnabled(true);
         tabLayout3.setEnabled(true);
         tabLayout4.setEnabled(true);
-        tabLayout5.setEnabled(true);
         ColorStateList cls = getResources().getColorStateList(R.color.compare_select_gray);
         tvTab1.setTextColor(cls);
         tvTab2.setTextColor(cls);
         tvTab3.setTextColor(cls);
         tvTab4.setTextColor(cls);
-        tvTab5.setTextColor(cls);
     }
 
     private void setSelectView(View rButton) {
@@ -197,7 +185,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         tvSelect.setTextColor(getResources().getColorStateList(R.color.title_color));
     }
 
-    @OnClick({ R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4 ,R.id.tab_5})
+    @OnClick({ R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4 })
     public void onClick(View v) {
         int id = v.getId();
         clickTab(id);
@@ -205,11 +193,14 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
     @Override
     public void onResume() {
+        // TODO Auto-generated method stub
         super.onResume();
         if (PortfolioApplication.hasUserLogin() && MessageManager.getInstance().isHasNewUnread()
                 && MessageManager.getInstance().getTotalUnreadCount() > 0) {
             updateNewMessageView(true);
+
         } else {
+
             updateNewMessageView(false);
         }
 
@@ -242,6 +233,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("curChoice", mIndex);
+
     }
 
 }
