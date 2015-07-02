@@ -33,8 +33,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetector.Listener{
 
 
-    @ViewInject(R.id.btn_header_right)
-    Button mBtnheaderright;
+
     @ViewInject(R.id.tv_title)
     TextView mTvtitle;
     @ViewInject(R.id.shakeIv)
@@ -86,12 +85,7 @@ public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetect
         });
          sensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
          sd = new ShakeDetector(this);
-        mBtnheaderright.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(AdActivity.getIntent(mContext, DKHSClient.getAbsoluteUrl(DKHSUrl.Shake.getDescriptionOfActivities),false));
-            }
-        });
+
     }
 
 

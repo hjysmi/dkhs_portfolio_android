@@ -140,6 +140,7 @@ public class MainActivity extends BaseActivity {
             case MenuItemFragment.TABINDEX_4: {
                 displayFragmentD();
             }
+            break;
             case MenuItemFragment.TABINDEX_5: {
                 displayFragmentE();
             }
@@ -265,6 +266,8 @@ public class MainActivity extends BaseActivity {
         }
         if (null != fragmentD && fragmentD.isAdded()) {
             ft.hide(fragmentD);
+        }if (null != fragmentE && fragmentE.isAdded()) {
+            ft.hide(fragmentE);
         }
         ft.commit();
     }

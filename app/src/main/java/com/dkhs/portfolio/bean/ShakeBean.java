@@ -14,9 +14,7 @@ import org.parceler.Parcel;
 
 public class ShakeBean {
 
-    public   ShakeBean(){
 
-    }
     /**
      * content : 中国联通降低宽带资费中国联通降低宽带资费中国联通降低宽带资费
      * id : 2

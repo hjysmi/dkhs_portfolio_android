@@ -100,6 +100,7 @@ public class ShakeActivity extends ModelAcitivity  {
             mUpRateTV.setText(String.format("上涨概率:%s",mShakeBean.up_rate))
             ;
 
+//            if(mShakeBean.content)
             mSymbolTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
