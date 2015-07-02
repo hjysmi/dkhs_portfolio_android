@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.Spanny;
 import com.dkhs.portfolio.net.DataParse;
@@ -104,7 +105,11 @@ public class ShakeActivity extends ModelAcitivity  {
             mSymbolTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    startActivity();
+                    SelectStockBean selectStockBean=new SelectStockBean();
+                    selectStockBean.symbol=mShakeBean.symbol.symbol;
+                    selectStockBean.symbol_type="1";
+
+                    startActivity(StockQuotesActivity.newIntent(mContext,selectStockBean));
                 }
             });
         }
