@@ -1,8 +1,12 @@
 package com.dkhs.portfolio.net;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.BuildConfig;
 import com.lidroid.xutils.util.LogUtils;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author zwm

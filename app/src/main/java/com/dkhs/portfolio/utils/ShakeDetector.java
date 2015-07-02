@@ -5,6 +5,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import com.lidroid.xutils.util.LogUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class ShakeDetector implements SensorEventListener {
          * Called on the main thread when the device is shaken.
          */
         void hearShake();
+
     }
 
     private final SampleQueue queue = new SampleQueue();
@@ -79,6 +82,8 @@ public class ShakeDetector implements SensorEventListener {
         }
     }
 
+
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         boolean accelerating = isAccelerating(event);
@@ -86,6 +91,7 @@ public class ShakeDetector implements SensorEventListener {
         queue.add(timestamp, accelerating);
         if (queue.isShaking()) {
             queue.clear();
+            LogUtils.e("hearShake");
             listener.hearShake();
         }
     }

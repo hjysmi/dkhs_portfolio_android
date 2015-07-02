@@ -105,10 +105,8 @@ public class ModelAcitivity extends SwipeBackActivity {
 
 
     public void replaceContentFragment(Fragment fragment) {
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.layoutContent, fragment).commit();
-
     }
 
     /**
@@ -129,7 +127,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         // 监听返回键 使得子页面不必重复监听
         btnBack.setOnClickListener(clickListener);
-
         // llBack.setOnClickListener(clickListener);
     }
 
@@ -362,5 +359,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         }
     }
+
 
 }

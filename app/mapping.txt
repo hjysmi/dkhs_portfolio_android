@@ -20992,7 +20992,7 @@ com.dkhs.portfolio.bean.AppBean -> com.dkhs.portfolio.bean.AppBean:
     void setCreateDate(java.lang.String) -> setCreateDate
     java.lang.String getModified() -> getModified
     void setModified(java.lang.String) -> setModified
-    int getVersionNameInt() -> getVersionNameInt
+    boolean isNewVersion(java.lang.String) -> isNewVersion
 com.dkhs.portfolio.bean.BindThreePlat -> com.dkhs.portfolio.bean.BindThreePlat:
     boolean status -> status
     java.lang.String username -> username

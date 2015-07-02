@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -31,6 +32,7 @@ public abstract class VisiableLoadFragment extends BaseFragment {
 //    private VisiableLoadFragment parentFragment;
 
 
+    protected Context mContext;
     private static final String TAG = VisiableLoadFragment.class.getSimpleName();
 
     @Override
@@ -53,12 +55,12 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
 
-
-        if (isVisibleToUser && isViewShown && isVisible()) {
-            onViewShow();
-        } else {
-            onViewHide();
-        }
+//
+//        if (isVisibleToUser && isViewShown && isVisible()) {
+//            onViewShow();
+//        } else {
+//            onViewHide();
+//        }
 
         if (isVisibleToUser && !isViewShown && isVisible()) {
 
@@ -119,5 +121,11 @@ public abstract class VisiableLoadFragment extends BaseFragment {
 
 //        Log.e(TAG, this + "=============> onViewHide");
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext=getActivity();
     }
 }
