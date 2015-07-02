@@ -230,15 +230,15 @@ public class MainActivity extends BaseActivity {
     }
     protected void displayFragmentE() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentD = getSupportFragmentManager().findFragmentByTag("E");
-        if (null == fragmentD) {
-            fragmentD = new UserFragment();
+        fragmentE = getSupportFragmentManager().findFragmentByTag("E");
+        if (null == fragmentE) {
+            fragmentE = new UserFragment();
         }
         hideAllFragment();
-        if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container
-            ft.show(fragmentD);
+        if (null != fragmentE && fragmentE.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentE);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentD, "E");
+            ft.add(R.id.content_layout, fragmentE, "E");
         }
 
         ft.commit();

@@ -184,7 +184,13 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 @Override
                 protected void afterParseData(Boolean object) {
                     if (object) {
+                        if (!isSetPsw) {
                             bindMobile();
+                        } else {
+                            startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
+                                    verifyCode, false));
+                        }
+
                     } else {
                         PromptManager.showToast("验证码有误");
                     }
