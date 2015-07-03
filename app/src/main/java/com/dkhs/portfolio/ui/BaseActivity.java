@@ -12,48 +12,42 @@ import android.widget.EditText;
 
 public class BaseActivity extends FragmentActivity {
 
+    protected  Context mContext;
     @Override
     protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // this.getWindow().getDecorView().setOnTouchListener(this);
-
+        mContext=this;
     }
 
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
     }
 
     @Override
     protected void onRestart() {
-        // TODO Auto-generated method stub
         super.onRestart();
     }
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        // TODO Auto-generated method stub
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
     }
 
@@ -81,7 +75,7 @@ public class BaseActivity extends FragmentActivity {
      */  
     private boolean isShouldHideInput(View v, MotionEvent event) {  
         if (v != null && (v instanceof EditText)) {  
-            int[] l = { 0, 0 };  
+            int[] l = { 0, 0 };
             v.getLocationInWindow(l);  
             int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left  
                     + v.getWidth();  

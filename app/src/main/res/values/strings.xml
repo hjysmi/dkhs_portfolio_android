@@ -617,4 +617,15 @@
     <string name="invite_success">邀请成功</string>
     <string name="invite_cancel">邀请取消</string>
     <string name="invite_err">邀请失败</string>
+    <string name="update_rightnow">马上更新</string>
+    <string name="start_download">开始下载</string>
+    <string name="update">升级</string>
+    <string name="def_update_dec">发现新版本,建议立即更新使用.</string>
+    <string name="exit_app">退出谁牛</string>
+    <string name="no_update">暂不更新</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shakeItOff">摇一摇</string>
+    <string name="introduce">说明</string>
 </resources>

@@ -152,6 +152,7 @@ public class ExchangeActivity extends ModelAcitivity {
         protected void afterParseData(Boolean object) {
             btnExchange.setEnabled(true);
             if (null != object) {
+
                 showExchangeToast(object);
             }
 
@@ -170,6 +171,7 @@ public class ExchangeActivity extends ModelAcitivity {
     private void showExchangeToast(boolean isSuccess) {
         if (isSuccess) {
             PromptManager.showSuccessToast(R.string.exchange_success);
+            this.finish();
         } else {
             PromptManager.showCancelToast(R.string.exchange_failure);
         }

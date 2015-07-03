@@ -9,6 +9,8 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,8 +18,12 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
@@ -27,6 +33,8 @@ import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
+import com.dkhs.portfolio.ui.widget.UpdateDialog;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 
 import io.rong.imlib.model.Message;
 
@@ -41,6 +49,7 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private MessageHandler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +79,9 @@ public class MainActivity extends BaseActivity {
 //            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         }
+
+        UserEngineImpl mUserEngineImpl = new UserEngineImpl();
+        mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
 
 
     }
@@ -275,4 +287,35 @@ public class MainActivity extends BaseActivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+
+
+    ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
+
+        @Override
+        protected AppBean parseDateTask(String jsonData) {
+
+            return DataParse.parseObjectJson(AppBean.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(AppBean object) {
+            if (null != object) {
+                try {
+                    final AppBean bean = object;
+                    PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+                    String version = info.versionName;
+
+                    if (object.isNewVersion(version)) {
+
+                        if (!object.getVersion().equals(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_VERSIONY))) {
+                            UpdateDialog alert = new UpdateDialog(mContext);
+                            alert.showByAppBean(object);
+                        }
+                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 }

@@ -179,7 +179,7 @@ public class MainInfoFragment extends BaseTitleFragment {
 
             Bundle bundle=slider.getBundle();
             String    redirectUrl=  bundle.getString("redirect_url");
-            getActivity().startActivity(AdActivity.getIntent(getActivity(),slider.getDescription(),redirectUrl));
+            getActivity().startActivity(AdActivity.getIntent(getActivity(),redirectUrl));
         }
     }
 

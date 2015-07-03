@@ -427,15 +427,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
                 UIHandler.sendMessage(msg, this);
                 continue;
             }
-            boolean isWeiBo = SinaWeibo.NAME.equals(name);
-            if (isWeiBo && !plat.isClientValid()) {
-                HashMap<String, Object> data = ent.getValue();
 
-
-                this.setText(data.get("text").toString() + data.get("url"));
-
-
-            }
 
             boolean isWhatsApp = "WhatsApp".equals(name);
             if (isWhatsApp && !plat.isClientValid()) {

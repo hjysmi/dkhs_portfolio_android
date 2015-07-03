@@ -78,5 +78,32 @@ public class AppBean {
 	public void setModified(String modified) {
 		this.modified = modified;
 	}
+
+	public boolean isNewVersion(String  versionName){
+
+
+		boolean isNewVersion=false;
+		String[] serviceVersion = this.getVersion().split("\\.");
+		String[] oldVersion = versionName.split("\\.");
+
+		if(serviceVersion.length>=3 && oldVersion.length >=3){
+			for (int i = 0; i < 3; i++) {
+				//先判断是否是数字
+				if(!serviceVersion[i].matches("\\d+") || !oldVersion[i].matches("\\d+")){
+					isNewVersion=false;
+					break;
+				}else
+				if(serviceVersion[i].hashCode() >oldVersion[i].hashCode()){
+					isNewVersion=true;
+					break;
+				}else if(serviceVersion[i].hashCode() <oldVersion[i].hashCode()){
+					isNewVersion=false;
+					break;
+				}
+			}
+		}
+		return  isNewVersion;
+
+	}
 	
 }

@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public final class AppConfig {
 
-    public static final boolean isDebug = true;
+    public static final boolean isDebug = false;
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;

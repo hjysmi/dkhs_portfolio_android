@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private TextImageButton btnBack;
     private View mTitleView;
     protected UserEngineImpl engine;
+    protected Context mContext;
 
     /**
      * 显示子页面的容器
@@ -46,7 +48,9 @@ public class ModelAcitivity extends SwipeBackActivity {
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
         PortfolioApplication.getInstance().addActivity(this);
+        mContext=this;
         onCreate(arg0, R.layout.layout_model_default);
+
     }
 
 
@@ -101,10 +105,8 @@ public class ModelAcitivity extends SwipeBackActivity {
 
 
     public void replaceContentFragment(Fragment fragment) {
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.layoutContent, fragment).commit();
-
     }
 
     /**
@@ -125,7 +127,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         // 监听返回键 使得子页面不必重复监听
         btnBack.setOnClickListener(clickListener);
-
         // llBack.setOnClickListener(clickListener);
     }
 
@@ -358,5 +359,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         }
     }
+
 
 }

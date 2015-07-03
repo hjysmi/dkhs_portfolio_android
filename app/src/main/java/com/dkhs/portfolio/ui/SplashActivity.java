@@ -28,6 +28,7 @@ import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.BitmapUtils;
+import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -96,7 +97,7 @@ public class SplashActivity extends FragmentActivity {
                     mHandler.removeMessages(GO_ACCOUNT_MAIN);
                     Intent[] intents=new Intent[2];
                     intents[0]=  new Intent(SplashActivity.this, MainActivity.class);
-                    intents[1]=  AdActivity.getIntent(context,adsEntity.getTitle(),adsEntity.getRedirect_url());
+                    intents[1]=  AdActivity.getIntent(context,adsEntity.getRedirect_url());
                     context.startActivities(intents);
                     SplashActivity.this.finish();
 
@@ -113,6 +114,8 @@ public class SplashActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         context = this;
+        MobclickAgent.setDebugMode(true);
+        MobclickAgent.updateOnlineConfig( this );
         // hideHead();
         init();
         if (!AppConfig.isDebug) {
