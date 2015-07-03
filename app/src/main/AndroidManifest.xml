@@ -44,7 +44,7 @@
         <!-- 友盟账号 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5594930167e58ebaaa0063b0" />
+            android:value="54850a5cfd98c5755f000e12" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="DKHS_test" />
