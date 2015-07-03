@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -20,7 +21,7 @@
             android:drawablePadding="4dp"
 
             android:layout_gravity="center"
-            android:text="倒计时" />
+            />
 
         <TextView
             android:id="@+id/chanceTV"
@@ -30,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="倒计时" />
+            />
 
         <TextView
             android:id="@+id/freeFlow"
@@ -39,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="倒计时" />
+            />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -55,7 +56,7 @@
                 android:textSize="18dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/dateTV"
@@ -64,7 +65,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/contextTV"
@@ -73,7 +74,7 @@
                 android:textSize="15dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/symbolTV"
@@ -83,7 +84,7 @@
 
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/capitalFlowTV"
@@ -91,7 +92,7 @@
                 android:textColor="@color/theme_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/upRateTV"
@@ -99,7 +100,7 @@
                 android:textColor="@color/theme_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
 
         </LinearLayout>

@@ -2,27 +2,19 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
 import android.view.View;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.Spanny;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.utils.ShakeDetector;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
-
-import org.parceler.ParcelConverter;
-import org.parceler.Parcels;
-
-import me.add1.common.ParcelUtils;
 
 /**
  * Created by zjz on 2015/6/24.
@@ -50,7 +42,7 @@ public class ShakeActivity extends ModelAcitivity  {
     android.widget.TextView mUpRateTV;
     private ShakeBean mShakeBean;
 
-    private CutDownTask mCutDownTask;
+    private CountDownTask countDownTask;
 
     public static Intent newIntent(Context context,ShakeBean shakeBean){
         Intent intent = new Intent(context, ShakeActivity.class);
@@ -86,36 +78,52 @@ public class ShakeActivity extends ModelAcitivity  {
     private void handleIntent() {
         if(getIntent().hasExtra("shakeBean")){
             mShakeBean=DataParse.parseObjectJson(ShakeBean.class,getIntent().getStringExtra("shakeBean"));
-            mCutDownTask=new CutDownTask(mShakeBean.display_time*1000,1000);
-            mCutDownTask.start();
-            mChanceTV.setText(String.format("已使用%d次机会,今日还剩%d次",mShakeBean.times_used,mShakeBean.times_left));
+            countDownTask =new CountDownTask(mShakeBean.display_time*1000,1000);
+            countDownTask.start();
+            mChanceTV.setText(String.format(getString(R.string.the_number_of_times),mShakeBean.times_used,mShakeBean.times_left));
 
             mTitleTV.setText(mShakeBean.title);
 
             mContextTV.setText(mShakeBean.content);
-            Spanny spanny = new Spanny("推荐股票:", new ForegroundColorSpan(getResources().getColor(R.color.theme_color)))
+            Spanny spanny = new Spanny(getString(R.string.recommend_symbol), new ForegroundColorSpan(getResources().getColor(R.color.theme_color)))
                     .append(mShakeBean.symbol.abbr_name,new ForegroundColorSpan(getResources().getColor(R.color.ma20_color)));
             mSymbolTV.setText(spanny);
-            mCapitalFlowTV.setText(String.format("近5日资金流入:%S", mShakeBean.capital_flow))
+            mCapitalFlowTV.setText(String.format(getString(R.string.recently_come_in), mShakeBean.capital_flow))
             ;
-            mUpRateTV.setText(String.format("上涨概率:%s",mShakeBean.up_rate))
+            mUpRateTV.setText(String.format(getString(R.string.up_precent),mShakeBean.up_rate+"%"))
             ;
+            mDateTV.setText(  TimeUtils.getSimpleFormatTime(mShakeBean.modified_at));
+
+
+
+
 
 //            if(mShakeBean.content)
+
+            if(mShakeBean.coins_bonus==0){
+                mFreeFlow.setVisibility(View.GONE);
+            }else{
+
+                mFreeFlow.setText(new Spanny("恭喜你获得", new ForegroundColorSpan(getResources().getColor(R.color.tag_gray)))
+                        .append(" "+mShakeBean.coins_bonus+"M ",new ForegroundColorSpan(getResources().getColor(R.color.tag_red)))
+                        .append("流量", new ForegroundColorSpan(getResources().getColor(R.color.tag_gray))));
+            }
+
             mSymbolTV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     SelectStockBean selectStockBean=new SelectStockBean();
                     selectStockBean.symbol=mShakeBean.symbol.symbol;
                     selectStockBean.symbol_type="1";
-
+                    selectStockBean.name=mShakeBean.symbol.abbr_name;
                     startActivity(StockQuotesActivity.newIntent(mContext,selectStockBean));
+                    ShakeActivity.this.finish();
                 }
             });
         }
     }
 
-    class  CutDownTask extends CountDownTimer {
+    class  CountDownTask extends CountDownTimer {
 
         /**
          * @param millisInFuture    The number of millis in the future from the call
@@ -124,13 +132,13 @@ public class ShakeActivity extends ModelAcitivity  {
          * @param countDownInterval The interval along the way to receive
          *                          {@link #onTick(long)} callbacks.
          */
-        public CutDownTask(long millisInFuture, long countDownInterval) {
+        public CountDownTask(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            mTimeLineTV.setText("倒计时 "+(millisUntilFinished/1000)+"s");
+            mTimeLineTV.setText("倒计时 "+(millisUntilFinished/1000)+" s");
         }
 
         @Override
@@ -143,8 +151,8 @@ public class ShakeActivity extends ModelAcitivity  {
     protected void onDestroy() {
         super.onDestroy();
 
-        if(mCutDownTask != null){
-            mCutDownTask.cancel();
+        if(countDownTask != null){
+            countDownTask.cancel();
         }
     }
 }
