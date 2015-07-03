@@ -108,6 +108,8 @@ public class DKHSUrl {
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
         // 行情中心 指数排行
         String marketcenter = "/api/v1/symbols/";
+        String allMarkets = "/api/v1/symbols/markets/cn/";
+
         String opitionmarket = "/api/v1/symbols/";
         String index = "/api/v1/symbols/following/sort/";
 
