@@ -635,4 +635,8 @@
     <string name="up_precent">"上涨概率:  %1$s"</string>
     <string name="shake_ad">摇吧!摇出你的股市幸运消息.</string>
     <string name="shake_err_no_login">请登录后再来摇出你的幸运消息吧</string>
+    <string name="free_flow_pre">恭喜你获得</string>
+    <string name="free_flow_postfix">流量</string>
+    <string name="count_dwon">倒计时</string>
+    <string name="activity_shake">谁牛小道</string>
 </resources>

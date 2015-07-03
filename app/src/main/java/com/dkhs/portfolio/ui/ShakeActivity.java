@@ -52,7 +52,7 @@ public class ShakeActivity extends ModelAcitivity  {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setTitle("谁牛小道");
+        setTitle(getString(R.string.activity_shake));
         setContentView(R.layout.activity_shake);
         ViewUtils.inject(this);
         handleIntent();
@@ -98,9 +98,9 @@ public class ShakeActivity extends ModelAcitivity  {
                 mFreeFlow.setVisibility(View.GONE);
             }else{
 
-                mFreeFlow.setText(new Spanny("恭喜你获得", new ForegroundColorSpan(getResources().getColor(R.color.tag_gray)))
+                mFreeFlow.setText(new Spanny(getString(R.string.free_flow_pre), new ForegroundColorSpan(getResources().getColor(R.color.tag_gray)))
                         .append(" "+mShakeBean.coins_bonus+"M ",new ForegroundColorSpan(getResources().getColor(R.color.tag_red)))
-                        .append("流量", new ForegroundColorSpan(getResources().getColor(R.color.tag_gray))));
+                        .append(getString(R.string.free_flow_postfix), new ForegroundColorSpan(getResources().getColor(R.color.tag_gray))));
             }
 
             mSymbolTV.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +125,7 @@ public class ShakeActivity extends ModelAcitivity  {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            mTimeLineTV.setText("倒计时 "+(millisUntilFinished/1000)+" s");
+            mTimeLineTV.setText(getString(R.string.count_dwon)+" "+(millisUntilFinished/1000)+" s");
         }
 
         @Override
