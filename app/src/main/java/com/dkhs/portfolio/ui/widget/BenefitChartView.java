@@ -125,14 +125,11 @@ public class BenefitChartView {
     }
 
 
-
-
-
     private boolean mError;
 
 
-    public void setError(){
-        mError=true;
+    public void setError() {
+        mError = true;
         emptyView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
         loadView.setVisibility(View.GONE);
@@ -176,9 +173,9 @@ public class BenefitChartView {
     public void draw(FundQuoteBean fundQuoteBean, FundTrendType type) {
         this.trendType = type;
         this.mFundQuoteBean = fundQuoteBean;
-        if(StockUitls.isDelistStock(mFundQuoteBean.getList_status()+"")){
+        if (StockUitls.isDelistStock(mFundQuoteBean.getList_status() + "")) {
             setError();
-        }else {
+        } else {
             emptyView.setVisibility(View.GONE);
             draw(fundQuoteBean);
         }
@@ -262,30 +259,24 @@ public class BenefitChartView {
 
         float base = (maxOffsetValue + minOffsetValue) / 2;
         float off = Math.max(maxOffsetValue - base, base - minOffsetValue);
-//        float baseNetValue = (maxOffsetNetValue + minOffsetNetValue) / 2;
-//        float offNetValue = Math.max(maxOffsetNetValue - baseNetValue, baseNetValue - minOffsetNetValue);
         setYTitle(base, off, baseNetValue);
         maChartView.setLineData(lineEntityList);
         maChartView.setIsFundTrendCompare(true);
-
-//        if (mFundQuoteBean.getSymbol_stype() == 300)//股票型基金
-//        {
         maChartView.setDisplayAxisYTitleColor(false);
         maChartView.setDisplayYRightTitleByZero(true);
-//        }
 
         onFinishUpdateUI();
     }
 
     private void onFinishUpdateUI() {
-        if(!mError){
-        if (StockUitls.isSepFund(symbol_stype)) {
-            titleView.setVisibility(View.GONE);
-        } else {
-            titleView.setVisibility(View.VISIBLE);
-        }
-        contentView.setVisibility(View.VISIBLE);
-        loadView.setVisibility(View.GONE);
+        if (!mError) {
+            if (StockUitls.isSepFund(symbol_stype)) {
+                titleView.setVisibility(View.GONE);
+            } else {
+                titleView.setVisibility(View.VISIBLE);
+            }
+            contentView.setVisibility(View.VISIBLE);
+            loadView.setVisibility(View.GONE);
         }
     }
 
@@ -472,7 +463,7 @@ public class BenefitChartView {
                 setSepFundLineList();
 
 
-            }else{
+            } else {
                 setError();
             }
 
@@ -533,63 +524,68 @@ public class BenefitChartView {
                 boolean isCurrentFund;
                 String firstDay = null;
                 LineEntity lineEntity;
-                for (CompareFundsBean bean : beanList) {
-                    lineEntity = new LineEntity();
-                    isCurrentFund = false;
-                    if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(mCompareIds)) {
-                        lineEntity.setTitle("沪深300");
-                        lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
-                    } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
-                        lineEntity = new DefFundLineEntity();
-                        Log.e("TTTTT", "  new DefFundLineEntity");
-                        if (mFundQuoteBean != null) {
-                            lineEntity.setTitle(mFundQuoteBean.getSymbol());
-                        } else if (achivementsEntity != null) {
-                            if (!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
-                                lineEntity.setTitle(achivementsEntity.getFund().getSymbol());
-                        }
-                        lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-                        isCurrentFund = true;
-                        baseNetValue = bean.getChartlist().get(0).getNetvalue();
-                        firstDay = bean.getChartlist().get(0).getDate();
-                    } else {
-                        lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
-                    }
+
+                if (beanList != null && beanList.size() > 1) {
 
 
-                    List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
-                    setXTitleByComparePoint(bean.getChartlist());
-                    float net_cumulative = 0;
-
-                    for (ComparePoint cPoint : bean.getChartlist()) {
-                        DefFundPointEntity pointEntity = new DefFundPointEntity();
-                        float value = cPoint.getPercentage();
-
-                        pointEntity.setDesc(cPoint.getDate());
-                        pointEntity.setValue(value);
-                        lineDataList.add(pointEntity);
-                        if (value > maxOffsetValue) {
-                            maxOffsetValue = value;
-                        } else if (value < minOffsetValue) {
-                            minOffsetValue = value;
-                        }
-                        if (isCurrentFund) {
-//                            net_cumulative = cPoint.getNetvalue();
-                            net_cumulative = cPoint.getNet_cumulative();
-                            pointEntity.setNet_cumulative(net_cumulative);
-                            pointEntity.setNetvalue(cPoint.getNetvalue());
-                            pointEntity.setInfo(getManagerByData(firstDay, cPoint.getDate()));
-                            if (net_cumulative > maxOffsetNetValue) {
-                                maxOffsetNetValue = net_cumulative;
-                            } else if (net_cumulative < minOffsetNetValue) {
-                                minOffsetNetValue = net_cumulative;
+                    for (CompareFundsBean bean : beanList) {
+                        lineEntity = new LineEntity();
+                        isCurrentFund = false;
+                        if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(mCompareIds)) {
+                            lineEntity.setTitle("沪深300");
+                            lineEntity.setLineColor(ColorTemplate.getDefaultColors(0));
+                        } else if (!TextUtils.isEmpty(bean.getFundsId()) && bean.getFundsId().equals(fundId)) {
+                            lineEntity = new DefFundLineEntity();
+                            Log.e("TTTTT", "  new DefFundLineEntity");
+                            if (mFundQuoteBean != null) {
+                                lineEntity.setTitle(mFundQuoteBean.getSymbol());
+                            } else if (achivementsEntity != null) {
+                                if (!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
+                                    lineEntity.setTitle(achivementsEntity.getFund().getSymbol());
                             }
+                            lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+                            isCurrentFund = true;
+                            baseNetValue = bean.getChartlist().get(0).getNetvalue();
+                            firstDay = bean.getChartlist().get(0).getDate();
+                        } else {
+                            lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
                         }
 
+
+                        List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
+                        setXTitleByComparePoint(bean.getChartlist());
+                        float net_cumulative = 0;
+
+                        for (ComparePoint cPoint : bean.getChartlist()) {
+                            DefFundPointEntity pointEntity = new DefFundPointEntity();
+                            float value = cPoint.getPercentage();
+
+                            pointEntity.setDesc(cPoint.getDate());
+                            pointEntity.setValue(value);
+                            lineDataList.add(pointEntity);
+                            if (value > maxOffsetValue) {
+                                maxOffsetValue = value;
+                            } else if (value < minOffsetValue) {
+                                minOffsetValue = value;
+                            }
+                            if (isCurrentFund) {
+//                            net_cumulative = cPoint.getNetvalue();
+                                net_cumulative = cPoint.getNet_cumulative();
+                                pointEntity.setNet_cumulative(net_cumulative);
+                                pointEntity.setNetvalue(cPoint.getNetvalue());
+                                pointEntity.setInfo(getManagerByData(firstDay, cPoint.getDate()));
+                                if (net_cumulative > maxOffsetNetValue) {
+                                    maxOffsetNetValue = net_cumulative;
+                                } else if (net_cumulative < minOffsetNetValue) {
+                                    minOffsetNetValue = net_cumulative;
+                                }
+                            }
+
+                        }
+                        lineEntity.setLineData(lineDataList);
+                        linesList.add(lineEntity);
+                        i++;
                     }
-                    lineEntity.setLineData(lineDataList);
-                    linesList.add(lineEntity);
-                    i++;
                 }
 
             } catch (JSONException e) {
@@ -604,16 +600,14 @@ public class BenefitChartView {
         @Override
         protected void afterParseData(List<LineEntity> object) {
             if (null != object && object.size() > 0) {
-                // setLineListsData(object);
-                // setYTitle(dayNetValueList.get(0).getPercentageBegin(),
-                // getMaxOffetValue(object));
+
                 if (null != lineEntityList) {
                     lineEntityList.removeAll(compareLinesList);
                 }
                 compareLinesList.clear();
                 compareLinesList.addAll(object);
                 setCompareLineList();
-            }else{
+            } else {
                 setError();
             }
 

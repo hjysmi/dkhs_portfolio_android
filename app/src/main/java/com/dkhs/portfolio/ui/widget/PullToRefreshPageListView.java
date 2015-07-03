@@ -23,85 +23,112 @@ import com.dkhs.portfolio.R;
 
 /**
  * ListView下拉刷新和加载更多
- * <p>
- * 
+ * <p/>
+ * <p/>
  * <strong>变更说明:</strong>
- * <p>
+ * <p/>
  * 默认如果设置了OnRefreshListener接口和OnLoadMoreListener接口，<br>
  * 并且不为null，则打开这两个功能了。
- * <p>
+ * <p/>
  * 剩余三个Flag： <br>
  * mIsAutoLoadMore(是否自动加载更多) <br>
  * mIsMoveToFirstItemAfterRefresh(下拉刷新后是否显示第一条Item) <br>
  * mIsDoRefreshOnWindowFocused(当该ListView所在的控件显示到屏幕上时，是否直接显示正在刷新...)
- * 
- * <p>
+ * <p/>
+ * <p/>
  * <strong>有改进意见，请发送到俺的邮箱哈~ 多谢各位小伙伴了！^_^</strong>
- * 
+ *
+ * @version 1.0
  * @date 2013-11-11 下午10:09:26
  * @change JohnWatson
  * @mail xxzhaofeng5412@gmail.com
- * @version 1.0
  */
 public class PullToRefreshPageListView extends ListView implements OnScrollListener {
 
-    /** 显示格式化日期模板 */
+    /**
+     * 显示格式化日期模板
+     */
     private final static String DATE_FORMAT_STR = "yyyy年MM月dd日 HH:mm";
 
-    /** 实际的padding的距离与界面上偏移距离的比例 */
+    /**
+     * 实际的padding的距离与界面上偏移距离的比例
+     */
     private final static int RATIO = 3;
     // ===========================以下4个常量为 下拉刷新的状态标识===============================
-    /** 松开刷新 */
+    /**
+     * 松开刷新
+     */
     private final static int RELEASE_TO_REFRESH = 0;
-    /** 下拉刷新 */
+    /**
+     * 下拉刷新
+     */
     private final static int PULL_TO_REFRESH = 1;
-    /** 正在刷新 */
+    /**
+     * 正在刷新
+     */
     private final static int REFRESHING = 2;
-    /** 刷新完成 or 什么都没做，恢复原状态。 */
+    /**
+     * 刷新完成 or 什么都没做，恢复原状态。
+     */
     private final static int DONE = 3;
     // ===========================以下3个常量为 加载更多的状态标识===============================
-    /** 加载中 */
+    /**
+     * 加载中
+     */
     private final static int ENDINT_LOADING = 1;
-    /** 手动完成刷新 */
+    /**
+     * 手动完成刷新
+     */
     private final static int ENDINT_MANUAL_LOAD_DONE = 2;
-    /** 自动完成刷新 */
+    /**
+     * 自动完成刷新
+     */
     private final static int ENDINT_AUTO_LOAD_DONE = 3;
 
     /**
      * <strong>下拉刷新HeadView的实时状态flag</strong>
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * 0 : RELEASE_TO_REFRESH;
-     * <p>
+     * <p/>
      * 1 : PULL_To_REFRESH;
-     * <p>
+     * <p/>
      * 2 : REFRESHING;
-     * <p>
+     * <p/>
      * 3 : DONE;
-     * 
      */
     private int mHeadState;
     /**
      * <strong>加载更多FootView（EndView）的实时状态flag</strong>
-     * 
-     * <p>
+     * <p/>
+     * <p/>
      * 0 : 完成/等待刷新 ;
-     * <p>
+     * <p/>
      * 1 : 加载中
      */
     private int mEndState;
 
     // ================================= 功能设置Flag ================================
 
-    /** 可以加载更多？ */
+    /**
+     * 可以加载更多？
+     */
     private boolean mCanLoadMore = false;
-    /** 可以下拉刷新？ */
+    /**
+     * 可以下拉刷新？
+     */
     private boolean mCanRefresh = false;
-    /** 可以自动加载更多吗？（注意，先判断是否有加载更多，如果没有，这个flag也没有意义） */
+    /**
+     * 可以自动加载更多吗？（注意，先判断是否有加载更多，如果没有，这个flag也没有意义）
+     */
     private boolean mIsAutoLoadMore = false;
-    /** 下拉刷新后是否显示第一条Item */
+    /**
+     * 下拉刷新后是否显示第一条Item
+     */
     private boolean mIsMoveToFirstItemAfterRefresh = false;
-    /** 当该ListView所在的控件显示到屏幕上时，是否直接显示正在刷新... */
+    /**
+     * 当该ListView所在的控件显示到屏幕上时，是否直接显示正在刷新...
+     */
     private boolean mIsDoRefreshOnUIChanged = false;
 
     public boolean isCanLoadMore() {
@@ -119,7 +146,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     public void setLodaMoreText(String msg) {
         if (mEndRootView != null) {
-            mBootProgressBar.setVisibility(View.GONE);
+//            mBootProgressBar.setVisibility(View.GONE);
             mBootTipsTextView.setText(msg);
         }
     }
@@ -174,18 +201,24 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
     private TextView mBootTipsTextView;
     private TextView mBootLastUpdatedTextView;
     private ImageView mBootArrowImageView;
-    private ProgressBar mBootProgressBar;
+//    private ProgressBar mBootProgressBar;
 
     private View mEndRootView;
     // private ProgressBar mEndLoadProgressBar;
     // private TextView mEndLoadTipsTextView;
 
-    /** headView动画 */
+    /**
+     * headView动画
+     */
     private RotateAnimation mArrowAnim;
-    /** headView反转动画 */
+    /**
+     * headView反转动画
+     */
     private RotateAnimation mArrowReverseAnim;
 
-    /** 用于保证startY的值在一个完整的touch事件中只被记录一次 */
+    /**
+     * 用于保证startY的值在一个完整的touch事件中只被记录一次
+     */
     private boolean mIsRecored;
 
     private int mHeadViewWidth;
@@ -230,7 +263,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 初始化操作
-     * 
+     *
      * @param pContext
      * @date 2013-11-20 下午4:10:46
      * @change JohnWatson
@@ -253,7 +286,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 添加下拉刷新的HeadView
-     * 
+     *
      * @date 2013-11-11 下午9:48:26
      * @change JohnWatson
      * @version 1.0
@@ -285,7 +318,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 添加加载更多FootView
-     * 
+     *
      * @date 2013-11-11 下午9:52:37
      * @change JohnWatson
      * @version 1.0
@@ -295,9 +328,9 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
         mEndRootView.setVisibility(View.VISIBLE);
 
         mBootArrowImageView = (ImageView) mEndRootView.findViewById(R.id.boot_arrowImageView);
-        mBootArrowImageView.setMinimumWidth(70);
-        mBootArrowImageView.setMinimumHeight(50);
-        mBootProgressBar = (ProgressBar) mEndRootView.findViewById(R.id.boot_progressBar);
+        mBootArrowImageView.setMinimumWidth(22);
+        mBootArrowImageView.setMinimumHeight(13);
+//        mBootProgressBar = (ProgressBar) mEndRootView.findViewById(R.id.boot_progressBar);
         mBootTipsTextView = (TextView) mEndRootView.findViewById(R.id.boot_tipsTextView);
         mBootLastUpdatedTextView = (TextView) mEndRootView.findViewById(R.id.boot_lastUpdatedTextView);
         setPageViewText();
@@ -347,7 +380,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 实例化下拉刷新的箭头的动画效果
-     * 
+     *
      * @param pAnimDuration 动画运行时长
      * @date 2013-11-20 上午11:53:22
      * @change JohnWatson
@@ -410,7 +443,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 测量HeadView宽高(注意：此方法仅适用于LinearLayout，请读者自己测试验证。)
-     * 
+     *
      * @param pChild
      * @date 2013-11-20 下午4:12:07
      * @change JohnWatson
@@ -465,13 +498,13 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                                 changeEndViewByState();
                             }
                         } else {// 没有下拉刷新，我们直接进行加载更多。
-                                // FootView显示 : 更 多 ---> 加载中...
+                            // FootView显示 : 更 多 ---> 加载中...
                             mEndState = ENDINT_LOADING;
                             onLoadMore();
                             changeEndViewByState();
                         }
                     } else {// 不是自动加载更多，我们让FootView显示 “点击加载”
-                            // FootView显示 : 点击加载 ---> 加载中...
+                        // FootView显示 : 点击加载 ---> 加载中...
                         mEndState = ENDINT_MANUAL_LOAD_DONE;
                         changeEndViewByState();
                     }
@@ -487,7 +520,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 改变加载更多状态
-     * 
+     *
      * @date 2013-11-11 下午10:05:27
      * @change JohnWatson
      * @version 1.0
@@ -509,7 +542,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                     }
                     mBootTipsTextView.setText(R.string.p2refresh_doing_end_refresh);
                     mBootTipsTextView.setVisibility(View.VISIBLE);
-                    mBootProgressBar.setVisibility(View.VISIBLE);
+//                    mBootProgressBar.setVisibility(View.VISIBLE);
                     mBootArrowImageView.setVisibility(View.GONE);
                     mEndRootView.setVisibility(View.VISIBLE);
                     // if (mCurrentPage > 1) {
@@ -525,7 +558,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                     // 点击加载
                     // mBootTipsTextView.setText(R.string.p2refresh_end_click_load_more);
                     mBootTipsTextView.setVisibility(View.VISIBLE);
-                    mBootProgressBar.setVisibility(View.GONE);
+//                    mBootProgressBar.setVisibility(View.GONE);
                     mBootArrowImageView.setVisibility(View.VISIBLE);
                     mBootLastUpdatedTextView.setText(getResources().getString(R.string.page_refresh_doing_end_refresh,
                             mCurrentPage, mTotalPage));
@@ -536,7 +569,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                     // 更 多
                     mBootTipsTextView.setText(R.string.page_pull_to_next_refresh);
                     mBootTipsTextView.setVisibility(View.VISIBLE);
-                    mBootProgressBar.setVisibility(View.GONE);
+//                    mBootProgressBar.setVisibility(View.GONE);
                     mBootArrowImageView.setVisibility(View.VISIBLE);
                     mBootLastUpdatedTextView.setText(getResources().getString(R.string.page_refresh_doing_end_refresh,
                             mCurrentPage, mTotalPage));
@@ -573,7 +606,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 当该ListView所在的控件显示到屏幕上时，直接显示正在刷新...
-     * 
+     *
      * @date 2013-11-23 下午11:26:10
      * @author JohnWatson
      * @version 1.0
@@ -716,7 +749,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 当HeadView状态改变时候，调用该方法，以更新界面
-     * 
+     *
      * @date 2013-11-20 下午4:29:44
      * @change JohnWatson
      * @version 1.0
@@ -822,7 +855,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 改变HeadView在刷新状态下的显示
-     * 
+     *
      * @date 2013-11-23 下午10:49:00
      * @author JohnWatson
      * @version 1.0
@@ -844,10 +877,10 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 下拉刷新监听接口
-     * 
+     *
+     * @version 1.0
      * @date 2013-11-20 下午4:50:51
      * @change JohnWatson
-     * @version 1.0
      */
     public interface OnRefreshListener {
         public void onRefresh();
@@ -855,10 +888,10 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 加载更多监听接口
-     * 
+     *
+     * @version 1.0
      * @date 2013-11-20 下午4:50:51
      * @change JohnWatson
-     * @version 1.0
      */
     public interface OnLoadMoreListener {
         public void onLoadMore();
@@ -883,7 +916,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 正在下拉刷新
-     * 
+     *
      * @date 2013-11-20 下午4:45:47
      * @change JohnWatson
      * @version 1.0
@@ -897,7 +930,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 下拉刷新完成
-     * 
+     *
      * @date 2013-11-20 下午4:44:12
      * @change JohnWatson
      * @version 1.0
@@ -920,7 +953,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 正在加载更多，FootView显示 ： 加载中...
-     * 
+     *
      * @date 2013-11-20 下午4:35:51
      * @change JohnWatson
      * @version 1.0
@@ -930,7 +963,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
             // 加载中...
             mBootTipsTextView.setText(R.string.p2refresh_doing_end_refresh);
             mBootTipsTextView.setVisibility(View.VISIBLE);
-            mBootProgressBar.setVisibility(View.VISIBLE);
+//            mBootProgressBar.setVisibility(View.VISIBLE);
             mCurrentPage++;
             mLoadMoreListener.onLoadMore();
         }
@@ -938,7 +971,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 加载更多完成
-     * 
+     *
      * @date 2013-11-11 下午10:21:38
      * @change JohnWatson
      * @version 1.0
@@ -955,7 +988,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
 
     /**
      * 主要更新一下刷新时间啦！
-     * 
+     *
      * @param adapter
      * @date 2013-11-20 下午5:35:51
      * @change JohnWatson

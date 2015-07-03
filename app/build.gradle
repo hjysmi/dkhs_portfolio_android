@@ -12,8 +12,8 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
 
-        versionCode 1090630
-        versionName "1.9.0630"
+        versionCode 109010702
+        versionName "1.9.1.0702"
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
@@ -39,10 +39,6 @@ android {
             minifyEnabled true
             proguardFiles 'proguard.cfg'
             debuggable false
-            zipAlignEnabled true
-            // 移除无用的resource文件
-            shrinkResources true
-
         }
 
         pre_release {
@@ -94,7 +90,6 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Core-2.6.0.jar')
     //    compile files('libs/ShareSDK-Wechat-Favorite-2.6.0.jar')
     compile files('libs/ShareSDK-Wechat-Moments-2.6.0.jar')
-    compile files('libs/umeng-analytics-v5.2.4.jar')
     compile 'me.grantland:autofittextview:0.2.+'
     compile project(':kit')
     compile 'org.parceler:parceler-api:1.0.0'
@@ -104,4 +99,7 @@ dependencies {
     compile files('libs/ShareSDK-SinaWeibo-2.6.0.jar')
     compile files('libs/MobTools.jar')
     compile files('libs/ShareSDK-QQ-2.6.0.jar')
+    compile 'com.android.support:percent:22.2.0'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+
 }
