@@ -30,7 +30,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetector.Listener{
+public class ShakeFragment extends  VisiableLoadFragment implements ShakeDetector.Listener{
 
 
     @ViewInject(R.id.btn_header_right)
@@ -48,7 +48,7 @@ public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetect
     private ShakeDetector sd;
     private SensorManager sensorManager;
 
-    public ShakesFragment() {
+    public ShakeFragment() {
     }
 
     WeakHandler uiHandler=new WeakHandler(new Handler.Callback() {
