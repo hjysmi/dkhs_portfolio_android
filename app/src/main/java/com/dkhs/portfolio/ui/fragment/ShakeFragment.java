@@ -183,12 +183,12 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     uiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            failuree( errCode,  errMsg);
+                            failure( errCode,  errMsg);
                         }
                     },2600);
                 }
             }
-            public void   failuree(int errCode, String errMsg) {
+            public void   failure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
             }
         });
