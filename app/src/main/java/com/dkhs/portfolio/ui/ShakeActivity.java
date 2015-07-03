@@ -91,7 +91,7 @@ public class ShakeActivity extends ModelAcitivity  {
             ;
             mUpRateTV.setText(String.format(getString(R.string.up_precent),mShakeBean.up_rate+"%"))
             ;
-            mDateTV.setText(  TimeUtils.getSimpleFormatTime(mShakeBean.modified_at));
+            mDateTV.setText(  TimeUtils.getSimpleFormatTime("yyyy-MM-dd HH:mm",mShakeBean.modified_at));
 
 
             if(mShakeBean.coins_bonus==0){

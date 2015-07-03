@@ -2465,6 +2465,7 @@ android.support.v4.view.ViewCompat -> android.support.v4.view.ao:
     void setActivated(android.view.View,boolean) -> b
     void stopNestedScroll(android.view.View) -> x
     boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view.ao$a:
     java.util.WeakHashMap mViewPropertyAnimatorCompatMap -> a
     boolean canScrollHorizontally(android.view.View,int) -> a
@@ -2516,6 +2517,7 @@ android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view
     boolean canScrollingViewScrollVertically(android.support.v4.view.ScrollingView,int) -> b
     void stopNestedScroll(android.view.View) -> x
     boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompat$EclairMr1ViewCompatImpl -> android.support.v4.view.ao$b:
     boolean isOpaque(android.view.View) -> j
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
@@ -2570,6 +2572,7 @@ android.support.v4.view.ViewCompat$JbMr1ViewCompatImpl -> android.support.v4.vie
 android.support.v4.view.ViewCompat$KitKatViewCompatImpl -> android.support.v4.view.ao$h:
     void setImportantForAccessibility(android.view.View,int) -> c
     boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompat$LollipopViewCompatImpl -> android.support.v4.view.ao$i:
     void requestApplyInsets(android.view.View) -> u
     void setElevation(android.view.View,float) -> f
@@ -2623,6 +2626,7 @@ android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.ao$
     void setActivated(android.view.View,boolean) -> b
     void stopNestedScroll(android.view.View) -> x
     boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompatBase -> android.support.v4.view.ap:
     java.lang.reflect.Field sMinWidthField -> a
     boolean sMinWidthFieldFetched -> b
@@ -2631,6 +2635,7 @@ android.support.v4.view.ViewCompatBase -> android.support.v4.view.ap:
     boolean isLaidOut(android.view.View) -> a
     int getMinimumWidth(android.view.View) -> b
     int getMinimumHeight(android.view.View) -> c
+    boolean isAttachedToWindow(android.view.View) -> d
 android.support.v4.view.ViewCompatEclairMr1 -> android.support.v4.view.aq:
     java.lang.reflect.Method sChildrenDrawingOrderMethod -> a
     boolean isOpaque(android.view.View) -> a
@@ -2680,6 +2685,7 @@ android.support.v4.view.ViewCompatJellybeanMr1 -> android.support.v4.view.av:
     int getWindowSystemUiVisibility(android.view.View) -> b
 android.support.v4.view.ViewCompatKitKat -> android.support.v4.view.aw:
     boolean isLaidOut(android.view.View) -> a
+    boolean isAttachedToWindow(android.view.View) -> b
 android.support.v4.view.ViewCompatLollipop -> android.support.v4.view.ax:
     void requestApplyInsets(android.view.View) -> a
     void setElevation(android.view.View,float) -> a
@@ -4616,6 +4622,175 @@ android.support.v7.app.ActionBar$Tab -> android.support.v7.app.ActionBar$b:
     void select() -> d
     java.lang.CharSequence getContentDescription() -> e
 android.support.v7.app.ActionBarActivity -> android.support.v7.app.ActionBarActivity:
+android.support.v7.app.AlertController -> android.support.v7.app.a:
+    android.content.Context mContext -> a
+    android.support.v7.app.AppCompatDialog mDialog -> b
+    android.view.Window mWindow -> c
+    java.lang.CharSequence mTitle -> d
+    java.lang.CharSequence mMessage -> e
+    android.widget.ListView mListView -> f
+    android.view.View mView -> g
+    int mViewLayoutResId -> h
+    int mViewSpacingLeft -> i
+    int mViewSpacingTop -> j
+    int mViewSpacingRight -> k
+    int mViewSpacingBottom -> l
+    boolean mViewSpacingSpecified -> m
+    android.widget.Button mButtonPositive -> n
+    java.lang.CharSequence mButtonPositiveText -> o
+    android.os.Message mButtonPositiveMessage -> p
+    android.widget.Button mButtonNegative -> q
+    java.lang.CharSequence mButtonNegativeText -> r
+    android.os.Message mButtonNegativeMessage -> s
+    android.widget.Button mButtonNeutral -> t
+    java.lang.CharSequence mButtonNeutralText -> u
+    android.os.Message mButtonNeutralMessage -> v
+    android.widget.ScrollView mScrollView -> w
+    int mIconId -> x
+    android.graphics.drawable.Drawable mIcon -> y
+    android.widget.ImageView mIconView -> z
+    android.widget.TextView mTitleView -> A
+    android.widget.TextView mMessageView -> B
+    android.view.View mCustomTitleView -> C
+    android.widget.ListAdapter mAdapter -> D
+    int mCheckedItem -> E
+    int mAlertDialogLayout -> F
+    int mButtonPanelSideLayout -> G
+    int mListLayout -> H
+    int mMultiChoiceItemLayout -> I
+    int mSingleChoiceItemLayout -> J
+    int mListItemLayout -> K
+    int mButtonPanelLayoutHint -> L
+    android.os.Handler mHandler -> M
+    android.view.View$OnClickListener mButtonHandler -> N
+    boolean shouldCenterSingleButton(android.content.Context) -> a
+    boolean canTextInput(android.view.View) -> a
+    void installContent() -> a
+    int selectContentView() -> b
+    void setTitle(java.lang.CharSequence) -> a
+    void setCustomTitle(android.view.View) -> b
+    void setMessage(java.lang.CharSequence) -> b
+    void setView(int) -> a
+    void setView(android.view.View) -> c
+    void setView(android.view.View,int,int,int,int) -> a
+    void setButton(int,java.lang.CharSequence,android.content.DialogInterface$OnClickListener,android.os.Message) -> a
+    void setIcon(int) -> b
+    void setIcon(android.graphics.drawable.Drawable) -> a
+    int getIconAttributeResId(int) -> c
+    boolean onKeyDown(int,android.view.KeyEvent) -> a
+    boolean onKeyUp(int,android.view.KeyEvent) -> b
+    void setupView() -> c
+    boolean setupTitle(android.view.ViewGroup) -> a
+    void setupContent(android.view.ViewGroup) -> b
+    boolean setupButtons() -> d
+    void centerButton(android.widget.Button) -> a
+    android.widget.Button access$000(android.support.v7.app.AlertController) -> a
+    android.os.Message access$100(android.support.v7.app.AlertController) -> b
+    android.widget.Button access$200(android.support.v7.app.AlertController) -> c
+    android.os.Message access$300(android.support.v7.app.AlertController) -> d
+    android.widget.Button access$400(android.support.v7.app.AlertController) -> e
+    android.os.Message access$500(android.support.v7.app.AlertController) -> f
+    android.support.v7.app.AppCompatDialog access$600(android.support.v7.app.AlertController) -> g
+    android.os.Handler access$700(android.support.v7.app.AlertController) -> h
+    int access$800(android.support.v7.app.AlertController) -> i
+    int access$900(android.support.v7.app.AlertController) -> j
+    int access$1000(android.support.v7.app.AlertController) -> k
+    int access$1100(android.support.v7.app.AlertController) -> l
+    android.widget.ListAdapter access$1202(android.support.v7.app.AlertController,android.widget.ListAdapter) -> a
+    int access$1302(android.support.v7.app.AlertController,int) -> a
+    android.widget.ListView access$1402(android.support.v7.app.AlertController,android.widget.ListView) -> a
+android.support.v7.app.AlertController$1 -> android.support.v7.app.b:
+    android.support.v7.app.AlertController this$0 -> a
+    void onClick(android.view.View) -> onClick
+android.support.v7.app.AlertController$AlertParams -> android.support.v7.app.a$a:
+    android.content.Context mContext -> a
+    android.view.LayoutInflater mInflater -> b
+    int mIconId -> c
+    android.graphics.drawable.Drawable mIcon -> d
+    int mIconAttrId -> e
+    java.lang.CharSequence mTitle -> f
+    android.view.View mCustomTitleView -> g
+    java.lang.CharSequence mMessage -> h
+    java.lang.CharSequence mPositiveButtonText -> i
+    android.content.DialogInterface$OnClickListener mPositiveButtonListener -> j
+    java.lang.CharSequence mNegativeButtonText -> k
+    android.content.DialogInterface$OnClickListener mNegativeButtonListener -> l
+    java.lang.CharSequence mNeutralButtonText -> m
+    android.content.DialogInterface$OnClickListener mNeutralButtonListener -> n
+    boolean mCancelable -> o
+    android.content.DialogInterface$OnCancelListener mOnCancelListener -> p
+    android.content.DialogInterface$OnDismissListener mOnDismissListener -> q
+    android.content.DialogInterface$OnKeyListener mOnKeyListener -> r
+    java.lang.CharSequence[] mItems -> s
+    android.widget.ListAdapter mAdapter -> t
+    android.content.DialogInterface$OnClickListener mOnClickListener -> u
+    int mViewLayoutResId -> v
+    android.view.View mView -> w
+    int mViewSpacingLeft -> x
+    int mViewSpacingTop -> y
+    int mViewSpacingRight -> z
+    int mViewSpacingBottom -> A
+    boolean mViewSpacingSpecified -> B
+    boolean[] mCheckedItems -> C
+    boolean mIsMultiChoice -> D
+    boolean mIsSingleChoice -> E
+    int mCheckedItem -> F
+    android.content.DialogInterface$OnMultiChoiceClickListener mOnCheckboxClickListener -> G
+    android.database.Cursor mCursor -> H
+    java.lang.String mLabelColumn -> I
+    java.lang.String mIsCheckedColumn -> J
+    android.widget.AdapterView$OnItemSelectedListener mOnItemSelectedListener -> K
+    android.support.v7.app.AlertController$AlertParams$OnPrepareListViewListener mOnPrepareListViewListener -> L
+    boolean mRecycleOnMeasure -> M
+    void apply(android.support.v7.app.AlertController) -> a
+    void createListView(android.support.v7.app.AlertController) -> b
+android.support.v7.app.AlertController$AlertParams$1 -> android.support.v7.app.c:
+    android.widget.ListView val$listView -> a
+    android.support.v7.app.AlertController$AlertParams this$0 -> b
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+android.support.v7.app.AlertController$AlertParams$2 -> android.support.v7.app.d:
+    int mLabelIndex -> d
+    int mIsCheckedIndex -> e
+    android.widget.ListView val$listView -> a
+    android.support.v7.app.AlertController val$dialog -> b
+    android.support.v7.app.AlertController$AlertParams this$0 -> c
+    void bindView(android.view.View,android.content.Context,android.database.Cursor) -> bindView
+    android.view.View newView(android.content.Context,android.database.Cursor,android.view.ViewGroup) -> newView
+android.support.v7.app.AlertController$AlertParams$3 -> android.support.v7.app.e:
+    android.support.v7.app.AlertController val$dialog -> a
+    android.support.v7.app.AlertController$AlertParams this$0 -> b
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+android.support.v7.app.AlertController$AlertParams$4 -> android.support.v7.app.f:
+    android.widget.ListView val$listView -> a
+    android.support.v7.app.AlertController val$dialog -> b
+    android.support.v7.app.AlertController$AlertParams this$0 -> c
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+android.support.v7.app.AlertController$AlertParams$OnPrepareListViewListener -> android.support.v7.app.a$a$a:
+    void onPrepareListView(android.widget.ListView) -> a
+android.support.v7.app.AlertController$ButtonHandler -> android.support.v7.app.a$b:
+    java.lang.ref.WeakReference mDialog -> a
+    void handleMessage(android.os.Message) -> handleMessage
+android.support.v7.app.AlertController$CheckedItemAdapter -> android.support.v7.app.a$c:
+    boolean hasStableIds() -> hasStableIds
+    long getItemId(int) -> getItemId
+android.support.v7.app.AlertDialog -> android.support.v7.app.g:
+    android.support.v7.app.AlertController mAlert -> a
+    int resolveDialogTheme(android.content.Context,int) -> a
+    void setTitle(java.lang.CharSequence) -> setTitle
+    void onCreate(android.os.Bundle) -> onCreate
+    boolean onKeyDown(int,android.view.KeyEvent) -> onKeyDown
+    boolean onKeyUp(int,android.view.KeyEvent) -> onKeyUp
+    android.support.v7.app.AlertController access$000(android.support.v7.app.AlertDialog) -> a
+android.support.v7.app.AlertDialog$Builder -> android.support.v7.app.g$a:
+    android.support.v7.app.AlertController$AlertParams P -> a
+    int mTheme -> b
+    android.content.Context getContext() -> a
+    android.support.v7.app.AlertDialog$Builder setTitle(java.lang.CharSequence) -> a
+    android.support.v7.app.AlertDialog$Builder setCustomTitle(android.view.View) -> a
+    android.support.v7.app.AlertDialog$Builder setIcon(android.graphics.drawable.Drawable) -> a
+    android.support.v7.app.AlertDialog$Builder setOnKeyListener(android.content.DialogInterface$OnKeyListener) -> a
+    android.support.v7.app.AlertDialog$Builder setAdapter(android.widget.ListAdapter,android.content.DialogInterface$OnClickListener) -> a
+    android.support.v7.app.AlertDialog create() -> b
 android.support.v7.app.AppCompatActivity -> android.support.v7.app.AppCompatActivity:
     android.support.v7.app.AppCompatDelegate mDelegate -> a
     void onCreate(android.os.Bundle) -> onCreate
@@ -4636,6 +4811,7 @@ android.support.v7.app.AppCompatActivity -> android.support.v7.app.AppCompatActi
     void invalidateOptionsMenu() -> invalidateOptionsMenu
     void onSupportActionModeStarted(android.support.v7.view.ActionMode) -> a
     void onSupportActionModeFinished(android.support.v7.view.ActionMode) -> b
+    android.support.v7.view.ActionMode onWindowStartingSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
     void onCreateSupportNavigateUpTaskStack(android.support.v4.app.TaskStackBuilder) -> a
     void onPrepareSupportNavigateUpTaskStack(android.support.v4.app.TaskStackBuilder) -> b
     boolean onSupportNavigateUp() -> c
@@ -4645,11 +4821,14 @@ android.support.v7.app.AppCompatActivity -> android.support.v7.app.AppCompatActi
     void onContentChanged() -> onContentChanged
     void onSupportContentChanged() -> d
     android.support.v7.app.AppCompatDelegate getDelegate() -> e
-android.support.v7.app.AppCompatCallback -> android.support.v7.app.a:
+android.support.v7.app.AppCompatCallback -> android.support.v7.app.h:
     void onSupportActionModeStarted(android.support.v7.view.ActionMode) -> a
     void onSupportActionModeFinished(android.support.v7.view.ActionMode) -> b
-android.support.v7.app.AppCompatDelegate -> android.support.v7.app.b:
+    android.support.v7.view.ActionMode onWindowStartingSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
+android.support.v7.app.AppCompatDelegate -> android.support.v7.app.i:
     android.support.v7.app.AppCompatDelegate create(android.app.Activity,android.support.v7.app.AppCompatCallback) -> a
+    android.support.v7.app.AppCompatDelegate create(android.app.Dialog,android.support.v7.app.AppCompatCallback) -> a
+    android.support.v7.app.AppCompatDelegate create(android.content.Context,android.view.Window,android.support.v7.app.AppCompatCallback) -> a
     android.support.v7.app.ActionBar getSupportActionBar() -> a
     android.view.MenuInflater getMenuInflater() -> b
     void onCreate(android.os.Bundle) -> a
@@ -4664,8 +4843,9 @@ android.support.v7.app.AppCompatDelegate -> android.support.v7.app.b:
     void setTitle(java.lang.CharSequence) -> a
     void invalidateOptionsMenu() -> e
     void onDestroy() -> f
+    boolean requestWindowFeature(int) -> b
     void installViewFactory() -> g
-android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.c:
+android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.j:
     android.content.Context mContext -> a
     android.view.Window mWindow -> b
     android.view.Window$Callback mOriginalWindowCallback -> c
@@ -4680,6 +4860,7 @@ android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.c:
     java.lang.CharSequence mTitle -> l
     boolean mIsDestroyed -> m
     android.support.v7.app.ActionBar createSupportActionBar() -> h
+    android.view.Window$Callback wrapWindowCallback(android.view.Window$Callback) -> a
     android.support.v7.app.ActionBar getSupportActionBar() -> a
     android.support.v7.app.ActionBar peekSupportActionBar() -> i
     android.view.MenuInflater getMenuInflater() -> b
@@ -4696,7 +4877,7 @@ android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.c:
     void setTitle(java.lang.CharSequence) -> a
     void onTitleChanged(java.lang.CharSequence) -> b
     java.lang.CharSequence getTitle() -> m
-android.support.v7.app.AppCompatDelegateImplBase$AppCompatWindowCallback -> android.support.v7.app.c$a:
+android.support.v7.app.AppCompatDelegateImplBase$AppCompatWindowCallbackBase -> android.support.v7.app.j$a:
     android.support.v7.app.AppCompatDelegateImplBase this$0 -> a
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
     boolean onCreatePanelMenu(int,android.view.Menu) -> onCreatePanelMenu
@@ -4705,12 +4886,16 @@ android.support.v7.app.AppCompatDelegateImplBase$AppCompatWindowCallback -> andr
     boolean dispatchKeyShortcutEvent(android.view.KeyEvent) -> dispatchKeyShortcutEvent
     void onContentChanged() -> onContentChanged
     void onPanelClosed(int,android.view.Menu) -> onPanelClosed
-    boolean bypassPrepareOptionsPanelIfNeeded() -> a
-android.support.v7.app.AppCompatDelegateImplV11 -> android.support.v7.app.d:
-    android.support.v7.internal.widget.NativeActionModeAwareLayout mNativeActionModeAwareLayout -> n
-    void onSubDecorInstalled(android.view.ViewGroup) -> a
-    android.view.ActionMode startActionModeForChild(android.view.View,android.view.ActionMode$Callback) -> a
+android.support.v7.app.AppCompatDelegateImplV11 -> android.support.v7.app.k:
     android.view.View callActivityOnCreateView(android.view.View,java.lang.String,android.content.Context,android.util.AttributeSet) -> b
+android.support.v7.app.AppCompatDelegateImplV14 -> android.support.v7.app.l:
+    boolean mHandleNativeActionModes -> n
+    android.view.Window$Callback wrapWindowCallback(android.view.Window$Callback) -> a
+    boolean access$000(android.support.v7.app.AppCompatDelegateImplV14) -> a
+android.support.v7.app.AppCompatDelegateImplV14$AppCompatWindowCallbackV14 -> android.support.v7.app.l$a:
+    android.support.v7.app.AppCompatDelegateImplV14 this$0 -> b
+    android.view.ActionMode onWindowStartingActionMode(android.view.ActionMode$Callback) -> onWindowStartingActionMode
+    android.view.ActionMode startAsSupportActionMode(android.view.ActionMode$Callback) -> a
 android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppCompatDelegateImplV7:
     android.support.v7.internal.widget.DecorContentParent mDecorContentParent -> n
     android.support.v7.app.AppCompatDelegateImplV7$ActionMenuPresenterCallback mActionMenuPresenterCallback -> o
@@ -4749,6 +4934,7 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     void ensureSubDecor() -> o
     void onSubDecorInstalled(android.view.ViewGroup) -> a
     void applyFixedSizeWindow(android.support.v7.internal.widget.ContentFrameLayout) -> a
+    boolean requestWindowFeature(int) -> b
     void onTitleChanged(java.lang.CharSequence) -> b
     boolean onPanelClosed(int,android.view.Menu) -> a
     boolean onMenuOpened(int,android.view.Menu) -> b
@@ -4773,7 +4959,7 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     boolean initializePanelContent(android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState) -> c
     boolean preparePanel(android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState,android.view.KeyEvent) -> b
     void checkCloseActionMenu(android.support.v7.internal.view.menu.MenuBuilder) -> b
-    void closePanel(int) -> b
+    void closePanel(int) -> c
     void closePanel(android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState,boolean) -> a
     boolean onKeyDownPanel(int,android.view.KeyEvent) -> d
     void onKeyUpPanel(int,android.view.KeyEvent) -> e
@@ -4781,9 +4967,10 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState findMenuPanel(android.view.Menu) -> a
     android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState getPanelState(int,boolean) -> a
     boolean performPanelShortcut(android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState,int,android.view.KeyEvent,int) -> a
-    void invalidatePanelMenu(int) -> c
-    void doInvalidatePanelMenu(int) -> d
-    int updateStatusGuard(int) -> e
+    void invalidatePanelMenu(int) -> d
+    void doInvalidatePanelMenu(int) -> e
+    int updateStatusGuard(int) -> f
+    void throwFeatureRequestIfSubDecorInstalled() -> p
     int access$000(android.support.v7.app.AppCompatDelegateImplV7) -> a
     void access$100(android.support.v7.app.AppCompatDelegateImplV7,int) -> a
     boolean access$202(android.support.v7.app.AppCompatDelegateImplV7,boolean) -> a
@@ -4794,23 +4981,23 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     void access$800(android.support.v7.app.AppCompatDelegateImplV7,android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState,boolean) -> a
     void access$900(android.support.v7.app.AppCompatDelegateImplV7,android.support.v7.internal.view.menu.MenuBuilder) -> a
     void access$1200(android.support.v7.app.AppCompatDelegateImplV7,int) -> d
-android.support.v7.app.AppCompatDelegateImplV7$1 -> android.support.v7.app.e:
+android.support.v7.app.AppCompatDelegateImplV7$1 -> android.support.v7.app.m:
     android.support.v7.app.AppCompatDelegateImplV7 this$0 -> a
     void run() -> run
-android.support.v7.app.AppCompatDelegateImplV7$2 -> android.support.v7.app.f:
+android.support.v7.app.AppCompatDelegateImplV7$2 -> android.support.v7.app.n:
     android.support.v7.app.AppCompatDelegateImplV7 this$0 -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
-android.support.v7.app.AppCompatDelegateImplV7$3 -> android.support.v7.app.g:
+android.support.v7.app.AppCompatDelegateImplV7$3 -> android.support.v7.app.o:
     android.support.v7.app.AppCompatDelegateImplV7 this$0 -> a
     void onFitSystemWindows(android.graphics.Rect) -> a
-android.support.v7.app.AppCompatDelegateImplV7$4 -> android.support.v7.app.h:
+android.support.v7.app.AppCompatDelegateImplV7$4 -> android.support.v7.app.p:
     android.support.v7.app.AppCompatDelegateImplV7 this$0 -> a
     void run() -> run
 android.support.v7.app.AppCompatDelegateImplV7$ActionMenuPresenterCallback -> android.support.v7.app.AppCompatDelegateImplV7$a:
     android.support.v7.app.AppCompatDelegateImplV7 this$0 -> a
     boolean onOpenSubMenu(android.support.v7.internal.view.menu.MenuBuilder) -> a
     void onCloseMenu(android.support.v7.internal.view.menu.MenuBuilder,boolean) -> a
-android.support.v7.app.AppCompatDelegateImplV7$ActionModeCallbackWrapper -> android.support.v7.app.AppCompatDelegateImplV7$b:
+android.support.v7.app.AppCompatDelegateImplV7$ActionModeCallbackWrapperV7 -> android.support.v7.app.AppCompatDelegateImplV7$b:
     android.support.v7.view.ActionMode$Callback mWrapped -> b
     android.support.v7.app.AppCompatDelegateImplV7 this$0 -> a
     boolean onCreateActionMode(android.support.v7.view.ActionMode,android.view.Menu) -> a
@@ -4856,7 +5043,7 @@ android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState$SavedState -> a
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
     android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState$SavedState readFromParcel(android.os.Parcel) -> b
     android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState$SavedState access$1100(android.os.Parcel) -> a
-android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState$SavedState$1 -> android.support.v7.app.i:
+android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState$SavedState$1 -> android.support.v7.app.q:
     android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState$SavedState createFromParcel(android.os.Parcel) -> a
     android.support.v7.app.AppCompatDelegateImplV7$PanelFeatureState$SavedState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
@@ -4865,6 +5052,23 @@ android.support.v7.app.AppCompatDelegateImplV7$PanelMenuPresenterCallback -> and
     android.support.v7.app.AppCompatDelegateImplV7 this$0 -> a
     void onCloseMenu(android.support.v7.internal.view.menu.MenuBuilder,boolean) -> a
     boolean onOpenSubMenu(android.support.v7.internal.view.menu.MenuBuilder) -> a
+android.support.v7.app.AppCompatDialog -> android.support.v7.app.r:
+    android.support.v7.app.AppCompatDelegate mDelegate -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    void setContentView(int) -> setContentView
+    void setContentView(android.view.View) -> setContentView
+    void setContentView(android.view.View,android.view.ViewGroup$LayoutParams) -> setContentView
+    void setTitle(java.lang.CharSequence) -> setTitle
+    void setTitle(int) -> setTitle
+    void addContentView(android.view.View,android.view.ViewGroup$LayoutParams) -> addContentView
+    void onStop() -> onStop
+    boolean supportRequestWindowFeature(int) -> a
+    void invalidateOptionsMenu() -> invalidateOptionsMenu
+    android.support.v7.app.AppCompatDelegate getDelegate() -> a
+    int getThemeResId(android.content.Context,int) -> a
+    void onSupportActionModeStarted(android.support.v7.view.ActionMode) -> a
+    void onSupportActionModeFinished(android.support.v7.view.ActionMode) -> b
+    android.support.v7.view.ActionMode onWindowStartingSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
 android.support.v7.appcompat.R -> android.support.v7.appcompat.R:
 android.support.v7.appcompat.R$anim -> android.support.v7.appcompat.R$anim:
     int abc_fade_in -> abc_fade_in
@@ -4923,6 +5127,7 @@ android.support.v7.appcompat.R$attr -> android.support.v7.appcompat.R$attr:
     int backgroundTint -> backgroundTint
     int backgroundTintMode -> backgroundTintMode
     int barSize -> barSize
+    int borderlessButtonStyle -> borderlessButtonStyle
     int buttonBarButtonStyle -> buttonBarButtonStyle
     int buttonBarNegativeButtonStyle -> buttonBarNegativeButtonStyle
     int buttonBarNeutralButtonStyle -> buttonBarNeutralButtonStyle
@@ -4952,6 +5157,7 @@ android.support.v7.appcompat.R$attr -> android.support.v7.appcompat.R$attr:
     int contentInsetRight -> contentInsetRight
     int contentInsetStart -> contentInsetStart
     int customNavigationLayout -> customNavigationLayout
+    int defaultQueryHint -> defaultQueryHint
     int dialogPreferredPadding -> dialogPreferredPadding
     int dialogTheme -> dialogTheme
     int disableChildrenWhenDisabled -> disableChildrenWhenDisabled
@@ -5215,6 +5421,9 @@ android.support.v7.appcompat.R$dimen -> android.support.v7.appcompat.R$dimen:
     int dialog_fixed_width_minor -> dialog_fixed_width_minor
     int disabled_alpha_material_dark -> disabled_alpha_material_dark
     int disabled_alpha_material_light -> disabled_alpha_material_light
+    int notification_large_icon_height -> notification_large_icon_height
+    int notification_large_icon_width -> notification_large_icon_width
+    int notification_subtext_size -> notification_subtext_size
 android.support.v7.appcompat.R$drawable -> android.support.v7.appcompat.R$drawable:
     int abc_ab_share_pack_mtrl_alpha -> abc_ab_share_pack_mtrl_alpha
     int abc_btn_borderless_material -> abc_btn_borderless_material
@@ -5275,7 +5484,9 @@ android.support.v7.appcompat.R$drawable -> android.support.v7.appcompat.R$drawab
     int abc_textfield_search_activated_mtrl_alpha -> abc_textfield_search_activated_mtrl_alpha
     int abc_textfield_search_default_mtrl_alpha -> abc_textfield_search_default_mtrl_alpha
     int abc_textfield_search_material -> abc_textfield_search_material
+    int notification_template_icon_bg -> notification_template_icon_bg
 android.support.v7.appcompat.R$id -> android.support.v7.appcompat.R$id:
+    int action0 -> action0
     int action_bar -> action_bar
     int action_bar_activity_content -> action_bar_activity_content
     int action_bar_container -> action_bar_container
@@ -5284,6 +5495,7 @@ android.support.v7.appcompat.R$id -> android.support.v7.appcompat.R$id:
     int action_bar_subtitle -> action_bar_subtitle
     int action_bar_title -> action_bar_title
     int action_context_bar -> action_context_bar
+    int action_divider -> action_divider
     int action_menu_divider -> action_menu_divider
     int action_menu_presenter -> action_menu_presenter
     int action_mode_bar -> action_mode_bar
@@ -5294,7 +5506,9 @@ android.support.v7.appcompat.R$id -> android.support.v7.appcompat.R$id:
     int always -> always
     int beginning -> beginning
     int buttonPanel -> buttonPanel
+    int cancel_action -> cancel_action
     int checkbox -> checkbox
+    int chronometer -> chronometer
     int collapseActionView -> collapseActionView
     int contentPanel -> contentPanel
     int custom -> custom
@@ -5306,6 +5520,7 @@ android.support.v7.appcompat.R$id -> android.support.v7.appcompat.R$id:
     int dropdown -> dropdown
     int edit_query -> edit_query
     int end -> end
+    int end_padder -> end_padder
     int expand_activities_button -> expand_activities_button
     int expanded_menu -> expanded_menu
     int home -> home
@@ -5313,8 +5528,12 @@ android.support.v7.appcompat.R$id -> android.support.v7.appcompat.R$id:
     int icon -> icon
     int ifRoom -> ifRoom
     int image -> image
+    int info -> info
+    int line1 -> line1
+    int line3 -> line3
     int listMode -> listMode
     int list_item -> list_item
+    int media_actions -> media_actions
     int middle -> middle
     int multiply -> multiply
     int never -> never
@@ -5345,9 +5564,13 @@ android.support.v7.appcompat.R$id -> android.support.v7.appcompat.R$id:
     int src_atop -> src_atop
     int src_in -> src_in
     int src_over -> src_over
+    int status_bar_latest_event_content -> status_bar_latest_event_content
     int submit_area -> submit_area
     int tabMode -> tabMode
+    int text -> text
+    int text2 -> text2
     int textSpacerNoButtons -> textSpacerNoButtons
+    int time -> time
     int title -> title
     int title_template -> title_template
     int topPanel -> topPanel
@@ -5359,6 +5582,8 @@ android.support.v7.appcompat.R$integer -> android.support.v7.appcompat.R$integer
     int abc_config_activityDefaultDur -> abc_config_activityDefaultDur
     int abc_config_activityShortDur -> abc_config_activityShortDur
     int abc_max_action_buttons -> abc_max_action_buttons
+    int cancel_button_image_alpha -> cancel_button_image_alpha
+    int status_bar_notification_info_maxnum -> status_bar_notification_info_maxnum
 android.support.v7.appcompat.R$layout -> android.support.v7.appcompat.R$layout:
     int abc_action_bar_title_item -> abc_action_bar_title_item
     int abc_action_bar_up_container -> abc_action_bar_up_container
@@ -5385,6 +5610,14 @@ android.support.v7.appcompat.R$layout -> android.support.v7.appcompat.R$layout:
     int abc_search_view -> abc_search_view
     int abc_select_dialog_material -> abc_select_dialog_material
     int abc_simple_dropdown_hint -> abc_simple_dropdown_hint
+    int notification_media_action -> notification_media_action
+    int notification_media_cancel_action -> notification_media_cancel_action
+    int notification_template_big_media -> notification_template_big_media
+    int notification_template_big_media_narrow -> notification_template_big_media_narrow
+    int notification_template_lines -> notification_template_lines
+    int notification_template_media -> notification_template_media
+    int notification_template_part_chronometer -> notification_template_part_chronometer
+    int notification_template_part_time -> notification_template_part_time
     int select_dialog_item_material -> select_dialog_item_material
     int select_dialog_multichoice_material -> select_dialog_multichoice_material
     int select_dialog_singlechoice_material -> select_dialog_singlechoice_material
@@ -5407,6 +5640,7 @@ android.support.v7.appcompat.R$string -> android.support.v7.appcompat.R$string:
     int abc_shareactionprovider_share_with -> abc_shareactionprovider_share_with
     int abc_shareactionprovider_share_with_application -> abc_shareactionprovider_share_with_application
     int abc_toolbar_collapse_description -> abc_toolbar_collapse_description
+    int status_bar_notification_info_overflow -> status_bar_notification_info_overflow
 android.support.v7.appcompat.R$style -> android.support.v7.appcompat.R$style:
     int AlertDialog_AppCompat -> AlertDialog_AppCompat
     int AlertDialog_AppCompat_Light -> AlertDialog_AppCompat_Light
@@ -5481,6 +5715,8 @@ android.support.v7.appcompat.R$style -> android.support.v7.appcompat.R$style:
     int Base_Theme_AppCompat_Light_Dialog_MinWidth -> Base_Theme_AppCompat_Light_Dialog_MinWidth
     int Base_V11_Theme_AppCompat_Dialog -> Base_V11_Theme_AppCompat_Dialog
     int Base_V11_Theme_AppCompat_Light_Dialog -> Base_V11_Theme_AppCompat_Light_Dialog
+    int Base_V12_Widget_AppCompat_AutoCompleteTextView -> Base_V12_Widget_AppCompat_AutoCompleteTextView
+    int Base_V12_Widget_AppCompat_EditText -> Base_V12_Widget_AppCompat_EditText
     int Base_V21_Theme_AppCompat -> Base_V21_Theme_AppCompat
     int Base_V21_Theme_AppCompat_Dialog -> Base_V21_Theme_AppCompat_Dialog
     int Base_V21_Theme_AppCompat_Light -> Base_V21_Theme_AppCompat_Light
@@ -5489,6 +5725,8 @@ android.support.v7.appcompat.R$style -> android.support.v7.appcompat.R$style:
     int Base_V7_Theme_AppCompat_Dialog -> Base_V7_Theme_AppCompat_Dialog
     int Base_V7_Theme_AppCompat_Light -> Base_V7_Theme_AppCompat_Light
     int Base_V7_Theme_AppCompat_Light_Dialog -> Base_V7_Theme_AppCompat_Light_Dialog
+    int Base_V7_Widget_AppCompat_AutoCompleteTextView -> Base_V7_Widget_AppCompat_AutoCompleteTextView
+    int Base_V7_Widget_AppCompat_EditText -> Base_V7_Widget_AppCompat_EditText
     int Base_Widget_AppCompat_ActionBar -> Base_Widget_AppCompat_ActionBar
     int Base_Widget_AppCompat_ActionBar_Solid -> Base_Widget_AppCompat_ActionBar_Solid
     int Base_Widget_AppCompat_ActionBar_TabBar -> Base_Widget_AppCompat_ActionBar_TabBar
@@ -5546,12 +5784,12 @@ android.support.v7.appcompat.R$style -> android.support.v7.appcompat.R$style:
     int Platform_ThemeOverlay_AppCompat_Light -> Platform_ThemeOverlay_AppCompat_Light
     int Platform_V11_AppCompat -> Platform_V11_AppCompat
     int Platform_V11_AppCompat_Light -> Platform_V11_AppCompat_Light
-    int Platform_V12_AppCompat -> Platform_V12_AppCompat
-    int Platform_V12_AppCompat_Light -> Platform_V12_AppCompat_Light
     int Platform_V14_AppCompat -> Platform_V14_AppCompat
     int Platform_V14_AppCompat_Light -> Platform_V14_AppCompat_Light
+    int RtlOverlay_DialogWindowTitle_AppCompat -> RtlOverlay_DialogWindowTitle_AppCompat
     int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem -> RtlOverlay_Widget_AppCompat_ActionBar_TitleItem
     int RtlOverlay_Widget_AppCompat_ActionButton_Overflow -> RtlOverlay_Widget_AppCompat_ActionButton_Overflow
+    int RtlOverlay_Widget_AppCompat_DialogTitle_Icon -> RtlOverlay_Widget_AppCompat_DialogTitle_Icon
     int RtlOverlay_Widget_AppCompat_PopupMenuItem -> RtlOverlay_Widget_AppCompat_PopupMenuItem
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup -> RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_Text -> RtlOverlay_Widget_AppCompat_PopupMenuItem_Text
@@ -5604,6 +5842,11 @@ android.support.v7.appcompat.R$style -> android.support.v7.appcompat.R$style:
     int TextAppearance_AppCompat_Widget_PopupMenu_Small -> TextAppearance_AppCompat_Widget_PopupMenu_Small
     int TextAppearance_AppCompat_Widget_Switch -> TextAppearance_AppCompat_Widget_Switch
     int TextAppearance_AppCompat_Widget_TextView_SpinnerItem -> TextAppearance_AppCompat_Widget_TextView_SpinnerItem
+    int TextAppearance_StatusBar_EventContent -> TextAppearance_StatusBar_EventContent
+    int TextAppearance_StatusBar_EventContent_Info -> TextAppearance_StatusBar_EventContent_Info
+    int TextAppearance_StatusBar_EventContent_Line2 -> TextAppearance_StatusBar_EventContent_Line2
+    int TextAppearance_StatusBar_EventContent_Time -> TextAppearance_StatusBar_EventContent_Time
+    int TextAppearance_StatusBar_EventContent_Title -> TextAppearance_StatusBar_EventContent_Title
     int TextAppearance_Widget_AppCompat_ExpandedMenu_Item -> TextAppearance_Widget_AppCompat_ExpandedMenu_Item
     int TextAppearance_Widget_AppCompat_Toolbar_Subtitle -> TextAppearance_Widget_AppCompat_Toolbar_Subtitle
     int TextAppearance_Widget_AppCompat_Toolbar_Title -> TextAppearance_Widget_AppCompat_Toolbar_Title
@@ -5818,6 +6061,7 @@ android.support.v7.appcompat.R$styleable -> android.support.v7.appcompat.R$style
     int SearchView_android_maxWidth -> SearchView_android_maxWidth
     int SearchView_closeIcon -> SearchView_closeIcon
     int SearchView_commitIcon -> SearchView_commitIcon
+    int SearchView_defaultQueryHint -> SearchView_defaultQueryHint
     int SearchView_goIcon -> SearchView_goIcon
     int SearchView_iconifiedByDefault -> SearchView_iconifiedByDefault
     int SearchView_layout -> SearchView_layout
@@ -5896,6 +6140,7 @@ android.support.v7.appcompat.R$styleable -> android.support.v7.appcompat.R$style
     int Theme_android_windowAnimationStyle -> Theme_android_windowAnimationStyle
     int Theme_android_windowIsFloating -> Theme_android_windowIsFloating
     int Theme_autoCompleteTextViewStyle -> Theme_autoCompleteTextViewStyle
+    int Theme_borderlessButtonStyle -> Theme_borderlessButtonStyle
     int Theme_buttonBarButtonStyle -> Theme_buttonBarButtonStyle
     int Theme_buttonBarNegativeButtonStyle -> Theme_buttonBarNegativeButtonStyle
     int Theme_buttonBarNeutralButtonStyle -> Theme_buttonBarNeutralButtonStyle
@@ -6099,11 +6344,11 @@ android.support.v7.internal.VersionUtils -> android.support.v7.internal.a:
 android.support.v7.internal.app.AppCompatViewInflater -> android.support.v7.internal.a.a:
     java.lang.Class[] sConstructorSignature -> a
     java.util.Map sConstructorMap -> b
-    android.content.Context mContext -> c
-    java.lang.Object[] mConstructorArgs -> d
-    android.view.View createView(android.view.View,java.lang.String,android.content.Context,android.util.AttributeSet,boolean,boolean) -> a
+    java.lang.Object[] mConstructorArgs -> c
+    android.view.View createView(android.view.View,java.lang.String,android.content.Context,android.util.AttributeSet,boolean,boolean,boolean) -> a
     android.view.View createViewFromTag(android.content.Context,java.lang.String,android.util.AttributeSet) -> a
-    android.view.View createView(java.lang.String,java.lang.String) -> a
+    android.view.View createView(android.content.Context,java.lang.String,java.lang.String) -> a
+    android.content.Context themifyContext(android.content.Context,android.util.AttributeSet,boolean,boolean) -> a
 android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.internal.a.b:
     boolean ALLOW_SHOW_HIDE_ANIMATIONS -> i
     android.content.Context mContext -> j
@@ -6290,13 +6535,14 @@ android.support.v7.internal.view.SupportActionModeWrapper -> android.support.v7.
 android.support.v7.internal.view.SupportActionModeWrapper$CallbackWrapper -> android.support.v7.internal.view.d$a:
     android.view.ActionMode$Callback mWrappedCallback -> a
     android.content.Context mContext -> b
-    android.support.v4.util.SimpleArrayMap mActionModes -> c
+    java.util.ArrayList mActionModes -> c
     android.support.v4.util.SimpleArrayMap mMenus -> d
     boolean onCreateActionMode(android.support.v7.view.ActionMode,android.view.Menu) -> a
     boolean onPrepareActionMode(android.support.v7.view.ActionMode,android.view.Menu) -> b
     boolean onActionItemClicked(android.support.v7.view.ActionMode,android.view.MenuItem) -> a
     void onDestroyActionMode(android.support.v7.view.ActionMode) -> a
     android.view.Menu getMenuWrapper(android.view.Menu) -> a
+    void addActionModeWrapper(android.support.v7.internal.view.SupportActionModeWrapper) -> a
     android.view.ActionMode getActionModeWrapper(android.support.v7.view.ActionMode) -> b
 android.support.v7.internal.view.SupportMenuInflater -> android.support.v7.internal.view.e:
     java.lang.Class[] ACTION_VIEW_CONSTRUCTOR_SIGNATURE -> a
@@ -6382,7 +6628,7 @@ android.support.v7.internal.view.ViewPropertyAnimatorCompatSet$1 -> android.supp
     void onEnd() -> a
     void onAnimationEnd(android.view.View) -> b
 android.support.v7.internal.view.WindowCallbackWrapper -> android.support.v7.internal.view.h:
-    android.view.Window$Callback mWrapped -> b
+    android.view.Window$Callback mWrapped -> c
     boolean dispatchKeyEvent(android.view.KeyEvent) -> dispatchKeyEvent
     boolean dispatchKeyShortcutEvent(android.view.KeyEvent) -> dispatchKeyShortcutEvent
     boolean dispatchTouchEvent(android.view.MotionEvent) -> dispatchTouchEvent
@@ -6644,11 +6890,12 @@ android.support.v7.internal.view.menu.MenuBuilder -> android.support.v7.internal
     java.util.ArrayList mTempShortcutItemList -> v
     java.util.concurrent.CopyOnWriteArrayList mPresenters -> w
     android.support.v7.internal.view.menu.MenuItemImpl mExpandedItem -> x
+    boolean mOverrideVisibleItems -> y
     android.support.v7.internal.view.menu.MenuBuilder setDefaultShowAsAction(int) -> a
     void addMenuPresenter(android.support.v7.internal.view.menu.MenuPresenter) -> a
     void addMenuPresenter(android.support.v7.internal.view.menu.MenuPresenter,android.content.Context) -> a
     void removeMenuPresenter(android.support.v7.internal.view.menu.MenuPresenter) -> b
-    void dispatchPresenterUpdate(boolean) -> c
+    void dispatchPresenterUpdate(boolean) -> d
     boolean dispatchSubMenuSelected(android.support.v7.internal.view.menu.SubMenuBuilder,android.support.v7.internal.view.menu.MenuPresenter) -> a
     void saveActionViewStates(android.os.Bundle) -> a
     void restoreActionViewStates(android.os.Bundle) -> b
@@ -6684,7 +6931,7 @@ android.support.v7.internal.view.menu.MenuBuilder -> android.support.v7.internal
     void setQwertyMode(boolean) -> setQwertyMode
     int getOrdering(int) -> d
     boolean isQwertyMode() -> b
-    void setShortcutsVisibleInner(boolean) -> d
+    void setShortcutsVisibleInner(boolean) -> e
     boolean isShortcutsVisible() -> c
     android.content.res.Resources getResources() -> d
     android.content.Context getContext() -> e
@@ -6721,6 +6968,7 @@ android.support.v7.internal.view.menu.MenuBuilder -> android.support.v7.internal
     boolean expandItemActionView(android.support.v7.internal.view.menu.MenuItemImpl) -> c
     boolean collapseItemActionView(android.support.v7.internal.view.menu.MenuItemImpl) -> d
     android.support.v7.internal.view.menu.MenuItemImpl getExpandedItem() -> r
+    void setOverrideVisibleItems(boolean) -> c
 android.support.v7.internal.view.menu.MenuBuilder$Callback -> android.support.v7.internal.view.menu.f$a:
     boolean onMenuItemSelected(android.support.v7.internal.view.menu.MenuBuilder,android.view.MenuItem) -> a
     void onMenuModeChange(android.support.v7.internal.view.menu.MenuBuilder) -> a
@@ -6728,7 +6976,7 @@ android.support.v7.internal.view.menu.MenuBuilder$ItemInvoker -> android.support
     boolean invokeItem(android.support.v7.internal.view.menu.MenuItemImpl) -> a
 android.support.v7.internal.view.menu.MenuDialogHelper -> android.support.v7.internal.view.menu.g:
     android.support.v7.internal.view.menu.MenuBuilder mMenu -> b
-    android.app.AlertDialog mDialog -> c
+    android.support.v7.app.AlertDialog mDialog -> c
     android.support.v7.internal.view.menu.ListMenuPresenter mPresenter -> a
     android.support.v7.internal.view.menu.MenuPresenter$Callback mPresenterCallback -> d
     void show(android.os.IBinder) -> a
@@ -7696,12 +7944,6 @@ android.support.v7.internal.widget.ListViewCompat$GateKeeperDrawable -> android.
     void setHotspot(float,float) -> setHotspot
     void setHotspotBounds(int,int,int,int) -> setHotspotBounds
     boolean setVisible(boolean,boolean) -> setVisible
-android.support.v7.internal.widget.NativeActionModeAwareLayout -> android.support.v7.internal.widget.NativeActionModeAwareLayout:
-    android.support.v7.internal.widget.NativeActionModeAwareLayout$OnActionModeForChildListener mActionModeForChildListener -> a
-    void setActionModeForChildListener(android.support.v7.internal.widget.NativeActionModeAwareLayout$OnActionModeForChildListener) -> setActionModeForChildListener
-    android.view.ActionMode startActionModeForChild(android.view.View,android.view.ActionMode$Callback) -> startActionModeForChild
-android.support.v7.internal.widget.NativeActionModeAwareLayout$OnActionModeForChildListener -> android.support.v7.internal.widget.NativeActionModeAwareLayout$a:
-    android.view.ActionMode startActionModeForChild(android.view.View,android.view.ActionMode$Callback) -> a
 android.support.v7.internal.widget.ResourcesWrapper -> android.support.v7.internal.widget.t:
     android.content.res.Resources mResources -> a
     java.lang.CharSequence getText(int) -> getText
@@ -7961,9 +8203,10 @@ android.support.v7.internal.widget.TintManager -> android.support.v7.internal.wi
     int[] COLORFILTER_COLOR_CONTROL_ACTIVATED -> g
     int[] COLORFILTER_COLOR_BACKGROUND_MULTIPLY -> h
     int[] TINT_COLOR_CONTROL_STATE_LIST -> i
-    java.lang.ref.WeakReference mContextRef -> j
-    android.util.SparseArray mTintLists -> k
-    android.content.res.ColorStateList mDefaultColorStateList -> l
+    int[] TINT_CHECKABLE_BUTTON_LIST -> j
+    java.lang.ref.WeakReference mContextRef -> k
+    android.util.SparseArray mTintLists -> l
+    android.content.res.ColorStateList mDefaultColorStateList -> m
     android.graphics.drawable.Drawable getDrawable(android.content.Context,int) -> a
     android.support.v7.internal.widget.TintManager get(android.content.Context) -> a
     android.graphics.drawable.Drawable getDrawable(int) -> a
@@ -7974,11 +8217,12 @@ android.support.v7.internal.widget.TintManager -> android.support.v7.internal.wi
     android.graphics.PorterDuff$Mode getTintMode(int) -> b
     android.content.res.ColorStateList getTintList(int) -> c
     android.content.res.ColorStateList getDefaultColorStateList(android.content.Context) -> b
-    android.content.res.ColorStateList createSwitchTrackColorStateList(android.content.Context) -> c
-    android.content.res.ColorStateList createSwitchThumbColorStateList(android.content.Context) -> d
-    android.content.res.ColorStateList createEditTextColorStateList(android.content.Context) -> e
-    android.content.res.ColorStateList createButtonColorStateList(android.content.Context) -> f
-    android.content.res.ColorStateList createSpinnerColorStateList(android.content.Context) -> g
+    android.content.res.ColorStateList createCheckableButtonColorStateList(android.content.Context) -> c
+    android.content.res.ColorStateList createSwitchTrackColorStateList(android.content.Context) -> d
+    android.content.res.ColorStateList createSwitchThumbColorStateList(android.content.Context) -> e
+    android.content.res.ColorStateList createEditTextColorStateList(android.content.Context) -> f
+    android.content.res.ColorStateList createButtonColorStateList(android.content.Context) -> g
+    android.content.res.ColorStateList createSpinnerColorStateList(android.content.Context) -> h
     void tintViewBackground(android.view.View,android.support.v7.internal.widget.TintInfo) -> a
     void setPorterDuffColorFilter(android.graphics.drawable.Drawable,int,android.graphics.PorterDuff$Mode) -> a
 android.support.v7.internal.widget.TintManager$ColorFilterLruCache -> android.support.v7.internal.widget.ad$a:
@@ -8110,7 +8354,6 @@ android.support.v7.internal.widget.ViewUtils -> android.support.v7.internal.widg
     int combineMeasuredStates(int,int) -> a
     void computeFitSystemWindows(android.view.View,android.graphics.Rect,android.graphics.Rect) -> a
     void makeOptionalFitsSystemWindows(android.view.View) -> b
-    android.content.Context themifyContext(android.content.Context,android.util.AttributeSet,boolean,boolean) -> a
 android.support.v7.view.ActionMode -> android.support.v7.b.a:
     java.lang.Object mTag -> a
     boolean mTitleOptionalHint -> b
@@ -8356,8 +8599,11 @@ android.support.v7.widget.AdapterHelper$UpdateOp -> android.support.v7.widget.c$
     int hashCode() -> hashCode
 android.support.v7.widget.AppCompatAutoCompleteTextView -> android.support.v7.widget.AppCompatAutoCompleteTextView:
     int[] TINT_ATTRS -> a
-    android.support.v7.internal.widget.TintManager mTintManager -> b
+    android.support.v7.internal.widget.TintInfo mInternalBackgroundTint -> b
     android.support.v7.internal.widget.TintInfo mBackgroundTint -> c
+    android.support.v7.internal.widget.TintManager mTintManager -> d
+    void setBackgroundResource(int) -> setBackgroundResource
+    void setBackgroundDrawable(android.graphics.drawable.Drawable) -> setBackgroundDrawable
     void setDropDownBackgroundResource(int) -> setDropDownBackgroundResource
     void setSupportBackgroundTintList(android.content.res.ColorStateList) -> setSupportBackgroundTintList
     android.content.res.ColorStateList getSupportBackgroundTintList() -> getSupportBackgroundTintList
@@ -8365,15 +8611,21 @@ android.support.v7.widget.AppCompatAutoCompleteTextView -> android.support.v7.wi
     android.graphics.PorterDuff$Mode getSupportBackgroundTintMode() -> getSupportBackgroundTintMode
     void drawableStateChanged() -> drawableStateChanged
     void applySupportBackgroundTint() -> a
+    void setInternalBackgroundTint(android.content.res.ColorStateList) -> setInternalBackgroundTint
 android.support.v7.widget.AppCompatButton -> android.support.v7.widget.AppCompatButton:
     int[] TINT_ATTRS -> a
-    android.support.v7.internal.widget.TintInfo mBackgroundTint -> b
+    android.support.v7.internal.widget.TintInfo mInternalBackgroundTint -> b
+    android.support.v7.internal.widget.TintInfo mBackgroundTint -> c
+    android.support.v7.internal.widget.TintManager mTintManager -> d
+    void setBackgroundResource(int) -> setBackgroundResource
+    void setBackgroundDrawable(android.graphics.drawable.Drawable) -> setBackgroundDrawable
     void setSupportBackgroundTintList(android.content.res.ColorStateList) -> setSupportBackgroundTintList
     android.content.res.ColorStateList getSupportBackgroundTintList() -> getSupportBackgroundTintList
     void setSupportBackgroundTintMode(android.graphics.PorterDuff$Mode) -> setSupportBackgroundTintMode
     android.graphics.PorterDuff$Mode getSupportBackgroundTintMode() -> getSupportBackgroundTintMode
     void drawableStateChanged() -> drawableStateChanged
     void applySupportBackgroundTint() -> a
+    void setInternalBackgroundTint(android.content.res.ColorStateList) -> setInternalBackgroundTint
     void onInitializeAccessibilityEvent(android.view.accessibility.AccessibilityEvent) -> onInitializeAccessibilityEvent
     void onInitializeAccessibilityNodeInfo(android.view.accessibility.AccessibilityNodeInfo) -> onInitializeAccessibilityNodeInfo
     void setAllCaps(boolean) -> setAllCaps
@@ -8391,17 +8643,25 @@ android.support.v7.widget.AppCompatCheckedTextView -> android.support.v7.widget.
     void setCheckMarkDrawable(int) -> setCheckMarkDrawable
 android.support.v7.widget.AppCompatEditText -> android.support.v7.widget.AppCompatEditText:
     int[] TINT_ATTRS -> a
-    android.support.v7.internal.widget.TintInfo mBackgroundTint -> b
+    android.support.v7.internal.widget.TintInfo mInternalBackgroundTint -> b
+    android.support.v7.internal.widget.TintInfo mBackgroundTint -> c
+    android.support.v7.internal.widget.TintManager mTintManager -> d
+    void setBackgroundResource(int) -> setBackgroundResource
+    void setBackgroundDrawable(android.graphics.drawable.Drawable) -> setBackgroundDrawable
     void setSupportBackgroundTintList(android.content.res.ColorStateList) -> setSupportBackgroundTintList
     android.content.res.ColorStateList getSupportBackgroundTintList() -> getSupportBackgroundTintList
     void setSupportBackgroundTintMode(android.graphics.PorterDuff$Mode) -> setSupportBackgroundTintMode
     android.graphics.PorterDuff$Mode getSupportBackgroundTintMode() -> getSupportBackgroundTintMode
     void drawableStateChanged() -> drawableStateChanged
     void applySupportBackgroundTint() -> a
+    void setInternalBackgroundTint(android.content.res.ColorStateList) -> setInternalBackgroundTint
 android.support.v7.widget.AppCompatMultiAutoCompleteTextView -> android.support.v7.widget.AppCompatMultiAutoCompleteTextView:
     int[] TINT_ATTRS -> a
-    android.support.v7.internal.widget.TintManager mTintManager -> b
+    android.support.v7.internal.widget.TintInfo mInternalBackgroundTint -> b
     android.support.v7.internal.widget.TintInfo mBackgroundTint -> c
+    android.support.v7.internal.widget.TintManager mTintManager -> d
+    void setBackgroundResource(int) -> setBackgroundResource
+    void setBackgroundDrawable(android.graphics.drawable.Drawable) -> setBackgroundDrawable
     void setDropDownBackgroundResource(int) -> setDropDownBackgroundResource
     void setSupportBackgroundTintList(android.content.res.ColorStateList) -> setSupportBackgroundTintList
     android.content.res.ColorStateList getSupportBackgroundTintList() -> getSupportBackgroundTintList
@@ -8409,6 +8669,7 @@ android.support.v7.widget.AppCompatMultiAutoCompleteTextView -> android.support.
     android.graphics.PorterDuff$Mode getSupportBackgroundTintMode() -> getSupportBackgroundTintMode
     void drawableStateChanged() -> drawableStateChanged
     void applySupportBackgroundTint() -> a
+    void setInternalBackgroundTint(android.content.res.ColorStateList) -> setInternalBackgroundTint
 android.support.v7.widget.AppCompatRadioButton -> android.support.v7.widget.AppCompatRadioButton:
     int[] TINT_ATTRS -> a
     android.support.v7.internal.widget.TintManager mTintManager -> b
@@ -8425,7 +8686,11 @@ android.support.v7.widget.AppCompatRatingBar -> android.support.v7.widget.AppCom
     void onMeasure(int,int) -> onMeasure
 android.support.v7.widget.AppCompatSpinner -> android.support.v7.widget.AppCompatSpinner:
     int[] TINT_ATTRS -> a
-    android.support.v7.internal.widget.TintInfo mBackgroundTint -> b
+    android.support.v7.internal.widget.TintInfo mInternalBackgroundTint -> b
+    android.support.v7.internal.widget.TintInfo mBackgroundTint -> c
+    android.support.v7.internal.widget.TintManager mTintManager -> d
+    void setBackgroundResource(int) -> setBackgroundResource
+    void setBackgroundDrawable(android.graphics.drawable.Drawable) -> setBackgroundDrawable
     void setPopupBackgroundDrawableV11(android.widget.Spinner,android.graphics.drawable.Drawable) -> a
     void setSupportBackgroundTintList(android.content.res.ColorStateList) -> setSupportBackgroundTintList
     android.content.res.ColorStateList getSupportBackgroundTintList() -> getSupportBackgroundTintList
@@ -8433,6 +8698,7 @@ android.support.v7.widget.AppCompatSpinner -> android.support.v7.widget.AppCompa
     android.graphics.PorterDuff$Mode getSupportBackgroundTintMode() -> getSupportBackgroundTintMode
     void drawableStateChanged() -> drawableStateChanged
     void applySupportBackgroundTint() -> a
+    void setInternalBackgroundTint(android.content.res.ColorStateList) -> setInternalBackgroundTint
 android.support.v7.widget.AppCompatTextView -> android.support.v7.widget.AppCompatTextView:
     void setAllCaps(boolean) -> setAllCaps
     void setTextAppearance(android.content.Context,int) -> setTextAppearance
@@ -10017,38 +10283,39 @@ android.support.v7.widget.SearchView -> android.support.v7.widget.SearchView:
     int mSuggestionCommitIconResId -> p
     android.content.Intent mVoiceWebSearchIntent -> q
     android.content.Intent mVoiceAppSearchIntent -> r
-    android.support.v7.widget.SearchView$OnQueryTextListener mOnQueryChangeListener -> s
-    android.support.v7.widget.SearchView$OnCloseListener mOnCloseListener -> t
-    android.view.View$OnFocusChangeListener mOnQueryTextFocusChangeListener -> u
-    android.support.v7.widget.SearchView$OnSuggestionListener mOnSuggestionListener -> v
-    android.view.View$OnClickListener mOnSearchClickListener -> w
-    boolean mIconifiedByDefault -> x
-    boolean mIconified -> y
-    android.support.v4.widget.CursorAdapter mSuggestionsAdapter -> z
-    boolean mSubmitButtonEnabled -> A
-    java.lang.CharSequence mQueryHint -> B
-    boolean mQueryRefinement -> C
-    boolean mClearingFocus -> D
-    int mMaxWidth -> E
-    boolean mVoiceButtonEnabled -> F
-    java.lang.CharSequence mOldQueryText -> G
-    java.lang.CharSequence mUserQuery -> H
-    boolean mExpandedInActionView -> I
-    int mCollapsedImeOptions -> J
-    android.app.SearchableInfo mSearchable -> K
-    android.os.Bundle mAppSearchData -> L
-    android.support.v7.internal.widget.TintManager mTintManager -> M
+    java.lang.CharSequence mDefaultQueryHint -> s
+    android.support.v7.widget.SearchView$OnQueryTextListener mOnQueryChangeListener -> t
+    android.support.v7.widget.SearchView$OnCloseListener mOnCloseListener -> u
+    android.view.View$OnFocusChangeListener mOnQueryTextFocusChangeListener -> v
+    android.support.v7.widget.SearchView$OnSuggestionListener mOnSuggestionListener -> w
+    android.view.View$OnClickListener mOnSearchClickListener -> x
+    boolean mIconifiedByDefault -> y
+    boolean mIconified -> z
+    android.support.v4.widget.CursorAdapter mSuggestionsAdapter -> A
+    boolean mSubmitButtonEnabled -> B
+    java.lang.CharSequence mQueryHint -> C
+    boolean mQueryRefinement -> D
+    boolean mClearingFocus -> E
+    int mMaxWidth -> F
+    boolean mVoiceButtonEnabled -> G
+    java.lang.CharSequence mOldQueryText -> H
+    java.lang.CharSequence mUserQuery -> I
+    boolean mExpandedInActionView -> J
+    int mCollapsedImeOptions -> K
+    android.app.SearchableInfo mSearchable -> L
+    android.os.Bundle mAppSearchData -> M
+    android.support.v7.internal.widget.TintManager mTintManager -> N
     android.support.v7.widget.SearchView$AutoCompleteTextViewReflector HIDDEN_METHOD_INVOKER -> a
-    java.lang.Runnable mShowImeRunnable -> N
-    java.lang.Runnable mUpdateDrawableStateRunnable -> O
-    java.lang.Runnable mReleaseCursorRunnable -> P
-    java.util.WeakHashMap mOutsideDrawablesCache -> Q
-    android.view.View$OnClickListener mOnClickListener -> R
+    java.lang.Runnable mShowImeRunnable -> O
+    java.lang.Runnable mUpdateDrawableStateRunnable -> P
+    java.lang.Runnable mReleaseCursorRunnable -> Q
+    java.util.WeakHashMap mOutsideDrawablesCache -> R
+    android.view.View$OnClickListener mOnClickListener -> S
     android.view.View$OnKeyListener mTextKeyListener -> b
-    android.widget.TextView$OnEditorActionListener mOnEditorActionListener -> S
-    android.widget.AdapterView$OnItemClickListener mOnItemClickListener -> T
-    android.widget.AdapterView$OnItemSelectedListener mOnItemSelectedListener -> U
-    android.text.TextWatcher mTextWatcher -> V
+    android.widget.TextView$OnEditorActionListener mOnEditorActionListener -> T
+    android.widget.AdapterView$OnItemClickListener mOnItemClickListener -> U
+    android.widget.AdapterView$OnItemSelectedListener mOnItemSelectedListener -> V
+    android.text.TextWatcher mTextWatcher -> W
     void addOnLayoutChangeListenerToDropDownAnchorSDK11() -> e
     void addOnLayoutChangeListenerToDropDownAnchorBase() -> f
     int getSuggestionRowLayout() -> getSuggestionRowLayout
@@ -10596,9 +10863,8 @@ android.support.v7.widget.Toolbar -> android.support.v7.widget.Toolbar:
     android.support.v7.internal.view.menu.MenuPresenter$Callback mActionMenuPresenterCallback -> I
     android.support.v7.internal.view.menu.MenuBuilder$Callback mMenuBuilderCallback -> J
     boolean mCollapsible -> K
-    int mMinHeight -> L
-    java.lang.Runnable mShowOverflowMenuRunnable -> M
-    android.support.v7.internal.widget.TintManager mTintManager -> N
+    java.lang.Runnable mShowOverflowMenuRunnable -> L
+    android.support.v7.internal.widget.TintManager mTintManager -> M
     void setPopupTheme(int) -> setPopupTheme
     int getPopupTheme() -> getPopupTheme
     void onRtlPropertiesChanged(int) -> onRtlPropertiesChanged
@@ -10679,8 +10945,6 @@ android.support.v7.widget.Toolbar -> android.support.v7.widget.Toolbar:
     void updateChildVisibilityForExpandedActionView(android.view.View) -> e
     void setCollapsible(boolean) -> setCollapsible
     void setMenuCallbacks(android.support.v7.internal.view.menu.MenuPresenter$Callback,android.support.v7.internal.view.menu.MenuBuilder$Callback) -> setMenuCallbacks
-    void setMinimumHeight(int) -> setMinimumHeight
-    int getMinimumHeightCompat() -> getMinimumHeightCompat
     android.view.ViewGroup$LayoutParams generateDefaultLayoutParams() -> generateDefaultLayoutParams
     android.view.ViewGroup$LayoutParams generateLayoutParams(android.view.ViewGroup$LayoutParams) -> generateLayoutParams
     android.view.ViewGroup$LayoutParams generateLayoutParams(android.util.AttributeSet) -> generateLayoutParams
@@ -13514,6 +13778,7 @@ com.daimajia.slider.library.R$attr -> com.daimajia.slider.library.R$attr:
     int backgroundTint -> backgroundTint
     int backgroundTintMode -> backgroundTintMode
     int barSize -> barSize
+    int borderlessButtonStyle -> borderlessButtonStyle
     int buttonBarButtonStyle -> buttonBarButtonStyle
     int buttonBarNegativeButtonStyle -> buttonBarNegativeButtonStyle
     int buttonBarNeutralButtonStyle -> buttonBarNeutralButtonStyle
@@ -13549,6 +13814,7 @@ com.daimajia.slider.library.R$attr -> com.daimajia.slider.library.R$attr:
     int contentInsetRight -> contentInsetRight
     int contentInsetStart -> contentInsetStart
     int customNavigationLayout -> customNavigationLayout
+    int defaultQueryHint -> defaultQueryHint
     int dialogPreferredPadding -> dialogPreferredPadding
     int dialogTheme -> dialogTheme
     int disableChildrenWhenDisabled -> disableChildrenWhenDisabled
@@ -13970,6 +14236,9 @@ com.daimajia.slider.library.R$dimen -> com.daimajia.slider.library.R$dimen:
     int dialog_fixed_width_minor -> dialog_fixed_width_minor
     int disabled_alpha_material_dark -> disabled_alpha_material_dark
     int disabled_alpha_material_light -> disabled_alpha_material_light
+    int notification_large_icon_height -> notification_large_icon_height
+    int notification_large_icon_width -> notification_large_icon_width
+    int notification_subtext_size -> notification_subtext_size
 com.daimajia.slider.library.R$drawable -> com.daimajia.slider.library.R$drawable:
     int abc_ab_share_pack_mtrl_alpha -> abc_ab_share_pack_mtrl_alpha
     int abc_btn_borderless_material -> abc_btn_borderless_material
@@ -14045,6 +14314,7 @@ com.daimajia.slider.library.R$drawable -> com.daimajia.slider.library.R$drawable
     int main_portfolio_ranking_select -> main_portfolio_ranking_select
     int main_stock_ranking_normal -> main_stock_ranking_normal
     int main_stock_ranking_select -> main_stock_ranking_select
+    int notification_template_icon_bg -> notification_template_icon_bg
     int red -> red
     int tab_normal -> tab_normal
     int tab_select -> tab_select
@@ -14071,6 +14341,7 @@ com.daimajia.slider.library.R$id -> com.daimajia.slider.library.R$id:
     int ZoomIn -> ZoomIn
     int ZoomOut -> ZoomOut
     int ZoomOutSlide -> ZoomOutSlide
+    int action0 -> action0
     int action_bar -> action_bar
     int action_bar_activity_content -> action_bar_activity_content
     int action_bar_container -> action_bar_container
@@ -14079,6 +14350,7 @@ com.daimajia.slider.library.R$id -> com.daimajia.slider.library.R$id:
     int action_bar_subtitle -> action_bar_subtitle
     int action_bar_title -> action_bar_title
     int action_context_bar -> action_context_bar
+    int action_divider -> action_divider
     int action_menu_divider -> action_menu_divider
     int action_menu_presenter -> action_menu_presenter
     int action_mode_bar -> action_mode_bar
@@ -14089,7 +14361,9 @@ com.daimajia.slider.library.R$id -> com.daimajia.slider.library.R$id:
     int always -> always
     int beginning -> beginning
     int buttonPanel -> buttonPanel
+    int cancel_action -> cancel_action
     int checkbox -> checkbox
+    int chronometer -> chronometer
     int collapseActionView -> collapseActionView
     int contentPanel -> contentPanel
     int custom -> custom
@@ -14112,6 +14386,7 @@ com.daimajia.slider.library.R$id -> com.daimajia.slider.library.R$id:
     int dropdown -> dropdown
     int edit_query -> edit_query
     int end -> end
+    int end_padder -> end_padder
     int expand_activities_button -> expand_activities_button
     int expanded_menu -> expanded_menu
     int home -> home
@@ -14119,10 +14394,14 @@ com.daimajia.slider.library.R$id -> com.daimajia.slider.library.R$id:
     int icon -> icon
     int ifRoom -> ifRoom
     int image -> image
+    int info -> info
     int invisible -> invisible
+    int line1 -> line1
+    int line3 -> line3
     int listMode -> listMode
     int list_item -> list_item
     int loading_bar -> loading_bar
+    int media_actions -> media_actions
     int middle -> middle
     int multiply -> multiply
     int never -> never
@@ -14155,9 +14434,13 @@ com.daimajia.slider.library.R$id -> com.daimajia.slider.library.R$id:
     int src_atop -> src_atop
     int src_in -> src_in
     int src_over -> src_over
+    int status_bar_latest_event_content -> status_bar_latest_event_content
     int submit_area -> submit_area
     int tabMode -> tabMode
+    int text -> text
+    int text2 -> text2
     int textSpacerNoButtons -> textSpacerNoButtons
+    int time -> time
     int title -> title
     int title_template -> title_template
     int topPanel -> topPanel
@@ -14170,7 +14453,9 @@ com.daimajia.slider.library.R$integer -> com.daimajia.slider.library.R$integer:
     int abc_config_activityDefaultDur -> abc_config_activityDefaultDur
     int abc_config_activityShortDur -> abc_config_activityShortDur
     int abc_max_action_buttons -> abc_max_action_buttons
+    int cancel_button_image_alpha -> cancel_button_image_alpha
     int circular_progress_max -> circular_progress_max
+    int status_bar_notification_info_maxnum -> status_bar_notification_info_maxnum
 com.daimajia.slider.library.R$layout -> com.daimajia.slider.library.R$layout:
     int abc_action_bar_title_item -> abc_action_bar_title_item
     int abc_action_bar_up_container -> abc_action_bar_up_container
@@ -14198,6 +14483,14 @@ com.daimajia.slider.library.R$layout -> com.daimajia.slider.library.R$layout:
     int abc_select_dialog_material -> abc_select_dialog_material
     int abc_simple_dropdown_hint -> abc_simple_dropdown_hint
     int indicator_layout -> indicator_layout
+    int notification_media_action -> notification_media_action
+    int notification_media_cancel_action -> notification_media_cancel_action
+    int notification_template_big_media -> notification_template_big_media
+    int notification_template_big_media_narrow -> notification_template_big_media_narrow
+    int notification_template_lines -> notification_template_lines
+    int notification_template_media -> notification_template_media
+    int notification_template_part_chronometer -> notification_template_part_chronometer
+    int notification_template_part_time -> notification_template_part_time
     int render_type_default -> render_type_default
     int render_type_text -> render_type_text
     int select_dialog_item_material -> select_dialog_item_material
@@ -14224,6 +14517,7 @@ com.daimajia.slider.library.R$string -> com.daimajia.slider.library.R$string:
     int abc_shareactionprovider_share_with_application -> abc_shareactionprovider_share_with_application
     int abc_toolbar_collapse_description -> abc_toolbar_collapse_description
     int app_name -> app_name
+    int status_bar_notification_info_overflow -> status_bar_notification_info_overflow
 com.daimajia.slider.library.R$style -> com.daimajia.slider.library.R$style:
     int AlertDialog_AppCompat -> AlertDialog_AppCompat
     int AlertDialog_AppCompat_Light -> AlertDialog_AppCompat_Light
@@ -14301,6 +14595,8 @@ com.daimajia.slider.library.R$style -> com.daimajia.slider.library.R$style:
     int Base_Theme_AppCompat_Light_Dialog_MinWidth -> Base_Theme_AppCompat_Light_Dialog_MinWidth
     int Base_V11_Theme_AppCompat_Dialog -> Base_V11_Theme_AppCompat_Dialog
     int Base_V11_Theme_AppCompat_Light_Dialog -> Base_V11_Theme_AppCompat_Light_Dialog
+    int Base_V12_Widget_AppCompat_AutoCompleteTextView -> Base_V12_Widget_AppCompat_AutoCompleteTextView
+    int Base_V12_Widget_AppCompat_EditText -> Base_V12_Widget_AppCompat_EditText
     int Base_V21_Theme_AppCompat -> Base_V21_Theme_AppCompat
     int Base_V21_Theme_AppCompat_Dialog -> Base_V21_Theme_AppCompat_Dialog
     int Base_V21_Theme_AppCompat_Light -> Base_V21_Theme_AppCompat_Light
@@ -14309,6 +14605,8 @@ com.daimajia.slider.library.R$style -> com.daimajia.slider.library.R$style:
     int Base_V7_Theme_AppCompat_Dialog -> Base_V7_Theme_AppCompat_Dialog
     int Base_V7_Theme_AppCompat_Light -> Base_V7_Theme_AppCompat_Light
     int Base_V7_Theme_AppCompat_Light_Dialog -> Base_V7_Theme_AppCompat_Light_Dialog
+    int Base_V7_Widget_AppCompat_AutoCompleteTextView -> Base_V7_Widget_AppCompat_AutoCompleteTextView
+    int Base_V7_Widget_AppCompat_EditText -> Base_V7_Widget_AppCompat_EditText
     int Base_Widget_AppCompat_ActionBar -> Base_Widget_AppCompat_ActionBar
     int Base_Widget_AppCompat_ActionBar_Solid -> Base_Widget_AppCompat_ActionBar_Solid
     int Base_Widget_AppCompat_ActionBar_TabBar -> Base_Widget_AppCompat_ActionBar_TabBar
@@ -14366,12 +14664,12 @@ com.daimajia.slider.library.R$style -> com.daimajia.slider.library.R$style:
     int Platform_ThemeOverlay_AppCompat_Light -> Platform_ThemeOverlay_AppCompat_Light
     int Platform_V11_AppCompat -> Platform_V11_AppCompat
     int Platform_V11_AppCompat_Light -> Platform_V11_AppCompat_Light
-    int Platform_V12_AppCompat -> Platform_V12_AppCompat
-    int Platform_V12_AppCompat_Light -> Platform_V12_AppCompat_Light
     int Platform_V14_AppCompat -> Platform_V14_AppCompat
     int Platform_V14_AppCompat_Light -> Platform_V14_AppCompat_Light
+    int RtlOverlay_DialogWindowTitle_AppCompat -> RtlOverlay_DialogWindowTitle_AppCompat
     int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem -> RtlOverlay_Widget_AppCompat_ActionBar_TitleItem
     int RtlOverlay_Widget_AppCompat_ActionButton_Overflow -> RtlOverlay_Widget_AppCompat_ActionButton_Overflow
+    int RtlOverlay_Widget_AppCompat_DialogTitle_Icon -> RtlOverlay_Widget_AppCompat_DialogTitle_Icon
     int RtlOverlay_Widget_AppCompat_PopupMenuItem -> RtlOverlay_Widget_AppCompat_PopupMenuItem
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup -> RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_Text -> RtlOverlay_Widget_AppCompat_PopupMenuItem_Text
@@ -14424,6 +14722,11 @@ com.daimajia.slider.library.R$style -> com.daimajia.slider.library.R$style:
     int TextAppearance_AppCompat_Widget_PopupMenu_Small -> TextAppearance_AppCompat_Widget_PopupMenu_Small
     int TextAppearance_AppCompat_Widget_Switch -> TextAppearance_AppCompat_Widget_Switch
     int TextAppearance_AppCompat_Widget_TextView_SpinnerItem -> TextAppearance_AppCompat_Widget_TextView_SpinnerItem
+    int TextAppearance_StatusBar_EventContent -> TextAppearance_StatusBar_EventContent
+    int TextAppearance_StatusBar_EventContent_Info -> TextAppearance_StatusBar_EventContent_Info
+    int TextAppearance_StatusBar_EventContent_Line2 -> TextAppearance_StatusBar_EventContent_Line2
+    int TextAppearance_StatusBar_EventContent_Time -> TextAppearance_StatusBar_EventContent_Time
+    int TextAppearance_StatusBar_EventContent_Title -> TextAppearance_StatusBar_EventContent_Title
     int TextAppearance_Widget_AppCompat_ExpandedMenu_Item -> TextAppearance_Widget_AppCompat_ExpandedMenu_Item
     int TextAppearance_Widget_AppCompat_Toolbar_Subtitle -> TextAppearance_Widget_AppCompat_Toolbar_Subtitle
     int TextAppearance_Widget_AppCompat_Toolbar_Title -> TextAppearance_Widget_AppCompat_Toolbar_Title
@@ -14668,6 +14971,7 @@ com.daimajia.slider.library.R$styleable -> com.daimajia.slider.library.R$styleab
     int SearchView_android_maxWidth -> SearchView_android_maxWidth
     int SearchView_closeIcon -> SearchView_closeIcon
     int SearchView_commitIcon -> SearchView_commitIcon
+    int SearchView_defaultQueryHint -> SearchView_defaultQueryHint
     int SearchView_goIcon -> SearchView_goIcon
     int SearchView_iconifiedByDefault -> SearchView_iconifiedByDefault
     int SearchView_layout -> SearchView_layout
@@ -14751,6 +15055,7 @@ com.daimajia.slider.library.R$styleable -> com.daimajia.slider.library.R$styleab
     int Theme_android_windowAnimationStyle -> Theme_android_windowAnimationStyle
     int Theme_android_windowIsFloating -> Theme_android_windowIsFloating
     int Theme_autoCompleteTextViewStyle -> Theme_autoCompleteTextViewStyle
+    int Theme_borderlessButtonStyle -> Theme_borderlessButtonStyle
     int Theme_buttonBarButtonStyle -> Theme_buttonBarButtonStyle
     int Theme_buttonBarNegativeButtonStyle -> Theme_buttonBarNegativeButtonStyle
     int Theme_buttonBarNeutralButtonStyle -> Theme_buttonBarNeutralButtonStyle
@@ -15354,6 +15659,7 @@ com.dkhs.R$attr -> com.dkhs.R$attr:
     int backgroundTint -> backgroundTint
     int backgroundTintMode -> backgroundTintMode
     int barSize -> barSize
+    int borderlessButtonStyle -> borderlessButtonStyle
     int buttonBarButtonStyle -> buttonBarButtonStyle
     int buttonBarNegativeButtonStyle -> buttonBarNegativeButtonStyle
     int buttonBarNeutralButtonStyle -> buttonBarNeutralButtonStyle
@@ -15389,6 +15695,7 @@ com.dkhs.R$attr -> com.dkhs.R$attr:
     int contentInsetRight -> contentInsetRight
     int contentInsetStart -> contentInsetStart
     int customNavigationLayout -> customNavigationLayout
+    int defaultQueryHint -> defaultQueryHint
     int dialogPreferredPadding -> dialogPreferredPadding
     int dialogTheme -> dialogTheme
     int disableChildrenWhenDisabled -> disableChildrenWhenDisabled
@@ -15785,6 +16092,9 @@ com.dkhs.R$dimen -> com.dkhs.R$dimen:
     int dialog_fixed_width_minor -> dialog_fixed_width_minor
     int disabled_alpha_material_dark -> disabled_alpha_material_dark
     int disabled_alpha_material_light -> disabled_alpha_material_light
+    int notification_large_icon_height -> notification_large_icon_height
+    int notification_large_icon_width -> notification_large_icon_width
+    int notification_subtext_size -> notification_subtext_size
 com.dkhs.R$drawable -> com.dkhs.R$drawable:
     int abc_ab_share_pack_mtrl_alpha -> abc_ab_share_pack_mtrl_alpha
     int abc_btn_borderless_material -> abc_btn_borderless_material
@@ -15859,6 +16169,7 @@ com.dkhs.R$drawable -> com.dkhs.R$drawable:
     int main_portfolio_ranking_select -> main_portfolio_ranking_select
     int main_stock_ranking_normal -> main_stock_ranking_normal
     int main_stock_ranking_select -> main_stock_ranking_select
+    int notification_template_icon_bg -> notification_template_icon_bg
     int red -> red
     int tab_normal -> tab_normal
     int tab_select -> tab_select
@@ -15869,6 +16180,7 @@ com.dkhs.R$id -> com.dkhs.R$id:
     int Large -> Large
     int Normal -> Normal
     int Small -> Small
+    int action0 -> action0
     int action_bar -> action_bar
     int action_bar_activity_content -> action_bar_activity_content
     int action_bar_container -> action_bar_container
@@ -15877,6 +16189,7 @@ com.dkhs.R$id -> com.dkhs.R$id:
     int action_bar_subtitle -> action_bar_subtitle
     int action_bar_title -> action_bar_title
     int action_context_bar -> action_context_bar
+    int action_divider -> action_divider
     int action_menu_divider -> action_menu_divider
     int action_menu_presenter -> action_menu_presenter
     int action_mode_bar -> action_mode_bar
@@ -15887,7 +16200,9 @@ com.dkhs.R$id -> com.dkhs.R$id:
     int always -> always
     int beginning -> beginning
     int buttonPanel -> buttonPanel
+    int cancel_action -> cancel_action
     int checkbox -> checkbox
+    int chronometer -> chronometer
     int collapseActionView -> collapseActionView
     int contentPanel -> contentPanel
     int custom -> custom
@@ -15899,6 +16214,7 @@ com.dkhs.R$id -> com.dkhs.R$id:
     int dropdown -> dropdown
     int edit_query -> edit_query
     int end -> end
+    int end_padder -> end_padder
     int expand_activities_button -> expand_activities_button
     int expanded_menu -> expanded_menu
     int home -> home
@@ -15906,8 +16222,12 @@ com.dkhs.R$id -> com.dkhs.R$id:
     int icon -> icon
     int ifRoom -> ifRoom
     int image -> image
+    int info -> info
+    int line1 -> line1
+    int line3 -> line3
     int listMode -> listMode
     int list_item -> list_item
+    int media_actions -> media_actions
     int middle -> middle
     int multiply -> multiply
     int never -> never
@@ -15938,9 +16258,13 @@ com.dkhs.R$id -> com.dkhs.R$id:
     int src_atop -> src_atop
     int src_in -> src_in
     int src_over -> src_over
+    int status_bar_latest_event_content -> status_bar_latest_event_content
     int submit_area -> submit_area
     int tabMode -> tabMode
+    int text -> text
+    int text2 -> text2
     int textSpacerNoButtons -> textSpacerNoButtons
+    int time -> time
     int title -> title
     int title_template -> title_template
     int topPanel -> topPanel
@@ -15952,7 +16276,9 @@ com.dkhs.R$integer -> com.dkhs.R$integer:
     int abc_config_activityDefaultDur -> abc_config_activityDefaultDur
     int abc_config_activityShortDur -> abc_config_activityShortDur
     int abc_max_action_buttons -> abc_max_action_buttons
+    int cancel_button_image_alpha -> cancel_button_image_alpha
     int circular_progress_max -> circular_progress_max
+    int status_bar_notification_info_maxnum -> status_bar_notification_info_maxnum
 com.dkhs.R$layout -> com.dkhs.R$layout:
     int abc_action_bar_title_item -> abc_action_bar_title_item
     int abc_action_bar_up_container -> abc_action_bar_up_container
@@ -15979,6 +16305,14 @@ com.dkhs.R$layout -> com.dkhs.R$layout:
     int abc_search_view -> abc_search_view
     int abc_select_dialog_material -> abc_select_dialog_material
     int abc_simple_dropdown_hint -> abc_simple_dropdown_hint
+    int notification_media_action -> notification_media_action
+    int notification_media_cancel_action -> notification_media_cancel_action
+    int notification_template_big_media -> notification_template_big_media
+    int notification_template_big_media_narrow -> notification_template_big_media_narrow
+    int notification_template_lines -> notification_template_lines
+    int notification_template_media -> notification_template_media
+    int notification_template_part_chronometer -> notification_template_part_chronometer
+    int notification_template_part_time -> notification_template_part_time
     int select_dialog_item_material -> select_dialog_item_material
     int select_dialog_multichoice_material -> select_dialog_multichoice_material
     int select_dialog_singlechoice_material -> select_dialog_singlechoice_material
@@ -16002,6 +16336,7 @@ com.dkhs.R$string -> com.dkhs.R$string:
     int abc_shareactionprovider_share_with_application -> abc_shareactionprovider_share_with_application
     int abc_toolbar_collapse_description -> abc_toolbar_collapse_description
     int app_name -> app_name
+    int status_bar_notification_info_overflow -> status_bar_notification_info_overflow
 com.dkhs.R$style -> com.dkhs.R$style:
     int AlertDialog_AppCompat -> AlertDialog_AppCompat
     int AlertDialog_AppCompat_Light -> AlertDialog_AppCompat_Light
@@ -16076,6 +16411,8 @@ com.dkhs.R$style -> com.dkhs.R$style:
     int Base_Theme_AppCompat_Light_Dialog_MinWidth -> Base_Theme_AppCompat_Light_Dialog_MinWidth
     int Base_V11_Theme_AppCompat_Dialog -> Base_V11_Theme_AppCompat_Dialog
     int Base_V11_Theme_AppCompat_Light_Dialog -> Base_V11_Theme_AppCompat_Light_Dialog
+    int Base_V12_Widget_AppCompat_AutoCompleteTextView -> Base_V12_Widget_AppCompat_AutoCompleteTextView
+    int Base_V12_Widget_AppCompat_EditText -> Base_V12_Widget_AppCompat_EditText
     int Base_V21_Theme_AppCompat -> Base_V21_Theme_AppCompat
     int Base_V21_Theme_AppCompat_Dialog -> Base_V21_Theme_AppCompat_Dialog
     int Base_V21_Theme_AppCompat_Light -> Base_V21_Theme_AppCompat_Light
@@ -16084,6 +16421,8 @@ com.dkhs.R$style -> com.dkhs.R$style:
     int Base_V7_Theme_AppCompat_Dialog -> Base_V7_Theme_AppCompat_Dialog
     int Base_V7_Theme_AppCompat_Light -> Base_V7_Theme_AppCompat_Light
     int Base_V7_Theme_AppCompat_Light_Dialog -> Base_V7_Theme_AppCompat_Light_Dialog
+    int Base_V7_Widget_AppCompat_AutoCompleteTextView -> Base_V7_Widget_AppCompat_AutoCompleteTextView
+    int Base_V7_Widget_AppCompat_EditText -> Base_V7_Widget_AppCompat_EditText
     int Base_Widget_AppCompat_ActionBar -> Base_Widget_AppCompat_ActionBar
     int Base_Widget_AppCompat_ActionBar_Solid -> Base_Widget_AppCompat_ActionBar_Solid
     int Base_Widget_AppCompat_ActionBar_TabBar -> Base_Widget_AppCompat_ActionBar_TabBar
@@ -16141,12 +16480,12 @@ com.dkhs.R$style -> com.dkhs.R$style:
     int Platform_ThemeOverlay_AppCompat_Light -> Platform_ThemeOverlay_AppCompat_Light
     int Platform_V11_AppCompat -> Platform_V11_AppCompat
     int Platform_V11_AppCompat_Light -> Platform_V11_AppCompat_Light
-    int Platform_V12_AppCompat -> Platform_V12_AppCompat
-    int Platform_V12_AppCompat_Light -> Platform_V12_AppCompat_Light
     int Platform_V14_AppCompat -> Platform_V14_AppCompat
     int Platform_V14_AppCompat_Light -> Platform_V14_AppCompat_Light
+    int RtlOverlay_DialogWindowTitle_AppCompat -> RtlOverlay_DialogWindowTitle_AppCompat
     int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem -> RtlOverlay_Widget_AppCompat_ActionBar_TitleItem
     int RtlOverlay_Widget_AppCompat_ActionButton_Overflow -> RtlOverlay_Widget_AppCompat_ActionButton_Overflow
+    int RtlOverlay_Widget_AppCompat_DialogTitle_Icon -> RtlOverlay_Widget_AppCompat_DialogTitle_Icon
     int RtlOverlay_Widget_AppCompat_PopupMenuItem -> RtlOverlay_Widget_AppCompat_PopupMenuItem
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup -> RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_Text -> RtlOverlay_Widget_AppCompat_PopupMenuItem_Text
@@ -16199,6 +16538,11 @@ com.dkhs.R$style -> com.dkhs.R$style:
     int TextAppearance_AppCompat_Widget_PopupMenu_Small -> TextAppearance_AppCompat_Widget_PopupMenu_Small
     int TextAppearance_AppCompat_Widget_Switch -> TextAppearance_AppCompat_Widget_Switch
     int TextAppearance_AppCompat_Widget_TextView_SpinnerItem -> TextAppearance_AppCompat_Widget_TextView_SpinnerItem
+    int TextAppearance_StatusBar_EventContent -> TextAppearance_StatusBar_EventContent
+    int TextAppearance_StatusBar_EventContent_Info -> TextAppearance_StatusBar_EventContent_Info
+    int TextAppearance_StatusBar_EventContent_Line2 -> TextAppearance_StatusBar_EventContent_Line2
+    int TextAppearance_StatusBar_EventContent_Time -> TextAppearance_StatusBar_EventContent_Time
+    int TextAppearance_StatusBar_EventContent_Title -> TextAppearance_StatusBar_EventContent_Title
     int TextAppearance_Widget_AppCompat_ExpandedMenu_Item -> TextAppearance_Widget_AppCompat_ExpandedMenu_Item
     int TextAppearance_Widget_AppCompat_Toolbar_Subtitle -> TextAppearance_Widget_AppCompat_Toolbar_Subtitle
     int TextAppearance_Widget_AppCompat_Toolbar_Title -> TextAppearance_Widget_AppCompat_Toolbar_Title
@@ -16420,6 +16764,7 @@ com.dkhs.R$styleable -> com.dkhs.R$styleable:
     int SearchView_android_maxWidth -> SearchView_android_maxWidth
     int SearchView_closeIcon -> SearchView_closeIcon
     int SearchView_commitIcon -> SearchView_commitIcon
+    int SearchView_defaultQueryHint -> SearchView_defaultQueryHint
     int SearchView_goIcon -> SearchView_goIcon
     int SearchView_iconifiedByDefault -> SearchView_iconifiedByDefault
     int SearchView_layout -> SearchView_layout
@@ -16498,6 +16843,7 @@ com.dkhs.R$styleable -> com.dkhs.R$styleable:
     int Theme_android_windowAnimationStyle -> Theme_android_windowAnimationStyle
     int Theme_android_windowIsFloating -> Theme_android_windowIsFloating
     int Theme_autoCompleteTextViewStyle -> Theme_autoCompleteTextViewStyle
+    int Theme_borderlessButtonStyle -> Theme_borderlessButtonStyle
     int Theme_buttonBarButtonStyle -> Theme_buttonBarButtonStyle
     int Theme_buttonBarNegativeButtonStyle -> Theme_buttonBarNegativeButtonStyle
     int Theme_buttonBarNeutralButtonStyle -> Theme_buttonBarNeutralButtonStyle
@@ -16760,6 +17106,7 @@ com.dkhs.portfolio.R$attr -> com.dkhs.portfolio.R$attr:
     int border_inside_color -> border_inside_color
     int border_outside_color -> border_outside_color
     int border_thickness -> border_thickness
+    int borderlessButtonStyle -> borderlessButtonStyle
     int buttonBarButtonStyle -> buttonBarButtonStyle
     int buttonBarNegativeButtonStyle -> buttonBarNegativeButtonStyle
     int buttonBarNeutralButtonStyle -> buttonBarNeutralButtonStyle
@@ -16801,6 +17148,7 @@ com.dkhs.portfolio.R$attr -> com.dkhs.portfolio.R$attr:
     int contentInsetStart -> contentInsetStart
     int customNavigationLayout -> customNavigationLayout
     int defDrawable -> defDrawable
+    int defaultQueryHint -> defaultQueryHint
     int dialogPreferredPadding -> dialogPreferredPadding
     int dialogTheme -> dialogTheme
     int disableChildrenWhenDisabled -> disableChildrenWhenDisabled
@@ -17391,6 +17739,9 @@ com.dkhs.portfolio.R$dimen -> com.dkhs.portfolio.R$dimen:
     int min_stock_item_text -> min_stock_item_text
     int mycombina_list_text_wid -> mycombina_list_text_wid
     int news_text_title_size -> news_text_title_size
+    int notification_large_icon_height -> notification_large_icon_height
+    int notification_large_icon_width -> notification_large_icon_width
+    int notification_subtext_size -> notification_subtext_size
     int offset_bottom_text -> offset_bottom_text
     int option_eidt_button_wid -> option_eidt_button_wid
     int padding_kline -> padding_kline
@@ -17765,6 +18116,7 @@ com.dkhs.portfolio.R$drawable -> com.dkhs.portfolio.R$drawable:
     int nav_refresh_selector -> nav_refresh_selector
     int nav_refreshing -> nav_refreshing
     int news_expand_list_indicator -> news_expand_list_indicator
+    int notification_template_icon_bg -> notification_template_icon_bg
     int opition_edit_delete -> opition_edit_delete
     int opition_edit_move -> opition_edit_move
     int opition_edit_up -> opition_edit_up
@@ -18146,6 +18498,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int about_layout_dus -> about_layout_dus
     int about_version -> about_version
     int account -> account
+    int action0 -> action0
     int action_bar -> action_bar
     int action_bar_activity_content -> action_bar_activity_content
     int action_bar_container -> action_bar_container
@@ -18154,6 +18507,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int action_bar_subtitle -> action_bar_subtitle
     int action_bar_title -> action_bar_title
     int action_context_bar -> action_context_bar
+    int action_divider -> action_divider
     int action_menu_divider -> action_menu_divider
     int action_menu_presenter -> action_menu_presenter
     int action_mode_bar -> action_mode_bar
@@ -18255,6 +18609,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int call_finish -> call_finish
     int calling_state -> calling_state
     int cancel -> cancel
+    int cancel_action -> cancel_action
     int capitalFlowTV -> capitalFlowTV
     int cb_add_follow -> cb_add_follow
     int cb_agree -> cb_agree
@@ -18273,6 +18628,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int checkbox -> checkbox
     int choose_retweet -> choose_retweet
     int choose_retweet_view -> choose_retweet_view
+    int chronometer -> chronometer
     int circle -> circle
     int clip_horizontal -> clip_horizontal
     int clip_vertical -> clip_vertical
@@ -18341,6 +18697,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int emoticon -> emoticon
     int emoticon_gridview -> emoticon_gridview
     int end -> end
+    int end_padder -> end_padder
     int enter -> enter
     int errIM -> errIM
     int errTV -> errTV
@@ -18401,6 +18758,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int image_detail -> image_detail
     int includeHead -> includeHead
     int indicator_title -> indicator_title
+    int info -> info
     int input_char_count -> input_char_count
     int introduction -> introduction
     int invisible -> invisible
@@ -18459,6 +18817,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int layout_value -> layout_value
     int left -> left
     int line -> line
+    int line1 -> line1
     int line2 -> line2
     int line3 -> line3
     int line4 -> line4
@@ -18540,6 +18899,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int market_text_name -> market_text_name
     int market_text_name_num -> market_text_name_num
     int mask_layout -> mask_layout
+    int media_actions -> media_actions
     int menu_view -> menu_view
     int message -> message
     int message_center_layout -> message_center_layout
@@ -18787,6 +19147,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int src_over -> src_over
     int start -> start
     int statusBarBackground -> statusBarBackground
+    int status_bar_latest_event_content -> status_bar_latest_event_content
     int status_edit -> status_edit
     int status_item_detail -> status_item_detail
     int stock_layout -> stock_layout
@@ -18812,9 +19173,12 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int tab_4 -> tab_4
     int tab_5 -> tab_5
     int tab_netvalue -> tab_netvalue
+    int text -> text
     int text1 -> text1
+    int text2 -> text2
     int textSpacerNoButtons -> textSpacerNoButtons
     int textView -> textView
+    int time -> time
     int timeLineTV -> timeLineTV
     int timesharingchart -> timesharingchart
     int title -> title
@@ -19067,8 +19431,10 @@ com.dkhs.portfolio.R$integer -> com.dkhs.portfolio.R$integer:
     int abc_config_activityShortDur -> abc_config_activityShortDur
     int abc_max_action_buttons -> abc_max_action_buttons
     int animation_list_duration -> animation_list_duration
+    int cancel_button_image_alpha -> cancel_button_image_alpha
     int circular_progress_max -> circular_progress_max
     int select_touch_text -> select_touch_text
+    int status_bar_notification_info_maxnum -> status_bar_notification_info_maxnum
 com.dkhs.portfolio.R$layout -> com.dkhs.portfolio.R$layout:
     int abc_action_bar_title_item -> abc_action_bar_title_item
     int abc_action_bar_up_container -> abc_action_bar_up_container
@@ -19276,6 +19642,14 @@ com.dkhs.portfolio.R$layout -> com.dkhs.portfolio.R$layout:
     int layout_text_5dp -> layout_text_5dp
     int makemessage_dialog -> makemessage_dialog
     int market_layout_market -> market_layout_market
+    int notification_media_action -> notification_media_action
+    int notification_media_cancel_action -> notification_media_cancel_action
+    int notification_template_big_media -> notification_template_big_media
+    int notification_template_big_media_narrow -> notification_template_big_media_narrow
+    int notification_template_lines -> notification_template_lines
+    int notification_template_media -> notification_template_media
+    int notification_template_part_chronometer -> notification_template_part_chronometer
+    int notification_template_part_time -> notification_template_part_time
     int progressbar -> progressbar
     int pull_to_refresh_head -> pull_to_refresh_head
     int pull_to_refresh_load_more -> pull_to_refresh_load_more
@@ -19993,6 +20367,8 @@ com.dkhs.portfolio.R$string -> com.dkhs.portfolio.R$string:
     int setting_string_publicexplan -> setting_string_publicexplan
     int sh300 -> sh300
     int shakeItOff -> shakeItOff
+    int shake_ad -> shake_ad
+    int shake_err_no_login -> shake_err_no_login
     int share -> share
     int share_canceled -> share_canceled
     int share_completed -> share_completed
@@ -20014,6 +20390,7 @@ com.dkhs.portfolio.R$string -> com.dkhs.portfolio.R$string:
     int start -> start
     int start_download -> start_download
     int start_netvalue -> start_netvalue
+    int status_bar_notification_info_overflow -> status_bar_notification_info_overflow
     int status_detail_label -> status_detail_label
     int stock -> stock
     int stock_name -> stock_name
@@ -20205,6 +20582,8 @@ com.dkhs.portfolio.R$style -> com.dkhs.portfolio.R$style:
     int Base_ThemeOverlay_AppCompat_Light -> Base_ThemeOverlay_AppCompat_Light
     int Base_V11_Theme_AppCompat_Dialog -> Base_V11_Theme_AppCompat_Dialog
     int Base_V11_Theme_AppCompat_Light_Dialog -> Base_V11_Theme_AppCompat_Light_Dialog
+    int Base_V12_Widget_AppCompat_AutoCompleteTextView -> Base_V12_Widget_AppCompat_AutoCompleteTextView
+    int Base_V12_Widget_AppCompat_EditText -> Base_V12_Widget_AppCompat_EditText
     int Base_V21_Theme_AppCompat -> Base_V21_Theme_AppCompat
     int Base_V21_Theme_AppCompat_Dialog -> Base_V21_Theme_AppCompat_Dialog
     int Base_V21_Theme_AppCompat_Light -> Base_V21_Theme_AppCompat_Light
@@ -20213,6 +20592,8 @@ com.dkhs.portfolio.R$style -> com.dkhs.portfolio.R$style:
     int Base_V7_Theme_AppCompat_Dialog -> Base_V7_Theme_AppCompat_Dialog
     int Base_V7_Theme_AppCompat_Light -> Base_V7_Theme_AppCompat_Light
     int Base_V7_Theme_AppCompat_Light_Dialog -> Base_V7_Theme_AppCompat_Light_Dialog
+    int Base_V7_Widget_AppCompat_AutoCompleteTextView -> Base_V7_Widget_AppCompat_AutoCompleteTextView
+    int Base_V7_Widget_AppCompat_EditText -> Base_V7_Widget_AppCompat_EditText
     int Base_Widget_AppCompat_ActionBar -> Base_Widget_AppCompat_ActionBar
     int Base_Widget_AppCompat_ActionBar_Solid -> Base_Widget_AppCompat_ActionBar_Solid
     int Base_Widget_AppCompat_ActionBar_TabBar -> Base_Widget_AppCompat_ActionBar_TabBar
@@ -20286,8 +20667,6 @@ com.dkhs.portfolio.R$style -> com.dkhs.portfolio.R$style:
     int Platform_ThemeOverlay_AppCompat_Light -> Platform_ThemeOverlay_AppCompat_Light
     int Platform_V11_AppCompat -> Platform_V11_AppCompat
     int Platform_V11_AppCompat_Light -> Platform_V11_AppCompat_Light
-    int Platform_V12_AppCompat -> Platform_V12_AppCompat
-    int Platform_V12_AppCompat_Light -> Platform_V12_AppCompat_Light
     int Platform_V14_AppCompat -> Platform_V14_AppCompat
     int Platform_V14_AppCompat_Light -> Platform_V14_AppCompat_Light
     int RCTheme -> RCTheme
@@ -20302,8 +20681,10 @@ com.dkhs.portfolio.R$style -> com.dkhs.portfolio.R$style:
     int RCTheme_TextView_New -> RCTheme_TextView_New
     int RCTheme_TextView_Small -> RCTheme_TextView_Small
     int RcDialog -> RcDialog
+    int RtlOverlay_DialogWindowTitle_AppCompat -> RtlOverlay_DialogWindowTitle_AppCompat
     int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem -> RtlOverlay_Widget_AppCompat_ActionBar_TitleItem
     int RtlOverlay_Widget_AppCompat_ActionButton_Overflow -> RtlOverlay_Widget_AppCompat_ActionButton_Overflow
+    int RtlOverlay_Widget_AppCompat_DialogTitle_Icon -> RtlOverlay_Widget_AppCompat_DialogTitle_Icon
     int RtlOverlay_Widget_AppCompat_PopupMenuItem -> RtlOverlay_Widget_AppCompat_PopupMenuItem
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup -> RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup
     int RtlOverlay_Widget_AppCompat_PopupMenuItem_Text -> RtlOverlay_Widget_AppCompat_PopupMenuItem_Text
@@ -20357,6 +20738,11 @@ com.dkhs.portfolio.R$style -> com.dkhs.portfolio.R$style:
     int TextAppearance_AppCompat_Widget_PopupMenu_Small -> TextAppearance_AppCompat_Widget_PopupMenu_Small
     int TextAppearance_AppCompat_Widget_Switch -> TextAppearance_AppCompat_Widget_Switch
     int TextAppearance_AppCompat_Widget_TextView_SpinnerItem -> TextAppearance_AppCompat_Widget_TextView_SpinnerItem
+    int TextAppearance_StatusBar_EventContent -> TextAppearance_StatusBar_EventContent
+    int TextAppearance_StatusBar_EventContent_Info -> TextAppearance_StatusBar_EventContent_Info
+    int TextAppearance_StatusBar_EventContent_Line2 -> TextAppearance_StatusBar_EventContent_Line2
+    int TextAppearance_StatusBar_EventContent_Time -> TextAppearance_StatusBar_EventContent_Time
+    int TextAppearance_StatusBar_EventContent_Title -> TextAppearance_StatusBar_EventContent_Title
     int TextAppearance_TabPageIndicator -> TextAppearance_TabPageIndicator
     int TextAppearance_Widget_AppCompat_ExpandedMenu_Item -> TextAppearance_Widget_AppCompat_ExpandedMenu_Item
     int TextAppearance_Widget_AppCompat_Toolbar_Subtitle -> TextAppearance_Widget_AppCompat_Toolbar_Subtitle
@@ -20728,6 +21114,7 @@ com.dkhs.portfolio.R$styleable -> com.dkhs.portfolio.R$styleable:
     int SearchView_android_maxWidth -> SearchView_android_maxWidth
     int SearchView_closeIcon -> SearchView_closeIcon
     int SearchView_commitIcon -> SearchView_commitIcon
+    int SearchView_defaultQueryHint -> SearchView_defaultQueryHint
     int SearchView_goIcon -> SearchView_goIcon
     int SearchView_iconifiedByDefault -> SearchView_iconifiedByDefault
     int SearchView_layout -> SearchView_layout
@@ -20817,6 +21204,7 @@ com.dkhs.portfolio.R$styleable -> com.dkhs.portfolio.R$styleable:
     int Theme_android_windowAnimationStyle -> Theme_android_windowAnimationStyle
     int Theme_android_windowIsFloating -> Theme_android_windowIsFloating
     int Theme_autoCompleteTextViewStyle -> Theme_autoCompleteTextViewStyle
+    int Theme_borderlessButtonStyle -> Theme_borderlessButtonStyle
     int Theme_buttonBarButtonStyle -> Theme_buttonBarButtonStyle
     int Theme_buttonBarNegativeButtonStyle -> Theme_buttonBarNegativeButtonStyle
     int Theme_buttonBarNeutralButtonStyle -> Theme_buttonBarNeutralButtonStyle
@@ -24870,7 +25258,7 @@ com.dkhs.portfolio.ui.ModelAcitivity -> com.dkhs.portfolio.ui.ModelAcitivity:
     com.dkhs.portfolio.ui.widget.TextImageButton btnBack -> b
     android.view.View mTitleView -> c
     com.dkhs.portfolio.engine.UserEngineImpl engine -> k
-    android.content.Context mContext -> l
+    android.app.Activity mActivity -> l
     android.widget.RelativeLayout layoutContent -> d
     android.view.View$OnClickListener clickListener -> e
     void onCreate(android.os.Bundle) -> onCreate
@@ -27081,6 +27469,7 @@ com.dkhs.portfolio.ui.fragment.BaseFragment -> com.dkhs.portfolio.ui.fragment.Ba
     void onPause() -> onPause
     int setContentLayoutId() -> h
     void startActivity(android.content.Intent) -> startActivity
+    void startActivitySlideFormBottomAnim(android.content.Intent) -> a
     void startActivityForResult(android.content.Intent,int) -> startActivityForResult
 com.dkhs.portfolio.ui.fragment.BaseTitleFragment -> com.dkhs.portfolio.ui.fragment.BaseTitleFragment:
     int RIGHTBUTTON_ID -> a
@@ -28554,34 +28943,35 @@ com.dkhs.portfolio.ui.fragment.MarketFundsFragment -> com.dkhs.portfolio.ui.frag
     void onPause() -> onPause
     void dataUpdate(boolean) -> a
 com.dkhs.portfolio.ui.fragment.MarketStockFragment -> com.dkhs.portfolio.ui.fragment.MarketStockFragment:
-    android.widget.GridView gvMainIndex -> c
-    java.util.List mIndexDataList -> d
-    com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter mIndexAdapter -> e
-    android.widget.GridView gvPlate -> f
-    java.util.List mSecotrList -> g
-    com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter mPlateAdapter -> h
-    android.widget.ListView lvIncease -> i
-    java.util.List mIncreaseDataList -> j
-    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mIncreaseAdapter -> k
-    android.widget.ListView lvDown -> l
-    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mDownAdapter -> m
-    java.util.List mDownDataList -> n
-    android.widget.ListView lvHandover -> o
-    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mTurnOverAdapter -> p
-    java.util.List mTurnOverDataList -> q
-    android.widget.ListView lvAmplit -> s
-    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mAmplitAdapter -> t
-    java.util.List mAmpliDataList -> u
-    java.util.Timer mMarketTimer -> v
+    android.widget.GridView gvMainIndex -> d
+    java.util.List mIndexDataList -> e
+    com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter mIndexAdapter -> f
+    android.widget.GridView gvPlate -> g
+    java.util.List mSecotrList -> h
+    com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter mPlateAdapter -> i
+    android.widget.ListView lvIncease -> j
+    java.util.List mIncreaseDataList -> k
+    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mIncreaseAdapter -> l
+    android.widget.ListView lvDown -> m
+    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mDownAdapter -> n
+    java.util.List mDownDataList -> o
+    android.widget.ListView lvHandover -> p
+    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mTurnOverAdapter -> q
+    java.util.List mTurnOverDataList -> s
+    android.widget.ListView lvAmplit -> t
+    com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter mAmplitAdapter -> u
+    java.util.List mAmpliDataList -> v
+    java.util.Timer mMarketTimer -> w
     android.support.v4.widget.SwipeRefreshLayout mSwipeLayout -> a
-    boolean isLoading -> w
-    java.util.List engineList -> x
-    com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl plateEngine -> y
+    boolean isLoading -> x
+    java.util.List engineList -> y
+    com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl plateEngine -> z
     com.dkhs.portfolio.engine.LoadMoreDataEngine$ILoadDataBackListener plateListener -> b
-    boolean hasSetLVIncreaseHigh -> z
-    boolean hasSetLVDownHigh -> A
-    boolean hasSetLVHandoverHigh -> B
-    boolean hasSetLVAmpltHigh -> C
+    boolean hasSetLVIncreaseHigh -> A
+    boolean hasSetLVDownHigh -> B
+    boolean hasSetLVHandoverHigh -> C
+    boolean hasSetLVAmpltHigh -> D
+    com.dkhs.portfolio.common.WeakHandler uiHandler -> c
     int setContentLayoutId() -> h
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void requestData() -> d
@@ -28640,12 +29030,9 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment$4 -> com.dkhs.portfolio.ui.fr
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void loadFail() -> a
-com.dkhs.portfolio.ui.fragment.MarketStockFragment$4$1 -> com.dkhs.portfolio.ui.fragment.cp:
-    com.dkhs.portfolio.ui.fragment.MarketStockFragment$4 this$1 -> a
-    void run() -> run
-com.dkhs.portfolio.ui.fragment.MarketStockFragment$5 -> com.dkhs.portfolio.ui.fragment.cq:
+com.dkhs.portfolio.ui.fragment.MarketStockFragment$5 -> com.dkhs.portfolio.ui.fragment.cp:
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
-    void run() -> run
+    boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.fragment.MarketStockFragment$RequestMarketTask -> com.dkhs.portfolio.ui.fragment.MarketStockFragment$a:
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void run() -> run
@@ -28654,9 +29041,6 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener -> com.
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void loadFail() -> a
-com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener$1 -> com.dkhs.portfolio.ui.fragment.cr:
-    com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener this$1 -> a
-    void run() -> run
 com.dkhs.portfolio.ui.fragment.MenuItemFragment -> com.dkhs.portfolio.ui.fragment.MenuItemFragment:
     android.widget.Button btnTab1 -> a
     android.widget.TextView tvTab1 -> b
@@ -28721,30 +29105,30 @@ com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet -> com.dkhs.portfolio.ui.fr
     java.util.List access$300(com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet) -> b
     void access$400(com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet) -> c
     void access$500(com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet) -> d
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$1 -> com.dkhs.portfolio.ui.fragment.cs:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$1 -> com.dkhs.portfolio.ui.fragment.cq:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$2 -> com.dkhs.portfolio.ui.fragment.ct:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$2 -> com.dkhs.portfolio.ui.fragment.cr:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void create(com.baoyz.swipemenulistview.SwipeMenu) -> a
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$3 -> com.dkhs.portfolio.ui.fragment.cu:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$3 -> com.dkhs.portfolio.ui.fragment.cs:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     boolean onMenuItemClick(int,com.baoyz.swipemenulistview.SwipeMenu,int) -> a
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$4 -> com.dkhs.portfolio.ui.fragment.cv:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$4 -> com.dkhs.portfolio.ui.fragment.ct:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onSwipeStart(int) -> a
     void onSwipeEnd(int) -> b
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$5 -> com.dkhs.portfolio.ui.fragment.cw:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$5 -> com.dkhs.portfolio.ui.fragment.cu:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     boolean onItemLongClick(android.widget.AdapterView,android.view.View,int,long) -> onItemLongClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$6 -> com.dkhs.portfolio.ui.fragment.cx:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$6 -> com.dkhs.portfolio.ui.fragment.cv:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7 -> com.dkhs.portfolio.ui.fragment.cy:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7 -> com.dkhs.portfolio.ui.fragment.cw:
     com.dkhs.portfolio.bean.CombinationBean val$mCombination -> a
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> b
     void onClick(android.content.DialogInterface,int) -> onClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7$1 -> com.dkhs.portfolio.ui.fragment.cz:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7$1 -> com.dkhs.portfolio.ui.fragment.cx:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7 this$1 -> a
     void onSuccess(java.lang.String) -> onSuccess
     void onFailure(int,java.lang.String) -> onFailure
@@ -28752,10 +29136,10 @@ com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$7$1 -> com.dkhs.portfolio.u
     void requestCallBack() -> requestCallBack
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$8 -> com.dkhs.portfolio.ui.fragment.da:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$8 -> com.dkhs.portfolio.ui.fragment.cy:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$9 -> com.dkhs.portfolio.ui.fragment.db:
+com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$9 -> com.dkhs.portfolio.ui.fragment.cz:
     com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$CombinationAdapter -> com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet$a:
@@ -28814,17 +29198,17 @@ com.dkhs.portfolio.ui.fragment.ReportListForAllFragment -> com.dkhs.portfolio.ui
     android.widget.BaseAdapter access$900(com.dkhs.portfolio.ui.fragment.ReportListForAllFragment) -> j
     void access$1000(com.dkhs.portfolio.ui.fragment.ReportListForAllFragment) -> k
     void access$1100(com.dkhs.portfolio.ui.fragment.ReportListForAllFragment) -> l
-com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$1 -> com.dkhs.portfolio.ui.fragment.dc:
+com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$1 -> com.dkhs.portfolio.ui.fragment.da:
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment this$0 -> a
     void onRefresh() -> a
-com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$2 -> com.dkhs.portfolio.ui.fragment.dd:
+com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$2 -> com.dkhs.portfolio.ui.fragment.db:
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$3 -> com.dkhs.portfolio.ui.fragment.de:
+com.dkhs.portfolio.ui.fragment.ReportListForAllFragment$3 -> com.dkhs.portfolio.ui.fragment.dc:
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment this$0 -> a
     void loadFinish(java.util.List) -> a
     void loadingFail() -> a
-com.dkhs.portfolio.ui.fragment.ShakesFragment -> com.dkhs.portfolio.ui.fragment.ShakesFragment:
+com.dkhs.portfolio.ui.fragment.ShakeFragment -> com.dkhs.portfolio.ui.fragment.ShakeFragment:
     android.widget.ImageView mShakeIv -> a
     android.widget.ImageView ribbonIV -> b
     android.graphics.drawable.AnimationDrawable animationDrawable -> d
@@ -28841,22 +29225,24 @@ com.dkhs.portfolio.ui.fragment.ShakesFragment -> com.dkhs.portfolio.ui.fragment.
     void onViewHide() -> c_
     void gotoShakeActivity(com.dkhs.portfolio.bean.ShakeBean) -> a
     void hearShake() -> e
-    android.graphics.drawable.AnimationDrawable access$000(com.dkhs.portfolio.ui.fragment.ShakesFragment) -> a
-    void access$100(com.dkhs.portfolio.ui.fragment.ShakesFragment,com.dkhs.portfolio.bean.ShakeBean) -> a
-    boolean access$202(com.dkhs.portfolio.ui.fragment.ShakesFragment,boolean) -> a
-    android.graphics.drawable.AnimationDrawable access$300(com.dkhs.portfolio.ui.fragment.ShakesFragment) -> b
-com.dkhs.portfolio.ui.fragment.ShakesFragment$1 -> com.dkhs.portfolio.ui.fragment.df:
-    com.dkhs.portfolio.ui.fragment.ShakesFragment this$0 -> a
+    android.graphics.drawable.AnimationDrawable access$000(com.dkhs.portfolio.ui.fragment.ShakeFragment) -> a
+    boolean access$100(com.dkhs.portfolio.ui.fragment.ShakeFragment) -> b
+    android.graphics.drawable.AnimationDrawable access$200(com.dkhs.portfolio.ui.fragment.ShakeFragment) -> c
+    void access$300(com.dkhs.portfolio.ui.fragment.ShakeFragment,com.dkhs.portfolio.bean.ShakeBean) -> a
+    boolean access$102(com.dkhs.portfolio.ui.fragment.ShakeFragment,boolean) -> a
+com.dkhs.portfolio.ui.fragment.ShakeFragment$1 -> com.dkhs.portfolio.ui.fragment.dd:
+    com.dkhs.portfolio.ui.fragment.ShakeFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.ShakesFragment$2 -> com.dkhs.portfolio.ui.fragment.dg:
-    com.dkhs.portfolio.ui.fragment.ShakesFragment this$0 -> a
+com.dkhs.portfolio.ui.fragment.ShakeFragment$2 -> com.dkhs.portfolio.ui.fragment.de:
+    com.dkhs.portfolio.ui.fragment.ShakeFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.fragment.ShakesFragment$3 -> com.dkhs.portfolio.ui.fragment.dh:
-    com.dkhs.portfolio.ui.fragment.ShakesFragment this$0 -> a
+com.dkhs.portfolio.ui.fragment.ShakeFragment$3 -> com.dkhs.portfolio.ui.fragment.df:
+    com.dkhs.portfolio.ui.fragment.ShakeFragment this$0 -> a
     java.lang.Class getClassType() -> a
     void afterParseData(java.lang.Object) -> a
     void requestCallBack() -> requestCallBack
     void onFinish() -> b
+    void onFailure(int,java.lang.String) -> onFailure
 com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment -> com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment:
     java.lang.String trendType -> g
     boolean isTodayNetValue -> h
@@ -28919,17 +29305,17 @@ com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment -> com.dkhs.portfolio.ui
     void access$1000(com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment,java.util.List,java.util.List) -> a
     com.dkhs.portfolio.engine.QuotesEngineImpl access$1100(com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment) -> h
     java.lang.String access$1200(com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment) -> i
-com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$1 -> com.dkhs.portfolio.ui.fragment.di:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$1 -> com.dkhs.portfolio.ui.fragment.dg:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$2 -> com.dkhs.portfolio.ui.fragment.dj:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$2 -> com.dkhs.portfolio.ui.fragment.dh:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment this$0 -> a
     com.dkhs.portfolio.bean.FSDataBean parseDateTask(java.lang.String) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(com.dkhs.portfolio.bean.FSDataBean) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$3 -> com.dkhs.portfolio.ui.fragment.dk:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment$3 -> com.dkhs.portfolio.ui.fragment.di:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment -> com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment:
@@ -29000,20 +29386,20 @@ com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment -> com.dkhs.portfoli
     void access$1200(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment,java.util.List) -> a
     com.dkhs.portfolio.engine.QuotesEngineImpl access$1300(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> j
     java.lang.String access$1400(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> k
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$1 -> com.dkhs.portfolio.ui.fragment.dl:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$1 -> com.dkhs.portfolio.ui.fragment.dj:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     void OnDoubleClick(android.view.View) -> a
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$2 -> com.dkhs.portfolio.ui.fragment.dm:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$2 -> com.dkhs.portfolio.ui.fragment.dk:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$3 -> com.dkhs.portfolio.ui.fragment.dn:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$3 -> com.dkhs.portfolio.ui.fragment.dl:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     com.dkhs.portfolio.bean.FSDataBean parseDateTask(java.lang.String) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(com.dkhs.portfolio.bean.FSDataBean) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$4 -> com.dkhs.portfolio.ui.fragment.do:
+com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment$4 -> com.dkhs.portfolio.ui.fragment.dm:
     com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TabConbinationFragment -> com.dkhs.portfolio.ui.fragment.TabConbinationFragment:
@@ -29059,17 +29445,17 @@ com.dkhs.portfolio.ui.fragment.TabConbinationFragment -> com.dkhs.portfolio.ui.f
     void onTabTitleChange(com.dkhs.portfolio.ui.eventbus.TabComTitleChangeEvent) -> onTabTitleChange
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.TabConbinationFragment) -> a
     com.dkhs.portfolio.ui.adapter.TabFundsAdapter access$100(com.dkhs.portfolio.ui.fragment.TabConbinationFragment) -> b
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$1 -> com.dkhs.portfolio.ui.fragment.dp:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$1 -> com.dkhs.portfolio.ui.fragment.dn:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void loadFail() -> a
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$2 -> com.dkhs.portfolio.ui.fragment.dq:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$2 -> com.dkhs.portfolio.ui.fragment.do:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$3 -> com.dkhs.portfolio.ui.fragment.dr:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$3 -> com.dkhs.portfolio.ui.fragment.dp:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.fragment.TabConbinationFragment$4 -> com.dkhs.portfolio.ui.fragment.ds:
+com.dkhs.portfolio.ui.fragment.TabConbinationFragment$4 -> com.dkhs.portfolio.ui.fragment.dq:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void onRefresh() -> a
 com.dkhs.portfolio.ui.fragment.TabF10Fragment -> com.dkhs.portfolio.ui.fragment.TabF10Fragment:
@@ -29089,7 +29475,7 @@ com.dkhs.portfolio.ui.fragment.TabF10Fragment -> com.dkhs.portfolio.ui.fragment.
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     android.content.Context access$000(com.dkhs.portfolio.ui.fragment.TabF10Fragment) -> a
     android.widget.LinearLayout access$100(com.dkhs.portfolio.ui.fragment.TabF10Fragment) -> b
-com.dkhs.portfolio.ui.fragment.TabF10Fragment$1 -> com.dkhs.portfolio.ui.fragment.dt:
+com.dkhs.portfolio.ui.fragment.TabF10Fragment$1 -> com.dkhs.portfolio.ui.fragment.dr:
     com.dkhs.portfolio.ui.fragment.TabF10Fragment this$0 -> a
     java.util.List parseDateTask(java.lang.String) -> a
     void afterParseData(java.util.List) -> a
@@ -29146,7 +29532,7 @@ com.dkhs.portfolio.ui.fragment.TabFundsFragment -> com.dkhs.portfolio.ui.fragmen
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     java.util.List getDataList() -> e
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund access$000(com.dkhs.portfolio.ui.fragment.TabFundsFragment) -> a
-com.dkhs.portfolio.ui.fragment.TabFundsFragment$1 -> com.dkhs.portfolio.ui.fragment.du:
+com.dkhs.portfolio.ui.fragment.TabFundsFragment$1 -> com.dkhs.portfolio.ui.fragment.ds:
     com.dkhs.portfolio.ui.fragment.TabFundsFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TabStockFragment -> com.dkhs.portfolio.ui.fragment.TabStockFragment:
@@ -29194,7 +29580,7 @@ com.dkhs.portfolio.ui.fragment.TabStockFragment -> com.dkhs.portfolio.ui.fragmen
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     java.util.List getDataList() -> e
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund access$000(com.dkhs.portfolio.ui.fragment.TabStockFragment) -> a
-com.dkhs.portfolio.ui.fragment.TabStockFragment$1 -> com.dkhs.portfolio.ui.fragment.dv:
+com.dkhs.portfolio.ui.fragment.TabStockFragment$1 -> com.dkhs.portfolio.ui.fragment.dt:
     com.dkhs.portfolio.ui.fragment.TabStockFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TestFragment -> com.dkhs.portfolio.ui.fragment.TestFragment:
@@ -29269,28 +29655,28 @@ com.dkhs.portfolio.ui.fragment.TrendChartFragment -> com.dkhs.portfolio.ui.fragm
     com.dkhs.portfolio.engine.NetValueEngine access$1100(com.dkhs.portfolio.ui.fragment.TrendChartFragment) -> d
     boolean access$1200(com.dkhs.portfolio.ui.fragment.TrendChartFragment) -> e
     void access$1300(com.dkhs.portfolio.ui.fragment.TrendChartFragment) -> f
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$1 -> com.dkhs.portfolio.ui.fragment.dw:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$1 -> com.dkhs.portfolio.ui.fragment.du:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$3 -> com.dkhs.portfolio.ui.fragment.dx:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$3 -> com.dkhs.portfolio.ui.fragment.dv:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$4 -> com.dkhs.portfolio.ui.fragment.dy:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$4 -> com.dkhs.portfolio.ui.fragment.dw:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$5 -> com.dkhs.portfolio.ui.fragment.dz:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$5 -> com.dkhs.portfolio.ui.fragment.dx:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$6 -> com.dkhs.portfolio.ui.fragment.ea:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$6 -> com.dkhs.portfolio.ui.fragment.dy:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendChartFragment$7 -> com.dkhs.portfolio.ui.fragment.eb:
+com.dkhs.portfolio.ui.fragment.TrendChartFragment$7 -> com.dkhs.portfolio.ui.fragment.dz:
     com.dkhs.portfolio.ui.fragment.TrendChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendChartFragment$a:
@@ -29353,14 +29739,14 @@ com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment -> com.dkhs.portfolio.u
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment,com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ec:
+com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ea:
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ed:
+com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$2 -> com.dkhs.portfolio.ui.fragment.eb:
     com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendHistoryChartFragment$a:
@@ -29421,14 +29807,14 @@ com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment -> com.dkhs.portfolio.ui.
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment,com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ee:
+com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ec:
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ef:
+com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ed:
     com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment$a:
@@ -29489,14 +29875,14 @@ com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment -> com.dkhs.portfolio.
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment,com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.eg:
+com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ee:
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.eh:
+com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ef:
     com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$a:
@@ -29550,14 +29936,14 @@ com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment -> com.dkhs.portfolio.ui.
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity access$202(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment,com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity) -> a
     void access$300(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment) -> b
     com.dkhs.portfolio.engine.NetValueEngine access$400(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment) -> c
-com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.ei:
+com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$1 -> com.dkhs.portfolio.ui.fragment.eg:
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment this$0 -> a
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity) -> a
     void onFailure(int,java.lang.String) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.ej:
+com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$2 -> com.dkhs.portfolio.ui.fragment.eh:
     com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment this$0 -> a
     void run() -> run
 com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$DrawLineDataEntity -> com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment$a:
@@ -29609,10 +29995,10 @@ com.dkhs.portfolio.ui.fragment.UserCombinationListFragment -> com.dkhs.portfolio
     java.lang.String access$100(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> b
     float access$200(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> c
     com.dkhs.portfolio.common.WeakHandler access$300(com.dkhs.portfolio.ui.fragment.UserCombinationListFragment) -> d
-com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$1 -> com.dkhs.portfolio.ui.fragment.ek:
+com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$1 -> com.dkhs.portfolio.ui.fragment.ei:
     com.dkhs.portfolio.ui.fragment.UserCombinationListFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$2 -> com.dkhs.portfolio.ui.fragment.el:
+com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$2 -> com.dkhs.portfolio.ui.fragment.ej:
     com.dkhs.portfolio.ui.fragment.UserCombinationListFragment this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$OnFragmentInteractionListener -> com.dkhs.portfolio.ui.fragment.UserCombinationListFragment$a:
@@ -29643,17 +30029,17 @@ com.dkhs.portfolio.ui.fragment.UserFragment -> com.dkhs.portfolio.ui.fragment.Us
     void updateMessageCenter(com.dkhs.portfolio.ui.eventbus.NewMessageEvent) -> updateMessageCenter
     void access$000(com.dkhs.portfolio.ui.fragment.UserFragment) -> a
     void access$100(com.dkhs.portfolio.ui.fragment.UserFragment,com.dkhs.portfolio.bean.UserEntity) -> a
-com.dkhs.portfolio.ui.fragment.UserFragment$1 -> com.dkhs.portfolio.ui.fragment.em:
+com.dkhs.portfolio.ui.fragment.UserFragment$1 -> com.dkhs.portfolio.ui.fragment.ek:
     com.dkhs.portfolio.ui.fragment.UserFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.fragment.UserFragment$2 -> com.dkhs.portfolio.ui.fragment.en:
+com.dkhs.portfolio.ui.fragment.UserFragment$2 -> com.dkhs.portfolio.ui.fragment.el:
     com.dkhs.portfolio.ui.fragment.UserFragment this$0 -> a
     com.dkhs.portfolio.bean.UserEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.bean.UserEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
 com.dkhs.portfolio.ui.fragment.VisiableLoadFragment -> com.dkhs.portfolio.ui.fragment.VisiableLoadFragment:
-    android.content.Context mContext -> r
+    android.app.Activity mActivity -> r
     java.lang.String TAG -> a
     boolean isViewShown -> b
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
@@ -32398,10 +32784,10 @@ com.dkhs.portfolio.utils.UIUtils -> com.dkhs.portfolio.d.x:
     java.lang.String getshou(double) -> b
     int getTextWidth(java.lang.String,int) -> a
     boolean iStartLoginActivity(android.content.Context) -> a
-    void startAminationActivity(android.app.Activity,android.content.Intent) -> a
-    void setOverridePendingAmin(android.app.Activity) -> a
-    void setOverridePendingSlideFormBottomAmim(android.app.Activity) -> b
-    void outAminationActivity(android.app.Activity) -> c
+    void startAnimationActivity(android.app.Activity,android.content.Intent) -> a
+    void setOverridePendingAnin(android.app.Activity) -> a
+    void setOverridePendingSlideFormBottomAnim(android.app.Activity) -> b
+    void outAnimationActivity(android.app.Activity) -> c
     float dip2px(android.content.Context,float) -> a
 com.dkhs.portfolio.utils.UserEntityDesUtil -> com.dkhs.portfolio.d.y:
     com.dkhs.portfolio.bean.UserEntity encrypt(com.dkhs.portfolio.bean.UserEntity) -> a
