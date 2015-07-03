@@ -633,4 +633,5 @@
     <string name="recommend_symbol">"推荐股票:  "</string>
     <string name="recently_come_in">"近5日资金流入:  %1$s"</string>
     <string name="up_precent">"上涨概率:  %1$s"</string>
+    <string name="shake_ad">摇吧!摇出你的股市幸运消息.</string>
 </resources>

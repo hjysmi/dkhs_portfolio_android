@@ -18,6 +18,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.ShakeEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.ShakeActivity;
 import com.dkhs.portfolio.utils.ShakeDetector;
@@ -79,6 +80,11 @@ public class ShakeFragment extends  VisiableLoadFragment implements ShakeDetecto
                     break;
             }
 
+
+//            String s=" {\"id\": 2, \"title\": \"中国联通\", \"content\": \"中国联通降低宽带资费中国联通降低宽带资费中国联通降低宽带资费\", " +
+//                    "\"symbol\": {\"symbol\": \"SZ300459\", \"abbr_name\": \"浙江金科\"}, \"capital_flow\": \"4452.12万元\", " +
+//                    "\"up_rate\": 0.0, \"display_time\": 120, \"modified_at\": \"2015-07-01T02:51:10Z\", \"coins_bonus\": 4, \"times_used\": 3, \"times_left\": 0}\n";
+//           gotoShakeActivity(DataParse.parseObjectJson(ShakeBean.class, s));
              return false;
         }
     });

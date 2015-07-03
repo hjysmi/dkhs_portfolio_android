@@ -26,11 +26,13 @@
         <View
             style="@style/divider_line"
             android:layout_alignParentBottom="true"
+            android:alpha="0.6"
             android:background="@color/white" />
     </RelativeLayout>
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="fill_parent"
+        android:clickable="true"
         android:layout_height="fill_parent">
 
         <ImageView
@@ -60,7 +62,8 @@
             android:drawableLeft="@drawable/ic_boot_cut"
             android:drawablePadding="8dp"
             android:gravity="center"
-            android:text="摇吧!摇出你的股市幸运消息."
+            android:layout_marginTop="42dp"
+            android:text="@string/shake_ad"
             android:textColor="#ffe5aa"
             android:textSize="15sp" />
 
