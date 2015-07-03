@@ -194,7 +194,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
             // addItem();
             // mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
-            UIUtils.startAminationActivity((Activity) mContext, PositionAdjustActivity.newIntent(mContext, null));
+            UIUtils.startAnimationActivity((Activity) mContext, PositionAdjustActivity.newIntent(mContext, null));
         }
 
     }

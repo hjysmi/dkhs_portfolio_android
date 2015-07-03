@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetector.Listener{
+public class ShakeFragment extends  VisiableLoadFragment implements ShakeDetector.Listener{
 
 
 
@@ -47,18 +48,42 @@ public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetect
     private ShakeDetector sd;
     private SensorManager sensorManager;
 
-    public ShakesFragment() {
+    public ShakeFragment() {
     }
+
 
     WeakHandler uiHandler=new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            animationDrawable.stop();
 
-//            String s=" {\"id\": 2, \"title\": \"中国联通\", \"content\": \"中国联通降低宽带资费中国联通降低宽带资费中国联通降低宽带资费\", " +
-//                    "\"symbol\": {\"symbol\": \"SZ300459\", \"abbr_name\": \"浙江金科\"}, \"capital_flow\": \"4452.12万元\", " +
-//                    "\"up_rate\": 0.0, \"display_time\": 120, \"modified_at\": \"2015-07-01T02:51:10Z\", \"coins_bonus\": 4, \"times_used\": 3, \"times_left\": 0}\n";
-//           gotoShakeActivity(DataParse.parseObjectJson(ShakeBean.class, s));
+            switch (msg.what){
+                case 0:
+
+                    //手动画停止
+                    animationDrawable.stop();
+                    if(!getData){
+                        mLoadingRibbonAD.stop();
+                    }
+
+                    break;
+                case 1:
+                    Vibrator vibrator= (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(800);
+
+                    if (!animationDrawable.isRunning()) {
+                        //彩带动画停止
+                        mLoadingRibbonAD.stop();
+                    }
+                    break;
+                case 3:
+
+                    if(msg.obj != null) {
+                        mLoadingRibbonAD.stop();
+                        gotoShakeActivity((ShakeBean) msg.obj);
+                    }
+                    break;
+            }
+
              return false;
         }
     });
@@ -90,29 +115,23 @@ public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetect
 
     }
 
-
-
-
     @Override
     public void requestData() {
-
-
     }
-
-
-
 
 
     /**
      *  getData from net
      */
     public void getDataForNet() {
+        //保证一次只有一次请求
+
         if(getData ){
             return;
         }
         getData=true;
         animationDrawable.start();
-        uiHandler.sendEmptyMessageDelayed(1,400*4);
+        uiHandler.sendEmptyMessageDelayed(0,400*4);
         mLoadingRibbonAD.start();
         ShakeEngineImpl.getShakeInfo(new SimpleParseHttpListener() {
             @Override
@@ -122,23 +141,17 @@ public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetect
 
             @Override
             protected void afterParseData(Object object) {
+                //获取数据
+
                 if(object != null){
-                    gotoShakeActivity((ShakeBean) object);
+
+                    Message message=new Message();
+                    message.what=3;
+                    message.obj=object;
+                    uiHandler.sendMessage(message);
+
                 }
             }
-
-//            @Override
-//            public void onFailure(int errCode, String errMsg) {
-//                super.onFailure(errCode, errMsg);
-//                onFinish();
-//            }
-//
-//            @Override
-//            public void onSuccess(String jsonObject) {
-//                onFinish();
-//                super.onSuccess(jsonObject);
-//            }
-
             @Override
             public void requestCallBack() {
                 super.requestCallBack();
@@ -147,7 +160,8 @@ public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetect
 
             private void onFinish() {
                 getData=false;
-                mLoadingRibbonAD.stop();
+
+                uiHandler.sendEmptyMessage(1);
             }
         });
     }
@@ -168,7 +182,9 @@ public class ShakesFragment extends  VisiableLoadFragment implements ShakeDetect
     }
 
     private void gotoShakeActivity(ShakeBean object) {
-        startActivity(ShakeActivity.newIntent(mContext, object));
+
+
+        startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mContext, object));
     }
 
 

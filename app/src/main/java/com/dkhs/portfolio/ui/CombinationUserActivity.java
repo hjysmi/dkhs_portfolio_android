@@ -123,7 +123,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void startSettingActivity() {
         startActivity(SettingActivity.getEditUserInfoIntent(this));
-        // UIUtils.startAminationActivity(getActivity(), intent);
+        // UIUtils.startAnimationActivity(getActivity(), intent);
     }
 
 

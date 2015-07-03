@@ -191,7 +191,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
                 startActivity(MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.PlateList, bean.getId(),
                         bean.getAbbr_name()));
 
-                // UIUtils.startAminationActivity(
+                // UIUtils.startAnimationActivity(
                 // getActivity(),
                 // MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
                 // bean.getAbbr_name()));
@@ -460,12 +460,12 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         }
 
         if (null != intent) {
-            UIUtils.startAminationActivity(getActivity(), intent);
+            UIUtils.startAnimationActivity(getActivity(), intent);
         }
     }
 
     private void startQuoteActivity(SelectStockBean itemStock) {
-        UIUtils.startAminationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
+        UIUtils.startAnimationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
         // startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
 
     }

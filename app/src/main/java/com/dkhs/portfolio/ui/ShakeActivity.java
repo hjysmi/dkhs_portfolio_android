@@ -95,11 +95,6 @@ public class ShakeActivity extends ModelAcitivity  {
             mDateTV.setText(  TimeUtils.getSimpleFormatTime(mShakeBean.modified_at));
 
 
-
-
-
-//            if(mShakeBean.content)
-
             if(mShakeBean.coins_bonus==0){
                 mFreeFlow.setVisibility(View.GONE);
             }else{
@@ -125,13 +120,6 @@ public class ShakeActivity extends ModelAcitivity  {
 
     class  CountDownTask extends CountDownTimer {
 
-        /**
-         * @param millisInFuture    The number of millis in the future from the call
-         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
-         *                          is called.
-         * @param countDownInterval The interval along the way to receive
-         *                          {@link #onTick(long)} callbacks.
-         */
         public CountDownTask(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }

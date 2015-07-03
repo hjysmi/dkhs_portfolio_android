@@ -72,6 +72,7 @@
                 android:layout_marginTop="12dp"
                 android:textColor="@color/tag_gray"
                 android:textSize="15dp"
+                android:lineSpacingMultiplier="1.2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 />

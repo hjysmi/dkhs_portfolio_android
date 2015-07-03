@@ -282,7 +282,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        UIUtils.outAminationActivity(this);
+        UIUtils.outAnimationActivity(this);
         // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_right);
     }
 
@@ -338,7 +338,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        UIUtils.setOverridePendingAmin(this);
+        UIUtils.setOverridePendingAnin(this);
     }
 
     public void startActivityNoAnim(Intent intent) {

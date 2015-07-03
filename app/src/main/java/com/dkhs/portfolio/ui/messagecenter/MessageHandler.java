@@ -166,7 +166,7 @@ public class MessageHandler {
                     }
                     context.startActivity(intent);
                     // startActivity(intent);
-//                    UIUtils.startAminationActivity(context, intent);
+//                    UIUtils.startAnimationActivity(context, intent);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

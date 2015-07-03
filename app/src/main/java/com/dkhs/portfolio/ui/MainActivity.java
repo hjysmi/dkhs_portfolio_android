@@ -14,7 +14,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -25,12 +24,11 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
-import com.dkhs.portfolio.ui.fragment.ShakesFragment;
+import com.dkhs.portfolio.ui.fragment.ShakeFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
@@ -202,7 +200,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         fragmentC = getSupportFragmentManager().findFragmentByTag("C");
         if (null == fragmentC) {
-            fragmentC = new ShakesFragment();
+            fragmentC = new ShakeFragment();
         }
         hideAllFragment();
         if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
