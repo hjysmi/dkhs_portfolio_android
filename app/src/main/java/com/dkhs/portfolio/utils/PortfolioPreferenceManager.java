@@ -9,10 +9,10 @@
 package com.dkhs.portfolio.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.common.SecurePreferences;
 
 /**
  * @author zjz
@@ -43,12 +43,9 @@ public class PortfolioPreferenceManager {
      * app 显示新消息的key
      */
     // public static final String S_APP_NEW_MESSAGE="app_new_message";
-    public static SharedPreferences getSharePreferences() {
-        return PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+    public static SecurePreferences getSharePreferences() {
+        return new SecurePreferences(PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE), "dkhs");
     }
-//    public static SecurePreferences getSharePreferences() {
-//        return new SecurePreferences(PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE),"dkhs");
-//    }
 
     public static Editor getSharePreferencesEditor() {
         return getSharePreferences().edit();

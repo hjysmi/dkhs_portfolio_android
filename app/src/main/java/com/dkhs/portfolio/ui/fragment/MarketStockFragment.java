@@ -38,8 +38,6 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @author zwm
@@ -97,8 +95,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     private MarketCenterItemAdapter mAmplitAdapter;
     private List<SelectStockBean> mAmpliDataList = new ArrayList<SelectStockBean>();
 
-    private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 10;
+    private static final long mPollRequestTime = 1000 * 5;
 
     public SwipeRefreshLayout mSwipeLayout;
 
@@ -121,14 +118,10 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
     @Override
     public void onViewShow() {
-        if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
-            if (mMarketTimer == null) {
-                mMarketTimer = new Timer(true);
-                mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
-            }
-        } else {
-            loadingAllData();
-        }
+        loadingAllData();
+        updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+
+
 
 
         if (isLoading) {
@@ -140,16 +133,12 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
     @Override
     public void onViewHide() {
-        if (mMarketTimer != null) {
-            mMarketTimer.cancel();
-            mMarketTimer = null;
-        }
+        updateHandler.removeCallbacks(updateRunnable);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
 
     }
 
@@ -480,15 +469,26 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         MobclickAgent.onPause(mActivity);
     }
 
-    public class RequestMarketTask extends TimerTask {
+//    public class RequestMarketTask extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//            // if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
+//            loadingAllData();
+//            // }
+//        }
+//    }
 
+    WeakHandler updateHandler = new WeakHandler();
+    Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
-            // if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
-            loadingAllData();
-            // }
+            if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
+                loadingAllData();
+            }
+            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
         }
-    }
+    };
 
     private void loadingAllData() {
 
