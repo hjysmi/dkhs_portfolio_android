@@ -43,7 +43,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     public static final String KEY_URI = "key_uri";
-    public static final String KEY_TITLE = "key_title";
+    public static final String KEY_SHARE = "key_share";
 
 
     private static  final  String js="javascript:(function(){" +
@@ -74,10 +74,13 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
     private WapShareBean mWapShareBean;
 
 
-    public static Intent getIntent(Context ctx, String title, String uri) {
+    public static Intent getIntent(Context ctx, String url) {
+        return getIntent(ctx,url,true);
+    }
+   public static Intent getIntent(Context ctx, String url,boolean share) {
         Intent intent = new Intent();
-        intent.putExtra(KEY_URI, uri);
-        intent.putExtra(KEY_TITLE, title);
+        intent.putExtra(KEY_URI, url);
+        intent.putExtra(KEY_SHARE, share);
         intent.setClass(ctx, AdActivity.class);
         return intent;
     }
@@ -85,6 +88,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     private String mTitle;
     private String mUrl;
+    private boolean  mShare;
     @ViewInject(R.id.webView)
     private WebView mWebView;
 
@@ -102,7 +106,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
     }
 
     private void handleIntent(Intent intent) {
-        mTitle = intent.getStringExtra(KEY_TITLE);
+        mShare = intent.getBooleanExtra(KEY_SHARE, true);
         mUrl = intent.getStringExtra(KEY_URI);
     }
 
@@ -117,24 +121,24 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 //        LogUtils.e(userAgent);
         mWebView.getSettings().setUserAgentString(userAgent+" dkhs_shuiniu");
         mWebView.setWebChromeClient(new WebChromeClient());
-        mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
-        mWebView.setWebViewClient(new WebViewClient() {
 
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) { super.onPageStarted(view, url, favicon); /*                mWebView.addJavascriptInterface(new JavascriptInterface(), "share");*/ }
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
+            mWebView.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    super.onPageStarted(view, url, favicon); /*                mWebView.addJavascriptInterface(new JavascriptInterface(), "share");*/
+                }
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    return messageHandler.handleURL(url);
+                }
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    mWebView.loadUrl(js);
+                    super.onPageFinished(view, url);
+                }
+            });
 
-                return messageHandler.handleURL(url); }
-            @Override
-            public void onPageFinished(WebView view, String url) {
-
-                LogUtils.e("onPageFinished");
-                mWebView.loadUrl(js);
-                super.onPageFinished(view, url);
-
-            }
-        });
 
 
 
@@ -161,7 +165,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     private void showShareButton() {
 
-        if(!TextUtils.isEmpty(mWapShareBean.getUrl())){
+        if(!TextUtils.isEmpty(mWapShareBean.getUrl())   && mShare){
             getRightButton().setOnClickListener(this);
             getRightButton().setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share), null,
                     null, null);

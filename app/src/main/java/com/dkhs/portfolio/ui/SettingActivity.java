@@ -378,11 +378,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     PackageManager manager = context.getPackageManager();
                     PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
                     String version = info.versionName;
-                    int  code=   info.versionCode;
-                    // FIXME: 2015/6/30   这个判断有缺点,
-                    int service = object.getVersionNameInt();
-                    int local = Integer.parseInt(version.replaceAll("\\.", ""));
-                    if (service > local) {
+                    if (object.isNewVersion(version)) {
                         UpdateDialog alert = new UpdateDialog(context);
                         alert.showByAppBean(object);
                     } else {
@@ -391,7 +387,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
                 }
             } catch (NameNotFoundException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

@@ -84,7 +84,7 @@
                 android:layout_marginLeft="-5dp"
                 android:visibility="gone"
                 android:textColor="@color/white"
-              android:background="@drawable/bg_bottom_new"
+                android:background="@drawable/bg_bottom_new"
                 android:id="@+id/tv_new_count"
                 android:layout_toRightOf="@+id/btn_tab4"
                 android:layout_height="wrap_content" />

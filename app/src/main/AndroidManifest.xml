@@ -40,6 +40,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTranslucentTheme">
+
+        <!-- 友盟账号 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="54850a5cfd98c5755f000e12" />

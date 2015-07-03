@@ -136,6 +136,11 @@ public class DKHSUrl {
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
 
     }
+    public interface  Shake{
+        String getShakeInfo = "/api/v1/shakes/symbols/next/";
+        String getDescriptionOfActivities = "/portfolio/shakes";
+    }
+
 
     public interface NetValue {
         String queryDaily = "/api/v1/portfolio/{0}/netvalue_daily_chart/";

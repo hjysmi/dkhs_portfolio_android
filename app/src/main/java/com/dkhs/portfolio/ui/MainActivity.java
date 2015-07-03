@@ -24,7 +24,6 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
@@ -300,28 +299,23 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void afterParseData(AppBean object) {
-                if (null != object) {
-                    try {
+            if (null != object) {
+                try {
                     final AppBean bean = object;
-                    // FIXME: 2015/6/30   这个判断有缺点,
-                    int service = object.getVersionNameInt();
-                    int local = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERSIONY);
-                    if(local==0) {
-                        PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-                        String version = info.versionName;
-                        String s = version.replaceAll("\\.", "");
-                        if(s.matches("\\d+")){
-                            local=Integer.parseInt(s);
+                    PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+                    String version = info.versionName;
+
+                    if (object.isNewVersion(version)) {
+
+                        if (!object.getVersion().equals(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_VERSIONY))) {
+                            UpdateDialog alert = new UpdateDialog(mContext);
+                            alert.showByAppBean(object);
                         }
                     }
-                    if (service > local) {
-                        UpdateDialog alert = new UpdateDialog(mContext);
-                        alert.showByAppBean(object);
-                    }
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
                 }
+            }
         }
     };
 }

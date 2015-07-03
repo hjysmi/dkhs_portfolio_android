@@ -107,42 +107,11 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     @Override
     public void onSuccess(String jsonObject) {
-        // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-        // Log.e("ParseHttpListener", "run on main thread " + this);
-        //
-        // } else {
-        // Log.e("ParseHttpListener", "run on other thread " + this);
-        //
-        // }
+
         beginParseDate(jsonObject);
 
     }
 
-    // @Override
-    // public final void onHttpFailure(int errCode, String errMsg) {
-    // // MSLog.d("Error code :", errCode, ",message : ", errMsg);
-    // LogUtils.d("Error code :" + errCode + ",message : " + errMsg);
-    // onFailure(errCode, errMsg);
-    // }
-    //
-    // @Override
-    // public final void onHttpFailure(int errCode, Throwable err) {
-    // LogUtils.d("Error code :" + errCode + ",message : " + err.toString());
-    // // MSLog.d("Error code :", errCode, ",message : ", err);
-    // onFailure(errCode, err.getMessage());
-    // }
-
-    // /**
-    // *
-    // *
-    // * @Title: onSuccess
-    // * @Description:
-    // * errorCode已验证成功，不需要在验证，可从{@code result} 中直接获取数据<br>
-    // * errorCode验证不成功处理逻辑在 {@link #onFailure(int, String)}中处理
-    // * @param @param jsonObject 设定文件
-    // * @return void 返回类型
-    // */
-    // public abstract void onSuccess(JSONObject result);
 
     /**
      * @param @param errCode 错误编码，具体查看 {@link Network.HttpCode}
@@ -163,7 +132,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     private volatile ServiceHandler mServiceHandler;
     private volatile ServiceHandler mMainHandler;
 
-    // private JSONObject jsonDate;
 
     private final class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
