@@ -134,7 +134,7 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
             SelectStockBean itemStock = mDataList.get(position);
             UIUtils.startAnimationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
 
-            // mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            // mActivity.startActivity(StockQuotesActivity.newIntent(mActivity, itemStock));
         }
 
     }

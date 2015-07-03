@@ -12,7 +12,6 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.Spanny;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 
@@ -111,7 +110,7 @@ public class ShakeActivity extends ModelAcitivity  {
                     selectStockBean.symbol=mShakeBean.symbol.symbol;
                     selectStockBean.symbol_type="1";
                     selectStockBean.name=mShakeBean.symbol.abbr_name;
-                    startActivity(StockQuotesActivity.newIntent(mContext,selectStockBean));
+                    startActivity(StockQuotesActivity.newIntent(mActivity,selectStockBean));
                     ShakeActivity.this.finish();
                 }
             });

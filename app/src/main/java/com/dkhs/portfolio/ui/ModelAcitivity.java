@@ -1,6 +1,6 @@
 package com.dkhs.portfolio.ui;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +32,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private TextImageButton btnBack;
     private View mTitleView;
     protected UserEngineImpl engine;
-    protected Context mContext;
+    protected Activity mActivity;
 
     /**
      * 显示子页面的容器
@@ -48,7 +48,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
         PortfolioApplication.getInstance().addActivity(this);
-        mContext=this;
+        mActivity =this;
         onCreate(arg0, R.layout.layout_model_default);
 
     }

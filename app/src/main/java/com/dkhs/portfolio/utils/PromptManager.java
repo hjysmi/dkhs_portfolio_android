@@ -39,7 +39,7 @@ public class PromptManager {
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             // On UI thread.
             LogUtils.d("beforeRequest PromptManager.showProgressDialog");
-            // PromptManager.showProgressDialog(mContext, msg, isHideDialog);
+            // PromptManager.showProgressDialog(mActivity, msg, isHideDialog);
 
             try {
 

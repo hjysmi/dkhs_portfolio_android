@@ -11,7 +11,6 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,11 +18,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.ShakeEngineImpl;
-import com.dkhs.portfolio.net.DKHSClient;
-import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.ShakeActivity;
 import com.dkhs.portfolio.utils.ShakeDetector;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -67,7 +62,7 @@ public class ShakeFragment extends  VisiableLoadFragment implements ShakeDetecto
 
                     break;
                 case 1:
-                    Vibrator vibrator= (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+                    Vibrator vibrator= (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(800);
 
                     if (!animationDrawable.isRunning()) {
@@ -110,7 +105,7 @@ public class ShakeFragment extends  VisiableLoadFragment implements ShakeDetecto
 
             }
         });
-         sensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
+         sensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
          sd = new ShakeDetector(this);
 
     }
@@ -184,7 +179,7 @@ public class ShakeFragment extends  VisiableLoadFragment implements ShakeDetecto
     private void gotoShakeActivity(ShakeBean object) {
 
 
-        startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mContext, object));
+        startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, object));
     }
 
 

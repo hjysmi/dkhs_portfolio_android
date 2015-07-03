@@ -86,7 +86,7 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
                 perValue = item.year_yld;
                 viewHolder.tvPercentValue.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_qiri, 0, 0
                         , 0);
-//                viewHolder.tvPercentValue.setCompoundDrawablePadding(mContext.getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+//                viewHolder.tvPercentValue.setCompoundDrawablePadding(mActivity.getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
                 viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(perValue));
             } else {
                 viewHolder.tvPercentValue.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0
