@@ -61,7 +61,7 @@ public class MarkGridViewBean extends ViewBean {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     SectorBean bean = (SectorBean) parent.getItemAtPosition(position);
-                    UIUtils.startAminationActivity((Activity) itemView.getContext(), MarketListActivity.newIntent(itemView.getContext(), MarketListActivity.LoadViewType.PlateList, bean.getId(),
+                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), MarketListActivity.newIntent(itemView.getContext(), MarketListActivity.LoadViewType.PlateList, bean.getId(),
                             bean.getAbbr_name()));
 
 

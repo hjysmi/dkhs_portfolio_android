@@ -110,7 +110,7 @@ public class MarkStockViewBean extends ViewBean {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UIUtils.startAminationActivity((Activity) itemView.getContext(), StockQuotesActivity.newIntent(itemView.getContext(), SelectStockBean.copy(mStockQuotesBean)));
+                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), StockQuotesActivity.newIntent(itemView.getContext(), SelectStockBean.copy(mStockQuotesBean)));
 
                 }
             });

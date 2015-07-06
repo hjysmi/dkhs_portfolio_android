@@ -245,7 +245,7 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         }
 
         if (null != intent) {
-            UIUtils.startAminationActivity(getActivity(), intent);
+            UIUtils.startAnimationActivity(getActivity(), intent);
         }
     }
 

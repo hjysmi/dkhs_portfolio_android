@@ -91,7 +91,7 @@ public class MarkTitleViewBean extends ViewBean {
                         break;
                     }
                     if (null != itemView.getContext()) {
-                        UIUtils.startAminationActivity((Activity)itemView.getContext(), intent);
+                        UIUtils.startAnimationActivity((Activity)itemView.getContext(), intent);
                     }
                 }
             });

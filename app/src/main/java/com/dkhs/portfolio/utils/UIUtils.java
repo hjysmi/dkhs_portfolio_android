@@ -380,7 +380,7 @@ public class UIUtils {
         return Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3") || Build.DEVICE.equals("mx4pro");
     }
 
-    public static void startAnimationActivity(Activity context, Intent intent) {
+  public static void startAnimationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
         // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
         setOverridePendingAnin(context);
