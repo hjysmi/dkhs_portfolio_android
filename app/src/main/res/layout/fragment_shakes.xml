@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:scaleType="fitStart"
-            android:src="@drawable/shake_01"
+            android:src="@drawable/shake_02"
             app:layout_widthPercent="50%" />
 
         <ImageView

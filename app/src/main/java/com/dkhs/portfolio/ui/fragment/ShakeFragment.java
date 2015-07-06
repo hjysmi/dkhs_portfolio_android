@@ -58,13 +58,12 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
                     //手动画停止
                     animationDrawable.stop();
-                    mShakeIv.setImageDrawable(animationDrawable);
+                    mShakeIv.setImageResource(R.drawable.shake_02);
                     if (!getData) {
                         Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
                         vibrator.vibrate(100);
                         mLoadingRibbonAD.stop();
                     }
-
                     break;
                 case 1:
 
@@ -77,6 +76,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     }
                     break;
                 case 3:
+
 
                     if (msg.obj != null) {
                         mLoadingRibbonAD.stop();
@@ -110,7 +110,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             @Override
             public void onClick(View v) {
 
-                getDataForNet();
+//                getDataForNet();
 
             }
         });
@@ -130,12 +130,13 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     public void getDataForNet() {
         //保证一次只有一次请求
 
-        if (getData) {
+        if (getData ||  animationDrawable.isRunning()) {
             return;
         }
         getData = true;
+        mShakeIv.setImageDrawable(animationDrawable);
         animationDrawable.start();
-        uiHandler.sendEmptyMessageDelayed(0, 400 * 5);
+
         mLoadingRibbonAD.start();
         ShakeEngineImpl.getShakeInfo(new SimpleParseHttpListener() {
             @Override
@@ -146,7 +147,6 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             @Override
             protected void afterParseData(Object object) {
                 //获取数据
-
                 if (object != null) {
                     onFinish();
                     Message message = new Message();
@@ -183,12 +183,12 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     uiHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            failuree( errCode,  errMsg);
+                            failure(errCode, errMsg);
                         }
                     },2600);
                 }
             }
-            public void   failuree(int errCode, String errMsg) {
+            public void   failure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
             }
         });
@@ -217,6 +217,11 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     @Override
     public void hearShake() {
         getDataForNet();
+    }
+
+    @Override
+    public void finishShake() {
+        uiHandler.sendEmptyMessage( 0);
     }
 
 
