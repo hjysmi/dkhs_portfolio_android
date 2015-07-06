@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkGridViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkIndexViewPool;
+import com.dkhs.portfolio.ui.widget.ViewBean.MarkPlateGridViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkStockViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkTitleViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.ViewBean;
@@ -27,6 +28,7 @@ public class MarkStockAdatper extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         new MarkTitleViewBean(viewDatas);
         new MarkGridViewBean(viewDatas);
+        new MarkPlateGridViewBean(viewDatas);
         new MarkStockViewBean(viewDatas);
     }
 

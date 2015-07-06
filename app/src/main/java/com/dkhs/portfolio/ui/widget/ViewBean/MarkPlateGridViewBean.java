@@ -10,31 +10,30 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.MarkStockBean;
+import com.dkhs.portfolio.bean.MarkSectorBean;
 import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.ui.MarketListActivity;
-import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
+import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * Created by zjz on 2015/7/3.
  */
-public class MarkGridViewBean extends ViewBean {
-    private static final int TYPE = 2;
+public class MarkPlateGridViewBean extends ViewBean {
+    private static final int TYPE = 21;
 
-    private MarkStockBean mMarkStockBean;
+    private MarkSectorBean mMarkSectorBean;
 
-
-    public MarkGridViewBean() {
-    }
-
-    public MarkGridViewBean(MarkStockBean markStockBean) {
-        this.mMarkStockBean = markStockBean;
+    public MarkPlateGridViewBean() {
     }
 
 
-    public MarkGridViewBean(SparseArray<ViewBean> viewDatas) {
+    public MarkPlateGridViewBean(MarkSectorBean markSectorBean) {
+        this.mMarkSectorBean = markSectorBean;
+    }
+
+    public MarkPlateGridViewBean(SparseArray<ViewBean> viewDatas) {
         super(viewDatas);
     }
 
@@ -42,6 +41,7 @@ public class MarkGridViewBean extends ViewBean {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, MarkIndexViewPool mViewPool) {
 
         return new ViewHolder(inflate(container, R.layout.layout_mark_grid), mViewPool);
+
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,9 +55,8 @@ public class MarkGridViewBean extends ViewBean {
             this.mViewPool = mViewPool;
 
             gridView = (GridView) itemView.findViewById(R.id.gridmarket);
-            gridView.setAdapter(new MarketCenterGridAdapter(itemView.getContext()));
+            gridView.setAdapter(new MarketPlateGridAdapter(itemView.getContext()));
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     SectorBean bean = (SectorBean) parent.getItemAtPosition(position);
@@ -70,14 +69,13 @@ public class MarkGridViewBean extends ViewBean {
             setDefTransittion();
         }
 
+        public void bindView(final MarkSectorBean markSectorBean) {
 
-        public void bindView(final MarkStockBean markStockBean) {
-
-            MarketCenterGridAdapter stockGridAdapter = (MarketCenterGridAdapter) gridView.getAdapter();
-            if (null != stockGridAdapter) {
-                stockGridAdapter.setDataList(markStockBean.getResults());
+            MarketPlateGridAdapter marketPlateGridAdapter = (MarketPlateGridAdapter) gridView.getAdapter();
+            if (null != marketPlateGridAdapter) {
+                marketPlateGridAdapter.setDataList(markSectorBean.getResults());
             }
-            stockGridAdapter.notifyDataSetChanged();
+            marketPlateGridAdapter.notifyDataSetChanged();
 
 
         }
@@ -92,7 +90,9 @@ public class MarkGridViewBean extends ViewBean {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
-        ((ViewHolder) itemHolder).bindView(mMarkStockBean);
+
+
+        ((ViewHolder) itemHolder).bindView(mMarkSectorBean);
 
     }
 

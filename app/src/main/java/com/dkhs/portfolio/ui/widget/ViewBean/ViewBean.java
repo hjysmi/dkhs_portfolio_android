@@ -20,6 +20,7 @@ public  abstract class ViewBean {
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {}
     public abstract int getViewType();
 
+
     protected static View inflate(ViewGroup container, int layoutId) {
         return LayoutInflater.from(container.getContext()).inflate(layoutId, container, false);
     }

@@ -22,6 +22,7 @@ import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,14 +37,23 @@ public class MarketCenterGridAdapter extends BaseAdapter {
     private List<StockQuotesBean> mDataList;
     private LayoutInflater mInflater;
     private Context mcontext;
+
     // private GridView mGridView;
     // private int mCount = 0;
+    public MarketCenterGridAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
+        this.mcontext = context;
+        mDataList = new ArrayList<>();
+    }
 
     public MarketCenterGridAdapter(Context context, List<StockQuotesBean> datalist) {
         mInflater = LayoutInflater.from(context);
         this.mDataList = datalist;
         this.mcontext = context;
+    }
 
+    public void setDataList(List<StockQuotesBean> datalist) {
+        this.mDataList = datalist;
     }
 
     @Override

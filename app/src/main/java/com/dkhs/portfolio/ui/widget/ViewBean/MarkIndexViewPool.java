@@ -20,15 +20,12 @@ import java.util.LinkedList;
  * Created by zjz on 2015/7/3.
  */
 public class MarkIndexViewPool {
-    // in order to avoiding memory leak, this heap should be shrink after the root RecyclerView been idle.
     private LinkedList<View> mViewHeap = new LinkedList<View>();
-    public int STAT_GAME_VIDEO_ITEM_COUNT;
 
     public synchronized View getView(GridLayout gridVideo) {
         View view = mViewHeap.poll();
         if (view == null) {
             view = LayoutInflater.from(gridVideo.getContext()).inflate(R.layout.item_mark_center, gridVideo, false);
-            Log.e("MarkIndexViewPool", String.format("Video item createViewCount : %d", ++STAT_GAME_VIDEO_ITEM_COUNT));
             view.setTag(new VideoHolder(view));
         }
         return view;
@@ -59,7 +56,7 @@ public class MarkIndexViewPool {
             tvIncrease = (TextView) itemView.findViewById(R.id.tv_incease_value);
             tvPercent = (TextView) itemView.findViewById(R.id.tv_incease_ratio);
             itemView.getLayoutParams().width = UIUtils.getDisplayMetrics().widthPixels / 3;
-            itemView.getLayoutParams().height = (int)(itemView.getLayoutParams().width * 0.8f);
+            itemView.getLayoutParams().height = (int) (itemView.getLayoutParams().width * 0.8f);
         }
 
         public void bindView(StockQuotesBean item) {

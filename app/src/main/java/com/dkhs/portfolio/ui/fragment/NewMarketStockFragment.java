@@ -23,6 +23,7 @@ import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkGridViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkIndexViewPool;
+import com.dkhs.portfolio.ui.widget.ViewBean.MarkPlateGridViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkStockViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkTitleViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.ViewBean;
@@ -160,33 +161,34 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
 
     }
 
+    private AllMarketBean mAllMarketBean;
 
     IHttpListener plateListener = new ParseHttpListener<List<ViewBean>>() {
         @Override
         protected List<ViewBean> parseDateTask(String jsonData) {
 
-            AllMarketBean allMarketBean = DataParse.parseObjectJson(AllMarketBean.class, jsonData);
+            mAllMarketBean = DataParse.parseObjectJson(AllMarketBean.class, jsonData);
             List<ViewBean> dataList = null;
-            if (null != allMarketBean) {
+            if (null != mAllMarketBean) {
                 dataList = new ArrayList<ViewBean>();
                 dataList.add(new MarkTitleViewBean(R.string.market_title_index));
-                dataList.add(new MarkGridViewBean(allMarketBean.getMidx_data()));
+                dataList.add(new MarkGridViewBean(mAllMarketBean.getMidx_data()));
                 dataList.add(new MarkTitleViewBean(R.string.market_title_hot));
-                dataList.add(new MarkGridViewBean(allMarketBean.getSect_data()));
+                dataList.add(new MarkPlateGridViewBean(mAllMarketBean.getSect_data()));
                 dataList.add(new MarkTitleViewBean(R.string.market_title_up));
-                for (StockQuotesBean selectStockBean : allMarketBean.getRise_data().getResults()) {
+                for (StockQuotesBean selectStockBean : mAllMarketBean.getRise_data().getResults()) {
                     dataList.add(new MarkStockViewBean(selectStockBean, false));
                 }
                 dataList.add(new MarkTitleViewBean(R.string.market_title_down));
-                for (StockQuotesBean selectStockBean : allMarketBean.getDrop_data().getResults()) {
+                for (StockQuotesBean selectStockBean : mAllMarketBean.getDrop_data().getResults()) {
                     dataList.add(new MarkStockViewBean(selectStockBean, false));
                 }
                 dataList.add(new MarkTitleViewBean(R.string.market_title_turnover));
-                for (StockQuotesBean selectStockBean : allMarketBean.getTurnover_data().getResults()) {
+                for (StockQuotesBean selectStockBean : mAllMarketBean.getTurnover_data().getResults()) {
                     dataList.add(new MarkStockViewBean(selectStockBean, true));
                 }
                 dataList.add(new MarkTitleViewBean(R.string.market_title_ampli));
-                for (StockQuotesBean selectStockBean : allMarketBean.getAmplitude_data().getResults()) {
+                for (StockQuotesBean selectStockBean : mAllMarketBean.getAmplitude_data().getResults()) {
                     dataList.add(new MarkStockViewBean(selectStockBean, true));
                 }
 
@@ -197,6 +199,7 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         @Override
         protected void afterParseData(List<ViewBean> object) {
             endAnimaRefresh();
+            isLoading = false;
             mSwipeLayout.setRefreshing(false);
             if (null != object) {
 
@@ -209,6 +212,7 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         @Override
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
+            isLoading = false;
             if (isAdded()) {
 
                 endAnimaRefresh();
@@ -260,7 +264,9 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
 //            if ( UIUtils.roundAble(engineList.get(0).getStatu())) {
             loadingAllData();
 //            }
-            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+            if (null != mAllMarketBean && UIUtils.roundAble(mAllMarketBean.getDrop_data().getTrade_status())) {
+                updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+            }
         }
     };
 
@@ -289,7 +295,7 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
     }
 
     public void endAnimaRefresh() {
-        if (isAdded() && !getUserVisibleHint()) {
+        if (isAdded() && getUserVisibleHint()) {
             BusProvider.getInstance().post(new StopRefreshEvent());
         }
     }
