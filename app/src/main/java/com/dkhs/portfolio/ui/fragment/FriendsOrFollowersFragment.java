@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.User;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.PeopleEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserEngineImpl;
@@ -26,6 +28,7 @@ import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.adapter.FriendsOrFollowerAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
+import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -61,11 +64,12 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
     }
 
+
+
     @Override
     public void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
-
     }
 
     @Override
@@ -81,8 +85,14 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
 
     @Override
-    public void loadData() {
+    public void onStart() {
+        loadData();
+        super.onStart();
+    }
 
+
+    @Override
+    public void loadData() {
         startLoadData();
         dataList.clear();
         if (null != adapter) {
@@ -104,6 +114,10 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
+
+        if(!isAdded()){
+            return;
+        }
         endLoadData();
         dataList.addAll(object.getResults());
         adapter.notifyDataSetChanged();
@@ -172,7 +186,7 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     @Override
     public void loadFail() {
         endLoadData();
-//        mSwipeLayout.setRefreshing(false);
+
     }
 
 

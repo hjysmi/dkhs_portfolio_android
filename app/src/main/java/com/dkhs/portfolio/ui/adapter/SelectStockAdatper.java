@@ -201,10 +201,10 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
                 SelectStockBean itemStock = mDataList.get(position);
                 itemStock.isFollowed = true;
                 if (StockUitls.isFundType(itemStock.symbol_type)) {
-                    UIUtils.startAminationActivity((Activity) mContext, FundDetailActivity.newIntent(mContext, itemStock));
+                    UIUtils.startAnimationActivity((Activity) mContext, FundDetailActivity.newIntent(mContext, itemStock));
                 } else {
 
-                    UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
+                    UIUtils.startAnimationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
                 }
 
             }

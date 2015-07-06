@@ -79,7 +79,7 @@ public class HotPlateAdapter extends BaseAdapter {
         public void onClick(View v) {
             // SelectStockBean itemStock = mDataList.get(position);
             //
-            // mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            // mActivity.startActivity(StockQuotesActivity.newIntent(mActivity, itemStock));
         }
 
     }

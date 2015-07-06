@@ -1,17 +1,13 @@
 package com.dkhs.portfolio.ui;
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
-import android.app.DownloadManager.Request;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,7 +29,6 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -299,7 +294,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     intent.putExtra("needClear", false);
                     intent.putExtra("is_setpassword", isSetPassword);
                 }
-                UIUtils.startAminationActivity(this, intent);
+                UIUtils.startAnimationActivity(this, intent);
 
                 break;
             case R.id.setting_layout_password:
@@ -307,7 +302,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     return;
                 }
                 intent = new Intent(this, ModifyPswActivity.class);
-                UIUtils.startAminationActivity(this, intent);
+                UIUtils.startAnimationActivity(this, intent);
                 break;
             case R.id.setting_layout_username:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -315,7 +310,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(this, ModifyUNameActivity.class);
                 startActivityForResult(intent, 6);
-                UIUtils.setOverridePendingAmin(this);
+                UIUtils.setOverridePendingAnin(this);
                 break;
             case R.id.setting_layout_icon:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -323,15 +318,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(context, PickupPhotoActivity.class);
                 startActivityForResult(intent, 5);
-                UIUtils.setOverridePendingSlideFormBottomAmim(this);
+                UIUtils.setOverridePendingSlideFormBottomAnim(this);
                 break;
             case R.id.feed_back_layout:
                 intent = new Intent(this, FeedBackActivity.class);
-                UIUtils.startAminationActivity(this, intent);
+                UIUtils.startAnimationActivity(this, intent);
                 break;
             case R.id.rl_aboutus: {
                 intent = new Intent(this, AboutUsActivity.class);
-                UIUtils.startAminationActivity(this, intent);
+                UIUtils.startAnimationActivity(this, intent);
             }
             break;
             case R.id.setting_layout_check_version:
@@ -348,14 +343,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (null != ue)
                     b.putString(ModifyUserSignActivity.DESCRIPTION, ue.getDescription());
                 intent.putExtras(b);
-                UIUtils.startAminationActivity(this, intent);
+                UIUtils.startAnimationActivity(this, intent);
                 break;
             case R.id.setting_image_bound:
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
                 intent = new Intent(this, BoundAccountActivity.class);
-                UIUtils.startAminationActivity(this, intent);
+                UIUtils.startAnimationActivity(this, intent);
                 break;
             default:
                 break;

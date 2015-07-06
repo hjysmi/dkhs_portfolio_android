@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.widget;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -211,7 +212,12 @@ public class MAlertDialog {
 
 
     public void show() {
-        dialog.show();
+
+        if(!((Activity) context).isFinishing())
+        {
+            dialog.show();
+        }
+
 
     }
 

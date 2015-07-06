@@ -527,7 +527,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
             // Toast.LENGTH_SHORT).show();
-            // UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            // UIUtils.startAnimationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
             startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }
     };
@@ -538,7 +538,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
             SelectStockBean itemStock = mDataList.get(position);
             startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
-            // UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            // UIUtils.startAnimationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
             //
             getActivity().finish();
         }

@@ -99,7 +99,7 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // View view = View.inflate(mContext, R.layout.item_funds_order_list, null);
+        // View view = View.inflate(mActivity, R.layout.item_funds_order_list, null);
         // return view;
         //
 
@@ -151,7 +151,7 @@ public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChan
 
         viewHolder.tvIncomeText.setText(textResId);
 
-        // viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
+        // viewHolder.tvDesc.setText(mActivity.getString(R.string.desc_format, item.getDescription()));
         viewHolder.tvUserName.setText(mContext.getString(R.string.format_create_name, item.getUser().getUsername()));
         viewHolder.tvValue.setText(StringFromatUtils.get2Point(increasePercent));
         if (increasePercent == 0) {

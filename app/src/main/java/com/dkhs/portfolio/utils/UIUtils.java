@@ -380,20 +380,20 @@ public class UIUtils {
         return Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3") || Build.DEVICE.equals("mx4pro");
     }
 
-    public static void startAminationActivity(Activity context, Intent intent) {
+  public static void startAnimationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
         // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
-        setOverridePendingAmin(context);
+        setOverridePendingAnin(context);
     }
 
-    public static void setOverridePendingAmin(Activity activity) {
+    public static void setOverridePendingAnin(Activity activity) {
         activity.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
     }
 
-    public static void setOverridePendingSlideFormBottomAmim(Activity activity) {
+    public static void setOverridePendingSlideFormBottomAnim(Activity activity) {
         activity.overridePendingTransition(R.anim.activity_in_from_bottom, R.anim.activity_out_to_left);
     }
-    public static void outAminationActivity(Activity context) {
+    public static void outAnimationActivity(Activity context) {
         context.overridePendingTransition(R.anim.activity_in_from_left, R.anim.activity_out_to_right);
 
     }

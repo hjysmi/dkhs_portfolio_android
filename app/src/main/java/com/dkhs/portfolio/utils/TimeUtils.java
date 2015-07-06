@@ -155,6 +155,9 @@ public class TimeUtils {
     public static String getSimpleFormatTime(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[2].format(toDate(iso8601str));
     }
+    public static String getSimpleFormatTime(String format,String iso8601str) {
+        return  new SimpleDateFormat(format, Locale.CHINA).format(toDate(iso8601str));
+    }
 
     public static String getSimpleDay(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[7].format(toDate(iso8601str));
