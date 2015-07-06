@@ -50,11 +50,8 @@ public abstract class LoadMoreNoRefreshListFragment extends Fragment implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_no_refresh, null);
         initLoadMoreList(view);
-
-        // setListAdatper();
         return view;
     }
-
     // add by zcm -----2014.12.15
     public void setListViewVisible() {
         if (mListView.getVisibility() == View.VISIBLE && tvEmptyText.getVisibility() == View.GONE)

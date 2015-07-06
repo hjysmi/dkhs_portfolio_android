@@ -491,7 +491,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
                 // Intent intent = new Intent(getActivity(),
                 // SelectStockActivity.class);
-                // UIUtils.setOverridePendingAmin(getActivity());
+                // UIUtils.setOverridePendingAnin(getActivity());
                 startActivityForResult(intent, REQUESTCODE_SELECT_FUND);
             }
             break;

@@ -50,21 +50,21 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     public ParseHttpListener setLoadingDialog(Context context) {
         this.mContext = context;
-        this.msg = "";// mContext.getString(R.string.loading);
+        this.msg = "";// mActivity.getString(R.string.loading);
 
         return this;
     }
 
     public ParseHttpListener setLoadingDialog(Context context, boolean isCancelable) {
         this.mContext = context;
-        this.msg = "";// mContext.getString(R.string.loading);
+        this.msg = "";// mActivity.getString(R.string.loading);
         this.isHideDialog = isCancelable;
         return this;
     }
 
     public ParseHttpListener cancelLoadingDialog() {
         this.mContext = null;
-        this.msg = "";// mContext.getString(R.string.loading);
+        this.msg = "";// mActivity.getString(R.string.loading);
         PromptManager.closeProgressDialog();
         return this;
     }

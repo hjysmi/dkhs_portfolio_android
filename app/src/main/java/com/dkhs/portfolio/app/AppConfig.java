@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
@@ -21,7 +22,7 @@ import java.io.IOException;
  */
 public final class AppConfig {
 
-    public static final boolean isDebug = false;
+    public static final boolean isDebug = BuildConfig.isSandbox;
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;

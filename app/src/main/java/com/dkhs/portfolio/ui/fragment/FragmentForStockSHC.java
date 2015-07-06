@@ -163,7 +163,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
-            UIUtils.startAminationActivity(getActivity(),
+            UIUtils.startAnimationActivity(getActivity(),
                     StockQuotesActivity.newIntent(getActivity(), mDataList.get(position)));
         }
     };

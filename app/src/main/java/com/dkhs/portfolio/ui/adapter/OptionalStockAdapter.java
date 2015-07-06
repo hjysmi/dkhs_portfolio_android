@@ -78,7 +78,7 @@ public class OptionalStockAdapter extends BaseAdapter {
         // ViewHolder viewHolder = null;
         // if (convertView == null) {
         // viewHolder = new ViewHolder();
-        // convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, null);
+        // convertView = LayoutInflater.from(mActivity).inflate(R.layout.layout_optional_percent, null);
         // viewHolder.colorView = convertView.findViewById(R.id.view_color);
         // viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
         // viewHolder.tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);

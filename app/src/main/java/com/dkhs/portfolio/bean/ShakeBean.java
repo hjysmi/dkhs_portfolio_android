@@ -14,9 +14,7 @@ import org.parceler.Parcel;
 
 public class ShakeBean {
 
-    public   ShakeBean(){
 
-    }
     /**
      * content : 中国联通降低宽带资费中国联通降低宽带资费中国联通降低宽带资费
      * id : 2
@@ -44,7 +42,7 @@ public class ShakeBean {
     public double up_rate;
     @SerializedName("capital_flow")
     public String capital_flow;
-    @SerializedName("coins_bonus")
+    @SerializedName("traffic_bonus")
     public int coins_bonus;
     @SerializedName("times_left")
     public int times_left;

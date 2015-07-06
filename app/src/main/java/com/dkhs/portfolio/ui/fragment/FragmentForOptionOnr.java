@@ -180,7 +180,7 @@ public class FragmentForOptionOnr extends Fragment {
                     intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null, null);
                 }
                 // startActivity(intent);
-                UIUtils.startAminationActivity(getActivity(), intent);
+                UIUtils.startAnimationActivity(getActivity(), intent);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

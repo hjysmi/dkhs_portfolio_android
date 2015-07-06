@@ -21,14 +21,15 @@ import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName MarketCenterGridAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-12-18 下午5:24:37
- * @version 1.0
  */
 public class MarketPlateGridAdapter extends BaseAdapter {
 
@@ -38,12 +39,20 @@ public class MarketPlateGridAdapter extends BaseAdapter {
     // private GridView mGridView;
     // private int mCount = 0;
     // private boolean isPlate;
+    public MarketPlateGridAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
+        this.mDataList = new ArrayList<>();
+    }
 
     public MarketPlateGridAdapter(Context context, List<SectorBean> datalist) {
         mInflater = LayoutInflater.from(context);
         this.mDataList = datalist;
         // this.isPlate = isplate;
 
+    }
+
+    public void setDataList(List<SectorBean> datalist) {
+        this.mDataList = datalist;
     }
 
     @Override
@@ -93,13 +102,6 @@ public class MarketPlateGridAdapter extends BaseAdapter {
         float change = item.getPercentage();
         mViewHolder.tvCurrentValue.setTextColor(ColorTemplate.getUpOrDrownCSL(change));
         mViewHolder.tvStockName.setText(item.getTop_symbol_name());
-        // if (change > 0) {
-        // mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
-        // mcontext.getResources().getDrawable(R.drawable.ic_grow_up), null, null, null);
-        // } else if (change < 0) {
-        // mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
-        // mcontext.getResources().getDrawable(R.drawable.ic_grow_down), null, null, null);
-        // } else {
         mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         mViewHolder.tvTitleName.setText(item.getAbbr_name());
         mViewHolder.tvCurrentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getPercentage()));

@@ -51,11 +51,11 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     private int mLandTextFont;
 //
-//    public FiveRangeAdapter(Context mContext, boolean isBuy) {
-//        this.mContext = mContext;
+//    public FiveRangeAdapter(Context mActivity, boolean isBuy) {
+//        this.mActivity = mActivity;
 //        this.isBuy = isBuy;
 //        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//        mItemViewLayoutParams.height = (int) (mContext.getResources().getDisplayMetrics().widthPixels / 13f);
+//        mItemViewLayoutParams.height = (int) (mActivity.getResources().getDisplayMetrics().widthPixels / 13f);
 //
 //    }
 
@@ -63,7 +63,7 @@ public class FiveRangeAdapter extends BaseAdapter {
         this.mContext = mContext;
         this.isBuy = isBuy;
 //        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//        mItemViewLayoutParams.height = (int) (mContext.getResources().getDisplayMetrics().widthPixels / 13f);
+//        mItemViewLayoutParams.height = (int) (mActivity.getResources().getDisplayMetrics().widthPixels / 13f);
 
         if (isLandspace) {
             mLandTextFont = 14;
@@ -153,7 +153,7 @@ public class FiveRangeAdapter extends BaseAdapter {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             // FiveRangeItem item = dataList.get(position);
-            // convertView.getLayoutParams().height = (int) (mContext.getResources().getDisplayMetrics().widthPixels /
+            // convertView.getLayoutParams().height = (int) (mActivity.getResources().getDisplayMetrics().widthPixels /
             // 13f);
             // if (!item.price.contains("-.---")) {
             if (null == priceList || priceList.size() <= position) {

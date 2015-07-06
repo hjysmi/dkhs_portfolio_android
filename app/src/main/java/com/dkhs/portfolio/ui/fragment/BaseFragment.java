@@ -80,7 +80,13 @@ public abstract class BaseFragment extends Fragment {
     public void startActivity(Intent intent) {
         System.out.println("BaseFragment startActivity");
         super.startActivity(intent);
-        UIUtils.setOverridePendingAmin(getActivity());
+        UIUtils.setOverridePendingAnin(getActivity());
+    }
+
+    public void startActivitySlideFormBottomAnim(Intent intent) {
+        System.out.println("BaseFragment startActivity");
+        super.startActivity(intent);
+        UIUtils.setOverridePendingSlideFormBottomAnim(getActivity());
     }
 
     /**
@@ -93,7 +99,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         // TODO Auto-generated method stub
-        UIUtils.setOverridePendingAmin(getActivity());
+        UIUtils.setOverridePendingAnin(getActivity());
         super.startActivityForResult(intent, requestCode);
     }
 

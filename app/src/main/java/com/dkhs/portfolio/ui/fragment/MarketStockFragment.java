@@ -170,7 +170,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         btnMoreHand.setOnClickListener(this);
         btnMoreAmplit.setOnClickListener(this);
 
-        mIndexAdapter = new MarketCenterGridAdapter(getActivity(), mIndexDataList, false);
+        mIndexAdapter = new MarketCenterGridAdapter(getActivity());
         mPlateAdapter = new MarketPlateGridAdapter(getActivity(), mSecotrList);
         gvPlate.setAdapter(mPlateAdapter);
         gvPlate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -450,12 +450,12 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         }
 
         if (null != intent) {
-            UIUtils.startAminationActivity(getActivity(), intent);
+            UIUtils.startAnimationActivity(getActivity(), intent);
         }
     }
 
     private void startQuoteActivity(SelectStockBean itemStock) {
-        UIUtils.startAminationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
+        UIUtils.startAnimationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
         // startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
 
     }

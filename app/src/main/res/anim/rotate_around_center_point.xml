@@ -9,6 +9,6 @@
         android:pivotY="50%"
         android:repeatCount="infinite"
         android:repeatMode="restart"
-        android:toDegrees="-360" />
+        android:toDegrees="360" />
 
 </set>

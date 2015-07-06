@@ -44,6 +44,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
+import io.rong.database.RongMaster;
 import io.rong.imkit.RongIM;
 
 /**
@@ -231,7 +232,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
         startActivity(intent);
-        // UIUtils.startAminationActivity(getActivity(), intent);
+        // UIUtils.startAnimationActivity(getActivity(), intent);
     }
 
     private void startUserInfoActivity() {
@@ -258,9 +259,10 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 }
                 break;
             case R.id.message_center_layout:
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
+                if (!UIUtils.iStartLoginActivity(getActivity()) ) {
 
-                    RongIM.getInstance().startConversationList(getActivity());
+                    MessageManager.getInstance().startConversationList(getActivity());
+//                    RongIM.getInstance().startConversationList(getActivity());
                 }
                 break;
             case R.id.ll_following:
