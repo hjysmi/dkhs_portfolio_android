@@ -23,12 +23,12 @@ public class InfoOptionAdapter extends BaseAdapter {
         this.mContext = mContext;
         this.mDataList = mDataList;
 //        DisplayMetrics dm = new DisplayMetrics();
-//        WindowManager m = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+//        WindowManager m = (WindowManager) mActivity.getSystemService(Context.WINDOW_SERVICE);
 //        m.getDefaultDisplay().getMetrics(dm);
 //        Paint p = new Paint();
 //        Rect rect = new Rect();
 //        String text = "正正正正正";
-//        p.setTextSize(mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
+//        p.setTextSize(mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
 //        p.getTextBounds(text, 0, text.length(), rect);
     }
 

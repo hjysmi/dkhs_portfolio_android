@@ -76,7 +76,7 @@ public class OptionMarketAdapter extends BaseAdapter {
             viewHolder.text.setVisibility(View.GONE);
                 /*Paint p= new Paint();
                 Rect rect = new Rect();
-				p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
+				p.setTextSize( mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
 				p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect); 
 				if(dm.widthPixels - 50   < rect.width()){
 					int le = (int) (mOptionNewsBean.getTitle().length() -  mOptionNewsBean.getTitle().length() *(rect.width() - dm.widthPixels + 50)/rect.width() - 3);

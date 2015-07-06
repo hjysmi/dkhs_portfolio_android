@@ -481,7 +481,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
         }
         startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
-        UIUtils.setOverridePendingAmin(this);
+        UIUtils.setOverridePendingAnin(this);
     }
 
     private void averageValue() {

@@ -28,6 +28,7 @@ import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
+import com.dkhs.portfolio.ui.fragment.ShakeFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
@@ -122,8 +123,7 @@ public class MainActivity extends BaseActivity {
         switch (index) {
             case MenuItemFragment.TABINDEX_1: {
                 displayFragmentA();
-                // Intent intent = new Intent(this, MainActivity.class);
-                // startActivity(intent);
+
             }
             break;
             case MenuItemFragment.TABINDEX_2: {
@@ -139,6 +139,10 @@ public class MainActivity extends BaseActivity {
                 displayFragmentD();
             }
             break;
+            case MenuItemFragment.TABINDEX_5: {
+                displayFragmentE();
+            }
+            break;
 
             default:
                 break;
@@ -149,6 +153,7 @@ public class MainActivity extends BaseActivity {
     private Fragment fragmentB;
     private Fragment fragmentC;
     private Fragment fragmentD;
+    private Fragment fragmentE;
 
     protected void displayFragmentA() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -176,6 +181,7 @@ public class MainActivity extends BaseActivity {
         fragmentB = getSupportFragmentManager().findFragmentByTag("B");
         if (null == fragmentB) {
             fragmentB = new MainMarketFragment();
+//            fragmentB = new ShakesFragment();
         }
         hideAllFragment();
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
@@ -194,7 +200,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         fragmentC = getSupportFragmentManager().findFragmentByTag("C");
         if (null == fragmentC) {
-            fragmentC = new MainInfoFragment();
+            fragmentC = new ShakeFragment();
         }
         hideAllFragment();
         if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
@@ -210,13 +216,28 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         fragmentD = getSupportFragmentManager().findFragmentByTag("D");
         if (null == fragmentD) {
-            fragmentD = new UserFragment();
+            fragmentD = new MainInfoFragment();
         }
         hideAllFragment();
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container
             ft.show(fragmentD);
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentD, "D");
+        }
+
+        ft.commit();
+    }
+    protected void displayFragmentE() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        fragmentE = getSupportFragmentManager().findFragmentByTag("E");
+        if (null == fragmentE) {
+            fragmentE = new UserFragment();
+        }
+        hideAllFragment();
+        if (null != fragmentE && fragmentE.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentE);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.content_layout, fragmentE, "E");
         }
 
         ft.commit();
@@ -243,6 +264,8 @@ public class MainActivity extends BaseActivity {
         }
         if (null != fragmentD && fragmentD.isAdded()) {
             ft.hide(fragmentD);
+        }if (null != fragmentE && fragmentE.isAdded()) {
+            ft.hide(fragmentE);
         }
         ft.commit();
     }
@@ -286,7 +309,6 @@ public class MainActivity extends BaseActivity {
         // TODO Auto-generated method stub
         super.onRestoreInstanceState(savedInstanceState);
     }
-
 
 
     ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {

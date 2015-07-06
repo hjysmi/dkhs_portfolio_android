@@ -107,7 +107,7 @@ public class DragStockAdapter extends DragListAdapter {
     }
 
     private void startRemindActivity(SelectStockBean stockBean) {
-        UIUtils.startAminationActivity((Activity) context, StockRemindActivity.newStockIntent(context, stockBean,isLoadByFund));
+        UIUtils.startAnimationActivity((Activity) context, StockRemindActivity.newStockIntent(context, stockBean, isLoadByFund));
     }
 
     public List<SelectStockBean> getStockList() {

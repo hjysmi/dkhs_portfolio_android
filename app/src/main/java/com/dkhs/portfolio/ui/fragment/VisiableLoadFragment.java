@@ -1,6 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -32,7 +32,7 @@ public abstract class VisiableLoadFragment extends BaseFragment {
 //    private VisiableLoadFragment parentFragment;
 
 
-    protected Context mContext;
+    protected Activity mActivity;
     private static final String TAG = VisiableLoadFragment.class.getSimpleName();
 
     @Override
@@ -126,6 +126,6 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext=getActivity();
+        mActivity =getActivity();
     }
 }

@@ -129,9 +129,9 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         public void onClick(View v) {
             // TODO Auto-generated method stub
             SelectStockBean itemStock = mDataList.get(position);
-            UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
+            UIUtils.startAnimationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
 
-            // mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            // mActivity.startActivity(StockQuotesActivity.newIntent(mActivity, itemStock));
         }
 
     }

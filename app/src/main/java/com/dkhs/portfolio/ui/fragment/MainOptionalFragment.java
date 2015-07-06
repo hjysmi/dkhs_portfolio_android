@@ -144,7 +144,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 // startActivity(intent);
-                UIUtils.startAminationActivity(getActivity(), intent);
+                UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
         btnLeft.setOnClickListener(new OnClickListener() {
@@ -155,7 +155,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
                 if (null != tabStockFragment && !tabStockFragment.getDataList().isEmpty()) {
                     Intent intent = EditTabStockActivity.newIntent(getActivity(), tabStockFragment.getDataList());
                     startActivityForResult(intent, 777);
-                    UIUtils.setOverridePendingAmin(getActivity());
+                    UIUtils.setOverridePendingAnin(getActivity());
                 }
 
             }
@@ -208,7 +208,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             public void onClick(View v) {
                 // tabFundsFragment.editFund();
                 startActivityForResult(EditTabCombinationActivity.getIntent(getActivity()), 1722);
-                UIUtils.setOverridePendingAmin(getActivity());
+                UIUtils.setOverridePendingAnin(getActivity());
             }
         });
     }
@@ -221,7 +221,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                UIUtils.startAminationActivity(getActivity(), intent);
+                UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
 
@@ -233,7 +233,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
                 if (null != tabFundsFragment && !tabFundsFragment.getDataList().isEmpty()) {
                     Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
                     startActivityForResult(intent, 888);
-                    UIUtils.setOverridePendingAmin(getActivity());
+                    UIUtils.setOverridePendingAnin(getActivity());
                 }
 
             }

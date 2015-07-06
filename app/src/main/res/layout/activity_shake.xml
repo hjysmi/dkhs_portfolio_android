@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,66 +13,95 @@
         <TextView
             android:id="@+id/timeLineTV"
             android:layout_width="wrap_content"
+            android:textColor="@color/tag_red"
+            android:textSize="16sp"
+            android:layout_marginTop="25dp"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_count_down"
+            android:drawablePadding="4dp"
+
             android:layout_gravity="center"
-            android:text="倒计时" />
+            />
 
         <TextView
             android:id="@+id/chanceTV"
+            android:layout_margin="8dp"
+            android:textColor="@color/tag_gray"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="倒计时" />
+            />
 
         <TextView
             android:id="@+id/freeFlow"
+            android:textColor="@color/tag_gray"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="倒计时" />
+            />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/bg_com_white"
+            android:padding="16dp"
+            android:background="@drawable/bg_dialog"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/titleTV"
+                android:textColor="@color/theme_color"
+                android:textSize="18dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/dateTV"
+                android:textColor="@color/tag_gray"
+                android:textSize="12dp"
+                android:layout_marginTop="2dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/contextTV"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/tag_gray"
+                android:textSize="15dp"
+                android:lineSpacingMultiplier="1.2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/symbolTV"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textColor="@color/ma5_color"
+
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/capitalFlowTV"
+                android:textSize="16sp"
+                android:textColor="@color/theme_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
             <TextView
                 android:id="@+id/upRateTV"
+                android:textSize="16sp"
+                android:textColor="@color/theme_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="dfdfd" />
+                />
 
 
         </LinearLayout>
