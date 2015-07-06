@@ -18,13 +18,19 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.ShakeEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.ShakeActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.ShakeDetector;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +50,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     private boolean getData = false;
     private ShakeDetector sd;
     private SensorManager sensorManager;
+    private  Object mSuccessObject;
 
     public ShakeFragment() {
     }
@@ -64,6 +71,11 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                         vibrator.vibrate(100);
                         mLoadingRibbonAD.stop();
                     }
+
+                    if(mSuccessObject !=null){
+                        mLoadingRibbonAD.stop();
+                        gotoShakeActivity(mSuccessObject);
+                    }
                     break;
                 case 1:
 
@@ -79,8 +91,13 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
 
                     if (msg.obj != null) {
-                        mLoadingRibbonAD.stop();
-                        gotoShakeActivity((ShakeBean) msg.obj);
+
+                        mSuccessObject = (ShakeBean) msg.obj;
+                        if(!animationDrawable.isRunning()){
+                            mLoadingRibbonAD.stop();
+                            gotoShakeActivity(mSuccessObject);
+                        }
+
                     }
                     break;
             }
@@ -172,24 +189,51 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             public void onFailure(final int errCode, final String errMsg) {
                 onFinish();
                 if (errCode == 401) {
-                    uiHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            PromptManager.showToast(mActivity.getString(R.string.shake_err_no_login));
-                        }
-                    },2600);
+
+                    mSuccessObject=mActivity.getString(R.string.shake_err_no_login);
 
                 } else {
-                    uiHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            failure(errCode, errMsg);
-                        }
-                    },2600);
+
+                    failure(errCode, errMsg);
                 }
             }
             public void   failure(int errCode, String errMsg) {
-                super.onFailure(errCode, errMsg);
+
+                if (errCode == 0) {
+                    PromptManager.showToast(R.string.message_timeout);
+                } else if (errCode == 500 || errCode == 404) { // 服务器内部错误
+                    PromptManager.showToast(R.string.message_server_error);
+                } else if (errCode == 777 ) { // 服务器正确响应，错误参数需要提示用户
+                    parseToErrorBundle(errMsg);
+                }
+            }
+            private ErrorBundle parseToErrorBundle(String errMsg) {
+                ErrorBundle errorBundle = new ErrorBundle();
+                try {
+                    JSONObject errorJson = new JSONObject(errMsg);
+                    if (errorJson.has("errors")) {
+                        JSONObject eJObject = errorJson.optJSONObject("errors");
+                        Iterator keyIter = eJObject.keys();
+                        String key = "";
+                        while (keyIter.hasNext()) {
+                            key = (String) keyIter.next();
+                            break;
+                        }
+                        JSONArray eJArray = eJObject.optJSONArray(key);
+                        if (eJArray.length() > 0) {
+                            String errorTExt = eJArray.getString(0);
+                            LogUtils.e("setErrorMessage : " + errorTExt);
+                            errorBundle.setErrorMessage(eJArray.getString(0));
+//                            PromptManager.showToast(errorTExt);
+                            mSuccessObject=errorTExt;
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    errorBundle.setErrorMessage("请求数据失败");
+                    e.printStackTrace();
+                }
+                return errorBundle;
             }
         });
     }
@@ -209,8 +253,14 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         super.onViewHide();
     }
 
-    private void gotoShakeActivity(ShakeBean object) {
-        startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, object));
+    private void gotoShakeActivity(Object object) {
+
+        if(object instanceof  ShakeBean) {
+            startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, (ShakeBean) object));
+        }else if(object instanceof  String){
+            PromptManager.showToast(object.toString());
+        }
+        this.mSuccessObject =null;
     }
 
 
@@ -221,7 +271,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
     @Override
     public void finishShake() {
-        uiHandler.sendEmptyMessage( 0);
+        uiHandler.sendEmptyMessage(0);
     }
 
 
