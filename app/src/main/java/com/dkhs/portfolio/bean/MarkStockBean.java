@@ -5,10 +5,10 @@ import java.util.List;
 /**
  * Created by zjz on 2015/7/3.
  */
-public class MarkSectorBean {
+public class MarkStockBean {
 
     private int total_page;
-    private List<SectorBean> results;
+    private List<StockQuotesBean> results;
     private String server_time;
     private int total_count;
     private int trade_status;
@@ -18,7 +18,7 @@ public class MarkSectorBean {
         this.total_page = total_page;
     }
 
-    public void setResults(List<SectorBean> results) {
+    public void setResults(List<StockQuotesBean> results) {
         this.results = results;
     }
 
@@ -42,7 +42,7 @@ public class MarkSectorBean {
         return total_page;
     }
 
-    public List<SectorBean> getResults() {
+    public List<StockQuotesBean> getResults() {
         return results;
     }
 

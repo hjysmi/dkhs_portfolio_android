@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -111,14 +110,12 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
 
     final static class ViewHodler {
         LinearLayout tvLayoutTitle;
-        TextView tvTextIndex;
-        TextView tvTextEdition;
-        TextView tvTextChange;
+
         TextView tvTextName;
         TextView tvTextNameNum;
         TextView tvTextItemIndex;
         TextView tvTextPercent;
-        ImageView tvUpDown;
+
     }
 
     class OnItemListener implements OnClickListener {

@@ -3,8 +3,6 @@ package com.dkhs.portfolio.ui.fragment;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -113,6 +111,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         super.onResume();
 
 
+        // MobclickAgent.onResume(getActivity());
 
     }
 
@@ -120,8 +119,6 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     public void onViewShow() {
         loadingAllData();
         updateHandler.postDelayed(updateRunnable, mPollRequestTime);
-
-
 
 
         if (isLoading) {
@@ -171,17 +168,21 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         btnMoreHand.setOnClickListener(this);
         btnMoreAmplit.setOnClickListener(this);
 
-        mIndexAdapter = new MarketCenterGridAdapter(mActivity, mIndexDataList, false);
-        mPlateAdapter = new MarketPlateGridAdapter(mActivity, mSecotrList);
+//        mIndexAdapter = new MarketCenterGridAdapter(getActivity(), mIndexDataList, false);
+        mPlateAdapter = new MarketPlateGridAdapter(getActivity(), mSecotrList);
         gvPlate.setAdapter(mPlateAdapter);
         gvPlate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SectorBean bean = mSecotrList.get(position);
-                startActivity(MarketListActivity.newIntent(mActivity, MarketListActivity.LoadViewType.PlateList, bean.getId(),
+                startActivity(MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.PlateList, bean.getId(),
                         bean.getAbbr_name()));
 
+                // UIUtils.startAminationActivity(
+                // getActivity(),
+                // MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                // bean.getAbbr_name()));
 
             }
         });
@@ -198,10 +199,10 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         });
 
         // gvPlate.setAdapter(new MarketCenterGridAdapter(this, 6, true));
-        mIncreaseAdapter = new MarketCenterItemAdapter(mActivity, mIncreaseDataList);
-        mDownAdapter = new MarketCenterItemAdapter(mActivity, mDownDataList);
-        mTurnOverAdapter = new MarketCenterItemAdapter(mActivity, mTurnOverDataList, true);
-        mAmplitAdapter = new MarketCenterItemAdapter(mActivity, mAmpliDataList, true);
+        mIncreaseAdapter = new MarketCenterItemAdapter(getActivity(), mIncreaseDataList);
+        mDownAdapter = new MarketCenterItemAdapter(getActivity(), mDownDataList);
+        mTurnOverAdapter = new MarketCenterItemAdapter(getActivity(), mTurnOverDataList, true);
+        mAmplitAdapter = new MarketCenterItemAdapter(getActivity(), mAmpliDataList, true);
         lvIncease.setAdapter(mIncreaseAdapter);
         lvDown.setAdapter(mDownAdapter);
         lvHandover.setAdapter(mTurnOverAdapter);
@@ -260,6 +261,8 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
                 MarketCenterStockEngineImple.CURRENT, 3));
 
         plateEngine = new PlateLoadMoreEngineImpl(plateListener);
+
+
         // for (LoadMoreDataEngine mLoadDataEngine : engineList) {
         // mLoadDataEngine.loadData();
         // }
@@ -286,9 +289,13 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         @Override
         public void loadFail() {
             if (isAdded()) {
-
-                uiHandler.sendEmptyMessage(END_ANIMATION);
-                mSwipeLayout.setRefreshing(false);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        endAnimaRefresh();
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                });
             }
 
 
@@ -376,41 +383,18 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         @Override
         public void loadFail() {
             if (isAdded()) {
-                uiHandler.sendEmptyMessage(END_ANIMATION);
-
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        endAnimaRefresh();
+                    }
+                });
             }
-
             isLoading = false;
 
         }
 
     }
-
-
-    public static final int END_ANIMATION = 2;
-    public static final int START_ANIMATION = 1;
-    WeakHandler uiHandler = new WeakHandler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-
-
-            switch (msg.what) {
-                case START_ANIMATION:
-                    startAnimaRefresh();
-
-                    break;
-                case END_ANIMATION:
-                    endAnimaRefresh();
-
-                    break;
-
-
-            }
-
-
-            return false;
-        }
-    });
 
     @Override
     public void onClick(View v) {
@@ -421,52 +405,65 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
                 break;
             case R.id.btn_right:
-                intent = new Intent(mActivity, SelectAddOptionalActivity.class);
+                intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
 
                 break;
             case R.id.btn_search:
-                intent = new Intent(mActivity, SelectAddOptionalActivity.class);
+                intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 break;
-            case R.id.btn_more_index:
-                intent = MarketListActivity.newIntent(mActivity, MarketListActivity.LoadViewType.IndexUp);
-                break;
-            case R.id.btn_more_plate:
-                intent = MarketListActivity.newIntent(mActivity, MarketListActivity.LoadViewType.PlateHot);
+            case R.id.btn_more_index: {
+                intent = MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.IndexUp);
+            }
+            break;
+            case R.id.btn_more_plate: {
+                intent = MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.PlateHot);
+            }
+            break;
+            case R.id.btn_more_incease: {
+                intent = MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.StockIncease);
+            }
+            break;
+            case R.id.btn_more_down: {
+                intent = MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.StockDown);
+            }
+            break;
+            case R.id.btn_more_handover: {
+                intent = MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.StockTurnOver);
+            }
+            break;
+            case R.id.btn_more_amplitude: {
+                intent = MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.StockAmplit);
+            }
+            break;
 
-                break;
-            case R.id.btn_more_incease:
-                intent = MarketListActivity.newIntent(mActivity, MarketListActivity.LoadViewType.StockIncease);
-                break;
-            case R.id.btn_more_down:
-                intent = MarketListActivity.newIntent(mActivity, MarketListActivity.LoadViewType.StockDown);
-
-                break;
-            case R.id.btn_more_handover:
-                intent = MarketListActivity.newIntent(mActivity, MarketListActivity.LoadViewType.StockTurnOver);
-                break;
-            case R.id.btn_more_amplitude:
-                intent = MarketListActivity.newIntent(mActivity, MarketListActivity.LoadViewType.StockAmplit);
-                break;
+            // case R.id.btn_right_second: {
+            //
+            //
+            // // rotateRefreshButton();
+            // // quoteHandler.removeCallbacks(runnable);
+            // // setupViewData();
+            // // quoteHandler.postDelayed(runnable, 6 * 1000);
+            // }
+            // break;
             default:
                 break;
         }
 
         if (null != intent) {
-
-            UIUtils.startAnimationActivity(mActivity, intent);
+            UIUtils.startAminationActivity(getActivity(), intent);
         }
     }
 
     private void startQuoteActivity(SelectStockBean itemStock) {
-        UIUtils.startAnimationActivity(mActivity, StockQuotesActivity.newIntent(mActivity, itemStock));
-        // startActivity(StockQuotesActivity.newIntent(mActivity, itemStock));
+        UIUtils.startAminationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
+        // startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(mActivity);
+        MobclickAgent.onPause(getActivity());
     }
 
 //    public class RequestMarketTask extends TimerTask {
@@ -503,7 +500,12 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         if (null != plateEngine) {
             plateEngine.loadData();
         }
-        uiHandler.sendEmptyMessage(START_ANIMATION);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                startAnimaRefresh();
+            }
+        });
     }
 
 
@@ -521,10 +523,9 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     }
 
     public void endAnimaRefresh() {
-//        if (isAdded() && !getUserVisibleHinGt()) {
-        BusProvider.getInstance().post(new StopRefreshEvent());
-
-//        }
+        if (isAdded() && !getUserVisibleHint()) {
+            BusProvider.getInstance().post(new StopRefreshEvent());
+        }
     }
 
 

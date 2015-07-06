@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/market_layout_item"
@@ -12,7 +12,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="3dp"
-        android:paddingTop="3dp" >
+        android:paddingTop="3dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -21,7 +21,7 @@
             android:orientation="vertical"
             android:paddingBottom="3dp"
             android:paddingLeft="20dp"
-            android:paddingTop="3dp" >
+            android:paddingTop="3dp">
 
             <TextView
                 android:id="@+id/market_text_name"
@@ -65,5 +65,6 @@
             android:textStyle="bold" />
     </LinearLayout>
     <!-- <include layout="@layout/layout_line"/> -->
+    <View style="@style/divider_line" />
 
 </LinearLayout>
