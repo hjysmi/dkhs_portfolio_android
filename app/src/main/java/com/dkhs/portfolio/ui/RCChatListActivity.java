@@ -23,51 +23,21 @@ import io.rong.imlib.model.Message;
  * @date 2015/4/16.15:21
  */
 public class RCChatListActivity extends ModelAcitivity {
-    private ConversationListFragment conversationListFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
         setTitle(R.string.message_center);
-        BusProvider.getInstance().register(this);
-
-
         Intent intent = getIntent();
-
         LogUtils.e(intent.getDataString());
         LogUtils.e(intent.getData().toString());
         LogUtils.e(intent.toString());
-
-        conversationListFragment = new ConversationListFragment();
+        ConversationListFragment   conversationListFragment = new ConversationListFragment();
         if (PortfolioApplication.hasUserLogin()) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, conversationListFragment).commit();
 
         }
-
     }
 
-    @Override
-    protected void onDestroy() {
-        BusProvider.getInstance().unregister(this);
-        super.onDestroy();
-    }
-
-    @Subscribe
-    public void updateChatList(Message message) {
-
-
-        LogUtils.e("--updateChatList--");
-        Conversation conversation = RongIMClient.getInstance().getConversation(Conversation.ConversationType.PRIVATE, message.getSenderUserId());
-        conversation.setLatestMessageId(message.getMessageId());
-        conversationListFragment.onResume();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        MessageManager.getInstance().getmConnct().setOnReceiveMessageListener();
-
-    }
 }
