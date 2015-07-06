@@ -18,6 +18,7 @@ public class BaseActivity extends FragmentActivity {
         super.onCreate(arg0);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // this.getWindow().getDecorView().setOnTouchListener(this);
+        getWindow().setBackgroundDrawable(null);
         mContext=this;
     }
 
