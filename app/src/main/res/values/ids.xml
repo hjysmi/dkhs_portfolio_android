@@ -44,4 +44,5 @@
     <item name="llBody" type="id" />
     <item name="menu_view" type="id" />
     <item name="content_view" type="id" />
+    <item name="recyclerView" type="id" />
 </resources>

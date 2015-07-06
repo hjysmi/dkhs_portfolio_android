@@ -93,13 +93,6 @@ public class MarketPlateGridAdapter extends BaseAdapter {
         float change = item.getPercentage();
         mViewHolder.tvCurrentValue.setTextColor(ColorTemplate.getUpOrDrownCSL(change));
         mViewHolder.tvStockName.setText(item.getTop_symbol_name());
-        // if (change > 0) {
-        // mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
-        // mcontext.getResources().getDrawable(R.drawable.ic_grow_up), null, null, null);
-        // } else if (change < 0) {
-        // mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
-        // mcontext.getResources().getDrawable(R.drawable.ic_grow_down), null, null, null);
-        // } else {
         mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         mViewHolder.tvTitleName.setText(item.getAbbr_name());
         mViewHolder.tvCurrentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getPercentage()));

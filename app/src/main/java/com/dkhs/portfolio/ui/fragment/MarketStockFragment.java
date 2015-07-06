@@ -121,8 +121,6 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         updateHandler.postDelayed(updateRunnable, mPollRequestTime);
 
 
-
-
         if (isLoading) {
             startAnimaRefresh();
         } else {
@@ -170,7 +168,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         btnMoreHand.setOnClickListener(this);
         btnMoreAmplit.setOnClickListener(this);
 
-        mIndexAdapter = new MarketCenterGridAdapter(getActivity(), mIndexDataList, false);
+//        mIndexAdapter = new MarketCenterGridAdapter(getActivity(), mIndexDataList, false);
         mPlateAdapter = new MarketPlateGridAdapter(getActivity(), mSecotrList);
         gvPlate.setAdapter(mPlateAdapter);
         gvPlate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -263,6 +261,8 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
                 MarketCenterStockEngineImple.CURRENT, 3));
 
         plateEngine = new PlateLoadMoreEngineImpl(plateListener);
+
+
         // for (LoadMoreDataEngine mLoadDataEngine : engineList) {
         // mLoadDataEngine.loadData();
         // }
@@ -523,9 +523,9 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     }
 
     public void endAnimaRefresh() {
-//        if (isAdded() && !getUserVisibleHinGt()) {
-        BusProvider.getInstance().post(new StopRefreshEvent());
-//        }
+        if (isAdded() && !getUserVisibleHint()) {
+            BusProvider.getInstance().post(new StopRefreshEvent());
+        }
     }
 
 

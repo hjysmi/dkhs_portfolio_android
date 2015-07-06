@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.dkhs.portfolio.ui.widget.GridViewEx
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gridmarket"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:horizontalSpacing="5dp"
+    android:listSelector="@android:color/transparent"
+    android:numColumns="3"
+    android:padding="5dp"
+    android:verticalSpacing="5dp">
+
+</com.dkhs.portfolio.ui.widget.GridViewEx>

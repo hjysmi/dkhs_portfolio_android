@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
@@ -32,17 +33,15 @@ import java.util.List;
  */
 public class MarketCenterGridAdapter extends BaseAdapter {
 
-    private List<SelectStockBean> mDataList;
+    private List<StockQuotesBean> mDataList;
     private LayoutInflater mInflater;
     private Context mcontext;
     // private GridView mGridView;
     // private int mCount = 0;
-    private boolean isPlate;
 
-    public MarketCenterGridAdapter(Context context, List<SelectStockBean> datalist, boolean isplate) {
+    public MarketCenterGridAdapter(Context context, List<StockQuotesBean> datalist) {
         mInflater = LayoutInflater.from(context);
         this.mDataList = datalist;
-        this.isPlate = isplate;
         this.mcontext = context;
 
     }
@@ -80,14 +79,12 @@ public class MarketCenterGridAdapter extends BaseAdapter {
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
         }
-        if (isPlate) {
-            mViewHolder.tvStockName.setVisibility(View.VISIBLE);
-        } else {
 
-            mViewHolder.tvStockName.setVisibility(View.GONE);
-        }
 
-        SelectStockBean item = mDataList.get(position);
+        mViewHolder.tvStockName.setVisibility(View.GONE);
+
+
+        SelectStockBean item = SelectStockBean.copy(mDataList.get(position));
 
         float change = item.percentage;
         mViewHolder.tvCurrentValue.setTextColor(ColorTemplate.getUpOrDrownCSL(change));
