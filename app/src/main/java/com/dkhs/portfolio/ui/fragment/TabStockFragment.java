@@ -176,7 +176,9 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         public void run() {
             // loadDataListFragment.refreshNoCaseTime();
 //            reloadData();
-            loadDataListFragment.refresh();
+            if(null!=loadDataListFragment){
+                loadDataListFragment.refresh();
+            }
             updateHandler.postDelayed(updateRunnable, mPollRequestTime);
         }
     };
