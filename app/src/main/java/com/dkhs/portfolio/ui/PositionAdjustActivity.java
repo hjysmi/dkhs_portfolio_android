@@ -187,7 +187,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private void initView() {
 
         btnConfirm = getRightButton();
-        btnConfirm.setText(R.string.confirm);
+        btnConfirm.setText(R.string.finish);
         btnConfirm.setOnClickListener(this);
 
         headerView = View.inflate(this, R.layout.layout_postionadjust_header, null);
