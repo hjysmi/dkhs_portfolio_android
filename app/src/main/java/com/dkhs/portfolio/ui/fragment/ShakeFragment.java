@@ -67,8 +67,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     animationDrawable.stop();
                     mShakeIv.setImageResource(R.drawable.shake_02);
                     if (!getData) {
-                        Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrator.vibrate(100);
+                        vibrator();
                         mLoadingRibbonAD.stop();
                     }
 
@@ -82,8 +81,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
                     if (!animationDrawable.isRunning()) {
                         //彩带动画停止
-                        Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
-                        vibrator.vibrate(100);
+                        vibrator();
                         mLoadingRibbonAD.stop();
                     }
                     break;
@@ -104,6 +102,11 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             return false;
         }
     });
+
+    private void vibrator() {
+        Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(70);
+    }
 
     @Override
     public int setContentLayoutId() {
@@ -146,6 +149,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         if (getData ||  animationDrawable.isRunning()) {
             return;
         }
+        vibrator();
         getData = true;
         mShakeIv.setImageDrawable(animationDrawable);
         animationDrawable.start();
@@ -248,6 +252,10 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             sd.stop();
         super.onViewHide();
     }
+
+
+
+
 
     private void gotoShakeActivity(Object object) {
 

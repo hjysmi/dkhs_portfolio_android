@@ -81,7 +81,17 @@ public abstract class VisiableLoadFragment extends BaseFragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             //do when hidden
+
+            if(getView() !=null){
+                onViewHide();
+            }
+
         } else {
+            if(getView() !=null){
+                requestData();
+                onViewShow();
+
+            }
             //do when show
         }
     }

@@ -95,9 +95,12 @@ public class ShakeDetector implements SensorEventListener {
         if (queue.isShaking()) {
             queue.clear();
             LogUtils.e("hearShake");
+            if(!shacke) {
+                listener.hearShake();
+            }
             shacke=true;
             startTimeLong=System.currentTimeMillis();
-            listener.hearShake();
+
         }else{
             if(System.currentTimeMillis()-startTimeLong > 1200&& shacke){
                 listener.finishShake();
