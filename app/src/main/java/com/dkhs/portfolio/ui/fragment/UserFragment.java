@@ -77,7 +77,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     private UserEngineImpl userImp = new UserEngineImpl();
 
     @Override
-    public int setContentLayoutId() {tvFollowing.setText("df");
+    public int setContentLayoutId() {
         return R.layout.fragment_user;
     }
 
