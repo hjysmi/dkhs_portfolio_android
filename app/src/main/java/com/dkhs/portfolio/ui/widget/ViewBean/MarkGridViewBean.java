@@ -11,8 +11,9 @@ import android.widget.GridView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MarkStockBean;
-import com.dkhs.portfolio.bean.SectorBean;
-import com.dkhs.portfolio.ui.MarketListActivity;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -60,9 +61,8 @@ public class MarkGridViewBean extends ViewBean {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    SectorBean bean = (SectorBean) parent.getItemAtPosition(position);
-                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), MarketListActivity.newIntent(itemView.getContext(), MarketListActivity.LoadViewType.PlateList, bean.getId(),
-                            bean.getAbbr_name()));
+                    StockQuotesBean bean = (StockQuotesBean) parent.getItemAtPosition(position);
+                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), StockQuotesActivity.newIntent(itemView.getContext(), SelectStockBean.copy(bean)));
 
 
                 }
