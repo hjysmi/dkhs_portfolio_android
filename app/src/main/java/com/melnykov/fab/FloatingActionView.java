@@ -345,16 +345,18 @@ public class FloatingActionView extends LinearLayout {
     }
 
     public void attachToScrollView(@NonNull ObservableScrollView scrollView,
-            ScrollDirectionListener scrollDirectionListener) {
+                                   ScrollDirectionListener scrollDirectionListener) {
         attachToScrollView(scrollView, scrollDirectionListener, null);
     }
 
     public void attachToListView(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener,
-            AbsListView.OnScrollListener onScrollListener) {
+                                 AbsListView.OnScrollListener onScrollListener) {
         AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionListener);
         scrollDetector.setOnScrollListener(onScrollListener);
         scrollDetector.setListView(listView);
+        ViewGroup.MarginLayoutParams mLP = (MarginLayoutParams) listView.getLayoutParams();
+        listView.setPadding(mLP.leftMargin, mLP.topMargin, mLP.rightMargin, mLP.bottomMargin + getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
         scrollDetector.setScrollThreshold(mScrollThreshold);
         listView.setOnScrollListener(scrollDetector);
     }
@@ -369,8 +371,8 @@ public class FloatingActionView extends LinearLayout {
     // }
 
     public void attachToScrollView(@NonNull ObservableScrollView scrollView,
-            ScrollDirectionListener scrollDirectionListener,
-            ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
+                                   ScrollDirectionListener scrollDirectionListener,
+                                   ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
         ScrollViewScrollDetectorImpl scrollDetector = new ScrollViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionListener);
         scrollDetector.setOnScrollChangedListener(onScrollChangedListener);
@@ -537,9 +539,9 @@ public class FloatingActionView extends LinearLayout {
         }
 
         /**
+         * @return
          * @Title
          * @Description TODO: (用一句话描述这个方法的功能)
-         * @return
          */
         @Override
         public void onScrollBottom() {

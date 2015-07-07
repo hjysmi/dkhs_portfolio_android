@@ -401,7 +401,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
     private void setPieList() {
         // pieList.clear();
         PieSlice emptySlice = new PieSlice();
-        emptySlice.setColor(ColorTemplate.DEF_RED);
+        emptySlice.setColor(ColorTemplate.SURP_RED);
         emptySlice.setValue(mPositionDetail.getFund_percent());
         pieList.add(emptySlice);
 
