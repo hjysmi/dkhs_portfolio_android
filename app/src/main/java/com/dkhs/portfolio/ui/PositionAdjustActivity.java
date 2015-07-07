@@ -194,7 +194,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
 
         headerView.findViewById(R.id.btn_add_postional).setOnClickListener(this);
-//        headerView.findViewById(R.id.btn_confirm).setOnClickListener(this);
         positionTextValue = (TextView) headerView.findViewById(R.id.position_text_value);
         positionTextCreatedate = (TextView) headerView.findViewById(R.id.position_text_createdate);
         btnAverage = (Button) headerView.findViewById(R.id.btn_average);
@@ -206,8 +205,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         // initPieView();
         pgView = (PieGraph) headerView.findViewById(R.id.piegrah);
 
-        mFooterView = View.inflate(this, R.layout.layout_optional_percent, null);
+        mFooterView = View.inflate(this, R.layout.layout_postionadjust_bottom, null);
         mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
+        Button btnconfirm = (Button) mFooterView.findViewById(R.id.btn_confirm);
+        btnconfirm.setOnClickListener(this);
+        btnconfirm.setVisibility(View.VISIBLE);
+
         surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
         tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);
         // surSeekbar.setEnabled(false);
