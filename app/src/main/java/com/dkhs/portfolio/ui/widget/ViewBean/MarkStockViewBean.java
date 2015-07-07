@@ -23,7 +23,7 @@ import com.dkhs.portfolio.utils.UIUtils;
  * Created by zjz on 2015/7/3.
  */
 public class MarkStockViewBean extends ViewBean {
-    public static final int TYPE = 3;
+    private static final int TYPE = 3;
 
     public MarkStockViewBean() {
     }
