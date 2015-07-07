@@ -84,7 +84,7 @@
             android:launchMode="singleTop" />
         <activity
             android:name="com.dkhs.portfolio.ui.PositionAdjustActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.SelectStockActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalStockListActivity" />

@@ -17,7 +17,7 @@ import java.util.List;
  * Created by zjz on 2015/7/3.
  */
 public class MarkStockAdatper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private SparseArray<ViewBean> viewDatas = new SparseArray<ViewBean>(3);
+    private SparseArray<ViewBean> viewDatas = new SparseArray<ViewBean>(4);
     private MarkIndexViewPool mViewPool;
     private List<ViewBean> mItems;
 

@@ -176,15 +176,15 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
-            // loadDataListFragment.refreshNoCaseTime();
-//            reloadData();
-            if(loadDataListFragment !=null) {
+
+            if (loadDataListFragment != null) {
                 // FIXME: 2015/7/6 在部分机型部分时机会爆java.lang.NullPointerException  待测试这个方法是否有效
-               // at com.dkhs.portfolio.ui.fragment.TabStockFragment$1.run(Unknown Source)
-               // at com.dkhs.portfolio.common.WeakHandler$WeakRunnable.run(Unknown Source)
+                // at com.dkhs.portfolio.ui.fragment.TabStockFragment$1.run(Unknown Source)
+                // at com.dkhs.portfolio.common.WeakHandler$WeakRunnable.run(Unknown Source)
                 loadDataListFragment.refresh();
                 updateHandler.postDelayed(this, mPollRequestTime);
             }
+
         }
     };
 

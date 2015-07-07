@@ -534,14 +534,17 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
 
 
     public void refresh() {
-        isRefresh = true;
-        if (mLoadDataEngine != null && UIUtils.roundAble(mLoadDataEngine.getStatu()) && !isLoadingMore) {
-            // mDataList.clear();
-            isLoading = true;
-            if (null != loadingFinishListener) {
-                loadingFinishListener.startLoadingData();
+        if (isAdded()) {
+
+            isRefresh = true;
+            if (mLoadDataEngine != null && UIUtils.roundAble(mLoadDataEngine.getStatu()) && !isLoadingMore) {
+                // mDataList.clear();
+                isLoading = true;
+                if (null != loadingFinishListener) {
+                    loadingFinishListener.startLoadingData();
+                }
+                loadHandler = mLoadDataEngine.loadData();
             }
-            loadHandler = mLoadDataEngine.loadData();
         }
     }
 
