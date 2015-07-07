@@ -34,6 +34,7 @@ public class ShakeDetector implements SensorEventListener {
          * Called on the main thread when the device is shaken.
          */
         void hearShake();
+        void finishShake();
 
     }
 
@@ -83,6 +84,8 @@ public class ShakeDetector implements SensorEventListener {
     }
 
 
+    private long startTimeLong;
+    private boolean shacke;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -92,7 +95,14 @@ public class ShakeDetector implements SensorEventListener {
         if (queue.isShaking()) {
             queue.clear();
             LogUtils.e("hearShake");
+            shacke=true;
+            startTimeLong=System.currentTimeMillis();
             listener.hearShake();
+        }else{
+            if(System.currentTimeMillis()-startTimeLong > 1200&& shacke){
+                listener.finishShake();
+                shacke=false;
+            }
         }
     }
 

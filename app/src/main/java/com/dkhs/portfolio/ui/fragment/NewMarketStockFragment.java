@@ -239,7 +239,6 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
                 intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 break;
 
-
             default:
                 break;
         }

@@ -1,9 +1,11 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.animation.LayoutTransition;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
@@ -500,7 +502,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         if (null != plateEngine) {
             plateEngine.loadData();
         }
-        getActivity().runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 startAnimaRefresh();

@@ -8,12 +8,14 @@
  */
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.util.LogUtils;
 
 import io.rong.imlib.model.Message;
 
@@ -50,6 +53,8 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     private MessageHandler handler;
+
+
 
 
     @Override

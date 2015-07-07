@@ -24,8 +24,6 @@ public class MarkStockAdatper extends RecyclerView.Adapter<RecyclerView.ViewHold
     public MarkStockAdatper(List<ViewBean> items, MarkIndexViewPool mViewPool) {
         this.mViewPool = mViewPool;
         mItems = items;
-
-
         new MarkTitleViewBean(viewDatas);
         new MarkGridViewBean(viewDatas);
         new MarkPlateGridViewBean(viewDatas);
@@ -35,12 +33,29 @@ public class MarkStockAdatper extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void clear() {
         if (null != mItems) {
             mItems.clear();
-
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, int viewType) {
+
+//        ViewBean viewBean=  viewDatas.get(viewType);
+//        if(viewBean == null){
+//            switch (viewType){
+//                case  MarkTitleViewBean.TYPE:
+//                    new MarkTitleViewBean(viewDatas);
+//                    break;
+//                case  MarkGridViewBean.TYPE:
+//                    new MarkGridViewBean(viewDatas);
+//                    break;
+//                case  MarkPlateGridViewBean.TYPE:
+//                    new MarkPlateGridViewBean(viewDatas);
+//                    break;
+//                case  MarkStockViewBean.TYPE:
+//                    new MarkStockViewBean(viewDatas);
+//                    break;
+//            }
+//        }
         return viewDatas.get(viewType).onCreateViewHolder(container, mViewPool);
     }
 

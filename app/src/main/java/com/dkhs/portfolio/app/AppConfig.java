@@ -53,8 +53,10 @@ public final class AppConfig {
         }
 
         // 注册crashHandler，程序异常的日志管理工具
-        CrashHandler crashHandler = CrashHandler.getInstance(context);
 
+        if (isDebug) {
+             CrashHandler.getInstance(context);
+        }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
 
