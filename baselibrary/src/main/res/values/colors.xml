@@ -31,7 +31,7 @@
     <color name="alpha_gray">#66262932</color>
     <color name="yellow">#ffff00</color>
     <color name="text_press">#a0a0a0</color>
-    <color name="def_1">#FF4518</color>
+    <color name="def_1">#FF7700</color>
     <color name="def_2">#80B2F7</color>
     <color name="def_3">#FE982E</color>
     <color name="def_4">#46B522</color>
@@ -52,6 +52,7 @@
     <color name="def_19">#a6410c</color>
     <color name="def_20">#f66dff</color>
     <color name="def_red">#ff6363</color>
+    <color name="surp_red">#ff222d</color>
     <color name="def_green">#62b133</color>
     <color name="def_gray">#7b7c7d</color>
     <color name="blue_line">#00acec</color>

@@ -306,7 +306,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener 
         }
         // surpulsValue();
         PieSlice emptySlice = new PieSlice();
-        emptySlice.setColor(ColorTemplate.DEF_RED);
+        emptySlice.setColor(ColorTemplate.SURP_RED);
         emptySlice.setValue(mPositionDetail.getFund_percent());
         pieList.add(emptySlice);
 

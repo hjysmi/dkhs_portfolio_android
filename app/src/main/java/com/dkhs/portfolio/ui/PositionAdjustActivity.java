@@ -51,7 +51,6 @@ import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -103,8 +102,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private PositionDetail mPositionDetailBean;
     private String mCombinationId;
     private boolean isAdjustCombination;
-    private TextView positionTextValue;
-    private TextView positionTextCreatedate;
+    //    private TextView positionTextValue;
+//    private TextView positionTextCreatedate;
     private boolean firse = false;
 
     public static Intent newIntent(Context context, String combinationId) {
@@ -178,6 +177,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     private View headerView;
+    FloatingActionMenu mFloatingActionMenu;
 
     /**
      * @return void
@@ -191,11 +191,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         btnConfirm.setOnClickListener(this);
 
         headerView = View.inflate(this, R.layout.layout_postionadjust_header, null);
+        mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floatingMenu);
+        mFloatingActionMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
 
-
-        headerView.findViewById(R.id.btn_add_postional).setOnClickListener(this);
-        positionTextValue = (TextView) headerView.findViewById(R.id.position_text_value);
-        positionTextCreatedate = (TextView) headerView.findViewById(R.id.position_text_createdate);
+//        headerView.findViewById(R.id.btn_add_postional).setOnClickListener(this);
+//        positionTextValue = (TextView) headerView.findViewById(R.id.position_text_value);
+//        positionTextCreatedate = (TextView) headerView.findViewById(R.id.position_text_createdate);
         btnAverage = (Button) headerView.findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
         etConbinationName = (EditText) headerView.findViewById(R.id.et_myconbina_name);
@@ -207,9 +208,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         mFooterView = View.inflate(this, R.layout.layout_postionadjust_bottom, null);
         mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
-        Button btnconfirm = (Button) mFooterView.findViewById(R.id.btn_confirm);
-        btnconfirm.setOnClickListener(this);
-        btnconfirm.setVisibility(View.VISIBLE);
+//        Button btnconfirm = (Button) mFooterView.findViewById(R.id.btn_confirm);
+//        btnconfirm.setOnClickListener(this);
+//        btnconfirm.setVisibility(View.VISIBLE);
 
         surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
         tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);
@@ -223,7 +224,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         initFooterView();
 
         initStockPercentView();
-
+        initFloatingActionMenu();
         isShowAverageButton();
 
         etConbinationName.addTextChangedListener(new TextWatcher() {
@@ -248,13 +249,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
+
     private void initConbinationInfoView() {
 
         if (isAdjustCombination) {
             setTitle(R.string.adjust_combination);
             headerView.findViewById(R.id.create_portfolio_info).setVisibility(View.GONE);
-            headerView.findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
-            headerView.findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
+//            headerView.findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
+//            headerView.findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
 
         } else {
             setTitle(R.string.create_combination);
@@ -267,13 +269,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             etConbinationName.setText(mPositionDetailBean.getPortfolio().getName());
             etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDefDescription());
             // viewCombinationInfo.setVisibility(View.VISIBLE);
-            positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
-            positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
-                    .getNetvalue() - 1));
-            // String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
-            // time = time.substring(0, time.length() - 4);
-            positionTextCreatedate.setText("成立时间: "
-                    + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
+//            positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
+//            positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
+//                    .getNetvalue() - 1));
+//            // String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
+//            // time = time.substring(0, time.length() - 4);
+//            positionTextCreatedate.setText("成立时间: "
+//                    + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
 
             setPieList(mPositionDetailBean.getFund_percent());
             setFootData(mPositionDetailBean.getFund_percent());
@@ -305,11 +307,34 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void initStockPercentView() {
         lvStock = (ListView) findViewById(R.id.lv_optional_layout);
+        mFloatingActionMenu.attachToListView(lvStock);
+
         stockAdapter = new OptionalStockAdapter(this, stockList);
         stockAdapter.setDutyNotifyListener(this);
         lvStock.addFooterView(mFooterView);
         lvStock.addHeaderView(headerView);
         lvStock.setAdapter(stockAdapter);
+
+    }
+
+    private final int MENU_ADD = 6;
+    FloatingActionMenu.OnMenuItemSelectedListener mFloatMenuSelectListner = new FloatingActionMenu.OnMenuItemSelectedListener() {
+
+        @Override
+        public boolean onMenuItemSelected(int selectIndex) {
+            if (selectIndex == MENU_ADD) {
+                startSelectStockActivity(false);
+            }
+            return false;
+        }
+
+    };
+
+    private void initFloatingActionMenu() {
+        mFloatingActionMenu.removeAllItems();
+
+        mFloatingActionMenu.addItem(MENU_ADD, R.string.float_menu_addstock, R.drawable.ic_add);
+
 
     }
 
@@ -326,8 +351,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 .findDrawableByLayerId(android.R.id.progress);
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
-        gd.setColor(ColorTemplate.DEF_RED);
-        mFooterView.findViewById(R.id.view_color).setBackgroundColor(ColorTemplate.DEF_RED);
+        gd.setColor(ColorTemplate.SURP_RED);
+        mFooterView.findViewById(R.id.view_color).setBackgroundColor(ColorTemplate.SURP_RED);
         // return foot;
     }
 
@@ -345,7 +370,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
 
         PieSlice emptySlice = new PieSlice();
-        emptySlice.setColor(ColorTemplate.DEF_RED);
+        emptySlice.setColor(ColorTemplate.SURP_RED);
 
         emptySlice.setValue(survalue);
 
@@ -436,7 +461,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.btn_confirm:
             case R.id.btn_right: {
 
                 if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
@@ -453,10 +477,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     }
                 }
                 // Toast.makeText(PositionAdjustActivity.this, "确定添加", Toast.LENGTH_SHORT).show();
-            }
-            break;
-            case R.id.btn_add_postional: {
-                startSelectStockActivity(false);
             }
             break;
             case R.id.btn_average: {
