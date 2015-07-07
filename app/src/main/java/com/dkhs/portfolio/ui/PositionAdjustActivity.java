@@ -673,45 +673,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         return symbols;
     }
 
-    private List<SubmitSymbol> generateAdjustSymbols() {
-        List<SubmitSymbol> symbols = new ArrayList<SubmitSymbol>();
-        List<ConStockBean> tempList = new ArrayList<ConStockBean>();
-        tempList.addAll(stockList);
-        if (null != mPositionDetailBean) {
-
-            List<ConStockBean> originalBeanList = mPositionDetailBean.getPositionList();
-
-            for (ConStockBean originStock : originalBeanList) {
-                if (tempList.contains(originStock)) {
-                    int index = tempList.indexOf(originStock);
-                    ConStockBean bean = tempList.get(index);
-                    if (originStock.getPercent() == bean.getPercent()) {
-                        tempList.remove(index);
-                    }
-
-                } else {
-                    originStock.setPercent(0);
-                    // originStock.setPercent(0);
-                    tempList.add(originStock);
-
-                }
-
-            }
-        }
-
-        for (ConStockBean stock : tempList) {
-            SubmitSymbol symbol = new SubmitSymbol();
-            if (isAdjustCombination) {
-                symbol.setSymbol(stock.getStockCode());
-            } else {
-
-                symbol.setSymbol(stock.getStockId() + "");
-            }
-            symbol.setPercent((int) stock.getPercent());
-            symbols.add(symbol);
-        }
-        return symbols;
-    }
 
     private void createCombinationByServer() {
 
