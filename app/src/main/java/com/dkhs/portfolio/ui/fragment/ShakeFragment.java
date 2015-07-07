@@ -165,7 +165,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     Message message = new Message();
                     message.what = 3;
                     message.obj = object;
-                    uiHandler.sendMessageDelayed(message, 2600);
+                    uiHandler.sendMessage(message);
 
                 }
             }
@@ -252,11 +252,20 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     private void gotoShakeActivity(Object object) {
 
         if(object instanceof  ShakeBean) {
-            startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, (ShakeBean) object));
+
+            uiHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, (ShakeBean) mSuccessObject));
+                    mSuccessObject=null;
+                }
+            },200);
+
         }else if(object instanceof  String){
             PromptManager.showToast(object.toString());
+            this.mSuccessObject =null;
         }
-        this.mSuccessObject =null;
+
     }
 
 
