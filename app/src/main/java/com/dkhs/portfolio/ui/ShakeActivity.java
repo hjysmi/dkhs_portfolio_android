@@ -79,8 +79,12 @@ public class ShakeActivity extends ModelAcitivity  {
             mShakeBean=DataParse.parseObjectJson(ShakeBean.class,getIntent().getStringExtra("shakeBean"));
             countDownTask =new CountDownTask(mShakeBean.display_time*1000,1000);
             countDownTask.start();
-            mChanceTV.setText(String.format(getString(R.string.the_number_of_times),mShakeBean.times_used,mShakeBean.times_left));
 
+            if(mShakeBean.times_left==0){
+                mChanceTV.setText(String.format(getString(R.string.the_last_times), mShakeBean.times_used));
+            }else {
+                mChanceTV.setText(String.format(getString(R.string.the_number_of_times), mShakeBean.times_used, mShakeBean.times_left));
+            }
             mTitleTV.setText(mShakeBean.title);
 
             mContextTV.setText(mShakeBean.content);
@@ -99,7 +103,7 @@ public class ShakeActivity extends ModelAcitivity  {
             }else{
 
                 mFreeFlow.setText(new Spanny(getString(R.string.free_flow_pre), new ForegroundColorSpan(getResources().getColor(R.color.tag_gray)))
-                        .append(" "+mShakeBean.coins_bonus+"M ",new ForegroundColorSpan(getResources().getColor(R.color.tag_red)))
+                        .append(" " + mShakeBean.coins_bonus + "M ", new ForegroundColorSpan(getResources().getColor(R.color.tag_red)))
                         .append(getString(R.string.free_flow_postfix), new ForegroundColorSpan(getResources().getColor(R.color.tag_gray))));
             }
 

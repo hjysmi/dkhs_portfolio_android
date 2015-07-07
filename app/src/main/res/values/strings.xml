@@ -630,6 +630,7 @@
     <string name="shakeItOff">摇一摇</string>
     <string name="introduce">说明</string>
     <string name="the_number_of_times">已使用%1$d次机会,今日还剩%2$d次</string>
+    <string name="the_last_times">今日%1$d次机会已用完,明日再来</string>
     <string name="recommend_symbol">"推荐股票:  "</string>
     <string name="recently_come_in">"近5日资金流入:  %1$s"</string>
     <string name="up_precent">"上涨概率:  %1$s"</string>
