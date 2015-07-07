@@ -82,8 +82,6 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onResume(getActivity());
-
     }
 
     @Override
@@ -252,7 +250,6 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(getActivity());
     }
 
 

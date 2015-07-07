@@ -145,7 +145,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     public void onResume() {
 
         super.onResume();
-        MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
         // refreshEditView();
 
@@ -382,8 +381,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         // TODO Auto-generated method stub
         super.onPause();
 
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);
         BusProvider.getInstance().unregister(this);
     }

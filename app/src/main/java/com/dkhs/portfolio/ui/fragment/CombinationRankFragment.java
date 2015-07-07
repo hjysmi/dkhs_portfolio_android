@@ -191,14 +191,12 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void onPause() {
 
         super.onPause();
-        MobclickAgent.onPageEnd(mPageName);
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(mPageName);
         dataHandler.removeCallbacks(runnable);
         dataHandler.postDelayed(runnable, 60);
 

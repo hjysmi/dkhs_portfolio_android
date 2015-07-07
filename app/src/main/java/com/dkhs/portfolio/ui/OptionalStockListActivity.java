@@ -76,8 +76,6 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -279,12 +277,5 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
+
 }

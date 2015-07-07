@@ -48,16 +48,6 @@ public class AgreementTextActivity extends ModelAcitivity{
 			
 		});
 	}
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		MobclickAgent.onPause(this);
-	}
-	@Override
-	protected void onResume(){
-		super.onResume();
-		MobclickAgent.onResume(this);
-	}
+
 	
 }

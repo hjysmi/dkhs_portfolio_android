@@ -465,7 +465,6 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(getActivity());
     }
 
 //    public class RequestMarketTask extends TimerTask {

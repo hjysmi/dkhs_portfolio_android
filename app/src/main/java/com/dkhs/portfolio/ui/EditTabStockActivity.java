@@ -203,9 +203,6 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
     }
 
     private boolean isFirstLoad = true;
@@ -214,9 +211,6 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
         if (isFirstLoad) {
             isFirstLoad = false;
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);

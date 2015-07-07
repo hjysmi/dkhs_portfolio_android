@@ -14,6 +14,7 @@ import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.umeng.analytics.AnalyticsConfig;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 
@@ -47,6 +48,7 @@ public final class AppConfig {
 //        }
 
 
+        MobclickAgent.openActivityDurationTrack(false);
         //是否替换本地raw里面的数据库
         if (hasReplaceRawDB || !PortfolioPreferenceManager.hasLoadSearchStock()) {
             copyDataBaseToPhone();

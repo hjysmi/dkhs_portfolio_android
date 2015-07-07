@@ -287,21 +287,5 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_dound_third_account);
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-        UserEngineImpl.queryThreePlatBind(bindsListener);
-
-    }
 }

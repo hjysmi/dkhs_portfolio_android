@@ -89,7 +89,7 @@ public class ShakeActivity extends ModelAcitivity  {
 
             mContextTV.setText(mShakeBean.content);
             Spanny spanny = new Spanny(getString(R.string.recommend_symbol), new ForegroundColorSpan(getResources().getColor(R.color.theme_color)))
-                    .append(mShakeBean.symbol.abbr_name,new ForegroundColorSpan(getResources().getColor(R.color.ma20_color)));
+                    .append(mShakeBean.symbol.abbr_name,new ForegroundColorSpan(getResources().getColor(R.color.subscribe_item_selected_stroke)));
             mSymbolTV.setText(spanny);
             mCapitalFlowTV.setText(String.format(getString(R.string.recently_come_in), mShakeBean.capital_flow))
             ;

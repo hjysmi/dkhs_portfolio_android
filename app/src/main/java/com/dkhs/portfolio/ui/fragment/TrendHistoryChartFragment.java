@@ -439,7 +439,6 @@ public class TrendHistoryChartFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-        MobclickAgent.onPageEnd(mPageName);
     }
 
     Runnable runnable = new Runnable() {
@@ -469,7 +468,6 @@ public class TrendHistoryChartFragment extends BaseFragment {
         // TODO Auto-generated method stub
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override

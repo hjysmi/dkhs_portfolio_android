@@ -17,8 +17,13 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
+import com.umeng.analytics.MobclickAgent;
+
+import java.lang.reflect.Field;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -33,6 +38,8 @@ public class ModelAcitivity extends SwipeBackActivity {
     private View mTitleView;
     protected UserEngineImpl engine;
     protected Activity mActivity;
+
+    public boolean hadFragment;
 
     /**
      * 显示子页面的容器
@@ -51,8 +58,36 @@ public class ModelAcitivity extends SwipeBackActivity {
         mActivity =this;
         onCreate(arg0, R.layout.layout_model_default);
 
+
+        Field[] fields= this.getClass().getDeclaredFields();
+
+        for (Field field:fields) {
+
+            LogUtils.e(field.getType().toString());
+            // FIXME: 2015/7/7  解决办法待优化
+            if(field.getType().toString().contains("Fragment")){
+                hadFragment=true;
+                break;
+            }
+        }
     }
 
+    protected void onResume() {
+        super.onResume();
+        if(!hadFragment){
+            MobclickAgent.onPageStart(this.getClass().getSimpleName());
+        }
+        MobclickAgent.onResume(this);
+         //统计时长
+    }
+    protected void onPause() {
+        super.onPause();
+        if(!hadFragment){
+            MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+        }
+
+        MobclickAgent.onPause(this);
+    }
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
@@ -268,16 +303,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         layoutContent.addView(imageView);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
 
     @Override
     public void onBackPressed() {

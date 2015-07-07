@@ -707,7 +707,6 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         // TODO Auto-generated method stub
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
     }
 
     @Override
@@ -715,7 +714,6 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         // TODO Auto-generated method stub
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
         QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
         listener.setLoadingDialog(getActivity());
 

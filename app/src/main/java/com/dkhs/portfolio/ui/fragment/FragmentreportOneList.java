@@ -246,26 +246,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_yanbao);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        /*
-         * if(uservivible){
-         * initDate();
-         * }
-         */
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

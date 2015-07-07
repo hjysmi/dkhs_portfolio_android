@@ -115,19 +115,12 @@ public class MarketCombinationFragment extends VisiableLoadFragment  implements 
         }
     };
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPause(getActivity());
-    }
 
 
     @Override
     public void onResume() {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onResume(getActivity());
         if (!PortfolioApplication.hasUserLogin()) {
             loadVisitorCombinationList();
         }
