@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="30dp">
+
+    <View
+        android:id="@+id/div_line1"
+        style="@style/divider_line" />
+
+    <include
+        android:id="@+id/surp_view"
+        layout="@layout/layout_optional_percent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_line1" />
+
+    <View
+        android:id="@+id/div_line"
+        style="@style/divider_line"
+        android:layout_below="@+id/surp_view" />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        style="@style/btn_login_blue"
+        android:layout_below="@+id/div_line"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dip"
+        android:text="@string/confirm_adjust" />
+
+</RelativeLayout>

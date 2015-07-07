@@ -24,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +45,6 @@ import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UpdatePositinoEvent;
-import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
@@ -86,7 +86,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     public static final int COME_COMBOLE = 1;
     private PieGraph pgView;
     private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
-    private ListViewEx lvStock;
+    private ListView lvStock;
     private OptionalStockAdapter stockAdapter;
     public static float surValue;
     private TextView tvSurpusValue;
@@ -177,6 +177,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
+    private View headerView;
+
     /**
      * @return void
      * @Title
@@ -187,22 +189,28 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         btnConfirm = getRightButton();
         btnConfirm.setText(R.string.confirm);
         btnConfirm.setOnClickListener(this);
-        findViewById(R.id.btn_add_postional).setOnClickListener(this);
-        findViewById(R.id.btn_confirm).setOnClickListener(this);
-        positionTextValue = (TextView) findViewById(R.id.position_text_value);
-        positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
-//        View viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
-        btnAverage = (Button) findViewById(R.id.btn_average);
+
+        headerView = View.inflate(this, R.layout.layout_postionadjust_header, null);
+
+
+        headerView.findViewById(R.id.btn_add_postional).setOnClickListener(this);
+        positionTextValue = (TextView) headerView.findViewById(R.id.position_text_value);
+        positionTextCreatedate = (TextView) headerView.findViewById(R.id.position_text_createdate);
+        btnAverage = (Button) headerView.findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
-        etConbinationName = (EditText) findViewById(R.id.et_myconbina_name);
-        etConbinationDesc = (EditText) findViewById(R.id.et_myconbina_desc);
+        etConbinationName = (EditText) headerView.findViewById(R.id.et_myconbina_name);
+        etConbinationDesc = (EditText) headerView.findViewById(R.id.et_myconbina_desc);
         initConbinationInfoView();
 
         // initPieView();
-        pgView = (PieGraph) findViewById(R.id.piegrah);
+        pgView = (PieGraph) headerView.findViewById(R.id.piegrah);
 
-        mFooterView = View.inflate(this, R.layout.layout_optional_percent, null);
+        mFooterView = View.inflate(this, R.layout.layout_postionadjust_bottom, null);
         mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
+        Button btnconfirm = (Button) mFooterView.findViewById(R.id.btn_confirm);
+        btnconfirm.setOnClickListener(this);
+        btnconfirm.setVisibility(View.VISIBLE);
+
         surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
         tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);
         // surSeekbar.setEnabled(false);
@@ -244,9 +252,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         if (isAdjustCombination) {
             setTitle(R.string.adjust_combination);
-            findViewById(R.id.create_portfolio_info).setVisibility(View.GONE);
-            findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
-            findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
+            headerView.findViewById(R.id.create_portfolio_info).setVisibility(View.GONE);
+            headerView.findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
+            headerView.findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
 
         } else {
             setTitle(R.string.create_combination);
@@ -296,10 +304,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      */
 
     private void initStockPercentView() {
-        lvStock = (ListViewEx) findViewById(R.id.lv_optional_layout);
+        lvStock = (ListView) findViewById(R.id.lv_optional_layout);
         stockAdapter = new OptionalStockAdapter(this, stockList);
         stockAdapter.setDutyNotifyListener(this);
         lvStock.addFooterView(mFooterView);
+        lvStock.addHeaderView(headerView);
         lvStock.setAdapter(stockAdapter);
 
     }
@@ -664,6 +673,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         return symbols;
     }
 
+
     private void createCombinationByServer() {
 
         String combinationName = "";
@@ -762,7 +772,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                         }
 
-                        ;
 
                         @Override
                         protected CombinationBean parseDateTask(String jsonData) {
@@ -811,13 +820,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-//                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
-//                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
                     ArrayList<SelectStockBean> listStock = Parcels.unwrap(data
                             .getParcelableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST));
 
-//                                    (ArrayList<SelectStockBean>) data
-//                                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
@@ -855,6 +860,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
+    private static final String TAG = PositionAdjustActivity.class.getSimpleName();
+
     private void setAddStockBack(List<SelectStockBean> listStock) {
         int i = 0;
         List<ConStockBean> tempList = new ArrayList<ConStockBean>();
@@ -863,7 +870,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             csBean.setPercent(0);
             // csBean.setPercent(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
-            System.out.println("csbean name:" + csBean.getName());
             if (stockList.contains(csBean)) {
                 int index = stockList.indexOf(csBean);
                 csBean.setPercent(stockList.get(index).getPercent());
