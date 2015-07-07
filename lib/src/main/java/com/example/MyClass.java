@@ -7,8 +7,13 @@ public class MyClass {
 //        double a = (3.3-2.4)/0.1;
 //        System.out.println(a);
 
-        System.out.println(      isNewVersion("1.10.133.2554","2.8.5.1215"));
+//        System.out.println(      isNewVersion("1.10.133.2554","2.8.5.1215"));
 
+        int i=0;
+        System.out.println(i=i|2 );
+        System.out.println(i=i|1 );
+        int y=i=i|4;
+        System.out.println(y );
 
     }
 

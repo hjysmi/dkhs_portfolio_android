@@ -17,7 +17,7 @@ import com.dkhs.portfolio.utils.UIUtils;
  * Created by zjz on 2015/7/3.
  */
 public class MarkTitleViewBean extends ViewBean {
-    private static final int TYPE = 1;
+    public static final int TYPE = 1;
 
     public MarkTitleViewBean() {
     }
@@ -95,7 +95,6 @@ public class MarkTitleViewBean extends ViewBean {
                     }
                 }
             });
-
 
 
 

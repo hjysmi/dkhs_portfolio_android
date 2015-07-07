@@ -21,7 +21,7 @@ import com.dkhs.portfolio.utils.UIUtils;
  * Created by zjz on 2015/7/3.
  */
 public class MarkPlateGridViewBean extends ViewBean {
-    private static final int TYPE = 21;
+    public static final int TYPE = 21;
 
     private MarkSectorBean mMarkSectorBean;
 

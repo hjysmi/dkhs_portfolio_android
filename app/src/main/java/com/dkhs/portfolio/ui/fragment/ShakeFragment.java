@@ -73,12 +73,12 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     }
 
                     if(mSuccessObject !=null){
+                        //跳转
                         mLoadingRibbonAD.stop();
                         gotoShakeActivity(mSuccessObject);
                     }
                     break;
                 case 1:
-
 
                     if (!animationDrawable.isRunning()) {
                         //彩带动画停止
@@ -88,16 +88,12 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     }
                     break;
                 case 3:
-
-
                     if (msg.obj != null) {
-
                         mSuccessObject = (ShakeBean) msg.obj;
                         if(!animationDrawable.isRunning()){
                             mLoadingRibbonAD.stop();
                             gotoShakeActivity(mSuccessObject);
                         }
-
                     }
                     break;
             }
