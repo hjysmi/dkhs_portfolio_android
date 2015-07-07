@@ -8,7 +8,7 @@
         android:id="@+id/view_color"
         android:layout_width="8dp"
         android:layout_height="60dp"
-        android:background="@color/red" />
+        android:background="@color/surp_red" />
 
 
     <TextView

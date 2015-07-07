@@ -45,4 +45,5 @@
     <item name="menu_view" type="id" />
     <item name="content_view" type="id" />
     <item name="recyclerView" type="id" />
+    <item name="floatingMenu" type="id" />
 </resources>
