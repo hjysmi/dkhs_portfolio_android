@@ -16,11 +16,21 @@
 
         <RelativeLayout
             android:id="@+id/tab_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
 
             style="@style/bottom_tab_layout" >
 
+
             <Button
                 android:id="@+id/btn_tab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:clickable="false"
+                android:button="@null"
                 android:layout_marginTop="7dp"
                 style="@style/bottom_tab_button"
                 android:background="@drawable/cb_bar_stock" />
@@ -35,6 +45,7 @@
         <RelativeLayout
             android:id="@+id/tab_2"
             style="@style/bottom_tab_layout" >
+
 
             <Button
                 android:id="@+id/btn_tab2"

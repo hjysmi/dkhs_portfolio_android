@@ -43,7 +43,7 @@
         <ImageView
             android:id="@+id/im_content"
             android:layout_width="fill_parent"
-            android:scaleType="centerCrop0"
+            android:scaleType="centerCrop"
             android:layout_height="fill_parent" />
         </com.dkhs.portfolio.ui.widget.ScaleLayout>
 

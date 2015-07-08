@@ -1136,7 +1136,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         AnimatorSet localAnimatorSet = new AnimatorSet();
         localAnimatorSet.addListener(new AnimatorListenerAdapter() {
             public void onAnimationEnd(Animator paramAnimator) {
-                StockQuotesActivity.this.setSwipeBackEnable(true);
+//                StockQuotesActivity.this.setSwipeBackEnable(true);
                 full(isFull);
             }
         });
@@ -1169,7 +1169,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             public void onAnimationStart(Animator paramAnimator) {
                 super.onAnimationStart(paramAnimator);
-                StockQuotesActivity.this.setSwipeBackEnable(false);
+//                StockQuotesActivity.this.setSwipeBackEnable(false);
             }
         });
         localAnimatorSet.playTogether(new Animator[]{bottomAnimator, headerAnimator});

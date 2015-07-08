@@ -29,7 +29,7 @@ import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 
-public class ModelAcitivity extends SwipeBackActivity {
+public class ModelAcitivity extends BaseActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
@@ -101,11 +101,11 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         super.setContentView(R.layout.layout_model);
 
-        SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
-        // 设置可以滑动的区域，推荐用屏幕像素的一半来指定
-        mSwipeBackLayout.setEdgeSize(100);
-        // 设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
-        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+//        SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
+//         设置可以滑动的区域，推荐用屏幕像素的一半来指定
+//        mSwipeBackLayout.setEdgeSize(100);
+//         设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
+//        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         // saveTrackingMode(SwipeBackLayout.EDGE_ALL);
         // ViewStub view = (ViewStub) findViewById(R.id.layout_model_right);
         // view.setLayoutResource(titleLayout);
