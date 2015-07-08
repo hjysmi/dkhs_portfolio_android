@@ -35,35 +35,19 @@ import java.util.List;
  */
 public class FiveRangeAdapter extends BaseAdapter {
     private Context mContext;
-    // private StockQuotesBean mStockBean;
     private boolean isBuy;
-    // private BuyPrice mBuyPrice;
-    // private SellPrice mSellPrice;
-    // private List<FiveRangeItem> dataList;
 
     private List<String> volList;
     private List<String> priceList;
 
     private float mCompareValue;
 
-    //    private ListView.LayoutParams mItemViewLayoutParams;
-    private boolean isLandspace;
 
     private int mLandTextFont;
-//
-//    public FiveRangeAdapter(Context mActivity, boolean isBuy) {
-//        this.mActivity = mActivity;
-//        this.isBuy = isBuy;
-//        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//        mItemViewLayoutParams.height = (int) (mActivity.getResources().getDisplayMetrics().widthPixels / 13f);
-//
-//    }
 
     public FiveRangeAdapter(Context mContext, boolean isBuy, boolean isLandspace) {
         this.mContext = mContext;
         this.isBuy = isBuy;
-//        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//        mItemViewLayoutParams.height = (int) (mActivity.getResources().getDisplayMetrics().widthPixels / 13f);
 
         if (isLandspace) {
             mLandTextFont = 14;
@@ -86,16 +70,13 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     private String symbol;
 
-    //
-    // public void setList(List<FiveRangeItem> dList, String symbol) {
-    // this.dataList = dList;
-    // this.symbol = symbol;
-    // notifyDataSetChanged();
-    // }
     public void setList(List<String> vList, List<String> pList, String symbol) {
         this.volList = vList;
         this.priceList = pList;
         this.symbol = symbol;
+
+        LogUtils.e(vList.size()+"");
+        LogUtils.e(pList.size()+"");
         notifyDataSetChanged();
     }
 
@@ -105,9 +86,6 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // if (null != dataList) {
-        // return dataList.size();
-        // }
         return 5;
     }
 
@@ -140,20 +118,18 @@ public class FiveRangeAdapter extends BaseAdapter {
                     viewHolder.tvVol.setTextSize(mLandTextFont);
                     viewHolder.tvPrice.setTextSize(mLandTextFont);
                 }
-
-
-                if (null != containerView) {
-                    viewHolder.linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, containerView.getMeasuredHeight() / 5));
-                } else {
-                    LogUtils.e("  isBuy   " + isBuy);
-                }
-
                 convertView.setTag(viewHolder);
+
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
+
+            if (null != containerView) {
+                LogUtils.e(containerView.getMeasuredHeight() +"");
+                viewHolder.linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, containerView.getMeasuredHeight() / 5));
+            }
             // FiveRangeItem item = dataList.get(position);
-            // convertView.getLayoutParams().height = (int) (mActivity.getResources().getDisplayMetrics().widthPixels /
+            // convertView.getLayoutParams().height = (int) (mContext.getResources().getDisplayMetrics().widthPixels /
             // 13f);
             // if (!item.price.contains("-.---")) {
             if (null == priceList || priceList.size() <= position) {
@@ -199,7 +175,6 @@ public class FiveRangeAdapter extends BaseAdapter {
             float value = Float.parseFloat(str);
             return value != 0;
         } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
             return false;
         }
     }
@@ -209,7 +184,6 @@ public class FiveRangeAdapter extends BaseAdapter {
         TextView tvTag;
         TextView tvVol;
         TextView tvPrice;
-
         LinearLayout linearLayout;
 
     }

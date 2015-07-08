@@ -63,7 +63,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         for (Field field:fields) {
 
-            LogUtils.e(field.getType().toString());
             // FIXME: 2015/7/7  解决办法待优化
             if(field.getType().toString().contains("Fragment")){
                 hadFragment=true;
