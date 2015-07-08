@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -171,8 +170,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             for (ConStockBean bean : mList) {
                 bean.setDutyColor(ColorTemplate.getDefaultColor(listSize++));
-
-                Log.e(TAG,String.format(" stock name:%s,percent is:%f",bean.getStockName(),bean.getPercent()));
                 stockList.add(bean.clone());
             }
         }

@@ -104,15 +104,8 @@ public class OptionalStockAdapter extends BaseAdapter {
 
         ConStockBean item = stockList.get(position);
         if (item.isStop()) {
-//            convertView.setBackgroundResource(R.color.theme_gray);
             seekbar.setEnabled(false);
             btnDel.setVisibility(View.GONE);
-//            Drawable mDrawable = mContext.getResources().getDrawable(R.drawable.lucency);
-//            mDrawable.setBounds(0, 0,
-//                    mDrawable.getIntrinsicWidth(),
-//                    mDrawable.getIntrinsicHeight()
-//            );
-//            seekbar.setThumb(mDrawable);
             seekbar.setThumb(mContext.getResources().getDrawable(R.drawable.lucency));
             tvIstop.setVisibility(View.VISIBLE);
         }
