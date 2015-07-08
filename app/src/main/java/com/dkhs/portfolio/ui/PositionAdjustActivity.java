@@ -662,18 +662,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
 
             List<ConStockBean> originalBeanList = mPositionDetailBean.getPositionList();
-
+            ConStockBean tempBean;
             for (ConStockBean originStock : originalBeanList) {
                 if (tempList.contains(originStock)) {
                     int index = tempList.indexOf(originStock);
-                    ConStockBean bean = tempList.get(index);
-                    if (originStock.getPercent() == bean.getPercent()) {
+                    tempBean = tempList.get(index);
+                    if (originStock.getPercent() == tempBean.getPercent()) {
                         tempList.remove(index);
                     }
 
                 } else {
-//                    originStock.setPercent(0);
-                    tempList.add(originStock);
+
+                    tempBean = originStock.clone();
+                    tempBean.setPercent(0);
+                    tempList.add(tempBean);
 
                 }
 
