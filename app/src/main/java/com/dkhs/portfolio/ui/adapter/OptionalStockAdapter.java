@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -98,12 +99,21 @@ public class OptionalStockAdapter extends BaseAdapter {
         TextView tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
         final TextView tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
         TextView tvIstop = (TextView) convertView.findViewById(R.id.tv_isStop);
+        Button btnDel = (Button) convertView.findViewById(R.id.btn_del);
         final SeekBar seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
 
         ConStockBean item = stockList.get(position);
         if (item.isStop()) {
-            convertView.setBackgroundResource(R.color.theme_gray);
+//            convertView.setBackgroundResource(R.color.theme_gray);
             seekbar.setEnabled(false);
+            btnDel.setVisibility(View.GONE);
+//            Drawable mDrawable = mContext.getResources().getDrawable(R.drawable.lucency);
+//            mDrawable.setBounds(0, 0,
+//                    mDrawable.getIntrinsicWidth(),
+//                    mDrawable.getIntrinsicHeight()
+//            );
+//            seekbar.setThumb(mDrawable);
+            seekbar.setThumb(mContext.getResources().getDrawable(R.drawable.lucency));
             tvIstop.setVisibility(View.VISIBLE);
         }
         tvStockName.setText(item.getName());
@@ -121,14 +131,7 @@ public class OptionalStockAdapter extends BaseAdapter {
         seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                stockList.get(position).setPercent(seekBar.getProgress());
-
-                if (null != mDutyNotify) {
-
-                    mDutyNotify.notifyRefresh(position, seekBar.getProgress());
-
-                }
-                setSurpusValue();
+                updateSurpValue(position, seekBar.getProgress());
             }
 
             @Override
@@ -139,7 +142,6 @@ public class OptionalStockAdapter extends BaseAdapter {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int p = progress;
-                System.out.println("maxValue:" + maxValue);
                 int maxScoll = (int) (setSurpusValue() + stockList.get(position).getPercent());
 
                 if (progress >= maxScoll) {
@@ -160,18 +162,46 @@ public class OptionalStockAdapter extends BaseAdapter {
             }
         });
 
+        btnDel.setOnClickListener(new DelClickListener(position));
+
         return convertView;
+    }
+
+
+    private void updateSurpValue(int position, int percent) {
+        stockList.get(position).setPercent(percent);
+
+        if (null != mDutyNotify) {
+
+            mDutyNotify.notifyRefresh(position, percent);
+
+        }
+        setSurpusValue();
+
+    }
+
+
+    class DelClickListener implements View.OnClickListener {
+        int position;
+
+        public DelClickListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            updateSurpValue(position, 0);
+            stockList.remove(position);
+            notifyDataSetChanged();
+        }
     }
 
     public float setSurpusValue() {
         float surpusValu = 100;
-        System.out.println("stockList size:" + stockList.size());
         for (int i = 0; i < stockList.size(); i++) {
             surpusValu -= stockList.get(i).getPercent();
-            System.out.println("Value:" + stockList.get(i).getPercent());
         }
         maxValue = surpusValu;
-        System.out.println("setSurpusValue:" + maxValue);
         return maxValue;
 
     }

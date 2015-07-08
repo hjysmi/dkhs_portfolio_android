@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -170,6 +171,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             for (ConStockBean bean : mList) {
                 bean.setDutyColor(ColorTemplate.getDefaultColor(listSize++));
+
+                Log.e(TAG,String.format(" stock name:%s,percent is:%f",bean.getStockName(),bean.getPercent()));
                 stockList.add(bean.clone());
             }
         }
@@ -177,7 +180,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     private View headerView;
-    FloatingActionMenu mFloatingActionMenu;
+    private FloatingActionMenu mFloatingActionMenu;
 
     /**
      * @return void
@@ -208,6 +211,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         mFooterView = View.inflate(this, R.layout.layout_postionadjust_bottom, null);
         mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
+        mFooterView.findViewById(R.id.rl_info).setVisibility(View.INVISIBLE);
+        mFooterView.findViewById(R.id.v_divline).setVisibility(View.INVISIBLE);
 //        Button btnconfirm = (Button) mFooterView.findViewById(R.id.btn_confirm);
 //        btnconfirm.setOnClickListener(this);
 //        btnconfirm.setVisibility(View.VISIBLE);
@@ -670,8 +675,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     }
 
                 } else {
-                    originStock.setPercent(0);
-                    // originStock.setPercent(0);
+//                    originStock.setPercent(0);
                     tempList.add(originStock);
 
                 }

@@ -18,6 +18,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/view_color"
+        android:text="上证指数"
         android:textSize="14sp" />
 
     <TextView
@@ -27,26 +28,54 @@
         android:layout_alignBottom="@+id/tv_stock_name"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/tv_stock_name"
+        android:text="SH600000"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/tv_isStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tv_stock_name"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/tv_gray_text"
-        android:text="已停牌"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_info"
+        android:layout_width="52dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/tv_isStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/tv_gray_text"
+            android:paddingBottom="3dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="3dp"
+            android:text="停牌"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/btn_del_stock" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/v_divline"
+        style="@style/vertical_divider_line"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_toLeftOf="@+id/rl_info" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_stock_name"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4dp"
+        android:layout_toLeftOf="@+id/v_divline">
 
         <TextView
             android:id="@+id/tv_stock_percent"
@@ -55,7 +84,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="10dp"
+            android:text="88.88%"
             android:textSize="14sp" />
 
         <SeekBar
