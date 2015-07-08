@@ -125,13 +125,8 @@ public class FiveRangeAdapter extends BaseAdapter {
             }
 
             if (null != containerView) {
-                LogUtils.e(containerView.getMeasuredHeight() +"");
                 viewHolder.linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, containerView.getMeasuredHeight() / 5));
             }
-            // FiveRangeItem item = dataList.get(position);
-            // convertView.getLayoutParams().height = (int) (mContext.getResources().getDisplayMetrics().widthPixels /
-            // 13f);
-            // if (!item.price.contains("-.---")) {
             if (null == priceList || priceList.size() <= position) {
                 viewHolder.tvPrice.setText("—");
 
