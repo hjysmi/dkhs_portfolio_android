@@ -15,6 +15,7 @@ import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
@@ -103,7 +104,7 @@ public class MessageHandler {
 //            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
 //        }
         if (!handleURL(messageContent.getUrl())) {
-            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+            context.startActivity(AdActivity.getIntent(context, messageContent.getUrl()));
         }
     }
 
