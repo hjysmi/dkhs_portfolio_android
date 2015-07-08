@@ -31,6 +31,7 @@ public class RCChatListActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
         setTitle(R.string.message_center);
+
         Intent intent = getIntent();
         LogUtils.e(intent.getDataString());
         LogUtils.e(intent.getData().toString());

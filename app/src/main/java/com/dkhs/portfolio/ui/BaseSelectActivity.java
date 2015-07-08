@@ -79,7 +79,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         super.onCreate(arg0);
 
         setContentView(R.layout.activity_add_conbina_stock);
-
+        hadFragment=true;
         // handle intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

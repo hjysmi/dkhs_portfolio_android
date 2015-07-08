@@ -104,6 +104,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_fund_detail);
         ViewUtils.inject(this);
 

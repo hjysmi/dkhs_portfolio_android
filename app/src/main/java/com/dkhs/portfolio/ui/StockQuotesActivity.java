@@ -150,7 +150,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.e(TAG, " --- onNewIntent--");
         setIntent(intent);// must store the new intent unless getIntent() will return the old one
         processExtraData();
         requestData();
@@ -177,7 +176,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        Log.e(TAG, " --- onCreate--");
+        hadFragment();
 
         setContentView(R.layout.activity_stockquotes);
         context = this;

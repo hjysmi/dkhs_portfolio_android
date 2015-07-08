@@ -50,6 +50,10 @@ public class ModelAcitivity extends SwipeBackActivity {
      * 返回按钮
      */
 
+    public void hadFragment(){
+        hadFragment=true;
+    }
+
     // private LinearLayout llBack;
     @Override
     protected void onCreate(Bundle arg0) {

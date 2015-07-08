@@ -47,8 +47,8 @@ public class OptionListAcitivity extends ModelAcitivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.fragment_report_news);
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();

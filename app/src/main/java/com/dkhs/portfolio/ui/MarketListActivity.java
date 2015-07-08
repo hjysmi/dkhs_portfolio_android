@@ -114,6 +114,8 @@ public class MarketListActivity extends RefreshModelActivity {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         processExtraData();
+        hadFragment();
+
         setContentView(R.layout.activity_market);
         setTitleByType(mLoadType);
         initView();

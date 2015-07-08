@@ -28,6 +28,7 @@ public class FriendsOrFollowersActivity extends ModelAcitivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hadFragment();
         setContentView(R.layout.activity_friends_or_followers);
 
         String getTypeStr = getIntent().getStringExtra(FriendsOrFollowersActivity.KEY);
