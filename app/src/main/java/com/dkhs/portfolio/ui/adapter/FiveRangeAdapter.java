@@ -74,9 +74,6 @@ public class FiveRangeAdapter extends BaseAdapter {
         this.volList = vList;
         this.priceList = pList;
         this.symbol = symbol;
-
-        LogUtils.e(vList.size()+"");
-        LogUtils.e(pList.size()+"");
         notifyDataSetChanged();
     }
 
@@ -123,10 +120,10 @@ public class FiveRangeAdapter extends BaseAdapter {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-
             if (null != containerView) {
                 viewHolder.linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, containerView.getMeasuredHeight() / 5));
             }
+
             if (null == priceList || priceList.size() <= position) {
                 viewHolder.tvPrice.setText("—");
 
@@ -173,7 +170,6 @@ public class FiveRangeAdapter extends BaseAdapter {
             return false;
         }
     }
-
     public final static class ViewHolder {
 
         TextView tvTag;
