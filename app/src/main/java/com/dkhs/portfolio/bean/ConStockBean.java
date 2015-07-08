@@ -100,7 +100,7 @@ public class ConStockBean extends StockBean {
         if (obj instanceof ConStockBean) {
 
             ConStockBean param = (ConStockBean) obj;
-            return this.stockId == param.stockId;
+            return this.stockCode.equals(param.stockCode);
         }
         return false;
     }
