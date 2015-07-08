@@ -246,6 +246,11 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        updateHandler.removeCallbacks(updateRunnable);
+    }
 
     @Override
     public void onPause() {
@@ -275,12 +280,15 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
 
         MarketCenterStockEngineImple.loadAllMarkets(plateListener);
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                startAnimaRefresh();
-            }
-        });
+        if (isAdded()) {
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startAnimaRefresh();
+                }
+            });
+        }
     }
 
 

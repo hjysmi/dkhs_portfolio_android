@@ -32,7 +32,6 @@ public class RefreshModelActivity extends ModelAcitivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
         btnRefresh = getSecondRightButton();
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),

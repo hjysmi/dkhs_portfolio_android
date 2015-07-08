@@ -58,8 +58,8 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
     @Override
     protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_optionalstock_list);
         context = this;
         setTitle(R.string.optional_stock);

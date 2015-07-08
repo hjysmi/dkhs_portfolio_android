@@ -34,6 +34,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_mycombination);
         setTitle(R.string.my_combination);
 

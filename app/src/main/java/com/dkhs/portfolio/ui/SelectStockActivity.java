@@ -32,6 +32,7 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
 
+        hadFragment();
     }
 
     @Override
@@ -79,7 +80,6 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
      */
     @Override
     protected int getTitleRes() {
-        // TODO Auto-generated method stub
         return R.array.select_stock;
     }
 

@@ -25,8 +25,8 @@ public class YanBaoActivity extends ModelAcitivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_yanbao);
         setTitle(getResources().getString(R.string.report));
         context = this;

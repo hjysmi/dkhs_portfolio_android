@@ -26,6 +26,7 @@ public class OptionalTabActivity extends ModelAcitivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         hideHead();
+        hadFragment();
 
         replaceContentFragment(MainOptionalFragment.getMainFragment(this.mUserId));
 

@@ -91,6 +91,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_user_combination);
         context = this;
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
