@@ -863,7 +863,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             csBean.setPercent(0);
             // csBean.setPercent(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
-            System.out.println("csbean name:" + csBean.getName());
             if (stockList.contains(csBean)) {
                 int index = stockList.indexOf(csBean);
                 csBean.setPercent(stockList.get(index).getPercent());

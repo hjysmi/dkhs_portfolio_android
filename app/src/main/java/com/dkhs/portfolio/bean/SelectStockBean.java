@@ -79,7 +79,7 @@ public class SelectStockBean extends DragListItem {
         bean.currentValue = stockBean.getCurrentValue();
         // bean.percentage = stockBean.getPercent();
         bean.symbol = stockBean.getStockSymbol();
-        bean.id = stockBean.getStockId();
+        bean.id = Integer.parseInt(stockBean.getStockCode());
         bean.code = stockBean.getStockSymbol();
         bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getList_status();
@@ -195,7 +195,7 @@ public class SelectStockBean extends DragListItem {
         bean.setStockId(id);
         bean.setStockSymbol(symbol);
         bean.setIsStop(isStop ? 1 : 0);
-        bean.setStockCode(code);
+        bean.setStockCode(id + "");
         bean.setList_status(list_status);
         return bean;
     }
