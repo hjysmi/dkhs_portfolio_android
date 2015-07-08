@@ -18,7 +18,6 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/view_color"
-        android:text="上证指数"
         android:textSize="14sp" />
 
     <TextView
@@ -28,7 +27,6 @@
         android:layout_alignBottom="@+id/tv_stock_name"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/tv_stock_name"
-        android:text="SH600000"
         android:textSize="12sp" />
 
 
@@ -48,7 +46,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="3dp"
-            android:text="停牌"
+            android:text="@string/stop_stock"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:visibility="gone" />
@@ -85,7 +83,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="88.88%"
             android:textSize="14sp" />
 
         <SeekBar

@@ -39,16 +39,6 @@ public class ConStockBean extends StockBean {
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
 
-    public boolean isDelStatus() {
-        return isDelStatus;
-    }
-
-    public void setIsDelStatus(boolean isDelStatus) {
-        this.isDelStatus = isDelStatus;
-    }
-
-    private boolean isDelStatus;
-
 
     public ConStockBean(int id, float percent, int dutyColor, String name, String stockcode) {
         super();
