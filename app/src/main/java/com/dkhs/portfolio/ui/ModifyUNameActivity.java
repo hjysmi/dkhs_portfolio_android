@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -24,7 +25,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class ModifyUNameActivity extends ModelAcitivity implements OnClickListener {
     // private Button btnCancle;
-    private Button btnSave;
+    private TextView btnSave;
     private EditText changeEditName;
     private UserEngineImpl mUserEngineImpl;
     private Context context;

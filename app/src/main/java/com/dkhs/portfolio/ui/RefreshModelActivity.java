@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.common.WeakHandler;
@@ -28,7 +29,7 @@ import com.dkhs.portfolio.common.WeakHandler;
  */
 public class RefreshModelActivity extends ModelAcitivity {
 
-    private Button btnRefresh;
+    private TextView btnRefresh;
 
     @Override
     protected void onCreate(Bundle arg0) {

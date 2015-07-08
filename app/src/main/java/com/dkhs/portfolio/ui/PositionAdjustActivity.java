@@ -96,7 +96,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private TextView tvTodayNetvalue;
     private EditText etConbinationName;
     private EditText etConbinationDesc;
-    private Button btnConfirm;
+    private TextView btnConfirm;
     private Button btnAverage;
 
     private PositionDetail mPositionDetailBean;

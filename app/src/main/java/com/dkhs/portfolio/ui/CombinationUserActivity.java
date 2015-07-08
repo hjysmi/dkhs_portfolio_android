@@ -105,7 +105,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             }
 
             if (isMyInfo) {
-                Button rightBtn = getRightButton();
+                TextView rightBtn = getRightButton();
                 rightBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_edit_selector), null,
                         null, null);
                 rightBtn.setOnClickListener(new View.OnClickListener() {

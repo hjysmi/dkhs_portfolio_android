@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -30,7 +31,7 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
     private EditText passwordSettingNew;
     private CheckBox passwordSettingCheck;
     // private Button btnCancle;
-    private Button btnSave;
+    private TextView btnSave;
     private static final int CHANGE_PASSWORD_MODE = 2002;
     private Context context;
 

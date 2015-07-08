@@ -31,7 +31,7 @@ import org.json.JSONObject;
  */
 public class ModifyUserSignActivity extends ModelAcitivity implements OnClickListener {
     // private Button btnCancle;
-    private Button btnSave;
+    private  TextView btnSave;
     private EditText signText;
     private TextView signVlaue;
     public final static String DESCRIPTION = "Description";

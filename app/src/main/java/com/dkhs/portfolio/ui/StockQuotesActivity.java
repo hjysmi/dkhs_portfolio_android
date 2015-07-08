@@ -105,7 +105,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvOpen;
     private TextView tvChange;
     private TextView tvPercentage;
-    private Button btnRefresh;
+    private TextView btnRefresh;
     private TextView tvChengjiaoLiang;
     private TextView tvChengjiaoE;
     private TextView tvHuanShouLv;
@@ -282,7 +282,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
-        Button addButton = getRightButton();
+        TextView addButton = getRightButton();
         // addButton.setBackgroundResource(R.drawable.ic_search_title);
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);

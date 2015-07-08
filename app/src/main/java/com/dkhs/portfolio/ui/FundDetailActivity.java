@@ -85,7 +85,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private TextView mDelistingTV;
 
 
-    private Button btnRefresh;
+    private TextView btnRefresh;
 
     private QuotesEngineImpl mQuotesEngine;
     private VisitorDataEngine mVisitorDataEngine;

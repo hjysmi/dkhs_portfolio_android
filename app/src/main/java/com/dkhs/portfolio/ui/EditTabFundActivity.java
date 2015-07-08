@@ -80,7 +80,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     private void initView() {
         optionEditList = (DragListView) findViewById(R.id.option_edit_list);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
-        Button btnRight = getRightButton();
+        TextView btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);

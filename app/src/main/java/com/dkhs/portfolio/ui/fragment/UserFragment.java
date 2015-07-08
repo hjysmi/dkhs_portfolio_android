@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,7 +43,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
-import io.rong.database.RongMaster;
 import io.rong.imkit.RongIM;
 
 /**
@@ -85,7 +83,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        titleRL.setClickable(true);
+        toolBar.setClickable(true);
         initView(view);
         setTitle(R.string.title_user);
     }
@@ -100,7 +98,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void initView(View view) {
 
-        Button addButton = getRightButton();
+        TextView addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_setting_selecter),
                 null, null, null);
         addButton.setOnClickListener(new OnClickListener() {

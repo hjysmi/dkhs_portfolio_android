@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -47,7 +48,7 @@ public class ModifyComNameActivity extends ModelAcitivity implements OnClickList
     }
 
     private void initView() {
-        Button btnSave = getRightButton();
+        TextView btnSave = getRightButton();
         btnSave.setText("确定");
         btnSave.setBackgroundDrawable(null);
         btnSave.setOnClickListener(this);

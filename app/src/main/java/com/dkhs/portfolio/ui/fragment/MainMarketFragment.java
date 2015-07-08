@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
@@ -46,9 +47,9 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     @ViewInject(R.id.vp)
     ViewPager vp;
     @ViewInject(R.id.btn_refresh)
-    Button mBtnrefresh;
+    TextView mBtnrefresh;
     @ViewInject(R.id.btn_search)
-    Button mBtnsearch;
+    TextView mBtnsearch;
 
     BasePagerFragmentAdapter mAdapter;
     private TabWidget tabWidget;

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FriendsOrFollowersFragment;
@@ -23,7 +24,7 @@ public class FriendsOrFollowersActivity extends ModelAcitivity {
     public static final String FRIENDS = "friends";
     public static final String FOLLOWER = "follower";
 
-    private Button btnRefresh;
+    private TextView btnRefresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
@@ -56,7 +57,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     // protected static final boolean is_load_stock =true;
     private GridView mSelctStockView;
     private SelectFundAdapter mSelectStockAdapter;
-    private Button btnAdd;
+    private TextView btnAdd;
     ArrayList<FragmentSelectStockFund> fragmentList = new ArrayList<FragmentSelectStockFund>();// ViewPager中显示的数据
     private EditText etSearchKey;
     private FragmentSearchStockFund mSearchFragment;
@@ -66,7 +67,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private Button btnOrder;
     private boolean isAdjustCombination;
-    private TextImageButton btnBack;
+    private TextView btnBack;
     public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
     public String fromCreate;
     private boolean isFrist;

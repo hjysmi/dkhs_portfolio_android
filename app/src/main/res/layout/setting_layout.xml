@@ -242,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/btn_white_selector">
 
-                        <Button
+                        <TextView
                             android:id="@+id/setting_image_bound"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

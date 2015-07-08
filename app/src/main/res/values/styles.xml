@@ -1,7 +1,24 @@
 <resources>
 
     <style name="AppBaseTheme2" parent="@android:style/Theme.Light.NoTitleBar"></style>
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorAccent">@color/title_color</item>
+        <item name="colorPrimary">@color/title_color</item>
+        <item name="colorPrimaryDark">@color/dark_title_color</item>
+
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+
+        <!-- 解决activity切换时的黑屏问题 -->
+    </style>
+
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme"></style>
 
@@ -417,4 +434,13 @@
         <item name="android:textColor">@color/md_grey_800</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="tool_bar_menu">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/white_textselector</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

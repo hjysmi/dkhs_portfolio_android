@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -29,12 +30,12 @@ import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 
-public class ModelAcitivity extends BaseActivity {
+public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
-    private TextImageButton btnBack;
+    private TextView btnBack;
     private View mTitleView;
     protected UserEngineImpl engine;
     protected Activity mActivity;
@@ -63,16 +64,7 @@ public class ModelAcitivity extends BaseActivity {
         onCreate(arg0, R.layout.layout_model_default);
 
 
-        Field[] fields= this.getClass().getDeclaredFields();
 
-        for (Field field:fields) {
-
-            // FIXME: 2015/7/7  解决办法待优化
-            if(field.getType().toString().contains("Fragment")){
-                hadFragment=true;
-                break;
-            }
-        }
     }
 
     protected void onResume() {
@@ -105,11 +97,11 @@ public class ModelAcitivity extends BaseActivity {
 
         super.setContentView(R.layout.layout_model);
 
-//        SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
+        SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
 //         设置可以滑动的区域，推荐用屏幕像素的一半来指定
-//        mSwipeBackLayout.setEdgeSize(100);
+        mSwipeBackLayout.setEdgeSize(100);
 //         设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
-//        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         // saveTrackingMode(SwipeBackLayout.EDGE_ALL);
         // ViewStub view = (ViewStub) findViewById(R.id.layout_model_right);
         // view.setLayoutResource(titleLayout);
@@ -123,7 +115,6 @@ public class ModelAcitivity extends BaseActivity {
 
     @Override
     public void setContentView(int layoutResID) {
-        // TODO Auto-generated method stub
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT);
         layoutContent.addView(View.inflate(this, layoutResID, null), params);
@@ -132,7 +123,6 @@ public class ModelAcitivity extends BaseActivity {
     public void setContentView(View view, LayoutParams params) {
         if (view == null)
             return;
-
         layoutContent.addView(view, params);
     }
 
@@ -159,8 +149,9 @@ public class ModelAcitivity extends BaseActivity {
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
         mTitleView = findViewById(R.id.includeHead);
 
-        btnBack = (TextImageButton) findViewById(BACKBUTTON_ID);
-
+        btnBack = (TextView) findViewById(BACKBUTTON_ID);
+        btnBack.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_back_selector),
+                null, null, null);
         // llBack = (LinearLayout) findViewById(R.id.llHeadBack);
 
         // 监听返回键 使得子页面不必重复监听
@@ -212,7 +203,6 @@ public class ModelAcitivity extends BaseActivity {
      */
     @Override
     public void setTitle(CharSequence title) {
-        // TODO Auto-generated method stub
         // super.setTitle(title);
         ((TextView) findViewById(R.id.tv_title)).setText(title);
     }
@@ -255,15 +245,15 @@ public class ModelAcitivity extends BaseActivity {
         titleTip.setVisibility(View.VISIBLE);
     }
 
-    public Button getRightButton() {
-        Button btnRight = (Button) findViewById(RIGHTBUTTON_ID);
+    public TextView getRightButton() {
+        TextView btnRight = (TextView) findViewById(RIGHTBUTTON_ID);
         btnRight.setVisibility(View.VISIBLE);
         // btnRight.setTextColor(Color.WHITE);
         return btnRight;
     }
 
-    public Button getSecondRightButton() {
-        Button btn = (Button) findViewById(SECONDRIGHTBUTTON_ID);
+    public TextView getSecondRightButton() {
+        TextView btn = (TextView) findViewById(SECONDRIGHTBUTTON_ID);
         btn.setVisibility(View.VISIBLE);
         return btn;
     }
@@ -319,11 +309,11 @@ public class ModelAcitivity extends BaseActivity {
         super.onDestroy();
     }
 
-    public TextImageButton getBtnBack() {
+    public TextView getBtnBack() {
         return btnBack;
     }
 
-    public void setBtnBack(TextImageButton btnBack) {
+    public void setBtnBack(TextView btnBack) {
         this.btnBack = btnBack;
     }
 
@@ -375,6 +365,11 @@ public class ModelAcitivity extends BaseActivity {
 
     public void updateTitleBackgroud(int resId) {
         getTitleView().setBackgroundResource(resId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(resId));
+        }
+
+
     }
 
     public void updateTitleBackgroudByValue(float value) {
