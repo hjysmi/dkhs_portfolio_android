@@ -105,7 +105,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
     private void vibrator() {
         Vibrator vibrator = (Vibrator) mActivity.getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(70);
+        vibrator.vibrate(50);
     }
 
     @Override

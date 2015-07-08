@@ -89,19 +89,17 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         initView(view);
         setTitle(R.string.title_user);
     }
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUserInfo();
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(getView() !=null && !hidden){
+            updateUserInfo();
+        }
     }
 
     private void initView(View view) {
+
         Button addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_setting_selecter),
                 null, null, null);
@@ -113,10 +111,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
             }
         });
-
         BusProvider.getInstance().register(this);
         updateUserInfo();
-
     }
 
     private void updateUserInfo() {
@@ -196,7 +192,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             } else {
                 unreadCountTV.setVisibility(View.GONE);
             }
-
         }
     }
 
@@ -267,21 +262,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     }
 
-    // @OnClick(R.id.message_center_layout)
-    // public void messageCenterClick(View v) {
-    //
-    // if (!UIUtils.iStartLoginActivity(getActivity())) {
-    //
-    // Toast.makeText(getActivity(),"t",Toast.LENGTH_LONG).show();
-    // RongIM.getInstance().startConversationList(getActivity());
-    // }
-    // }
-
     @Override
     public void onDestroy() {
-
         super.onDestroy();
-
         BusProvider.getInstance().unregister(this);
     }
 
