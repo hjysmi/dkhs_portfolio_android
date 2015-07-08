@@ -116,8 +116,8 @@
     <string name="descrition_format">简介:%1$s</string>
     <string name="position_from_to">从%1$s调至%2$s</string>
     <string name="select_fund">选择参照基金</string>
-    <string name="select_stock">添加个股 </string>
-    <string name="create_funds">创建组合 </string>
+    <string name="select_stock">选择股票</string>
+    <string name="create_funds">创建组合</string>
     <string name="search_fund_hint">基金简称/代码/拼音</string>
     <string name="add_postional_format">添加(%1$d)</string>
     <string name="add_text">添加</string>
@@ -643,4 +643,5 @@
 
 
     <string name="float_menu_addstock">添加股票</string>
+    <string name="next_step">下一步</string>
 </resources>

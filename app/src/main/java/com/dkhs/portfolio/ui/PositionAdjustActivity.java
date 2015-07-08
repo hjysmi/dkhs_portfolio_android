@@ -177,7 +177,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     private View headerView;
-    FloatingActionMenu mFloatingActionMenu;
+    private FloatingActionMenu mFloatingActionMenu;
 
     /**
      * @return void
@@ -208,6 +208,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         mFooterView = View.inflate(this, R.layout.layout_postionadjust_bottom, null);
         mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
+        mFooterView.findViewById(R.id.rl_info).setVisibility(View.INVISIBLE);
+        mFooterView.findViewById(R.id.v_divline).setVisibility(View.INVISIBLE);
 //        Button btnconfirm = (Button) mFooterView.findViewById(R.id.btn_confirm);
 //        btnconfirm.setOnClickListener(this);
 //        btnconfirm.setVisibility(View.VISIBLE);
@@ -660,19 +662,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
 
             List<ConStockBean> originalBeanList = mPositionDetailBean.getPositionList();
-
+            ConStockBean tempBean;
             for (ConStockBean originStock : originalBeanList) {
                 if (tempList.contains(originStock)) {
                     int index = tempList.indexOf(originStock);
-                    ConStockBean bean = tempList.get(index);
-                    if (originStock.getPercent() == bean.getPercent()) {
+                    tempBean = tempList.get(index);
+                    if (originStock.getPercent() == tempBean.getPercent()) {
                         tempList.remove(index);
                     }
 
                 } else {
-                    originStock.setPercent(0);
-                    // originStock.setPercent(0);
-                    tempList.add(originStock);
+
+                    tempBean = originStock.clone();
+                    tempBean.setPercent(0);
+                    tempList.add(tempBean);
 
                 }
 
