@@ -147,7 +147,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
-        mTitleView = findViewById(R.id.includeHead);
+        mTitleView = findViewById(R.id.tool);
 
         btnBack = (TextView) findViewById(BACKBUTTON_ID);
         btnBack.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_back_selector),
