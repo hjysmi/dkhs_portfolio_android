@@ -6,15 +6,6 @@
         <item name="colorAccent">@color/title_color</item>
         <item name="colorPrimary">@color/title_color</item>
         <item name="colorPrimaryDark">@color/dark_title_color</item>
-
-
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
-
         <!-- 解决activity切换时的黑屏问题 -->
     </style>
 
@@ -88,12 +79,12 @@
 
     <style name="divider_line">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_height">0.5px</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
 
     <style name="vertical_divider_line">
-        <item name="android:layout_width">0.5dp</item>
+        <item name="android:layout_width">0.5px</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:background">@color/drivi_line</item>
     </style>

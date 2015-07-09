@@ -100,7 +100,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
         localFloatingActionMenu = ((CombinationUserActivity) getActivity()).localFloatingActionMenu;
-        localFloatingActionMenu.attachToListView(getListView(), null, this);
+        localFloatingActionMenu.attachToListViewTop(getListView(), null, this);
         super.onViewCreated(view, savedInstanceState);
     }
 

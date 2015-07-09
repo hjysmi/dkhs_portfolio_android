@@ -266,14 +266,14 @@ public class ModelAcitivity extends SwipeBackActivity {
      * @Description: 隐藏标题栏
      */
     public void hideHead() {
-        RelativeLayout rlHead = (RelativeLayout) findViewById(R.id.includeHead);
+        View rlHead = findViewById(R.id.tool);
         if (rlHead.getVisibility() == View.VISIBLE) {
             rlHead.setVisibility(View.GONE);
         }
     }
 
     public void showHead() {
-        RelativeLayout rlHead = (RelativeLayout) findViewById(R.id.includeHead);
+        View rlHead = findViewById(R.id.tool);
         if (rlHead.getVisibility() == View.GONE) {
             rlHead.setVisibility(View.VISIBLE);
         }
@@ -292,7 +292,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundResource(drawable);
         imageView.setLayoutParams(params);
-
         layoutContent.addView(imageView);
     }
 
@@ -301,7 +300,6 @@ public class ModelAcitivity extends SwipeBackActivity {
     public void onBackPressed() {
         super.onBackPressed();
         UIUtils.outAnimationActivity(this);
-        // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_right);
     }
 
     @Override

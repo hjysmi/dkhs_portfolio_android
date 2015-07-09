@@ -51,8 +51,8 @@
             android:textSize="12sp"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_del"
+        <TextView
+            android:id="@+id/tv_del"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

@@ -99,7 +99,7 @@ public class OptionalStockAdapter extends BaseAdapter {
         TextView tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
         final TextView tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
         TextView tvIstop = (TextView) convertView.findViewById(R.id.tv_isStop);
-        Button btnDel = (Button) convertView.findViewById(R.id.btn_del);
+        TextView btnDel = (TextView) convertView.findViewById(R.id.tv_del);
         final SeekBar seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
 
         ConStockBean item = stockList.get(position);

@@ -97,7 +97,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private EditText etConbinationName;
     private EditText etConbinationDesc;
     private TextView btnConfirm;
-    private Button btnAverage;
+    private TextView btnAverage;
 
     private PositionDetail mPositionDetailBean;
     private String mCombinationId;
@@ -197,7 +197,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 //        headerView.findViewById(R.id.btn_add_postional).setOnClickListener(this);
 //        positionTextValue = (TextView) headerView.findViewById(R.id.position_text_value);
 //        positionTextCreatedate = (TextView) headerView.findViewById(R.id.position_text_createdate);
-        btnAverage = (Button) headerView.findViewById(R.id.btn_average);
+        btnAverage = (TextView) headerView.findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
         etConbinationName = (EditText) headerView.findViewById(R.id.et_myconbina_name);
         etConbinationDesc = (EditText) headerView.findViewById(R.id.et_myconbina_desc);

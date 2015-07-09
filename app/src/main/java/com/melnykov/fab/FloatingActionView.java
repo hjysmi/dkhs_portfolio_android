@@ -360,6 +360,15 @@ public class FloatingActionView extends LinearLayout {
         scrollDetector.setScrollThreshold(mScrollThreshold);
         listView.setOnScrollListener(scrollDetector);
     }
+    public void attachToListViewTop(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener,
+                                 AbsListView.OnScrollListener onScrollListener) {
+        AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
+        scrollDetector.setScrollDirectionListener(scrollDirectionListener);
+        scrollDetector.setOnScrollListener(onScrollListener);
+        scrollDetector.setListView(listView);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        listView.setOnScrollListener(scrollDetector);
+    }
 
     // public void attachToRecyclerView(@NonNull RecyclerView recyclerView,
     // ScrollDirectionListener scrollDirectionlistener, RecyclerView.OnScrollListener onScrollListener) {

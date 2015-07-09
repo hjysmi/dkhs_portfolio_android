@@ -139,8 +139,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="22dp"
                         android:alpha="0.6"
-
-                        android:background="@color/md_grey_800" />
+                        />
 
                     <LinearLayout
                         android:id="@+id/ll_followers"
@@ -312,7 +311,6 @@
 
                 </LinearLayout>
                 <View
-
                     android:layout_below="@+id/ll_inviteFriends"
                     style="@style/divider_line"
                     />

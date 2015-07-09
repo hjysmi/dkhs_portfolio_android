@@ -644,4 +644,5 @@
 
     <string name="float_menu_addstock">添加股票</string>
     <string name="next_step">下一步</string>
+    <string name="combination_create_time">创建时间</string>
 </resources>
