@@ -44,6 +44,7 @@ import com.dkhs.portfolio.base.widget.FrameLayout;
 import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.LinearLayout;
+import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.base.widget.TextView;
 
@@ -116,6 +117,8 @@ public class AppCompatViewInflater {
                 return new LinearLayout(context, attrs);
             case "RelativeLayout":
                 return new RelativeLayout(context, attrs);
+            case "ListView":
+                return new ListView(context, attrs);
         }
 
         if (originalContext != context) {

@@ -59,6 +59,8 @@ public class ModelAcitivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
+        //方便定位类
+        LogUtils.d("start Activity ",this.getClass().getSimpleName());
         PortfolioApplication.getInstance().addActivity(this);
         mActivity =this;
         onCreate(arg0, R.layout.layout_model_default);

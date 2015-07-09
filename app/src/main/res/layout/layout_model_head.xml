@@ -12,6 +12,7 @@
             android:id="@+id/view_title"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
+
             android:layout_marginTop="@dimen/tool_bar_top_padding">
 
 
@@ -21,9 +22,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingRight="15dp"
-                android:src="@drawable/btn_back_selector"
                 android:textColor="@color/white_textselector" />
 
 
@@ -65,6 +65,8 @@
                 <TextView
                     android:id="@+id/btn_right"
                     style="@style/tool_bar_menu"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
@@ -75,9 +77,12 @@
                 style="@style/tool_bar_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/myids"
-                android:visibility="gone" />
+                android:visibility="gone"
+                />
 
 
         </RelativeLayout>

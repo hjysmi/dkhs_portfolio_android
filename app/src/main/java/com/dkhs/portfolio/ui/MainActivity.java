@@ -289,11 +289,13 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
                 return true;
+            }else{
+                GlobalParams.clearUserInfo();
             }
 
         }
 
-        GlobalParams.clearUserInfo();
+
         return super.onKeyDown(keyCode, event);
     }
 
