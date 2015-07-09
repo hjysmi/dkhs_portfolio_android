@@ -7,6 +7,7 @@
         <item name="colorPrimary">@color/title_color</item>
         <item name="colorPrimaryDark">@color/dark_title_color</item>
         <!-- 解决activity切换时的黑屏问题 -->
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
 
@@ -78,10 +79,10 @@
     </style>
 
     <style name="divider_line">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5px</item>
-        <item name="android:background">@color/drivi_line</item>
-    </style>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">0.5px</item>
+    <item name="android:background">@color/drivi_line</item>
+</style>
 
     <style name="vertical_divider_line">
         <item name="android:layout_width">0.5px</item>
