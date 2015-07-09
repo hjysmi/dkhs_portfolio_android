@@ -24,7 +24,7 @@
 
         <!-- colorAccent is used as the default value for colorControlActivated,
              which is used to tint widgets -->
-        <item name="colorAccent">@color/title_color</item>
+        <item name="colorAccent">@android:color/primary_text_dark</item>
         <!-- 解决activity切换时的黑屏问题 -->
         <item name="android:windowIsTranslucent">true</item>
         <!-- You can also set colorControlNormal, colorControlActivated

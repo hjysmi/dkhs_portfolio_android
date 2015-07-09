@@ -28,7 +28,6 @@ import com.dkhs.portfolio.ui.widget.ViewBean.MarkStockViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkTitleViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.ViewBean;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -196,14 +195,17 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
 
         @Override
         protected void afterParseData(List<ViewBean> object) {
-            endAnimaRefresh();
             isLoading = false;
-            mSwipeLayout.setRefreshing(false);
-            if (null != object) {
+            if (isAdded()) {
+                endAnimaRefresh();
 
-                dataList.clear();
-                dataList.addAll(object);
-                mAdapter.notifyDataSetChanged();
+                mSwipeLayout.setRefreshing(false);
+                if (null != object) {
+
+                    dataList.clear();
+                    dataList.addAll(object);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }
 
