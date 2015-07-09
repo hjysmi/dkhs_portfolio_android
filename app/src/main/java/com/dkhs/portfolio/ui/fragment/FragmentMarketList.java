@@ -559,19 +559,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_select);
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-    }
 
     @Override
     public void onLoadMore() {

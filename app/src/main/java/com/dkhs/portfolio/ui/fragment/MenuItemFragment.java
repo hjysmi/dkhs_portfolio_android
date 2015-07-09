@@ -44,26 +44,26 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public static final int TABINDEX_5 = R.id.tab_5;
 
     @ViewInject(R.id.btn_tab1)
-    private Button btnTab1;
+    private View btnTab1;
     @ViewInject(R.id.tv_tab1)
     private TextView tvTab1;
 
     @ViewInject(R.id.btn_tab2)
-    private Button btnTab2;
+    private View btnTab2;
     @ViewInject(R.id.tv_tab2)
     private TextView tvTab2;
 
     @ViewInject(R.id.btn_tab3)
-    private Button btnTab3;
+    private View btnTab3;
     @ViewInject(R.id.tv_tab3)
     private TextView tvTab3;
 
     @ViewInject(R.id.btn_tab4)
-    private Button btnTab4;
+    private View btnTab4;
     @ViewInject(R.id.tv_tab4)
     private TextView tvTab4;
     @ViewInject(R.id.btn_tab5)
-    private Button btnTab5;
+    private View btnTab5;
     @ViewInject(R.id.tv_tab5)
     private TextView tvTab5;
 

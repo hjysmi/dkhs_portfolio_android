@@ -2,10 +2,12 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RongConnectSuccessEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
@@ -29,15 +31,41 @@ public class RCChatListActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
         setTitle(R.string.message_center);
+
         Intent intent = getIntent();
         LogUtils.e(intent.getDataString());
         LogUtils.e(intent.getData().toString());
         LogUtils.e(intent.toString());
-        ConversationListFragment   conversationListFragment = new ConversationListFragment();
-        if (PortfolioApplication.hasUserLogin()) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, conversationListFragment).commit();
 
+
+        BusProvider.getInstance().register(this);
+        if(MessageManager.getInstance().isConnect()) {
+            displayRClListFragment();
         }
+
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public  void onRongConnect(RongConnectSuccessEvent event){
+
+        displayRClListFragment();
+    }
+    private void displayRClListFragment() {
+
+            ConversationListFragment conversationListFragment = new ConversationListFragment();
+            if (PortfolioApplication.hasUserLogin()) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, conversationListFragment).commitAllowingStateLoss();
+                findViewById(R.id.loadView).setVisibility(View.GONE);
+            }
+    }
+
 
 }

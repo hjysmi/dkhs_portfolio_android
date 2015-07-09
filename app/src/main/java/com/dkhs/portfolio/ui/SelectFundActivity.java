@@ -33,11 +33,11 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName AddConbinationStockActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-28 下午12:11:20
- * @version 1.0
  */
 public class SelectFundActivity extends BaseSelectActivity implements OnClickListener {
 
@@ -70,7 +70,7 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
     protected void onCreate(Bundle arg0) {
 
         super.onCreate(arg0);
-
+        hadFragment();
         btnOrder = getOrderButton();
 
         btnOrder.setOnClickListener(orderClickLisenter);
@@ -99,24 +99,24 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
             OrderType mOrderType = OrderType.MONTH;
             int id = v.getId();
             switch (id) {
-            // case R.id.tv_day_order: {
-            // btnOrder.setText(orderTitle[0]);
-            // mOrderType = OrderType.MONTH;
-            // }
-            //
-            // break;
-            // case R.id.tv_month_order: {
-            // btnOrder.setText(orderTitle[1]);
-            // mOrderType = OrderType.YEAR;
-            //
-            // }
-            //
-            // break;
-            // case R.id.tv_quarter_order: {
-            // btnOrder.setText(orderTitle[2]);
-            // mOrderType = OrderType.TYEAR;
-            // }
-            // break;
+                // case R.id.tv_day_order: {
+                // btnOrder.setText(orderTitle[0]);
+                // mOrderType = OrderType.MONTH;
+                // }
+                //
+                // break;
+                // case R.id.tv_month_order: {
+                // btnOrder.setText(orderTitle[1]);
+                // mOrderType = OrderType.YEAR;
+                //
+                // }
+                //
+                // break;
+                // case R.id.tv_quarter_order: {
+                // btnOrder.setText(orderTitle[2]);
+                // mOrderType = OrderType.TYEAR;
+                // }
+                // break;
 
                 default:
                     break;
@@ -189,10 +189,9 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     protected ListViewType getLoadByType() {
@@ -201,10 +200,9 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     protected int getTitleRes() {
@@ -212,19 +210,5 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         return R.array.refer_funds;
     }
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onResume(this);
-    }
 }

@@ -8,21 +8,20 @@
     <Button
         android:id="@+id/btn_titletab_left"
         android:layout_width="55dp"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:background="@drawable/btn_titletab_right_selector"
         android:enabled="false"
         android:gravity="center"
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
         android:text="@string/tab_stock"
-        style="?android:attr/buttonBarButtonStyle"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/btn_titletab_center"
         android:layout_width="55dp"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:background="@drawable/btn_titletab_center_selector"
         android:layout_marginRight="-1dp"
         android:layout_marginLeft="-1dp"
@@ -31,21 +30,19 @@
         android:paddingTop="6dp"
         android:singleLine="true"
         android:text="@string/tab_fund"
-        style="?android:attr/buttonBarButtonStyle"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
     <Button
 
         android:id="@+id/btn_titletab_right"
         android:layout_width="55dp"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:background="@drawable/btn_titletab_left_selector"
         android:gravity="center"
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
         android:singleLine="true"
         android:text="@string/tab_funds"
-        style="?android:attr/buttonBarButtonStyle"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 

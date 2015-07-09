@@ -2,13 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/person_setting_backgroud"
+
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_combination_list"
         android:layout_width="fill_parent"
-        android:background="@color/white"
         android:layout_height="fill_parent" />
 
 
@@ -131,7 +130,6 @@
         </LinearLayout>
 
         <LinearLayout
-
             android:id="@+id/ll_combination_title"
             android:layout_width="fill_parent"
             style="@style/gray_text_tabline"
@@ -155,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="创建时间" />
+                android:text="@string/combination_create_time" />
 
             <TextView
                 style="@style/gray_title_text"
@@ -168,24 +166,14 @@
     </RelativeLayout>
 
 
-    <View style="@style/divider_line" android:background="@color/white_10"/>
 
 
-    <!--<View -->
-    <!---->
-    <!--style="@style/divider_line" />-->
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/rl_combination_list"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginTop="-1dp" />-->
     <com.dkhs.portfolio.ui.FloatingActionMenu
         android:id="@+id/floating_action_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
+        android:visibility="gone"
         />
 
 

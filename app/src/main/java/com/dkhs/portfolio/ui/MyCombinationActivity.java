@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet;
@@ -27,13 +28,14 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-8-26 下午3:10:51
  */
 public class MyCombinationActivity extends ModelAcitivity implements OnClickListener {
-    private Button btnRefresh;
+    private TextView btnRefresh;
 
     private MyCombinationFragmnet listFragment;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_mycombination);
         setTitle(R.string.my_combination);
 
@@ -48,7 +50,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     }
 
     private void initTitleView() {
-        Button btnMore = getRightButton();
+        TextView btnMore = getRightButton();
         btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null,
                 null, null);
         btnMore.setOnClickListener(this);
@@ -146,19 +148,5 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
     }
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onResume(this);
-    }
 }

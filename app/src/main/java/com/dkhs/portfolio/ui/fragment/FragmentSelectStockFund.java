@@ -765,8 +765,6 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
     @Override
     public void onPause() {
         super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
         pb.setVisibility(View.GONE);
     }
 
@@ -774,8 +772,6 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
     public void onResume() {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        System.out.println("FragmentSelectStockFund onResume ");
         if (null == mDataList || mDataList.isEmpty()) {
             BusProvider.getInstance().post(new DataUpdateEvent(true));
         } else {

@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.EditTabCombinationActivity;
@@ -45,9 +46,9 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
     @ViewInject(R.id.vp)
     ViewPager mVp;
     @ViewInject(R.id.btn_header_right)
-    private Button btnRight;
+    private TextView btnRight;
     @ViewInject(R.id.btn_header_back)
-    private Button btnLeft;
+    private TextView btnLeft;
 
 
     private String mUserId;

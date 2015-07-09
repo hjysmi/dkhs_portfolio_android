@@ -284,22 +284,11 @@ public class FragmentForOptionOnr extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_yanbao);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
         ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
     }
 }

@@ -96,8 +96,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private TextView tvTodayNetvalue;
     private EditText etConbinationName;
     private EditText etConbinationDesc;
-    private Button btnConfirm;
-    private Button btnAverage;
+    private TextView btnConfirm;
+    private TextView btnAverage;
 
     private PositionDetail mPositionDetailBean;
     private String mCombinationId;
@@ -197,7 +197,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 //        headerView.findViewById(R.id.btn_add_postional).setOnClickListener(this);
 //        positionTextValue = (TextView) headerView.findViewById(R.id.position_text_value);
 //        positionTextCreatedate = (TextView) headerView.findViewById(R.id.position_text_createdate);
-        btnAverage = (Button) headerView.findViewById(R.id.btn_average);
+        btnAverage = (TextView) headerView.findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
         etConbinationName = (EditText) headerView.findViewById(R.id.et_myconbina_name);
         etConbinationDesc = (EditText) headerView.findViewById(R.id.et_myconbina_desc);
@@ -950,23 +950,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_adjust);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 
     @Override
     public void updateSurpus(int value) {

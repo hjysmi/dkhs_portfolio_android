@@ -105,7 +105,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvOpen;
     private TextView tvChange;
     private TextView tvPercentage;
-    private Button btnRefresh;
+    private TextView btnRefresh;
     private TextView tvChengjiaoLiang;
     private TextView tvChengjiaoE;
     private TextView tvHuanShouLv;
@@ -150,7 +150,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.e(TAG, " --- onNewIntent--");
         setIntent(intent);// must store the new intent unless getIntent() will return the old one
         processExtraData();
         requestData();
@@ -177,7 +176,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        Log.e(TAG, " --- onCreate--");
+        hadFragment();
 
         setContentView(R.layout.activity_stockquotes);
         context = this;
@@ -283,7 +282,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
-        Button addButton = getRightButton();
+        TextView addButton = getRightButton();
         // addButton.setBackgroundResource(R.drawable.ic_search_title);
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);
@@ -1020,7 +1019,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // TODO Auto-generated method stub
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPause(this);
     }
 
     private boolean isChange = false;
@@ -1030,7 +1028,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // TODO Auto-generated method stub
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onResume(this);
         viewHandler.postDelayed(new Runnable() {
 
             @Override
@@ -1138,7 +1135,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         AnimatorSet localAnimatorSet = new AnimatorSet();
         localAnimatorSet.addListener(new AnimatorListenerAdapter() {
             public void onAnimationEnd(Animator paramAnimator) {
-                StockQuotesActivity.this.setSwipeBackEnable(true);
+//                StockQuotesActivity.this.setSwipeBackEnable(true);
                 full(isFull);
             }
         });
@@ -1171,7 +1168,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             public void onAnimationStart(Animator paramAnimator) {
                 super.onAnimationStart(paramAnimator);
-                StockQuotesActivity.this.setSwipeBackEnable(false);
+//                StockQuotesActivity.this.setSwipeBackEnable(false);
             }
         });
         localAnimatorSet.playTogether(new Animator[]{bottomAnimator, headerAnimator});

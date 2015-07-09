@@ -60,7 +60,6 @@ public class PickupPhotoActivity extends Activity implements OnClickListener {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 finish();
             }
         });
@@ -279,21 +278,5 @@ public class PickupPhotoActivity extends Activity implements OnClickListener {
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_dialog_getphoto);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 }

@@ -12,10 +12,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.AutoScrollHelper;
-import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -32,8 +29,6 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.dkhs.portfolio.ui.widget.ScaleLayout;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +65,7 @@ public class MainInfoFragment extends BaseTitleFragment {
         super.onViewCreated(view, savedInstanceState);
 
         initView(view);
-        titleRL.setClickable(true);
+        toolBar.setClickable(true);
         setTitle(R.string.title_info);
     }
 

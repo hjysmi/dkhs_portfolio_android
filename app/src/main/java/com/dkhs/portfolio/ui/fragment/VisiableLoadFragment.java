@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
+
 /**
  * Created by zjz on 2015/6/13.
  */
@@ -72,7 +74,6 @@ public abstract class VisiableLoadFragment extends BaseFragment {
                 isViewShown = false;
             }
         }
-
         super.setUserVisibleHint(isVisibleToUser);
     }
 
@@ -81,7 +82,17 @@ public abstract class VisiableLoadFragment extends BaseFragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             //do when hidden
+
+            if(getView() !=null){
+                onViewHide();
+            }
+
         } else {
+            if(getView() !=null){
+                requestData();
+                onViewShow();
+
+            }
             //do when show
         }
     }
@@ -114,11 +125,9 @@ public abstract class VisiableLoadFragment extends BaseFragment {
 
     public void onViewShow() {
 //        Log.e(TAG, this + "=============> onViewShow");
-
     }
 
     public void onViewHide() {
-
 //        Log.e(TAG, this + "=============> onViewHide");
 
     }

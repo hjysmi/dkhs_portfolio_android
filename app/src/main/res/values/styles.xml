@@ -1,6 +1,15 @@
 <resources>
 
-    <style name="AppBaseTheme" parent="@android:style/Theme.Light.NoTitleBar"></style>
+    <style name="AppBaseTheme2" parent="@android:style/Theme.Light.NoTitleBar"></style>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorAccent">@color/title_color</item>
+        <item name="colorPrimary">@color/title_color</item>
+        <item name="colorPrimaryDark">@color/dark_title_color</item>
+        <!-- 解决activity切换时的黑屏问题 -->
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme"></style>
@@ -70,13 +79,13 @@
     </style>
 
     <style name="divider_line">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5dp</item>
-        <item name="android:background">@color/drivi_line</item>
-    </style>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">0.5px</item>
+    <item name="android:background">@color/drivi_line</item>
+</style>
 
     <style name="vertical_divider_line">
-        <item name="android:layout_width">0.5dp</item>
+        <item name="android:layout_width">0.5px</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
@@ -417,4 +426,13 @@
         <item name="android:textColor">@color/md_grey_800</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="tool_bar_menu">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/white_textselector</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

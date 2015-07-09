@@ -722,7 +722,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), 60, mPollRequestTime);
         }
-        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override
@@ -807,9 +806,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     @Override
     public void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
-        MobclickAgent.onPageEnd(mPageName);
         if (mMarketTimer != null) {
             mMarketTimer.cancel();
             mMarketTimer = null;

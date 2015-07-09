@@ -83,6 +83,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_new_combinationdetail);
         ViewUtils.inject(this);
 
@@ -101,7 +102,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
      * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
-    protected void onResume() {
+    public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
         BusProvider.getInstance().register(this);
@@ -113,7 +114,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
      * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
     }

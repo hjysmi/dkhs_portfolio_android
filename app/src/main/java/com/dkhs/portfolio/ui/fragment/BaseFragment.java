@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,15 +56,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Register ourselves so that we can provide the initial value.
-        // BusProvider.getInstance().register(this);
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        // Always unregister when an object no longer should be on the bus.
-        // BusProvider.getInstance().unregister(this);
+
     }
 
     public abstract int setContentLayoutId();
@@ -103,4 +102,19 @@ public abstract class BaseFragment extends Fragment {
         super.startActivityForResult(intent, requestCode);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+
+        if(hidden){
+            if(getView() != null){
+                MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+            }
+        }else{
+             if(getView() !=null){
+                 MobclickAgent.onPageStart(this.getClass().getSimpleName());
+
+             }
+        }
+        super.onHiddenChanged(hidden);
+    }
 }

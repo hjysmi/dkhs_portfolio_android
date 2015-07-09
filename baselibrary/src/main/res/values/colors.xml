@@ -5,6 +5,7 @@
     <color name="transparent">#00000000</color>
     <color name="theme_color">#262932</color>
     <color name="title_color">#ff6363</color>
+    <color name="dark_title_color">#ff7373</color>
     <color name="theme_gray">#F5F5F5</color>
     <color name="theme_gray_press">#d0d0d0</color>
     <color name="round">#b2ffffff</color>

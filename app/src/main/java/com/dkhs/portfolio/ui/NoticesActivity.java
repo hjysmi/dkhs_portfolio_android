@@ -48,6 +48,7 @@ public class NoticesActivity extends ModelAcitivity {
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.fragment_report_news);
         setTitle(R.string.function_notice);
         replaceDataList();
@@ -72,21 +73,5 @@ public class NoticesActivity extends ModelAcitivity {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 }

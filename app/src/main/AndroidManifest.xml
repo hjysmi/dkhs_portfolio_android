@@ -130,7 +130,6 @@
             android:theme="@style/AppThemeNoBackgroud" />
         <activity
             android:name="com.dkhs.portfolio.ui.StockRemindActivity"
-            android:theme="@style/Theme.AppCompatRed"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.dkhs.portfolio.ui.FAQTextActivity" />
         <activity

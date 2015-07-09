@@ -51,8 +51,8 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
 
     @Override
     protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.fragment_report_news);
 
         /*
@@ -266,23 +266,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_yanbao_list);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 
     @Override
     public void onLoadMore() {

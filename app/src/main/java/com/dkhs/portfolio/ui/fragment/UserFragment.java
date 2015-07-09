@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,7 +43,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
-import io.rong.database.RongMaster;
 import io.rong.imkit.RongIM;
 
 /**
@@ -85,32 +83,22 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        // view.findViewById(R.id.ll_followers).setOnClickListener(this);
-        // view.findViewById(R.id.ll_following).setOnClickListener(this);
-        titleRL.setClickable(true);
+        toolBar.setClickable(true);
         initView(view);
         setTitle(R.string.title_user);
-
-
     }
 
-
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
     @Override
-    public void onResume() {
-
-
-        super.onResume();
-        updateUserInfo();
-
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(getView() !=null && !hidden){
+            updateUserInfo();
+        }
     }
 
     private void initView(View view) {
-        Button addButton = getRightButton();
+
+        TextView addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_setting_selecter),
                 null, null, null);
         addButton.setOnClickListener(new OnClickListener() {
@@ -121,10 +109,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
             }
         });
-
         BusProvider.getInstance().register(this);
         updateUserInfo();
-
     }
 
     private void updateUserInfo() {
@@ -133,7 +119,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
             String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
-            // account = setAccount(account);
             if (!TextUtils.isEmpty(account)) {
                 settingTextAccountText.setText(account);
             }
@@ -142,10 +127,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-                // url = DKHSUrl.BASE_DEV_URL + url;
                 BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
                 bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
-                // bitmapUtils.configDefaultLoadingImage(R.drawable.ic_user_head);
                 bitmapUtils.display(settingImageHead, url);
 
             } else {
@@ -156,10 +139,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             }
 
             UserEntity userEntity = UserEngineImpl.getUserEntity();
-//            if (userEntity != null) {
-//                handleNumber(tvFollowers, userEntity.getFollowed_by_count());
-//                handleNumber(tvFollowing, userEntity.getFriends_count());
-//            }
 
             userImp.getBaseUserInfo(userEntity.getId() + "", userInfoListener);
         } else {
@@ -204,9 +183,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void updateMessageCenterState() {
         if (PortfolioApplication.hasUserLogin()) {
-            // RongIM rongIM = RongIM.getInstance();
-            // if (rongIM != null) {
-            // int totalCount = RongIM.getInstance().getTotalUnreadCount();
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
             if (totalCount > 0) {
                 unreadCountTV.setVisibility(View.VISIBLE);
@@ -214,25 +190,13 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             } else {
                 unreadCountTV.setVisibility(View.GONE);
             }
-
         }
     }
 
-    // public String setAccount(String account) {
-    // if (account.contains("@")) {
-    // int k = account.indexOf("@");
-    // account = account.substring(0, k - 3) + "***" + account.substring(k, account.length());
-    // } else {
-    // account = account.substring(0, account.length() - 5) + "***"
-    // + account.substring(account.length() - 2, account.length());
-    // }
-    // return account;
-    // }
 
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
         startActivity(intent);
-        // UIUtils.startAnimationActivity(getActivity(), intent);
     }
 
     private void startUserInfoActivity() {
@@ -262,7 +226,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 if (!UIUtils.iStartLoginActivity(getActivity()) ) {
 
                     MessageManager.getInstance().startConversationList(getActivity());
-//                    RongIM.getInstance().startConversationList(getActivity());
+                    RongIM.getInstance().startConversationList(getActivity());
                 }
                 break;
             case R.id.ll_following:
@@ -296,21 +260,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     }
 
-    // @OnClick(R.id.message_center_layout)
-    // public void messageCenterClick(View v) {
-    //
-    // if (!UIUtils.iStartLoginActivity(getActivity())) {
-    //
-    // Toast.makeText(getActivity(),"t",Toast.LENGTH_LONG).show();
-    // RongIM.getInstance().startConversationList(getActivity());
-    // }
-    // }
-
     @Override
     public void onDestroy() {
-
         super.onDestroy();
-
         BusProvider.getInstance().unregister(this);
     }
 

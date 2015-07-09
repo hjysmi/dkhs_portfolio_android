@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ShareBean;
@@ -58,7 +59,7 @@ public class InviteFriendsActivity extends ModelAcitivity {
 
         getDataForNet(false);
 
-        Button rightButton = getRightButton();
+        TextView rightButton = getRightButton();
 
         rightButton.setText(R.string.history);
         rightButton.setOnClickListener(new View.OnClickListener() {
