@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.base.widget.listener;
 
+import android.os.SystemClock;
 import android.view.View;
 
 
@@ -25,9 +26,9 @@ public class SingleClickListener implements View.OnClickListener {
     public void onClick(View v) {
 
 
-        long clickTime=System.currentTimeMillis();
+        long clickTime = SystemClock.elapsedRealtime();
         if (clickTime - preClickTime > L_CLICK_INTERVAL) {
-            preClickTime= clickTime;
+            preClickTime = clickTime;
             mListener.onClick(v);
         }
     }
