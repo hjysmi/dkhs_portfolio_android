@@ -8,20 +8,18 @@
  */
 package com.dkhs.portfolio.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -38,7 +36,6 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.lidroid.xutils.util.LogUtils;
 
 import io.rong.imlib.model.Message;
 
@@ -51,6 +48,11 @@ import io.rong.imlib.model.Message;
  */
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
+    private static final String TAG_FRAGMENT_A = "A";
+    private static final String TAG_FRAGMENT_B = "B";
+    private static final String TAG_FRAGMENT_C = "C";
+    private static final String TAG_FRAGMENT_D = "D";
+    private static final String TAG_FRAGMENT_E = "E";
 
     private MessageHandler handler;
 
@@ -151,15 +153,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private Fragment fragmentA;
-    private Fragment fragmentB;
-    private Fragment fragmentC;
-    private Fragment fragmentD;
-    private Fragment fragmentE;
+//    private Fragment fragmentA;
+//    private Fragment fragmentB;
+//    private Fragment fragmentC;
+//    private Fragment fragmentD;
+//    private Fragment fragmentE;
 
     protected void displayFragmentA() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentA = getSupportFragmentManager().findFragmentByTag("A");
+        Fragment fragmentA = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_A);
         if (null == fragmentA) {
             fragmentA = new MainOptionalFragment();
         }
@@ -171,7 +173,7 @@ public class MainActivity extends BaseActivity {
             }
 
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentA, "A");
+            ft.add(R.id.content_layout, fragmentA, TAG_FRAGMENT_A);
         }
 
         ft.commit();
@@ -180,7 +182,7 @@ public class MainActivity extends BaseActivity {
 
     protected void displayFragmentB() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentB = getSupportFragmentManager().findFragmentByTag("B");
+        Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
             fragmentB = new MainMarketFragment();
 //            fragmentB = new ShakesFragment();
@@ -189,7 +191,7 @@ public class MainActivity extends BaseActivity {
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
             ft.show(fragmentB);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentB, "B");
+            ft.add(R.id.content_layout, fragmentB, TAG_FRAGMENT_B);
         }
         if (fragmentB instanceof VisiableLoadFragment) {
             ((VisiableLoadFragment) fragmentB).onViewShow();
@@ -200,7 +202,7 @@ public class MainActivity extends BaseActivity {
 
     protected void displayFragmentC() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentC = getSupportFragmentManager().findFragmentByTag("C");
+        Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {
             fragmentC = new ShakeFragment();
         }
@@ -208,7 +210,7 @@ public class MainActivity extends BaseActivity {
         if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
             ft.show(fragmentC);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentC, "C");
+            ft.add(R.id.content_layout, fragmentC, TAG_FRAGMENT_C);
         }
 
         ft.commit();
@@ -216,7 +218,7 @@ public class MainActivity extends BaseActivity {
 
     protected void displayFragmentD() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentD = getSupportFragmentManager().findFragmentByTag("D");
+        Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
         if (null == fragmentD) {
             fragmentD = new MainInfoFragment();
         }
@@ -224,14 +226,15 @@ public class MainActivity extends BaseActivity {
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container
             ft.show(fragmentD);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentD, "D");
+            ft.add(R.id.content_layout, fragmentD, TAG_FRAGMENT_D);
         }
 
         ft.commit();
     }
+
     protected void displayFragmentE() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentE = getSupportFragmentManager().findFragmentByTag("E");
+        Fragment fragmentE = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_E);
         if (null == fragmentE) {
             fragmentE = new UserFragment();
         }
@@ -239,7 +242,7 @@ public class MainActivity extends BaseActivity {
         if (null != fragmentE && fragmentE.isAdded()) { // if the fragment is already in container
             ft.show(fragmentE);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentE, "E");
+            ft.add(R.id.content_layout, fragmentE, TAG_FRAGMENT_E);
         }
 
         ft.commit();
@@ -249,27 +252,32 @@ public class MainActivity extends BaseActivity {
     private void hideAllFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        if (null != fragmentA && fragmentA.isAdded()) {
-            ft.hide(fragmentA);
-            if (fragmentA instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragmentA).onViewHide();
-            }
+        Fragment fragmentA = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_A);
+        Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
+        Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
+        Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
+        Fragment fragmentE = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_E);
+
+        hideFragment(fragmentA, ft);
+        hideFragment(fragmentB, ft);
+        hideFragment(fragmentC, ft);
+        hideFragment(fragmentD, ft);
+        hideFragment(fragmentE, ft);
+        ft.commitAllowingStateLoss();
+
+        if (fragmentA instanceof VisiableLoadFragment) {
+            ((VisiableLoadFragment) fragmentA).onViewHide();
         }
-        if (null != fragmentB && fragmentB.isAdded()) {
-            ft.hide(fragmentB);
-            if (fragmentB instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragmentB).onViewHide();
-            }
+        if (fragmentB instanceof VisiableLoadFragment) {
+            ((VisiableLoadFragment) fragmentB).onViewHide();
         }
-        if (null != fragmentC && fragmentC.isAdded()) {
-            ft.hide(fragmentC);
+    }
+
+
+    private void hideFragment(Fragment fragment, FragmentTransaction ft) {
+        if (null != fragment && fragment.isAdded()) {
+            ft.hide(fragment);
         }
-        if (null != fragmentD && fragmentD.isAdded()) {
-            ft.hide(fragmentD);
-        }if (null != fragmentE && fragmentE.isAdded()) {
-            ft.hide(fragmentE);
-        }
-        ft.commit();
     }
 
     private long exitTime;
