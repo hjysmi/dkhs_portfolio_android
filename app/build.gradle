@@ -13,8 +13,8 @@ android {
         targetSdkVersion 21
 
 
-        versionCode 109010708
-        versionName "1.9.1.0708"
+        versionCode 109010709
+        versionName "1.9.1.0709"
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
