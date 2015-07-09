@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatCheckedTextView;
 import android.support.v7.widget.AppCompatEditText;
@@ -30,7 +29,6 @@ import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
@@ -39,41 +37,15 @@ import android.view.View;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.appcompat.R;
-import android.support.v7.internal.view.ContextThemeWrapper;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.AppCompatCheckedTextView;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
-import android.support.v7.widget.AppCompatRadioButton;
-import android.support.v7.widget.AppCompatRatingBar;
-import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.internal.widget.ViewUtils;
-import android.support.v7.widget.AppCompatTextView;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.InflateException;
-import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CheckedTextView;
-import android.widget.EditText;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.RadioButton;
-import android.widget.RatingBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
+import com.dkhs.portfolio.base.widget.Button;
+import com.dkhs.portfolio.base.widget.FrameLayout;
+import com.dkhs.portfolio.base.widget.ImageButton;
+import com.dkhs.portfolio.base.widget.ImageView;
+import com.dkhs.portfolio.base.widget.LinearLayout;
+import com.dkhs.portfolio.base.widget.RelativeLayout;
+import com.dkhs.portfolio.base.widget.TextView;
 
 /**
  * This class is responsible for manually inflating our tinted widgets which are used on devices
@@ -113,28 +85,38 @@ public class AppCompatViewInflater {
         }
 
         // We need to 'inject' our tint aware Views in place of the standard framework versions
-//        switch (name) {
-//            case "EditText":
-//                return new EditText(context, attrs);
-//            case "Spinner":
-//                return new Spinner(context, attrs);
-//            case "CheckBox":
-//                return new CheckBox(context, attrs);
-//            case "RadioButton":
-//                return new RadioButton(context, attrs);
-//            case "CheckedTextView":
-//                return new CheckedTextView(context, attrs);
-//            case "AutoCompleteTextView":
-//                return new AutoCompleteTextView(context, attrs);
-//            case "MultiAutoCompleteTextView":
-//                return new MultiAutoCompleteTextView(context, attrs);
-//            case "RatingBar":
-//                return new RatingBar(context, attrs);
-//            case "Button":
-//                return new Button(context, attrs);
-//            case "TextView":
-//                return new TextView(context, attrs);
-//        }
+        switch (name) {
+            case "EditText":
+                return new AppCompatEditText(context, attrs);
+            case "Spinner":
+                return new AppCompatSpinner(context, attrs);
+            case "CheckBox":
+                return new AppCompatCheckBox(context, attrs);
+            case "RadioButton":
+                return new AppCompatRadioButton(context, attrs);
+            case "CheckedTextView":
+                return new AppCompatCheckedTextView(context, attrs);
+            case "AutoCompleteTextView":
+                return new AppCompatAutoCompleteTextView(context, attrs);
+            case "MultiAutoCompleteTextView":
+                return new AppCompatMultiAutoCompleteTextView(context, attrs);
+            case "RatingBar":
+                return new AppCompatRatingBar(context, attrs);
+            case "Button":
+                return new Button(context, attrs);
+            case "TextView":
+                return new TextView(context, attrs);
+            case "FrameLayout":
+                return new FrameLayout(context, attrs);
+            case "ImageButton":
+                return new ImageButton(context, attrs);
+            case "ImageView":
+                return new ImageView(context, attrs);
+            case "LinearLayout":
+                return new LinearLayout(context, attrs);
+            case "RelativeLayout":
+                return new RelativeLayout(context, attrs);
+        }
 
         if (originalContext != context) {
             // If the original context does not equal our themed context, then we need to manually

@@ -38,6 +38,7 @@ public class PortfolioPreferenceManager {
     public static final String KEY_KLIN_COMPLEX = "key_klin_complex";
     public static final String KEY_KLIN_DEPUTY = "key_klin_DEPUTY";
     public static final String KEY_VERSIONY = "key_version";
+    public static final String KEY_CLICK_TIME = "key_click_time";
 
     /**
      * app 显示新消息的key
