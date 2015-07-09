@@ -12,8 +12,10 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
+import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -25,7 +27,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -90,7 +91,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         Bundle arguments = new Bundle();
         arguments.putInt(KEY_TABINDEX, value);
         fragment.setArguments(arguments);
-
         return fragment;
     }
 
@@ -118,6 +118,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
         return R.layout.layout_bottom;
     }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -186,6 +187,27 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     private void setSelectView(View rButton) {
         rButton.setEnabled(false);
     }
+
+    @Subscribe
+    public void lockMenu(LockMenuEvent lockMenuEvent) {
+        tabLayout1.setClickable(false);
+        tabLayout2.setClickable(false);
+        tabLayout3.setClickable(false);
+        tabLayout4.setClickable(false);
+        tabLayout5.setClickable(false);
+    }
+    @Subscribe
+    public void unLockMenu(UnLockMenuEvent unLockMenuEvent){
+        tabLayout1.setClickable(true);
+        tabLayout2.setClickable(true);
+        tabLayout3.setClickable(true);
+
+        tabLayout4.setClickable(true);
+        tabLayout5.setClickable(true);
+//        mRootView.findViewById(mIndex).setClickable(false);
+
+    }
+
 
     @Override
     public void onDestroy() {

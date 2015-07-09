@@ -21,6 +21,9 @@ import com.dkhs.portfolio.engine.ShakeEngineImpl;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.ShakeActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
+import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.ShakeDetector;
 import com.lidroid.xutils.util.LogUtils;
@@ -95,10 +98,6 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     }
                     break;
             }
-//            String s=" {\"id\": 2, \"title\": \"中国联通\", \"content\": \"中国联通降低宽带资费中国联通降低宽带资费中国联通降低宽带资费\", " +
-//                    "\"symbol\": {\"symbol\": \"SZ300459\", \"abbr_name\": \"浙江金科\"}, \"capital_flow\": \"4452.12万元\", " +
-//                    "\"up_rate\": 0.0, \"display_time\": 120, \"modified_at\": \"2015-07-01T02:51:10Z\", \"coins_bonus\": 4, \"times_used\": 3, \"times_left\": 0}\n";
-//           gotoShakeActivity(DataParse.parseObjectJson(ShakeBean.class, s));
             return false;
         }
     });
@@ -122,14 +121,27 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         ribbonIV.setImageDrawable(mLoadingRibbonAD);
         animationDrawable.stop();
         mLoadingRibbonAD.stop();
+        mTvtitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mShakeIv.setEnabled(true);
+            }
+        });
         mShakeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 //                getDataForNet();
-
+                hearShake();
+                uiHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finishShake();
+                    }
+                },2000);
             }
         });
+        mShakeIv.setEnabled(false);
+
         sensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
         sd = new ShakeDetector(this);
 
@@ -155,6 +167,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         animationDrawable.start();
 
         mLoadingRibbonAD.start();
+        BusProvider.getInstance().post(new LockMenuEvent());
         ShakeEngineImpl.getShakeInfo(new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
@@ -280,11 +293,15 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     @Override
     public void hearShake() {
         getDataForNet();
+
+
     }
 
     @Override
     public void finishShake() {
         uiHandler.sendEmptyMessage(0);
+        BusProvider.getInstance().post(new UnLockMenuEvent());
+
     }
 
 
