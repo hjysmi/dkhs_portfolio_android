@@ -121,12 +121,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         ribbonIV.setImageDrawable(mLoadingRibbonAD);
         animationDrawable.stop();
         mLoadingRibbonAD.stop();
-        mTvtitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShakeIv.setEnabled(true);
-            }
-        });
+
         mShakeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
