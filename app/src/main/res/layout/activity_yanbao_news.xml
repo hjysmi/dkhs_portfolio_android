@@ -33,12 +33,17 @@
             
         </LinearLayout>
     </RelativeLayout>
+	<ScrollView
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+
+		>
 	<LinearLayout 
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
 	    android:orientation="vertical"
-	    android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+	    android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
 	    >
 	    <TextView 
 	        android:layout_marginTop="10dp"
@@ -48,7 +53,7 @@
 	        android:id="@+id/news_text_title"
 	        android:textStyle="bold"
 	        android:textSize="@dimen/news_text_title_size"
-	        android:textColor="@color/black"
+	        android:textColor="@color/theme_color"
 	        />
 	    <RelativeLayout
                 android:layout_width="match_parent"
@@ -84,22 +89,17 @@
                     android:textSize="@dimen/setting_text_phone" />
             </RelativeLayout>
 	    <include layout="@layout/layout_line"/>
+		<TextView
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_marginTop="12dp"
+			android:textColor="@color/gray"
+			android:textSize="@dimen/list_text_size"
+			android:id="@+id/news_text_text"
+			/>
 	    
 	</LinearLayout>
-	<ScrollView 
-	        android:layout_height="match_parent"
-	        android:layout_width="match_parent"
-	        android:paddingTop="10dp"
-	        android:layout_marginLeft="20dp"
-        
-	        >
-	        <TextView 
-	            android:layout_height="wrap_content"
-	            android:layout_width="match_parent"
-	            android:layout_marginRight="20dp"
-	            android:textColor="@color/black"
-	            android:textSize="@dimen/list_text_size"
-	            android:id="@+id/news_text_text"
-	            />
+
+
 	    </ScrollView>
 </LinearLayout>

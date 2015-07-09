@@ -14,6 +14,13 @@ import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * @author zwm
+ * @version 2.0
+ * @ClassName SingClickhelper
+ * @Description
+ * @date 2015/7/9.修改布局,优化体验
+ */
 public class YanbaoDetailActivity extends ModelAcitivity {
     private TextView newsTitleName;
     private TextView newsTitleDate;
