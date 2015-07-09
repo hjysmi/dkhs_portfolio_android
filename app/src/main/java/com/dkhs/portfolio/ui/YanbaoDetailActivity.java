@@ -17,7 +17,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * @author zwm
  * @version 2.0
- * @ClassName SingClickhelper
+ * @ClassName YanbaoDetailActivity
  * @Description
  * @date 2015/7/9.修改布局,优化体验
  */
