@@ -33,7 +33,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -175,7 +174,6 @@ public class TrendTodayChartFragment extends BaseFragment {
     }
 
     private void initTodayTrendTitle() {
-        System.out.println("initTodayTrendTitle");
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
         xtitle.add("10:30");
@@ -486,7 +484,6 @@ public class TrendTodayChartFragment extends BaseFragment {
         if (isAdded()) {
             super.setUserVisibleHint(isVisibleToUser);
             if (trendType.equals(TREND_TYPE_TODAY)) {
-                System.out.println("setUserVisibleHint:" + isVisibleToUser);
             }
         }
     }
@@ -516,4 +513,12 @@ public class TrendTodayChartFragment extends BaseFragment {
         // TODO Auto-generated method stub
         return 0;
     }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        stopRequry();
+    }
+
 }

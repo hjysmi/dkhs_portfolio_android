@@ -26,7 +26,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
@@ -799,7 +798,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
                         }
                     }
                     BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
-                    Log.e(TAG, String.format("NetValue day:%f,Netvalue week:%f,Netvalue month:%f", mPositionDetail.getPortfolio().getChng_pct_day(), mPositionDetail.getPortfolio().getChng_pct_week(), mPositionDetail.getPortfolio().getChng_pct_month()));
 
                     tvNetvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
