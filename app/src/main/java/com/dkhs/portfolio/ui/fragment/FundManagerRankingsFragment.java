@@ -25,29 +25,25 @@ import java.util.List;
 /**
  * @author zwm
  * @version 1.0
- * @ClassName FriendsFragment
+ * @ClassName FundManagerRankingsFragment
  * @date 2015/6/02.13:27
- * @Description
+ * @Description  基金经理排行
  */
-public class FundOrderFragment extends LoadMoreListFragment implements MarketFundsFragment.OnRefreshI {
+public class FundManagerRankingsFragment extends LoadMoreListFragment implements MarketFundsFragment.OnRefreshI {
 
     private List<FundPriceBean> dataList = new ArrayList<>();
     private FundOrderEngineImpl fundOrderEngine = null;
 
     private FundOrderAdapter adapter;
 
-
-
-
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
     }
 
-    public static FundOrderFragment newInstant(String type, String sort) {
+    public static FundManagerRankingsFragment newInstant(String type, String sort) {
 
-        FundOrderFragment fundsOrderFragment = new FundOrderFragment();
-
+        FundManagerRankingsFragment fundsOrderFragment = new FundManagerRankingsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         bundle.putString("sort", sort);
@@ -93,7 +89,6 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         setHttpHandler(getLoadEngine().loadDate(type, sort));
     }
 
-    @Override
     public void refresh(String type, String sort) {
         this.sort = sort;
         this.type = type;
