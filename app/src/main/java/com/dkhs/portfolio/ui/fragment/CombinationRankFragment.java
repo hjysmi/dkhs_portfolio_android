@@ -123,7 +123,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
 
     @Override
     public void requestData() {
-        loadData();
+
     }
 
     @Override
@@ -190,14 +190,13 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void onPause() {
 
         super.onPause();
-//        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+//
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        dataHandler.removeCallbacks(runnable);
-//        dataHandler.postDelayed(runnable, 60);
+//
 
     }
 
@@ -205,11 +204,14 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     @Override
     public void onViewHide() {
         super.onViewHide();
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 
     @Override
     public void onViewShow() {
         super.onViewShow();
+        dataHandler.removeCallbacks(runnable);
+        dataHandler.postDelayed(runnable, 60);
     }
 
     @Override
