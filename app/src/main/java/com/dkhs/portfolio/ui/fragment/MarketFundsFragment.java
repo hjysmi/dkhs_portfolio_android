@@ -56,8 +56,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private MenuChooserRelativeLayout sortTypeMenuChooserL;
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
-    // @ViewInject(R.id.tv_increase)
-    // private TextView tvChange;
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
     @ViewInject(R.id.tv_fund_type)
@@ -65,8 +63,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @ViewInject(R.id.view_stock_title)
     private View titleView;
-
-    private Context context;
 
 
     @Override
@@ -89,10 +85,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
-
-
     }
 
     @Override

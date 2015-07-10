@@ -14,7 +14,7 @@ public class SingleClickListener implements View.OnClickListener {
 
     private View.OnClickListener mListener;
 
-    private SingClickHelper singClickhelper=new SingClickHelper();
+    private SingleClickHelper singleClickhelper =new SingleClickHelper();
 
     public SingleClickListener(View.OnClickListener mListener) {
         this.mListener = mListener;
@@ -23,7 +23,7 @@ public class SingleClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if (singClickhelper.clickEnable()) {
+        if (singleClickhelper.clickEnable()) {
             mListener.onClick(v);
         }
     }

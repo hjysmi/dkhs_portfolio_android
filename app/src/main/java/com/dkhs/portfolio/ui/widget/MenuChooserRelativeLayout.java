@@ -33,23 +33,20 @@ import java.util.List;
 public class MenuChooserRelativeLayout extends RelativeLayout {
     public MenuChooserRelativeLayout(Context context) {
         super(context);
-        init();
     }
 
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+
     }
 
     public RecyclerView recyclerView;
@@ -65,20 +62,16 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-//        init();
-
     }
 
-    private void init() {
+    private void inflater() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_relativelayout, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         imageView = (ImageView) view.findViewById(R.id.im_bg);
         menuLL = view.findViewById(R.id.ll_menu);
         GridLayoutManager gridLayoutManager = new WrapGridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL);
-
         recyclerView.setLayoutManager(gridLayoutManager);
         floatMenuAdapter = new FloatMenuAdapter(getContext(), data);
-
         this.addView(view);
         this.setVisibility(GONE);
         imageView.setOnClickListener(new OnClickListener() {
@@ -94,14 +87,12 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                 floatMenuAdapter.setSelectIndex(position);
                 notifyDataSetChanged();
                 BusProvider.getInstance().post(selectItem);
-
                 recyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         toggle();
                     }
                 }, 500);
-
             }
         });
         recyclerView.setAdapter(floatMenuAdapter);
@@ -130,6 +121,17 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
 
     public void setData(List<MenuBean> data) {
+        inflater();
+        this.data.clear();
+        this.data.addAll(data);
+        selectItem = data.get(0);
+        floatMenuAdapter.notifyDataSetChanged();
+    }
+
+
+
+    public void setListData(List<List<MenuBean>> datasList){
+        inflater();
 
         this.data.clear();
         this.data.addAll(data);
@@ -154,13 +156,10 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     public void show() {
 
         this.setVisibility(VISIBLE);
-
-
         if (this.getParentView() != null) {
             ViewGroup viewGroup = this.getParentView();
             viewGroup.removeView(this);
         }
-
         this.parentView.addView(this);
         AnimationHelper.translationFromTopShow(menuLL, new Animator.AnimatorListener() {
             @Override
@@ -193,7 +192,6 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
         if (anim) {
             if (null == imageView.getAnimation() || imageView.getAnimation().hasEnded()) {
-
                 AnimationHelper.translationToTopDismiss(menuLL, new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -205,19 +203,14 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                         MenuChooserRelativeLayout.this.setVisibility(GONE);
                         menuLL.setVisibility(GONE);
                         MenuChooserRelativeLayout.this.parentView.removeView(MenuChooserRelativeLayout.this);
-
-
                     }
 
                     @Override
                     public void onAnimationCancel(Animator animation) {
-
-
                     }
 
                     @Override
                     public void onAnimationRepeat(Animator animation) {
-
                     }
                 });
                 AnimationHelper.alphaDismiss(imageView);

@@ -9,7 +9,7 @@ import android.os.SystemClock;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/9.
  */
-public class SingClickHelper {
+public  class SingleClickHelper {
 
     private static long L_CLICK_INTERVAL = 800;
     private long preClickTime;
