@@ -14,7 +14,7 @@ public class SingleItemClickListener implements AdapterView.OnItemClickListener 
 
     private AdapterView.OnItemClickListener singleItemClickListener;
 
-    private SingClickHelper singClickhelper=new SingClickHelper();
+    private SingClickhelper singClickhelper=new SingClickhelper();
 
     public SingleItemClickListener(AdapterView.OnItemClickListener singleItemClickListener) {
         this.singleItemClickListener = singleItemClickListener;

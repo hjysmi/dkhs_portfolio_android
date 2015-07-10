@@ -29,7 +29,7 @@ public class ImageLoaderUtils {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
                 context).threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .writeDebugLogs() // Remove for release app
                 .build();
@@ -39,7 +39,7 @@ public class ImageLoaderUtils {
     public static void setRoundedImage(String url, ImageView new_phone1) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
+                .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new RoundedBitmapDisplayer(300))
                 .build();
         loader.displayImage(url, new_phone1, options);
@@ -48,7 +48,7 @@ public class ImageLoaderUtils {
     public static void setImage(String url, ImageView new_phone1) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
+                .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new SimpleBitmapDisplayer())
                 .build();
         loader.displayImage(url, new_phone1, options);
@@ -56,7 +56,7 @@ public class ImageLoaderUtils {
     }    public static void setImage(String url, ImageView new_phone1,ImageLoadingListener loadingListener) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
+                .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new SimpleBitmapDisplayer())
                 .build();
         loader.displayImage(url, new_phone1, options,loadingListener);
@@ -65,7 +65,7 @@ public class ImageLoaderUtils {
     public static void loadImage(String url) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
+                .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new FadeInBitmapDisplayer(600))
                 .build();
         loader.loadImage(url, options,null);
@@ -74,7 +74,7 @@ public class ImageLoaderUtils {
     public static void loadImage(String url,ImageLoadingListener imageLoadingListener) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
+                .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new FadeInBitmapDisplayer(600))
                 .build();
 
@@ -85,7 +85,7 @@ public class ImageLoaderUtils {
     public static void setRoundedImage(String url, ImageView new_phone1, @DrawableRes int loadingDrawableId, @DrawableRes int failedDrawableId) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
+                .cacheInMemory(true).cacheOnDisk(true)
                 .showImageOnLoading(loadingDrawableId)
                 .showImageOnFail(failedDrawableId)
                 .displayer(new RoundedBitmapDisplayer(300))
@@ -97,7 +97,7 @@ public class ImageLoaderUtils {
     public static void setHeanderImage(String url, ImageView new_phone1) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory().cacheOnDisc()
+                .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new RoundedBitmapDisplayer(300))
                 .showImageForEmptyUri(R.drawable.ic_user_head)
                 .showImageOnFail(R.drawable.ic_user_head)

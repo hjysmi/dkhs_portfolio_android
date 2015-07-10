@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -185,20 +184,27 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         tabWidget.setSelection(i);
         switch (i) {
             case 0:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                        null, null, null);
                 mBtnsearch.setVisibility(View.VISIBLE);
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
             case 1:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                        null, null, null);
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setVisibility(View.VISIBLE);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
             case 2:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add),
+                        null, null, null);
                 mBtnrefresh.setVisibility(View.VISIBLE);
-                mBtnsearch.setVisibility(View.GONE);
+                mBtnsearch.setVisibility(View.VISIBLE);
+                mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
         }
