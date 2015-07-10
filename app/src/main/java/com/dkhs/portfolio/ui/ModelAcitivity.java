@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,13 +17,9 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.ui.fragment.BaseFragment;
-import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import java.lang.reflect.Field;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -51,8 +46,8 @@ public class ModelAcitivity extends SwipeBackActivity {
      * 返回按钮
      */
 
-    public void hadFragment(){
-        hadFragment=true;
+    public void hadFragment() {
+        hadFragment = true;
     }
 
     // private LinearLayout llBack;
@@ -60,26 +55,26 @@ public class ModelAcitivity extends SwipeBackActivity {
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
         //方便定位类
-        LogUtils.d("start Activity ",this.getClass().getSimpleName());
+        LogUtils.d("start Activity ", this.getClass().getSimpleName());
         PortfolioApplication.getInstance().addActivity(this);
-        mActivity =this;
+        mActivity = this;
         onCreate(arg0, R.layout.layout_model_default);
-
 
 
     }
 
     protected void onResume() {
         super.onResume();
-        if(!hadFragment){
+        if (!hadFragment) {
             MobclickAgent.onPageStart(this.getClass().getSimpleName());
         }
         MobclickAgent.onResume(this);
-         //统计时长
+        //统计时长
     }
+
     protected void onPause() {
         super.onPause();
-        if(!hadFragment){
+        if (!hadFragment) {
             MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         }
 
@@ -302,10 +297,12 @@ public class ModelAcitivity extends SwipeBackActivity {
     public void onBackPressed() {
         super.onBackPressed();
         UIUtils.outAnimationActivity(this);
+
     }
 
     @Override
     protected void onDestroy() {
+        PortfolioApplication.getInstance().getLists().remove(this);
         super.onDestroy();
     }
 

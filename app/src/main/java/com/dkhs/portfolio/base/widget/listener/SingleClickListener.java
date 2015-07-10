@@ -14,7 +14,7 @@ public class SingleClickListener implements View.OnClickListener {
 
     private View.OnClickListener mListener;
 
-    private SingClickHelper singClickhelper=new SingClickHelper();
+    private SingClickhelper singClickhelper=new SingClickhelper();
 
     public SingleClickListener(View.OnClickListener mListener) {
         this.mListener = mListener;

@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="-1dp"
     android:layout_marginLeft="-1dp"
     android:layout_marginRight="-1dp"
+    android:layout_marginTop="-1dp"
     android:background="@drawable/btn_white_grayborder_selector"
     android:orientation="vertical">
 
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:singleLine="true"
-                    android:text="10.15%"
+                    android:text="—"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </LinearLayout>

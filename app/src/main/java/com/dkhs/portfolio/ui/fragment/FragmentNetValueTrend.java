@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,10 +26,9 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
@@ -62,8 +62,8 @@ import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.lidroid.xutils.http.HttpHandler;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,8 +74,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -86,7 +84,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-1 下午1:52:54
  */
-public class FragmentNetValueTrend extends Fragment implements OnClickListener {
+public class FragmentNetValueTrend extends VisiableLoadFragment implements OnClickListener {
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
     private CombinationBean mCombinationBean;
@@ -94,7 +92,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     MyPagerFragmentAdapter mPagerAdapter;
 
     public static final String ARGUMENT_ISFROM_ORDER = "argument_isfrom_order";
-    private TextView netvalueDay;
+    private TextView tvNetvalueDay;
     private TextView netvalueWeek;
     private TextView netvalueMonth;
 
@@ -105,7 +103,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     private View comView;
     private String type;
-    private Timer mMarketTimer;
+    //    private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 60;
     private String myType = TrendTodayChartFragment.TREND_TYPE_TODAY;
     private PositionDetail mPositionDetail;
@@ -143,7 +141,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             handleExtras(extras);
         }
 
-
+        BusProvider.getInstance().register(this);
+        listener = new QueryCombinationListener();
     }
 
     private boolean isMyCombination;
@@ -171,8 +170,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     private TextView tvUserDesc;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         comView = view.findViewById(R.id.tv_combination_layout);
         mMyCombinationEngineImpl = new MyCombinationEngineImpl();
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
@@ -184,24 +184,38 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         tvUserDesc = (TextView) view.findViewById(R.id.tv_user_desc);
         ivUserheader = (ImageView) view.findViewById(R.id.im_avatar);
 
-        netvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
+        tvNetvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
         // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
         netvalueWeek = (TextView) view.findViewById(R.id.netvalue_week);
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
         // btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
         // btnAddOptional.setOnClickListener(this);
         // btnAddOptional.setVisibility(View.GONE);
-        QueryCombinationListener listener = new QueryCombinationListener();
-        mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
+//        QueryCombinationListener listener = new QueryCombinationListener();
+
         view.findViewById(R.id.rl_create_user).setOnClickListener(this);
         // listener.setLoadingDialog(getActivity());
         initTabPage(view);
 
         setupViewData();
-        BusProvider.getInstance().register(this);
-        return view;
+
     }
 
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
+
+
+    }
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
+
+        requestServer();
+
+    }
 
     @Subscribe
     public void updateComName(UpdateComDescEvent event) {
@@ -368,10 +382,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
             if (isMyCombination) {
                 customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
-                        ;
+                ;
             } else {
 
-                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!" ;
+                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!";
             }
 
 
@@ -714,14 +728,19 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
 
     @Override
+    public void requestData() {
+
+    }
+
+    @Override
     public void onResume() {
 
         super.onResume();
-
-        if (mMarketTimer == null) {
-            mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), 60, mPollRequestTime);
-        }
+        requestServer();
+//        if (mMarketTimer == null) {
+//            mMarketTimer = new Timer(true);
+//            mMarketTimer.schedule(new RequestMarketTask(), 60, mPollRequestTime);
+//        }
     }
 
     @Override
@@ -731,17 +750,29 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     }
 
-    public class RequestMarketTask extends TimerTask {
+    private HttpHandler mHttpHandler;
+    private QueryCombinationListener listener;
 
-        @Override
-        public void run() {
-            QueryCombinationListener listener = new QueryCombinationListener();
-            mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
-            // listener.setLoadingDialog(getActivity()).beforeRequest();
+//    public class RequestMarketTask extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//
+//            // listener.setLoadingDialog(getActivity()).beforeRequest();
+//        }
+//    }
+
+
+    private void requestServer() {
+        if (null != mHttpHandler) {
+            mHttpHandler.cancel();
         }
+        mHttpHandler = mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
     }
 
-    class QueryCombinationListener extends ParseHttpListener<PositionDetail> {
+    private static final String TAG = FragmentNetValueTrend.class.getSimpleName();
+
+    private class QueryCombinationListener extends ParseHttpListener<PositionDetail> {
 
         @Override
         protected PositionDetail parseDateTask(String jsonData) {
@@ -768,7 +799,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
                         }
                     }
                     BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
-                    netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                    Log.e(TAG, String.format("NetValue day:%f,Netvalue week:%f,Netvalue month:%f", mPositionDetail.getPortfolio().getChng_pct_day(), mPositionDetail.getPortfolio().getChng_pct_week(), mPositionDetail.getPortfolio().getChng_pct_month()));
+
+                    tvNetvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_week()));
@@ -807,16 +840,30 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (mMarketTimer != null) {
-            mMarketTimer.cancel();
-            mMarketTimer = null;
+//        if (mMarketTimer != null) {
+//            mMarketTimer.cancel();
+//            mMarketTimer = null;
+//        }
+        if (null != mHttpHandler) {
+            mHttpHandler.cancel();
         }
 
     }
 
     @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_netvalue_trend;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         BusProvider.getInstance().unregister(this);
     }
 }

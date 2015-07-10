@@ -41,6 +41,7 @@ public final class AppConfig {
         //设置友盟统计的不同平台配置
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(context));
 
+
         //融云API，根据不同的版本配置不同的APP key,默认为debug key
         //正式版本需要修改为release key
 //        if (!isDebug) {
@@ -55,9 +56,11 @@ public final class AppConfig {
         }
 
         // 注册crashHandler，程序异常的日志管理工具
-
+//        ANRWatchDog anrWatchDog = new ANRWatchDog(2000);
+//        anrWatchDog.start();
         if (isDebug) {
-             CrashHandler.getInstance(context);
+            CrashHandler.getInstance(context);
+
         }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
