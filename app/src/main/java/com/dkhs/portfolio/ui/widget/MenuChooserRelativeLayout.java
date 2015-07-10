@@ -32,20 +32,22 @@ import java.util.List;
  */
 public class MenuChooserRelativeLayout extends RelativeLayout {
     public MenuChooserRelativeLayout(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, 0);
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        inflater();
 
     }
 
@@ -103,11 +105,16 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         return selectItem;
     }
 
+    public void notifyDataSetChanged(List<MenuBean> data) {
+        this.data.clear();
+        this.data.addAll(data);
+        selectItem = data.get(0);
+        floatMenuAdapter.notifyDataSetChanged();
+
+    }
+
     public void notifyDataSetChanged() {
-
-
         int prePosition = floatMenuAdapter.getSelectIndex();
-
         floatMenuAdapter.notifyDataSetChanged();
         selectItem = data.get(prePosition);
 
@@ -121,23 +128,14 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
 
     public void setData(List<MenuBean> data) {
-        inflater();
-        this.data.clear();
-        this.data.addAll(data);
-        selectItem = data.get(0);
-        floatMenuAdapter.notifyDataSetChanged();
-    }
-
-
-
-    public void setListData(List<List<MenuBean>> datasList){
-        inflater();
 
         this.data.clear();
         this.data.addAll(data);
         selectItem = data.get(0);
         floatMenuAdapter.notifyDataSetChanged();
     }
+
+
 
     private ViewGroup parentView;
 

@@ -8,7 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,11 +18,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.FundManagerSortMenuBean;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
+import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -52,7 +53,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @ViewInject(R.id.rl_menu)
     ViewGroup menuRL;
-    private MenuChooserRelativeLayout fundTypeMenuChooserL;
+    private MultiChooserRelativeLayout fundTypeMenuChooserL;
     private MenuChooserRelativeLayout sortTypeMenuChooserL;
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
@@ -94,7 +95,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     }
 
     public void initView(View view) {
-        fundTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
+        fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL.setParentView(menuRL);
         fundTypeMenuChooserL.setParentView(menuRL);
@@ -102,7 +103,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
         sorts = MenuBean.fundSortFromXml(getActivity());
 
-        fundTypeMenuChooserL.setData(types);
+        fundTypeMenuChooserL.setData(types,MenuBean.fundManagerFromXml(getActivity()));
         String type = types.getFirst().getValue();
         String sort = sorts.getFirst().getValue();
 
@@ -171,31 +172,22 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
              (307, '理财型','lc'),
              */
             if (StockUitls.isSepFund(type.getCode())) {
-//                sorts.removeLast();
-                MenuBean m = sorts.getFirst();
-                m.setKey(getString(R.string.year_yld));
-                m.setValue("-year_yld");
-                sortTypeMenuChooserL.notifyDataSetChanged();
+                sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.sepFundSortFromXml(mActivity));
                 tvCurrent.setText(R.string.tenthou_unit_incm);
-//                sorts.getLast().setEnable(false);
                 tvPercentgae.setText(R.string.year_yld);
-
             } else {
-
-                MenuBean m = sorts.getFirst();
-                m.setKey(getString(R.string.percent_day));
-                m.setValue("-percent_day");
-                tvCurrent.setText(R.string.net_value);
-                MenuBean allNetValue = new MenuBean();
-//                sorts.getLast().setEnable(true);
-//                m.setKey("累计净值");
-//                m.setValue("-net_cumulative");
-//                sorts.addLast(allNetValue);
-
-                sortTypeMenuChooserL.notifyDataSetChanged();
+                sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundSortFromXml(mActivity));
                 tvPercentgae.setText(sortTypeMenuChooserL.getSelectItem().getKey());
             }
-        } else {
+        } else if (menuBean instanceof FundManagerSortMenuBean){
+            tvCurrent.setText(R.string.join_time);
+            fundTypeTV.setText(R.string.fund_manager);
+//                sorts.getLast().setEnable(false);
+            
+            //// FIXME: 2015/7/10  待确认
+            tvPercentgae.setText("日战胜指数");
+            sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity));
+        }else {
             tvPercentgae.setText(menuBean.getKey());
         }
 
@@ -211,6 +203,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             setDrawableDown(fundTypeTV);
         }
 
+    }
+    @Subscribe
+    public void menuRLdismiss(MultiChooserRelativeLayout menuChooserRelativeLayout) {
+
+            setDrawableDown(fundTypeTV);
     }
 
 

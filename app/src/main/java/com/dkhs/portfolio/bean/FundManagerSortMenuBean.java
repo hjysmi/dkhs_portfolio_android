@@ -11,7 +11,6 @@ public class FundManagerSortMenuBean extends MenuBean {
 
     private int code;
 
-
     public int getCode() {
         return code;
     }

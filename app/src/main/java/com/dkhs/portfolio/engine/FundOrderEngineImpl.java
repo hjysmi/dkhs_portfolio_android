@@ -24,7 +24,7 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
 
 
     /**
-     * 默认显示一页99条数据
+     * 默认显示一页20条数据
      */
     private static final int pageSize = 20;
 

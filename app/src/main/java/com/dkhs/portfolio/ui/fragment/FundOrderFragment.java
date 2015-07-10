@@ -36,6 +36,9 @@ public class FundOrderFragment extends LoadMoreListFragment {
 
     private FundOrderAdapter adapter;
 
+
+
+
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -51,7 +54,6 @@ public class FundOrderFragment extends LoadMoreListFragment {
         fundsOrderFragment.setArguments(bundle);
         return fundsOrderFragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

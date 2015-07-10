@@ -645,4 +645,7 @@
     <string name="float_menu_addstock">添加股票</string>
     <string name="next_step">下一步</string>
     <string name="combination_create_time">创建时间</string>
+    <string name="join_time">从业时间</string>
+    <string name="fund_manager_rankings">基金经理排行</string>
+    <string name="fund_rankings">基金排行</string>
 </resources>

@@ -111,7 +111,7 @@ public class MessageHandler {
 
     public boolean handleURL(String url) {
         Uri uri = Uri.parse(url);
-        boolean hasHandle = false;
+        boolean hasHandle = true;
         List<String> segments = uri.getPathSegments();
         if (segments.size() > 0) {
             if (segments.get(0).equals("s") && segments.size() >= 3) {
@@ -126,7 +126,11 @@ public class MessageHandler {
             }else if(segments.get(0).equals("u") && segments.size() >= 2){
                 hasHandle = true;
                 gotoCombinationUserActivity(segments.get(1));
+            }else{
+                context.startActivity(AdActivity.getIntent(context,url));
             }
+        }else{
+            context.startActivity(AdActivity.getIntent(context,url));
         }
 
         return hasHandle;
