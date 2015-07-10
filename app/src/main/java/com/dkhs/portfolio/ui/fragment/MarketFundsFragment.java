@@ -119,9 +119,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
 
     private void replaceDataList(String type, String sort) {
-//        if (null == loadDataListFragment) {
         loadDataListFragment = FundOrderFragment.newInstant(type, sort);
-//        }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
