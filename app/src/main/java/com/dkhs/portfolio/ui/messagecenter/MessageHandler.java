@@ -97,11 +97,11 @@ public class MessageHandler {
 //                gotoNewOrYaoBaoDetail(segments.get(1));
 //            } else {
 //                //不在定义范围内 ,使用WebActivity去处理
-//                context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+//                context.startActivity(WebActivity.newIntent(context, messageContent.getTitle(), messageContent.getUrl()));
 //            }
 //        } else {
 //            //不在定义范围内 ,使用WebActivity去处理
-//            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+//            context.startActivity(WebActivity.newIntent(context, messageContent.getTitle(), messageContent.getUrl()));
 //        }
         if (!handleURL(messageContent.getUrl())) {
             context.startActivity(AdActivity.getIntent(context, messageContent.getUrl()));

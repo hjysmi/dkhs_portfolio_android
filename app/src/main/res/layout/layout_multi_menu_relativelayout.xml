@@ -20,11 +20,10 @@
         android:background="@color/white"
         android:orientation="vertical">
         <TextView
-            android:layout_width="fill_parent"
             android:text="@string/fund_manager_rankings"
-
+            android:gravity="center_vertical"
             style="@style/gray_text_tabline"
-            android:layout_height="wrap_content" />
+            />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view2"
             android:layout_marginTop="2dp"
@@ -32,11 +31,9 @@
             android:overScrollMode="never"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_width="fill_parent"
             android:text="@string/fund_rankings"
-            android:layout_marginTop="2dp"
-            style="@style/gray_text_tabline"
-            android:layout_height="wrap_content" />
+            android:gravity="center_vertical"
+            style="@style/gray_text_tabline" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="fill_parent"

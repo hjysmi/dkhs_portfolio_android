@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundPriceBean;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -48,7 +49,7 @@ public class FundOrderAdapter extends AutoAdapter {
         vh.setTextView(R.id.tv_stock_name, fundBean.getAbbrname());
         vh.setTextView(R.id.tv_stock_num, fundBean.getSymbol());
         vh.setTextView(R.id.tv_trade_day, TimeUtils.simpleDateToMonthDay(fundBean.getTradedate()));
-        double value = fundBean.getValue(sort);
+        float value = fundBean.getValue(sort);
         /**
          * (306, '货币型','hb'),
          (307, '理财型','lc'),
@@ -87,16 +88,10 @@ public class FundOrderAdapter extends AutoAdapter {
         }
 
 
-        if (value > 0) {
 
-            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_red));
-        } else if (value == 0) {
-            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
 
-        } else {
-            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_green));
+            vh.getTextView(R.id.tv_percent_value).setTextColor(ColorTemplate.getPercentColor(value));
 
-        }
         if(StockUitls.isDelistStock(fundBean.getList_status())){
             LogUtils.e("isDelistStock");
             vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));

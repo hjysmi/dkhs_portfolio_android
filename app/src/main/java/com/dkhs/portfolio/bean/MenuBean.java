@@ -104,6 +104,7 @@ public class MenuBean {
 
         String[] key = ctx.getResources().getStringArray(R.array.fund_manager_sort_keys);
         String[] value = ctx.getResources().getStringArray(R.array.fund_manager_sort_values);
+        // FIXME: 2015/7/13  缺失搜索2年的字段
         for (int i = 0; i < key.length; i++) {
             SortTypeMenuBean item = new SortTypeMenuBean();
             item.setEnable(true);

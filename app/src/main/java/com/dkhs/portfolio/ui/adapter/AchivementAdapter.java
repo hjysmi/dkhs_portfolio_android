@@ -66,6 +66,8 @@ public class AchivementAdapter extends AutoAdapter {
     public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
 
 
+
+
         getView33(position, v, vh);
     }
 

@@ -49,7 +49,7 @@ public class FundManagerRankingsEngineImpl extends LoadMoreDataEngine {
     public HttpHandler loadMore() {
 
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("type", type);
+//        params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("sort", sort);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
         params.addQueryStringParameter("page_size", pageSize + "");
@@ -61,7 +61,7 @@ public class FundManagerRankingsEngineImpl extends LoadMoreDataEngine {
 
 
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("type", type);
+//        params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("sort", sort);
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");

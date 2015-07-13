@@ -220,7 +220,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO Auto-generated method stub
                 // getActivity().startActivity(
-                // OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true,
+                // OrderFundDetailActivity.newIntent(getActivity(), mDataList.get(position), true,
                 // FundsOrderFragment.ORDER_TYPE_DAY));
 
                 startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
@@ -273,7 +273,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
 
     public void editFund() {
         if (!mDataList.isEmpty()) {
-            // startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
+            // startActivity(EditTabFundActivity.newIntent(getActivity(), mDataList));
             startActivityForResult(EditTabCombinationActivity.getIntent(getActivity()), 1722);
         }
     }

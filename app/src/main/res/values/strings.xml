@@ -648,4 +648,6 @@
     <string name="join_time">从业时间</string>
     <string name="fund_manager_rankings">基金经理排行</string>
     <string name="fund_rankings">基金排行</string>
+    <string name="win_rate_day">日战胜指数</string>
+    <string name="win_rate_format">%s战胜指数</string>
 </resources>

@@ -86,6 +86,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         floatMenuAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem=data.get(position);
                 floatMenuAdapter.setSelectIndex(position);
                 notifyDataSetChanged();
                 BusProvider.getInstance().post(selectItem);
@@ -109,6 +110,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         this.data.clear();
         this.data.addAll(data);
         selectItem = data.get(0);
+        floatMenuAdapter.setSelectIndex(selectIndex);
         floatMenuAdapter.notifyDataSetChanged();
 
     }

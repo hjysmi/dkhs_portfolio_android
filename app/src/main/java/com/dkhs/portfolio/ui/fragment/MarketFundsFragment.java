@@ -26,6 +26,7 @@ import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -69,6 +70,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @ViewInject(R.id.view_stock_title)
     private View titleView;
+    @ViewInject(R.id.rootView)
+    private ViewGroup mRootView;
 
 
     @Override
@@ -103,7 +106,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL.setParentView(menuRL);
-        fundTypeMenuChooserL.setParentView(menuRL);
+        fundTypeMenuChooserL.setParentView(mRootView);
 
         LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
         sorts = MenuBean.fundSortFromXml(getActivity());
@@ -122,8 +125,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     public void onResume() {
         super.onResume();
     }
-
-
 
 
     @Override
@@ -162,12 +163,14 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
+    String sortKeyFormatStr;
     @Subscribe
     public void update(MenuBean menuBean) {
 
         if (menuBean instanceof FundTypeMenuBean) {
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
+            sortKeyFormatStr="%s";
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
@@ -183,19 +186,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         } else if (menuBean instanceof FundManagerSortMenuBean) {
             tvCurrent.setText(R.string.join_time);
             fundTypeTV.setText(R.string.fund_manager);
-//                sorts.getLast().setEnable(false);
 
-            //// FIXME: 2015/7/10  待确认
-            tvPercentgae.setText("日战胜指数");
+            sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
+            tvPercentgae.setText(R.string.win_rate_day);
             sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity));
         } else {
-            tvPercentgae.setText(menuBean.getKey());
+            tvPercentgae.setText(String.format(sortKeyFormatStr,menuBean.getKey()));
         }
-
-
-
-
-
 
         refresh();
 
@@ -204,41 +201,43 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private void refresh() {
 
 
-        if (fundTypeMenuChooserL.getSelectItem() instanceof  FundManagerSortMenuBean){
+        if (fundTypeMenuChooserL.getSelectItem() instanceof FundManagerSortMenuBean) {
+
+            replaceFundManagerRankingsDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+
+        } else {
 
             replaceFundDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
-
-        }else{
-            replaceFundManagerRankingsDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
 
         }
 
     }
 
     private void replaceFundManagerRankingsDataList(String type, String sort) {
-        if(loadDataListFragment !=null){
-            getChildFragmentManager().beginTransaction().remove(loadDataListFragment).commitAllowingStateLoss();
+        if (loadDataListFragment != null) {
+            getChildFragmentManager().beginTransaction().detach(loadDataListFragment).commitAllowingStateLoss();
         }
-        if(fundManagerRankingsFragment !=null){
+        if (fundManagerRankingsFragment == null) {
             fundManagerRankingsFragment = FundManagerRankingsFragment.newInstant(type, sort);
-            getChildFragmentManager().beginTransaction().add(R.id.view_datalist, fundManagerRankingsFragment,"fundManagerRankingsFragment").commitAllowingStateLoss();
-        }else{
+            getChildFragmentManager().beginTransaction().add(R.id.view_datalist, fundManagerRankingsFragment, "fundManagerRankingsFragment").commitAllowingStateLoss();
+        } else {
             getChildFragmentManager().beginTransaction().attach(fundManagerRankingsFragment).commitAllowingStateLoss();
-            fundManagerRankingsFragment.refresh(type,sort);
+            fundManagerRankingsFragment.refresh(type, sort);
         }
     }
 
     private void replaceFundDataList(String type, String sort) {
 
-        if(fundManagerRankingsFragment !=null){
-            getChildFragmentManager().beginTransaction().remove(fundManagerRankingsFragment);
+        if (fundManagerRankingsFragment != null) {
+            getChildFragmentManager().beginTransaction().detach(fundManagerRankingsFragment).commitAllowingStateLoss();
         }
-        if(loadDataListFragment !=null){
+        if (loadDataListFragment == null) {
             loadDataListFragment = FundOrderFragment.newInstant(type, sort);
-            getChildFragmentManager().beginTransaction().add(R.id.view_datalist, loadDataListFragment,"loadDataListFragment").commitAllowingStateLoss();
-        }else{
+            getChildFragmentManager().beginTransaction().add(R.id.view_datalist, loadDataListFragment, "loadDataListFragment").commitAllowingStateLoss();
+
+        } else {
             getChildFragmentManager().beginTransaction().attach(loadDataListFragment).commitAllowingStateLoss();
-            loadDataListFragment.refresh(type,sort);
+            loadDataListFragment.refresh(type, sort);
         }
 
     }
