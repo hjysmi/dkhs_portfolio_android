@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -123,6 +124,30 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                     super.onPageFinished(view, url);
                 }
             });
+        mWebView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {  //表示按返回键
+                        mWebView.goBack();   //后退
+                        return true;    //已处理
+                    }
+                }
+                return false;
+            }
+        });
+        getBtnBack().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if( mWebView.canGoBack()){
+                    mWebView.goBack();
+                }else{
+                    finish();
+                }
+
+            }
+        });
 
 
     }
@@ -145,6 +170,8 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
         }
 
     }
+
+
 
     private void showShareButton() {
 

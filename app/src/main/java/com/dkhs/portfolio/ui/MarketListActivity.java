@@ -91,7 +91,7 @@ public class MarketListActivity extends RefreshModelActivity {
     protected void onNewIntent(Intent intent) {
 
         super.onNewIntent(intent);
-        setIntent(intent);// must store the new intent unless getIntent() will return the old one
+        setIntent(intent);// must store the new intent unless newIntent() will return the old one
         processExtraData();
 
     }

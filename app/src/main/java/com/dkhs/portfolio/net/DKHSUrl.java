@@ -155,6 +155,7 @@ public class DKHSUrl {
 
     public interface Fund {
         String fundsList = "/api/v1/symbols/funds/";
+        String fundsManagerList = "/api/v1/symbols/funds/managers/";
         String mainIndexList = "/api/v1/symbols/";
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
         String compareByPeriod = "/api/v1/symbols/{0}/quote_history/";

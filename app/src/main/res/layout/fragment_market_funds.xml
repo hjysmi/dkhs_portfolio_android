@@ -40,7 +40,9 @@
                 android:id="@+id/tv_current"
                 style="@style/gray_title_text"
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:layout_centerInParent="true"
                 android:text="@string/market_net_value"
                 android:textColor="@color/theme_color" />
@@ -49,11 +51,14 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="match_parent"
+
             android:layout_weight="2">
 
             <TextView
                 android:id="@+id/tv_percentage"
                 style="@style/gray_title_text"
+                android:singleLine="true"
+                android:drawablePadding="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
