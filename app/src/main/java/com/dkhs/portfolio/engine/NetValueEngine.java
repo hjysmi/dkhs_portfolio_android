@@ -102,10 +102,10 @@ public class NetValueEngine {
                 listener);
     }
 
-    public void requeryToday(IHttpListener todayListener) {
+    public HttpHandler requeryToday(IHttpListener todayListener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryToday, mConbinationId), null, null,
+       return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryToday, mConbinationId), null, null,
                 todayListener);
     }
 

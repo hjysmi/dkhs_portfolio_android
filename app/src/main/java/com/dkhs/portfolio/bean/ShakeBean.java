@@ -12,6 +12,7 @@ import org.parceler.Parcel;
  * @date 2015/7/1.
  */
 
+@Parcel
 public class ShakeBean {
 
 
@@ -51,6 +52,7 @@ public class ShakeBean {
     @SerializedName("times_used")
     public int times_used;
 
+    @Parcel
     public static class SymbolEntity {
         /**
          * symbol : SZ300459
@@ -60,7 +62,8 @@ public class ShakeBean {
         public String symbol;
         @SerializedName("abbr_name")
         public String abbr_name;
-        public   SymbolEntity(){
+
+        public SymbolEntity() {
 
         }
     }

@@ -130,7 +130,7 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
             }
         };
         // set creator
-        mListView.setMenuCreator(creator);
+//        mListView.setMenuCreator(creator);
 
         // step 2. listener item click event
         mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {

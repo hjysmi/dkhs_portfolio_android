@@ -11,9 +11,9 @@ package com.dkhs.portfolio.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
@@ -33,7 +33,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
+import com.lidroid.xutils.http.HttpHandler;
 
 import org.parceler.Parcels;
 
@@ -48,9 +48,10 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-3 上午10:32:39
  */
-public class TrendTodayChartFragment extends BaseFragment {
+public class TrendTodayChartFragment extends VisiableLoadFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String TREND_TYPE_TODAY = "trend_today";
+    public static final int MSG_UPDATE_VIEW = 500;
 
     private String trendType = TREND_TYPE_TODAY;
     // private boolean isTodayNetValue;
@@ -62,10 +63,9 @@ public class TrendTodayChartFragment extends BaseFragment {
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
 
-    private Handler updateHandler;
     private Calendar mCreateCalender;
-
     private DrawLineDataEntity mTodayLineData;
+
     private RelativeLayout pb;
 
     public static TrendTodayChartFragment newInstance(String trendType) {
@@ -77,6 +77,17 @@ public class TrendTodayChartFragment extends BaseFragment {
 
         return fragment;
     }
+
+    private WeakHandler updateHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == MSG_UPDATE_VIEW) {
+                pb.setVisibility(View.GONE);
+                setTodayViewLoad();
+            }
+            return false;
+        }
+    });
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,9 +113,9 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     }
 
-    public void setUpdateHandler(Handler updateHandler) {
-        this.updateHandler = updateHandler;
-    }
+//    public void setUpdateHandler(WeakHandler updateHandler) {
+//        this.updateHandler = updateHandler;
+//    }
 
     private void handleExtras(Bundle extras) {
 
@@ -113,28 +124,39 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     }
 
-    private View rootView;
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        if (rootView == null) {
+//            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
+//            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+//            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
+//            pb.setVisibility(View.VISIBLE);
+//            initMaChart(mMaChart);
+//            // setupBottomTextViewData();
+//            initView(rootView);
+//            initTodayTrendTitle();
+//            // PromptManager.showProgressDialog(getActivity(), "");
+//            mNetValueDataEngine.requeryToday(todayListener);
+//        }
+//        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+//        ViewGroup parent = (ViewGroup) rootView.getParent();
+//        if (parent != null) {
+//            parent.removeView(rootView);
+//        }
+//        return rootView;
+//    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
-            pb.setVisibility(View.VISIBLE);
-            initMaChart(mMaChart);
-            // setupBottomTextViewData();
-            initView(rootView);
-            initTodayTrendTitle();
-            // PromptManager.showProgressDialog(getActivity(), "");
-            mNetValueDataEngine.requeryToday(todayListener);
-        }
-        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
-        return rootView;
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mMaChart = (TrendChart) view.findViewById(R.id.machart);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
+        initMaChart(mMaChart);
+        // setupBottomTextViewData();
+        initView(view);
+        initTodayTrendTitle();
     }
 
     private void initView(View view) {
@@ -142,7 +164,11 @@ public class TrendTodayChartFragment extends BaseFragment {
     }
 
     public void startRequry() {
-        dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
+        if (null != mNetValueDataEngine) {
+            cancelRequest();
+            mHttpHandler = mNetValueDataEngine.requeryToday(todayListener);
+        }
+
     }
 
     public void stopRequry() {
@@ -175,7 +201,6 @@ public class TrendTodayChartFragment extends BaseFragment {
     }
 
     private void initTodayTrendTitle() {
-        System.out.println("initTodayTrendTitle");
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
         xtitle.add("10:30");
@@ -207,10 +232,14 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     }
 
+
     ParseHttpListener todayListener = new ParseHttpListener<DrawLineDataEntity>() {
 
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
+
+            Log.e(TAG, "===============> ParseHttpListener parseDateTask");
+
             TodayNetValue todayNetvalue = DataParse.parseObjectJson(TodayNetValue.class, jsonData);
             if (!UIUtils.roundAble(todayNetvalue.getTrade_status())) {
                 stopRequry();
@@ -227,11 +256,11 @@ public class TrendTodayChartFragment extends BaseFragment {
 
         @Override
         protected void afterParseData(DrawLineDataEntity todayNetvalue) {
-            pb.setVisibility(View.GONE);
+            updateHandler.sendEmptyMessage(MSG_UPDATE_VIEW);
+
             if (todayNetvalue != null) {
 
                 mTodayLineData = todayNetvalue;
-                setTodayViewLoad();
                 // PromptManager.closeProgressDialog();
             }
 
@@ -243,8 +272,8 @@ public class TrendTodayChartFragment extends BaseFragment {
             pb.setVisibility(View.GONE);
         }
 
-        ;
     };
+
 
     public class DrawLineDataEntity {
         List<TrendLinePointEntity> dataList = new ArrayList<TrendLinePointEntity>();
@@ -278,8 +307,8 @@ public class TrendTodayChartFragment extends BaseFragment {
             // tvTimeRight.setText(timeStr);
         }
         if (null != updateHandler) {
-            System.out.println("send get current netvalue:" + mTodayLineData.end);
-            Message msg = updateHandler.obtainMessage();
+//            Message msg = updateHandler.obtainMessage();
+            Message msg = new Message();
             msg.obj = mTodayLineData.end;
             updateHandler.sendMessage(msg);
         }
@@ -398,95 +427,35 @@ public class TrendTodayChartFragment extends BaseFragment {
         mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
-    WeakHandler dataHandler = new WeakHandler();
-
-    /**
-     * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
-     */
-    // private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
-    // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-    //
-    // lineData.dataList.clear();
-    //
-    // lineData.end = historyNetValue.getEnd();
-    // if (null != historyNetList && historyNetList.size() > 0) {
-    //
-    // lineData.startDay = historyNetList.get(0).getDate();
-    // lineData.endDay = historyNetList.get(historyNetList.size() - 1).getDate();
-    // }
-    // int dashLineSize = 0;
-    // float baseNum = historyNetValue.getBegin();
-    // float maxNum = baseNum, minNum = baseNum;
-    // // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-    // int dataLenght = historyNetList.size();
-    // for (int i = 0; i < dataLenght; i++) {
-    //
-    // TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-    // HistoryNetBean todayBean = historyNetList.get(i);
-    // float value = todayBean.getNetvalue();
-    // // pointEntity.setDesc(todayBean.getDate());
-    // pointEntity.setValue(value);
-    // pointEntity.setTime("日期: " + todayBean.getDate());
-    // pointEntity.setIncreaseRange(todayBean.getPercentage());
-    // // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
-    //
-    // if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-    // if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
-    // dashLineSize = i;
-    // }
-    // }
-    //
-    // lineData.dataList.add(pointEntity);
-    //
-    // if (value > maxNum) {
-    // maxNum = value;
-    //
-    // } else if (value < minNum) {
-    // minNum = value;
-    // }
-    // }
-    // float offetValue;
-    // maxNum = maxNum - baseNum;
-    // minNum = baseNum - minNum;
-    //
-    // offetValue = maxNum > minNum ? maxNum : minNum;
-    // if (dashLineSize == 0) {
-    // dashLineSize = dataLenght;
-    // }
-    //
-    // if (dashLineSize > 1) {
-    // lineData.begin = 1;
-    //
-    // } else {
-    //
-    // lineData.begin = historyNetValue.getBegin();
-    // }
-    //
-    // // mMaChart.setDashLinePointSize(dashLineSize);
-    // lineData.dashLineSize = dashLineSize;
-    // lineData.maxOffetvalue = offetValue;
-    // // historyNetValue.setMaxOffetValue(offetValue);
-    // return offetValue;
-    //
-    // }
+    WeakHandler dataHandler = new WeakHandler() {
+    };
+    private HttpHandler mHttpHandler;
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
-            if (null != mNetValueDataEngine) {
-                mNetValueDataEngine.requeryToday(todayListener);
-            }
+            startRequry();
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
+
+    @Override
+    public void requestData() {
+        startRequry();
+    }
+
+    private void cancelRequest() {
+        if (null != mHttpHandler) {
+            mHttpHandler.cancel();
+        }
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isAdded()) {
             super.setUserVisibleHint(isVisibleToUser);
             if (trendType.equals(TREND_TYPE_TODAY)) {
-                System.out.println("setUserVisibleHint:" + isVisibleToUser);
             }
         }
     }
@@ -497,7 +466,25 @@ public class TrendTodayChartFragment extends BaseFragment {
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
+//        stopRequry();
+    }
+
+    private static final String TAG = TrendTodayChartFragment.class.getSimpleName();
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
         stopRequry();
+        cancelRequest();
+        Log.e(TAG, "===============> onViewHide");
+    }
+
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
+        dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
+        Log.e(TAG, "===============> startRequry");
     }
 
     @Override
@@ -514,6 +501,18 @@ public class TrendTodayChartFragment extends BaseFragment {
     @Override
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
-        return 0;
+        return R.layout.fragment_trend_chart;
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopRequry();
     }
 }

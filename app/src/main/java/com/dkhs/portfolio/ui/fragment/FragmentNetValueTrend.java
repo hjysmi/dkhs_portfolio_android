@@ -16,19 +16,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
@@ -58,12 +54,11 @@ import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.lidroid.xutils.http.HttpHandler;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,8 +69,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -86,15 +79,20 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-1 下午1:52:54
  */
-public class FragmentNetValueTrend extends Fragment implements OnClickListener {
+public class FragmentNetValueTrend extends VisiableLoadFragment implements OnClickListener {
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
     private CombinationBean mCombinationBean;
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
-    MyPagerFragmentAdapter mPagerAdapter;
+//    MyPagerFragmentAdapter mPagerAdapter;
 
     public static final String ARGUMENT_ISFROM_ORDER = "argument_isfrom_order";
-    private TextView netvalueDay;
+    private static final String TAG_TODAY = "today";
+    private static final String TAG_SEVEN = "seven";
+    private static final String TAG_MONTH = "month";
+    private static final String TAG_HISTORY = "history";
+
+    private TextView tvNetvalueDay;
     private TextView netvalueWeek;
     private TextView netvalueMonth;
 
@@ -105,7 +103,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     private View comView;
     private String type;
-    private Timer mMarketTimer;
+    //    private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 60;
     private String myType = TrendTodayChartFragment.TREND_TYPE_TODAY;
     private PositionDetail mPositionDetail;
@@ -143,7 +141,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             handleExtras(extras);
         }
 
-
+        BusProvider.getInstance().register(this);
+        listener = new QueryCombinationListener();
     }
 
     private boolean isMyCombination;
@@ -171,8 +170,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     private TextView tvUserDesc;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         comView = view.findViewById(R.id.tv_combination_layout);
         mMyCombinationEngineImpl = new MyCombinationEngineImpl();
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
@@ -184,24 +184,38 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         tvUserDesc = (TextView) view.findViewById(R.id.tv_user_desc);
         ivUserheader = (ImageView) view.findViewById(R.id.im_avatar);
 
-        netvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
+        tvNetvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
         // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
         netvalueWeek = (TextView) view.findViewById(R.id.netvalue_week);
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
         // btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
         // btnAddOptional.setOnClickListener(this);
         // btnAddOptional.setVisibility(View.GONE);
-        QueryCombinationListener listener = new QueryCombinationListener();
-        mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
+//        QueryCombinationListener listener = new QueryCombinationListener();
+
         view.findViewById(R.id.rl_create_user).setOnClickListener(this);
         // listener.setLoadingDialog(getActivity());
         initTabPage(view);
 
         setupViewData();
-        BusProvider.getInstance().register(this);
-        return view;
+
     }
 
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
+
+
+    }
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
+
+        requestServer();
+
+    }
 
     @Subscribe
     public void updateComName(UpdateComDescEvent event) {
@@ -269,7 +283,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     WeakHandler updateHandler = new WeakHandler() {
         public void handleMessage(android.os.Message msg) {
 
-            replaceFragment(todayFragment);
+//            replaceFragment(todayFragment);
+//            replaceFragment();
         }
     };
 
@@ -302,19 +317,15 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         }
     }
 
-
-    private ScrollViewPager mViewPager;
-
-    TrendChartFragment mtrendFragment = new TrendChartFragment();
-
-    TrendTodayChartFragment todayFragment = TrendTodayChartFragment
-            .newInstance(TrendTodayChartFragment.TREND_TYPE_TODAY);
-    TrendSevenDayChartFragment sevendayFragment = TrendSevenDayChartFragment
-            .newInstance(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY);
-    TrendMonthChartFragment monthFragment = TrendMonthChartFragment
-            .newInstance(TrendMonthChartFragment.TREND_TYPE_MONTH);
-    TrendHistoryChartFragment historyFragment = TrendHistoryChartFragment
-            .newInstance(TrendHistoryChartFragment.TREND_TYPE_HISTORY);
+//
+//    TrendTodayChartFragment todayFragment = TrendTodayChartFragment
+//            .newInstance(TrendTodayChartFragment.TREND_TYPE_TODAY);
+//    TrendSevenDayChartFragment sevendayFragment = TrendSevenDayChartFragment
+//            .newInstance(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY);
+//    TrendMonthChartFragment monthFragment = TrendMonthChartFragment
+//            .newInstance(TrendMonthChartFragment.TREND_TYPE_MONTH);
+//    TrendHistoryChartFragment historyFragment = TrendHistoryChartFragment
+//            .newInstance(TrendHistoryChartFragment.TREND_TYPE_HISTORY);
 
     // FragmentSwitchChart mSwitchFragment = null;
 
@@ -368,10 +379,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
             if (isMyCombination) {
                 customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
-                        ;
+                ;
             } else {
 
-                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!" ;
+                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!";
             }
 
 
@@ -422,54 +433,16 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         }
     }
 
-    private Fragment lastFragment = null;
+//    private Fragment lastFragment = null;
 
-    private void replaceFragment(Fragment newFragment) {
+    private void replaceFragment(Fragment fragment, String tag) {
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
-        if (lastFragment != null) {
-            if (lastFragment instanceof TrendTodayChartFragment) {
-                todayFragment.stopRequry();
-            } else if (lastFragment instanceof TrendSevenDayChartFragment) {
-                sevendayFragment.stopRequry();
-            } else if (lastFragment instanceof TrendMonthChartFragment) {
-                monthFragment.stopRequry();
-            } else if (lastFragment instanceof TrendHistoryChartFragment) {
-                historyFragment.stopRequry();
-            }
-            trasection.hide(lastFragment);
-            trasection.commit();
-        }
-        if (!newFragment.isAdded()) {
+        TrendTodayChartFragment todayFragment;
+        hideAll();
+
+        if (!fragment.isAdded()) {
             try {
-                // FragmentTransaction trasection =
-//                getChildFragmentManager().beginTransaction();
-                // trasection.replace(R.id.rl_trend_layout, newFragment);
-                // trasection.addToBackStack(null);
-                // trasection.add(R.id.rl_trend_layout, newFragment);
-                trasection.add(R.id.rl_trend_layout, newFragment, String.valueOf(newFragment.getId()));
-                trasection.commit();
-            } catch (Exception e) {
-                // TODO: handle exception
-                // AppConstants.printLog(e.getMessage());
-
-            }
-        } else {
-            trasection.show(newFragment);
-        }
-        lastFragment = newFragment;
-
-    }
-
-    private void showReportFragment(Fragment newFragment) {
-
-        FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
-        if (!newFragment.isAdded()) {
-            try {
-                // FragmentTransaction trasection =
-//                getChildFragmentManager().beginTransaction();
-                trasection.replace(R.id.rl_trend_layout, newFragment);
-                trasection.addToBackStack(null);
-                trasection.commit();
+                trasection.add(R.id.rl_trend_layout, fragment, tag);
 
             } catch (Exception e) {
                 // TODO: handle exception
@@ -477,11 +450,57 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
             }
         } else {
-
-            trasection.show(newFragment);
+            trasection.show(fragment);
         }
+        trasection.commit();
+//        lastFragment = newFragment;
 
     }
+
+    private void hideAll() {
+        FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
+        Fragment fragment = getChildFragmentManager().findFragmentByTag(TAG_TODAY);
+        if (null != fragment && fragment.isAdded()) {
+            trasection.hide(fragment);
+        }
+        fragment = getChildFragmentManager().findFragmentByTag(TAG_SEVEN);
+        if (null != fragment && fragment.isAdded()) {
+            trasection.hide(fragment);
+        }
+        fragment = getChildFragmentManager().findFragmentByTag(TAG_MONTH);
+        if (null != fragment && fragment.isAdded()) {
+            trasection.hide(fragment);
+        }
+        fragment = getChildFragmentManager().findFragmentByTag(TAG_HISTORY);
+        if (null != fragment && fragment.isAdded()) {
+            trasection.hide(fragment);
+        }
+        trasection.commit();
+
+    }
+
+//    private void showReportFragment(Fragment newFragment) {
+//
+//        FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
+//        if (!newFragment.isAdded()) {
+//            try {
+//                // FragmentTransaction trasection =
+////                getChildFragmentManager().beginTransaction();
+//                trasection.replace(R.id.rl_trend_layout, newFragment);
+//                trasection.addToBackStack(null);
+//                trasection.commit();
+//
+//            } catch (Exception e) {
+//                // TODO: handle exception
+//                // AppConstants.printLog(e.getMessage());
+//
+//            }
+//        } else {
+//
+//            trasection.show(newFragment);
+//        }
+//
+//    }
 
     private void initTabPage(View view) {
 
@@ -511,7 +530,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             }
 
         }
-        updateHandler.sendEmptyMessageDelayed(200, 50);
+//        updateHandler.sendEmptyMessageDelayed(200, 50);
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
@@ -521,30 +540,47 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
             String type = TrendTodayChartFragment.TREND_TYPE_TODAY;
             Fragment curFragment = null;
+            String tag = "";
             switch (position) {
                 case 0: {
                     type = TrendTodayChartFragment.TREND_TYPE_TODAY;
-                    curFragment = todayFragment;
-                    todayFragment.startRequry();
+                    tag = TAG_TODAY;
+                    curFragment = getChildFragmentManager().findFragmentByTag(tag);
+                    if (null == curFragment) {
+                        curFragment = TrendTodayChartFragment.newInstance(TrendTodayChartFragment.TREND_TYPE_TODAY);
+                    }
+
                 }
                 break;
                 case 1: {
                     type = TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY;
-                    curFragment = sevendayFragment;
-                    sevendayFragment.startRequry();
+                    tag = TAG_SEVEN;
+                    curFragment = getChildFragmentManager().findFragmentByTag(tag);
+                    if (null == curFragment) {
+                        curFragment = TrendSevenDayChartFragment
+                                .newInstance(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY);
+                    }
                 }
                 break;
                 case 2: {
                     type = TrendMonthChartFragment.TREND_TYPE_MONTH;
-                    curFragment = monthFragment;
-                    monthFragment.startRequry();
+                    tag = TAG_MONTH;
+                    curFragment = getChildFragmentManager().findFragmentByTag(tag);
+                    if (null == curFragment) {
+                        curFragment = TrendMonthChartFragment
+                                .newInstance(TrendMonthChartFragment.TREND_TYPE_MONTH);
+                    }
                 }
                 break;
                 case 3: {
 
                     type = TrendHistoryChartFragment.TREND_TYPE_HISTORY;
-                    curFragment = historyFragment;
-                    historyFragment.startRequry();
+                    tag = TAG_HISTORY;
+                    curFragment = getChildFragmentManager().findFragmentByTag(tag);
+                    if (null == curFragment) {
+                        curFragment = TrendHistoryChartFragment
+                                .newInstance(TrendHistoryChartFragment.TREND_TYPE_HISTORY);
+                    }
                 }
                 break;
 
@@ -553,62 +589,65 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             }
             // mSwitchFragment.setSelectType(type);
             myType = type;
-            replaceFragment(curFragment);
             setColor(type);
+            if (null != curFragment) {
+                replaceFragment(curFragment, tag);
+            }
+
         }
     };
 
-    private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
-
-        private List<Fragment> fragmentList;
-        private String[] titleList;
-
-        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2, String[] titleList) {
-            super(fm);
-            this.fragmentList = fragmentList2;
-            this.titleList = titleList;
-        }
-
-        @Override
-        public Fragment getItem(int arg0) {
-
-            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return (titleList.length > position) ? titleList[position] : "";
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList == null ? 0 : fragmentList.size();
-        }
-
-    }
-
-    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
-
-        int currentPosition = 0;
-
-        @Override
-        public void onPageSelected(int newPosition) {
-
-            Fragment fragmentToShow = (Fragment) mPagerAdapter.getItem(newPosition);
-            fragmentToShow.setUserVisibleHint(true);
-
-            Fragment fragmentToHide = (Fragment) mPagerAdapter.getItem(currentPosition);
-            fragmentToHide.setUserVisibleHint(false);
-            currentPosition = newPosition;
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-        }
-
-        public void onPageScrollStateChanged(int arg0) {
-        }
-    };
+//    private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
+//
+//        private List<Fragment> fragmentList;
+//        private String[] titleList;
+//
+//        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2, String[] titleList) {
+//            super(fm);
+//            this.fragmentList = fragmentList2;
+//            this.titleList = titleList;
+//        }
+//
+//        @Override
+//        public Fragment getItem(int arg0) {
+//
+//            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
+//        }
+//
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return (titleList.length > position) ? titleList[position] : "";
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return fragmentList == null ? 0 : fragmentList.size();
+//        }
+//
+//    }
+//
+//    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+//
+//        int currentPosition = 0;
+//
+//        @Override
+//        public void onPageSelected(int newPosition) {
+//
+//            Fragment fragmentToShow = (Fragment) mPagerAdapter.getItem(newPosition);
+//            fragmentToShow.setUserVisibleHint(true);
+//
+//            Fragment fragmentToHide = (Fragment) mPagerAdapter.getItem(currentPosition);
+//            fragmentToHide.setUserVisibleHint(false);
+//            currentPosition = newPosition;
+//        }
+//
+//        @Override
+//        public void onPageScrolled(int arg0, float arg1, int arg2) {
+//        }
+//
+//        public void onPageScrollStateChanged(int arg0) {
+//        }
+//    };
 
 
     @Override
@@ -714,14 +753,19 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
 
     @Override
+    public void requestData() {
+
+    }
+
+    @Override
     public void onResume() {
 
         super.onResume();
-
-        if (mMarketTimer == null) {
-            mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), 60, mPollRequestTime);
-        }
+        requestServer();
+//        if (mMarketTimer == null) {
+//            mMarketTimer = new Timer(true);
+//            mMarketTimer.schedule(new RequestMarketTask(), 60, mPollRequestTime);
+//        }
     }
 
     @Override
@@ -731,17 +775,29 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     }
 
-    public class RequestMarketTask extends TimerTask {
+    private HttpHandler mHttpHandler;
+    private QueryCombinationListener listener;
 
-        @Override
-        public void run() {
-            QueryCombinationListener listener = new QueryCombinationListener();
-            mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
-            // listener.setLoadingDialog(getActivity()).beforeRequest();
+//    public class RequestMarketTask extends TimerTask {
+//
+//        @Override
+//        public void run() {
+//
+//            // listener.setLoadingDialog(getActivity()).beforeRequest();
+//        }
+//    }
+
+
+    private void requestServer() {
+        if (null != mHttpHandler) {
+            mHttpHandler.cancel();
         }
+        mHttpHandler = mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
     }
 
-    class QueryCombinationListener extends ParseHttpListener<PositionDetail> {
+    private static final String TAG = FragmentNetValueTrend.class.getSimpleName();
+
+    private class QueryCombinationListener extends ParseHttpListener<PositionDetail> {
 
         @Override
         protected PositionDetail parseDateTask(String jsonData) {
@@ -768,7 +824,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
                         }
                     }
                     BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
-                    netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+
+                    tvNetvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_week()));
@@ -807,16 +864,30 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (mMarketTimer != null) {
-            mMarketTimer.cancel();
-            mMarketTimer = null;
+//        if (mMarketTimer != null) {
+//            mMarketTimer.cancel();
+//            mMarketTimer = null;
+//        }
+        if (null != mHttpHandler) {
+            mHttpHandler.cancel();
         }
 
     }
 
     @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_netvalue_trend;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         BusProvider.getInstance().unregister(this);
     }
 }

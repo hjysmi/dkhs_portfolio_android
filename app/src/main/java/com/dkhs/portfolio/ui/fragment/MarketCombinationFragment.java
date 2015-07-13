@@ -19,11 +19,11 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午1:56:21
  */
-public class MarketCombinationFragment extends VisiableLoadFragment  implements View.OnClickListener{
+public class MarketCombinationFragment extends VisiableLoadFragment implements View.OnClickListener {
 
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
@@ -116,7 +116,6 @@ public class MarketCombinationFragment extends VisiableLoadFragment  implements 
     };
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -141,9 +140,14 @@ public class MarketCombinationFragment extends VisiableLoadFragment  implements 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_refresh: {
                 fragmentList.get(pager.getCurrentItem()).onResume();
+            }
+            break;
+            case R.id.btn_search: {
+                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
+//                fragmentList.get(pager.getCurrentItem()).onResume();
             }
             break;
         }
