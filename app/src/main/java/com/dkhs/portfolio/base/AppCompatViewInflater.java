@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
+import android.support.v7.appcompat.R;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -34,11 +35,6 @@ import android.util.Log;
 import android.view.InflateException;
 import android.view.View;
 
-import java.lang.reflect.Constructor;
-import java.util.Map;
-
-import android.support.v7.appcompat.R;
-
 import com.dkhs.portfolio.base.widget.Button;
 import com.dkhs.portfolio.base.widget.FrameLayout;
 import com.dkhs.portfolio.base.widget.ImageButton;
@@ -47,6 +43,9 @@ import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.base.widget.TextView;
+
+import java.lang.reflect.Constructor;
+import java.util.Map;
 
 /**
  * This class is responsible for manually inflating our tinted widgets which are used on devices

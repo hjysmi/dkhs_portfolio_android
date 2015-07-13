@@ -97,8 +97,10 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:progress="0"
+            android:thumbOffset="8dp"
             android:progressDrawable="@drawable/optional_seekbar"
             android:secondaryProgress="0"
+            android:splitTrack="false"
             android:thumb="@drawable/ic_thumb_dkhs" />
     </RelativeLayout>
 </RelativeLayout>

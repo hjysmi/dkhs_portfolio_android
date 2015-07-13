@@ -19,6 +19,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
@@ -145,6 +146,7 @@ public class MarketCombinationFragment extends VisiableLoadFragment implements V
             }
             break;
             case R.id.btn_search: {
+                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
 //                fragmentList.get(pager.getCurrentItem()).onResume();
             }
             break;

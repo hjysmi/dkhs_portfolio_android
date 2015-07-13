@@ -61,6 +61,16 @@ public final class AppConfig {
         if (isDebug) {
             CrashHandler.getInstance(context);
 
+
+//            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//                    .detectAll()    // detect everything potentially suspect
+//                    .penaltyLog()   // penalty is to write to log
+//                    .build());
+//            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                    .detectAll()
+//                    .penaltyLog()
+//                    .build());
+
         }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
