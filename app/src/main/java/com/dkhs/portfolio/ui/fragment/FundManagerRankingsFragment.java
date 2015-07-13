@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FundOrderEngineImpl;
+import com.dkhs.portfolio.engine.FundManagerRankingsEngineImpl;
 import com.dkhs.portfolio.ui.FundDetailActivity;
+import com.dkhs.portfolio.ui.FundManagerActivity;
+import com.dkhs.portfolio.ui.adapter.FundManagerRankingAdapter;
 import com.dkhs.portfolio.ui.adapter.FundOrderAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
@@ -25,29 +27,26 @@ import java.util.List;
 /**
  * @author zwm
  * @version 1.0
- * @ClassName FriendsFragment
+ * @ClassName FundManagerRankingsFragment
  * @date 2015/6/02.13:27
- * @Description
+ * @Description  基金经理排行
  */
-public class FundOrderFragment extends LoadMoreListFragment implements MarketFundsFragment.OnRefreshI {
+public class FundManagerRankingsFragment extends LoadMoreListFragment implements MarketFundsFragment.OnRefreshI {
 
-    private List<FundPriceBean> dataList = new ArrayList<>();
-    private FundOrderEngineImpl fundOrderEngine = null;
-
-    private FundOrderAdapter adapter;
+    private List<FundManagerBean> mDataList = new ArrayList<>();
+    private FundManagerRankingsEngineImpl mFundManagerRankingsEngine = null;
 
 
-
+    private FundManagerRankingAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
     }
 
-    public static FundOrderFragment newInstant(String type, String sort) {
+    public static FundManagerRankingsFragment newInstant(String type, String sort) {
 
-        FundOrderFragment fundsOrderFragment = new FundOrderFragment();
-
+        FundManagerRankingsFragment fundsOrderFragment = new FundManagerRankingsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         bundle.putString("sort", sort);
@@ -57,6 +56,8 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -90,11 +91,10 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
         mSwipeLayout.setRefreshing(true);
         startLoadData();
-        adapter.setSortAndType(type, sort);
+        mAdapter.setSortKey(sort);
         setHttpHandler(getLoadEngine().loadDate(type, sort));
     }
 
-    @Override
     public void refresh(String type, String sort) {
         this.sort = sort;
         this.type = type;
@@ -111,10 +111,10 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     @Override
     BaseAdapter getListAdapter() {
 
-        if (null == adapter) {
-            adapter = new FundOrderAdapter(getActivity(), dataList);
+        if (null == mAdapter) {
+            mAdapter = new FundManagerRankingAdapter(mActivity, mDataList);
         }
-        return adapter;
+        return mAdapter;
     }
 
 
@@ -123,22 +123,22 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         super.loadFinish(object);
         endLoadData();
         mSwipeLayout.setRefreshing(false);
-        if (fundOrderEngine.getCurrentpage() == 1) {
-            dataList.clear();
+        if (mFundManagerRankingsEngine.getCurrentpage() == 1) {
+            mDataList.clear();
         }
-        dataList.addAll(object.getResults());
-        adapter.notifyDataSetChanged();
+        mDataList.addAll(object.getResults());
+        mAdapter.notifyDataSetChanged();
 
 
     }
 
     @Override
-    FundOrderEngineImpl getLoadEngine() {
+    FundManagerRankingsEngineImpl getLoadEngine() {
 
-        if (null == fundOrderEngine) {
-            fundOrderEngine = new FundOrderEngineImpl(this);
+        if (null == mFundManagerRankingsEngine) {
+            mFundManagerRankingsEngine = new FundManagerRankingsEngineImpl(this);
         }
-        return fundOrderEngine;
+        return mFundManagerRankingsEngine;
     }
 
     //    @Override
@@ -158,7 +158,8 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(FundDetailActivity.newIntent(getActivity(), SelectStockBean.copy(dataList.get(position))));
+                FundManagerBean fundManagerBean=mDataList.get(position);
+                startActivity(FundManagerActivity.newIntent(mActivity, fundManagerBean.id + ""));
             }
         };
     }

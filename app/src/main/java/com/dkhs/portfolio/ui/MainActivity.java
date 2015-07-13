@@ -153,12 +153,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-//    private Fragment fragmentA;
-//    private Fragment fragmentB;
-//    private Fragment fragmentC;
-//    private Fragment fragmentD;
-//    private Fragment fragmentE;
-
     protected void displayFragmentA() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentA = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_A);

@@ -14,7 +14,7 @@ public class SingleItemClickListener implements AdapterView.OnItemClickListener 
 
     private AdapterView.OnItemClickListener singleItemClickListener;
 
-    private SingClickhelper singClickhelper=new SingClickhelper();
+    private SingleClickHelper singleClickhelper =new SingleClickHelper();
 
     public SingleItemClickListener(AdapterView.OnItemClickListener singleItemClickListener) {
         this.singleItemClickListener = singleItemClickListener;
@@ -23,7 +23,7 @@ public class SingleItemClickListener implements AdapterView.OnItemClickListener 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if(singClickhelper.clickEnable()){
+        if(singleClickhelper.clickEnable()){
             singleItemClickListener.onItemClick(parent, view, position, id);
         }
     }

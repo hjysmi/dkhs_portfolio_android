@@ -201,7 +201,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                     user.setUsername(((CombinationUserActivity) getActivity()).mUserName);
                     cBean.setUser(user);
                     startActivity(CombinationDetailActivity.newIntent(getActivity(), cBean));
-//                getActivity().startActivity(NewCombinationDetailActivity.getIntent(getActivity(), cBean, false, null));
+//                getActivity().startActivity(NewCombinationDetailActivity.newIntent(getActivity(), cBean, false, null));
                 }
             }
 
