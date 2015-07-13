@@ -13,95 +13,87 @@
         <TextView
             android:id="@+id/timeLineTV"
             android:layout_width="wrap_content"
-            android:textColor="@color/tag_red"
-            android:textSize="16sp"
-            android:layout_marginTop="25dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
             android:drawableLeft="@drawable/ic_count_down"
             android:drawablePadding="4dp"
+            android:textColor="@color/tag_red"
 
-            android:layout_gravity="center"
-            />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/chanceTV"
-            android:layout_margin="8dp"
-            android:textColor="@color/tag_gray"
-            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            />
+            android:layout_margin="8dp"
+            android:textColor="@color/tag_gray"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/freeFlow"
-            android:textColor="@color/tag_gray"
-            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            />
+            android:textColor="@color/tag_gray"
+            android:textSize="15sp" />
 
         <LinearLayout
+            android:id="@+id/view_shakecontent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:padding="16dp"
             android:background="@drawable/bg_dialog"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/titleTV"
-                android:textColor="@color/theme_color"
-                android:textSize="18dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                />
+                android:textColor="@color/theme_color"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/dateTV"
-                android:textColor="@color/tag_gray"
-                android:textSize="12dp"
-                android:layout_marginTop="2dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                />
+                android:layout_marginTop="2dp"
+                android:textColor="@color/tag_gray"
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/contextTV"
-                android:layout_marginTop="12dp"
-                android:textColor="@color/tag_gray"
-                android:textSize="15dp"
-                android:lineSpacingMultiplier="1.2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                />
+                android:layout_marginTop="12dp"
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/tag_gray"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/symbolTV"
-                android:layout_marginTop="16dp"
-                android:textSize="16sp"
-                android:textColor="@color/ma5_color"
-
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                />
+                android:layout_marginTop="16dp"
+
+                android:textColor="@color/ma5_color"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/capitalFlowTV"
-                android:textSize="16sp"
-                android:textColor="@color/theme_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                />
+                android:textColor="@color/theme_color"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/upRateTV"
-                android:textSize="16sp"
-                android:textColor="@color/theme_color"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                />
+                android:textColor="@color/theme_color"
+                android:textSize="16sp" />
 
 
         </LinearLayout>

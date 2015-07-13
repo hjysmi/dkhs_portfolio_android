@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -40,6 +41,8 @@ public class ShakeActivity extends ModelAcitivity {
     android.widget.TextView mCapitalFlowTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.upRateTV)
     android.widget.TextView mUpRateTV;
+    @com.lidroid.xutils.view.annotation.ViewInject(R.id.view_shakecontent)
+    View mShakeContent;
     private ShakeBean mShakeBean;
 
     private CountDownTask countDownTask;
@@ -119,7 +122,18 @@ public class ShakeActivity extends ModelAcitivity {
                     ShakeActivity.this.finish();
                 }
             });
+
+            alpHide();
         }
+    }
+
+
+    private void alpHide() {
+        AlphaAnimation animation1 = new AlphaAnimation(1.0f, 0f);
+        animation1.setDuration(3000);
+//        animation1.setStartOffset(5000);
+        animation1.setFillAfter(true);
+        mShakeContent.startAnimation(animation1);
     }
 
     class CountDownTask extends CountDownTimer {
@@ -135,7 +149,8 @@ public class ShakeActivity extends ModelAcitivity {
 
         @Override
         public void onFinish() {
-            ShakeActivity.this.finish();
+
+//            ShakeActivity.this.finish();
         }
     }
 
