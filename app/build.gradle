@@ -14,7 +14,7 @@ android {
 
 
         versionCode 109010713
-        versionName "1.9.1.0713"
+        versionName "1.9.1.071302"
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
@@ -71,6 +71,32 @@ android {
         }
 
     }
+
+    task findbugs(type: FindBugs) {
+        ignoreFailures = false
+        effort = "max"
+        reportLevel = "high"
+        excludeFilter = new File("${project.rootDir}/config/quality/findbugs/findbugs-filter.xml")
+        classes = files("${project.rootDir}/app/build/classes")
+
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            xml {
+                destination "$project.buildDir/reports/findbugs/findbugs.xml"
+            }
+            html {
+                destination "$project.buildDir/reports/findbugs/findbugs.html"
+            }
+        }
+
+        classpath = files()
+    }
+
 
 
 }

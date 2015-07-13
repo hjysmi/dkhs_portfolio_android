@@ -163,7 +163,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
-    String sortKeyFormatStr;
+    String     sortKeyFormatStr="%s";
     @Subscribe
     public void update(MenuBean menuBean) {
 

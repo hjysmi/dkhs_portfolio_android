@@ -40,7 +40,8 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     }
 
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+        super(context, attrs, defStyleAttr);
+        inflater();
 
     }
 
