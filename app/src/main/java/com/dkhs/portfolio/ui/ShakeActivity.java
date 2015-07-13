@@ -81,7 +81,7 @@ public class ShakeActivity extends ModelAcitivity {
     private void handleIntent() {
         if (getIntent().hasExtra("shakeBean")) {
             mShakeBean = Parcels.unwrap(getIntent().getExtras().getParcelable("shakeBean"));
-            countDownTask = new CountDownTask(mShakeBean.display_time * 1000, 1000);
+            countDownTask = new CountDownTask(mShakeBean.display_time * 1000 - ALP_DURATION_MILLIS, 1000);
             countDownTask.start();
 
             if (mShakeBean.times_left == 0) {
@@ -123,15 +123,15 @@ public class ShakeActivity extends ModelAcitivity {
                 }
             });
 
-            alpHide();
         }
     }
 
 
+    private final int ALP_DURATION_MILLIS = 3000;
+
     private void alpHide() {
         AlphaAnimation animation1 = new AlphaAnimation(1.0f, 0f);
-        animation1.setDuration(3000);
-//        animation1.setStartOffset(5000);
+        animation1.setDuration(ALP_DURATION_MILLIS);
         animation1.setFillAfter(true);
         mShakeContent.startAnimation(animation1);
     }
@@ -144,13 +144,18 @@ public class ShakeActivity extends ModelAcitivity {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            mTimeLineTV.setText(getString(R.string.count_dwon) + " " + (millisUntilFinished / 1000) + " s");
+            int sec = (int) millisUntilFinished / 1000;
+            mTimeLineTV.setText(getString(R.string.count_dwon) + " " + sec + " s");
+            if (sec == 3) {
+                alpHide();
+            }
+
         }
 
         @Override
         public void onFinish() {
 
-//            ShakeActivity.this.finish();
+            ShakeActivity.this.finish();
         }
     }
 
