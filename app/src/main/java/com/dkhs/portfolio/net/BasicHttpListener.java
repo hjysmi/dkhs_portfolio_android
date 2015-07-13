@@ -104,6 +104,9 @@ public abstract class BasicHttpListener implements IHttpListener {
             PromptManager.showToast(R.string.message_timeout);
         } else if (errCode == 500 || errCode == 404) { // 服务器内部错误
             PromptManager.showToast(R.string.message_server_error);
+        } else if (errCode == 429) {
+            PromptManager.showToast(R.string.message_server_error429);
+
         } else if (errCode == 777 && fromYanbao) { // 服务器正确响应，错误参数需要提示用户
             parseToErrorBundle(errMsg);
         }
