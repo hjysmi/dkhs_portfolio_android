@@ -35,33 +35,19 @@ public class FundManagerBean {
      * win_rate_season : 26.30129524058558
      * win_rate_year : 26.300363591943466
      */
-    @SerializedName("win_rate_tyear")
     public float win_rate_tyear;
-    @SerializedName("work_seniority")
     public String work_seniority;
-    @SerializedName("avatar_sm")
     public String avatar_sm;
-    @SerializedName("avatar_md")
     public String avatar_md;
-    @SerializedName("avatar_xs")
     public String avatar_xs;
-    @SerializedName("win_rate_day")
     public float win_rate_day;
-    @SerializedName("win_rate_month")
     public float win_rate_month;
-    @SerializedName("id")
     public int id;
-    @SerializedName("win_rate_six_month")
     public float win_rate_six_month;
-    @SerializedName("name")
     public String name;
-    @SerializedName("avatar_lg")
     public String avatar_lg;
-    @SerializedName("win_rate_week")
     public float win_rate_week;
-    @SerializedName("win_rate_season")
     public float win_rate_season;
-    @SerializedName("win_rate_year")
     public float win_rate_year;
 
 

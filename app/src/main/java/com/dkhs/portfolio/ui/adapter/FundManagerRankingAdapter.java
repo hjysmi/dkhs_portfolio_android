@@ -1,13 +1,7 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerBean;
@@ -39,7 +33,7 @@ public class FundManagerRankingAdapter  extends  AutoAdapter {
 
     @Override
     public int setLayoutID() {
-        return R.layout.item_fund_manager_ranling;
+        return R.layout.item_fund_manager_ranking;
     }
 
     @Override
