@@ -648,7 +648,7 @@
     <string name="combination_create_time">创建时间</string>
     <string name="join_time">从业时间</string>
     <string name="fund_manager_rankings">基金经理排行</string>
-    <string name="fund_rankings">基金排行</string>
+    <string name="fund_rankings">传统基金排行</string>
     <string name="win_rate_day">日战胜指数</string>
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
