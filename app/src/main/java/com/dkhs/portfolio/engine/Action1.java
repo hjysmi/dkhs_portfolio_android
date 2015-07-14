@@ -9,5 +9,5 @@ package com.dkhs.portfolio.engine;
  */
 public interface Action1<T extends  Object> {
 
-     void action(T o);
+     void call(T o);
 }

@@ -85,7 +85,7 @@ public class InviteFriendsActivity extends ModelAcitivity {
 
             AdEngineImpl.getInvite(new Action1<AdBean>() {
                 @Override
-                public void action(AdBean o) {
+                public void call(AdBean o) {
                     if (o != null) {
                         updateInviteFriendsInfo(o);
                     }
