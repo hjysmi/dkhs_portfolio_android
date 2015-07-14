@@ -290,8 +290,9 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             if (!TextUtils.isEmpty(errorKey) && errorKey.equals("times_invalid")) {
 
                 ivSlogan.setImageResource(R.drawable.bg_after_shake);
+            } else {
+                PromptManager.showToast(((ErrorBundle) object).getErrorMessage());
             }
-            PromptManager.showToast(((ErrorBundle) object).getErrorMessage());
 
             this.mSuccessObject = null;
         }
