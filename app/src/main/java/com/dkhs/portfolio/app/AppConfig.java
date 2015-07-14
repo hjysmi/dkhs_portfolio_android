@@ -15,7 +15,7 @@ import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.github.anrwatchdog.ANRWatchDog;
-import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -53,7 +53,7 @@ public final class AppConfig {
         // 注册crashHandler，程序异常的日志管理工具
 
         if (isDebug) {
-            LeakCanary.install((Application) context);
+//            LeakCanary.install((Application) context);
             CrashHandler.getInstance(context);
             ANRWatchDog anrWatchDog = new ANRWatchDog();
             anrWatchDog.start();

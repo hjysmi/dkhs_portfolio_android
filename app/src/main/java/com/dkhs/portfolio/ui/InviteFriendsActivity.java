@@ -102,11 +102,12 @@ public class InviteFriendsActivity extends ModelAcitivity {
             if(o.getAds().size() > 0){
                 AdBean.AdsEntity entity=o.getAds().get(0);
 
-                loadView.setVisibility(View.GONE);
+
                 ImageLoaderUtils.setImage(entity.getImage(), mInviteIV, new SimpleImageLoadingListener() {
 
                     @Override
                     public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        loadView.setVisibility(View.GONE);
                         invitingBtn.setVisibility(View.VISIBLE);
                     }
                 });

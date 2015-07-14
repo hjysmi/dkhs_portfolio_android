@@ -78,10 +78,10 @@ public class AchivementAdapter extends AutoAdapter {
         stringBuilder.append(achivementsEntity.getStart_date());
 
         if(position==0 && achivementsEntity.getEnd_date() == null){
-            vh.setTextView(R.id.headTV,"当前管理的基金");
+            vh.setTextView(R.id.headTV, context.getString(R.string.current_management_of_the_fund));
             vh.get(R.id.headTV).setVisibility(View.VISIBLE);
         }else{
-            vh.setTextView(R.id.headTV,"历史管理的基金");
+            vh.setTextView(R.id.headTV, context.getString(R.string.history_management_of_the_fund));
             vh.get(R.id.headTV).setVisibility(View.VISIBLE);
         }
 
@@ -90,7 +90,7 @@ public class AchivementAdapter extends AutoAdapter {
             FundManagerInfoBean.AchivementsEntity preAchivementsEntity= (FundManagerInfoBean.AchivementsEntity) list.get(position-1);
 
             if(preAchivementsEntity.getEnd_date()==null && achivementsEntity.getEnd_date() != null ){
-                vh.setTextView(R.id.headTV,"历史管理的基金");
+                vh.setTextView(R.id.headTV,context.getString(R.string.history_management_of_the_fund));
                 vh.get(R.id.headTV).setVisibility(View.VISIBLE);
             }else{
                 vh.get(R.id.headTV).setVisibility(View.GONE);

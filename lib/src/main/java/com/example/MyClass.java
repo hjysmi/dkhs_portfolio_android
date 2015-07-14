@@ -15,18 +15,36 @@ public class MyClass {
 
 
 
-        String a="@com.google.gson.annotations.SerializedName( dfdfdf)";
+//        String a="@com.google.gson.annotations.SerializedName( dfdfdf)";
+//
+//        String[] d=a.split("\n");
+//        Pattern pattern=Pattern.compile("@com\\s*\\.\\s*google\\s*\\.\\s*gson\\s*\\.\\s*annotations\\s*\\.\\s*SerializedName\\s*\\((\\s*\\w+\\s*)\\)");
+////        Pattern pattern=Pattern.compile("@\\s*SerializedName\\s*\\((\\s*\\w+\\s*)\\)");
+////        String a="@dd(2121212)";
+////        Pattern pattern=Pattern.compile("@dd\\((\\d+)\\)");
+//        Matcher matcher=pattern.matcher(a);
+//
+//        if(matcher.find()){
+//            System.out.println(matcher.group(1));
+//        }
 
-        String[] d=a.split("\n");
-        Pattern pattern=Pattern.compile("@com\\s*\\.\\s*google\\s*\\.\\s*gson\\s*\\.\\s*annotations\\s*\\.\\s*SerializedName\\s*\\((\\s*\\w+\\s*)\\)");
-//        Pattern pattern=Pattern.compile("@\\s*SerializedName\\s*\\((\\s*\\w+\\s*)\\)");
-//        String a="@dd(2121212)";
-//        Pattern pattern=Pattern.compile("@dd\\((\\d+)\\)");
-        Matcher matcher=pattern.matcher(a);
 
-        if(matcher.find()){
-            System.out.println(matcher.group(1));
-        }
+        String jsonStr="{\n" +
+                "     /*" +
+                "      height : 140cm" +
+                "      age : 15" +
+                "      name : 王五" +
+                "      gender : man" +
+                "     */\n" +
+                "    \"name\": \"王五\",\n" +
+                "    \"gender\": \"man\",\n" +
+                "    \"age\": 15,\n" +
+                "    \"height\": \"140cm\",\n" +
+                "}";
+        String temp = jsonStr.replaceAll("/\\*" +
+                ".+" +
+                "\\*/", "");
+        System.out.println(temp);
 
 
     }
