@@ -56,7 +56,8 @@ android {
             debuggable true
             zipAlignEnabled false
             shrinkResources false
-            versionNameSuffix 'debug_zwm'
+            //debug的 versionName 跟正式的不一样
+            versionNameSuffix 'debug'
         }
     }
 
