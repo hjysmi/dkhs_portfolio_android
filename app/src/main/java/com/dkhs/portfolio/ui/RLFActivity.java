@@ -121,7 +121,11 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         mAdTV = (TextView) findViewById(R.id.ad);
         if (o.getAds().size() > 0) {
             AdBean.AdsEntity adsEntity = o.getAds().get(0);
-            mAdTV.setText(adsEntity.getTitle());
+
+            if (!TextUtils.isEmpty(adsEntity.getTitle())) {
+                mAdTV.setVisibility(View.VISIBLE);
+                mAdTV.setText(adsEntity.getTitle());
+            }
         }
 
     }

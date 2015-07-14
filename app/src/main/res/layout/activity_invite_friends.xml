@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/activity_bg_color"
     >
+    <include
+        layout="@layout/layout_loading"
+
+        />
 
     <ImageView
         android:id="@+id/iv_invite"
@@ -12,6 +16,7 @@
         android:scaleType="fitXY"
         android:layout_above="@+id/invitingBtn"
         />
+
 
     <Button
         android:id="@+id/invitingBtn"

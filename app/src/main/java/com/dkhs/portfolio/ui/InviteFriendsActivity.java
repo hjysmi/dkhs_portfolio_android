@@ -46,6 +46,8 @@ public class InviteFriendsActivity extends ModelAcitivity {
     private ShareBean mShareBean;
     @ViewInject(R.id.iv_invite)
     private ImageView mInviteIV;
+    @ViewInject(R.id.loadView)
+    private View loadView;
 
 
     @Override
@@ -100,6 +102,7 @@ public class InviteFriendsActivity extends ModelAcitivity {
             if(o.getAds().size() > 0){
                 AdBean.AdsEntity entity=o.getAds().get(0);
 
+                loadView.setVisibility(View.GONE);
                 ImageLoaderUtils.setImage(entity.getImage(), mInviteIV, new SimpleImageLoadingListener() {
 
                     @Override
