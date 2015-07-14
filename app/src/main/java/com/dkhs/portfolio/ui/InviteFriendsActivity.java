@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.ShareBean;
+import com.dkhs.portfolio.engine.Action1;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
@@ -20,6 +23,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.List;
 
@@ -40,6 +44,8 @@ public class InviteFriendsActivity extends ModelAcitivity {
     private Button invitingBtn;
 
     private ShareBean mShareBean;
+    @ViewInject(R.id.iv_invite)
+    private ImageView mInviteIV;
 
 
     @Override
@@ -68,6 +74,43 @@ public class InviteFriendsActivity extends ModelAcitivity {
                 startActivity(new Intent(InviteFriendsActivity.this, InviteHistoryActivity.class));
             }
         });
+
+        getInviteFriendsInfo();
+
+    }
+
+    private void getInviteFriendsInfo() {
+
+            AdEngineImpl.getInvite(new Action1<AdBean>() {
+                @Override
+                public void action(AdBean o) {
+                    if (o != null) {
+                        updateInviteFriendsInfo(o);
+                    }
+                }
+            });
+
+
+    }
+
+    private void updateInviteFriendsInfo(AdBean o) {
+
+        if(o !=null ){
+
+            if(o.getAds().size() > 0){
+                AdBean.AdsEntity entity=o.getAds().get(0);
+
+                ImageLoaderUtils.setImage(entity.getImage(), mInviteIV, new SimpleImageLoadingListener() {
+
+                    @Override
+                    public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                        invitingBtn.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+
+        }
+
 
     }
 

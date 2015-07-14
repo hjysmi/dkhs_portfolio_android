@@ -136,6 +136,8 @@ public class DKHSUrl {
         String getSplashAds = "/api/v1/ads/area/splash/";
         String getInvitingInfo = "/api/v1/accounts/invitations/code/";
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
+        String getSignUp= "/api/v1/ads/area/signup/";
+        String getInvite= "/api/v1/ads/area/Invite//";
 
     }
     public interface  Shake{

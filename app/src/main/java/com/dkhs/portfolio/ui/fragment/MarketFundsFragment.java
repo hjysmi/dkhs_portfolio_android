@@ -42,21 +42,6 @@ import java.util.LinkedList;
  */
 public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
-
-    private LinkedList<MenuBean> sorts;
-
-    @Override
-    public int setContentLayoutId() {
-        return R.layout.fragment_market_funds;
-    }
-
-    private FundOrderFragment loadDataListFragment;
-    private FundManagerRankingsFragment fundManagerRankingsFragment;
-
-    public interface OnRefreshI {
-        public void refresh(String type, String sort);
-    }
-
     @ViewInject(R.id.rl_menu)
     ViewGroup menuRL;
     private MultiChooserRelativeLayout fundTypeMenuChooserL;
@@ -72,6 +57,22 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private View titleView;
     @ViewInject(R.id.rootView)
     private ViewGroup mRootView;
+
+    private LinkedList<MenuBean> sorts;
+
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_market_funds;
+    }
+
+    private FundOrderFragment loadDataListFragment;
+    private FundManagerRankingsFragment fundManagerRankingsFragment;
+
+    public interface OnRefreshI {
+        public void refresh(String type, String sort);
+    }
+
+
 
 
     @Override
@@ -109,7 +110,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         fundTypeMenuChooserL.setParentView(mRootView);
 
         LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
-        sorts = MenuBean.fundSortFromXml(getActivity());
+        sorts = MenuBean.fundManagerSortFromXml(getActivity());
 
         fundTypeMenuChooserL.setData(types, MenuBean.fundManagerFromXml(getActivity()));
         String type = types.getFirst().getValue();
@@ -118,7 +119,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         sortTypeMenuChooserL.setData(sorts);
         setDrawableDown(fundTypeTV);
         setDrawableDown(tvPercentgae);
-        replaceFundDataList(type, sort);
+        replaceFundManagerRankingsDataList(type, sort);
     }
 
     @Override

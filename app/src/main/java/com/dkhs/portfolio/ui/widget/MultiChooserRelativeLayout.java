@@ -162,7 +162,7 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
         inflater();
         this.data.clear();
         this.data.addAll(data);
-        selectItem = data.get(0);
+        selectItem = data2.get(0);
         floatMenuAdapter.setSelectIndex(selectItem);
         floatMenuAdapter.notifyDataSetChanged();
         this.data2.clear();

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg_color"
-    android:orientation="vertical">
+    >
 
     <ImageView
+        android:id="@+id/iv_invite"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="fill_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/invite_friends_bg" />
+        android:layout_above="@+id/invitingBtn"
+        />
 
     <Button
         android:id="@+id/invitingBtn"
@@ -19,8 +20,10 @@
         android:textColor="@color/white"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         style="@style/btn_login_blue"
+        android:visibility="invisible"
         android:text="@string/inviting" />
 
-</LinearLayout>
+</RelativeLayout>
