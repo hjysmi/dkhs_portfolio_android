@@ -26,6 +26,10 @@ import java.util.List;
 
 public class MyCombinationEngineImpl {
 
+
+    public static final String ERROR_KEY_AJUST = "symbols_cannot_adjust";
+
+
     /**
      * 查询我的组合列表
      *
