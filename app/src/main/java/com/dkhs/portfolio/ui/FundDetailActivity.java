@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -255,7 +254,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         if (null == mFragmentManager) {
             mFragmentManager = FundManagerFragment.newInstance(mFundQuoteBean.getManagers());
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fund_manager_view, mFragmentManager).commit();
+                    .replace(R.id.fund_manager_view, mFragmentManager).commitAllowingStateLoss();
         }
 
     }
@@ -266,7 +265,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         if (null == mFragmentProfile) {
             mFragmentProfile = FundProfileFragment.newIntent(mFundQuoteBean);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fund_overview, mFragmentProfile).commit();
+                    .replace(R.id.fund_overview, mFragmentProfile).commitAllowingStateLoss();
         }
 
     }

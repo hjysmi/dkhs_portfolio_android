@@ -26,7 +26,6 @@ import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -71,8 +70,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     public interface OnRefreshI {
         public void refresh(String type, String sort);
     }
-
-
 
 
     @Override
@@ -120,7 +117,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         setDrawableDown(fundTypeTV);
         setDrawableDown(tvPercentgae);
         tvPercentgae.setText(R.string.win_rate_day);
-        sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
+        sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
         replaceFundManagerRankingsDataList(type, sort);
     }
 
@@ -157,7 +154,10 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             break;
             case R.id.btn_refresh: {
 
-                loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+                if (null != loadDataListFragment && null != fundTypeMenuChooserL && null != fundTypeMenuChooserL.getSelectItem()) {
+
+                    loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+                }
             }
             break;
             default:
@@ -166,14 +166,15 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
-    String     sortKeyFormatStr;
+    String sortKeyFormatStr;
+
     @Subscribe
     public void update(MenuBean menuBean) {
 
         if (menuBean instanceof FundTypeMenuBean) {
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
-            sortKeyFormatStr="%s";
+            sortKeyFormatStr = "%s";
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
@@ -190,11 +191,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             tvCurrent.setText(R.string.join_time);
             fundTypeTV.setText(R.string.fund_manager);
 
-            sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
+            sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
             tvPercentgae.setText(R.string.win_rate_day);
             sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity));
         } else {
-            tvPercentgae.setText(String.format(sortKeyFormatStr,menuBean.getKey()));
+            tvPercentgae.setText(String.format(sortKeyFormatStr, menuBean.getKey()));
         }
 
         refresh();
