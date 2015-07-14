@@ -679,7 +679,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         @Override
         public void onFailure(ErrorBundle errorBundle) {
-            super.onFailure(errorBundle);
 
 
             if (!TextUtils.isEmpty(errorBundle.getErrorKey()) && errorBundle.getErrorKey().equals(MyCombinationEngineImpl.ERROR_KEY_AJUST)) {
