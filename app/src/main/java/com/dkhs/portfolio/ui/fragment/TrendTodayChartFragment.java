@@ -125,27 +125,7 @@ public class TrendTodayChartFragment extends VisiableLoadFragment {
     }
 
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        if (rootView == null) {
-//            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-//            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-//            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
-//            pb.setVisibility(View.VISIBLE);
-//            initMaChart(mMaChart);
-//            // setupBottomTextViewData();
-//            initView(rootView);
-//            initTodayTrendTitle();
-//            // PromptManager.showProgressDialog(getActivity(), "");
-//            mNetValueDataEngine.requeryToday(todayListener);
-//        }
-//        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
-//        ViewGroup parent = (ViewGroup) rootView.getParent();
-//        if (parent != null) {
-//            parent.removeView(rootView);
-//        }
-//        return rootView;
-//    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

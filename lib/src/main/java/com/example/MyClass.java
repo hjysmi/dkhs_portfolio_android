@@ -3,7 +3,7 @@ package com.example;
 public class MyClass {
     private boolean s;
     public static  void main(String[] args){
-
+        String.format("%2d:%2d",1,20);
 //        double a = (3.3-2.4)/0.1;
 //        System.out.println(a);
 

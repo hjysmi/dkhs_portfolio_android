@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.app;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -13,6 +14,8 @@ import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.github.anrwatchdog.ANRWatchDog;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -41,14 +44,6 @@ public final class AppConfig {
         //设置友盟统计的不同平台配置
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(context));
 
-
-        //融云API，根据不同的版本配置不同的APP key,默认为debug key
-        //正式版本需要修改为release key
-//        if (!isDebug) {
-//            setRongYunMetaData();
-//        }
-
-
         MobclickAgent.openActivityDurationTrack(false);
         //是否替换本地raw里面的数据库
         if (hasReplaceRawDB || !PortfolioPreferenceManager.hasLoadSearchStock()) {
@@ -56,11 +51,12 @@ public final class AppConfig {
         }
 
         // 注册crashHandler，程序异常的日志管理工具
-//        ANRWatchDog anrWatchDog = new ANRWatchDog(2000);
-//        anrWatchDog.start();
-        if (isDebug) {
-            CrashHandler.getInstance(context);
 
+        if (isDebug) {
+            LeakCanary.install((Application) context);
+            CrashHandler.getInstance(context);
+            ANRWatchDog anrWatchDog = new ANRWatchDog();
+            anrWatchDog.start();
 
 //            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 //                    .detectAll()    // detect everything potentially suspect
@@ -83,10 +79,6 @@ public final class AppConfig {
         //消息中心模块的初始化
         MessageManager.getInstance();
 
-
-//        if (!BuildConfig.DEBUG) {
-//            new ANRWatchDog().start();
-//        }
     }
 
 
