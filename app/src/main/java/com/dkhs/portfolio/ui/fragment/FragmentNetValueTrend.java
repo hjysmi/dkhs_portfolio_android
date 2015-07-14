@@ -36,7 +36,6 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.WeakHandler;
-import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
@@ -67,7 +66,6 @@ import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -120,6 +118,58 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         return fragment;
     }
 
+
+    private WeakHandler uiHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            PositionDetail detail = (PositionDetail) msg.obj;
+            updateComView(detail);
+            return false;
+        }
+    });
+
+
+    private void updateComView(PositionDetail detail) {
+        mPositionDetail = detail;
+
+
+        if (null != mPositionDetail.getPortfolio()) {
+            mCombinationBean = mPositionDetail.getPortfolio();
+            if (!PortfolioApplication.hasUserLogin()) {
+                CombinationBean comBean = new VisitorDataEngine().queryCombination(mCombinationBean.getId());
+                if (null != comBean) {
+                    mCombinationBean.setFollowed(comBean.isFollowed());
+                }
+            }
+            BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
+
+            tvNetvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                    .getChng_pct_day()));
+            netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                    .getChng_pct_week()));
+            netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                    .getChng_pct_month()));
+            tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+
+
+//                    BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
+
+            UserEntity user = mCombinationBean.getUser();
+            ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), ivUserheader);
+//                    if (null != user.getAvatar_md() && user.getAvatar_md().length() > 35) {
+////                        bitmapUtils.display(ivUserheader, user.getAvatar_md());
+//                    }
+//                    tvUName.setText(user.getUsername());
+            if (TextUtils.isEmpty(user.getDescription())) {
+                tvUserDesc.setText(getResources().getString(R.string.nodata_user_description));
+            } else {
+                tvUserDesc.setText(user.getDescription());
+            }
+
+        }
+        setColor(myType);
+    }
+
     /**
      * @param savedInstanceState
      * @Title
@@ -142,7 +192,7 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         }
 
         BusProvider.getInstance().register(this);
-        listener = new QueryCombinationListener();
+        listener = new QueryCombinationListener(uiHandler);
     }
 
     private boolean isMyCombination;
@@ -232,25 +282,32 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     }
 
 
-    class OnComCheckListener implements OnCheckedChangeListener {
+    static class OnComCheckListener implements OnCheckedChangeListener {
+        private MyCombinationEngineImpl mMyCombinationEngineImpl;
+        private String comId;
+
+        public OnComCheckListener(MyCombinationEngineImpl combinationEngine, String id) {
+            this.mMyCombinationEngineImpl = combinationEngine;
+            this.comId = id;
+        }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             // TODO Auto-generated method stub
             if (isChecked) {
                 QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
+                mMyCombinationEngineImpl.changeCombinationIsPublic(comId, "0", listener);
                 // listener.setLoadingDialog(getActivity());
             } else {
                 QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
+                mMyCombinationEngineImpl.changeCombinationIsPublic(comId, "1", listener);
                 // listener.setLoadingDialog(getActivity());
             }
         }
 
     }
 
-    class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
+    static class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
 
         @Override
         protected List<CombinationBean> parseDateTask(String jsonData) {
@@ -317,17 +374,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         }
     }
 
-//
-//    TrendTodayChartFragment todayFragment = TrendTodayChartFragment
-//            .newInstance(TrendTodayChartFragment.TREND_TYPE_TODAY);
-//    TrendSevenDayChartFragment sevendayFragment = TrendSevenDayChartFragment
-//            .newInstance(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY);
-//    TrendMonthChartFragment monthFragment = TrendMonthChartFragment
-//            .newInstance(TrendMonthChartFragment.TREND_TYPE_MONTH);
-//    TrendHistoryChartFragment historyFragment = TrendHistoryChartFragment
-//            .newInstance(TrendHistoryChartFragment.TREND_TYPE_HISTORY);
-
-    // FragmentSwitchChart mSwitchFragment = null;
 
     public void showShare(boolean silent, String platform, boolean captureView) {
         // if (null != mtrendFragment)
@@ -338,16 +384,15 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     private String SHARE_IMAGE;
 
     public void showShareImage() {
-
-        // initImagePath();
-        new Thread() {
-            public void run() {
-
-                // initImagePath();
-                saveShareBitmap();
-                shareHandler.sendEmptyMessage(999);
-            }
-        }.start();
+//
+//        new Thread() {
+//            public void run() {
+//
+//                // initImagePath();
+//                saveShareBitmap();
+//                shareHandler.sendEmptyMessage(999);
+//            }
+//        }.start();
 
     }
 
@@ -433,8 +478,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         }
     }
 
-//    private Fragment lastFragment = null;
-
     private void replaceFragment(Fragment fragment, String tag) {
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
         TrendTodayChartFragment todayFragment;
@@ -453,7 +496,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
             trasection.show(fragment);
         }
         trasection.commit();
-//        lastFragment = newFragment;
 
     }
 
@@ -479,33 +521,11 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
 
     }
 
-//    private void showReportFragment(Fragment newFragment) {
-//
-//        FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
-//        if (!newFragment.isAdded()) {
-//            try {
-//                // FragmentTransaction trasection =
-////                getChildFragmentManager().beginTransaction();
-//                trasection.replace(R.id.rl_trend_layout, newFragment);
-//                trasection.addToBackStack(null);
-//                trasection.commit();
-//
-//            } catch (Exception e) {
-//                // TODO: handle exception
-//                // AppConstants.printLog(e.getMessage());
-//
-//            }
-//        } else {
-//
-//            trasection.show(newFragment);
-//        }
-//
-//    }
 
     private void initTabPage(View view) {
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
-        List<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+//        List<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
         HScrollTitleView hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
         // String[] titleArray =
@@ -513,24 +533,23 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
 
-        if (null != type) {
-            switch (type) {
-                case CombinationRankEngineImpl.ORDER_DAY:
-                    // hsTitle.setSelectIndex(0);
-                    break;
-                case CombinationRankEngineImpl.ORDER_WEEK:
-                    hsTitle.setSelectIndex(1);
-                    break;
-                case CombinationRankEngineImpl.ORDER_MONTH:
-                    hsTitle.setSelectIndex(2);
-                    break;
-                case CombinationRankEngineImpl.ORDER_ALL:
-                    hsTitle.setSelectIndex(3);
-                    break;
-            }
-
-        }
-//        updateHandler.sendEmptyMessageDelayed(200, 50);
+//        if (null != type) {
+//            switch (type) {
+//                case CombinationRankEngineImpl.ORDER_DAY:
+//                    // hsTitle.setSelectIndex(0);
+//                    break;
+//                case CombinationRankEngineImpl.ORDER_WEEK:
+//                    hsTitle.setSelectIndex(1);
+//                    break;
+//                case CombinationRankEngineImpl.ORDER_MONTH:
+//                    hsTitle.setSelectIndex(2);
+//                    break;
+//                case CombinationRankEngineImpl.ORDER_ALL:
+//                    hsTitle.setSelectIndex(3);
+//                    break;
+//            }
+//
+//        }
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
@@ -587,7 +606,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
                 default:
                     break;
             }
-            // mSwitchFragment.setSelectType(type);
             myType = type;
             setColor(type);
             if (null != curFragment) {
@@ -596,58 +614,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
 
         }
     };
-
-//    private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
-//
-//        private List<Fragment> fragmentList;
-//        private String[] titleList;
-//
-//        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2, String[] titleList) {
-//            super(fm);
-//            this.fragmentList = fragmentList2;
-//            this.titleList = titleList;
-//        }
-//
-//        @Override
-//        public Fragment getItem(int arg0) {
-//
-//            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
-//        }
-//
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return (titleList.length > position) ? titleList[position] : "";
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return fragmentList == null ? 0 : fragmentList.size();
-//        }
-//
-//    }
-//
-//    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
-//
-//        int currentPosition = 0;
-//
-//        @Override
-//        public void onPageSelected(int newPosition) {
-//
-//            Fragment fragmentToShow = (Fragment) mPagerAdapter.getItem(newPosition);
-//            fragmentToShow.setUserVisibleHint(true);
-//
-//            Fragment fragmentToHide = (Fragment) mPagerAdapter.getItem(currentPosition);
-//            fragmentToHide.setUserVisibleHint(false);
-//            currentPosition = newPosition;
-//        }
-//
-//        @Override
-//        public void onPageScrolled(int arg0, float arg1, int arg2) {
-//        }
-//
-//        public void onPageScrollStateChanged(int arg0) {
-//        }
-//    };
 
 
     @Override
@@ -730,7 +696,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
             // btnAddOptional.setEnabled(true);
         }
 
-        ;
 
         @Override
         protected Object parseDateTask(String jsonData) {
@@ -762,10 +727,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
 
         super.onResume();
         requestServer();
-//        if (mMarketTimer == null) {
-//            mMarketTimer = new Timer(true);
-//            mMarketTimer.schedule(new RequestMarketTask(), 60, mPollRequestTime);
-//        }
     }
 
     @Override
@@ -778,15 +739,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     private HttpHandler mHttpHandler;
     private QueryCombinationListener listener;
 
-//    public class RequestMarketTask extends TimerTask {
-//
-//        @Override
-//        public void run() {
-//
-//            // listener.setLoadingDialog(getActivity()).beforeRequest();
-//        }
-//    }
-
 
     private void requestServer() {
         if (null != mHttpHandler) {
@@ -797,7 +749,13 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
 
     private static final String TAG = FragmentNetValueTrend.class.getSimpleName();
 
-    private class QueryCombinationListener extends ParseHttpListener<PositionDetail> {
+    private static class QueryCombinationListener extends ParseHttpListener<PositionDetail> {
+
+        private WeakHandler handler;
+
+        public QueryCombinationListener(WeakHandler handler) {
+            this.handler = handler;
+        }
 
         @Override
         protected PositionDetail parseDateTask(String jsonData) {
@@ -813,50 +771,16 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         @Override
         protected void afterParseData(PositionDetail object) {
             if (null != object) {
-                mPositionDetail = object;
 
-                if (null != mPositionDetail.getPortfolio()) {
-                    mCombinationBean = mPositionDetail.getPortfolio();
-                    if (!PortfolioApplication.hasUserLogin()) {
-                        CombinationBean comBean = new VisitorDataEngine().queryCombination(mCombinationBean.getId());
-                        if (null != comBean) {
-                            mCombinationBean.setFollowed(comBean.isFollowed());
-                        }
-                    }
-                    BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
+                Message msg = new Message();
+                msg.obj = object;
+                handler.sendMessage(msg);
 
-                    tvNetvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
-                            .getChng_pct_day()));
-                    netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
-                            .getChng_pct_week()));
-                    netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
-                            .getChng_pct_month()));
-                    tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
-
-
-//                    BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
-
-                    UserEntity user = mCombinationBean.getUser();
-                    ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), ivUserheader);
-//                    if (null != user.getAvatar_md() && user.getAvatar_md().length() > 35) {
-////                        bitmapUtils.display(ivUserheader, user.getAvatar_md());
-//                    }
-//                    tvUName.setText(user.getUsername());
-                    if (TextUtils.isEmpty(user.getDescription())) {
-                        tvUserDesc.setText(getResources().getString(R.string.nodata_user_description));
-                    } else {
-                        tvUserDesc.setText(user.getDescription());
-                    }
-
-                }
-                setColor(myType);
 
             }
 
         }
     }
-
-    ;
 
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_fund_order_line);
@@ -864,10 +788,6 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     @Override
     public void onPause() {
         super.onPause();
-//        if (mMarketTimer != null) {
-//            mMarketTimer.cancel();
-//            mMarketTimer = null;
-//        }
         if (null != mHttpHandler) {
             mHttpHandler.cancel();
         }
@@ -889,5 +809,7 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     public void onDestroy() {
         super.onDestroy();
         BusProvider.getInstance().unregister(this);
+        mCombinationBean = null;
+        mPositionDetail = null;
     }
 }
