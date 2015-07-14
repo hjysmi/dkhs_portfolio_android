@@ -98,13 +98,15 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        initView(getView());
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void requestData() {
-        initView(getView());
+
     }
+
 
     public void initView(View view) {
         fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
@@ -123,7 +125,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         setDrawableDown(fundTypeTV);
         setDrawableDown(tvPercentgae);
         tvPercentgae.setText(R.string.win_rate_day);
+        tvCurrent.setText(R.string.join_time);
+        fundTypeTV.setText(R.string.fund_manager);
         sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
+        View  searchView=mActivity.findViewById(R.id.btn_search);
+        if(searchView!= null){
+            searchView.setVisibility(View.INVISIBLE);
+        }
         replaceFundManagerRankingsDataList(type, sort);
     }
 
@@ -159,8 +167,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             }
             break;
             case R.id.btn_refresh: {
-
-                loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+                refresh();
             }
             break;
             case R.id.btn_search:
@@ -212,10 +219,18 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         if (fundTypeMenuChooserL.getSelectItem() instanceof FundManagerSortMenuBean) {
 
+            View  view=mActivity.findViewById(R.id.btn_search);
+            if(view!= null){
+                view.setVisibility(View.INVISIBLE);
+            }
+
             replaceFundManagerRankingsDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
 
         } else {
-
+            View  view=mActivity.findViewById(R.id.btn_search);
+            if(view!= null){
+                view.setVisibility(View.VISIBLE);
+            }
             replaceFundDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
 
         }
