@@ -108,9 +108,16 @@ public abstract class BasicHttpListener implements IHttpListener {
             PromptManager.showToast(R.string.message_server_error429);
 
         } else if (errCode == 777 && fromYanbao) { // 服务器正确响应，错误参数需要提示用户
-            parseToErrorBundle(errMsg);
+            onFailure(parseToErrorBundle(errMsg));
         }
 
+    }
+
+
+    public void onFailure(ErrorBundle errorBundle) {
+        if (null != errorBundle) {
+            PromptManager.showToast(errorBundle.getErrorMessage());
+        }
     }
 
     private final String KEY_ERROR = "errors";
@@ -132,7 +139,7 @@ public abstract class BasicHttpListener implements IHttpListener {
                     String errorTExt = eJArray.getString(0);
                     LogUtils.e("setErrorMessage : " + errorTExt);
                     errorBundle.setErrorMessage(eJArray.getString(0));
-                    PromptManager.showToast(errorTExt);
+                    errorBundle.setErrorKey(key);
                 }
             }
 
