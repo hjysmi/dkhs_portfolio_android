@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -55,7 +54,6 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -203,6 +201,46 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         etConbinationDesc = (EditText) headerView.findViewById(R.id.et_myconbina_desc);
         initConbinationInfoView();
 
+
+        etConbinationDesc.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(final View view, boolean hasFocus) {
+                        if (hasFocus) {
+
+                            view.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.requestFocus();
+//                                    view.requestFocusFromTouch();
+                                }
+                            });
+                        } else {
+                            view.clearFocus();
+                        }
+                    }
+                });
+        etConbinationName.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(final View view, boolean hasFocus) {
+                        if (hasFocus) {
+
+
+                            view.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.requestFocus();
+//                                    view.requestFocusFromTouch();
+                                }
+                            });
+                        } else {
+                            view.clearFocus();
+                        }
+                    }
+                });
+
+
         // initPieView();
         pgView = (PieGraph) headerView.findViewById(R.id.piegrah);
 
@@ -313,6 +351,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         stockAdapter = new OptionalStockAdapter(this, stockList);
         stockAdapter.setDutyNotifyListener(this);
+//        lvStock.setItemsCanFocus(true);
         lvStock.addFooterView(mFooterView);
         lvStock.addHeaderView(headerView);
         lvStock.setAdapter(stockAdapter);

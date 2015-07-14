@@ -24,6 +24,7 @@ import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +147,9 @@ public class MarketCombinationFragment extends VisiableLoadFragment implements V
             }
             break;
             case R.id.btn_search: {
-                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
+                    getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
+                }
 //                fragmentList.get(pager.getCurrentItem()).onResume();
             }
             break;

@@ -14,7 +14,7 @@ android {
 
 
         versionCode 109010714
-        versionName "1.9.1.071401"
+        versionName "1.9.1.071402"
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
@@ -70,8 +70,6 @@ android {
         }
 
     }
-
-
 }
 dependencies {
     //    compile 'com.android.support:design:22.2.0'
