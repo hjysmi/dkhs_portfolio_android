@@ -16,7 +16,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.common.GlobalParams;
-import com.squareup.leakcanary.LeakCanary;
+//import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         mInstance = this;
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
         AppConfig.config(this);
         super.onCreate();
 
