@@ -66,6 +66,8 @@ public class FundManagerBean {
                 return win_rate_year;
             case "-win_rate_tyear":
                 return win_rate_tyear;
+            case "-win_rate_week":
+                return win_rate_week;
             case "-win_rate_twyear":
                 return win_rate_twyear;
         }
