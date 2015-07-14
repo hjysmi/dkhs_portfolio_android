@@ -109,19 +109,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @Override
     public void onViewShow() {
-        if (fundTypeMenuChooserL.getSelectItem() instanceof FundManagerSortMenuBean) {
 
-            View  view=mActivity.findViewById(R.id.btn_search);
-            if(view!= null){
-                view.setVisibility(View.INVISIBLE);
-            }
-
-        } else {
-            View  view=mActivity.findViewById(R.id.btn_search);
-            if(view!= null){
-                view.setVisibility(View.VISIBLE);
-            }
-        }
 
         super.onViewShow();
     }
@@ -159,13 +147,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         tvCurrent.setText(R.string.join_time);
         fundTypeTV.setText(R.string.fund_manager);
         sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
-        tvCurrent.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switchTVcurrent();
-            }
-        });
+//        tvCurrent.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                switchTVcurrent();
+//            }
+//        });
         replaceFundManagerRankingsDataList(type, sort);
     }
 
@@ -250,18 +238,10 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         if (fundTypeMenuChooserL.getSelectItem() instanceof FundManagerSortMenuBean) {
 
-            View  view=mActivity.findViewById(R.id.btn_search);
-            if(view!= null){
-                view.setVisibility(View.INVISIBLE);
-            }
-
             replaceFundManagerRankingsDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
 
         } else {
-            View  view=mActivity.findViewById(R.id.btn_search);
-            if(view!= null){
-                view.setVisibility(View.VISIBLE);
-            }
+
             replaceFundDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
         }
 
