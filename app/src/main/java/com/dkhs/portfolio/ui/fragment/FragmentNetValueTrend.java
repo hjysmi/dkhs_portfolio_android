@@ -384,15 +384,14 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     private String SHARE_IMAGE;
 
     public void showShareImage() {
-//
-//        new Thread() {
-//            public void run() {
-//
-//                // initImagePath();
-//                saveShareBitmap();
-//                shareHandler.sendEmptyMessage(999);
-//            }
-//        }.start();
+        new Thread() {
+            public void run() {
+
+                // initImagePath();
+                saveShareBitmap();
+                shareHandler.sendEmptyMessage(999);
+            }
+        }.start();
 
     }
 

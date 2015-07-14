@@ -1,103 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_shakecontent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="66dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="26dp"
+    android:paddingTop="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+    <TextView
+        android:id="@+id/timeLineTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="38sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/chanceTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timeLineTV"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="-6dp"
+        android:text="(阅后即焚)"
+        android:textColor="@color/white_60"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chanceTV"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/theme_color"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/timeLineTV"
-            android:layout_width="wrap_content"
+            android:id="@+id/symbolTV"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:drawableLeft="@drawable/ic_count_down"
-            android:drawablePadding="4dp"
-            android:textColor="@color/tag_red"
-
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/chanceTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="8dp"
-            android:textColor="@color/tag_gray"
-            android:textSize="15sp" />
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/ma5_color"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/freeFlow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/tag_gray"
-            android:textSize="15sp" />
+            android:layout_below="@+id/symbolTV"
+            android:drawableLeft="@drawable/ic_shake_flow"
+            android:drawablePadding="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
-        <LinearLayout
-            android:id="@+id/view_shakecontent"
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bottom"
+        android:layout_below="@+id/titleTV"
+        android:layout_marginTop="10dp"
+        android:fillViewport="false">
+
+        <TextView
+            android:id="@+id/contextTV"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/bg_dialog"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="match_parent"
+            android:lineSpacingMultiplier="1.2"
+            android:textSize="17dp" />
 
-            <TextView
-                android:id="@+id/titleTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/theme_color"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/dateTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/tag_gray"
-                android:textSize="12dp" />
-
-            <TextView
-                android:id="@+id/contextTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:lineSpacingMultiplier="1.2"
-                android:textColor="@color/tag_gray"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/symbolTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-
-                android:textColor="@color/ma5_color"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/capitalFlowTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/theme_color"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/upRateTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/theme_color"
-                android:textSize="16sp" />
+    </ScrollView>
 
 
-        </LinearLayout>
-
-
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>

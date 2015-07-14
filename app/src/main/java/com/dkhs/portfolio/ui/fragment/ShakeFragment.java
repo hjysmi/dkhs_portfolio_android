@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +44,9 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
     @ViewInject(R.id.tv_title)
     TextView mTvtitle;
+
+    @ViewInject(R.id.activitySloganTv)
+    ImageView ivSlogan;
     @ViewInject(R.id.shakeIv)
     ImageView mShakeIv;
     @ViewInject(R.id.ribbonIV)
@@ -53,7 +57,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     private boolean getData = false;
     private ShakeDetector sd;
     private SensorManager sensorManager;
-    private  Object mSuccessObject;
+    private Object mSuccessObject;
 
     public ShakeFragment() {
     }
@@ -74,7 +78,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                         mLoadingRibbonAD.stop();
                     }
 
-                    if(mSuccessObject !=null){
+                    if (mSuccessObject != null) {
                         //跳转
                         mLoadingRibbonAD.stop();
                         gotoShakeActivity(mSuccessObject);
@@ -91,7 +95,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                 case 3:
                     if (msg.obj != null) {
                         mSuccessObject = (ShakeBean) msg.obj;
-                        if(!animationDrawable.isRunning()){
+                        if (!animationDrawable.isRunning()) {
                             mLoadingRibbonAD.stop();
                             gotoShakeActivity(mSuccessObject);
                         }
@@ -132,7 +136,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     public void run() {
                         finishShake();
                     }
-                },2000);
+                }, 2000);
             }
         });
         mShakeIv.setEnabled(false);
@@ -153,7 +157,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     public void getDataForNet() {
         //保证一次只有一次请求
 
-        if (getData ||  animationDrawable.isRunning()) {
+        if (getData || animationDrawable.isRunning()) {
             return;
         }
         vibrator();
@@ -198,23 +202,28 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                 onFinish();
                 if (errCode == 401) {
 
-                    mSuccessObject=mActivity.getString(R.string.shake_err_no_login);
+                    ErrorBundle errorBundle = new ErrorBundle();
+                    errorBundle.setErrorCode(401);
+                    errorBundle.setErrorMessage(mActivity.getString(R.string.shake_err_no_login));
+                    mSuccessObject = errorBundle;
 
                 } else {
 
                     failure(errCode, errMsg);
                 }
             }
-            public void   failure(int errCode, String errMsg) {
+
+            public void failure(int errCode, String errMsg) {
 
                 if (errCode == 0) {
                     PromptManager.showToast(R.string.message_timeout);
                 } else if (errCode == 500 || errCode == 404) { // 服务器内部错误
                     PromptManager.showToast(R.string.message_server_error);
-                } else if (errCode == 777 ) { // 服务器正确响应，错误参数需要提示用户
-                    parseToErrorBundle(errMsg);
+                } else if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
+                    mSuccessObject = parseToErrorBundle(errMsg);
                 }
             }
+
             private ErrorBundle parseToErrorBundle(String errMsg) {
                 ErrorBundle errorBundle = new ErrorBundle();
                 try {
@@ -230,10 +239,12 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                         JSONArray eJArray = eJObject.optJSONArray(key);
                         if (eJArray.length() > 0) {
                             String errorTExt = eJArray.getString(0);
+
                             LogUtils.e("setErrorMessage : " + errorTExt);
-                            errorBundle.setErrorMessage(eJArray.getString(0));
+                            errorBundle.setErrorMessage(errorTExt);
+                            errorBundle.setErrorKey(key);
 //                            PromptManager.showToast(errorTExt);
-                            mSuccessObject=errorTExt;
+
                         }
                     }
 
@@ -262,24 +273,27 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     }
 
 
-
-
-
     private void gotoShakeActivity(Object object) {
 
-        if(object instanceof  ShakeBean) {
+        if (object instanceof ShakeBean) {
 
             uiHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, (ShakeBean) mSuccessObject));
-                    mSuccessObject=null;
+                    mSuccessObject = null;
                 }
-            },200);
+            }, 200);
 
-        }else if(object instanceof  String){
-            PromptManager.showToast(object.toString());
-            this.mSuccessObject =null;
+        } else if (object instanceof ErrorBundle) {
+            String errorKey = ((ErrorBundle) object).getErrorKey();
+            if (!TextUtils.isEmpty(errorKey) && errorKey.equals("times_invalid")) {
+
+                ivSlogan.setImageResource(R.drawable.bg_after_shake);
+            }
+            PromptManager.showToast(((ErrorBundle) object).getErrorMessage());
+
+            this.mSuccessObject = null;
         }
 
     }

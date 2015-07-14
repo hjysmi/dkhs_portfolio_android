@@ -42,7 +42,7 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         mInstance = this;
-//        LeakCanary.install(this);
+//
         AppConfig.config(this);
         super.onCreate();
 

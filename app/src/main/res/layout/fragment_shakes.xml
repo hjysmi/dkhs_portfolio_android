@@ -34,8 +34,8 @@
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="fill_parent"
-        android:clickable="true"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/shakeIv"
@@ -55,19 +55,16 @@
             android:src="@drawable/loading_ribbon_1"
             app:layout_widthPercent="80%" />
 
-        <TextView
+        <ImageView
             android:id="@+id/activitySloganTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/shakeIv"
             android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/ic_boot_cut"
-            android:drawablePadding="8dp"
-            android:gravity="center"
             android:layout_marginTop="42dp"
-            android:text="@string/shake_ad"
-            android:textColor="#ffe5aa"
-            android:textSize="15sp" />
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/bg_before_shake" />
 
 
     </android.support.percent.PercentRelativeLayout>

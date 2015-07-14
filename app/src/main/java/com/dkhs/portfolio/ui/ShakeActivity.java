@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Html;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -12,7 +13,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.Spanny;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 
 import org.parceler.Parcels;
@@ -25,22 +25,14 @@ public class ShakeActivity extends ModelAcitivity {
 
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.timeLineTV)
     android.widget.TextView mTimeLineTV;
-    @com.lidroid.xutils.view.annotation.ViewInject(R.id.chanceTV)
-    android.widget.TextView mChanceTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.freeFlow)
     android.widget.TextView mFreeFlow;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.titleTV)
     android.widget.TextView mTitleTV;
-    @com.lidroid.xutils.view.annotation.ViewInject(R.id.dateTV)
-    android.widget.TextView mDateTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.contextTV)
     android.widget.TextView mContextTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.symbolTV)
     android.widget.TextView mSymbolTV;
-    @com.lidroid.xutils.view.annotation.ViewInject(R.id.capitalFlowTV)
-    android.widget.TextView mCapitalFlowTV;
-    @com.lidroid.xutils.view.annotation.ViewInject(R.id.upRateTV)
-    android.widget.TextView mUpRateTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.view_shakecontent)
     View mShakeContent;
     private ShakeBean mShakeBean;
@@ -61,7 +53,14 @@ public class ShakeActivity extends ModelAcitivity {
         setContentView(R.layout.activity_shake);
         ViewUtils.inject(this);
         handleIntent();
+        getTitleView().setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            findViewById(R.id.rootView).setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_share_content));
+        } else {
+            findViewById(R.id.rootView).setBackground(getResources().getDrawable(R.drawable.bg_share_content));
+        }
 
     }
 
@@ -84,31 +83,32 @@ public class ShakeActivity extends ModelAcitivity {
             countDownTask = new CountDownTask(mShakeBean.display_time * 1000 - ALP_DURATION_MILLIS, 1000);
             countDownTask.start();
 
-            if (mShakeBean.times_left == 0) {
-                mChanceTV.setText(String.format(getString(R.string.the_last_times), mShakeBean.times_used));
-            } else {
-                mChanceTV.setText(String.format(getString(R.string.the_number_of_times), mShakeBean.times_used, mShakeBean.times_left));
-            }
+//            if (mShakeBean.times_left == 0) {
+//                mChanceTV.setText(String.format(getString(R.string.the_last_times), mShakeBean.times_used));
+//            } else {
+//                mChanceTV.setText(String.format(getString(R.string.the_number_of_times), mShakeBean.times_used, mShakeBean.times_left));
+//            }
             mTitleTV.setText(mShakeBean.title);
 
-            mContextTV.setText(mShakeBean.content);
-            Spanny spanny = new Spanny(getString(R.string.recommend_symbol), new ForegroundColorSpan(getResources().getColor(R.color.theme_color)))
-                    .append(mShakeBean.symbol.abbr_name, new ForegroundColorSpan(getResources().getColor(R.color.subscribe_item_selected_stroke)));
-            mSymbolTV.setText(spanny);
-            mCapitalFlowTV.setText(String.format(getString(R.string.recently_come_in), mShakeBean.capital_flow))
-            ;
-            mUpRateTV.setText(String.format(getString(R.string.up_precent), mShakeBean.up_rate + "%"))
-            ;
-            mDateTV.setText(TimeUtils.getSimpleFormatTime("yyyy-MM-dd HH:mm", mShakeBean.modified_at));
+            mContextTV.setText(Html.fromHtml(mShakeBean.content));
+
+            if (null == mShakeBean.symbol) {
+                mSymbolTV.setVisibility(View.INVISIBLE);
+            } else {
+
+                Spanny spanny = new Spanny(getString(R.string.recommend_symbol), new ForegroundColorSpan(getResources().getColor(R.color.theme_color)))
+                        .append(mShakeBean.symbol.abbr_name + "(" + mShakeBean.symbol.symbol + ")", new ForegroundColorSpan(getResources().getColor(R.color.subscribe_item_selected_stroke)));
+                mSymbolTV.setText(spanny);
+            }
 
 
             if (mShakeBean.coins_bonus == 0) {
                 mFreeFlow.setVisibility(View.GONE);
             } else {
 
-                mFreeFlow.setText(new Spanny(getString(R.string.free_flow_pre), new ForegroundColorSpan(getResources().getColor(R.color.tag_gray)))
+                mFreeFlow.setText(new Spanny(getString(R.string.free_flow_pre), new ForegroundColorSpan(getResources().getColor(R.color.black)))
                         .append(" " + mShakeBean.coins_bonus + "M ", new ForegroundColorSpan(getResources().getColor(R.color.tag_red)))
-                        .append(getString(R.string.free_flow_postfix), new ForegroundColorSpan(getResources().getColor(R.color.tag_gray))));
+                        .append(getString(R.string.free_flow_postfix), new ForegroundColorSpan(getResources().getColor(R.color.black))));
             }
 
             mSymbolTV.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +145,8 @@ public class ShakeActivity extends ModelAcitivity {
         @Override
         public void onTick(long millisUntilFinished) {
             int sec = (int) millisUntilFinished / 1000;
-            mTimeLineTV.setText(getString(R.string.count_dwon) + " " + sec + " s");
+            String timeText = String.format("%02d:%02d", sec / 60, sec % 60);
+            mTimeLineTV.setText(timeText);
             if (sec == 3) {
                 alpHide();
             }
