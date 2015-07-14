@@ -108,7 +108,7 @@ public class FundManagerActivity extends ModelAcitivity {
         mDesc.setText(object.getResume());
         mWinRateDayName.setVisibility(View.VISIBLE);
         ImageLoaderUtils.setHeanderImage(object.avatar_md, mAvatarIm);
-        mWinRateDayvVlue.setText(object.getValueString("win_rate_day"));
+        mWinRateDayvVlue.setText(object.getValueString("-win_rate_day"));
     }
 
 }
