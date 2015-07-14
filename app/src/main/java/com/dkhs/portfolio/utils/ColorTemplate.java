@@ -105,7 +105,7 @@ public class ColorTemplate {
         int textColor = 0;
         try {
             float percent = Float.valueOf(percentText);
-            textColor=getPercentColor(textColor);
+            textColor = getPercentColor(percent);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,17 +113,16 @@ public class ColorTemplate {
     }
 
     public static int getPercentColor(float percent) {
-        int textColor ;
-            if (percent < 0) {
-                textColor = ColorTemplate.DEF_GREEN;
-            } else if (percent == 0) {
-                textColor = Color.BLACK;
-            } else {
-                textColor = ColorTemplate.DEF_RED;
-            }
+        int textColor;
+        if (percent < 0) {
+            textColor = ColorTemplate.DEF_GREEN;
+        } else if (percent == 0) {
+            textColor = Color.BLACK;
+        } else {
+            textColor = ColorTemplate.DEF_RED;
+        }
         return textColor;
     }
-
 
 
 }
