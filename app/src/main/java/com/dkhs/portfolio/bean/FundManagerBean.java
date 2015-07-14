@@ -54,19 +54,19 @@ public class FundManagerBean {
 
     public Float getValue(String value) {
         switch (value) {
-            case "win_rate_day":
+            case "-win_rate_day":
                 return win_rate_day;
-            case "win_rate_month":
+            case "-win_rate_month":
                 return win_rate_month;
-            case "win_rate_season":
+            case "-win_rate_season":
                 return win_rate_season;
-            case "win_rate_six_month":
+            case "-win_rate_six_month":
                 return win_rate_six_month;
-            case "win_rate_year":
+            case "-win_rate_year":
                 return win_rate_year;
-            case "win_rate_tyear":
+            case "-win_rate_tyear":
                 return win_rate_tyear;
-            case "win_rate_twyear":
+            case "-win_rate_twyear":
                 return win_rate_twyear;
         }
         return null;
