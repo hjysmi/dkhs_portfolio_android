@@ -119,6 +119,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         sortTypeMenuChooserL.setData(sorts);
         setDrawableDown(fundTypeTV);
         setDrawableDown(tvPercentgae);
+        tvPercentgae.setText(R.string.win_rate_day);
+        sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
         replaceFundManagerRankingsDataList(type, sort);
     }
 
@@ -164,7 +166,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
-    String     sortKeyFormatStr="%s";
+    String     sortKeyFormatStr;
     @Subscribe
     public void update(MenuBean menuBean) {
 

@@ -49,7 +49,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private EditText etPhoneNum;
     private CheckBox cbAgree;
     private TextView mAdTV;
-    WeakHandler mHandler=new WeakHandler();
 
     public static final int REGIST_TYPE = 1001;
     public static final int FORGET_PSW_TYPE = 1002;
@@ -101,7 +100,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         setListener();
         initData();
         initLink();
-        if(!isSettingPsw){
+        if (!isSettingPsw) {
             getSignUpInfo();
         }
     }
@@ -118,23 +117,11 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     }
 
 
-
     private void updateSignUp(AdBean o) {
-         mAdTV= (TextView) findViewById(R.id.ad);
-        if(o.getAds().size()>1){
-            AdBean.AdsEntity  adsEntity=o.getAds().get(0);
+        mAdTV = (TextView) findViewById(R.id.ad);
+        if (o.getAds().size() > 0) {
+            AdBean.AdsEntity adsEntity = o.getAds().get(0);
             mAdTV.setText(adsEntity.getTitle());
-            if(adsEntity.getDisplay_time()>0 ){
-
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(mAdTV !=null){
-                            mAdTV.setVisibility(View.GONE);
-                        }
-                    }
-                },adsEntity.getDisplay_time()*1000);
-            }
         }
 
     }
@@ -542,7 +529,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_sign_account);
-
 
 
     @Override
