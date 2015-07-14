@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'findbugs'
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -70,6 +72,33 @@ android {
         }
 
     }
+
+    task findbugs(type: FindBugs) {
+        ignoreFailures = false
+        effort = "max"
+        reportLevel = "high"
+        excludeFilter = new File("${project.rootDir}/config/quality/findbugs/findbugs-filter.xml")
+        classes = files("${project.rootDir}/app/build/classes")
+
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            xml {
+                destination "$project.buildDir/reports/findbugs/findbugs.xml"
+            }
+            html {
+                destination "$project.buildDir/reports/findbugs/findbugs.html"
+            }
+        }
+
+        classpath = files()
+    }
+
+
 }
 dependencies {
     //    compile 'com.android.support:design:22.2.0'
