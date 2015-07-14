@@ -49,6 +49,7 @@ public class FundManagerBean {
     public float win_rate_week;
     public float win_rate_season;
     public float win_rate_year;
+    public float win_rate_twyear;
 
 
     public Float getValue(String value) {
@@ -65,8 +66,8 @@ public class FundManagerBean {
                 return win_rate_year;
             case "win_rate_tyear":
                 return win_rate_tyear;
-            case "win_rate_week":
-                return win_rate_week;
+            case "win_rate_twyear":
+                return win_rate_twyear;
         }
         return null;
     }
