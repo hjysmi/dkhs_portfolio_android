@@ -107,6 +107,37 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
+    @Override
+    public void onViewShow() {
+        if (fundTypeMenuChooserL.getSelectItem() instanceof FundManagerSortMenuBean) {
+
+            View  view=mActivity.findViewById(R.id.btn_search);
+            if(view!= null){
+                view.setVisibility(View.INVISIBLE);
+            }
+
+        } else {
+            View  view=mActivity.findViewById(R.id.btn_search);
+            if(view!= null){
+                view.setVisibility(View.VISIBLE);
+            }
+        }
+
+        super.onViewShow();
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        if (isVisibleToUser  && isVisible()) {
+            if (getView() != null) {
+                onViewShow();
+            }
+        }
+
+
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
 
     public void initView(View view) {
         fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
@@ -128,23 +159,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         tvCurrent.setText(R.string.join_time);
         fundTypeTV.setText(R.string.fund_manager);
         sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
-        View  searchView=mActivity.findViewById(R.id.btn_search);
-        if(searchView!= null){
-            searchView.setVisibility(View.INVISIBLE);
-        }
         replaceFundManagerRankingsDataList(type, sort);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
+
+
 
     @OnClick({R.id.tv_current, R.id.tv_percentage, R.id.tv_increase, R.id.rl_fund_type})
     public void onClick(View v) {
@@ -187,6 +208,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
             sortKeyFormatStr="%s";
+            tvCurrent.setText(R.string.net_value);
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
