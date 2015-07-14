@@ -63,6 +63,9 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                 case 2:
                     showShareButton();
                     break;
+                default:
+
+                    break;
             }
             return false;
         }
