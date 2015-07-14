@@ -57,9 +57,9 @@ public class AdEngineImpl {
         @Override
         protected void afterParseData(Object object) {
             if(object !=null ){
-                action1.action((AdBean)object);
+                action1.call((AdBean) object);
             }else{
-                action1.action(null);
+                action1.call(null);
             }
         }
     }
