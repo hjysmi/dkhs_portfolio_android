@@ -108,9 +108,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private void getSignUpInfo() {
         AdEngineImpl.getSignUp(new Action1<AdBean>() {
             @Override
-            public void call(AdBean o) {
-                if (o != null) {
-                    updateSignUp(o);
+            public void call(AdBean adBean) {
+                if (adBean != null) {
+                    updateSignUp(adBean);
                 }
             }
         });
