@@ -13,8 +13,10 @@ android {
         targetSdkVersion 21
 
 
+
         versionCode 109010714
         versionName "1.9.1.0714"
+
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
@@ -70,6 +72,31 @@ android {
             manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]
         }
 
+    }
+
+    task findbugs(type: FindBugs) {
+        ignoreFailures = false
+        effort = "max"
+        reportLevel = "high"
+        excludeFilter = new File("${project.rootDir}/config/quality/findbugs/findbugs-filter.xml")
+        classes = files("${project.rootDir}/app/build/classes")
+
+        source 'src'
+        include '**/*.java'
+        exclude '**/gen/**'
+
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            xml {
+                destination "$project.buildDir/reports/findbugs/findbugs.xml"
+            }
+            html {
+                destination "$project.buildDir/reports/findbugs/findbugs.html"
+            }
+        }
+
+        classpath = files()
     }
 
 

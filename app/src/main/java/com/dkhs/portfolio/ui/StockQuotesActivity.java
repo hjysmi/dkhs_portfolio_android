@@ -870,6 +870,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
                     }
                     break;
+                default:
+                    break;
             }
         }
     }

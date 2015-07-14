@@ -120,7 +120,6 @@
         <activity android:name=".ui.EditTabCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.WebActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AdActivity" />
         <activity android:name="com.dkhs.portfolio.ui.InviteFriendsActivity" />
         <activity android:name="com.dkhs.portfolio.ui.InviteHistoryActivity" />

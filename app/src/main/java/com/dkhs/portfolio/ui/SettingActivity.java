@@ -51,6 +51,9 @@ import java.util.List;
  * @author weiting
  */
 public class SettingActivity extends ModelAcitivity implements OnClickListener {
+
+
+    //这里为什么是静态的
     public static boolean isSetPassword = true;
     private static final String EDIT_MODE = "userInfo";
 

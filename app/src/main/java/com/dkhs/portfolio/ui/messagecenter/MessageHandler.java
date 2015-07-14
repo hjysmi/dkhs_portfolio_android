@@ -20,7 +20,6 @@ import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.WebActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
