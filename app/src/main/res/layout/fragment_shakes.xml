@@ -10,7 +10,6 @@
         android:id="@+id/rl_header_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-
         android:background="@color/title_color">
 
 
@@ -28,7 +27,6 @@
         <View
             style="@style/divider_line"
             android:layout_alignParentBottom="true"
-            android:alpha="0.6"
             android:background="@color/white" />
     </RelativeLayout>
 

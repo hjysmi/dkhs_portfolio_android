@@ -21,8 +21,12 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.Action1;
+import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -32,7 +36,6 @@ import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +48,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     // private EditText code;
     private EditText etPhoneNum;
     private CheckBox cbAgree;
+    private TextView mAdTV;
 
     public static final int REGIST_TYPE = 1001;
     public static final int FORGET_PSW_TYPE = 1002;
@@ -64,6 +68,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_SETTING_PASSWORD = "extra_setting_password";
     public static final String EXTRA_ACTIVITY_TYPE = "activity_type";
     public static final int REQUESTCODE_SET_PASSWROD = 999;
+
 
     public static Intent bindPhoneIntent(Context context) {
         Intent intent = new Intent(context, RLFActivity.class);
@@ -95,11 +100,34 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         setListener();
         initData();
         initLink();
-
-
-        if(isSettingPsw){
-            findViewById(R.id.ad).setVisibility(View.GONE);
+        if (!isSettingPsw) {
+            getSignUpInfo();
         }
+    }
+
+    private void getSignUpInfo() {
+        AdEngineImpl.getSignUp(new Action1<AdBean>() {
+            @Override
+            public void call(AdBean adBean) {
+                if (adBean != null) {
+                    updateSignUp(adBean);
+                }
+            }
+        });
+    }
+
+
+    private void updateSignUp(AdBean o) {
+        mAdTV = (TextView) findViewById(R.id.ad);
+        if (o.getAds().size() > 0) {
+            AdBean.AdsEntity adsEntity = o.getAds().get(0);
+
+            if (!TextUtils.isEmpty(adsEntity.getTitle())) {
+                mAdTV.setVisibility(View.VISIBLE);
+                mAdTV.setText(adsEntity.getTitle());
+            }
+        }
+
     }
 
     private void handleExtras(Bundle extras) {
@@ -327,7 +355,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             PromptManager.closeProgressDialog();
         }
 
-        ;
 
         @Override
         protected Boolean parseDateTask(String jsonData) {
@@ -506,7 +533,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_sign_account);
-
 
 
     @Override

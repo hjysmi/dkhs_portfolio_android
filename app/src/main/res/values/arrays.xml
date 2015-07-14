@@ -194,21 +194,15 @@
 
     </string-array>
 
-    <!--基金排序 'win_rate_day' 日战胜指数,
-    'win_rate_week' 周战胜指数,
-     'win_rate_month' 月战胜指数,
-      'win_rate_season' 季度战胜指数,
-      'win_rate_six_month' 半年战胜指数,
-      'win_rate_year' 一年战胜指数 ,
-       'win_rate_tyear' 两年战胜指数-->
+
     <string-array name="fund_manager_sort_values">
-        <item>win_rate_day</item>
-        <item>win_rate_week</item>
-        <item>win_rate_month</item>
-        <item>win_rate_six_month</item>
-        <item>win_rate_tyear</item>
-        <item>win_rate_year</item>
-        <item></item>
+        <item>-win_rate_day</item>
+        <item>-win_rate_week</item>
+        <item>-win_rate_month</item>
+        <item>-win_rate_six_month</item>
+        <item>-win_rate_tyear</item>
+        <item>-win_rate_year</item>
+        <item>-win_rate_twyear</item>
     </string-array>
 
 
