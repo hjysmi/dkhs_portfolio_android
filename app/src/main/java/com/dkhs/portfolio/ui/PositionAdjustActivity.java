@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -35,10 +34,9 @@ import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
-import com.dkhs.portfolio.bean.errorbundle.BaseError;
-import com.dkhs.portfolio.bean.errorbundle.RaiseUpDown;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
@@ -51,9 +49,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,12 +66,9 @@ import java.util.List;
  */
 public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify, OnClickListener {
 
-    // private static final String KEY_VIEW_TYPE = "key_view_type";
     public static final String EXTRA_POSITIONDETAIL = "extra_positiondetail";
     public static final String EXTRA_ISADJUSTCOMBINATION = "EXTRA_ISADJUSTCOMBINATION";
     public static final String EXTRA_COMBINATION_ID = "key_combination_id";
-    // public static final String VALUE_CREATE_CONBINA = "value_create_conbina";
-    // public static final String VALUE_ADJUST_CONBINA = "value_adjust_conbina";
     private final int REQUESTCODE_SELECT_STOCK = 901;
     public static final String COME_FROM = "come_frome";
     public static final int COME_MAIN = 0;
@@ -625,65 +617,82 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             return null;
         }
 
+//        @Override
+//        public void onFailure(int errCode, String errMsg) {
+//            try {
+//
+//                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+//
+//                BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
+//                }.getType());
+//                RaiseUpDown raiseError = baseErrors.getErrors();
+//                StringBuilder sbRaiseUp = null;
+//                StringBuilder sbRaiseDown = null;
+//                if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
+//                    super.onFailure(errCode, errMsg);
+//                    return;
+//                }
+//                if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
+//                    // Toast.makeText(getApplicationContext(),
+//                    // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
+//                    // .show();
+//                    sbRaiseDown = new StringBuilder();
+//                    for (String code : raiseError.getRaise_down()) {
+//                        sbRaiseDown.append(code);
+//                        sbRaiseDown.append("、");
+//
+//                    }
+//                }
+//                if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+//                    sbRaiseUp = new StringBuilder();
+//                    for (String code : raiseError.getRaise_up()) {
+//                        sbRaiseUp.append(code);
+//                        sbRaiseUp.append("、");
+//                    }
+//
+//                }
+//
+//                StringBuilder sbToastText = new StringBuilder();
+//                if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
+//                    sbToastText.append("涨停股");
+//                    sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
+//                    sbToastText.append("无法调高占比.");
+//                    sbToastText.append("\n");
+//
+//                }
+//                if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
+//                    sbToastText.append("跌停股");
+//                    sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
+//                    sbToastText.append("无法调低占比.");
+//                    sbToastText.append("\n");
+//                }
+//
+//                copyDefalutList(mPositionDetailBean.getPositionList());
+//                updatePieView();
+//                Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
+//            } catch (Exception e) {
+//                // TODO: handle exception
+//            }
+//        }
+//
+
+
         @Override
-        public void onFailure(int errCode, String errMsg) {
-            try {
+        public void onFailure(ErrorBundle errorBundle) {
+            super.onFailure(errorBundle);
 
-                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
-                }.getType());
-                RaiseUpDown raiseError = baseErrors.getErrors();
-                StringBuilder sbRaiseUp = null;
-                StringBuilder sbRaiseDown = null;
-                if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
-                    super.onFailure(errCode, errMsg);
-                    return;
-                }
-                if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
-                    // Toast.makeText(getApplicationContext(),
-                    // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
-                    // .show();
-                    sbRaiseDown = new StringBuilder();
-                    for (String code : raiseError.getRaise_down()) {
-                        sbRaiseDown.append(code);
-                        sbRaiseDown.append("、");
-
-                    }
-                }
-                if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
-                    sbRaiseUp = new StringBuilder();
-                    for (String code : raiseError.getRaise_up()) {
-                        sbRaiseUp.append(code);
-                        sbRaiseUp.append("、");
-                    }
-
-                }
-
-                StringBuilder sbToastText = new StringBuilder();
-                if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
-                    sbToastText.append("涨停股");
-                    sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
-                    sbToastText.append("无法调高占比.");
-                    sbToastText.append("\n");
-
-                }
-                if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
-                    sbToastText.append("跌停股");
-                    sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
-                    sbToastText.append("无法调低占比.");
-                    sbToastText.append("\n");
-                }
+            if (!TextUtils.isEmpty(errorBundle.getErrorKey()) && errorBundle.getErrorKey().equals(MyCombinationEngineImpl.ERROR_KEY_AJUST)) {
 
                 copyDefalutList(mPositionDetailBean.getPositionList());
                 updatePieView();
-                Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
-                // TODO: handle exception
+                PromptManager.showLToast(errorBundle.getErrorMessage());
+            } else {
+                super.onFailure(errorBundle);
             }
-        }
 
-        ;
+
+        }
 
         @Override
         protected void afterParseData(Object object) {
@@ -793,7 +802,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                         }
 
+
                         @Override
+                        public void onFailure(ErrorBundle errorBundle) {
+//                            super.onFailure(errorBundle);
+                            if (!TextUtils.isEmpty(errorBundle.getErrorKey()) && errorBundle.getErrorKey().equals(MyCombinationEngineImpl.ERROR_KEY_AJUST)) {
+
+                                for (ConStockBean stock : stockList) {
+                                    stock.setPercent(0);
+                                }
+                                updatePieView();
+                                PromptManager.showLToast(errorBundle.getErrorMessage());
+                            } else {
+                                super.onFailure(errorBundle);
+                            }
+
+                        }
+
+                       /* @Override
                         public void onFailure(int errCode, String errMsg) {
                             try {
 
@@ -816,8 +842,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                                         sb.append("、");
 
                                         for (ConStockBean stock : stockList) {
-                                            // System.out.println("stock code:"+stock.getStockCode());
-                                            if (stock.getStockCode().equalsIgnoreCase(code)) {
+                                            if (stock.getStockSymbol().equalsIgnoreCase(code)) {
                                                 stock.setPercent(0);
                                             }
                                         }
@@ -833,7 +858,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                             }
 
                         }
-
+*/
 
                         @Override
                         protected CombinationBean parseDateTask(String jsonData) {
