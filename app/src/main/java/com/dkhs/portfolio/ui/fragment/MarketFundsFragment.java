@@ -159,11 +159,15 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         tvCurrent.setText(R.string.join_time);
         fundTypeTV.setText(R.string.fund_manager);
         sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
+        tvCurrent.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switchTVcurrent();
+            }
+        });
         replaceFundManagerRankingsDataList(type, sort);
     }
-
-
-
 
 
 
@@ -213,6 +217,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
              */
+            set2(tvCurrent);
+            tvCurrent.setClickable(false);
             if (StockUitls.isSepFund(type.getCode())) {
                 sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.sepFundSortFromXml(mActivity));
                 tvCurrent.setText(R.string.tenthou_unit_incm);
@@ -224,6 +230,9 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         } else if (menuBean instanceof FundManagerSortMenuBean) {
             tvCurrent.setText(R.string.join_time);
             fundTypeTV.setText(R.string.fund_manager);
+
+            set2(tvCurrent);
+            tvCurrent.setClickable(true);
 
             sortKeyFormatStr=mActivity.getString(R.string.win_rate_format);
             tvPercentgae.setText(R.string.win_rate_day);
@@ -254,10 +263,64 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
                 view.setVisibility(View.VISIBLE);
             }
             replaceFundDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
-
         }
 
     }
+
+
+
+    int state=0;
+    public void switchTVcurrent(){
+
+
+        switch (state){
+            case  0:
+                setDrawableDown1(tvCurrent);
+                fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), "-work_seniority");
+                state=1;
+                break;
+            case 1:
+                state=2;
+                fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), "work_seniority");
+                setDrawableUp2(tvCurrent);
+                break;
+            case  2:
+                state=0;
+                fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+                set2(tvCurrent);
+
+                break;
+        }
+
+
+
+    }
+
+    private void set2(TextView view) {
+
+        state=0;
+        view.setCompoundDrawables(null, null, null, null);
+        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+    }
+
+
+
+    private void setDrawableUp2(TextView view) {
+
+        Drawable drawable = getResources().getDrawable(R.drawable.market_icon_up);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        view.setCompoundDrawables(null, null, drawable, null);
+        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+    }
+
+    private void setDrawableDown1(TextView view) {
+        // orderType = typeCurrentDown;
+        Drawable drawable = getResources().getDrawable(R.drawable.market_icon_down);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        view.setCompoundDrawables(null, null, drawable, null);
+        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+    }
+
 
     private void replaceFundManagerRankingsDataList(String type, String sort) {
         if (loadDataListFragment != null) {
