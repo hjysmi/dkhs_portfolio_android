@@ -1,6 +1,7 @@
 <resources>
 
     <style name="AppBaseTheme2" parent="@android:style/Theme.Light.NoTitleBar"></style>
+
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorAccent">@color/title_color</item>
@@ -46,9 +47,10 @@
     <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light"></style>
 
 
-    <!-- Activity透明主题 --><style name="TranslucenTheme" parent="@style/AppBaseTheme">
-    <item name="android:windowIsTranslucent">true</item>
-</style>
+    <!-- Activity透明主题 -->
+    <style name="TranslucenTheme" parent="@style/AppBaseTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="hw_wrap">
         <item name="android:layout_width">wrap_content</item>
@@ -79,10 +81,10 @@
     </style>
 
     <style name="divider_line">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">0.5px</item>
-    <item name="android:background">@color/drivi_line</item>
-</style>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5px</item>
+        <item name="android:background">@color/drivi_line</item>
+    </style>
 
     <style name="vertical_divider_line">
         <item name="android:layout_width">0.5px</item>
