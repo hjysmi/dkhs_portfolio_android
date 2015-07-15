@@ -39,6 +39,7 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -90,10 +91,30 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
+        LogUtils.e("onHiddenChanged "+hidden);
         super.onHiddenChanged(hidden);
         if(getView() !=null && !hidden){
             updateUserInfo();
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        LogUtils.e("setUserVisibleHint "+isVisibleToUser);
+        if(isVisibleToUser){
+            if(getView() !=null){
+//                updateMessageCenterState();
+            }
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        LogUtils.e("onResume");
+        updateMessageCenterState();
     }
 
     private void initView(View view) {
@@ -144,7 +165,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         } else {
             viewLogin.setVisibility(View.VISIBLE);
             viewUserInfo.setVisibility(View.GONE);
-
         }
 
         updateMessageCenterState();
@@ -182,6 +202,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void updateMessageCenterState() {
+
+        LogUtils.e("updateMessageCenterState");
         if (PortfolioApplication.hasUserLogin()) {
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
             if (totalCount > 0) {
@@ -226,7 +248,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 if (!UIUtils.iStartLoginActivity(getActivity()) ) {
 
                     MessageManager.getInstance().startConversationList(getActivity());
-                    RongIM.getInstance().startConversationList(getActivity());
+//                    RongIM.getInstance().startConversationList(getActivity());
                 }
                 break;
             case R.id.ll_following:
@@ -251,7 +273,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
                     startActivity(new Intent(getActivity(), InviteFriendsActivity.class));
-
                 }
 
                 break;
@@ -272,5 +293,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         updateMessageCenterState();
 
     }
+
+
 
 }
