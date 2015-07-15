@@ -197,7 +197,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setVisibility(View.VISIBLE);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
+                mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 break;
             case 2:
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add),

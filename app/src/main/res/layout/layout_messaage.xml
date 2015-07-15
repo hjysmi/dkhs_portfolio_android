@@ -36,6 +36,7 @@
             android:layout_height="wrap_content" />
         <com.dkhs.portfolio.ui.widget.ScaleLayout
             android:layout_width="fill_parent"
+            android:id="@+id/scaleLayout"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             app:scale="0.5625"

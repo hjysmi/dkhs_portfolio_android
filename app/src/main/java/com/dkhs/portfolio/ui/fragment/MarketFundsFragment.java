@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,11 +22,16 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerSortMenuBean;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
+import com.dkhs.portfolio.engine.Action1;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.ui.listener.SwitchThreeStateOnClickListener;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -58,6 +64,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private ViewGroup mRootView;
 
     private LinkedList<MenuBean> sorts;
+//    private SwitchThreeStateOnClickListener mSwitchThreeStateOnClickListener;
 
     @Override
     public int setContentLayoutId() {
@@ -92,13 +99,32 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        initView(getView());
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void requestData() {
-        initView(getView());
+
     }
+
+    @Override
+    public void onViewShow() {
+
+
+        super.onViewShow();
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        if (isVisibleToUser && isVisible()) {
+            if (getView() != null) {
+                onViewShow();
+            }
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
 
     public void initView(View view) {
         fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
@@ -117,20 +143,31 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         setDrawableDown(fundTypeTV);
         setDrawableDown(tvPercentgae);
         tvPercentgae.setText(R.string.win_rate_day);
+        tvCurrent.setText(R.string.join_time);
+        fundTypeTV.setText(R.string.fund_manager);
         sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
+
+//         mSwitchThreeStateOnClickListener=     new SwitchThreeStateOnClickListener(tvCurrent, new Action1<SwitchThreeStateOnClickListener.Status>() {
+//            @Override
+//            public void call(SwitchThreeStateOnClickListener.Status status) {
+//
+//                switch (status) {
+//                    case NORMAL:
+//                        fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+//                        break;
+//                    case UP:
+//                        fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), "-work_seniority");
+//                        break;
+//                    case DOWN:
+//                        fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), "work_seniority");
+//                        break;
+//                }
+//            }
+//        });
+//        tvCurrent.setOnClickListener(mSwitchThreeStateOnClickListener);
         replaceFundManagerRankingsDataList(type, sort);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     @OnClick({R.id.tv_current, R.id.tv_percentage, R.id.tv_increase, R.id.rl_fund_type})
     public void onClick(View v) {
@@ -153,13 +190,12 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             }
             break;
             case R.id.btn_refresh: {
-
-                if (null != loadDataListFragment && null != fundTypeMenuChooserL && null != fundTypeMenuChooserL.getSelectItem()) {
-
-                    loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
-                }
+                refresh();
             }
             break;
+            case R.id.btn_search:
+                UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), SelectAddOptionalActivity.class));
+                break;
             default:
                 break;
         }
@@ -175,10 +211,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
             sortKeyFormatStr = "%s";
+            tvCurrent.setText(R.string.net_value);
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
              */
+//            mSwitchThreeStateOnClickListener.updateState(SwitchThreeStateOnClickListener.Status.NORMAL,false);
+            tvCurrent.setClickable(false);
             if (StockUitls.isSepFund(type.getCode())) {
                 sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.sepFundSortFromXml(mActivity));
                 tvCurrent.setText(R.string.tenthou_unit_incm);
@@ -190,7 +229,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         } else if (menuBean instanceof FundManagerSortMenuBean) {
             tvCurrent.setText(R.string.join_time);
             fundTypeTV.setText(R.string.fund_manager);
-
+//            mSwitchThreeStateOnClickListener.updateState(SwitchThreeStateOnClickListener.Status.NORMAL,false);
+            tvCurrent.setClickable(true);
             sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
             tvPercentgae.setText(R.string.win_rate_day);
             sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity));
@@ -212,10 +252,15 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         } else {
 
             replaceFundDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
-
         }
 
     }
+
+
+
+
+
+
 
     private void replaceFundManagerRankingsDataList(String type, String sort) {
         if (loadDataListFragment != null) {

@@ -124,6 +124,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         initData();
         initView();
+        getSwipeBackLayout().setEnableGesture(false);
 
         if (isAdjustCombination) {
 
