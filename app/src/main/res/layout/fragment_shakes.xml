@@ -26,6 +26,7 @@
 
         <View
             style="@style/divider_line"
+            android:alpha="0.2"
             android:layout_alignParentBottom="true"
             android:background="@color/white" />
     </RelativeLayout>

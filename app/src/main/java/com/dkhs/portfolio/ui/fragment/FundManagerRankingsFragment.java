@@ -76,7 +76,6 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
         Bundle bundle = getArguments();
         type = bundle.getString("type");
         sort = bundle.getString("sort");
-        mListView.setDivider(null);
         loadData();
     }
 
@@ -91,13 +90,19 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
 
         mSwipeLayout.setRefreshing(true);
         startLoadData();
-        mAdapter.setSortKey(sort);
+
+        if(!sort.equals("work_seniority")&& ! sort.equals("-work_seniority")){
+            mAdapter.setSortKey(sort);
+        }
+
         setHttpHandler(getLoadEngine().loadDate(type, sort));
     }
 
     public void refresh(String type, String sort) {
         this.sort = sort;
-        this.type = type;
+
+            this.type = type;
+
         loadData();
 
     }

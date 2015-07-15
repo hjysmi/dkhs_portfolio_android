@@ -540,7 +540,7 @@
     <string name="percent_tyear">今年以来</string>
     <string name="office_tenure">任职起</string>
     <string name="net_cumulative">累计收益</string>
-    <string name="title_activity_fund_manager">现任基金经理</string>
+    <string name="title_activity_fund_manager">基金经理</string>
 
 
     <string name="wanshou">万份收益</string>
@@ -648,7 +648,7 @@
     <string name="combination_create_time">创建时间</string>
     <string name="join_time">从业时间</string>
     <string name="fund_manager_rankings">基金经理排行</string>
-    <string name="fund_rankings">基金排行</string>
+    <string name="fund_rankings">传统基金排行</string>
     <string name="win_rate_day">日战胜指数</string>
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>

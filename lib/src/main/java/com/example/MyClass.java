@@ -30,11 +30,11 @@ public class MyClass {
 
 
         String jsonStr="{\n" +
-                "     /*" +
-                "      height : 140cm" +
-                "      age : 15" +
-                "      name : 王五" +
-                "      gender : man" +
+                "     /**\n" +
+                "     * height : 140cm\n" +
+                "     * age : 15\n" +
+                "     * name : 王五\n" +
+                "     * gender : man\n" +
                 "     */\n" +
                 "    \"name\": \"王五\",\n" +
                 "    \"gender\": \"man\",\n" +
@@ -42,7 +42,7 @@ public class MyClass {
                 "    \"height\": \"140cm\",\n" +
                 "}";
         String temp = jsonStr.replaceAll("/\\*" +
-                ".+" +
+                "[\\s\\S]*" +
                 "\\*/", "");
         System.out.println(temp);
 

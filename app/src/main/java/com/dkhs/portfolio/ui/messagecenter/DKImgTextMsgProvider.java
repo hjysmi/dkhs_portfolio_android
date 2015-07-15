@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.util.LogUtils;
 
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.widget.provider.UnknownMessageItemProvider;
@@ -76,14 +77,18 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
         TextView contentTV = (TextView) v.findViewById(id.tv_content);
         TextView dateLineTV = (TextView) v.findViewById(id.tv_date_line);
         ImageView imageView = (ImageView) v.findViewById(id.im_content);
+        View scaleLayout =  v.findViewById(id.scaleLayout);
+
 
         if (content instanceof DKImgTextMsg) {
             DKImgTextMsg dkImgTextMsg = (DKImgTextMsg) content;
             titleTV.setText(dkImgTextMsg.getTitle());
             contentTV.setText(dkImgTextMsg.getContent());
             if (TextUtils.isEmpty(dkImgTextMsg.getImageUri())) {
+                scaleLayout.setVisibility(View.GONE);
                 imageView.setVisibility(View.GONE);
             } else {
+                scaleLayout.setVisibility(View.VISIBLE);
                 imageView.setVisibility(View.VISIBLE);
                 BitmapUtils.displayNoEffect(imageView, dkImgTextMsg.getImageUri());
             }

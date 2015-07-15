@@ -75,7 +75,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         Bundle bundle = getArguments();
         type = bundle.getString("type");
         sort = bundle.getString("sort");
-        mListView.setDivider(null);
+//        mListView.setDivider(null);
         loadData();
     }
 
