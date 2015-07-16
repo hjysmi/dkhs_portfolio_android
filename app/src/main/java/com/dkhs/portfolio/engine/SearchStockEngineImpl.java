@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.SearchHistoryBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockProfileDataBean;
@@ -289,6 +290,44 @@ public class SearchStockEngineImpl {
                     } else {
 
                         LogUtils.d(" searchFundDataList is null");
+                    }
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
+                moreDataBean.setCurrentPage(1);
+                moreDataBean.setResults(selectStockList);
+                moreDataBean.setTotalCount(selectStockList.size());
+                moreDataBean.setTotalPage(1);
+                iLoadListener.loadFinish(moreDataBean);
+            }
+
+            ;
+        }.start();
+    }
+
+    public void searchHistoryStock() {
+        new Thread() {
+            public void run() {
+                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                // dbUtils.findById(SearchStockBean.class, key);
+                List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
+                try {
+
+                    List<SearchHistoryBean> searchStockList = dbUtils
+                            .findAll(Selector.from(SearchHistoryBean.class).orderBy("saveTime", true)
+                                            .limit(20)
+                            );
+
+                    if (null != searchStockList) {
+                        for (SearchHistoryBean searchBean : searchStockList) {
+                            selectStockList.add(SelectStockBean.copy(searchBean));
+                        }
+                        LogUtils.d(" searchHistoryStock size:" + selectStockList.size());
+                    } else {
+
+                        LogUtils.d(" searchHistoryStock is null");
                     }
                 } catch (DbException e) {
                     // TODO Auto-generated catch block

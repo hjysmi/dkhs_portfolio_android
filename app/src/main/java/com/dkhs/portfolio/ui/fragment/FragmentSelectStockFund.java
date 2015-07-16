@@ -60,7 +60,6 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -678,7 +677,7 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
     @Override
     public void onStart() {
         super.onStart();
-        LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
+        LogUtils.d(TAG, "=========== onStart(=============");
     }
 
     private TextView emptyview;

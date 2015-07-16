@@ -9,13 +9,13 @@
 package com.dkhs.portfolio.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
     }
 
     @Override
-    protected void setTabViewPage(List<FragmentSelectStockFund> fragmenList) {
+    protected void setTabViewPage(List<Fragment> fragmenList) {
 
         // String[] tArray = getResources().getStringArray(R.array.select_stock);
         // int titleLenght = tArray.length;

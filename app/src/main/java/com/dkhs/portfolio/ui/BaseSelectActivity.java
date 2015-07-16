@@ -13,8 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Editable;
@@ -23,7 +21,6 @@ import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -31,12 +28,12 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
-import com.dkhs.portfolio.ui.widget.TextImageButton;
 
 import org.parceler.Parcels;
 
@@ -58,14 +55,14 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private GridView mSelctStockView;
     private SelectFundAdapter mSelectStockAdapter;
     private TextView btnAdd;
-    ArrayList<FragmentSelectStockFund> fragmentList = new ArrayList<FragmentSelectStockFund>();// ViewPager中显示的数据
+    ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
     private EditText etSearchKey;
     private FragmentSearchStockFund mSearchFragment;
 
     private View mStockPageView;
     private View mSearchListView;
 
-    private Button btnOrder;
+    private TextView btnOrder;
     private boolean isAdjustCombination;
     private TextView btnBack;
     public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
@@ -80,7 +77,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         super.onCreate(arg0);
 
         setContentView(R.layout.activity_add_conbina_stock);
-        hadFragment=true;
+        hadFragment = true;
         // handle intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -117,7 +114,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         btnAdd.setOnClickListener(this);
         etSearchKey.addTextChangedListener(mTextWatcher);
 
-        if (getLoadByType() == ListViewType.FUND) {
+        if (getLoadByType() == ListViewType.FUND_COMPARE) {
             setTitle(R.string.select_fund);
             mSelctStockView.setNumColumns(2);
             btnOrder.setVisibility(View.VISIBLE);
@@ -129,13 +126,14 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
             } else {
 
-                setTitle(R.string.select_stock);
+                setTitle(R.string.title_search_stock);
+//                setTitle(R.string.select_stock);
             }
             mSelctStockView.setNumColumns(3);
 
         } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
             btnOrder.setVisibility(View.GONE);
-            setTitle(R.string.add_optional_stock);
+            setTitle(R.string.title_search_stock);
             mSelctStockView.setNumColumns(3);
             etSearchKey.setHint(R.string.search_stockandfunds);
 
@@ -175,10 +173,10 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         replaceSearchView();
         mSearchListView = findViewById(R.id.rl_stock_searchview);
 
-        btnOrder = (Button) findViewById(R.id.btn_order);
+        btnOrder = (TextView) findViewById(R.id.btn_order);
     }
 
-    public Button getOrderButton() {
+    public TextView getOrderButton() {
         return btnOrder;
     }
 
@@ -193,9 +191,15 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private void initTabPage() {
 
+
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
-        hsTitle.setTitleList(getResources().getStringArray(getTitleRes()));
-        hsTitle.setSelectPositionListener(titleSelectPostion);
+        if (getLoadByType() == ListViewType.FUND_COMPARE && getTitleRes() > 0) {
+            hsTitle.setTitleList(getResources().getStringArray(getTitleRes()));
+            hsTitle.setSelectPositionListener(titleSelectPostion);
+        } else {
+            hsTitle.setVisibility(View.GONE);
+        }
+
 
         // ArrayList<String> tileList = new ArrayList<String>();
         int titleArrayRes = 0;
@@ -204,7 +208,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         setTabViewPage(fragmentList);
 
-        pager.setAdapter(new SelectPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        pager.setAdapter(new BasePagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
 
         // indicator.setViewPager(pager);
@@ -214,9 +218,11 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
         @Override
-        public void onPageSelected(int arg0) {
+        public void onPageSelected(int index) {
             // if (!isFromTitle) {
-            hsTitle.setSelectIndex(arg0);
+            if (index < hsTitle.getChildCount()) {
+                hsTitle.setSelectIndex(index);
+            }
             // }
             // isFromTitle = false;
 
@@ -246,38 +252,6 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         }
     };
 
-    private class SelectPagerFragmentAdapter extends FragmentPagerAdapter {
-
-        private List<FragmentSelectStockFund> fragmentList;
-
-        // private ArrayList<String> titleList;
-
-        public SelectPagerFragmentAdapter(FragmentManager fm, ArrayList<FragmentSelectStockFund> fragmentList2) {
-            super(fm);
-            this.fragmentList = fragmentList2;
-            // this.titleList = tileList;
-        }
-
-        // ViewPage中显示的内容
-        @Override
-        public Fragment getItem(int arg0) {
-
-            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
-        }
-
-        // Title中显示的内容
-        @Override
-        public CharSequence getPageTitle(int position) {
-            // return (titleList.size() > position) ? titleList.get(position) : "";
-            return "";
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList == null ? 0 : fragmentList.size();
-        }
-
-    }
 
     TextWatcher mTextWatcher = new TextWatcher() {
 
@@ -385,8 +359,10 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         }
 
         // if (isUpdataFragment) {
-        for (FragmentSelectStockFund fragment : fragmentList) {
-            fragment.refreshSelect();
+        for (Fragment fragment : fragmentList) {
+            if (fragment instanceof FragmentSelectStockFund) {
+                ((FragmentSelectStockFund) fragment).refreshSelect();
+            }
         }
         if (null != mSearchFragment) {
             mSearchFragment.refreshSelect();
@@ -429,7 +405,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     public enum ListViewType {
         // 基金模式
-        FUND(1),
+        FUND_COMPARE(1),
         // 股票模式
         STOCK(2),
         // 添加自选股模式
@@ -452,6 +428,6 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     protected abstract FragmentSearchStockFund getSearchFragment();
 
-    protected abstract void setTabViewPage(List<FragmentSelectStockFund> fragmenList);
+    protected abstract void setTabViewPage(List<Fragment> fragmenList);
 
 }

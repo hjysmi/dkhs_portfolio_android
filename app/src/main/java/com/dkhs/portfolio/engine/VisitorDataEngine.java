@@ -8,8 +8,11 @@
  */
 package com.dkhs.portfolio.engine;
 
+import android.os.SystemClock;
+
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.SearchHistoryBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.lidroid.xutils.DbUtils;
@@ -30,6 +33,41 @@ import java.util.List;
 public class VisitorDataEngine {
     // public VisitorDataEngine()
 
+
+    public static void saveHistory(final SearchHistoryBean stockbean) {
+        new Thread() {
+            public void run() {
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+
+                    stockbean.setSaveTime(SystemClock.elapsedRealtime());
+                    db.saveOrUpdate(stockbean);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
+    }
+
+    public static  void clearHistoryStock() {
+        new Thread() {
+            public void run() {
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+                    db.deleteAll(SearchHistoryBean.class);
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+            }
+
+            ;
+        }.start();
+
+    }
+
     /**
      * 添加自选股到本地
      */
@@ -39,13 +77,13 @@ public class VisitorDataEngine {
                 DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
                 try {
                     db.saveOrUpdate(stockbean);
+//                    db.saveOrUpdate(historyBean);
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
 
-            ;
         }.start();
     }
 
@@ -69,6 +107,7 @@ public class VisitorDataEngine {
         }.start();
 
     }
+
 
     /**
      * 修改股票列表数据
@@ -150,7 +189,7 @@ public class VisitorDataEngine {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
-            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1", "3,","5"}));
+            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1", "3,", "5"}));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block
