@@ -8,13 +8,13 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -38,8 +38,9 @@ import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
-import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
 
@@ -74,8 +75,8 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
     private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
 
-    private View mFootView;
     private View tvHistoryTip;
+    private View tvClearHistory;
     private boolean isFund;
 
     LoadMoreDataEngine mLoadDataEngine;
@@ -199,20 +200,18 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
 
             }
-            if (isSearchHistory() && !mDataList.isEmpty()) {
-                tvHistoryTip.setVisibility(View.VISIBLE);
-//                mFootView.setVisibility(View.VISIBLE);
-            } else {
-//                mFootView.setVisibility(View.GONE);
-                tvHistoryTip.setVisibility(View.GONE);
+
+            if (isSearchHistory()) {
+                if (!mDataList.isEmpty()) {
+
+                    showHistoryText(true);
+                } else {
+                    showHistoryText(false);
+                }
             }
             return true;
         }
     });
-
-
-    private void hideSearchTip() {
-    }
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
 
@@ -248,18 +247,6 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
             mAdapterConbinStock.setCheckChangeListener(listener);
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//
-//        // View view = View.inflate(getActivity(), R.layout.fragment_selectstock, true);
-//        // initView(view);
-//
-//        LinearLayout wrapper = new LinearLayout(getActivity()); // for example
-//        inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
-//        initView(wrapper);
-//        return wrapper;
-//    }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -282,15 +269,13 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     @Override
     public void onStart() {
         super.onStart();
-        LogUtils.d(TAG, "========== onStart(=============");
     }
 
-    ListView mListView;
 
     private void initView(View view) {
         tvHistoryTip = view.findViewById(R.id.tv_history_tip);
 
-        mListView = (ListView) view.findViewById(android.R.id.list);
+        ListView mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListView.setAdapter(mAdapterConbinStock);
         if (isItemClickBack) {
@@ -298,25 +283,62 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         }
 
         if (isSearchHistory()) {
-            mFootView = View.inflate(getActivity(), R.layout.layout_history_bottom, null);
-            mFootView.setOnClickListener(new OnClickListener() {
+            View footView = View.inflate(getActivity(), R.layout.layout_history_bottom, null);
+            footView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickDelHistory();
+                    showDelDialog();
                 }
             });
-            mListView.addFooterView(mFootView, null, false);
+            tvClearHistory = footView.findViewById(R.id.tv_clear);
+            mListView.addFooterView(footView, null, false);
         }
 
     }
 
 
+    private void showDelDialog() {
+
+        MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
+
+        builder.setMessage(R.string.dialog_msg_del_history)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                clickDelHistory();
+
+            }
+        });
+
+
+        builder.show();
+    }
+
     private void clickDelHistory() {
-//        PromptManager.showToast("清楚历史记录");
         mDataList.clear();
-//        mFootView.setVisibility(View.GONE);
+        showHistoryText(false);
         mAdapterConbinStock.notifyDataSetChanged();
         VisitorDataEngine.clearHistoryStock();
+    }
+
+    private void showHistoryText(boolean iShow) {
+        if (iShow) {
+            tvClearHistory.setVisibility(View.VISIBLE);
+            tvHistoryTip.setVisibility(View.VISIBLE);
+        } else {
+            tvClearHistory.setVisibility(View.GONE);
+            tvHistoryTip.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -355,6 +377,5 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     public void onViewHide() {
         super.onViewHide();
 
-        Log.e(TAG, "Search type:" + mSearchType + " onViewHide");
     }
 }

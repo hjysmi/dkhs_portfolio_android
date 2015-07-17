@@ -655,4 +655,8 @@
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
+
+    <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
+
+
 </resources>
