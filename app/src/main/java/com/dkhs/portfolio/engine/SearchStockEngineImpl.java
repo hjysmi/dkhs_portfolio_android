@@ -149,18 +149,25 @@ public class SearchStockEngineImpl {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-                moreDataBean.setCurrentPage(1);
-                moreDataBean.setResults(selectStockList);
-                moreDataBean.setTotalCount(selectStockList.size());
-                moreDataBean.setTotalPage(1);
-                iLoadListener.loadFinish(moreDataBean);
+                setSearchBack(selectStockList);
 
             }
 
             ;
         }.start();
 
+    }
+
+    private void setSearchBack(List<SelectStockBean> selectStockList) {
+        if (null != iLoadListener) {
+
+            MoreDataBean moreDataBean = new MoreDataBean<SelectStockBean>();
+            moreDataBean.setCurrentPage(1);
+            moreDataBean.setResults(selectStockList);
+            moreDataBean.setTotalCount(selectStockList.size());
+            moreDataBean.setTotalPage(1);
+            iLoadListener.loadFinish(moreDataBean);
+        }
     }
 
     public void searchFunds(final String key) {
@@ -210,12 +217,7 @@ public class SearchStockEngineImpl {
                     e.printStackTrace();
                 }
 
-                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-                moreDataBean.setCurrentPage(1);
-                moreDataBean.setResults(selectStockList);
-                moreDataBean.setTotalCount(selectStockList.size());
-                moreDataBean.setTotalPage(1);
-                iLoadListener.loadFinish(moreDataBean);
+                setSearchBack(selectStockList);
             }
 
             ;
@@ -295,12 +297,7 @@ public class SearchStockEngineImpl {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-                moreDataBean.setCurrentPage(1);
-                moreDataBean.setResults(selectStockList);
-                moreDataBean.setTotalCount(selectStockList.size());
-                moreDataBean.setTotalPage(1);
-                iLoadListener.loadFinish(moreDataBean);
+                setSearchBack(selectStockList);
             }
 
             ;
@@ -333,12 +330,7 @@ public class SearchStockEngineImpl {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-                moreDataBean.setCurrentPage(1);
-                moreDataBean.setResults(selectStockList);
-                moreDataBean.setTotalCount(selectStockList.size());
-                moreDataBean.setTotalPage(1);
-                iLoadListener.loadFinish(moreDataBean);
+                setSearchBack(selectStockList);
             }
 
             ;
