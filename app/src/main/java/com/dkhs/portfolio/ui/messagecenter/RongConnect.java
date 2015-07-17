@@ -29,6 +29,7 @@ import java.util.Map;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIM.GetUserInfoProvider;
+import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.RongIMClient.ConnectionStatusListener;
 import io.rong.imlib.RongIMClient.ErrorCode;
@@ -226,8 +227,10 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public int getUnReadCount() {
         int unreadCount = 0;
-        if (null != RongIM.getInstance().getRongClient()) {
-            unreadCount = RongIM.getInstance().getRongClient().getUnreadCount(ConversationType.PRIVATE);
+        RongIMClientWrapper clientWrapper = RongIM.getInstance().getRongClient();
+
+        if (null != clientWrapper) {
+            unreadCount = clientWrapper.getUnreadCount(ConversationType.PRIVATE);
         }
         return unreadCount;
     }
@@ -244,7 +247,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public void startConversationList(Context context) {
         cancelAllNotification(context);
-            RongIM.getInstance().startConversationList(context);
+        RongIM.getInstance().startConversationList(context);
     }
 
 

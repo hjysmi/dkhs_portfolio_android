@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.engine;
 
-import android.os.SystemClock;
-
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SearchHistoryBean;
@@ -40,7 +38,7 @@ public class VisitorDataEngine {
                 DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
                 try {
 
-                    stockbean.setSaveTime(SystemClock.elapsedRealtime());
+                    stockbean.setSaveTime(System.currentTimeMillis() / 1000);
                     db.saveOrUpdate(stockbean);
                 } catch (DbException e) {
                     e.printStackTrace();
@@ -50,7 +48,7 @@ public class VisitorDataEngine {
         }.start();
     }
 
-    public static  void clearHistoryStock() {
+    public static void clearHistoryStock() {
         new Thread() {
             public void run() {
                 DbUtils db = DbUtils.create(PortfolioApplication.getInstance());

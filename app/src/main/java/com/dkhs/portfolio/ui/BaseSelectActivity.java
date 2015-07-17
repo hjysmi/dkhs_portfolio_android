@@ -52,6 +52,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public static final String KEY_ISADJUST_COMBINATION = "key_isadjust_combination";
     // protected static final boolean is_load_fund = ;
     // protected static final boolean is_load_stock =true;
+    private View mHeaderView;
     private GridView mSelctStockView;
     private SelectFundAdapter mSelectStockAdapter;
     private TextView btnAdd;
@@ -121,14 +122,11 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             etSearchKey.setHint(R.string.search_fund_hint);
         } else if (getLoadByType() == ListViewType.STOCK) {
             btnOrder.setVisibility(View.GONE);
-            if (isFrist) {
-                setTitle(R.string.create_funds);
 
-            } else {
 
-                setTitle(R.string.title_search_stock);
+            setTitle(R.string.select_stock);
 //                setTitle(R.string.select_stock);
-            }
+//            }
             mSelctStockView.setNumColumns(3);
 
         } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
@@ -163,6 +161,14 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private void initView() {
 
         mSelctStockView = (GridView) findViewById(R.id.rl_add_stocklist);
+        if (mSelectList == null || mSelectList.isEmpty()) {
+
+            mSelctStockView.setVisibility(View.GONE);
+        } else {
+            mSelctStockView.setVisibility(View.VISIBLE);
+
+        }
+
         btnAdd = getRightButton();
         btnBack = getBtnBack();
         btnAdd.setBackgroundDrawable(null);
@@ -174,6 +180,10 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         mSearchListView = findViewById(R.id.rl_stock_searchview);
 
         btnOrder = (TextView) findViewById(R.id.btn_order);
+
+//        mHeaderView = View.inflate(this,R.layout.layout_addstock_header,null);
+
+
     }
 
     public TextView getOrderButton() {
@@ -196,7 +206,9 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         if (getLoadByType() == ListViewType.FUND_COMPARE && getTitleRes() > 0) {
             hsTitle.setTitleList(getResources().getStringArray(getTitleRes()));
             hsTitle.setSelectPositionListener(titleSelectPostion);
+            findViewById(R.id.indicator_title).setVisibility(View.VISIBLE);
         } else {
+            findViewById(R.id.indicator_title).setVisibility(View.GONE);
             hsTitle.setVisibility(View.GONE);
         }
 
@@ -345,20 +357,11 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public void notifySelectDataChange(boolean isUpdataFragment) {
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
-            // btnAdd.setTextColor(Color.WHITE);
-//            btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
-//            String name = getResources().getString(R.string.add_text) + "(0)";
             btnAdd.setEnabled(false);
-//            btnAdd.setText(name);
-            // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
-            // modify by zcm ---2014.12.17
-            // btnAdd.setTextColor(Color.WHITE);
-            // modify by zcm ---2014.12.17
+
 
         }
-
-        // if (isUpdataFragment) {
         for (Fragment fragment : fragmentList) {
             if (fragment instanceof FragmentSelectStockFund) {
                 ((FragmentSelectStockFund) fragment).refreshSelect();
@@ -368,7 +371,13 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             mSearchFragment.refreshSelect();
         }
 
-        // }
+        if (mSelectList == null || mSelectList.isEmpty()) {
+
+            mSelctStockView.setVisibility(View.GONE);
+        } else {
+            mSelctStockView.setVisibility(View.VISIBLE);
+
+        }
         mSelectStockAdapter.notifyDataSetChanged();
     }
 
