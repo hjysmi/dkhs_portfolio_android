@@ -40,6 +40,8 @@ public class MarkTitleViewBean extends ViewBean {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
         ((ViewHolder) itemHolder).bindView(titleResId);
+        ViewUitls.fullSpanView(itemHolder);
+
     }
 
 
