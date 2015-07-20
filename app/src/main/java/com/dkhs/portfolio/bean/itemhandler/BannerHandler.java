@@ -23,7 +23,7 @@ import com.dkhs.adpter.util.ViewHolder;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/16.
  */
-public class BannerHandler implements ItemHandler {
+public class BannerHandler implements ItemHandler<BannerTopicsBean> {
 
 
     public Context mContext;
@@ -41,8 +41,7 @@ public class BannerHandler implements ItemHandler {
     }
 
     @Override
-    public void onBindView(ViewHolder vh, Object data, int position) {
-
+    public void onBindView(ViewHolder vh, BannerTopicsBean data, int position) {
         AdBean adBean= DataParse.parseObjectJson(AdBean.class,s);
         int duration=1;
         SliderLayout  slider=vh.get(R.id.slider);
@@ -65,8 +64,8 @@ public class BannerHandler implements ItemHandler {
         slider.setCustomAnimation(new DescriptionAnimation());
         slider.setDuration(duration*1000);
         slider.startAutoCycle();
-
     }
+
 
     @Override
     public Class<?> getDataClass() {

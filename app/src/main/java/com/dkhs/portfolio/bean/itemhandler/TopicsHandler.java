@@ -15,7 +15,7 @@ import com.dkhs.adpter.util.ViewHolder;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/16.
  */
-public class TopicsHandler implements ItemHandler{
+public class TopicsHandler implements ItemHandler<TopicsBean>{
 
 
 //    @ViewInject(R.id.iv_avatar)
@@ -45,9 +45,7 @@ public class TopicsHandler implements ItemHandler{
     }
 
     @Override
-    public void onBindView(ViewHolder vh, Object data, int position) {
-
-
+    public void onBindView(ViewHolder vh, TopicsBean data, int position) {
         StarClickListenerImp starClickListenerImp=null;
         if(null !=  vh.get(R.id.fl_star).getTag()){
             starClickListenerImp= (StarClickListenerImp) vh.get(R.id.fl_star).getTag();
@@ -55,9 +53,6 @@ public class TopicsHandler implements ItemHandler{
             starClickListenerImp=new StarClickListenerImp();
         }
         starClickListenerImp.setTopicsBean((TopicsBean) data);
-
-
-
     }
 
     @Override
