@@ -69,6 +69,7 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
                     SelectAddOptionalActivity.mFollowList.remove(stockBean);
                 }
 
+                notifyDataSetChanged();
             }
         }
     };

@@ -252,9 +252,9 @@ public class SqlInfoBuilder {
             }
             sqlBuffer.append("\"").append(column.getColumnName()).append("\"  ");
             sqlBuffer.append(column.getColumnDbType());
-            if (ColumnUtils.isDefalut(column.getColumnField())) {
-                sqlBuffer.append(" DEFAULT");
-            }
+//            if (ColumnUtils.isDefalut(column.getColumnField())) {
+//                sqlBuffer.append(" DEFAULT");
+//            }
             if (ColumnUtils.isCurrentTime(column.getColumnField())) {
                 sqlBuffer.append(" CURRENT_TIMESTAMP");
             }

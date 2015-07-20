@@ -377,7 +377,6 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             gvSelctStock.setVisibility(View.VISIBLE);
 
 
-
         }
         mSelectStockAdapter.notifyDataSetChanged();
 
@@ -422,7 +421,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         STOCK(2),
         // 添加自选股模式
         ADD_OPTIONAL(3),
-        // 添加自选股模式
+        // 添加话题股票
         ADD_STATUS(4);
 
         private int typeId;
