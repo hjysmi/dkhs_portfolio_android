@@ -21,13 +21,11 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.BBSActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
@@ -41,7 +39,6 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -92,35 +89,11 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     @Override
-    public void requestData() {
-    }
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-
-
         if(getView() !=null && !hidden){
             updateUserInfo();
         }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if(isVisibleToUser){
-            if(getView() !=null){
-//                updateMessageCenterState();
-            }
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-
-
-    @Override
-    public void onViewShow() {
-        super.onViewShow();
-        updateMessageCenterState();
     }
 
     private void initView(View view) {
@@ -171,6 +144,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         } else {
             viewLogin.setVisibility(View.VISIBLE);
             viewUserInfo.setVisibility(View.GONE);
+
         }
 
         updateMessageCenterState();
@@ -208,7 +182,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void updateMessageCenterState() {
-
         if (PortfolioApplication.hasUserLogin()) {
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
             if (totalCount > 0) {
@@ -242,8 +215,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 UIUtils.iStartLoginActivity(getActivity());
                 break;
             case R.id.setting_layout_icon:
-
-
                 startUserInfoActivity();
                 break;
             case R.id.user_myfunds_layout:
@@ -255,11 +226,10 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 if (!UIUtils.iStartLoginActivity(getActivity()) ) {
 
                     MessageManager.getInstance().startConversationList(getActivity());
-//                    RongIM.getInstance().startConversationList(getActivity());
+                    RongIM.getInstance().startConversationList(getActivity());
                 }
                 break;
             case R.id.ll_following:
-
                 Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
                 followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
                 followIntent.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
@@ -272,16 +242,16 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.ll_flowPackage:
-                startActivity(new Intent(getActivity(), BBSActivity.class));
-//                if (!UIUtils.iStartLoginActivity(getActivity())) {
-//
-//                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
-//                    startActivity(intent);
-//                }
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
+
+                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
                     startActivity(new Intent(getActivity(), InviteFriendsActivity.class));
+
                 }
 
                 break;
