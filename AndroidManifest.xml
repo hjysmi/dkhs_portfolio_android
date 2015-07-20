@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
-    >
+    android:versionCode="11"
+    android:versionName="1.5.0513" >
 
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="15" />
 
     <supports-screens
         android:anyDensity="true"
@@ -29,7 +33,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".app.PortfolioApplication"
@@ -41,16 +44,18 @@
         android:theme="@style/AppTranslucentTheme" >
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="54850a5cfd98c5755f000e12" />
+            android:value="54850a5cfd98c5755f000e12" >
+        </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="DKHS_test" />
+            android:value="DKHS_test" >
+        </meta-data>
         <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
 
         <activity
             android:name="com.dkhs.portfolio.ui.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBackgroud">
+            android:theme="@style/AppThemeNoBackgroud" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -78,9 +83,7 @@
             android:launchMode="singleTask" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
-        <activity
-            android:name="com.dkhs.portfolio.ui.MyCombinationActivity"
-            android:launchMode="singleTop" />
+        <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.PositionAdjustActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -88,55 +91,52 @@
         <activity android:name="com.dkhs.portfolio.ui.SelectFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalStockListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectAddOptionalActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.MarketCenterActivity" />
         <activity android:name="com.dkhs.portfolio.ui.NoticesActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.VerificationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.NewsActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.FundsOrderActivity" />
         <activity android:name="com.dkhs.portfolio.ui.ForgetPswActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
-        <activity android:name=".ui.ModifyPswActivity" />
-        <activity android:name=".ui.ModifyUNameActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanbaoDetailActivity" />
-
+        <activity android:name="com.dkhs.portfolio.ui.OrderFundDetailActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.UserCombinationActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
-        <activity android:name=".ui.ModifyUserSignActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EditTabStockActivity" />
-        <activity
-            android:name="com.dkhs.portfolio.ui.BoundAccountActivity"
-            android:launchMode="singleTop" />
-        <activity android:name=".ui.ModifyComNameActivity" />
-        <activity android:name=".ui.ModifyPrivacyActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.BoundAccountActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.ChangeCombinationNameActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.PrivacySettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionListAcitivity" />
         <activity android:name="com.dkhs.portfolio.ui.ReportForOneListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EveryDayValueActivity" />
         <activity android:name="com.dkhs.portfolio.ui.BoundEmailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MarketListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.HistoryPositionDetailActivity" />
-        <activity android:name=".ui.EditTabCombinationActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.WebActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.AdActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.InviteFriendsActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.InviteHistoryActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.FundDetailActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity"
             android:theme="@style/AppThemeNoBackgroud" />
         <activity
             android:name="com.dkhs.portfolio.ui.StockRemindActivity"
-            android:theme="@style/Theme.AppCompatRed"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.KChartLandScapeActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity android:name="com.dkhs.portfolio.ui.FAQTextActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
-            android:name=".ui.PickupPhotoActivity"
+            android:name="com.dkhs.portfolio.ui.SelectPhoneFromSystem"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name="com.dkhs.portfolio.ui.ChangeCheckType"
@@ -147,33 +147,25 @@
         <activity
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
-            android:name=".ui.CombinationDetailActivity"
+            android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.dkhs.portfolio.ui.CompareFundsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.dkhs.portfolio.ui.CombinationNewsActivity"
-            android:screenOrientation="portrait" />
-<!--        <activity
             android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
-            android:windowSoftInputMode="stateHidden" />-->
+            android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.mob.tools.MobUIShell"
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize" >
 
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。 
-            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
-
-
+            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="AuthorizeAdapter"
@@ -182,14 +174,14 @@
             <!--
             	QZoneWebShareAdapter表示一个继承自cn.sharesdk.tencent.qzone.QZoneWebShareAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获QQ空间网页分享权页面的各种UI控件。 
-            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
+            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="QZoneWebShareAdapter"
                 android:value="cn.sharesdk.demo.MyQZoneWebShareAdapter" />
             <!--
             	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
-            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
+            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
             -->
             <intent-filter>
                 <data android:scheme="db-7janx53ilz11gbs" />
@@ -203,7 +195,7 @@
             <!--
             	如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
             	事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
-            	则分享结束以后不能得到正确的回调
+            	则分享结束以后不能得到正确的回调
             -->
             <intent-filter>
                 <data android:scheme="tencent1103511496" />
@@ -222,8 +214,8 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <receiver android:name="com.dkhs.portfolio.receiver.CompleteReceiver">
-            <intent-filter android:priority="1000">
+        <receiver android:name="com.dkhs.portfolio.receiver.CompleteReceiver" >
+            <intent-filter android:priority="1000" >
 
                 <!-- 设置最高优先级 -->
 
@@ -232,17 +224,9 @@
         </receiver>
         <receiver
             android:name="com.dkhs.portfolio.ui.messagecenter.MessageReceive"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
-            </intent-filter>
-        </receiver>
-       <receiver
-            android:name=".receiver.MessageNotificationClickReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.dkhs.portfolio.NotificationClick" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -255,16 +239,61 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="tdrvipksrgsu5" />
 
-        <!--
-                <meta-data
-                    android:name="RONG_CLOUD_APP_KEY"
-                    android:value="k51hidwq1fqzb" />
-        -->
+        <service android:name="io.rong.imlib.RongService" />
 
+        <activity
+            android:name="io.rong.imkit.RongActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:path="/grouplist"
+                    android:scheme="rong" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:path="/conversationgrouplist"
+                    android:scheme="rong" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:pathPrefix="/friend/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="io.rong.voipkit.activity.CalledSideActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="io.rong.voipkit.calledSideActivity.action" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="io.rong.imkit.demo"
+                    android:path="/calledsideactivity"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.RCChatListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -279,7 +308,7 @@
         <activity
             android:name=".ui.RCChatActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -294,7 +323,7 @@
         <activity
             android:name=".ui.RCChatSettingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -306,89 +335,52 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.FriendsOrFollowersActivity" />
-
-        <!-- start Rong Cloud -->
-        <activity
-            android:name="io.rong.voipkit.activity.CallSideActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="com.dkhs.portfolio"
-                    android:pathPrefix="/VoIPCall"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="io.rong.voipkit.activity.CalledSideActivity"
-            android:excludeFromRecents="true"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="com.dkhs.portfolio"
-                    android:pathPrefix="/VoIPAccept"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="io.rong.imkit.RongActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="io.rong.imkit.tools.SelectPictureActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.tools.PreviewPictureActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="io.rong.imkit.tools.RongWebviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.widget.provider.TakingPicturesActivity"
-            android:screenOrientation="portrait"></activity>
 
         <service
-            android:name="io.rong.imlib.ipc.RongService"
-            android:process=":ipc"></service>
-        <service android:name="io.rong.imlib.ReConnectService" />
+            android:name="io.rong.imkit.service.RongIMService"
+            android:enabled="true"
+            android:exported="false"
+            android:priority="1000" >
+        </service>
+        <service
+            android:name="io.rong.imlib.push.PushService"
+            android:process="io.rong.push" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
 
-        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver">
+                <action android:name="io.rong.push" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="io.rong.imlib.push.CommandService"
+            android:process="io.rong.push" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="io.rong.command" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="io.rong.imlib.push.PushReceiver"
+            android:process="io.rong.push" >
+            <intent-filter>
+                <action android:name="io.rong.imlib.action.push.heartbeat" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="io.rong.imlib.push.PushMessageReceiver" >
             <intent-filter>
                 <action android:name="io.rong.push.message" />
             </intent-filter>
         </receiver>
-
         <!-- End Rong Cloud -->
 
-        <receiver
-            android:name=".receiver.NetChangeReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <activity
-            android:name=".ui.FundManagerActivity"
-            android:label="@string/title_activity_fund_manager"></activity>
-        <activity
-            android:name=".ui.FlowPackageActivity"
-            android:label="@string/flow_package"></activity>
-        <activity
-            android:name=".ui.ExchangeActivity"
-            android:label="@string/title_flow_exchange"></activity>
-        <activity
-            android:name=".ui.InviteCodeActivity"
-            android:label="@string/title_invite_friend"></activity>
-        <activity android:name=".ui.ShakeActivity"></activity>
     </application>
 
 </manifest>

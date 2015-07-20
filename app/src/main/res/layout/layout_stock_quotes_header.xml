@@ -23,6 +23,7 @@
                 android:layout_width="1dp"
 
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_weight="2">
 
                 <me.grantland.widget.AutofitTextView
@@ -76,8 +77,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -95,8 +96,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -245,12 +246,12 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_shiying"
+                    android:id="@+id/tv_zongzhi"
                     style="@style/text_stock_name"
-                    android:text="@string/pe_ttm" />
+                    android:text="@string/total_capital" />
 
                 <me.grantland.widget.AutofitTextView
-                    android:id="@+id/tv_shiying_value"
+                    android:id="@+id/tv_zongzhi_value"
                     style="@style/text_stock_value" />
 
             </LinearLayout>
@@ -262,17 +263,23 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_zongzhi"
+                    android:id="@+id/tv_shijing"
                     style="@style/text_stock_name"
-                    android:text="@string/total_capital" />
+                    android:text="@string/pb" />
 
                 <me.grantland.widget.AutofitTextView
-                    android:id="@+id/tv_zongzhi_value"
+                    android:id="@+id/tv_shijing_value"
                     style="@style/text_stock_value" />
 
+                <TextView
+                    android:id="@+id/tv_e_value"
+                    style="@style/text_stock_value"
+                    android:layout_alignBaseline="@+id/tv_e"
+                    android:layout_toRightOf="@+id/tv_e"
+                    android:visibility="gone" />
+
+
             </LinearLayout>
-
-
         </LinearLayout>
 
 
