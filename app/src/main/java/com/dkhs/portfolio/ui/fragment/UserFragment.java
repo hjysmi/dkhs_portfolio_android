@@ -39,6 +39,7 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -86,15 +87,17 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         toolBar.setClickable(true);
         initView(view);
         setTitle(R.string.title_user);
+        updateUserInfo();
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if(getView() !=null && !hidden){
-            updateUserInfo();
-        }
+    public void requestData() {
+        updateMessageCenterState();
     }
+
+
+
+
 
     private void initView(View view) {
 
@@ -144,7 +147,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         } else {
             viewLogin.setVisibility(View.VISIBLE);
             viewUserInfo.setVisibility(View.GONE);
-
         }
 
         updateMessageCenterState();
@@ -182,6 +184,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void updateMessageCenterState() {
+
+        LogUtils.e("updateMessageCenterState");
         if (PortfolioApplication.hasUserLogin()) {
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
             if (totalCount > 0) {
@@ -226,7 +230,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 if (!UIUtils.iStartLoginActivity(getActivity()) ) {
 
                     MessageManager.getInstance().startConversationList(getActivity());
-                    RongIM.getInstance().startConversationList(getActivity());
+//                    RongIM.getInstance().startConversationList(getActivity());
                 }
                 break;
             case R.id.ll_following:
@@ -251,7 +255,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
                     startActivity(new Intent(getActivity(), InviteFriendsActivity.class));
-
                 }
 
                 break;
@@ -272,5 +275,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         updateMessageCenterState();
 
     }
+
+
 
 }
