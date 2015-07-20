@@ -40,96 +40,15 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (!isViewShown && getUserVisibleHint()) {
-            isViewShown = true;
-            requestData();
-        }
-
         getParentFragment();
     }
 
-
     public abstract void requestData();
 
-
-    private boolean isViewShown;
-
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-
-//
-//        if (isVisibleToUser && isViewShown && isVisible()) {
-//            onViewShow();
-//        } else {
-//            onViewHide();
-//        }
-
-        if (isVisibleToUser && !isViewShown && isVisible()) {
-
-            if (getView() != null) {
-                isViewShown = true;
-                requestData();
-                onViewShow();
-            } else {
-                isViewShown = false;
-            }
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            //do when hidden
-
-            if(getView() !=null){
-                onViewHide();
-            }
-
-        } else {
-            if(getView() !=null){
-                requestData();
-                onViewShow();
-
-            }
-            //do when show
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (iStrictVisible()) {
-            onViewShow();
-        }
-    }
-
-    private boolean iStrictVisible() {
-        if (getParentFragment() != null) {
-
-            return getUserVisibleHint() && !isHidden() && isVisible() && getParentFragment().isVisible();
-        } else {
-            return getUserVisibleHint() && !isHidden() && isVisible();
-
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        onViewHide();
-//        Log.e(TAG, this + "=============> onPause");
-    }
-
-
     public void onViewShow() {
-//        Log.e(TAG, this + "=============> onViewShow");
-    }
-
-    public void onViewHide() {
-//        Log.e(TAG, this + "=============> onViewHide");
-
+        super.onViewShow();
+        requestData();
     }
 
     @Override
