@@ -35,10 +35,10 @@
             dkhs:needVisible="true" />
     </RelativeLayout>
 
-    <GridView
+    <com.dkhs.portfolio.ui.widget.GridViewEx
         android:id="@+id/rl_add_stocklist"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/select_fund_height"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rl_search_stock"
         android:background="@color/white"
         android:clickable="true"

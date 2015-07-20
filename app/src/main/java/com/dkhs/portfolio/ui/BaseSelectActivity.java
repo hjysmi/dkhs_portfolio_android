@@ -22,7 +22,6 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +31,7 @@ import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.widget.GridViewEx;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 
@@ -53,7 +53,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     // protected static final boolean is_load_fund = ;
     // protected static final boolean is_load_stock =true;
     private View mHeaderView;
-    private GridView mSelctStockView;
+    private GridViewEx gvSelctStock;
     private SelectFundAdapter mSelectStockAdapter;
     private TextView btnAdd;
     ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
@@ -110,29 +110,31 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private void setupViewData() {
         mSelectStockAdapter = new SelectFundAdapter(this, mSelectList);
-        mSelctStockView.setAdapter(mSelectStockAdapter);
+        gvSelctStock.setAdapter(mSelectStockAdapter);
         // btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         btnAdd.setOnClickListener(this);
         etSearchKey.addTextChangedListener(mTextWatcher);
 
         if (getLoadByType() == ListViewType.FUND_COMPARE) {
             setTitle(R.string.select_fund);
-            mSelctStockView.setNumColumns(2);
+            gvSelctStock.setNumColumns(2);
             btnOrder.setVisibility(View.VISIBLE);
             etSearchKey.setHint(R.string.search_fund_hint);
+            gvSelctStock.getLayoutParams().height = getResources().getDimensionPixelOffset(R.dimen.select_fund_height);
         } else if (getLoadByType() == ListViewType.STOCK) {
             btnOrder.setVisibility(View.GONE);
-
-
             setTitle(R.string.select_stock);
-//                setTitle(R.string.select_stock);
-//            }
-            mSelctStockView.setNumColumns(3);
+
+            gvSelctStock.setNumColumns(3);
+            gvSelctStock.setExpanded(true);
+//
+//            final GridView imageContainer = // your GridView
+
 
         } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
             btnOrder.setVisibility(View.GONE);
             setTitle(R.string.title_search_stock);
-            mSelctStockView.setNumColumns(3);
+            gvSelctStock.setNumColumns(3);
             etSearchKey.setHint(R.string.search_stockandfunds);
 
         }
@@ -160,13 +162,12 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private void initView() {
 
-        mSelctStockView = (GridView) findViewById(R.id.rl_add_stocklist);
+        gvSelctStock = (GridViewEx) findViewById(R.id.rl_add_stocklist);
         if (mSelectList == null || mSelectList.isEmpty()) {
 
-            mSelctStockView.setVisibility(View.GONE);
+            gvSelctStock.setVisibility(View.GONE);
         } else {
-            mSelctStockView.setVisibility(View.VISIBLE);
-
+            gvSelctStock.setVisibility(View.VISIBLE);
         }
 
         btnAdd = getRightButton();
@@ -180,8 +181,6 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         mSearchListView = findViewById(R.id.rl_stock_searchview);
 
         btnOrder = (TextView) findViewById(R.id.btn_order);
-
-//        mHeaderView = View.inflate(this,R.layout.layout_addstock_header,null);
 
 
     }
@@ -373,12 +372,16 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         if (mSelectList == null || mSelectList.isEmpty()) {
 
-            mSelctStockView.setVisibility(View.GONE);
+            gvSelctStock.setVisibility(View.GONE);
         } else {
-            mSelctStockView.setVisibility(View.VISIBLE);
+            gvSelctStock.setVisibility(View.VISIBLE);
+
+
 
         }
         mSelectStockAdapter.notifyDataSetChanged();
+
+
     }
 
     private void showTypeDialog() {
