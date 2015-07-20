@@ -12,23 +12,23 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -41,14 +41,14 @@ import java.util.List;
  */
 public class SelectFundActivity extends BaseSelectActivity implements OnClickListener {
 
-    private Button btnOrder;
+    private TextView btnOrder;
     private PopupWindow mPopMoreWindow;
     private String[] orderTitle;
 
     // public static OrderType mOrderType = OrderType.DAY;
 
     @Override
-    protected void setTabViewPage(List<FragmentSelectStockFund> fragmenList) {
+    protected void setTabViewPage(List<Fragment> fragmenList) {
         // String[] tArray = getResources().getStringArray(R.array.refer_funds);
         // int titleLenght = tArray.length;
         // for (int i = 0; i < titleLenght; i++) {
@@ -123,8 +123,10 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
             }
 
             mPopMoreWindow.dismiss();
-            for (FragmentSelectStockFund fragment : fragmentList) {
-                fragment.setOrderType(mOrderType);
+            for (Fragment fragment : fragmentList) {
+                if (fragment instanceof FragmentSelectStockFund) {
+                    ((FragmentSelectStockFund) fragment).setOrderType(mOrderType);
+                }
             }
             btnOrder.setCompoundDrawables(null, null, drawable_down, null);
         }
@@ -164,8 +166,10 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
                         break;
                 }
                 mPopMoreWindow.dismiss();
-                for (FragmentSelectStockFund fragment : fragmentList) {
-                    fragment.setOrderType(mOrderType);
+                for (Fragment fragment : fragmentList) {
+                    if (fragment instanceof FragmentSelectStockFund) {
+                        ((FragmentSelectStockFund) fragment).setOrderType(mOrderType);
+                    }
                 }
             }
         });
@@ -196,7 +200,7 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
     @Override
     protected ListViewType getLoadByType() {
 
-        return ListViewType.FUND;
+        return ListViewType.FUND_COMPARE;
     }
 
     /**

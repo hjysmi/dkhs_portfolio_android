@@ -8,20 +8,18 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
@@ -31,6 +29,7 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
@@ -39,8 +38,9 @@ import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
-import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
 
@@ -54,16 +54,19 @@ import java.util.List;
  * @Description 个股选择
  * @date 2014-8-29 上午9:36:16
  */
-public class FragmentSearchStockFund extends Fragment implements ISelectChangeListener, OnClickListener {
+public class FragmentSearchStockFund extends VisiableLoadFragment implements ISelectChangeListener, OnClickListener {
     private static final String TAG = FragmentSearchStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
     private static final String ARGUMENT_SEARCH_TYPE = "argument_search_type";
     private static final String SEARCH_TYPE_FUNDS = "search_type_funds";
     private static final String SEARCH_TYPE_STOCK = "search_type_stock";
+    private static final String SEARCH_TYPE_HISTORY = "search_type_history";
     private static final String SEARCH_TYPE_STOCKANDINDEX = "search_type_stockandindex";
 
     private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
+    public static final String ARGUMENT = "ARGUMENT";
+
 
     private boolean isItemClickBack;
     private String mSearchType;
@@ -72,7 +75,8 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
 
-    private View mFootView;
+    private View tvHistoryTip;
+    private View tvClearHistory;
     private boolean isFund;
 
     LoadMoreDataEngine mLoadDataEngine;
@@ -81,7 +85,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     public static FragmentSearchStockFund getStockFragment() {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
-        args.putBoolean(ARGUMENT_SEARCH_TYPE, false);
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCK);
         // args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
@@ -104,6 +108,17 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCKANDINDEX);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    public static FragmentSearchStockFund getHistoryFragment(boolean isItemClickBack) {
+        FragmentSearchStockFund fragment = new FragmentSearchStockFund();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_HISTORY);
+        args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, isItemClickBack);
         fragment.setArguments(args);
         return fragment;
     }
@@ -182,30 +197,30 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
             if (null != bean && null != bean.getResults()) {
                 mDataList.addAll(bean.getResults());
                 mAdapterConbinStock.notifyDataSetChanged();
+
+
+            }
+
+            if (isSearchHistory()) {
+                if (!mDataList.isEmpty()) {
+
+                    showHistoryText(true);
+                } else {
+                    showHistoryText(false);
+                }
             }
             return true;
         }
     });
 
-//    WeakHandler updateHandler = new WeakHandler() {
-//        public void handleMessage(android.os.Message msg) {
-//            MoreDataBean bean = (MoreDataBean) msg.obj;
-//            if (null != bean && null != bean.getResults()) {
-//                mDataList.addAll(bean.getResults());
-//                mAdapterConbinStock.notifyDataSetChanged();
-//            }
-//        }
-//    };
-
     OnItemClickListener itemBackClick = new OnItemClickListener() {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // SelectStockBean itemStock = mDataList.get(position);
-            // setSelectBack(itemStock);
-            // System.out.println("OnItemClickListener itemBackClick ");
+
             SelectStockBean itemStock = mDataList.get(position);
-            // itemStock.isFollowed = true;
+            VisitorDataEngine.saveHistory(itemStock.parseHistoryBean());
+
             if (StockUitls.isFundType(itemStock.symbol_type)) {
                 startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
             } else {
@@ -213,10 +228,11 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
                 startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
             }
             getActivity().finish();
+
+
         }
     };
 
-    public static final String ARGUMENT = "ARGUMENT";
 
     private void setSelectBack(SelectStockBean type) {
         Intent intent = new Intent();
@@ -231,16 +247,16 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
             mAdapterConbinStock.setCheckChangeListener(listener);
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(view);
+    }
 
-        // View view = View.inflate(getActivity(), R.layout.fragment_selectstock, true);
-        // initView(view);
-
-        LinearLayout wrapper = new LinearLayout(getActivity()); // for example
-        inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
-        initView(wrapper);
-        return wrapper;
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_search;
     }
 
     public void refreshSelect() {
@@ -253,21 +269,76 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     @Override
     public void onStart() {
         super.onStart();
-        LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
     }
 
+
     private void initView(View view) {
-        // mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
+        tvHistoryTip = view.findViewById(R.id.tv_history_tip);
+
         ListView mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
-        // mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);
         if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
-            // System.out.println("     mListView.setOnItemClickListener(itemBackClick);");
         }
-        // mListView.removeFooterView(mFootView);
 
+        if (isSearchHistory()) {
+            View footView = View.inflate(getActivity(), R.layout.layout_history_bottom, null);
+            footView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDelDialog();
+                }
+            });
+            tvClearHistory = footView.findViewById(R.id.tv_clear);
+            mListView.addFooterView(footView, null, false);
+        }
+
+    }
+
+
+    private void showDelDialog() {
+
+        MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
+
+        builder.setMessage(R.string.dialog_msg_del_history)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                clickDelHistory();
+
+            }
+        });
+
+
+        builder.show();
+    }
+
+    private void clickDelHistory() {
+        mDataList.clear();
+        showHistoryText(false);
+        mAdapterConbinStock.notifyDataSetChanged();
+        VisitorDataEngine.clearHistoryStock();
+    }
+
+    private void showHistoryText(boolean iShow) {
+        if (iShow) {
+            tvClearHistory.setVisibility(View.VISIBLE);
+            tvHistoryTip.setVisibility(View.VISIBLE);
+        } else {
+            tvClearHistory.setVisibility(View.GONE);
+            tvHistoryTip.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -278,6 +349,33 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     @Override
     public void onClick(View v) {
+
+    }
+
+    @Override
+    public void requestData() {
+
+    }
+
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
+        if (isSearchHistory()) {
+            mDataList.clear();
+            mSearchEngine.searchHistoryStock();
+        }
+
+    }
+
+
+    private boolean isSearchHistory() {
+        return !TextUtils.isEmpty(mSearchType) && mSearchType.equals(SEARCH_TYPE_HISTORY);
+    }
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
 
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <GridView
+        android:id="@+id/rl_add_stocklist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_search_stock"
+        android:background="@color/white"
+        android:clickable="true"
+        android:gravity="center"
+        android:horizontalSpacing="3dp"
+        android:listSelector="#00000000"
+        android:numColumns="2"
+        android:padding="10dp"
+        android:verticalSpacing="5dp" />
+</RelativeLayout>

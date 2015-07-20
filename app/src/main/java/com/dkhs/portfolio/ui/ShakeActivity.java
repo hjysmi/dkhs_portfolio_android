@@ -118,7 +118,7 @@ public class ShakeActivity extends ModelAcitivity {
                     selectStockBean.symbol = mShakeBean.symbol.symbol;
                     selectStockBean.symbol_type = "1";
                     selectStockBean.name = mShakeBean.symbol.abbr_name;
-                    startActivity(StockQuotesActivity.newIntent(mActivity, selectStockBean));
+                    startActivity(StockQuotesActivity.newIntent(ShakeActivity.this, selectStockBean));
                     ShakeActivity.this.finish();
                 }
             });
