@@ -87,35 +87,17 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         toolBar.setClickable(true);
         initView(view);
         setTitle(R.string.title_user);
+        updateUserInfo();
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        LogUtils.e("onHiddenChanged "+hidden);
-        super.onHiddenChanged(hidden);
-        if(getView() !=null && !hidden){
-            updateUserInfo();
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        LogUtils.e("setUserVisibleHint "+isVisibleToUser);
-        if(isVisibleToUser){
-            if(getView() !=null){
-//                updateMessageCenterState();
-            }
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        LogUtils.e("onResume");
+    public void requestData() {
         updateMessageCenterState();
     }
+
+
+
+
 
     private void initView(View view) {
 
