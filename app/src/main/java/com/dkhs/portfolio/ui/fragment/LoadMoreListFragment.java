@@ -9,11 +9,9 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -29,20 +27,20 @@ import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.lidroid.xutils.http.HttpHandler;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName LoadMoreListActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-22 上午9:50:28
- * @version 1.0
  */
-public abstract class LoadMoreListFragment extends Fragment implements ILoadDataBackListener, OnLoadMoreListener {
+public abstract class LoadMoreListFragment extends VisiableLoadFragment implements ILoadDataBackListener, OnLoadMoreListener {
 
     PullToRefreshListView mListView;
 
     private TextView tvEmptyText;
 
     private HttpHandler mHttpHandler;
-     View mProgressView;
+    View mProgressView;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -50,12 +48,15 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.empty_listview, null);
-        initLoadMoreList(view);
+    public int setContentLayoutId() {
+        return R.layout.empty_listview;
+    }
 
-        // setListAdatper();
-        return view;
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        initLoadMoreList(view);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     // add by zcm -----2014.12.15
@@ -73,6 +74,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         tvEmptyText.setText(text);
         tvEmptyText.setVisibility(View.VISIBLE);
     }
+
     public void setEmptyText(int stringId) {
         mListView.setVisibility(View.GONE);
         tvEmptyText.setText(getResources().getString(stringId));
@@ -124,10 +126,10 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param object
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void loadFinish(MoreDataBean object) {

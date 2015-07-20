@@ -8,26 +8,19 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.dkhs.portfolio.bean.FundsPriceBean;
+import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+import java.util.ArrayList;
 
 /**
  * @ClassName FundDataEngine
@@ -110,33 +103,34 @@ public class FundDataEngine extends LoadMoreDataEngine {
      */
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
-        MoreDataBean<FundsPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
+        MoreDataBean<FundPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
         MoreDataBean<SelectStockBean> parseMoreBean = new MoreDataBean.EmptyMoreBean();
 
         try {
 
             Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<FundsPriceBean>>() {
+            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<FundPriceBean>>() {
             }.getType());
 
             parseMoreBean.copyMoreDataBean(dataMoreBean);
             parseMoreBean.setResults(new ArrayList<SelectStockBean>());
-            for (FundsPriceBean priceBean : dataMoreBean.getResults()) {
+            for (FundPriceBean priceBean : dataMoreBean.getResults()) {
                 SelectStockBean selectBean = new SelectStockBean();
                 selectBean.id = priceBean.getId();
-                selectBean.name = priceBean.getName();
+                selectBean.name = priceBean.getAbbrname();
                 // selectBean.currentValue = stockBean.getCurrent();
                 selectBean.code = priceBean.getCode();
+                selectBean.symbol = priceBean.getSymbol();
                 if (mOrderType == OrderType.YEAR) {
 
-                    selectBean.percentage = priceBean.getPercentYear();
+                    selectBean.percentage = priceBean.getPercent_year();
                 } else if (mOrderType == OrderType.MONTH) {
 
-                    selectBean.percentage = priceBean.getPercentMonth();
+                    selectBean.percentage = priceBean.getPercent_month();
                 } else if (mOrderType == OrderType.TYEAR) {
 
-                    selectBean.percentage = priceBean.getPercentTYear();
+                    selectBean.percentage = priceBean.getPercent_tyear();
                 }
                 parseMoreBean.getResults().add(selectBean);
 
@@ -155,7 +149,7 @@ public class FundDataEngine extends LoadMoreDataEngine {
             //
             // for (int i = 0; i < length; i++) {
             // JSONObject stockObject = resultsJsonArray.optJSONObject(i);
-            // FundsPriceBean stockBean = DataParse.parseObjectJson(FundsPriceBean.class, stockObject);
+            // FundPriceBean stockBean = DataParse.parseObjectJson(FundPriceBean.class, stockObject);
             // SelectStockBean selectBean = new SelectStockBean();
             // selectBean.id = stockBean.getId();
             // selectBean.name = stockBean.getName();

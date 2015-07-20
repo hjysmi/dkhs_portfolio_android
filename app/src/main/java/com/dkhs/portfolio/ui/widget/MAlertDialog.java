@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.animator.BaseEffects;
 import com.dkhs.portfolio.animator.Effectstype;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 
 
 /**
@@ -40,7 +37,7 @@ public class MAlertDialog {
     private final Button button2;
     private final Button button3;
     private final RelativeLayout main;
-    private Context context;
+    protected Context context;
     private int mDuration = 500;
 
     private Dialog dialog;
@@ -63,13 +60,13 @@ public class MAlertDialog {
         button3 = (Button) root.findViewById(R.id.button3);
         LinearLayout parentPanel = (LinearLayout) root.findViewById(R.id.parentPanel);
         main = (RelativeLayout) root.findViewById(R.id.main);
-        WindowManager wm = (WindowManager)context
+        WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
 
         int width = wm.getDefaultDisplay().getWidth();
 
-        ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(context.getResources().getDisplayMetrics().widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setContentView(root,params);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(context.getResources().getDisplayMetrics().widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(root, params);
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
@@ -87,9 +84,10 @@ public class MAlertDialog {
         customPanel.addView(view);
         return this;
     }
-    public MAlertDialog setCancelable(boolean flag){
+
+    public MAlertDialog setCancelable(boolean flag) {
         dialog.setCancelable(flag);
-        return  this;
+        return this;
     }
 
     private void start(Effectstype type) {
@@ -99,7 +97,8 @@ public class MAlertDialog {
         }
         animator.start(main);
     }
-    public void setContentView(View view){
+
+    public void setContentView(View view) {
         this.setCustomView(view);
     }
 

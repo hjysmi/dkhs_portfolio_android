@@ -2,8 +2,6 @@ package com.dkhs.portfolio.engine;
 
 import android.os.AsyncTask;
 
-import java.io.File;
-
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FeedBackBean;
 import com.dkhs.portfolio.bean.ThreePlatform;
@@ -15,7 +13,6 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
@@ -23,6 +20,8 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+import java.io.File;
 
 /**
  * @author zcm
@@ -182,7 +181,7 @@ public class UserEngineImpl {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
+                UserEntity entity = UserEntityDesUtil.encrypt(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {
@@ -215,11 +214,7 @@ public class UserEngineImpl {
 
     public boolean hasUserLogin() {
         UserEntity user = getUserEntity();
-        if (user == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return user != null;
 
     }
 
@@ -298,9 +293,12 @@ public class UserEngineImpl {
         }
         try {
             DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-            // UserEntity user = null;
             if (null != dbUtils) {
-                GlobalParams.LOGIN_USER = dbUtils.findFirst(UserEntity.class);
+                UserEntity user = dbUtils.findFirst(UserEntity.class);
+                if (null != user) {
+                    GlobalParams.LOGIN_USER = UserEntityDesUtil.decrypt(user);
+                }
+
             }
             return GlobalParams.LOGIN_USER;
         } catch (DbException e) {
@@ -311,7 +309,7 @@ public class UserEngineImpl {
     }
 
     /**
-     *关注
+     * 关注
      */
     public void follow(String follow_id, BasicHttpListener listener) {
 
@@ -322,7 +320,7 @@ public class UserEngineImpl {
     }
 
     /**
-     *取消关注
+     * 取消关注
      */
     public void unfollow(String unfollow_id, BasicHttpListener listener) {
 
@@ -335,7 +333,7 @@ public class UserEngineImpl {
     /**
      * g
      */
-    public void getUserInfo(String pk,BasicHttpListener listener){
+    public void getUserInfo(String pk, BasicHttpListener listener) {
         RequestParams params = new RequestParams();
         DKHSClient.requestSync(HttpMethod.GET, String.format(DKHSUrl.User.getUserInfo, pk), params, listener);
     }

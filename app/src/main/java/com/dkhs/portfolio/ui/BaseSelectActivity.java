@@ -43,11 +43,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName AddConbinationStockActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-28 下午12:11:20
- * @version 1.0
  */
 public abstract class BaseSelectActivity extends ModelAcitivity implements OnClickListener {
     public static final String KEY_SELECT_STOCK = "key_select_stock";
@@ -120,6 +120,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             setTitle(R.string.select_fund);
             mSelctStockView.setNumColumns(2);
             btnOrder.setVisibility(View.VISIBLE);
+            etSearchKey.setHint(R.string.search_fund_hint);
         } else if (getLoadByType() == ListViewType.STOCK) {
             btnOrder.setVisibility(View.GONE);
             if (isFrist) {
@@ -135,6 +136,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             btnOrder.setVisibility(View.GONE);
             setTitle(R.string.add_optional_stock);
             mSelctStockView.setNumColumns(3);
+            etSearchKey.setHint(R.string.search_stockandfunds);
 
         }
 
@@ -164,6 +166,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         btnAdd = getRightButton();
         btnBack = getBtnBack();
         btnAdd.setBackgroundDrawable(null);
+        View mSearchStock;
         mSearchStock = findViewById(R.id.rl_search_stock);
         etSearchKey = (EditText) findViewById(R.id.et_search_key);
         mStockPageView = findViewById(R.id.rl_stock_rowview);
@@ -394,15 +397,15 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private void showTypeDialog() {
         new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar))
                 .setTitle("组合创建模式").setItems(R.array.create_type, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which) {
 
                         /* User clicked so do some stuff */
-                        // String[] items = getResources().getStringArray(R.array.create_type);
-                        // String type = items[which];
-                        // setCombinationBack(which);
-                        setSelectBack(which);
-                    }
-                }).show();
+                // String[] items = getResources().getStringArray(R.array.create_type);
+                // String type = items[which];
+                // setCombinationBack(which);
+                setSelectBack(which);
+            }
+        }).show();
     }
 
     public static final String ARGUMENT_SELECT_LIST = "list_select";
@@ -411,11 +414,11 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public static final int CRATE_TYPE_CUSTOM = 1;
     public static final int FROM_CREATE = 999;
     public static final String FROM_CREATE_TITLE = "first_create";
-    private View mSearchStock;
+
 
     private void setSelectBack(int type) {
         Intent intent = new Intent();
-        intent.putExtra(ARGUMENT_SELECT_LIST, Parcels.wrap( mSelectList));
+        intent.putExtra(ARGUMENT_SELECT_LIST, Parcels.wrap(mSelectList));
         intent.putExtra(ARGUMENT_CRATE_TYPE, type);
         setResult(RESULT_OK, intent);
 

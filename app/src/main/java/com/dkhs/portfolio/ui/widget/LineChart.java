@@ -12,6 +12,8 @@ import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 
+import com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity;
+
 public class LineChart extends GridChart {
     /** 显示数据线 */
     private List<LineEntity> lineData;

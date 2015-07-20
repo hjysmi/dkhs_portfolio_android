@@ -21,7 +21,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.umeng.analytics.MobclickAgent;
 
@@ -40,7 +40,6 @@ import java.util.List;
 public class FragmentCombinationNews extends BaseFragment {
     public static final String DATA = "mCombinationBean";
     private CombinationBean mCombinationBean;
-    private LinearLayout comLayout;
 
     public static FragmentCombinationNews newInstance() {
         FragmentCombinationNews fragment = new FragmentCombinationNews();
@@ -63,7 +62,7 @@ public class FragmentCombinationNews extends BaseFragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
 
     }
 
@@ -82,7 +81,7 @@ public class FragmentCombinationNews extends BaseFragment {
     }
 
     private void initTabPage(View view) {
-        comLayout = (LinearLayout) view.findViewById(R.id.com_layout);
+        LinearLayout comLayout = (LinearLayout) view.findViewById(R.id.com_layout);
         String[] titleArray = getResources().getStringArray(R.array.detail_news_titles);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 

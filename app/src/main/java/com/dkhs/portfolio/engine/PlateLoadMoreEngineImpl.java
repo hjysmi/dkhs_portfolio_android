@@ -22,11 +22,11 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午5:07:15
- * @version 1.0
  */
 public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
 
@@ -57,9 +57,9 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public HttpHandler loadData() {
@@ -92,13 +92,12 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
 
     }
 
-    private int pageSize = 50;
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param dataSize
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public HttpHandler refreshDatabySize(int pageIndex) {
@@ -107,7 +106,7 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
             params.addQueryStringParameter("sort", mOrderType);
 
         }
-        params.addQueryStringParameter("page_size", pageSize + "");
+        params.addQueryStringParameter("page_size", "50");
         params.addQueryStringParameter("page", pageIndex + "");
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
 

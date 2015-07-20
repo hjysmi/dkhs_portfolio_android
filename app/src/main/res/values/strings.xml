@@ -79,12 +79,18 @@
     <string name="combin">组合：%1$d</string>
     <string name="optional_stock_format">自选股:%1$d</string>
     <string name="optional_stock">自选股</string>
+    <string name="tab_stock">股票</string>
+    <string name="tab_fund">基金</string>
+    <string name="tab_funds">组合</string>
     <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
-    <string name="funds_name">组合名称</string>
+    <string name="all">全部</string>
+    <string name="funds_name">基金名称</string>
+    <string name="conbination_name">组合名称</string>
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
+    <string name="reinput">重新输入</string>
     <string name="more">更多</string>
     <string name="portfolio_position">持仓组合</string>
     <string name="duty_percent">%1$d&#037;</string>
@@ -112,7 +118,7 @@
     <string name="select_fund">选择参照基金</string>
     <string name="select_stock">添加个股 </string>
     <string name="create_funds">创建组合 </string>
-    <string name="search_fund_hint">代码或简拼 </string>
+    <string name="search_fund_hint">基金简称/代码/拼音</string>
     <string name="add_postional_format">添加(%1$d)</string>
     <string name="add_text">添加</string>
     <string name="loading_list_items">加载中...</string>
@@ -153,6 +159,8 @@
     <string name="current_netvalue">当前净值:</string>
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
+    <string name="rate">收益率</string>
+    <string name="rate_total">任职回报</string>
     <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
@@ -172,6 +180,7 @@
     <string name="get_code_success">获取验证码成功</string>
     <string name="forget_password">忘记密码</string>
     <string name="login_by_captcha">该手机号已经注册过,是否直接登录?</string>
+    <string name="has_bind_message">该手机号已经绑定过</string>
     <string name="success_desc_f">恭喜您 , 注册成功 !</string>
     <string name="success_desc_s">系统为您生成的用户名:</string>
     <string name="success_desc_t">可通过设置个人帐号信息修改并完善您的个人资料!</string>
@@ -370,6 +379,7 @@
     <string name="market_index_name">指数名称</string>
     <string name="market_stock_name">股票名称</string>
     <string name="market_current_value">最新价</string>
+    <string name="market_net_value">净值</string>
     <string name="market_up_ratio">涨幅</string>
     <string name="market_down_ratio">跌幅</string>
     <string name="market_turnover">换手率</string>
@@ -379,6 +389,9 @@
     <string name="market_updown_ratio">涨跌幅</string>
     <string name="market_updown_change">涨跌额</string>
     <string name="market_updown_total_capit">总市值</string>
+    <string name="market_fund_per_day">日收益</string>
+    <string name="market_fund_per_month">月收益</string>
+    <string name="market_fund_per_tyear">今年收益</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>
@@ -387,6 +400,7 @@
     <string name="market_title_index">国内指数</string>
     <string name="stop_stock">停牌</string>
     <string name="exit_stock">退市</string>
+    <string name="new_stock">新股</string>
 
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
@@ -399,19 +413,24 @@
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
-    <string name="title_edit_optional_fund">编辑自选组合</string>
+    <string name="title_edit_optional_combina">编辑自选组合</string>
     <string name="title_edit_optional_stock">编辑自选股</string>
+    <string name="title_edit_optional_fund">编辑自选基金</string>
 
     <!-- optional tab -->
     <string name="net_value">净值</string>
+    <string name="tenthou_unit_incm">万份收益</string>
+    <string name="year_yld">七日年化</string>
     <string name="today_up_ratio">今日涨幅</string>
     <string name="day_income">日收益</string>
     <string name="week_income">周收益</string>
     <string name="month_income">月收益</string>
+    <string name="year_income">年收益</string>
     <string name="click_add_stock">点击添加自选股</string>
-    <string name="click_creat_fund">点击创建组合</string>
-    <string name="creat_fund">自建组合</string>
-    <string name="creat_fund_name">组合名称</string>
+    <string name="click_creat_combina">点击创建组合</string>
+    <string name="click_add_fund">点击添加自选基金</string>
+    <string name="creat_combination">自建组合</string>
+    <string name="creat_combination_name">组合名称</string>
     <string name="message_center">消息中心</string>
     <!-- toast message text -->
     <string name="msg_follow_success">关注成功</string>
@@ -424,6 +443,8 @@
     <string name="format_stock_price">最新价   %1$s</string>
     <string name="format_com_percent">日涨跌幅   %1$s</string>
     <string name="format_combination_price">净值   %1$s</string>
+    <string name="format_fund_price">最新净值   %1$s</string>
+    <string name="format_7day_price">7日年化收益率   %1$s</string>
     <string name="format_priceup_tip">较当前价涨%1$s</string>
     <string name="format_priceup_more_tip">较当前价涨超过%1$s</string>
     <string name="format_priceup_low_tip">较当前价跌%1$s，应大于当前价</string>
@@ -448,6 +469,8 @@
     <string name="remind_adjust_text">调仓提醒</string>
     <string name="remind_notice_text">公告提醒</string>
     <string name="remind_yanbao_text">研报提醒</string>
+    <string name="remind_fund_text">净值更新提醒</string>
+    <string name="remind_7day_text">7日年化更新提醒</string>
     <string name="tip_day_percent">日涨跌幅输入错误</string>
     <string name="msg_priceup_toolow">上涨目标低于最新价</string>
     <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
@@ -459,7 +482,7 @@
     <string name="following">关注</string>
     <string name="unfollowing">取消关注</string>
     <string name="unfollow_alert_content">确定取消关注 ?</string>
-    <string name="null_number">--</string>
+    <string name="null_number">- -</string>
     <string name="toast_remind_success">提醒设置成功</string>
     <string name="toast_click_once_more">再按一次退出程序</string>
     <string name="float_menu_follow">加入自选</string>
@@ -493,4 +516,116 @@
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>
     <string name="edit_success">设置成功</string>
+
+    <string name="search_stockandfunds">股票、基金简称/代码/拼音</string>
+    <string name="search_stock">股票简称/代码/拼音</string>
+
+    <string name="edit">编辑</string>
+
+    <string name="def_not_value">—</string>
+    <!--基金详情页-->
+    <string name="fund_tenure">任职起</string>
+    <string name="fund_month">1个月</string>
+    <string name="fund_season">3个月</string>
+    <string name="fund_year">1年</string>
+    <string name="fund_toyear">今年</string>
+
+    <string name="percent_day">日收益</string>
+    <string name="percent_month">月收益</string>
+    <string name="percent_season">季收益</string>
+    <string name="percent_six_month">半年收益</string>
+    <string name="percent_year">年收益</string>
+    <string name="percent_tyear">今年以来</string>
+    <string name="office_tenure">任职起</string>
+    <string name="net_cumulative">累计收益</string>
+    <string name="title_activity_fund_manager">现任基金经理</string>
+
+
+    <string name="wanshou">万份收益</string>
+    <string name="qirinianhua">七日年化</string>
+    <string name="pre_netvalue">前一净值</string>
+    <string name="all_netvalue">累计净值</string>
+
+    <string name="fund_detail_name">基金全称</string>
+    <string name="fund_manager">基金经理</string>
+    <string name="fund_comp">基金公司</string>
+    <string name="fund_stype">基金类型</string>
+    <string name="fund_create_date">成立日期</string>
+    <string name="fund_asset">基金份额</string>
+    <string name="earnings">收益</string>
+    <string name="office_day">任职日期</string>
+    <string name="current_fund_manager">现任基金经理</string>
+
+
+    <string name="collapse_benefit_curve">收起收益曲线</string>
+    <string name="expend_benefit_curve">显示收益曲线</string>
+    <string name="up_to_now">至今</string>
+    <string name="between_date"> 至 </string>
+    <string name="sh300">沪深300</string>
+    <string name="more_fund_compare">更多基金比较</string>
+    <string name="ad3">成功注册即送50M流量，限量抢！</string>
+    <string name="invite_friends">邀请好友</string>
+    <string name="inviting">立即邀请</string>
+
+
+    <!--流量活动-->
+    <string name="flow_package">流量包</string>
+    <string name="exchange_flow">可兑换流量</string>
+    <string name="flow_point">流量积分：%1$d分</string>
+    <string name="bind_now">立即绑定</string>
+    <string name="has_done">已经完成</string>
+    <string name="invite_now">立即邀请</string>
+    <string name="input_now">立即填写</string>
+    <string name="create_now">立即创建</string>
+    <string name="bind_phone">绑定手机</string>
+    <string name="input_invite_code">填写邀请码</string>
+    <string name="invite_friend">邀请好友</string>
+    <string name="create_combinatino">创建组合</string>
+    <string name="flow_bind_tip">绑定成功即可兑换流量</string>
+    <string name="flow_input_tip">填写成功立即获得50M流量</string>
+    <string name="flow_invite_tip">每邀请1位好友成功注册送50M流量</string>
+    <string name="flow_create_tip">首次成功创建组合送50M流量</string>
+
+    <string name="title_flow_exchange">流量兑换</string>
+    <string name="max_flow_tip">当前最高可兑换%1$dM流量</string>
+    <string name="prepaid_phone_num">充值手机号：</string>
+    <string name="exchange">兑换</string>
+    <string name="exchange_tip_title">流量及兑换说明</string>
+
+    <string name="exchange_tip">1、用户获得的流量为全国流量，移动、联通、电信全国用户均可使用。
+\n2、流量包中流量长期有效，可随时兑换使用。
+\n3、兑换的全国流量，当月有效且优先使用。
+\n4、兑换的全国流量将在24小时内充值到绑定的手机号码中，请确保手机号码处于正常状态。
+\n5、用户欠费停机和虚拟运营商手机等情况可能造成充值失败。</string>
+
+    <string name="dialog_exchange_message">确认用积分兑换%1$dM流量？</string>
+    <string name="exchange_success">兑换成功</string>
+    <string name="exchange_failure">兑换失败</string>
+    <string name="title_invite_friend">填写邀请码</string>
+    <string name="invite_code">邀请码</string>
+    <string name="hint_invite_code">输入邀请码</string>
+    <string name="hint_invite_code_tip">提交成功，立即获得50M流量</string>
+    <string name="post">提交</string>
+    <string name="post_success_tip">提交成功</string>
+    <string name="post_failure_tip">提交失败</string>
+    <string name="invite_history">邀请历史</string>
+    <string name="nick_name">昵称</string>
+    <string name="register_date">注册时间</string>
+    <string name="no_invitations_tips">你还没有邀请。</string>
+    <string name="ad1">  ( 千万流量疯狂送, 快来抢 ! )</string>
+    <string name="history">历史</string>
+    <string name="invite_success">邀请成功</string>
+    <string name="invite_cancel">邀请取消</string>
+    <string name="invite_err">邀请失败</string>
+    <string name="update_rightnow">马上更新</string>
+    <string name="start_download">开始下载</string>
+    <string name="update">升级</string>
+    <string name="def_update_dec">发现新版本,建议立即更新使用.</string>
+    <string name="exit_app">退出谁牛</string>
+    <string name="no_update">暂不更新</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shakeItOff">摇一摇</string>
+    <string name="introduce">说明</string>
 </resources>

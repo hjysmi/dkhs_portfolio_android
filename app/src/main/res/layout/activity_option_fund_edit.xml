@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/gray_text_tabline"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingRight="20dp"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/tv_type_title"
+            style="@style/gray_title_text"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="55"
+            android:paddingLeft="36dp"
+            android:textSize="15sp"
+            android:text="股票名称" />
+
+        <TextView
+            style="@style/gray_title_text"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="right"
+            android:textSize="15sp"
+            android:text="提醒" />
+
+        <TextView
+            style="@style/gray_title_text"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="right"
+            android:textSize="15sp"
+            android:text="置顶" />
+
+        <TextView
+            style="@style/gray_title_text"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="right"
+            android:textSize="15sp"
+            android:text="拖动" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+
+        <com.dkhs.portfolio.ui.draglist.DragListView
+            android:id="@+id/option_edit_list"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</LinearLayout>

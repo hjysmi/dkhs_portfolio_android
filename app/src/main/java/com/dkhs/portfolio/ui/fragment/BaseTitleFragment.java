@@ -8,28 +8,27 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.TextImageButton;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.TextImageButton;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName BaseFragmentTitle
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-5 下午12:48:51
- * @version 1.0
  */
 public abstract class BaseTitleFragment extends BaseFragment {
 
@@ -47,6 +46,8 @@ public abstract class BaseTitleFragment extends BaseFragment {
 
     @ViewInject(R.id.tv_title)
     private TextView tvTitle;
+//    @ViewInject(R.id.includeHead)
+    protected RelativeLayout titleRL;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         ViewUtils.inject(this, view); // 注入view和事件
         btnBack = (TextImageButton) view.findViewById(BACKBUTTON_ID);
+        titleRL = (RelativeLayout) view.findViewById(R.id.includeHead);
         btnRight = (Button) view.findViewById(RIGHTBUTTON_ID);
         btnSecondRight = (Button) view.findViewById(SECONDRIGHTBUTTON_ID);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);

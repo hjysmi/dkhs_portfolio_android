@@ -1,11 +1,9 @@
 package me.imid.swipebacklayout.lib.app;
 
-import com.dkhs.portfolio.ui.BaseActivity;
-import com.dkhs.portfolio.ui.fragment.BaseFragment;
-
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
+
+import com.dkhs.portfolio.ui.BaseActivity;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;

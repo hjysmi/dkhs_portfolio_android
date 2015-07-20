@@ -8,32 +8,25 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.GridView;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.ui.GettingUrlForAPPActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
-import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
-import com.dkhs.portfolio.ui.adapter.CombinationAdapter.ViewHolder;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+
+import java.util.List;
 
 /**
  * @ClassName RVMainFunctionAdapter
@@ -76,7 +69,6 @@ public class RVMyCombinationAdapter extends RecyclerView.Adapter<RVMyCombination
             viewHolder.tvDesc.setVisibility(View.VISIBLE);
 
             CombinationBean item = mDataList.get(position);
-            final ViewHolder viewhold = viewHolder;
             viewHolder.tvTitle.setText(item.getName());
             if (position >= 9) {
                 viewHolder.tvIndex.setPadding(mContext.getResources().getDimensionPixelSize(R.dimen.two_index_padding),
@@ -127,8 +119,7 @@ public class RVMyCombinationAdapter extends RecyclerView.Adapter<RVMyCombination
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View view = View.inflate(viewGroup.getContext(), R.layout.item_my_combination, null);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

@@ -35,6 +35,7 @@ import java.util.TimerTask;
 
 public class KChartsLandFragment extends AbstractKChartView implements OnClickListener, KChartsLandCallBack, FragmentLifecycle {
 
+
     private static final String UNCHEK = "0";
     private static final String BEFORECHEK = "1";
     private static final String AFTERCHEK = "2";
@@ -51,7 +52,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     List<OHLCEntity> ohlcs;
     private boolean having = true;
     // private String symbolType;
-    private static final String TAG = "KChartsLandFragment";
+    private static final String TAG = KChartsLandFragment.class.getSimpleName();
     private RelativeLayout pb;
     private TextView tvUnCheck;
     private TextView tvBeforeCheck;
@@ -59,7 +60,6 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     private TextView tvTurnover;
     private TextView tvMacd;
     private int page = 1;
-    private boolean addmore = true;
     private View pbLoadMore;
 
     public static KChartsLandFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
@@ -280,19 +280,16 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     }
 
     public void loadMordKline() {
-        if (addmore) {
-            page++;
-            getOHLCDatas();
-        }
+        page++;
+        getOHLCDatas();
     }
 
     private IHttpListener mKlineHttpListener = new ParseHttpListener<List<OHLCEntity>>() {
 
         @Override
         protected List<OHLCEntity> parseDateTask(String jsonData) {
-            List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonData);
+            return getOHLCDatasFromJson(jsonData);
 
-            return ohlc;
         }
 
         public void onFailure(int errCode, String errMsg) {
@@ -362,9 +359,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
      * @return
      */
     private List<OHLCEntity> getTestDatas() {
-        List<OHLCEntity> ohlc = new ArrayList<OHLCEntity>();
+        return new ArrayList<OHLCEntity>();
 
-        return ohlc;
     }
 
     public void large(View view) {
@@ -404,12 +400,12 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
+        Log.v(TAG, "-----------setUserVisibleHint:" + isVisibleToUser);
         setViewVisible(isVisibleToUser);
         super.setUserVisibleHint(isVisibleToUser);
     }
 
 
-    @Override
     public void setViewVisible(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             onVisible();
@@ -614,18 +610,22 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     }
 
     private void updateCheckView(String checkvalue) {
-        if (checkvalue.equals(UNCHEK)) {
-            tvUnCheck.setSelected(true);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(false);
-        } else if (checkvalue.equals(BEFORECHEK)) {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(true);
-            tvAfterCheck.setSelected(false);
-        } else {
-            tvUnCheck.setSelected(false);
-            tvBeforeCheck.setSelected(false);
-            tvAfterCheck.setSelected(true);
+        switch (checkvalue) {
+            case UNCHEK:
+                tvUnCheck.setSelected(true);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(false);
+                break;
+            case BEFORECHEK:
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(true);
+                tvAfterCheck.setSelected(false);
+                break;
+            default:
+                tvUnCheck.setSelected(false);
+                tvBeforeCheck.setSelected(false);
+                tvAfterCheck.setSelected(true);
+                break;
         }
     }
 
@@ -672,14 +672,16 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     public void onLoadMoreDataStart() {
         Log.e("LoadMore", "-----------onLoadMoreDataStart-----------");
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        if (isAdded()) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
-                pbLoadMore.setVisibility(View.VISIBLE);
+                    pbLoadMore.setVisibility(View.VISIBLE);
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override
@@ -687,13 +689,17 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
         Log.e("LoadMore", "-----------onLoadMoreDataEnd-----------");
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pbLoadMore.setVisibility(View.GONE);
+        if (isAdded()) {
 
-            }
-        });
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pbLoadMore.setVisibility(View.GONE);
+
+                }
+            });
+        }
 
     }
 

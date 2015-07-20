@@ -34,7 +34,6 @@
                 android:id="@+id/tv_adjust_history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/adjust_time_divier"
                 android:text="沪深大盘  从35%升至50% \n资金余额  从35%降至20%"
                 android:textColor="@color/black"
                 android:textSize="14sp" />

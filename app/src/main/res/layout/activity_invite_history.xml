@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/activity_bg_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/view_stock_title"
+        style="@style/gray_text_tabline"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        >
+
+        <TextView
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3"
+            android:gravity="left|center_vertical"
+            android:text="@string/nick_name"
+            />
+
+
+            <TextView
+                android:text="@string/register_date"
+                style="@style/gray_title_text"
+                android:layout_weight="2"
+                android:layout_gravity="center_vertical"
+                android:gravity="right|center_vertical"
+                android:paddingRight="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+    </LinearLayout>
+
+        <com.dkhs.widget.CircularProgress
+            android:id="@+id/loadView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:alpha="0.5"
+            app:circular_progress_color="@color/tag_red" />
+    <ListView
+        android:id="@+id/listView"
+        android:layout_below="@+id/view_stock_title"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+        <RelativeLayout
+            android:id="@+id/rl_empty"
+            android:layout_width="fill_parent"
+            android:background="@color/activity_bg_color"
+            android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/errTV"
+                android:layout_centerInParent="true"
+                android:paddingLeft="8dp"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:drawableLeft="@drawable/ic_no_data"
+                android:layout_toRightOf="@+id/errIM"
+                android:layout_width="wrap_content"
+                android:text="@string/no_invitations_tips"
+                android:textColor="@color/tag_gray"
+                android:textSize="18sp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/person_setting_backgroud"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_flow_package"
+        style="@style/white_grayborder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/combin_horSpacing">
+
+        <com.dkhs.portfolio.ui.widget.HorizontalListView xmlns:widget="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/HorizontalListView"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="@dimen/combin_horSpacing"
+            android:overScrollMode="never"
+            widget:dividerWidth="2dp" />
+
+
+        <TextView
+            android:id="@+id/tv_exchange_maxtip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/HorizontalListView"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/change_name_icon"
+            android:drawablePadding="6dp"
+            android:text="@string/max_flow_tip"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_exchange_maxtip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tv_prephone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prepaid_phone_num"
+                android:textColor="@color/light_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_prephone_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_prephone_text"
+                android:layout_toRightOf="@+id/tv_prephone_text"
+                android:text=""
+                android:textColor="@color/light_gray"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/exchange"
+        style="@style/btn_login_blue"
+        android:layout_below="@+id/rl_flow_package"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="26dip"
+        android:enabled="false"
+        android:text="@string/exchange" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/exchange"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_exchange_info_title"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/exchange_tip_title"
+                android:textColor="@color/light_gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_exchange_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_exchange_info_title"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/exchange_tip"
+                android:textColor="@color/light_gray"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

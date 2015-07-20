@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -25,10 +26,10 @@ import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.TrendLinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
-import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -109,7 +110,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }
@@ -172,6 +173,8 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
         mMaChart.setDrawRightYTitle(true);
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
     }
 
     private List<LineEntity> lines;
@@ -348,12 +351,8 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
     }
 
-    Handler dataHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-        }
-
-        ;
-    };
+    @SuppressLint("HandlerLeak")
+    Handler dataHandler = new Handler();
 
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值

@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,8 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+
+import java.util.List;
 
 /**
  * @ClassName SelectFundAdatper
@@ -32,11 +31,9 @@ import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
  */
 public class SearchFundAdatper extends BaseAdatperSelectStockFund {
 
-    private boolean isCombination;
 
     public SearchFundAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
         super(context, datas);
-        this.isCombination = isCombination;
     }
 
     @Override
@@ -67,7 +64,7 @@ public class SearchFundAdatper extends BaseAdatperSelectStockFund {
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.code));
+        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.symbol));
 
         return convertView;
     }

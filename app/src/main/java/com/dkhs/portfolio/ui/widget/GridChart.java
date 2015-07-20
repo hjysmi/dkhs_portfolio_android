@@ -730,7 +730,7 @@ public class GridChart extends View {
         values.put(Images.Media.DATA, filePath);
         values.put(Images.Media.SIZE, size);
 
-        return getContext().getContentResolver().insert(Images.Media.EXTERNAL_CONTENT_URI, values) == null ? false
+        return (getContext().getContentResolver().insert(Images.Media.EXTERNAL_CONTENT_URI, values) == null) ? false
                 : true;
     }
 

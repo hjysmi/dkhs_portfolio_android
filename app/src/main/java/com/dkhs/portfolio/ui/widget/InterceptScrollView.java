@@ -12,8 +12,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ScrollView;
 
 import com.melnykov.fab.ObservableScrollView;
 
@@ -80,7 +78,6 @@ public class InterceptScrollView extends ObservableScrollView {
         }
 
 
-
     }
 
     private boolean isIntercept = false;
@@ -122,8 +119,6 @@ public class InterceptScrollView extends ObservableScrollView {
         void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy);
 
     }
-
-
 
 
 }

@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
+
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
@@ -27,13 +28,18 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.protocol.HTTP;
 
-import javax.net.ssl.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.security.cert.X509Certificate;
 import java.util.Locale;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by wyouflf on 13-8-30.
@@ -214,7 +220,7 @@ public class OtherUtils {
 
     // get the sub string for large string
     public static String getSubString(final String str, int start, int end) {
-        return new String(str.substring(start, end));
+        return str.substring(start, end);
     }
 
     public static StackTraceElement getCurrentStackTraceElement() {

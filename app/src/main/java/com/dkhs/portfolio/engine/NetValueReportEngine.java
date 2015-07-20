@@ -8,13 +8,6 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -24,12 +17,19 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName NetValueEngine
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-22 下午3:12:05
- * @version 1.0
  */
 public class NetValueReportEngine extends LoadMoreDataEngine {
 
@@ -61,7 +61,7 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
     /**
      * 查询至今的报表
      */
-    public void requeryHistoryReport(int page) {
+    public void requeryHistoryReport() {
         requeryReport("5");
     }
 
@@ -111,28 +111,26 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
     // }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param jsonData
      * @return
-     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
 
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-        MoreDataBean<NetValueReportBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+        return (MoreDataBean) gson.fromJson(jsonData,
                 new TypeToken<MoreDataBean<NetValueReportBean>>() {
                 }.getType());
-        return moreBean;
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param dataSize
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {

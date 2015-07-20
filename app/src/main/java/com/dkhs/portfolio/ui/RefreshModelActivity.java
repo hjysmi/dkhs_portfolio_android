@@ -8,21 +8,23 @@
  */
 package com.dkhs.portfolio.ui;
 
-import com.dkhs.portfolio.R;
-
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.common.WeakHandler;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName RefreshModelActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-12-30 上午10:10:12
- * @version 1.0
  */
 public class RefreshModelActivity extends ModelAcitivity {
 
@@ -41,25 +43,27 @@ public class RefreshModelActivity extends ModelAcitivity {
 
     protected static final int MSG_WHAT_BEFORE_REQUEST = 99;
     protected static final int MSG_WHAT_AFTER_REQUEST = 97;
-    Handler requestUiHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    WeakHandler requestUiHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_WHAT_BEFORE_REQUEST: {
                     rotateRefreshButton();
                 }
 
-                    break;
+                break;
                 case MSG_WHAT_AFTER_REQUEST: {
                     stopRefreshAnimation();
                 }
 
-                    break;
+                break;
 
                 default:
                     break;
             }
-        };
-    };
+            return false;
+        }
+    });
 
     private void rotateRefreshButton() {
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing), null,

@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +19,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+
+import java.util.List;
 
 /**
  * @ClassName OptionalStockAdapter
@@ -101,7 +101,7 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
             viewHolder.tvCenterValue.setText(StringFromatUtils.get2PointPercent(item.getPercent()));
             viewHolder.colorView.setBackgroundColor(item.getDutyColor());
             viewHolder.tvRightValue.setVisibility(View.VISIBLE);
-            viewHolder.tvStockCode.setText(item.getStockCode());
+            viewHolder.tvStockCode.setText(item.getStockSymbol());
             viewHolder.tvStockCode.setVisibility(View.VISIBLE);
 
             viewHolder.tvStockName.setText(item.getStockName());

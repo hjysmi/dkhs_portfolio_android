@@ -26,7 +26,14 @@
         android:drawableLeft="@drawable/btn_back_selector"
         android:padding="15dp"
         android:scaleType="fitCenter"
-        android:textColor="@color/white_textselector" />
+        android:textColor="@color/white_textselector" />
+
+
+
+
+
+
+
     -->
 
     <RelativeLayout
@@ -70,11 +77,11 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:paddingBottom="10dp"
-            android:paddingRight="10dp"
+            android:paddingRight="20dp"
             android:paddingTop="10dp"
             android:scaleType="fitCenter"
             android:textColor="@color/white_textselector"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -88,7 +95,8 @@
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:textColor="@color/white_textselector"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:visibility="gone" />
+
 
 </RelativeLayout>

@@ -1,14 +1,8 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,11 +28,13 @@ import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -47,28 +43,27 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+
 /**
  * 软件设置界面
  * 用于设置组合股是否公开
  * 当前有个问题:退出按钮暂时无法符合美工要求(当高度没达到全屏时,退出按钮位于屏幕最下方,当高度超过当前屏幕长度时,可以被顶到屏幕外去)
- * 
+ *
  * @author weiting
- * 
  */
 public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public static boolean isSetPassword = true;
-    private  static final  String EDIT_MODE="userInfo";
+    private static final String EDIT_MODE = "userInfo";
 
 
-
-
-    private LinearLayout settingLayoutGroup;
     private Context context;
     private ImageView settingImageHead;
-    private TextView settingTextAccountText;
     private TextView settingTextNameText;
     // private Button btnLogin;
-    private View viewUserInfo;
     // private View viewLogin;
     private View viewPassword;
     private UserEntity ue;
@@ -76,8 +71,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private boolean login = false;
     private LinearLayout settingAccountLayout;
     @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
+    private WeakHandler handler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 333: {
                     // 当退出登录后，需要清空通知栏上的通知列表
@@ -87,22 +83,22 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     startActivity(intent);
                     PromptManager.closeProgressDialog();
                 }
-                    break;
+                break;
                 default:
                     break;
             }
-        };
-    };
+            return false;
+        }
+    });
 
-    public static  Intent getEditUserInfoIntent(Context context){
+    public static Intent getEditUserInfoIntent(Context context) {
 
 
-        Intent intent =new Intent(context,SettingActivity.class);
-        intent.putExtra(EDIT_MODE,true);
+        Intent intent = new Intent(context, SettingActivity.class);
+        intent.putExtra(EDIT_MODE, true);
 
         return intent;
     }
-
 
 
     @Override
@@ -121,7 +117,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initData() {
         UserEngineImpl engine = new UserEngineImpl();
         engine.getSettingMessage(listener);
-        engine.queryThreePlatBind(bindsListener);
+        UserEngineImpl.queryThreePlatBind(bindsListener);
         listener.setLoadingDialog(context);
         if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
             engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
@@ -169,11 +165,11 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         setTitle(R.string.setting);
         // btnLogin = (Button) findViewById(R.id.btn_login);
         // btnLogin.setOnClickListener(this);
-        viewUserInfo = findViewById(R.id.person_setting_parent);
+        View viewUserInfo = findViewById(R.id.person_setting_parent);
         // viewLogin = findViewById(R.id.ll_login_layout);
-        settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
+        LinearLayout settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
-        settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
+        TextView settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
         settingTextNameText = (TextView) findViewById(R.id.setting_text_name_text);
         settingAccountLayout = (LinearLayout) findViewById(R.id.setting_account_layout);
         String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
@@ -182,7 +178,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
 
-        if(getEditModeEnable()){
+        if (getEditModeEnable()) {
             setTitle(R.string.personal_setting);
             findViewById(R.id.feed_back_layout).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_check_version).setVisibility(View.GONE);
@@ -195,7 +191,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.line7).setVisibility(View.GONE);
             findViewById(R.id.line8).setVisibility(View.GONE);
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
-        }else{
+        } else {
             setTitle(R.string.setting);
 
 
@@ -212,7 +208,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         }
 
 
-
         if (PortfolioApplication.hasUserLogin()) {
             // btnLogin.setVisibility(View.GONE);
             // viewLogin.setVisibility(View.GONE);
@@ -220,8 +215,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
                 // url = DKHSUrl.BASE_DEV_URL + url;
-                BitmapUtils bitmapUtils = new BitmapUtils(context);
-                bitmapUtils.display(settingImageHead, url);
+                BitmapUtils.display(settingImageHead, url);
 
             } else {
                 Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
@@ -257,7 +251,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             case R.id.btn_login: {
                 UIUtils.iStartLoginActivity(this);
             }
-                break;
+            break;
             case R.id.btn_exit:
                 if (isSetPassword) {
 
@@ -270,11 +264,12 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
-                        };
+                        }
+
+                        ;
                     }.start();
-                    GlobalParams.ACCESS_TOCKEN = null;
-                    GlobalParams.MOBILE = null;
-                    GlobalParams.LOGIN_USER = null;
+
+                    GlobalParams.clearUserInfo();
 
                     // 断开融云连接
                     // RongIM.getInstance().disconnect(false);
@@ -311,14 +306,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(this, SettingPasswordOnSettingActivity.class);
+                intent = new Intent(this, ModifyPswActivity.class);
                 UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_layout_username:
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(this, UserNameChangeActivity.class);
+                intent = new Intent(this, ModifyUNameActivity.class);
                 startActivityForResult(intent, 6);
                 UIUtils.setOverridePendingAmin(this);
                 break;
@@ -326,7 +321,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(context, SelectPhoneFromSystem.class);
+                intent = new Intent(context, PickupPhotoActivity.class);
                 startActivityForResult(intent, 5);
                 UIUtils.setOverridePendingSlideFormBottomAmim(this);
                 break;
@@ -338,7 +333,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent = new Intent(this, AboutUsActivity.class);
                 UIUtils.startAminationActivity(this, intent);
             }
-                break;
+            break;
             case R.id.setting_layout_check_version:
                 UserEngineImpl mUserEngineImpl = new UserEngineImpl();
                 mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
@@ -348,10 +343,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(this, PersonSignSettingActivity.class);
+                intent = new Intent(this, ModifyUserSignActivity.class);
                 Bundle b = new Bundle();
                 if (null != ue)
-                    b.putString(PersonSignSettingActivity.DESCRIPTION, ue.getDescription());
+                    b.putString(ModifyUserSignActivity.DESCRIPTION, ue.getDescription());
                 intent.putExtras(b);
                 UIUtils.startAminationActivity(this, intent);
                 break;
@@ -383,45 +378,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     PackageManager manager = context.getPackageManager();
                     PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
                     String version = info.versionName;
-                    String s = bean.getVersion().replaceAll("\\.", "");
-                    int service = Integer.parseInt(s);
-                    int local = Integer.parseInt(version.replaceAll("\\.", ""));
-                    if (service > local) {
-                       MAlertDialog alert = PromptManager.getAlertDialog(context);
-                        alert.setTitle("软件升级").setMessage("发现新版本,建议立即更新使用.")// "发现新版本,建议立即更新使用."
-                                .setCancelable(false).setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-
-                                        Uri uri = Uri.parse(bean.getUrl());
-                                        Request request = new Request(uri);
-                                        // 设置允许使用的网络类型，这里是移动网络和wifi都可以
-                                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE
-                                                | DownloadManager.Request.NETWORK_WIFI);
-                                        // 禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION
-                                        request.setShowRunningNotification(true);
-                                        // 不显示下载界面
-                                        request.setVisibleInDownloadsUi(true);
-
-                                        request.setDestinationInExternalFilesDir(context, null, "dkhs.apk");
-                                        long id = downloadManager.enqueue(request);
-                                        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_ID, id
-                                                + "");
-                                        PromptManager.showToast("开始下载");
-                                    }
-                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        alert.show();
+                    if (object.isNewVersion(version)) {
+                        UpdateDialog alert = new UpdateDialog(context);
+                        alert.showByAppBean(object);
                     } else {
                         PromptManager.showToast("当前已经是最新版本");
                     }
 
                 }
             } catch (NameNotFoundException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
@@ -436,8 +401,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url)) {
                 // url = DKHSUrl.BASE_DEV_URL + url;
-                BitmapUtils bitmapUtils = new BitmapUtils(context);
-                bitmapUtils.display(settingImageHead, url);
+                BitmapUtils.display(settingImageHead, url);
             }
         }
     }
@@ -455,14 +419,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
             try {
                 JSONObject json = new JSONObject(jsonData);
-                UserEntity ue = DataParse.parseObjectJson(UserEntity.class, json);
-                return ue;
+                return DataParse.parseObjectJson(UserEntity.class, json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -485,13 +450,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected List<BindThreePlat> parseDateTask(String jsonData) {
-            List<BindThreePlat> bindList = DataParse.parseArrayJson(BindThreePlat.class, jsonData);
 
-            return bindList;
+            return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
         }
 
         @Override
@@ -501,7 +467,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     BindThreePlat palt = entity.get(i);
                     if (palt.getProvider().equalsIgnoreCase("mobile") || palt.getProvider().equalsIgnoreCase("email")) {
                         if (palt.isStatus()) {
-                            if(!getEditModeEnable()){
+                            if (!getEditModeEnable()) {
                                 viewPassword.setVisibility(View.VISIBLE);
                             }
 
@@ -516,8 +482,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         }
     };
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    WeakHandler updateHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             List<BindThreePlat> bindList = (List<BindThreePlat>) msg.obj;
             for (BindThreePlat plat : bindList) {
                 if (plat.isStatus()) {
@@ -533,8 +500,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             } else {
                 settingAccountLayout.setVisibility(View.GONE);
             }
-        };
-    };
+            return false;
+        }
+    });
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting);
 
     @Override
@@ -548,6 +516,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
     public boolean getEditModeEnable() {
 
-        return getIntent().getBooleanExtra(EDIT_MODE,false);
+        return getIntent().getBooleanExtra(EDIT_MODE, false);
     }
 }

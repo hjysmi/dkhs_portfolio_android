@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -23,47 +21,60 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.FundDetailActivity;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectFundAdatper
  * @Description 添加自选股列表
- * @author zjz
  * @date 2014-9-5 下午2:24:13
- * @version 1.0
  */
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
-    private Context context;
     private boolean isDefColor;
-    VisitorDataEngine mVisitorDataEngine;
-    private List<SelectStockBean> localList;
+    //    VisitorDataEngine mVisitorDataEngine;
+    //    private List<SelectStockBean> localList;
     private boolean isAddNewStock;
+
+
+    public SelectStockAdatper(Context context) {
+        super(context);
+        init();
+    }
+
+    public SelectStockAdatper(Context context, boolean isdefcolor) {
+        super(context);
+        this.isDefColor = isdefcolor;
+        init();
+    }
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
-        this.context = context;
-        mVisitorDataEngine = new VisitorDataEngine();
-        if (!PortfolioApplication.hasUserLogin()) {
-            localList = mVisitorDataEngine.getOptionalStockList();
-        }
+        init();
     }
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas, boolean isdefcolor) {
         super(context, datas);
-        this.context = context;
         this.isDefColor = isdefcolor;
-        mVisitorDataEngine = new VisitorDataEngine();
-        if (!PortfolioApplication.hasUserLogin()) {
-            localList = mVisitorDataEngine.getOptionalStockList();
-        }
+        init();
     }
+
+    private void init() {
+//        mVisitorDataEngine = new VisitorDataEngine();
+//        if (!PortfolioApplication.hasUserLogin()) {
+//            localList = mVisitorDataEngine.getOptionalStockList();
+//        }
+    }
+
 
     protected void setAddNewStock(boolean isNewstockable) {
         this.isAddNewStock = isNewstockable;
@@ -90,28 +101,19 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         final SelectStockBean item = mDataList.get(position);
 
-        // if (!PortfolioApplication.hasUserLogin()) {
-        // final CheckBox cbBox = viewHolder.mCheckbox;
-        // viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // // cbBox.setChecked(false);
-        // // UIUtils.iStartLoginActivity(context);
-        // item.isFollowed = true;
-        // item.sortId = 9999;
-        // mVisitorDataEngine.saveOptionalStock(item);
-        // }
-        // });
-        // } else {
+
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-        viewHolder.mCheckbox.setTag(item);
+
         if (this instanceof AddStockItemAdapter) {// 如果是添加自选股界面
 
             // 如果是游客模式
-            if (null != localList) {
-                viewHolder.mCheckbox.setChecked(localList.contains(item));
+            if (!PortfolioApplication.hasUserLogin()) {
+                if (null != SelectAddOptionalActivity.mFollowList) {
+                    boolean isFollowed = SelectAddOptionalActivity.mFollowList.contains(item);
+                    mDataList.get(position).setFollowed(isFollowed);
+                    viewHolder.mCheckbox.setChecked(isFollowed);
+                }
             } else {
 
                 viewHolder.mCheckbox.setChecked(item.isFollowed);
@@ -121,11 +123,12 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         } else {
             viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         }
+        viewHolder.mCheckbox.setTag(item);
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
         // }
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(item.code);
+        viewHolder.tvStockNum.setText(item.symbol);
 
         if (StockUitls.isDelistStock(item.list_status)) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
@@ -140,7 +143,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
         } else if (StockUitls.isNewStock(item.list_status) && !isAddNewStock) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
-            viewHolder.tvSuspend.setText("新股");
+            viewHolder.tvSuspend.setText(R.string.new_stock);
             viewHolder.mCheckbox.setVisibility(View.GONE);
         } else {
             viewHolder.tvSuspend.setVisibility(View.GONE);
@@ -181,22 +184,6 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         LinearLayout tvStockLayout;
     }
 
-    // class OnItemListener implements OnClickListener {
-    // private int position;
-    //
-    // public OnItemListener(int position) {
-    // this.position = position;
-    // }
-    //
-    // @Override
-    // public void onClick(View v) {
-    // // TODO Auto-generated method stub
-    // SelectStockBean itemStock = mDataList.get(position);
-    //
-    // context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
-    // }
-    //
-    // }
 
     class OnCheckListener implements OnClickListener {
         private int position;
@@ -213,9 +200,13 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             if (mCheckbox.isChecked()) {
                 SelectStockBean itemStock = mDataList.get(position);
                 itemStock.isFollowed = true;
-                UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(context, itemStock));
+                if (StockUitls.isFundType(itemStock.symbol_type)) {
+                    UIUtils.startAminationActivity((Activity) mContext, FundDetailActivity.newIntent(mContext, itemStock));
+                } else {
 
-                // context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+                    UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
+                }
+
             }
         }
     }

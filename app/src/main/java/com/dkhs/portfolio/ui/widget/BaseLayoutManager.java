@@ -1347,7 +1347,6 @@ public abstract class BaseLayoutManager extends RecyclerView.LayoutManager {
                 }
             }
             if (DEBUG) {
-                Log.d(TAG, "layout from scrap. found view:?" + (closest != null));
             }
             if (closest != null) {
                 mCurrentPosition = closest.getPosition() + mItemDirection;
@@ -1357,8 +1356,8 @@ public abstract class BaseLayoutManager extends RecyclerView.LayoutManager {
         }
 
         void log() {
-            Log.d(TAG, "avail:" + mAvailable + ", ind:" + mCurrentPosition + ", dir:" + mItemDirection + ", offset:"
-                    + mOffset + ", layoutDir:" + mLayoutDirection);
+//            Log.d(TAG, "avail:" + mAvailable + ", ind:" + mCurrentPosition + ", dir:" + mItemDirection + ", offset:"
+//                    + mOffset + ", layoutDir:" + mLayoutDirection);
         }
     }
 

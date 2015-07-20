@@ -15,20 +15,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.TodayNetBean;
 import com.dkhs.portfolio.bean.TodayNetValue;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.TrendLinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
-import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -42,11 +42,11 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TrendChartFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午10:32:39
- * @version 1.0
  */
 public class TrendTodayChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
@@ -54,8 +54,6 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private String trendType = TREND_TYPE_TODAY;
     // private boolean isTodayNetValue;
-    private TextView tvTimeLeft;
-    private TextView tvTimeRight;
 
     private View viewDashLineTip;
 
@@ -110,7 +108,7 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }
@@ -141,8 +139,6 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private void initView(View view) {
         viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
-        tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
-        tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
     }
 
     public void startRequry() {
@@ -197,6 +193,8 @@ public class TrendTodayChartFragment extends BaseFragment {
         rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
         rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
     }
 
     private void setTipVisible(boolean isShow) {
@@ -243,7 +241,9 @@ public class TrendTodayChartFragment extends BaseFragment {
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             pb.setVisibility(View.GONE);
-        };
+        }
+
+        ;
     };
 
     public class DrawLineDataEntity {
@@ -398,10 +398,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
-    Handler dataHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-        };
-    };
+    WeakHandler dataHandler = new WeakHandler();
 
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
@@ -502,6 +499,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+        stopRequry();
     }
 
     @Override
@@ -513,10 +511,9 @@ public class TrendTodayChartFragment extends BaseFragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {

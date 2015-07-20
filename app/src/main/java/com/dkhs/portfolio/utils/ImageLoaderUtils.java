@@ -10,8 +10,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 
 public class ImageLoaderUtils {
@@ -50,6 +52,34 @@ public class ImageLoaderUtils {
                 .displayer(new SimpleBitmapDisplayer())
                 .build();
         loader.displayImage(url, new_phone1, options);
+
+    }    public static void setImage(String url, ImageView new_phone1,ImageLoadingListener loadingListener) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory().cacheOnDisc()
+                .displayer(new SimpleBitmapDisplayer())
+                .build();
+        loader.displayImage(url, new_phone1, options,loadingListener);
+
+    }
+    public static void loadImage(String url) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory().cacheOnDisc()
+                .displayer(new FadeInBitmapDisplayer(600))
+                .build();
+        loader.loadImage(url, options,null);
+
+    }
+    public static void loadImage(String url,ImageLoadingListener imageLoadingListener) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory().cacheOnDisc()
+                .displayer(new FadeInBitmapDisplayer(600))
+                .build();
+
+        loader.loadImage(url, options,imageLoadingListener);
+
     }
 
     public static void setRoundedImage(String url, ImageView new_phone1, @DrawableRes int loadingDrawableId, @DrawableRes int failedDrawableId) {

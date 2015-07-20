@@ -1,30 +1,22 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
-import com.dkhs.portfolio.ui.fragment.FragmentreportOneList;
 import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class YanBaoActivity extends ModelAcitivity {
     private LinearLayout layout;
@@ -52,9 +44,6 @@ public class YanBaoActivity extends ModelAcitivity {
         String userId = null;
         UserEntity user = UserEngineImpl.getUserEntity();
         if (user != null) {
-            if (!TextUtils.isEmpty(user.getAccess_token())) {
-                user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-            }
             userId = user.getId() + "";
         }
 

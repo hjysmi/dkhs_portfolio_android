@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
+
 public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
@@ -30,6 +32,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private TextImageButton btnBack;
     private View mTitleView;
     protected UserEngineImpl engine;
+    protected Context mContext;
 
     /**
      * 显示子页面的容器
@@ -45,10 +48,11 @@ public class ModelAcitivity extends SwipeBackActivity {
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
         PortfolioApplication.getInstance().addActivity(this);
+        mContext=this;
         onCreate(arg0, R.layout.layout_model_default);
+
     }
 
-    private SwipeBackLayout mSwipeBackLayout;
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
@@ -63,7 +67,7 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         super.setContentView(R.layout.layout_model);
 
-        mSwipeBackLayout = getSwipeBackLayout();
+        SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
         // 设置可以滑动的区域，推荐用屏幕像素的一半来指定
         mSwipeBackLayout.setEdgeSize(100);
         // 设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
@@ -101,10 +105,8 @@ public class ModelAcitivity extends SwipeBackActivity {
 
 
     public void replaceContentFragment(Fragment fragment) {
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.layoutContent, fragment).commit();
-
     }
 
     /**
@@ -125,7 +127,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         // 监听返回键 使得子页面不必重复监听
         btnBack.setOnClickListener(clickListener);
-
         // llBack.setOnClickListener(clickListener);
     }
 
@@ -340,6 +341,10 @@ public class ModelAcitivity extends SwipeBackActivity {
         UIUtils.setOverridePendingAmin(this);
     }
 
+    public void startActivityNoAnim(Intent intent) {
+        super.startActivity(intent);
+    }
+
     public void updateTitleBackgroud(int resId) {
         getTitleView().setBackgroundResource(resId);
     }
@@ -354,5 +359,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         }
     }
+
 
 }

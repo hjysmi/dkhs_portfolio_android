@@ -97,12 +97,12 @@ public class ConStockBean extends StockBean {
     }
 
     public boolean equals(Object obj) {
-        ConStockBean param = (ConStockBean) obj;
-        if (this.stockId == param.stockId) {
-            return true;
-        } else {
-            return false;
+        if (obj instanceof ConStockBean) {
+
+            ConStockBean param = (ConStockBean) obj;
+            return this.stockCode.equals(param.stockCode);
         }
+        return false;
     }
 
     /**
@@ -122,6 +122,7 @@ public class ConStockBean extends StockBean {
         ConStockBean stock = new ConStockBean();
         stock.stockCode = this.stockCode;
         stock.stockId = this.stockId;
+        stock.stockSymbol = this.stockSymbol;
         stock.stockName = this.stockName;
         stock.dutyColor = this.dutyColor;
         stock.dutyValue = this.dutyValue;
@@ -156,7 +157,7 @@ public class ConStockBean extends StockBean {
     }
 
     public boolean isStop() {
-        return isStop == 1 ? true : false;
+        return isStop == 1;
     }
 
     public void setIsStop(int isStop) {

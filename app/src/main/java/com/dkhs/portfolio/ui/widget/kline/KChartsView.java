@@ -1443,10 +1443,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
     }
 
     public boolean iscanSmoll() {
-        if (mOHLCData == null || mOHLCData.size() < MIN_CANDLE_NUM) {
-            return true;
-        }
-        return false;
+        return mOHLCData == null || mOHLCData.size() < MIN_CANDLE_NUM;
     }
 
     /**

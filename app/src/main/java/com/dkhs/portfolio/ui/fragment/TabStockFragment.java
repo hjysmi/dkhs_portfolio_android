@@ -8,11 +8,11 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
@@ -41,7 +42,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-7 上午11:03:07
  */
-public class TabStockFragment extends BaseFragment implements OnClickListener, IDataUpdateListener {
+public class TabStockFragment extends VisiableLoadFragment implements OnClickListener, IDataUpdateListener {
 
     @Override
     public int setContentLayoutId() {
@@ -83,7 +84,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     private Context context;
 
-    private boolean isLoading;
     private String mUserId;
 
 
@@ -108,14 +108,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     }
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            // reloadData();
-
-        }
-
-        ;
-    };
+    @SuppressLint("HandlerLeak")
+    WeakHandler updateHandler = new WeakHandler();
 
 
     @Override
@@ -125,13 +119,30 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     @Override
+    public void requestData() {
+
+    }
+
+    private static final String TAG = TabStockFragment.class.getSimpleName();
+
+    @Override
+    public void onViewShow() {
+        reloadData();
+        updateHandler.postDelayed(updateRunnable, 5 * 1000);
+
+
+    }
+
+    @Override
+    public void onViewHide() {
+
+        updateHandler.removeCallbacks(updateRunnable);
+    }
+
+    @Override
     public void onResume() {
 
         super.onResume();
-
-        reloadData();
-        updateHandler.postDelayed(updateRunnable, 5*1000);
-
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
         // refreshEditView();
@@ -157,15 +168,17 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public void onStop() {
         super.onStop();
 
-
     }
+
 
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
             // loadDataListFragment.refreshNoCaseTime();
 //            reloadData();
-            loadDataListFragment.refresh();
+            if(null!=loadDataListFragment){
+                loadDataListFragment.refresh();
+            }
             updateHandler.postDelayed(updateRunnable, mPollRequestTime);
         }
     };
@@ -173,7 +186,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(StockViewType.STOCK_OPTIONAL_PRICE,mUserId);
+            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(StockViewType.STOCK_OPTIONAL_PRICE, mUserId);
             // if (null != dataUpdateListener) {
             loadDataListFragment.setDataUpdateListener(this);
             // }
@@ -224,7 +237,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     private void reloadData() {
         if (null != loadDataListFragment) {
-            isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
             loadDataListFragment.refreshNoCaseTime();
         }
@@ -262,12 +274,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            // if (orderType == TYPE_CHANGE_DOWN || orderType == TYPE_CURRENT_DOWN || orderType == TYPE_PERCENTAGE_DOWN)
-            // {
-            // setUpType(currentSelectView);
-            // } else {
-            // setDownType(currentSelectView);
-            // }
 
             if (isDefOrder(orderType)) {
                 setDownType(currentSelectView);
@@ -281,38 +287,26 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private boolean isUpOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
-                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP));
     }
 
     private boolean isDownOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
-                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN));
     }
 
     private boolean isPercentType(String type) {
-        if (!TextUtils.isEmpty(orderType)
+        return !TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CHANGE_DOWN)
                 || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
-                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
-            return true;
-        }
-        return false;
+                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN));
     }
 
     private boolean isDefOrder(String orderType) {
-        if (orderType.equals(TYPE_DEFALUT)) {
-            return true;
-        }
-        return false;
+        return orderType.equals(TYPE_DEFALUT);
     }
 
     private int lastPercentTextIds = 0;
@@ -382,7 +376,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        updateHandler.removeCallbacks(updateRunnable);
+
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);

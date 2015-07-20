@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -26,12 +24,14 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName OptionalStockAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-25 下午3:35:49
- * @version 1.0
  */
 public class OptionalStockAdapter extends BaseAdapter {
     private Context mContext;
@@ -87,7 +87,12 @@ public class OptionalStockAdapter extends BaseAdapter {
         // } else {
         // viewHolder = (ViewHolder) convertView.getTag();
         // }
-        convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, null);
+
+        //
+        // Unconditional layout inflation from view adapter: Should use View Holder pattern
+        // (use recycled view passed into this method as the second parameter) for smoother scrolling
+
+        convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, parent, false);
         View colorView = convertView.findViewById(R.id.view_color);
         TextView tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
         TextView tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
@@ -102,7 +107,7 @@ public class OptionalStockAdapter extends BaseAdapter {
             tvIstop.setVisibility(View.VISIBLE);
         }
         tvStockName.setText(item.getName());
-        tvStockNum.setText(item.getStockCode());
+        tvStockNum.setText(item.getStockSymbol());
         colorView.setBackgroundColor(item.getDutyColor());
         seekbar.setProgress((int) (item.getPercent()));
 
@@ -142,7 +147,6 @@ public class OptionalStockAdapter extends BaseAdapter {
                     maxScoll = maxScoll < 0 ? 0 : maxScoll;
                     seekbar.setProgress(maxScoll);
                     tvPercent.setText(StringFromatUtils.get2PointPercent(maxScoll));
-                    return;
                 } else {
                     p = progress < 0 ? 0 : progress;
                     // p = progress;

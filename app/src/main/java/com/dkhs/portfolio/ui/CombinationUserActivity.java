@@ -48,7 +48,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private final int MENU_FOLLOW_OR_UNFOLLOWE = 0;
     private String mUserId;
-    private String mUserName;
+    public String mUserName;
     private boolean isMyInfo;
 
     private ImageView ivHeader;
@@ -74,20 +74,16 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private int userNameLeft;
     private int userDescLeft;
 
-    private TextView symbolsPromptTV;
 
-    private UserCombinationListFragment userCombinationListFragment;
     public FloatingActionMenu localFloatingActionMenu;
 
-    private float prePercent;
     private UserEngineImpl userEngine;
 
 
-    public static Intent getIntent(Context context, String username, String userId, boolean isMyInfo) {
+    public static Intent getIntent(Context context, String username, String userId) {
         Intent intent = new Intent(context, CombinationUserActivity.class);
         intent.putExtra("user_id", userId);
         intent.putExtra("username", username);
-        intent.putExtra("is_my_info", isMyInfo);
         return intent;
     }
 
@@ -99,13 +95,12 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         context = this;
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
-        userEngine= new UserEngineImpl();
+        userEngine = new UserEngineImpl();
         if (extras != null) {
             handleExtras(extras);
 
-
-            if(null != UserEngineImpl.getUserEntity() &&(UserEngineImpl.getUserEntity().getId()+"").equals(mUserId)){
-                isMyInfo=true;
+            if (null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(mUserId)) {
+                isMyInfo = true;
             }
 
             if (isMyInfo) {
@@ -135,8 +130,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private void handleExtras(Bundle extras) {
         mUserId = extras.getString("user_id");
         mUserName = extras.getString("username");
-        isMyInfo = extras.getBoolean("is_my_info");
-
     }
 
 
@@ -147,7 +140,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
 
         tvFollowers = (TextView) findViewById(R.id.tv_followers);
-        symbolsPromptTV = (TextView) findViewById(R.id.tv_symbols_prompt);
 
         tvFollowing = (TextView) findViewById(R.id.tv_following);
         tvSymbols = (TextView) findViewById(R.id.tv_symbols);
@@ -176,7 +168,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                     case MENU_FOLLOW_OR_UNFOLLOWE:
 
                         if (null == userEntity) {
-                            return false ;
+                            return false;
                         }
                         if (userEntity.isMe_follow()) {
                             unFollowAction();
@@ -200,17 +192,14 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         if (isMyInfo) {
             userInfoListener.setLoadingDialog(context);
-
-
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
-
 
     }
 
     private void replaceCombinationListView() {
-
-        userCombinationListFragment = UserCombinationListFragment.getFragment(mUserName, mUserId);
+        UserCombinationListFragment userCombinationListFragment;
+        userCombinationListFragment = UserCombinationListFragment.getFragment( mUserId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rl_combination_list, userCombinationListFragment)
                 .commitAllowingStateLoss();
@@ -219,9 +208,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void initData() {
 
-
-
-        if(!isMyInfo) {
+        if (!isMyInfo) {
             userInfoListener.setLoadingDialog(context);
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
@@ -231,7 +218,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
-
             return DataParse.parseObjectJson(UserEntity.class, jsonData);
         }
 
@@ -240,7 +226,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             if (null != object) {
                 updateUserView(object);
             }
-
         }
     };
 
@@ -249,17 +234,13 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
-
             return DataParse.parseObjectJson(UserEntity.class, jsonData);
-
         }
 
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
-
                 updateUserFolllowInfo(object);
-
                 PromptManager.showDelFollowToast();
 
             }
@@ -272,7 +253,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
             try {
                 JSONArray json = new JSONArray(jsonData);
-
                 return DataParse.parseObjectJson(UserEntity.class, json.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -284,7 +264,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
-
 
                 //todo api 返回无me_follow 字段,所以这边手动设置为true
                 object.setMe_follow(true);
@@ -306,6 +285,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             bitmapUtils.display(ivHeader, object.getAvatar_md());
         }
         tvUName.setText(object.getUsername());
+        mUserName=object.getUsername();
         if (TextUtils.isEmpty(object.getDescription())) {
             tvUserDesc.setText(getResources().getString(R.string.nodata_user_description));
         } else {
@@ -338,16 +318,16 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         localFloatingActionMenu.removeAllItems();
         if (object.isMe_follow()) {
 
-            localFloatingActionMenu.addItem(0,R.string.unfollowing,R.drawable.btn_del_item_selector);
+            localFloatingActionMenu.addItem(0, R.string.unfollowing, R.drawable.btn_del_item_selector);
 
         } else {
-            localFloatingActionMenu.addItem(0,R.string.following,R.drawable.ic_add);
+            localFloatingActionMenu.addItem(0, R.string.following, R.drawable.ic_add);
 
         }
 
         handleNumber(tvFollowers, object.getFollowed_by_count());
         handleNumber(tvFollowing, object.getFriends_count());
-        handleNumber(tvSymbols, object.getSymbols_count()+object.getPortfolios_following_count());
+        handleNumber(tvSymbols, object.getSymbols_count() + object.getPortfolios_following_count());
     }
 
     private void handleNumber(TextView tv, int count) {
@@ -357,8 +337,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-
-
 
         switch (v.getId()) {
             case R.id.ll_followers:
@@ -383,8 +361,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 break;
 
 
-            case R.id.ll_symbols:{
-                    startActivity(OptionalTabActivity.newIntent(this,mUserId));
+            case R.id.ll_symbols: {
+                startActivity(OptionalTabActivity.newIntent(this, mUserId));
             }
             break;
             default:
@@ -395,22 +373,20 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void unFollowAction() {
 
-
         PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(getResources().getString(R.string.unfollow_alert_content))
-                   .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialog, int which) {
-                           unfollowListener.setLoadingDialog(context);
-                           new UserEngineImpl().unfollow(userEntity.getId() + "", unfollowListener);
-                           dialog.dismiss();
-                       }
-                   }).setNegativeButton(R.string.cancel, null).create().show();
+                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        unfollowListener.setLoadingDialog(context);
+                        new UserEngineImpl().unfollow(userEntity.getId() + "", unfollowListener);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(R.string.cancel, null).create().show();
 
 
     }
 
     private void followAction() {
-
 
         if (!UIUtils.iStartLoginActivity(this)) {
             followListener.setLoadingDialog(context);
@@ -434,14 +410,15 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
 
-
     private float toPercent;
+
     /**
      * 动画效果
+     *
      * @param
      */
     public void onScrollChanged(float percent) {
-            animHeader(percent);
+        animHeader(percent);
     }
 
 
@@ -449,8 +426,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     public void finish() {
 
 
-        if(null!=userEntity&&!userEntity.isMe_follow() &&  UserEngineImpl.getUserEntity() !=null && userEntity.getId() != UserEngineImpl.getUserEntity().getId()){
-            UnFollowEvent unFollowEvent=new UnFollowEvent();
+        if (null != userEntity && !userEntity.isMe_follow() && UserEngineImpl.getUserEntity() != null && userEntity.getId() != UserEngineImpl.getUserEntity().getId()) {
+            UnFollowEvent unFollowEvent = new UnFollowEvent();
             unFollowEvent.setId(userEntity.getId());
             BusProvider.getInstance().post(unFollowEvent);
         }
@@ -463,31 +440,28 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     public void animHeader(float percent) {
 
         ViewHelper.setTranslationX(ivHeader, -(headerLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
-        ViewHelper.setTranslationY(ivHeader, -(headerTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) )* percent);
+        ViewHelper.setTranslationY(ivHeader, -(headerTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
 
-        ViewHelper.setTranslationX(tvUserDesc, -(userDescLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)*2) * percent);
-        ViewHelper.setTranslationY(tvUserDesc, -(userDescTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)+getResources().getDimensionPixelOffset(R.dimen.header_userDesc_height)) * percent);
-        ViewHelper.setTranslationX(tvUName, -(userNameLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)*2) * percent);
+        ViewHelper.setTranslationX(tvUserDesc, -(userDescLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height) - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) * 2) * percent);
+        ViewHelper.setTranslationY(tvUserDesc, -(userDescTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height) - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) + getResources().getDimensionPixelOffset(R.dimen.header_userDesc_height)) * percent);
+        ViewHelper.setTranslationX(tvUName, -(userNameLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height) - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) * 2) * percent);
         ViewHelper.setTranslationY(tvUName, -(userNameTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin_top)) * percent);
         ViewHelper.setTranslationY(combinationTitleLL, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance) * percent);
-        ViewHelper.setTranslationY(llTool, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)  * percent);
+        ViewHelper.setTranslationY(llTool, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance) * percent);
 //
         ViewHelper.setAlpha(llTool, 1 - percent);
 
-        if(1==percent){
-            if(llTool.getVisibility()== View.VISIBLE){
+        if (1 == percent) {
+            if (llTool.getVisibility() == View.VISIBLE) {
                 llTool.setVisibility(View.GONE);
             }
-        }else{
-            if(llTool.getVisibility()== View.GONE){
+        } else {
+            if (llTool.getVisibility() == View.GONE) {
                 llTool.setVisibility(View.VISIBLE);
             }
         }
-        ViewHelper.setTranslationY(bgV, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)  * percent);
-        prePercent = percent;
+        ViewHelper.setTranslationY(bgV, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance) * percent);
     }
-
-
 
 
 }

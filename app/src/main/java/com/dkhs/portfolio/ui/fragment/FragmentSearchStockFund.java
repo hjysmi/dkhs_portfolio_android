@@ -27,16 +27,19 @@ import android.widget.ListView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
@@ -65,7 +68,6 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     private boolean isItemClickBack;
     private String mSearchType;
 
-    private ListView mListView;
     private BaseAdatperSelectStockFund mAdapterConbinStock;
 
     private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
@@ -117,7 +119,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
                 mSearchEngine.searchStock(key);
             } else {
-                mSearchEngine.searchStockAndIndex(key);
+                mSearchEngine.searchStockIndexFunds(key);
             }
             mAdapterConbinStock.notifyDataSetChanged();
         }
@@ -155,11 +157,12 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void loadFinish(MoreDataBean object) {
             if (null != object && null != object.getResults()) {
-                Message msg = updateHandler.obtainMessage(777);
+                Message msg = new Message();
 //                msg.obj = mDataList.addAll(object.getResults());
+                msg.what = 777;
                 msg.obj = object;
-                msg.sendToTarget();
-
+//                msg.sendToTarget();
+                updateHandler.sendMessage(msg);
             }
         }
 
@@ -171,17 +174,28 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     };
 
-    Handler updateHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    private WeakHandler updateHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
             MoreDataBean bean = (MoreDataBean) msg.obj;
             if (null != bean && null != bean.getResults()) {
                 mDataList.addAll(bean.getResults());
                 mAdapterConbinStock.notifyDataSetChanged();
             }
+            return true;
         }
+    });
 
-        ;
-    };
+//    WeakHandler updateHandler = new WeakHandler() {
+//        public void handleMessage(android.os.Message msg) {
+//            MoreDataBean bean = (MoreDataBean) msg.obj;
+//            if (null != bean && null != bean.getResults()) {
+//                mDataList.addAll(bean.getResults());
+//                mAdapterConbinStock.notifyDataSetChanged();
+//            }
+//        }
+//    };
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
 
@@ -192,11 +206,16 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
             // System.out.println("OnItemClickListener itemBackClick ");
             SelectStockBean itemStock = mDataList.get(position);
             // itemStock.isFollowed = true;
+            if (StockUitls.isFundType(itemStock.symbol_type)) {
+                startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
+            } else {
 
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+                startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            }
             getActivity().finish();
         }
     };
+
     public static final String ARGUMENT = "ARGUMENT";
 
     private void setSelectBack(SelectStockBean type) {
@@ -239,7 +258,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     private void initView(View view) {
         // mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) view.findViewById(android.R.id.list);
+        ListView mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         // mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);

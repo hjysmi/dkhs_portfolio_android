@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
+
+
+    <RelativeLayout
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_wanshoutitle"
+            android:layout_width="wrap_content"
+
+
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/wanshou"
+            android:textColor="@color/combition_gray" />
+
+        <TextView
+            android:id="@+id/tv_wanshou_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_wanshoutitle"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="-4dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/def_not_value"
+            android:textColor="@color/title_color"
+            android:textSize="30sp" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_nianshou_title"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/qirinianhua"
+            android:textColor="@color/combition_gray" />
+
+        <TextView
+            android:id="@+id/tv_qirinihua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/tv_nianshou_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-4dp"
+            android:text="@string/def_not_value"
+            android:textColor="@color/title_color"
+            android:layout_alignParentBottom="true"
+            android:textSize="30sp" />
+    </RelativeLayout>
+
+</LinearLayout>

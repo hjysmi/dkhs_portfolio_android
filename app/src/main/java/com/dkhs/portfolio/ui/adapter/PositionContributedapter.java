@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +19,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
+import java.util.List;
+
 /**
  * @ClassName OptionalStockAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -30,7 +30,6 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  */
 public class PositionContributedapter extends BaseAdapter {
     private Context mContext;
-    private int maxValue = 0;
     private List<ConStockBean> stockList;
 
     public PositionContributedapter(Context mContext, List<ConStockBean> stocks) {
@@ -85,14 +84,14 @@ public class PositionContributedapter extends BaseAdapter {
         return convertView;
     }
 
-    public void setSurpusValue() {
-        int surpusValu = 1;
-        for (int i = 0; i < stockList.size(); i++) {
-            surpusValu -= stockList.get(i).getPercent();
-        }
-        maxValue = surpusValu;
-
-    }
+//    public void setSurpusValue() {
+//        int surpusValu = 1;
+//        for (int i = 0; i < stockList.size(); i++) {
+//            surpusValu -= stockList.get(i).getPercent();
+//        }
+//        maxValue = surpusValu;
+//
+//    }
 
     private void notifySurpusValue(int value) {
         ConStockBean sur = stockList.get(stockList.size() - 1);

@@ -108,6 +108,8 @@ public class DKHSUrl {
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
         // 行情中心 指数排行
         String marketcenter = "/api/v1/symbols/";
+        String allMarkets = "/api/v1/symbols/markets/cn/";
+
         String opitionmarket = "/api/v1/symbols/";
         String index = "/api/v1/symbols/following/sort/";
 
@@ -128,6 +130,20 @@ public class DKHSUrl {
 
     }
 
+    public interface  Ads{
+
+        String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
+        String getSplashAds = "/api/v1/ads/area/splash/";
+        String getInvitingInfo = "/api/v1/accounts/invitations/code/";
+        String getInvitations = "/api/v1/accounts/invitations/invitations/";
+
+    }
+    public interface  Shake{
+        String getShakeInfo = "/api/v1/shakes/symbols/next/";
+        String getDescriptionOfActivities = "/portfolio/shakes";
+    }
+
+
     public interface NetValue {
         String queryDaily = "/api/v1/portfolio/{0}/netvalue_daily_chart/";
 
@@ -141,6 +157,9 @@ public class DKHSUrl {
         String fundsList = "/api/v1/symbols/funds/";
         String mainIndexList = "/api/v1/symbols/";
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
+        String compareByPeriod = "/api/v1/symbols/{0}/quote_history/";
+        String managerInfo = "/api/v1/symbols/funds/managers/%s/";
+
 
     }
 
@@ -216,6 +235,14 @@ public class DKHSUrl {
 
     }
 
+    public interface FlowExchange {
+        String overview = "/api/v1/coins/exchange/overview/";
+        String packages = "/api/v1/coins/exchange/packages/";
+        String recharge = "/api/v1/coins/exchange/recharge/";
+        String invitecode = "/api/v1/accounts/invitations/invite/";
+    }
+
+
     public interface MainPage {
         String zhishu = "/api/v1/symbols/{0}/quote/";
     }
@@ -230,5 +257,6 @@ public class DKHSUrl {
             DKHSUrl.StockSymbol.stocklist,
 
     };
+
 
 }

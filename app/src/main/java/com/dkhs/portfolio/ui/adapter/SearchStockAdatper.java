@@ -8,44 +8,39 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.utils.StockUitls;
-import com.dkhs.portfolio.utils.UIUtils;
+
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectFundAdatper
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-5 下午2:24:13
- * @version 1.0
  */
 public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
     private boolean isCombination;
     VisitorDataEngine mVisitorDataEngine;
-    private List<SelectStockBean> localList;
 
     public SearchStockAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
         super(context, datas);
         this.isCombination = isCombination;
         mVisitorDataEngine = new VisitorDataEngine();
-        if (!PortfolioApplication.hasUserLogin()) {
-            localList = mVisitorDataEngine.getOptionalStockList();
-        }
     }
 
     @Override
@@ -67,39 +62,20 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        if (PortfolioApplication.hasUserLogin()) {
 
-            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-            viewHolder.mCheckbox.setTag(item);
-            if (isCombination) {
-                viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
-            } else {
-                viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
-            }
-            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+
+        if (isCombination) {
+            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         } else {
-            // final CheckBox cbBox = viewHolder.mCheckbox;
-            // viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
-            //
-            // @Override
-            // public void onClick(View v) {
-            // cbBox.setChecked(false);
-            // UIUtils.iStartLoginActivity(mContext);
-            //
-            // }
-            // });
-
-            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-            viewHolder.mCheckbox.setTag(item);
-            // 如果是游客模式
-            if (null != localList) {
-                viewHolder.mCheckbox.setChecked(localList.contains(item));
-            } else {
-
-                viewHolder.mCheckbox.setChecked(item.isFollowed);
-            }
-            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+            boolean isFollowed = SelectAddOptionalActivity.mFollowList.contains(item);
+            item.setFollowed(isFollowed);
+            viewHolder.mCheckbox.setChecked(isFollowed);
         }
+        viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+        viewHolder.mCheckbox.setTag(item);
+
+
         // System.out.println("SelectStockBean list status:" + item.list_status);
         if (isCombination) {
             if (item.isStop) {
@@ -119,7 +95,14 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         }
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.code));
+        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.getSymbol()));
+        if (!TextUtils.isEmpty(item.name) && item.name.length() > 10) {
+            viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        } else {
+            viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        }
 
         return convertView;
     }

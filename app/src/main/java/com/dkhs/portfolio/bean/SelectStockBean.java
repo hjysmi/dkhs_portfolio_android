@@ -8,26 +8,31 @@
  */
 package com.dkhs.portfolio.bean;
 
+import android.text.TextUtils;
+
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectStockBean
  * @Description 添加自选股，用于UI显示的Bean
- * @author zjz
  * @date 2014-9-18 下午2:42:46
- * @version 1.0
  */
 @Parcel
-public class SelectStockBean extends DragListItem  {
+public class SelectStockBean extends DragListItem {
 
     public String name;
     public float currentValue;
     public float percentage;
     @NoAutoIncrement
     public long id;
+
+
     public String code;
+    public String symbol;
     public float change;
     public boolean isFollowed;
     public boolean isStop;
@@ -41,9 +46,17 @@ public class SelectStockBean extends DragListItem  {
 
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     public String symbol_type;
+    public int symbol_stype;
     // public String symbol;
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
+
+
+    //万份收益率
+    public float tenthou_unit_incm;
+    //七日年化收益率
+    public float year_yld;
+    public String tradeDay;
 //
 //    public DataEntry<SelectStockBean> entry = null;
 //
@@ -65,10 +78,24 @@ public class SelectStockBean extends DragListItem  {
         bean.name = stockBean.getName();
         bean.currentValue = stockBean.getCurrentValue();
         // bean.percentage = stockBean.getPercent();
-        bean.id = stockBean.getStockId();
-        bean.code = stockBean.getStockCode();
+        bean.symbol = stockBean.getStockSymbol();
+        bean.id = Integer.parseInt(stockBean.getStockCode());
+        bean.code = stockBean.getStockSymbol();
         bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getList_status();
+        return bean;
+    }
+
+    public static SelectStockBean copy(FundManagerInfoBean.AchivementsEntity stockBean) {
+
+        SelectStockBean bean = new SelectStockBean();
+        bean.name = stockBean.getFund().getAbbr_name();
+        // bean.percentage = stockBean.getPercent();
+        bean.symbol = stockBean.getFund().getSymbol();
+        bean.id = stockBean.getFund().getId();
+        bean.symbol_stype = stockBean.getFund().getSymbol_stype();
+//        bean.isStop = stockBean.isStop();
+        bean.list_status = stockBean.getFund().getList_status() + "";
         return bean;
     }
 
@@ -80,22 +107,20 @@ public class SelectStockBean extends DragListItem  {
         // bean.percentage = stockBean.getPercent();
         bean.id = stockBean.getId();
         bean.code = stockBean.getStockCode();
+        bean.symbol = stockBean.getSymbol();
         bean.symbol_type = stockBean.getSymbol_type();
+        if (!TextUtils.isEmpty(stockBean.getSymbol_stype())) {
+            try {
+                bean.symbol_stype = Integer.parseInt(stockBean.getSymbol_stype().trim());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getList_status();
         return bean;
     }
 
-    public static SelectStockBean copy(SearchFundsBean stockBean) {
-
-        SelectStockBean bean = new SelectStockBean();
-        bean.name = stockBean.getStockName();
-        // bean.currentValue = stockBean.getCurrentValue();
-        // bean.percentage = stockBean.getPercent();
-        bean.id = stockBean.getId();
-        bean.code = stockBean.getStockCode();
-        return bean;
-    }
 
     public static SelectStockBean copy(StockPriceBean stockBean) {
 
@@ -103,7 +128,8 @@ public class SelectStockBean extends DragListItem  {
         selectBean.id = stockBean.getId();
         selectBean.name = stockBean.getAbbrname();
         selectBean.currentValue = stockBean.getCurrent();
-        selectBean.code = stockBean.getSymbol();
+        selectBean.code = stockBean.getCode();
+        selectBean.symbol = stockBean.getSymbol();
         selectBean.percentage = stockBean.getPercentage();
         selectBean.isFollowed = stockBean.isFollowed();
         selectBean.symbol_type = stockBean.getSymbol_type();
@@ -117,22 +143,45 @@ public class SelectStockBean extends DragListItem  {
         return selectBean;
     }
 
-    public static SelectStockBean copy(StockQuotesBean stockBean) {
+    public static SelectStockBean copy(FundPriceBean stockBean) {
 
         SelectStockBean selectBean = new SelectStockBean();
         selectBean.id = stockBean.getId();
-        selectBean.name = stockBean.getName();
+        selectBean.name = stockBean.getAbbrname();
+        selectBean.currentValue = stockBean.getNet_value();
+        selectBean.code = stockBean.getCode();
+        selectBean.symbol = stockBean.getSymbol();
+        selectBean.percentage = stockBean.getPercent_day();
+        selectBean.isFollowed = stockBean.isFollowed();
+        selectBean.symbol_type = stockBean.getSymbol_type();
+        selectBean.symbol_stype = stockBean.getSymbol_stype();
+        selectBean.isStop = stockBean.isStop();
+        selectBean.sortId = stockBean.getIndex();
+        selectBean.change = stockBean.getPercent_month();
+        selectBean.list_status = stockBean.getList_status();
+        selectBean.total_capital = stockBean.getPercent_tyear();
+        selectBean.alertSetBean = stockBean.getAlertBean();
+        selectBean.tenthou_unit_incm = stockBean.getTenthou_unit_incm();
+        selectBean.year_yld = stockBean.getYear_yld();
+        selectBean.tradeDay = stockBean.getTradedate();
+        return selectBean;
+    }
+
+    public static SelectStockBean copy(QuotesBean stockBean) {
+
+        SelectStockBean selectBean = new SelectStockBean();
+        selectBean.id = stockBean.getId();
+        selectBean.name = stockBean.getAbbrName();
         selectBean.currentValue = stockBean.getCurrent();
-        selectBean.code = stockBean.getSymbol();
+        selectBean.code = stockBean.getCode();
+        selectBean.symbol = stockBean.getSymbol();
         selectBean.percentage = stockBean.getPercentage();
         selectBean.isFollowed = stockBean.isFollowed();
         selectBean.symbol_type = stockBean.getSymbol_type();
         // selectBean.isStop = stockBean.;
         // selectBean.sortId = stockBean.getIndex();
         selectBean.alertSetBean = stockBean.getAlertSetBean();
-        selectBean.change = stockBean.getChange();
         // selectBean.list_status = stockBean.get;
-        selectBean.total_capital = stockBean.getTotal_capital();
         return selectBean;
     }
 
@@ -144,20 +193,19 @@ public class SelectStockBean extends DragListItem  {
         bean.setCurrentValue(currentValue);
         // bean.setPercent(percentage);
         bean.setStockId(id);
+        bean.setStockSymbol(symbol);
         bean.setIsStop(isStop ? 1 : 0);
-        bean.setStockCode(code);
+        bean.setStockCode(id + "");
         bean.setList_status(list_status);
         return bean;
     }
 
     public boolean equals(Object obj) {
-        SelectStockBean param = (SelectStockBean) obj;
-        if (this.id == param.id || this.code.equals(param.code)) {
-            // if (this.code.equals(param.code)) {
-            return true;
-        } else {
+        if (!(obj instanceof SelectStockBean)) {
             return false;
         }
+        SelectStockBean param = (SelectStockBean) obj;
+        return this.id == param.id || this.code.equals(param.code);
     }
 
     public long getSortId() {
@@ -216,6 +264,15 @@ public class SelectStockBean extends DragListItem  {
         this.id = id;
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+
     public String getCode() {
         return code;
     }
@@ -268,7 +325,7 @@ public class SelectStockBean extends DragListItem  {
     @Override
     public String getItemDesc() {
         // TODO Auto-generated method stub
-        return this.code;
+        return this.symbol;
     }
 
     @Override
@@ -291,7 +348,7 @@ public class SelectStockBean extends DragListItem  {
 
     @Override
     public boolean isItemTixing() {
-        return this.alertSetBean == null ? false : true;
+        return this.alertSetBean != null;
     }
 
 }

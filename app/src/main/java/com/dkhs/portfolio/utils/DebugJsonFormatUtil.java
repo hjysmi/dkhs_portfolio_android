@@ -24,11 +24,11 @@ public class DebugJsonFormatUtil {
             switch (c) {
                 case '{':
                 case '[':
-                    jsonForMatStr.append(c+"\n");
+                    jsonForMatStr.append(c).append("\n");
                     level++;
                     break;
                 case ',':
-                    jsonForMatStr.append(c+"\n");
+                    jsonForMatStr.append(c).append("\n");
                     break;
                 case '}':
                 case ']':

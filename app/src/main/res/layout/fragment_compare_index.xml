@@ -27,7 +27,7 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@drawable/dot_index"
             android:drawablePadding="4dp"
-            android:text="沪深300"
+            android:text="@string/sh300"
             android:textSize="14sp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:layout_centerVertical="true"
             android:drawablePadding="4dp"
             android:drawableRight="@drawable/setting_image_right"
-            android:text="更多基金比较"
+            android:text="@string/more_fund_compare"
             android:textColor="@color/gray_textcolor"
             android:textSize="14sp" />
 

@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName OptionalStockAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-25 下午3:35:49
- * @version 1.0
  */
 public class AdjustHistoryAdapter extends BaseAdapter {
     private Context mContext;
@@ -47,10 +47,9 @@ public class AdjustHistoryAdapter extends BaseAdapter {
     // }
 
     /**
+     * @param mAdjustList
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @param activity
-     * @param mAdjustList
      */
     public AdjustHistoryAdapter(Context mContext, List<PositionAdjustBean> mAdjustList) {
         this.mContext = mContext;
@@ -81,31 +80,31 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 //                    }
                     sb.append(position.getStockName());
                     try {
-						byte[] bytes = position.getStockName().getBytes("UTF-8");
-						switch (bytes.length) {
-						case 6:
-							sb.append("        ");
-							break;
-						case 7:
-						case 8:
-						case 9:
-							sb.append("     ");
-							break;
-						case 10:
-						case 11:
-							sb.append("  ");
-							break;
+                        byte[] bytes = position.getStockName().getBytes("UTF-8");
+                        switch (bytes.length) {
+                            case 6:
+                                sb.append("        ");
+                                break;
+                            case 7:
+                            case 8:
+                            case 9:
+                                sb.append("     ");
+                                break;
+                            case 10:
+                            case 11:
+                                sb.append("  ");
+                                break;
 
-						default:
-							break;
-						}
-					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-                    if(position.getStockName().contains("*")){
-                    	sb.append("\t从");
-                    }else{
-                    	sb.append("\t\t从");
+                            default:
+                                break;
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    if (position.getStockName().contains("*")) {
+                        sb.append("\t从");
+                    } else {
+                        sb.append("\t\t从");
                     }
                     // int percent = (int) (position.getFromPercent());
                     sb.append(StringFromatUtils.get2PointPercent(position.getFromPercent()));
@@ -127,33 +126,33 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 //                    sb.append(" 从");
                     sb.append(position.getStockName());
                     try {
-						byte[] bytes = position.getStockName().getBytes("UTF-8");
-						switch (bytes.length) {
-						case 6:
-							sb.append("        ");
-							break;
-						case 7:
-						case 8:
-						case 9:
-							sb.append("     ");
-							
-							break;
-						case 10:
-						case 11:
-							sb.append("  ");
-							break;
+                        byte[] bytes = position.getStockName().getBytes("UTF-8");
+                        switch (bytes.length) {
+                            case 6:
+                                sb.append("        ");
+                                break;
+                            case 7:
+                            case 8:
+                            case 9:
+                                sb.append("     ");
 
-						default:
-							break;
-						}
-					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
-					}
-                    
-                    if(position.getStockName().contains("*")){
-                    	sb.append("\t从");
-                    }else{
-                    	sb.append("\t\t从");
+                                break;
+                            case 10:
+                            case 11:
+                                sb.append("  ");
+                                break;
+
+                            default:
+                                break;
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (position.getStockName().contains("*")) {
+                        sb.append("\t从");
+                    } else {
+                        sb.append("\t\t从");
                     }
                     // int percent = (int) (position.getFromPercent());
                     // sb.append(percent);
@@ -203,7 +202,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_position_adjust_history, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_position_adjust_history, parent, false);
             viewHolder.tvAdjustTime = (TextView) convertView.findViewById(R.id.tv_adjust_time);
             viewHolder.tvAdjustContent = (TextView) convertView.findViewById(R.id.tv_adjust_history);
             convertView.setTag(viewHolder);

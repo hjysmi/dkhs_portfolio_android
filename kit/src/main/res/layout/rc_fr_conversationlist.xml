@@ -7,6 +7,7 @@
 
     <ListView
         android:id="@id/rc_list"
+        android:listSelector="@drawable/lv_white_selector"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

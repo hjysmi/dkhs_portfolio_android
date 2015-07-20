@@ -21,10 +21,7 @@ import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.PortfolioAlertBean;
 import com.dkhs.portfolio.receiver.MessageNotificationClickReceiver;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;

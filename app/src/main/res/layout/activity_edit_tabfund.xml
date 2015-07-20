@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center_horizontal"
-            android:text="@string/funds_name" />
+            android:text="@string/conbination_name" />
 
         <TextView
             style="@style/gray_title_text"

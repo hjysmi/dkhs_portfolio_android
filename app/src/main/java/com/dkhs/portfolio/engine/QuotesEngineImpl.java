@@ -8,16 +8,8 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import android.util.Log;
-
 import com.dkhs.portfolio.bean.AlertSetBean;
+import com.dkhs.portfolio.bean.PostStockAlertBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -25,12 +17,21 @@ import com.google.gson.Gson;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName QuotesEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-26 下午4:59:15
- * @version 1.0
  */
 public class QuotesEngineImpl {
 
@@ -94,13 +95,12 @@ public class QuotesEngineImpl {
     }
 
     /**
-     * 
      * 设置股票提醒
      */
     public void stockRemind(String stockId, float priceUp, float priceDown, float percent, boolean setNotice,
-            boolean setYanbao, IHttpListener listener) {
+                            boolean setYanbao, IHttpListener listener) {
 
-        AlertSetBean alertSetBean = new AlertSetBean(priceUp, priceDown, percent, setNotice, setYanbao);
+        PostStockAlertBean alertSetBean = new PostStockAlertBean(priceUp, priceDown, percent, setNotice, setYanbao);
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("is_alert", "1");
@@ -110,7 +110,6 @@ public class QuotesEngineImpl {
     }
 
     /**
-     * 
      * 取消股票提醒
      */
     public void delStockRemind(String stockId, IHttpListener listener) {
@@ -123,10 +122,52 @@ public class QuotesEngineImpl {
     }
 
     /**
+     * 设置七日年化收益率更新提醒,0为取消订阅（货币、理财型基金的提醒设置）
+     */
+    public void fundRemind7Day(String fundId, boolean isNoticeChange, IHttpListener listener) {
+
+        JSONObject jsonObject = new JSONObject();
+//        if (isNoticeChange) {
+        try {
+            jsonObject.put("fund_year_yld", isNoticeChange ? 1 : 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        }
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("is_alert", "1");
+        params.addBodyParameter("alert_settings", jsonObject.toString());
+        DKHSClient
+                .request(HttpMethod.POST, MessageFormat.format(DKHSUrl.StockSymbol.remimd, fundId), params, listener);
+    }
+
+    /**
+     * 设置单位净值更新提醒,0为取消订阅（其他基金的提醒设置）
+     */
+    public void fundRemindNetvalue(String fundId, boolean isNoticeChange, IHttpListener listener) {
+
+        JSONObject jsonObject = new JSONObject();
+//        if (isNoticeChange) {
+        try {
+            jsonObject.put("fund_net_value", isNoticeChange ? 1 : 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        }
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("is_alert", "1");
+        params.addBodyParameter("alert_settings", jsonObject.toString());
+        DKHSClient
+                .request(HttpMethod.POST, MessageFormat.format(DKHSUrl.StockSymbol.remimd, fundId), params, listener);
+    }
+
+    /**
      * 获取k线图数据
-     * 
-     * @param type 类型 d，w，m
-     * @param stockid 股票id
+     *
+     * @param type     类型 d，w，m
+     * @param stockid  股票id
      * @param listener
      */
     public void queryKLine(String type, String stockid, String isHis, IHttpListener listener) {

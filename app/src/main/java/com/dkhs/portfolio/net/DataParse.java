@@ -8,40 +8,32 @@
  */
 package com.dkhs.portfolio.net;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
+ * @author zhoujunzhou
+ * @version 1.0
  * @ClassName: DataParse
  * @Description: 接口数据解析类
- * @author zhoujunzhou
  * @date 2014-09-12 上午10:21:42
- * @version 1.0
  */
 public class DataParse<T> {
-    private JSONObject result;
+//    private JSONObject result;
 
-    public DataParse(JSONObject jsonObject) {
-        this.result = jsonObject;
-    }
+//    public DataParse(JSONObject jsonObject) {
+//        this.result = jsonObject;
+//    }
 
-    /**
-     * 解析Json对象
-     * 
-     * @param keyString
-     * 要解析json对象的名称
-     * @param classOfT
-     * 要解下成的对象类型
-     */
     // public T parse(String keyString, Class<T> classOfT) {
     // T s = null;
     //
@@ -82,7 +74,6 @@ public class DataParse<T> {
     // return dataList;
     //
     // }
-
     public static <K> List<K> parseJsonList(String userObject, Type listType) {
         try {
 
@@ -101,6 +92,7 @@ public class DataParse<T> {
         }
         return Collections.emptyList();
     }
+
     /**
      * 将对象转换成json格式
      *
@@ -112,10 +104,9 @@ public class DataParse<T> {
     }
 
 
-
     /**
      * 从{@code jsonObj}中解析出{@code key}结点下的JSONArray对象，并将JSONArray解析为 List数据
-     * 
+     *
      * @param clazz
      * @param jsonObj
      * @param key
@@ -131,10 +122,9 @@ public class DataParse<T> {
 
     /**
      * 将JSONArray解析为 List数据
-     * 
+     *
      * @param clazz
-     * @param jsonObj
-     * @param key
+     * @param array
      * @return
      */
     public static <K> List<K> parseArrayJson(Class<K> clazz, JSONArray array) {
@@ -166,10 +156,9 @@ public class DataParse<T> {
 
     /**
      * 将JSONArray解析为 List数据
-     * 
+     *
      * @param clazz
-     * @param jsonObj
-     * @param key
+     * @param arrayJson
      * @return
      */
     public static <K> List<K> parseArrayJson(Class<K> clazz, String arrayJson) {
@@ -188,7 +177,7 @@ public class DataParse<T> {
 
     /**
      * 从{@code jsonObj}中解析出{@code key}结点下的JSONObject对象，并将JSONObject实例化为{@code K}的对象
-     * 
+     *
      * @param clazz
      * @return
      */
@@ -202,7 +191,7 @@ public class DataParse<T> {
 
     /**
      * 将JSONObject实例化为{@code K}的对象
-     * 
+     *
      * @param clazz
      * @return
      */
@@ -215,7 +204,7 @@ public class DataParse<T> {
 
     /**
      * 将字符串实例化为{@code K}的对象
-     * 
+     *
      * @param clazz
      * @return
      */

@@ -16,6 +16,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -32,8 +33,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="—"
                     android:textColor="@color/theme_color"
-                    android:textSize="34sp"
-                    android:textStyle="bold" />
+                    android:textSize="34sp" />
 
                 <TextView
                     android:id="@+id/tv_stock_status"
@@ -116,7 +116,8 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -152,6 +153,7 @@
                     style="@style/text_stock_value" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -170,8 +172,6 @@
                 <TextView
                     android:id="@+id/tv_e_value"
                     style="@style/text_stock_value"
-                    android:layout_alignBaseline="@+id/tv_e"
-                    android:layout_toRightOf="@+id/tv_e"
                     android:visibility="gone" />
 
 
@@ -196,13 +196,13 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -238,22 +238,6 @@
 
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_shiying"
-                    style="@style/text_stock_name"
-                    android:text="@string/pe_ttm" />
-
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/tv_shiying_value"
-                    style="@style/text_stock_value" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -272,7 +256,30 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tv_shijing"
+                    style="@style/text_stock_name"
+                    android:text="@string/pb" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/tv_shijing_value"
+                    style="@style/text_stock_value" />
+
+                <TextView
+                    android:id="@+id/tv_e_value"
+                    style="@style/text_stock_value"
+                    android:layout_alignBaseline="@+id/tv_e"
+                    android:layout_toRightOf="@+id/tv_e"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
 

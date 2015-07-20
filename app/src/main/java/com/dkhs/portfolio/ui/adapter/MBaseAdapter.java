@@ -57,7 +57,7 @@ public abstract class MBaseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        return getView33(position, convertView, parent);
+        return getViewAgent(position, convertView, parent);
     }
 
     /**
@@ -68,8 +68,8 @@ public abstract class MBaseAdapter extends BaseAdapter {
      * @param parent
      * @return
      */
-    public abstract View getView33(int position, View convertView,
-                                   ViewGroup parent);
+    public abstract View getViewAgent(int position, View convertView,
+                                      ViewGroup parent);
 
 
 //    public AnimationAdapter getAnmAdapter(ListView listView) {

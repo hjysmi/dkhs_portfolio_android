@@ -10,14 +10,12 @@ package com.dkhs.portfolio.utils;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.StockQuotesBean;
-
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockUitls
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-11-6 上午10:15:50
- * @version 1.0
  */
 public class StockUitls {
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
@@ -30,6 +28,13 @@ public class StockUitls {
     public static final String SYMBOLTYPE_JHLC = "6";
     public static final String SYMBOLTYPE_FUTURES = "9";
     public static final String SYMBOLTYPE_OPTION = "10";
+
+    //理财型
+    public static final int STYPE_EF = 306;
+    //债券型
+    public static final int STYPE_MBS = 307;
+
+    public static final int STYPE_FUND = 3;
 
     public static boolean isShangZhengB(String symbol) {
         if (TextUtils.isEmpty(symbol)) {
@@ -49,20 +54,26 @@ public class StockUitls {
         if (TextUtils.isEmpty(status)) {
             return false;
         }
-        if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("3")) {
-            return true;
-        }
-        return false;
+        return status.equalsIgnoreCase("2") || status.equalsIgnoreCase("3");
     }
 
     public static boolean isNewStock(String status) {
         if (TextUtils.isEmpty(status)) {
             return false;
         }
-        if (status.equalsIgnoreCase("7")) {
-            return true;
+        return status.equalsIgnoreCase("7");
+    }
+
+
+    public static boolean isSepFund(int stype) {
+        return stype == STYPE_EF || stype == STYPE_MBS;
+    }
+
+    public static boolean isFundType(String symbolType) {
+        if (TextUtils.isEmpty(symbolType)) {
+            return false;
         }
-        return false;
+        return symbolType.equalsIgnoreCase(SYMBOLTYPE_FUND);
     }
 
 }

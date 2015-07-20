@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PeopleBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.google.gson.Gson;
@@ -25,7 +24,6 @@ import com.lidroid.xutils.http.client.HttpRequest;
 public class PeopleEngineImpl extends LoadMoreDataEngine {
 
 
-    private int page = 1;
     /**
      * 默认显示一页20条数据
      */
@@ -61,7 +59,7 @@ public class PeopleEngineImpl extends LoadMoreDataEngine {
     public HttpHandler loadData() {
 
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", page + "");
+        params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", pageSize + "");
         return DKHSClient.request(HttpRequest.HttpMethod.GET, String.format(type.getUrl(), userId), params, this);
 

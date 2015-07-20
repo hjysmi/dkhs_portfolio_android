@@ -3,7 +3,7 @@
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc" >
+    android:background="#0099cc">
 
     <LinearLayout
         android:id="@+id/ll_et_phone"
@@ -14,7 +14,7 @@
         android:layout_marginTop="40dip"
         android:background="@drawable/roundcorner_bg_single"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dip"
             android:background="@null"
+            android:inputType="phone"
             android:maxLength="11"
             android:numeric="integer"
             android:paddingLeft="20dip" />
@@ -43,7 +44,7 @@
         android:layout_marginLeft="23.0dip"
         android:layout_marginRight="23.0dip"
         android:layout_marginTop="15dip"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/code_reveive"
@@ -67,8 +68,8 @@
             android:layout_toLeftOf="@+id/code_reveive"
             android:background="@drawable/edittext_bg"
             android:hint="输入验证码"
-            android:maxLength="4"
-            android:numeric="integer" />
+            android:inputType="number"
+            android:maxLength="4" />
     </RelativeLayout>
 
     <TextView

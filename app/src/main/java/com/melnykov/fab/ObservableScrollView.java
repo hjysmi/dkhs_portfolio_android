@@ -1,10 +1,7 @@
 package com.melnykov.fab;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -48,8 +45,6 @@ public class ObservableScrollView extends ScrollView {
     public void setOnScrollChangedListener(OnScrollChangedListener listener) {
         mOnScrollChangedListener = listener;
     }
-
-
 
 
 }

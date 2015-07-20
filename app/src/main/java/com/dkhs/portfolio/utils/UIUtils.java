@@ -228,8 +228,7 @@ public class UIUtils {
             }
         }
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
-        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);// 把ByteArrayInputStream数据生成图片
-        return bitmap;
+        return BitmapFactory.decodeStream(isBm, null, null);
     }
 
     public static DisplayMetrics getDisplayMetrics() {
@@ -270,18 +269,12 @@ public class UIUtils {
     }
 
     public static boolean roundAble(StockQuotesBean stockQuotesBean) {
-        if (!TextUtils.isEmpty(stockQuotesBean.getTrade_status())
-                && !(stockQuotesBean.getTrade_status().equals("0") || stockQuotesBean.getTrade_status().equals("3"))) {
-            return true;
-        }
-        return false;
+        return !TextUtils.isEmpty(stockQuotesBean.getTrade_status())
+                && !(stockQuotesBean.getTrade_status().equals("0") || stockQuotesBean.getTrade_status().equals("3"));
     }
 
     public static boolean roundAble(int statu) {
-        if ((statu == 0) || (statu == 3)) {
-            return true;
-        }
-        return false;
+        return (statu == 0) || (statu == 3);
     }
 
     public static String getValue(double volume) {
@@ -344,6 +337,8 @@ public class UIUtils {
         return rect.width();
     }
 
+
+
     public static boolean iStartLoginActivity(Context context) {
         // try {
         // UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
@@ -382,10 +377,7 @@ public class UIUtils {
          * e.printStackTrace();
          * }
          */
-        if (Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3") || Build.DEVICE.equals("mx4pro")) {
-            return true;
-        }
-        return false;
+        return Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3") || Build.DEVICE.equals("mx4pro");
     }
 
     public static void startAminationActivity(Activity context, Intent intent) {

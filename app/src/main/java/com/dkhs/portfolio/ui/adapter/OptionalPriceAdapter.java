@@ -8,17 +8,12 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
-import android.animation.Animator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -27,19 +22,23 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.TabStockFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.nineoldandroids.animation.ObjectAnimator;
+
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectFundAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-28 下午3:36:46
- * @version 1.0
  */
 public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
+
+    public OptionalPriceAdapter(Context context) {
+        super(context);
+    }
 
     public OptionalPriceAdapter(Context context, List<SelectStockBean> datas) {
         super(context, datas);
@@ -65,7 +64,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
 
         final SelectStockBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(item.code);
+        viewHolder.tvStockNum.setText(item.symbol);
         ColorStateList textCsl = null;
         if (item.isStop || StockUitls.isDelistStock(item.list_status)) {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
@@ -75,11 +74,11 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.percentage));
         }
         if (StockUitls.isDelistStock(item.list_status)) {
-            viewHolder.tvPercentValue.setText("退市");
+            viewHolder.tvPercentValue.setText(R.string.exit_stock);
             viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
             // viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
         } else if (item.isStop) {
-            viewHolder.tvPercentValue.setText("停牌");
+            viewHolder.tvPercentValue.setText(R.string.stop_stock);
             // viewHolder.tvPercentValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
             viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
         } else {
@@ -92,7 +91,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
                 viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
             } else if (tabIndex == 1) {
 
-                if (StockUitls.isShangZhengB(item.code)) {
+                if (StockUitls.isShangZhengB(item.symbol)) {
 
                     viewHolder.tvPercentValue.setText(StringFromatUtils.get3Point(item.change));
                 } else {
@@ -101,7 +100,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
                 }
 
             }
-            if (StockUitls.isShangZhengB(item.code)) {
+            if (StockUitls.isShangZhengB(item.symbol)) {
 
                 viewHolder.tvIncearseValue.setText(StringFromatUtils.get3Point(item.change));
             } else {
@@ -119,7 +118,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             }
         }
 
-        if (StockUitls.isShangZhengB(item.code)) {
+        if (StockUitls.isShangZhengB(item.symbol)) {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
 
         } else {

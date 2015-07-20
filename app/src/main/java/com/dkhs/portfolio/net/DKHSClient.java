@@ -8,23 +8,15 @@
  */
 package com.dkhs.portfolio.net;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-
 import android.os.Looper;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -38,6 +30,7 @@ import com.lidroid.xutils.util.LogUtils;
 
 import org.apache.http.NameValuePair;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -104,7 +97,6 @@ public class DKHSClient {
 
                     UserEntity user = UserEngineImpl.getUserEntity();
                     if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
-                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                         GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                         GlobalParams.MOBILE = user.getMobile();
                         if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
@@ -212,7 +204,6 @@ public class DKHSClient {
 
                     UserEntity user = UserEngineImpl.getUserEntity();
                     if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
-                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                         GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                         GlobalParams.MOBILE = user.getMobile();
                         if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {

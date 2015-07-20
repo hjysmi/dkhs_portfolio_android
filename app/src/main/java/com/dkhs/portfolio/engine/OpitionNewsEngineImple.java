@@ -1,9 +1,11 @@
 package com.dkhs.portfolio.engine;
 
-import java.lang.reflect.Type;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -11,19 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockPriceBean;
-import com.dkhs.portfolio.net.DKHSClient;
-import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpitionNewsEngineImple extends LoadNewsDataEngine {
     private final static String EXCHANGE = "1,2";
@@ -85,7 +77,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                 break;
             case NEWS_GROUP: // 主界面资讯，自选tab
 
-                if (!PortfolioApplication.getInstance().hasUserLogin()) {
+                if (!PortfolioApplication.hasUserLogin()) {
 
                     DKHSClient.requestByGet(
                             MessageFormat.format(DKHSUrl.News.reportnewsByAnony,
@@ -147,7 +139,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         break;
                     case NEWS_GROUP:
 
-                        if (!PortfolioApplication.getInstance().hasUserLogin()) {
+                        if (!PortfolioApplication.hasUserLogin()) {
 
                             DKHSClient.requestByGet(
                                     MessageFormat.format(DKHSUrl.News.reportnewsByAnony,

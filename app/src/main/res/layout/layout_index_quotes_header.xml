@@ -10,41 +10,39 @@
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:weightSum="10"/>
+        android:weightSum="10" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_title"
         android:gravity="center"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:orientation="vertical"
         android:paddingBottom="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         android:weightSum="10">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:orientation="horizontal"
-
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_weight="2">
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_current_price"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_centerHorizontal="true"
-                    android:text="—"
-                    android:textSize="34sp"
+                    android:gravity="center"
                     android:singleLine="true"
-                    android:textStyle="bold" />
+                    android:text="—"
+                    android:textSize="34sp" />
 
                 <TextView
                     android:id="@+id/tv_stock_status"
@@ -78,11 +76,11 @@
                         android:id="@+id/tv_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/tv_up_price"
                         android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/tv_up_price"
                         android:text="—"
-                        android:textSize="16sp"
-                        android:textColor="@color/theme_color" />
+                        android:textColor="@color/theme_color"
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
             </RelativeLayout>
@@ -90,24 +88,27 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_today_open"
                     style="@style/text_stock_name"
                     android:text="@string/open" />
+
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_today_open_value"
-                    style="@style/text_stock_value"
-                    />
+                    style="@style/text_stock_value" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_yesterday_value_prompt"
                     style="@style/text_stock_name"
@@ -115,31 +116,35 @@
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_yesterday_value"
-                    style="@style/text_stock_value"
-                    />
+                    style="@style/text_stock_value" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_highest"
                     style="@style/text_stock_name"
                     android:layout_width="fill_parent"
                     android:text="@string/high" />
+
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_highest_value"
                     style="@style/text_stock_value"
 
-                  />
+                    />
 
 
             </LinearLayout>
@@ -148,21 +153,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_lowest"
                     style="@style/text_stock_name"
-                    android:layout_below="@+id/tv_highest"
 
                     android:text="@string/low" />
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_lowest_value"
-                    style="@style/text_stock_value"
-                    android:layout_alignBaseline="@+id/tv_lowest"
-                    android:layout_toRightOf="@+id/tv_lowest" />
+                    style="@style/text_stock_value" />
 
 
             </LinearLayout>
@@ -171,24 +173,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:orientation="vertical"
+                android:layout_weight="1"
 
 
-                android:layout_weight="1">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_liang"
                     style="@style/text_stock_name"
-                    android:layout_below="@+id/tv_today_open"
-
-
                     android:text="@string/volume" />
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_liang_value"
-                    style="@style/text_stock_value"
-                    android:layout_alignBaseline="@+id/tv_liang"
-                    android:layout_toRightOf="@+id/tv_liang" />
+                    style="@style/text_stock_value" />
 
             </LinearLayout>
 
@@ -196,8 +193,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_shiying"
@@ -211,8 +208,7 @@
 
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tv_e_value"
-                    style="@style/text_stock_value"
-                    />
+                    style="@style/text_stock_value" />
 
 
             </LinearLayout>
@@ -232,6 +228,7 @@
         style="@style/text_stock_name"
         android:text="换:"
         android:visibility="gone" />
+
     <TextView
         android:id="@+id/tv_huan_value"
         style="@style/text_stock_name"
@@ -242,15 +239,16 @@
         android:id="@+id/tv_liuzhi_value"
         style="@style/text_stock_value"
         android:visibility="gone" />
+
     <TextView
         android:id="@+id/tv_zongzhi_value"
         style="@style/text_stock_value"
         android:visibility="gone" />
+
     <TextView
         android:id="@+id/tv_amount_value"
         style="@style/text_stock_value"
         android:visibility="gone" />
-
 
 
 </RelativeLayout>

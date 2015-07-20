@@ -15,11 +15,11 @@ import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Table;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SearchStockBean
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-17 下午2:36:31
- * @version 1.0
  */
 
 @Table(name = "SearchStock")
@@ -29,10 +29,14 @@ public class SearchStockBean extends DBEntityBase {
     @SerializedName("abbr_name")
     private String stockName;
     @Column(column = "stock_code")
-    @SerializedName("symbol")
+    @SerializedName("code")
     private String stockCode;
-    // @Column(column = "stock_id")
-    // private long stockId;
+
+
+    @Column(column = "stock_symbol")
+    @SerializedName("symbol")
+    private String symbol;
+
 
     @SerializedName("chi_spell")
     @Column(column = "chi_spell")
@@ -49,6 +53,14 @@ public class SearchStockBean extends DBEntityBase {
     private String list_status;
     @Column(column = "is_stop")
     private String is_stop;
+
+    public String getSymbol_stype() {
+        return symbol_stype;
+    }
+
+    public void setSymbol_stype(String symbol_stype) {
+        this.symbol_stype = symbol_stype;
+    }
 
     public String getStockName() {
         return stockName;
@@ -98,10 +110,19 @@ public class SearchStockBean extends DBEntityBase {
         this.is_stop = is_stop;
     }
 
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
     public boolean isStop() {
         if (TextUtils.isEmpty(is_stop)) {
             return false;
         }
-        return this.is_stop.equalsIgnoreCase("1") ? true : false;
+        return this.is_stop.equalsIgnoreCase("1");
     }
 }

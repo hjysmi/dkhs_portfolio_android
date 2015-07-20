@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -19,12 +18,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SignupBean;
 import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
@@ -74,6 +75,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_LOGINANNOY = "extra_loginannoy";
 
     private boolean isLoginByAnnoy = false;
+    WeakHandler weakHandler=new WeakHandler(){
+
+    };
 
     public static Intent getLoginActivity(Context context, String phoneNum) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -113,7 +117,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // ShareSDK.registerPlatform(Laiwang.class);
         ShareSDK.setConnTimeout(5000);
         ShareSDK.setReadTimeout(10000);
-        if (PortfolioApplication.getInstance().isDebug()) {
+        if (AppConfig.isDebug) {
             Intent intent = new Intent(this, GettingUrlForAPPActivity.class);
             startActivity(intent);
         } else {
@@ -154,9 +158,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         tvUsername.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
-            BitmapUtils bitmapUtils = new BitmapUtils(this);
             // url = DKHSUrl.BASE_DEV_URL + url;
-            bitmapUtils.display(ivHeader, url);
+            BitmapUtils.display(ivHeader, url);
         }
     }
 
@@ -294,9 +297,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tv_register: {
-                Intent intent2 = new Intent(this, RLFActivity.class);
-                intent2.putExtra("activity_type", RLFActivity.REGIST_TYPE);
-                startActivity(intent2);
+
+                startActivity(RLFActivity.registerIntent(this));
             }
             break;
             case R.id.iv_weibo: {
@@ -524,8 +526,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         }
     };
-    Handler platFormAction = new Handler() {
-        public void handleMessage(Message msg) {
+    WeakHandler platFormAction = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             PromptManager.closeProgressDialog();
             switch (msg.arg1) {
                 case 1: {
@@ -588,10 +591,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 default:
                     break;
             }
+            return false;
         }
-
-        ;
-    };
+    });
 
     private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
@@ -671,7 +673,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(Object object) {
 
-            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
             goMainPage();
 
         }
@@ -687,7 +688,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         // 设置小红点可以出现
         PortfolioApplication.getInstance().exitApp();
-        Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

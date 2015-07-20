@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
-    android:versionCode="12"
-    android:versionName="1.6.0529">
+    >
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="15" />
 
     <supports-screens
         android:anyDensity="true"
@@ -82,7 +78,9 @@
             android:launchMode="singleTask" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.MyCombinationActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name="com.dkhs.portfolio.ui.PositionAdjustActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -94,32 +92,38 @@
         <activity android:name="com.dkhs.portfolio.ui.SettingNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.VerificationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.NewsActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.FundsOrderActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.ForgetPswActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
+        <activity android:name=".ui.ModifyPswActivity" />
+        <activity android:name=".ui.ModifyUNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanbaoDetailActivity" />
 
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
+        <activity android:name=".ui.ModifyUserSignActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EditTabStockActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.BoundAccountActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.ChangeCombinationNameActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.PrivacySettingActivity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.BoundAccountActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".ui.ModifyComNameActivity" />
+        <activity android:name=".ui.ModifyPrivacyActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionListAcitivity" />
         <activity android:name="com.dkhs.portfolio.ui.ReportForOneListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EveryDayValueActivity" />
         <activity android:name="com.dkhs.portfolio.ui.BoundEmailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MarketListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.HistoryPositionDetailActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
+        <activity android:name=".ui.EditTabCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
         <activity android:name="com.dkhs.portfolio.ui.WebActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.AdActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.InviteFriendsActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.InviteHistoryActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.FundDetailActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity"
             android:theme="@style/AppThemeNoBackgroud" />
@@ -132,7 +136,7 @@
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
-            android:name="com.dkhs.portfolio.ui.SelectPhoneFromSystem"
+            android:name=".ui.PickupPhotoActivity"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name="com.dkhs.portfolio.ui.ChangeCheckType"
@@ -146,7 +150,7 @@
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name="com.dkhs.portfolio.ui.NewCombinationDetailActivity"
+            android:name=".ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.dkhs.portfolio.ui.CompareFundsActivity"
@@ -159,7 +163,7 @@
             android:theme="@style/Theme.PageIndicatorDefaults"
             android:windowSoftInputMode="stateHidden" />-->
         <activity
-            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -250,6 +254,12 @@
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="tdrvipksrgsu5" />
+
+        <!--
+                <meta-data
+                    android:name="RONG_CLOUD_APP_KEY"
+                    android:value="k51hidwq1fqzb" />
+        -->
 
         <activity
             android:name=".ui.RCChatListActivity"
@@ -360,11 +370,25 @@
         <receiver
             android:name=".receiver.NetChangeReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ui.FundManagerActivity"
+            android:label="@string/title_activity_fund_manager"></activity>
+        <activity
+            android:name=".ui.FlowPackageActivity"
+            android:label="@string/flow_package"></activity>
+        <activity
+            android:name=".ui.ExchangeActivity"
+            android:label="@string/title_flow_exchange"></activity>
+        <activity
+            android:name=".ui.InviteCodeActivity"
+            android:label="@string/title_invite_friend"></activity>
+        <activity android:name=".ui.ShakeActivity"></activity>
     </application>
 
 </manifest>

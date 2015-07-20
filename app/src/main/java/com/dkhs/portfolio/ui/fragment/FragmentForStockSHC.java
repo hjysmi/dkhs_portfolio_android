@@ -50,12 +50,9 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
-    private TextView tv;
-    private boolean getadle = false;
     private MarketCenterItemAdapter mOptionlistAdapter;
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 5;
-    private boolean isTimerStart = true;
     private final static String EXCHANGE = "exchange";
     private final static String SORT = "sort";
     private final static String STYPE = "symbol_stype";
@@ -127,7 +124,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
     private void initView(View view) {
 //        view.findViewById(R.id.swipe_container).setEnabled(false);
         mContentView = view.findViewById(R.id.ll_content);
-        tv = (TextView) view.findViewById(android.R.id.empty);
+        TextView tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         mDataList = new ArrayList<SelectStockBean>();
@@ -285,10 +282,10 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         // TODO Auto-generated method stub
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        if (mMarketTimer == null && isTimerStart) {
-            mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
-        }
+//        if (mMarketTimer == null && isTimerStart) {
+//            mMarketTimer = new Timer(true);
+//            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+//        }
         MobclickAgent.onPageStart(mPageName);
     }
 
@@ -317,7 +314,6 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
             if (isVisibleToUser) {
-                getadle = true;
 //                if (null == mDataList || mDataList.size() < 2) {
 //                    if (null != context && context instanceof StockQuotesActivity && getadle) {
 //                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
@@ -337,7 +333,6 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
             }
         } else {
             // 不可见时不执行操作
-            getadle = false;
         }
         super.setUserVisibleHint(isVisibleToUser);
     }

@@ -26,10 +26,10 @@ import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CompareFundsActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -46,17 +46,16 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName CompareFundFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-5-5 下午4:18:02
- * @version 1.0
  */
 public class CompareIndexFragment extends BaseFragment implements OnClickListener {
 
     private CombinationBean mCombinationBean;
-    // 默认沪深300的id
-    private String mCompareIds = "106000232";
+
 
     @ViewInject(R.id.tv_combination_name)
     private TextView tvCombinationName;
@@ -74,7 +73,6 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
 
     private List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
-
 
 
     @Override
@@ -98,7 +96,7 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
     }
 
@@ -108,9 +106,9 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
         super.onViewCreated(view, savedInstanceState);
         initMaChart(maChartView);
         tvCombinationName.setText(mCombinationBean.getName());
-        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId()>0) {
+        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId() > 0) {
             if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
-                if (mCombinationBean.getUser().getId()==UserEngineImpl.getUserEntity().getId()) {
+                if (mCombinationBean.getUser().getId() == UserEngineImpl.getUserEntity().getId()) {
                     moreFundView.setVisibility(View.VISIBLE);
                 }
             }
@@ -127,14 +125,14 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
 
     private void initMaChart(TrendChart machart) {
 
-        machart.setMaxValue(120);
-        machart.setMinValue(0);
+//        machart.setMaxValue(120);
+//        machart.setMinValue(0);
         maChartView.setYlineCounts(2);
         maChartView.setFromCompare(true);
 
     }
 
-    @OnClick({ R.id.tv_more_funds })
+    @OnClick({R.id.tv_more_funds})
     public void onClick(View v) {
         if (v.getId() == R.id.tv_more_funds) {
             startActivity(CompareFundsActivity.newIntent(getActivity(), mCombinationBean));
@@ -145,8 +143,7 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
 
         @Override
         protected HistoryNetValue parseDateTask(String jsonData) {
-            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            return histroyValue;
+            return DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
         }
 
         @Override
@@ -284,6 +281,9 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
     float maxOffsetValue;
 
     private void requestCompare() {
+        // 默认沪深300的id
+        String mCompareIds = "106000232";
+
         lineEntityList.clear();
         maxOffsetValue = 0f;
         netValueEngine.requeryDay(TimeUtils.getTimeString(cStart), TimeUtils.getTimeString(cEnd),
@@ -328,14 +328,12 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
                         } else if (value < minNum) {
                             minNum = value;
                         }
-
                     }
-
                     lineEntity.setLineData(lineDataList);
                     linesList.add(lineEntity);
 
-                    float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
-
+//                    float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
+//
                     // mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value);
                     i++;
                 }

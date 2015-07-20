@@ -135,7 +135,7 @@ public class TrendGridChart extends View {
     /**
      * 默认经线刻度字体颜色 *
      */
-    private int DEFAULT_LATITUDE_FONT_COLOR = Color.GRAY;
+    private int DEFAULT_LATITUDE_FONT_COLOR = Color.BLACK;
 
     /**
      * 默认经线刻度字体字体 *
@@ -223,6 +223,12 @@ public class TrendGridChart extends View {
      * 经线颜色是否对称
      */
     private boolean displayAxisYTitleColor = Boolean.TRUE;
+
+
+    /**
+     * 右部标题颜色是否以0为基准
+     */
+    private boolean displayYRightTitleByZero = Boolean.FALSE;
 
     /**
      * 经线是否显示
@@ -413,7 +419,7 @@ public class TrendGridChart extends View {
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
-    public void resetLayoutWeight(int widthWeight,int heightWeight){
+    public void resetLayoutWeight(int widthWeight, int heightWeight) {
         this.mHightWeight = heightWeight;
         this.mWidthWeight = widthWeight;
         requestLayout();
@@ -450,7 +456,7 @@ public class TrendGridChart extends View {
         }
 
         drawXtitleText(canvas);
-        drawYtitleText(canvas);
+
         // 设置背景色
         // super.setBackgroundColor(backgroudColor);
         // 绘制XY轴
@@ -473,10 +479,17 @@ public class TrendGridChart extends View {
             drawAxisGridY(canvas);
         }
 
+        reDrawYtitleText(canvas);
+
+    }
+
+
+    public void reDrawYtitleText(Canvas canvas) {
         if (isDrawRightYTitle) {
             drawRightYtitleText(canvas);
         }
 
+        drawYtitleText(canvas);
     }
 
     /**
@@ -485,7 +498,7 @@ public class TrendGridChart extends View {
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      */
-    private void drawYtitleText(Canvas canvas) {
+    public void drawYtitleText(Canvas canvas) {
         if (null != axisYTitles) {
             int counts = axisYTitles.size();
             float length = super.getWidth() - axisMarginLeft;
@@ -528,11 +541,15 @@ public class TrendGridChart extends View {
                             canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
                                     + latitudeFontSize / 2f, mTextPaint);
                         } else if (i == counts - 1) {
+//                            canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
+//                                    + latitudeFontSize / 2f + xTitleTextHeight, mTextPaint);
                             canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
-                                    + latitudeFontSize / 2f + xTitleTextHeight, mTextPaint);
+                                    + latitudeFontSize + latitudeFontSize / 2, mTextPaint);
                         } else {
+//                            canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
+//                                    + latitudeFontSize / 2f + xTitleTextHeight / 2, mTextPaint);
                             canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
-                                    + latitudeFontSize / 2f + xTitleTextHeight / 2, mTextPaint);
+                                    + latitudeFontSize, mTextPaint);
                         }
 
                         // canvas.drawText(axisYTitles.get(i), axisMarginLeft, super.getHeight() - this.axisMarginBottom
@@ -546,7 +563,7 @@ public class TrendGridChart extends View {
 
     }
 
-    private void drawRightYtitleText(Canvas canvas) {
+    public void drawRightYtitleText(Canvas canvas) {
         if (null != axisRightYTitles) {
             int counts = axisRightYTitles.size();
 
@@ -574,7 +591,10 @@ public class TrendGridChart extends View {
                     float offetText = xTitleWidth;
                     float startX = (super.getWidth() - axisMarginLeft - offetText);
                     if (displayAxisYTitleColor) {
-                        mTextPaint.setColor(getYTitlePaintFont(i, counts));
+                        mTextPaint.setColor(getLongtitudeFontColor());
+                    }
+                    if (displayYRightTitleByZero) {
+                        mTextPaint.setColor(ColorTemplate.getPercentColor(axisRightYTitles.get(i)));
                     }
 
                     if (i == 0) {
@@ -582,10 +602,10 @@ public class TrendGridChart extends View {
                                 / 2f, mTextPaint);
                     } else if (i == counts - 1) {
                         canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize
-                                / 2f + xTitleTextHeight, mTextPaint);
+                                / 2f + latitudeFontSize, mTextPaint);
                     } else {
                         canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize
-                                / 2f + xTitleTextHeight / 2, mTextPaint);
+                                , mTextPaint);
                     }
 
                     // canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize / 2f,
@@ -1005,8 +1025,8 @@ public class TrendGridChart extends View {
         return displayAxisYTitle;
     }
 
-    public void setDisplayAxisYTitleColor(boolean displayAxisXTitleColor) {
-        this.displayAxisYTitleColor = displayAxisXTitle;
+    public void setDisplayAxisYTitleColor(boolean isDisplayYtitleColor) {
+        this.displayAxisYTitleColor = isDisplayYtitleColor;
     }
 
     public boolean isMidAxisYTitle() {
@@ -1156,5 +1176,13 @@ public class TrendGridChart extends View {
 
     public void setYlineCounts(int counts) {
         this.yLineCounts = counts;
+    }
+
+    public boolean isDisplayYRightTitleByZero() {
+        return displayYRightTitleByZero;
+    }
+
+    public void setDisplayYRightTitleByZero(boolean displayYRightTitleByZero) {
+        this.displayYRightTitleByZero = displayYRightTitleByZero;
     }
 }

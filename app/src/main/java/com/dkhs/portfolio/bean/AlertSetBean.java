@@ -11,21 +11,41 @@ package com.dkhs.portfolio.bean;
 import org.parceler.Parcel;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName AlertSetBean
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-4-14 下午4:07:40
- * @version 1.0
  */
 @Parcel
-public class AlertSetBean  {
-     float stock_price_up;
-     float stock_price_down;
-     float stock_percentage;
-     int stock_company_report;
-     int stock_company_research;
+public class AlertSetBean {
+    float stock_price_up;
+    float stock_price_down;
+    float stock_percentage;
+    int stock_company_report;
+    int stock_company_research;
+    int fund_year_yld;
 
-    public AlertSetBean(){ /*Required empty bean constructor*/ }
+    public int getFund_net_value() {
+        return fund_net_value;
+    }
+
+    public void setFund_net_value(int fund_net_value) {
+        this.fund_net_value = fund_net_value;
+    }
+
+    int fund_net_value;
+
+    public int getFund_year_yld() {
+        return fund_year_yld;
+    }
+
+    public void setFund_year_yld(int fund_year_yld) {
+        this.fund_year_yld = fund_year_yld;
+    }
+
+
+    public AlertSetBean() { /*Required empty bean constructor*/ }
 
     public AlertSetBean(float priceUp, float priceDown, float percent, boolean setNotice, boolean setYanbao) {
         this.stock_price_up = priceUp;
@@ -93,10 +113,19 @@ public class AlertSetBean  {
     }
 
     public boolean isNoticeRemind() {
-        return getStock_company_report() == 1 ? true : false;
+        return getStock_company_report() == 1;
     }
 
     public boolean isYanbaoRemind() {
-        return getStock_company_research() == 1 ? true : false;
+        return getStock_company_research() == 1;
     }
+
+    public boolean isFund7dayRemind() {
+        return getFund_year_yld() == 1;
+    }
+
+    public boolean isFundNetvalueRemind() {
+        return getFund_net_value() == 1;
+    }
+
 }

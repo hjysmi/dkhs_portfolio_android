@@ -10,7 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.F10DataBean;
+import com.dkhs.portfolio.bean.FundQuoteBean;
+import com.dkhs.portfolio.bean.ManagersEntity;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 import java.util.List;
 
@@ -190,6 +194,113 @@ public class F10ViewParse {
         }
 
 
+    }
+
+
+    public View parseFundProfileView(FundQuoteBean fundQuoteBean) {
+        this.mContentView.addView(createTitleView("基金概况", ""));
+        createFundRow(fundQuoteBean);
+
+        return mContentView;
+    }
+
+    private void createFundRow(FundQuoteBean fundQuoteBean) {
+        String[] profileTitles = mContext.getResources().getStringArray(R.array.fund_profile_title);
+        int splitValue = 0;
+        int rowIndex = 0;
+        for (String profileTitle : profileTitles) {
+            String rowText = getFundRowText(rowIndex, fundQuoteBean);
+            LinearLayout rowContent = createFundRowView(profileTitle, rowText);
+            if (rowIndex % 2 == splitValue) {
+                rowContent.setBackgroundColor(DEFAULT_BG_GRAY_COLOR);
+            } else {
+                rowContent.setBackgroundColor(DEFAULT_WHITE_COLOR);
+            }
+
+            this.mContentView.addView(rowContent);
+            rowIndex++;
+        }
+    }
+
+    private String getFundRowText(int row, FundQuoteBean fundQuoteBean) {
+        String rowText = "";
+        switch (row) {
+            case 0: {
+                rowText = fundQuoteBean.getName();
+            }
+            break;
+            case 1: {
+                StringBuilder sbFundManager = new StringBuilder();
+                for (ManagersEntity managersEntity : fundQuoteBean.getManagers()) {
+                    sbFundManager.append(managersEntity.getName());
+                    sbFundManager.append("  ");
+                }
+                rowText = sbFundManager.toString();
+            }
+            break;
+            case 2: {
+                rowText = fundQuoteBean.getMana_name();
+            }
+            break;
+            case 3: {
+                rowText = fundQuoteBean.getStypeText();
+            }
+            break;
+            case 4: {
+                rowText = TimeUtils.getSimpleDay(fundQuoteBean.getEstab_date());
+            }
+            break;
+            case 5: {
+                rowText = fundQuoteBean.getEnd_shares();
+            }
+            break;
+        }
+        return rowText;
+    }
+
+    private LinearLayout createFundRowView(String title, String content) {
+        LinearLayout llLayout = new LinearLayout(mContext);
+        llLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        llLayout.setOrientation(LinearLayout.HORIZONTAL);
+        llLayout.setPadding(DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING);
+        llLayout.setWeightSum(10);
+
+
+        TextView tvTitleContent = null;
+        TextView tvContent = null;
+
+        tvTitleContent = new TextView(mContext);
+        tvTitleContent.setTextSize(DEFAULT_FONT_SIZE);
+        tvTitleContent.setTextColor(DEFAULT_FONT_COLOR);
+        tvTitleContent.setLineSpacing(0.0f, 1.2f);
+        LinearLayout.LayoutParams tvTitletlp = new LinearLayout.LayoutParams(
+                1,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        tvTitletlp.weight = 10.0f * 0.25f;
+        tvTitleContent.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        tvTitleContent.setLayoutParams(tvTitletlp);
+
+
+        tvContent = new TextView(mContext);
+        tvContent.setTextSize(DEFAULT_FONT_SIZE);
+        tvContent.setTextColor(DEFAULT_FONT_COLOR);
+        tvContent.setLineSpacing(0.0f, 1.2f);
+        LinearLayout.LayoutParams tvContentlp = new LinearLayout.LayoutParams(
+                1,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        tvContentlp.weight = 10.0f * 0.75f;
+        tvContent.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        tvContent.setLayoutParams(tvContentlp);
+
+
+        tvContent.setText(content);
+        tvTitleContent.setText(title);
+
+
+        llLayout.addView(tvTitleContent);
+        llLayout.addView(tvContent);
+
+        return llLayout;
     }
 
 

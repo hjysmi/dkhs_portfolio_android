@@ -246,9 +246,8 @@ public class KChartsFragment extends AbstractKChartView {
 
         @Override
         protected List<OHLCEntity> parseDateTask(String jsonData) {
-            List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonData);
 
-            return ohlc;
+            return getOHLCDatasFromJson(jsonData);
         }
 
         public void onFailure(int errCode, String errMsg) {
@@ -309,9 +308,8 @@ public class KChartsFragment extends AbstractKChartView {
      * @return
      */
     private List<OHLCEntity> getTestDatas() {
-        List<OHLCEntity> ohlc = new ArrayList<OHLCEntity>();
+        return new ArrayList<OHLCEntity>();
 
-        return ohlc;
     }
 
     public void large(View view) {

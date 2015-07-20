@@ -45,15 +45,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/day_income" />
+                android:text="@string/market_fund_per_day" />
         </RelativeLayout>
     </LinearLayout>
 
-    <include
+    <FrameLayout
+        android:id="@+id/view_datalist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_add_optional_stock"
-        android:layout_below="@+id/view_stock_title"
-        layout="@layout/empty_listview" />
+        android:layout_below="@+id/view_stock_title" />
 
 </RelativeLayout>

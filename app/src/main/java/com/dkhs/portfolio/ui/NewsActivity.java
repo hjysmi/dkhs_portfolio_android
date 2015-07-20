@@ -1,29 +1,25 @@
 package com.dkhs.portfolio.ui;
 
-import java.io.Serializable;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.engine.LoadNewsTextEngine;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import java.io.Serializable;
+
 public class NewsActivity extends ModelAcitivity implements Serializable {
     /**
-	 * 
-	 */
+     *
+     */
     private static final long serialVersionUID = 24654131315456464L;
-    private ImageView newsTitleIcon;
     private TextView newsTitleName;
     private TextView newsTitleDate;
     private TextView newsTitleNum;
@@ -34,11 +30,9 @@ public class NewsActivity extends ModelAcitivity implements Serializable {
     private static final String EXTRA_SYMBOL = "symbolname";
     private static final String EXTRA_SYMBOL_ID = "symbolid";
     private String textId;
-    private LoadNewsTextEngine mLoadDataEngine;
     private OptionNewsBean mOptionNewsBean;
     private String optionName;
     private String symbolName;
-    private String symbolId;
     private TextView newsSymbol;
 
     @Override
@@ -53,7 +47,7 @@ public class NewsActivity extends ModelAcitivity implements Serializable {
             getId(extras);
             setTitle(optionName);
         }
-        mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
+        NewsTextEngineImple mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
         mLoadDataEngine.setLoadingDialog(this);
         mLoadDataEngine.loadData();
     }
@@ -73,11 +67,9 @@ public class NewsActivity extends ModelAcitivity implements Serializable {
         textId = b.getString(EXTRA);
         optionName = b.getString(EXTRA_NAME);
         symbolName = b.getString(EXTRA_SYMBOL);
-        symbolId = b.getString(EXTRA_SYMBOL_ID);
     }
 
     public void initView() {
-        newsTitleIcon = (ImageView) findViewById(R.id.news_title_icon);
         newsTitleName = (TextView) findViewById(R.id.news_title_name);
         newsTitleDate = (TextView) findViewById(R.id.news_title_date);
         newsTitleNum = (TextView) findViewById(R.id.news_title_num);

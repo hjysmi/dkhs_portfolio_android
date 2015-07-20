@@ -99,7 +99,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private EditText etConbinationDesc;
     private Button btnConfirm;
     private Button btnAverage;
-    private View viewCombinationInfo;
 
     private PositionDetail mPositionDetailBean;
     private String mCombinationId;
@@ -192,7 +191,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         findViewById(R.id.btn_confirm).setOnClickListener(this);
         positionTextValue = (TextView) findViewById(R.id.position_text_value);
         positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
-        viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
+//        View viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
         btnAverage = (Button) findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
         etConbinationName = (EditText) findViewById(R.id.et_myconbina_name);
@@ -507,7 +506,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
-    private boolean isModiyName;
     private boolean isModifyPosition;
 
     private void adjustPositionDetailToServer() {
@@ -516,7 +514,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         String descText = etConbinationDesc.getText().toString();
         List<SubmitSymbol> submitList = generateSymbols();
         isModifyPosition = submitList.size() > 0;
-        isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
+        boolean isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
                 || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDefDescription());
         if (!isModifyPosition && !isModiyName) {
 
@@ -654,10 +652,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         for (ConStockBean stock : tempList) {
             SubmitSymbol symbol = new SubmitSymbol();
-            symbol.setSymbol(stock.getStockId());
-            // symbol.setPercent(stock.getPercent() / 100);
+            if (isAdjustCombination) {
+                symbol.setSymbol(stock.getStockCode());
+            } else {
+
+                symbol.setSymbol(stock.getStockId() + "");
+            }
             symbol.setPercent((int) stock.getPercent());
-            // System.out.println("symbols stock id:" + symbol.getSymbol() + " value:" + symbol.getPercent());
             symbols.add(symbol);
         }
         return symbols;
@@ -786,16 +787,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                             e.printStackTrace();
                         }
 
-                        PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+                        return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
 
-
-                        return bean;
                     }
 
                     @Override
                     protected void afterParseData(PositionDetail object) {
                         if (null != object) {
-                            PositionAdjustActivity.this.startActivity(NewCombinationDetailActivity.newIntent(
+                            PositionAdjustActivity.this.startActivity(CombinationDetailActivity.newIntent(
                                     PositionAdjustActivity.this, object.getPortfolio()));
                             finish();
                         }
@@ -864,7 +863,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             csBean.setPercent(0);
             // csBean.setPercent(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
-            System.out.println("csbean name:" + csBean.getName());
             if (stockList.contains(csBean)) {
                 int index = stockList.indexOf(csBean);
                 csBean.setPercent(stockList.get(index).getPercent());

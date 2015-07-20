@@ -1,12 +1,5 @@
 package com.dkhs.portfolio.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -14,7 +7,6 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,6 +14,8 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+import java.util.ArrayList;
 
 public class OpitionCenterStockEngineImple extends LoadMoreDataEngine {
 
@@ -68,7 +62,7 @@ public class OpitionCenterStockEngineImple extends LoadMoreDataEngine {
     }
 
     public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type, int pagesize,
-            String list_sector, String symbol_stype, String exchange) {
+                                         String list_sector, String symbol_stype, String exchange) {
         super(loadListener);
         this.mStockType = type;
         this.mPageSize = pagesize;
@@ -81,40 +75,43 @@ public class OpitionCenterStockEngineImple extends LoadMoreDataEngine {
     private void getOrderType(StockViewType type) {
         switch (type) {
             case MARKET_STOCK_TURNOVER:
+            case STOCK_HANDOVER_CLICKABLE:
             case STOCK_HANDOVER: {
                 orderType = ORDER_TURNOVER;
             }
-                break;
+            break;
             case STOCK_DRAWDOWN:
+            case STOCK_DRAWDOWN_CLICKABLE:
             case MARKET_STOCK_DOWNRATIO: {
                 orderType = ORDER_DOWN;
             }
-                break;
+            break;
             case STOCK_INCREASE:
+            case STOCK_INCREASE_CLICKABLE:
             case MARKET_STOCK_UPRATIO: {
                 orderType = ORDER_INCREASE;
             }
-                break;
+            break;
             case MARKET_STOCK_AMPLIT: {
                 orderType = ORDER_AMPLITU;
             }
-                break;
+            break;
             case MARKET_STOCK_AMPLIT_ACE: {
                 orderType = ORDER_AMPLITU_DOWN;
             }
-                break;
+            break;
             case MARKET_STOCK_TURNOVER_ACE: {
                 orderType = ORDER_TURNOVER_DOWN;
             }
-                break;
+            break;
             case MARKET_PLATE_LIST: {
                 orderType = ORDER_INCREASE;
             }
-                break;
+            break;
             case MARKET_PLATE_LIST_ACE: {
                 orderType = ORDER_DOWN;
             }
-                break;
+            break;
 
             default:
                 break;
@@ -263,10 +260,10 @@ public class OpitionCenterStockEngineImple extends LoadMoreDataEngine {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param dataSize
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {

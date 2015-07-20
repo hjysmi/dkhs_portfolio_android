@@ -8,10 +8,7 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +18,10 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SectorBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+
+import java.util.List;
 
 /**
  * @ClassName MarketCenterGridAdapter
@@ -36,7 +34,6 @@ public class MarketPlateGridAdapter extends BaseAdapter {
 
     private List<SectorBean> mDataList;
     private LayoutInflater mInflater;
-    private Context mcontext;
 
     // private GridView mGridView;
     // private int mCount = 0;
@@ -46,7 +43,6 @@ public class MarketPlateGridAdapter extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
         this.mDataList = datalist;
         // this.isPlate = isplate;
-        this.mcontext = context;
 
     }
 

@@ -8,20 +8,17 @@
  */
 package com.dkhs.portfolio.receiver;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.SmsMessage;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SMSBroadcastReceiver
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-31 下午1:55:30
- * @version 1.0
  */
 public class SMSBroadcastReceiver extends BroadcastReceiver {
     private static MessageListener mMessageListener;
@@ -62,7 +59,7 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
     }
 
     public void setOnReceivedMessageListener(MessageListener messageListener) {
-        this.mMessageListener = messageListener;
+        mMessageListener = messageListener;
     }
 
 }

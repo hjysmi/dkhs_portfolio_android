@@ -64,7 +64,6 @@ public class StockLandView extends RelativeLayout {
     }
 
     private QuotesEngineImpl mQuotesEngine;
-    private StockQuotesBean mStockQuotesBean;
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
     private ArrayList<Fragment> fragmentList;
@@ -177,8 +176,7 @@ public class StockLandView extends RelativeLayout {
 
     public void updateLandStockView(StockQuotesBean stockBean) {
         if (null != stockBean) {
-            this.mStockQuotesBean = stockBean;
-            mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
+            mStockQuotesChartFragment.setStockQuotesBean(stockBean);
             // landKlinTextTitle.setText(object.getName());
             landKlinTextPrice.setText(stockBean.getCurrent() + "");
             landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(stockBean.getPercentage()));
@@ -203,13 +201,13 @@ public class StockLandView extends RelativeLayout {
 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         mStockQuotesChartFragment = StockQuotesChartLandFragment.newInstance(
-                StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.code);
+                StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.symbol);
         KChartsLandFragment fragment = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,
-                mStockBean.code, mStockBean.symbol_type);
+                mStockBean.symbol, mStockBean.symbol_type);
         KChartsLandFragment fragment2 = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,
-                mStockBean.code, mStockBean.symbol_type);
+                mStockBean.symbol, mStockBean.symbol_type);
         KChartsLandFragment fragment3 = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH,
-                mStockBean.code, mStockBean.symbol_type);
+                mStockBean.symbol, mStockBean.symbol_type);
         fragmentList.add(mStockQuotesChartFragment);
         fragmentList.add(fragment);
         fragmentList.add(fragment2);

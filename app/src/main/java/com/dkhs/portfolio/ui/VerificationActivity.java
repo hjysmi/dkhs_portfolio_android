@@ -1,13 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -26,6 +18,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -34,6 +27,12 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class VerificationActivity extends ModelAcitivity implements OnClickListener {
 
@@ -44,7 +43,6 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private String phoneNum;
     private String mVerifyCode;
     private Button rlfbutton;
-    private TextView tvPhoneNum;
     private EditText etVerifucode;
     private Button btn_get_code;
     private Context context;
@@ -58,6 +56,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         Intent intent = new Intent(context, VerificationActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
         intent.putExtra(EXTRA_ISRESETPSW, resetPsw);
+        intent.putExtra(EXTRA_SETPSW, resetPsw);
         intent.putExtra(EXTRA_CODE, code);
         return intent;
     }
@@ -90,7 +89,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
         rlfbutton.setEnabled(false);
-        tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
+        TextView tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
         tvPhoneNum.setText(phoneNum);
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
         btn_get_code = (Button) findViewById(R.id.btn_getCode);
@@ -173,8 +172,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     try {
                         JSONObject json = new JSONObject(jsonData);
                         if (json.has("status")) {
-                            boolean bool = json.getBoolean("status");
-                            return bool;
+                            return json.getBoolean("status");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -186,12 +184,13 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 @Override
                 protected void afterParseData(Boolean object) {
                     if (object) {
-                        if (isSetPsw) {
+                        if (!isSetPsw) {
                             bindMobile();
                         } else {
                             startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
                                     verifyCode, false));
                         }
+
                     } else {
                         PromptManager.showToast("验证码有误");
                     }
@@ -208,9 +207,15 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
 
             @Override
             public void onSuccess(String result) {
-                startActivityForResult(
-                        SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
-                        RLFActivity.REQUESTCODE_SET_PASSWROD);
+
+                if (isSetPsw) {
+                    startActivityForResult(
+                            SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
+                            RLFActivity.REQUESTCODE_SET_PASSWROD);
+                }else{
+                    setResult(RESULT_OK);
+                    finish();
+                }
 
             }
         });
@@ -268,8 +273,9 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         }, 0, 1000);
     }
 
-    private Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
+    private WeakHandler handler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case GET_CODE_ABLE:
                     btn_get_code.setText(R.string.get_code);
@@ -298,14 +304,16 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 default:
                     break;
             }
-        };
-    };
+            return false;
+        }
+    });
+
     private String verifyCode;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onDestroy() {
@@ -346,7 +354,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     finish();
                 }
 
-                    break;
+                break;
             }
         }
     }

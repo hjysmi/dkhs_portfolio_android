@@ -142,7 +142,7 @@ public class MultipartEntity implements HttpEntity, UploadEntity {
             final String boundary,
             final Charset charset) {
         StringBuilder buffer = new StringBuilder();
-        buffer.append("multipart/" + multipartSubtype + "; boundary=");
+        buffer.append("multipart/").append(multipartSubtype).append("; boundary=");
         buffer.append(boundary);
         /*if (charset != null) {
             buffer.append("; charset=");

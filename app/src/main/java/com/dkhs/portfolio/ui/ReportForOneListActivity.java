@@ -1,48 +1,28 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.RelativeLayout;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
-import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
 
-    private boolean isLoadingMore;
     // private View mFootView;
-    private Context context;
     // private ReportNewsAdapter mOptionMarketAdapter;
-    private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
     // private TextView iv;
@@ -74,8 +54,6 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         setContentView(R.layout.fragment_report_news);
-        context = this;
-        mDataList = new ArrayList<OptionNewsBean>();
 
         /*
          * iv = (TextView) findViewById(android.R.id.empty);
@@ -314,7 +292,6 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                 return;
             }
 
-            isLoadingMore = true;
             mLoadDataEngine.loadMore();
         }
     }

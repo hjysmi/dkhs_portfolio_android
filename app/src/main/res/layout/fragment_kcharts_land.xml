@@ -127,7 +127,6 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dip"
-                android:layout_toRightOf="@id/btn_large"
                 android:background="@null"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_zoom_out_select" />

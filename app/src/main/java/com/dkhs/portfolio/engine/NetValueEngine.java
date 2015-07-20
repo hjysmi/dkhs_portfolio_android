@@ -8,35 +8,33 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.lidroid.xutils.http.HttpHandler;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName NetValueEngine
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-22 下午3:12:05
- * @version 1.0
  */
 public class NetValueEngine {
 
     private String mConbinationId;
 
     /**
+     * @param id
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @param id
      */
     public NetValueEngine(String id) {
         mConbinationId = id;

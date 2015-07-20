@@ -8,8 +8,8 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +22,14 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.TrendLinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
-import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -42,11 +43,11 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TrendChartFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午10:32:39
- * @version 1.0
  */
 public class TrendMonthChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
@@ -108,7 +109,7 @@ public class TrendMonthChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }
@@ -177,6 +178,8 @@ public class TrendMonthChartFragment extends BaseFragment {
 
         mMaChart.setDrawRightYTitle(true);
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDisplayAxisYTitleColor(false);
+        mMaChart.setDisplayYRightTitleByZero(true);
     }
 
     private List<LineEntity> lines;
@@ -258,7 +261,9 @@ public class TrendMonthChartFragment extends BaseFragment {
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             pb.setVisibility(View.GONE);
-        };
+        }
+
+        ;
 
     };
 
@@ -356,10 +361,8 @@ public class TrendMonthChartFragment extends BaseFragment {
 
     }
 
-    Handler dataHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-        };
-    };
+    @SuppressLint("HandlerLeak")
+    WeakHandler dataHandler = new WeakHandler();
 
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
@@ -487,10 +490,9 @@ public class TrendMonthChartFragment extends BaseFragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {

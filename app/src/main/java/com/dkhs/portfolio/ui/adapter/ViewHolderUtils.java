@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class ViewHolderUtils {
 
 
-    public ViewHolder get(View view) {
+    public static ViewHolder get(View view) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         if (viewHolder == null) {
             viewHolder = new ViewHolder(view);
@@ -26,7 +26,7 @@ public class ViewHolderUtils {
     }
 
 
-    public class ViewHolder {
+    public static class ViewHolder {
 
         private SparseArray<View> viewHolder;
         private View view;
@@ -47,6 +47,10 @@ public class ViewHolderUtils {
 
         }
 
+
+        public View getRootView() {
+            return view;
+        }
 
         public TextView getTextView(int id) {
 

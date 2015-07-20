@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp" >
+    android:padding="5dp">
 
     <RelativeLayout
         android:id="@+id/rl_trend_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="right" >
+        android:layout_gravity="right">
 
         <TextView
             android:id="@+id/tv_time_right"
@@ -34,15 +34,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rl_trend_bottom"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:visibility="invisible" >
+        android:visibility="invisible">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_netvalue_text"
@@ -64,7 +65,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_updown_text"
@@ -86,7 +87,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_increase_text"
@@ -111,7 +112,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/rl_trend_info"
         android:layout_marginBottom="4dp"
-        android:layout_marginTop="2dp" >
+        android:layout_marginTop="2dp">
 
         <com.dkhs.portfolio.ui.widget.TrendChart
             android:id="@+id/machart"
@@ -127,10 +128,11 @@
             android:text="@string/data_deficient"
             android:textSize="32sp"
             android:visibility="gone" />
-        <include layout="@layout/progressbar"
-        android:id="@android:id/progress"
-	    android:visibility="gone"
-        />
+
+        <include
+            android:id="@android:id/progress"
+            layout="@layout/progressbar"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <TextView

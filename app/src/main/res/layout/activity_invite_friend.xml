@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/person_setting_backgroud"
+    android:orientation="vertical"
+    android:paddingTop="30dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginRight="-1dp"
+
+        android:background="@drawable/edittext_bg">
+
+        <TextView
+            android:id="@+id/tv_invite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/invite_code"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_invite_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="12dip"
+            android:layout_toRightOf="@+id/tv_invite"
+            android:background="@null"
+            android:hint="@string/hint_invite_code"
+            android:singleLine="true"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_invite_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="@string/hint_invite_code_tip"
+        android:textColor="@color/light_gray"
+        android:textSize="@dimen/list_text_size" />
+
+
+    <Button
+        android:id="@+id/rlbutton"
+        android:enabled="false"
+        style="@style/btn_login_blue"
+        android:layout_below="@+id/tv_invite_tip"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/post" />
+</LinearLayout>

@@ -43,6 +43,7 @@ import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -50,12 +51,12 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter.CompareFundItem;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.LinePoint.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -92,7 +93,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     private Button btnStartTime;
     private Button btnEndTime;
     private Button btnCompare;
-    private Button btnSelectFund;
     private TextView tvTimeDuration;
     // private TextView tvNoData;
     private TextView tvIncreaseValue;
@@ -243,7 +243,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
 
     }
@@ -283,20 +283,20 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             showShare();
+            return true;
         }
-
-        ;
-    };
+    });
 
     private void showShare() {
         if (null != mCombinationBean) {
             Context context = getActivity();
             final OnekeyShare oks = new OnekeyShare();
 
-            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+//            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
             oks.setTitle(mCombinationBean.getName() + "与公募基金PK业绩");
 
             String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();
@@ -304,7 +304,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
             oks.setUrl(shareUrl);
 
             String customText = "这是我的组合「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
-                    + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。" + shareUrl;
+                    + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。" ;
 
             oks.setText(customText);
             oks.setImagePath(SHARE_IMAGE);
@@ -366,7 +366,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
         btnStartTime = (Button) view.findViewById(R.id.tv_compare_ftime);
         btnEndTime = (Button) view.findViewById(R.id.tv_compare_ttime);
-        btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
+        Button btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
         btnCompare = (Button) view.findViewById(R.id.btn_compare_fund);
         tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
         // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
@@ -503,7 +503,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     private boolean isBetween7day() {
         long between_days = (cEnd.getTimeInMillis() - cStart.getTimeInMillis()) / (1000 * 3600 * 24);
-        return between_days < 7 ? true : false;
+        return between_days < 7;
     }
 
     private void requestCompare() {
@@ -528,8 +528,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
         @Override
         protected HistoryNetValue parseDateTask(String jsonData) {
-            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            return histroyValue;
+            return DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
         }
 
         @Override
@@ -999,8 +998,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     private boolean isBeforeMonthCreateDate(Calendar cStart) {
         Calendar beforeMonthCaleder = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
         beforeMonthCaleder.add(Calendar.MONTH, -1);
-        boolean isBeforeCreateDate = cStart.before(beforeMonthCaleder);
-        return isBeforeCreateDate;
+        return cStart.before(beforeMonthCaleder);
 
     }
 

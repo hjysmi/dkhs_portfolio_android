@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.dkhs.widget.CircularProgress
+            android:id="@+id/loadView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:alpha="0.5"
+            app:circular_progress_color="@color/tag_red" />
+        <RelativeLayout
+            android:id="@+id/rl_empty"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/errIM"
+                android:src="@drawable/ic_no_data"
+                android:scaleType="fitCenter"
+                android:layout_width="wrap_content"
+                android:layout_alignTop="@+id/errTV"
+                android:layout_alignBottom="@+id/errTV"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/errTV"
+                android:paddingLeft="8dp"
+                android:layout_toRightOf="@+id/errIM"
+                android:layout_width="wrap_content"
+                android:text="@string/nodate_tip"
+                android:textColor="@color/tag_gray"
+                android:textSize="19sp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_compare_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_chart"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:paddingTop="14dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_hushen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:drawableLeft="@drawable/dot_index"
+                android:drawablePadding="4dp"
+                android:text="@string/sh300"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_combination_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_toLeftOf="@+id/tv_more_funds"
+                android:layout_toRightOf="@+id/tv_hushen"
+                android:drawableLeft="@drawable/dot_combination"
+                android:drawablePadding="4dp"
+                android:singleLine="true"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_chart"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="16dp">
+            <com.dkhs.portfolio.ui.widget.TrendChart
+                android:id="@+id/machart"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                app:gridHeightWeight="5"
+                app:gridWidthWeight="7" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <View
+        android:visibility="invisible"
+        android:id="@+id/line"
+        android:layout_alignParentBottom="true"
+        style="@style/divider_line"
+        />
+
+</RelativeLayout>

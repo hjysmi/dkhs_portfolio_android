@@ -39,17 +39,18 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
-import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
@@ -145,16 +146,24 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     }
 
+    private boolean isMyCombination;
+
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
+        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId() > 0) {
+
+            if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
+                if (mCombinationBean.getUser().getId() == UserEngineImpl.getUserEntity().getId()) {
+                    isMyCombination = true;
+                }
+            }
+        }
 
     }
 
-    private boolean isFromOrder;
 
     private void handleArguments(Bundle arguments) {
         // TODO Auto-generated method stub
-        isFromOrder = arguments.getBoolean(ARGUMENT_ISFROM_ORDER, false);
         type = arguments.getString("type");
     }
 
@@ -209,7 +218,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     }
 
 
-
     class OnComCheckListener implements OnCheckedChangeListener {
 
         @Override
@@ -238,8 +246,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            List<CombinationBean> object = DataParse.parseArrayJson(CombinationBean.class, jsonObject);
-            return object;
+            return DataParse.parseArrayJson(CombinationBean.class, jsonObject);
         }
 
         @Override
@@ -259,13 +266,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         }
     }
 
-    Handler updateHandler = new Handler() {
+    WeakHandler updateHandler = new WeakHandler() {
         public void handleMessage(android.os.Message msg) {
 
             replaceFragment(todayFragment);
         }
-
-        ;
     };
 
     private void updateIncreaseRatio(float netValue) {
@@ -297,9 +302,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         }
     }
 
-    private HScrollTitleView hsTitle;
+
     private ScrollViewPager mViewPager;
-    private ArrayList<Fragment> fragmentList;
 
     TrendChartFragment mtrendFragment = new TrendChartFragment();
 
@@ -336,13 +340,15 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     }
 
-    Handler shareHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            showShare();
-        }
 
-        ;
-    };
+    private WeakHandler shareHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            showShare();
+            return true;
+        }
+    });
+
 
     private void showShare() {
         if (null != mPositionDetail) {
@@ -350,15 +356,24 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             Context context = getActivity();
             final OnekeyShare oks = new OnekeyShare();
 
-            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+//            oks.(R.drawable.ic_launcher, context.getString(R.string.app_name));
 
             String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
             oks.setTitle(mCombinationBean.getName() + " 今日收益率");
 
-            String customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
-                    + shareUrl;
+
+            String customText;
+
+            if (isMyCombination) {
+                customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
+                        ;
+            } else {
+
+                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!" ;
+            }
+
 
             oks.setText(customText);
 
@@ -427,7 +442,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         if (!newFragment.isAdded()) {
             try {
                 // FragmentTransaction trasection =
-                getChildFragmentManager().beginTransaction();
+//                getChildFragmentManager().beginTransaction();
                 // trasection.replace(R.id.rl_trend_layout, newFragment);
                 // trasection.addToBackStack(null);
                 // trasection.add(R.id.rl_trend_layout, newFragment);
@@ -451,7 +466,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         if (!newFragment.isAdded()) {
             try {
                 // FragmentTransaction trasection =
-                getChildFragmentManager().beginTransaction();
+//                getChildFragmentManager().beginTransaction();
                 trasection.replace(R.id.rl_trend_layout, newFragment);
                 trasection.addToBackStack(null);
                 trasection.commit();
@@ -471,24 +486,28 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     private void initTabPage(View view) {
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
-        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+        List<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
+        HScrollTitleView hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
         // String[] titleArray =
         // getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
 
         if (null != type) {
-            if (type.equals(FundsOrderEngineImpl.ORDER_DAY)) {
-                // hsTitle.setSelectIndex(0);
-
-            } else if (type.equals(FundsOrderEngineImpl.ORDER_WEEK)) {
-                hsTitle.setSelectIndex(1);
-            } else if (type.equals(FundsOrderEngineImpl.ORDER_MONTH)) {
-                hsTitle.setSelectIndex(2);
-            } else if (type.equals(FundsOrderEngineImpl.ORDER_ALL)) {
-                hsTitle.setSelectIndex(3);
+            switch (type) {
+                case CombinationRankEngineImpl.ORDER_DAY:
+                    // hsTitle.setSelectIndex(0);
+                    break;
+                case CombinationRankEngineImpl.ORDER_WEEK:
+                    hsTitle.setSelectIndex(1);
+                    break;
+                case CombinationRankEngineImpl.ORDER_MONTH:
+                    hsTitle.setSelectIndex(2);
+                    break;
+                case CombinationRankEngineImpl.ORDER_ALL:
+                    hsTitle.setSelectIndex(3);
+                    break;
             }
 
         }
@@ -597,12 +616,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
         if (v.getId() == R.id.rl_create_user) {
             startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
-                    mCombinationBean.getUser().getId() + "", false));
+                    mCombinationBean.getUser().getId() + ""));
         }
     }
 
     private void delFollowCombinatio() {
-        if (PortfolioApplication.getInstance().hasUserLogin()) {
+        if (PortfolioApplication.hasUserLogin()) {
 
             if (mCombinationBean.isFollowed()) {
                 new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
@@ -733,8 +752,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
-            return bean;
+            return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
         }
 
         @Override
@@ -784,12 +802,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     ;
 
-
-    private ITouchListener mTouchListener;
-
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_fund_order_line);
 
