@@ -263,5 +263,8 @@
         <item>@drawable/ic_invite_friend</item>
         <item>@drawable/ic_flow_create</item>
     </integer-array>
-
+    <string-array name="bbs_title_list">
+        <item>"最热话题"</item>
+        <item>"最新话题"</item>
+    </string-array>
 </resources>

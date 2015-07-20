@@ -29,6 +29,7 @@ import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
 
@@ -68,7 +69,6 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         vo = Parcels.unwrap(bundle.getParcelable(VO_NAME));
@@ -87,9 +87,12 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     }
 
 
+
+
     @Override
     public void onViewShow() {
         super.onViewShow();
+        LogUtils.e(viewType+"onViewShow");
         if (null == mLoadDataEngine) {
             initDate();
         } else {
@@ -97,23 +100,32 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         }
     }
 
+    @Override
+    public void onViewHide() {
+        LogUtils.e(viewType+"onViewHide");
+        super.onViewHide();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+
+
+        LogUtils.e("isVisible() "+isVisible());
+        if(getParentFragment() != null)
+        LogUtils.e("getParentFragment().isVisible()() "+getParentFragment().isVisible());
+
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     private void initDate() {
         if (vo != null) {
-            // if (type == NEWS_SECOND_NOTICE) {
-            // NewsTextEngineImple mLoadDataEngine = new NewsTextEngineImple(null, vo.getSymbol());
-            // // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
-            // mLoadDataEngine.loadData();
-            // } else {
-
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, viewType, vo);
-            // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
             mLoadDataEngine.loadData();
-            // }
         } else {
             setEmptyText();
             pb.setVisibility(View.GONE);
         }
-
     }
 
     private boolean isRefresh;

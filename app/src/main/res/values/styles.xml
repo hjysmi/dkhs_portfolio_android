@@ -83,6 +83,12 @@
     <item name="android:layout_height">0.5px</item>
     <item name="android:background">@color/drivi_line</item>
 </style>
+    <style name="inset_divider_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5px</item>
+        <item name="android:layout_marginLeft">72dp</item>
+        <item name="android:background">@color/drivi_line</item>
+    </style>
 
     <style name="vertical_divider_line">
         <item name="android:layout_width">0.5px</item>
@@ -329,7 +335,7 @@
     </style>
 
     <style name="CommonTextAppearance_Middle_Black" parent="@android:style/TextAppearance">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/theme_color</item>
     </style>
 
@@ -354,7 +360,7 @@
     </style>
 
     <style name="CommonTextAppearance_Middle_White" parent="@android:style/TextAppearance">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -379,7 +385,7 @@
     </style>
 
     <style name="CommonTextAppearance_Middle_Gray" parent="@android:style/TextAppearance">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/tag_gray</item>
     </style>
 
@@ -434,5 +440,13 @@
         <item name="android:textColor">@color/white_textselector</item>
         <item name="android:layout_gravity">center</item>
     </style>
+    <style name="recommend_topics_title">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/tag_red</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 
 </resources>

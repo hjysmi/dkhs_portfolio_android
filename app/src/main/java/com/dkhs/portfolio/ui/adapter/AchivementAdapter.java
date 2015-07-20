@@ -15,6 +15,8 @@ import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.adpter.adapter.SingleAutoAdapter;
+import com.dkhs.adpter.util.ViewHolder;
 import com.nineoldandroids.animation.Animator;
 
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import java.util.Map;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/6/8.
  */
-public class AchivementAdapter extends AutoAdapter {
+public class AchivementAdapter extends SingleAutoAdapter {
 
 
 
@@ -40,57 +42,64 @@ public class AchivementAdapter extends AutoAdapter {
 
     private Map<String,String> map=new HashMap<>();
 
-    private  ViewHolderUtils.ViewHolder preVh;
+    private  ViewHolder preVh;
 
 
-    public AchivementAdapter(Context context, List<?> list) {
-        super(context, list);
+    public AchivementAdapter(Context mContext, List<?> list) {
+        super(mContext, list);
 
-        String[]   key=context.getResources().getStringArray(R.array.fund_type_keys);
-        int[]  values=context.getResources().getIntArray(R.array.fund_stype_values);
+        String[]   key=mContext.getResources().getStringArray(R.array.fund_type_keys);
+        int[]  values=mContext.getResources().getIntArray(R.array.fund_stype_values);
 
         for (int i = 0; i < values.length; i++) {
             String value = values[i]+"";
             map.put(value,key[i]);
         }
-        benefitChartView=new BenefitChartView(context);
+        benefitChartView=new BenefitChartView(mContext);
 
+    }
+
+
+    private void setText(TextView textView, double value) {
+        if (value > 0) {
+
+            textView.setTextColor(mContext.getResources().getColorStateList(R.color.tag_red));
+        } else if(value ==0) {
+            textView.setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
+
+        }else{
+            textView.setTextColor(mContext.getResources().getColorStateList(R.color.tag_green));
+
+        }
+        textView.setText(StringFromatUtils.get2PointPercent((float) value));
     }
 
     @Override
-    public int setLayoutID() {
-        return R.layout.item_achivement;
+    public int getLayoutResId() {
+        return  R.layout.item_achivement;
     }
 
     @Override
-    public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
-
-
-
-
-        getView33(position, v, vh);
-    }
-
-    public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
-        FundManagerInfoBean.AchivementsEntity achivementsEntity= (FundManagerInfoBean.AchivementsEntity) list.get(position);
+    public void onBindView(ViewHolder vh, Object data, int position) {
+        FundManagerInfoBean.AchivementsEntity achivementsEntity= (FundManagerInfoBean.AchivementsEntity) mData.get(position);
         vh.setTextView(R.id.symbol,map.get(achivementsEntity.getFund().getSymbol_stype()+""));
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(achivementsEntity.getStart_date());
 
         if(position==0 && achivementsEntity.getEnd_date() == null){
-            vh.setTextView(R.id.headTV, context.getString(R.string.current_management_of_the_fund));
+            vh.setTextView(R.id.headTV, mContext.getString(R.string.current_management_of_the_fund));
             vh.get(R.id.headTV).setVisibility(View.VISIBLE);
         }else{
-            vh.setTextView(R.id.headTV, context.getString(R.string.history_management_of_the_fund));
+            vh.setTextView(R.id.headTV, mContext.getString(R.string.history_management_of_the_fund));
             vh.get(R.id.headTV).setVisibility(View.VISIBLE);
         }
 
 
         if(position>0){
-            FundManagerInfoBean.AchivementsEntity preAchivementsEntity= (FundManagerInfoBean.AchivementsEntity) list.get(position-1);
+            FundManagerInfoBean.AchivementsEntity preAchivementsEntity= (FundManagerInfoBean.AchivementsEntity) mData.get(position-1);
 
             if(preAchivementsEntity.getEnd_date()==null && achivementsEntity.getEnd_date() != null ){
-                vh.setTextView(R.id.headTV,context.getString(R.string.history_management_of_the_fund));
+                vh.setTextView(R.id.headTV,mContext.getString(R.string.history_management_of_the_fund));
                 vh.get(R.id.headTV).setVisibility(View.VISIBLE);
             }else{
                 vh.get(R.id.headTV).setVisibility(View.GONE);
@@ -102,18 +111,18 @@ public class AchivementAdapter extends AutoAdapter {
 
 
         if(achivementsEntity.getEnd_date()==null){
-            stringBuilder.append(context.getString(R.string.up_to_now));
+            stringBuilder.append(mContext.getString(R.string.up_to_now));
         }else{
-            stringBuilder.append(context.getString(R.string.between_date)).append(achivementsEntity.getEnd_date());
+            stringBuilder.append(mContext.getString(R.string.between_date)).append(achivementsEntity.getEnd_date());
         }
         vh.setTextView(R.id.tv_date,stringBuilder.toString());
-        vh.setTextView(R.id.rateTV,context. getString(R.string.rate_total));
+        vh.setTextView(R.id.rateTV,mContext. getString(R.string.rate_total));
         if(selectIndex ==position){
 
 
             if (achivementsEntity.isExpend()) {
-                AnimationHelper.expandView(vh.get(R.id.ll_chart), context.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight),false, null);
-                vh.setTextView(R.id.tv_chart_switch,context. getString(R.string.collapse_benefit_curve));
+                AnimationHelper.expandView(vh.get(R.id.ll_chart), mContext.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight),false, null);
+                vh.setTextView(R.id.tv_chart_switch,mContext. getString(R.string.collapse_benefit_curve));
                 vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up,0,0,0);
                 ViewGroup chatView=vh.get(R.id.ll_chart);
                 if(chatView.getChildCount()==0)
@@ -126,8 +135,8 @@ public class AchivementAdapter extends AutoAdapter {
             }else{
                 AnimationHelper.collapseView(vh.get(R.id.ll_chart), false, null);
             }
-             vh.setTextView(R.id.tv_chart_switch, context.getString(R.string.expend_benefit_curve));
-             vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down, 0, 0, 0);
+            vh.setTextView(R.id.tv_chart_switch, mContext.getString(R.string.expend_benefit_curve));
+            vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down, 0, 0, 0);
         }
 
         if (!TextUtils.isEmpty(achivementsEntity.getFund().getAbbr_name()) && achivementsEntity.getFund().getAbbr_name().length() > 8) {
@@ -147,7 +156,7 @@ public class AchivementAdapter extends AutoAdapter {
 
             shRateTV.setText(R.string.null_number);
             shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-            shRateTV.setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
+            shRateTV.setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
             sh300TV.setVisibility(View.GONE);
 
         }else {
@@ -161,22 +170,7 @@ public class AchivementAdapter extends AutoAdapter {
 
 
         vh.get(R.id.ll_chart_switch).setOnClickListener(new OnClickImp(vh,achivementsEntity,position));
-        vh.getRootView().setOnClickListener(new OnItemClick ((FundManagerInfoBean.AchivementsEntity) list.get(position)));
-
-    }
-
-    private void setText(TextView textView, double value) {
-        if (value > 0) {
-
-            textView.setTextColor(context.getResources().getColorStateList(R.color.tag_red));
-        } else if(value ==0) {
-            textView.setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
-
-        }else{
-            textView.setTextColor(context.getResources().getColorStateList(R.color.tag_green));
-
-        }
-        textView.setText(StringFromatUtils.get2PointPercent((float) value));
+        vh.getConvertView().setOnClickListener(new OnItemClick ((FundManagerInfoBean.AchivementsEntity) mData.get(position)));
     }
 
 
@@ -189,7 +183,7 @@ public class AchivementAdapter extends AutoAdapter {
 
         @Override
         public void onClick(View v) {
-            context.startActivity(FundDetailActivity.newIntent(context, SelectStockBean.copy(achivementsEntity)));
+            mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
 
         }
     }
@@ -197,11 +191,11 @@ public class AchivementAdapter extends AutoAdapter {
 
     class OnClickImp implements View.OnClickListener{
 
-        ViewHolderUtils.ViewHolder vh;
+        ViewHolder vh;
         FundManagerInfoBean.AchivementsEntity achivementsEntity;
         int position;
 
-        public OnClickImp(ViewHolderUtils.ViewHolder vh, FundManagerInfoBean.AchivementsEntity achivementsEntity, int position) {
+        public OnClickImp(ViewHolder vh, FundManagerInfoBean.AchivementsEntity achivementsEntity, int position) {
             this.vh = vh;
             this.achivementsEntity = achivementsEntity;
             this.position = position;
@@ -216,11 +210,11 @@ public class AchivementAdapter extends AutoAdapter {
                 chatView.removeAllViews();
                 AnimationHelper.collapseView(  vh.get(R.id.ll_chart),true,null);
                 achivementsEntity.setExpend(false);
-                vh.setTextView(R.id.tv_chart_switch, context. getString(R.string.expend_benefit_curve));
+                vh.setTextView(R.id.tv_chart_switch, mContext. getString(R.string.expend_benefit_curve));
                 vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_down,0,0,0);
 
             }else{
-                AnimationHelper.expandView(vh.get(R.id.ll_chart), context.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight), true, new Animator.AnimatorListener() {
+                AnimationHelper.expandView(vh.get(R.id.ll_chart), mContext.getResources().getDimensionPixelOffset(R.dimen.chartViewHeight), true, new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
 
@@ -229,7 +223,7 @@ public class AchivementAdapter extends AutoAdapter {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         achivementsEntity.setExpend(true);
-                        vh.setTextView(R.id.tv_chart_switch, context.getString(R.string.collapse_benefit_curve));
+                        vh.setTextView(R.id.tv_chart_switch, mContext.getString(R.string.collapse_benefit_curve));
 
                         vh.getTextView(R.id.tv_chart_switch).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_up, 0, 0, 0);
                     }
