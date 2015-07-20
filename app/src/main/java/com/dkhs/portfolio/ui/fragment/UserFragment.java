@@ -26,6 +26,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.BBSActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
@@ -185,7 +186,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void updateMessageCenterState() {
 
-        LogUtils.e("updateMessageCenterState");
         if (PortfolioApplication.hasUserLogin()) {
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
             if (totalCount > 0) {
@@ -246,11 +246,13 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.ll_flowPackage:
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
-                    startActivity(intent);
-                }
+                startActivity(new Intent(mActivity, BBSActivity.class));
+//                if (!UIUtils.iStartLoginActivity(getActivity())) {
+//
+//                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+//                    startActivity(intent);
+//                }
                 break;
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
