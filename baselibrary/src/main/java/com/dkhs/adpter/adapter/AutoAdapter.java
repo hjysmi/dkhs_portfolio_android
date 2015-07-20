@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import com.dkhs.adpter.listener.ItemHandler;
-import com.dkhs.adpter.util.ClassHashMap;
+import com.dkhs.adpter.util.ClassMap;
 import com.dkhs.adpter.util.ViewHolder;
 
 
@@ -17,14 +17,14 @@ public abstract class AutoAdapter extends BaseAdapter {
     protected List<?> mData;
     protected Context mContext;
 
-    private ClassHashMap mClassHashMap =new ClassHashMap();
+    private ClassMap mClassMap =new ClassMap();
     protected AutoAdapter(Context context,List<?> data) {
         mData = data;
         mContext = context;
-        initHandlers(mClassHashMap);
+        initHandlers(mClassMap);
     }
 
-    protected abstract void initHandlers(ClassHashMap  mAdapterItemMap);
+    protected abstract void initHandlers(ClassMap mAdapterItemMap);
 
     @Override
     public int getCount() {
@@ -44,12 +44,12 @@ public abstract class AutoAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
 
-        return mClassHashMap.getViewType(mData.get(position).getClass());
+        return mClassMap.getViewType(mData.get(position).getClass());
     }
 
     @Override
     public int getViewTypeCount() {
-        return mClassHashMap.size();
+        return mClassMap.size();
     }
 
     @Override
@@ -65,10 +65,10 @@ public abstract class AutoAdapter extends BaseAdapter {
     }
 
     protected ItemHandler getItemHandler(Class cla) {
-        return mClassHashMap.get(cla.toString());
+        return mClassMap.get(cla.toString());
     }
     protected ItemHandler getItemHandler(String clsDefine) {
-        return mClassHashMap.get(clsDefine);
+        return mClassMap.get(clsDefine);
     }
 }
 

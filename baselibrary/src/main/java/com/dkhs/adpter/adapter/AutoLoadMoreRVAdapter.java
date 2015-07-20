@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.dkhs.adpter.itemhandler.LoadMoreHandler;
 import com.dkhs.adpter.listener.ItemHandler;
-import com.dkhs.adpter.util.ClassHashMap;
+import com.dkhs.adpter.util.ClassMap;
 import com.dkhs.adpter.util.ViewHolder;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class AutoLoadMoreRVAdapter extends  AutoRVAdapter {
     private AutoLoadMoreRVAdapter(Context context, List<?> data, AutoRVAdapter adapter) {
         super(context, data);
         mAutoRVAdapter=adapter;
-        mAutoRVAdapter.initHandlers(mClassHashMap);
+        mAutoRVAdapter.initHandlers(mClassMap);
 
     }
 
@@ -47,11 +47,11 @@ public class AutoLoadMoreRVAdapter extends  AutoRVAdapter {
         }else{
             type= mData.get(position).getClass().toString();
         }
-            return mClassHashMap.getViewType(type);
+            return mClassMap.getViewType(type);
     }
 
     @Override
-    protected void initHandlers(ClassHashMap mAdapterItemMap) {
+    protected void initHandlers(ClassMap mAdapterItemMap) {
         mAdapterItemMap.add("default", new  LoadMoreHandler());
     }
 

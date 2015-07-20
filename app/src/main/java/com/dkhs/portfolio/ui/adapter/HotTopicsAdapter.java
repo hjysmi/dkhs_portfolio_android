@@ -8,7 +8,7 @@ import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 
 import java.util.List;
 
-import com.dkhs.adpter.util.ClassHashMap;
+import com.dkhs.adpter.util.ClassMap;
 
 
 /**
@@ -26,7 +26,7 @@ public class HotTopicsAdapter extends com.dkhs.adpter.adapter.AutoRVAdapter {
     }
 
     @Override
-    protected void initHandlers(ClassHashMap adapterItemMap) {
+    protected void initHandlers(ClassMap adapterItemMap) {
         adapterItemMap.add(new BannerHandler(mContext));
         adapterItemMap.add(new TopicsHandler());
     }

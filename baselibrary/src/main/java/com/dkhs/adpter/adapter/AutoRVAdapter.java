@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import com.dkhs.adpter.listener.ItemHandler;
-import com.dkhs.adpter.util.ClassHashMap;
+import com.dkhs.adpter.util.ClassMap;
 import com.dkhs.adpter.util.ViewHolder;
 
 
@@ -17,15 +17,15 @@ public abstract class AutoRVAdapter extends RecyclerView.Adapter {
     protected List<?> mData;
 
     protected  Context mContext;
-    protected ClassHashMap mClassHashMap =new ClassHashMap();
+    protected ClassMap mClassMap =new ClassMap();
 
-    protected abstract void initHandlers(ClassHashMap classHashMap);
+    protected abstract void initHandlers(ClassMap classMap);
 
 
     protected AutoRVAdapter(Context context,List<?> data) {
         mData = data;
         mContext = context;
-        initHandlers(mClassHashMap);
+        initHandlers(mClassMap);
     }
 
     @Override
@@ -35,7 +35,7 @@ public abstract class AutoRVAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        return mClassHashMap.getViewType(mData.get(position).getClass());
+        return mClassMap.getViewType(mData.get(position).getClass());
     }
 
     @Override
@@ -44,7 +44,7 @@ public abstract class AutoRVAdapter extends RecyclerView.Adapter {
     }
 
     protected ItemHandler getItemHandler(int viewType) {
-        return mClassHashMap.get(viewType);
+        return mClassMap.get(viewType);
     }
 
     @Override
@@ -62,10 +62,10 @@ public abstract class AutoRVAdapter extends RecyclerView.Adapter {
     }
 
     protected ItemHandler getItemHandler(Class<?> c) {
-        return mClassHashMap.get(c);
+        return mClassMap.get(c);
     }
     protected ItemHandler getItemHandler(String  c) {
-        return mClassHashMap.get(c);
+        return mClassMap.get(c);
     }
 
     public  class RcvAdapterItem extends RecyclerView.ViewHolder {

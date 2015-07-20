@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.List;
 
 import com.dkhs.adpter.listener.ItemHandler;
-import com.dkhs.adpter.util.ClassHashMap;
+import com.dkhs.adpter.util.ClassMap;
 
 
 public  abstract  class SingleAutoAdapter extends  AutoAdapter implements ItemHandler {
@@ -16,8 +16,8 @@ public  abstract  class SingleAutoAdapter extends  AutoAdapter implements ItemHa
     }
 
     @Override
-    protected void initHandlers(ClassHashMap classHashMap) {
-        classHashMap.add("default", this);
+    protected void initHandlers(ClassMap classMap) {
+        classMap.add("default", this);
     }
 
     @Override

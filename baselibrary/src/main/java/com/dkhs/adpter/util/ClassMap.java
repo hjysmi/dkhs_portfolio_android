@@ -11,7 +11,7 @@ import com.dkhs.adpter.listener.ItemHandler;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/16.
  */
-public class ClassHashMap {
+public class ClassMap {
 
     private HashMap<String,Integer> classIndex=new HashMap<>();
     private HashMap<Integer, ItemHandler> handler =new HashMap<>();
