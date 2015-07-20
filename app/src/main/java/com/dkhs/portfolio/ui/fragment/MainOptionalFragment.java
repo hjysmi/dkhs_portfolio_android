@@ -24,7 +24,6 @@ import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
-import com.dkhs.portfolio.ui.SelectStatusStockActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.TabWidget;
@@ -143,7 +142,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SelectStatusStockActivity.class);
+                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
