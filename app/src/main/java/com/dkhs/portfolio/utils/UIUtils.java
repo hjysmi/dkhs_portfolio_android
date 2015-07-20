@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -32,14 +33,15 @@ import com.dkhs.portfolio.ui.LoginActivity;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName UiUtils
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-25 下午3:43:24
- * @version 1.0
  */
 public class UIUtils {
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -59,6 +61,47 @@ public class UIUtils {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+
+    public static void setGridViewHeightBasedOnChildren(GridView gridView) {
+        // 获取GridView对应的Adapter
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int rows;
+        int columns = 0;
+        int horizontalBorderHeight = 0;
+        Class<?> clazz = gridView.getClass();
+        try {
+            //利用反射，取得每行显示的个数
+            Field column = clazz.getDeclaredField("mRequestedNumColumns");
+            column.setAccessible(true);
+            columns = (Integer) column.get(gridView);
+            //利用反射，取得横向分割线高度
+            Field horizontalSpacing = clazz.getDeclaredField("mRequestedHorizontalSpacing");
+            horizontalSpacing.setAccessible(true);
+            horizontalBorderHeight = (Integer) horizontalSpacing.get(gridView);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        //判断数据总数除以每行个数是否整除。不能整除代表有多余，需要加一行
+        if (listAdapter.getCount() % columns > 0) {
+            rows = listAdapter.getCount() / columns + 1;
+        } else {
+            rows = listAdapter.getCount() / columns;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < rows; i++) { //只计算每项高度*行数
+            View listItem = listAdapter.getView(i, null, gridView);
+            listItem.measure(0, 0); // 计算子项View 的宽高
+            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+        }
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight + horizontalBorderHeight * (rows - 1);//最后加上分割线总高度
+        gridView.setLayoutParams(params);
     }
 
     // public static boolean isSameDayDisplay(long time1, long time2, Context context) {
@@ -97,7 +140,9 @@ public class UIUtils {
         return false;
     }
 
-    /** 从给定的路径加载图片，并指定是否自动旋转方向 */
+    /**
+     * 从给定的路径加载图片，并指定是否自动旋转方向
+     */
     public static Bitmap loadBitmap(Bitmap bm, String imgpath) {
         int digree = 0;
         ExifInterface exif = null;
@@ -301,7 +346,7 @@ public class UIUtils {
 
     /**
      * 匹配K线图无网络时经线标题值
-     * 
+     *
      * @param value
      * @return
      */
@@ -336,7 +381,6 @@ public class UIUtils {
         p.getTextBounds(text, 0, text.length(), rect);
         return rect.width();
     }
-
 
 
     public static boolean iStartLoginActivity(Context context) {
@@ -380,7 +424,7 @@ public class UIUtils {
         return Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3") || Build.DEVICE.equals("mx4pro");
     }
 
-  public static void startAnimationActivity(Activity context, Intent intent) {
+    public static void startAnimationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
         // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
         setOverridePendingAnin(context);
@@ -393,6 +437,7 @@ public class UIUtils {
     public static void setOverridePendingSlideFormBottomAnim(Activity activity) {
         activity.overridePendingTransition(R.anim.activity_in_from_bottom, R.anim.activity_out_to_left);
     }
+
     public static void outAnimationActivity(Activity context) {
         context.overridePendingTransition(R.anim.activity_in_from_left, R.anim.activity_out_to_right);
 

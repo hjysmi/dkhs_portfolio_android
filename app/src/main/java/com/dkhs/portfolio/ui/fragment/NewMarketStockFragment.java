@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AllMarketBean;
+import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
@@ -63,12 +64,13 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
 
     private static final long mPollRequestTime = 1000 * 5;
     public SwipeRefreshLayout mSwipeLayout;
+    private final int defViewCount = 6;
 
 
     private RecyclerView mRecyclerView;
     private MarkIndexViewPool mViewPool;
     private MarkStockAdatper mAdapter;
-    private List<ViewBean> dataList;
+    private List<ViewBean> mViewBeanList;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -115,20 +117,20 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
     private void initView(View view) {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
 
 
         mRecyclerView.setHasFixedSize(true);
 
 
-        dataList = new ArrayList<ViewBean>(5);
-        dataList.add(new MarkTitleViewBean(R.string.market_title_index));
-        dataList.add(new MarkTitleViewBean(R.string.market_title_hot));
-        dataList.add(new MarkTitleViewBean(R.string.market_title_up));
-        dataList.add(new MarkTitleViewBean(R.string.market_title_down));
-        dataList.add(new MarkTitleViewBean(R.string.market_title_turnover));
-        dataList.add(new MarkTitleViewBean(R.string.market_title_ampli));
-        mAdapter = new MarkStockAdatper(dataList, mViewPool);
+        mViewBeanList = new ArrayList<ViewBean>(defViewCount);
+        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_index));
+        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_hot));
+        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_up));
+        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_down));
+        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_turnover));
+        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_ampli));
+        mAdapter = new MarkStockAdatper(mViewBeanList, mViewPool);
         mRecyclerView.setAdapter(mAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
@@ -165,45 +167,67 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         protected List<ViewBean> parseDateTask(String jsonData) {
 
             mAllMarketBean = DataParse.parseObjectJson(AllMarketBean.class, jsonData);
+            if (null == mAllMarketBean) {
+                return null;
+            }
             List<ViewBean> dataList = null;
-            if (null != mAllMarketBean) {
-                dataList = new ArrayList<ViewBean>();
-                dataList.add(new MarkTitleViewBean(R.string.market_title_index));
-                dataList.add(new MarkGridViewBean(mAllMarketBean.getMidx_data()));
-                dataList.add(new MarkTitleViewBean(R.string.market_title_hot));
-                dataList.add(new MarkPlateGridViewBean(mAllMarketBean.getSect_data()));
-                dataList.add(new MarkTitleViewBean(R.string.market_title_up));
-                for (StockQuotesBean selectStockBean : mAllMarketBean.getRise_data().getResults()) {
-                    dataList.add(new MarkStockViewBean(selectStockBean, false));
-                }
-                dataList.add(new MarkTitleViewBean(R.string.market_title_down));
-                for (StockQuotesBean selectStockBean : mAllMarketBean.getDrop_data().getResults()) {
-                    dataList.add(new MarkStockViewBean(selectStockBean, false));
-                }
-                dataList.add(new MarkTitleViewBean(R.string.market_title_turnover));
-                for (StockQuotesBean selectStockBean : mAllMarketBean.getTurnover_data().getResults()) {
-                    dataList.add(new MarkStockViewBean(selectStockBean, true));
-                }
-                dataList.add(new MarkTitleViewBean(R.string.market_title_ampli));
-                for (StockQuotesBean selectStockBean : mAllMarketBean.getAmplitude_data().getResults()) {
-                    dataList.add(new MarkStockViewBean(selectStockBean, true));
+
+            dataList = new ArrayList<ViewBean>();
+            dataList.add(new MarkTitleViewBean(R.string.market_title_index));
+
+            if (null != mAllMarketBean.getMidx_data()) {
+
+                for (StockQuotesBean selectStockBean : mAllMarketBean.getMidx_data().getResults()) {
+
+                    dataList.add(new MarkGridViewBean(selectStockBean));
                 }
 
             }
+
+            dataList.add(new MarkTitleViewBean(R.string.market_title_hot));
+
+
+            if (null != mAllMarketBean.getSect_data()) {
+
+                for (SectorBean sectorBean : mAllMarketBean.getSect_data().getResults()) {
+
+                    dataList.add(new MarkPlateGridViewBean(sectorBean));
+                }
+
+            }
+
+            dataList.add(new MarkTitleViewBean(R.string.market_title_up));
+            for (StockQuotesBean selectStockBean : mAllMarketBean.getRise_data().getResults()) {
+                dataList.add(new MarkStockViewBean(selectStockBean, false));
+            }
+            dataList.add(new MarkTitleViewBean(R.string.market_title_down));
+            for (StockQuotesBean selectStockBean : mAllMarketBean.getDrop_data().getResults()) {
+                dataList.add(new MarkStockViewBean(selectStockBean, false));
+            }
+            dataList.add(new MarkTitleViewBean(R.string.market_title_turnover));
+            for (StockQuotesBean selectStockBean : mAllMarketBean.getTurnover_data().getResults()) {
+                dataList.add(new MarkStockViewBean(selectStockBean, true));
+            }
+            dataList.add(new MarkTitleViewBean(R.string.market_title_ampli));
+            for (StockQuotesBean selectStockBean : mAllMarketBean.getAmplitude_data().getResults()) {
+                dataList.add(new MarkStockViewBean(selectStockBean, true));
+            }
+
+
             return dataList;
         }
 
         @Override
-        protected void afterParseData(List<ViewBean> object) {
+        protected void afterParseData(List<ViewBean> viewBeanList) {
             isLoading = false;
             if (isAdded()) {
                 endAnimaRefresh();
 
                 mSwipeLayout.setRefreshing(false);
-                if (null != object) {
+                if (null != viewBeanList) {
 
-                    dataList.clear();
-                    dataList.addAll(object);
+                    mViewBeanList.clear();
+                    mViewBeanList.addAll(viewBeanList);
                     mAdapter.notifyDataSetChanged();
                 }
             }
