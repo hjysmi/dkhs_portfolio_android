@@ -17,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -25,6 +24,7 @@ import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.ui.SelectStatusStockActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.TabWidget;
@@ -143,8 +143,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                // startActivity(intent);
+                Intent intent = new Intent(getActivity(), SelectStatusStockActivity.class);
                 UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
