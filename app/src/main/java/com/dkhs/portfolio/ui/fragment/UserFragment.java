@@ -21,11 +21,13 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.BBSActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
@@ -90,9 +92,14 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     @Override
+    public void requestData() {
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
-        LogUtils.e("onHiddenChanged "+hidden);
         super.onHiddenChanged(hidden);
+
+
         if(getView() !=null && !hidden){
             updateUserInfo();
         }
@@ -100,7 +107,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        LogUtils.e("setUserVisibleHint "+isVisibleToUser);
         if(isVisibleToUser){
             if(getView() !=null){
 //                updateMessageCenterState();
@@ -109,11 +115,11 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        LogUtils.e("onResume");
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
         updateMessageCenterState();
     }
 
@@ -203,7 +209,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void updateMessageCenterState() {
 
-        LogUtils.e("updateMessageCenterState");
         if (PortfolioApplication.hasUserLogin()) {
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
             if (totalCount > 0) {
@@ -237,6 +242,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 UIUtils.iStartLoginActivity(getActivity());
                 break;
             case R.id.setting_layout_icon:
+
+
                 startUserInfoActivity();
                 break;
             case R.id.user_myfunds_layout:
@@ -252,6 +259,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 }
                 break;
             case R.id.ll_following:
+
                 Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
                 followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
                 followIntent.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
@@ -264,11 +272,12 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.ll_flowPackage:
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
-
-                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
-                    startActivity(intent);
-                }
+                startActivity(new Intent(getActivity(), BBSActivity.class));
+//                if (!UIUtils.iStartLoginActivity(getActivity())) {
+//
+//                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+//                    startActivity(intent);
+//                }
                 break;
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
@@ -293,7 +302,5 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         updateMessageCenterState();
 
     }
-
-
 
 }

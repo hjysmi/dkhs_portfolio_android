@@ -29,7 +29,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-5 下午12:48:51
  */
-public abstract class BaseTitleFragment extends BaseFragment {
+public abstract class BaseTitleFragment extends VisiableLoadFragment {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
