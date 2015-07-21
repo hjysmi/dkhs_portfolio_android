@@ -662,6 +662,10 @@
  
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
+    <string name="title_activity_photo_view">PhotoViewActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 
 </resources>

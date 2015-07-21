@@ -8,8 +8,6 @@
     <dimen name="circular_progress_normal_size">48dp</dimen>
     <dimen name="circular_progress_large_size">60dp</dimen>
     <integer name="circular_progress_max">100</integer>
-
-
     <color name="md_grey_900_t">#aa616161</color>
 
 

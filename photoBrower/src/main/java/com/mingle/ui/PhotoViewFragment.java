@@ -9,16 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mingle.library.R;
-import com.mingle.utils.ImageLoaderUtils;
 import com.mingle.widget.CircularProgressBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import uk.co.senab.photoview.PhotoView;
-import uk.co.senab.photoview.PhotoViewAttacher;
+import uk.co.senab.photoviewi.PhotoView;
+import uk.co.senab.photoviewi.PhotoViewAttacher;
+
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -31,17 +29,16 @@ public class PhotoViewFragment extends Fragment {
     private CircularProgressBar progressBar;
 
     public PhotoViewFragment() {
-        // Required empty public constructor
     }
 
 
-    public PhotoViewFragment(String url){
-        this.url = url;
 
-        Bundle bundle=new Bundle();
-        bundle.putString("url",url);
-        setArguments(bundle);
-
+    public static PhotoViewFragment newInstance(String param1) {
+        PhotoViewFragment fragment = new PhotoViewFragment();
+        Bundle args = new Bundle();
+        args.putString("url", param1);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -50,18 +47,13 @@ public class PhotoViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         url=getArguments().getString("url");
-
         View view =inflater.inflate(R.layout.fragment_photo_view, container, false);
-
-
         imageView = (PhotoView) view.findViewById(R.id.photoIm);
         progressBar= (CircularProgressBar) view.findViewById(R.id.progressBar);
 
         ImageLoader loader = ImageLoader.getInstance();
-        ImageLoaderUtils.initImageLoader(getActivity());
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
                 .build();
-
 
         imageView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
@@ -70,38 +62,18 @@ public class PhotoViewFragment extends Fragment {
             }
         });
 
-        loader.displayImage(url, imageView, options, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-            }
-
+        loader.displayImage(url, imageView, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 if (imageUri.equals(url)) {
                     progressBar.setVisibility(View.GONE);
                 }
             }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        },new ImageLoadingProgressListener() {
-            @Override
-            public void onProgressUpdate(String s, View view, int i, int i2) {
-                progressBar.setProgressPecentage((float)i/i2);
-            }
         });
-
-
         return view;
     }
+
+
 
 
 

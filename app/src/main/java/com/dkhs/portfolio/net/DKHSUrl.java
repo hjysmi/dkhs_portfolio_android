@@ -162,8 +162,11 @@ public class DKHSUrl {
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
         String compareByPeriod = "/api/v1/symbols/{0}/quote_history/";
         String managerInfo = "/api/v1/symbols/funds/managers/%s/";
+    }
 
-
+    public interface  BBS{
+        String getLatestTopic = "";
+        String getHotTopic = "";
     }
 
     public interface News {

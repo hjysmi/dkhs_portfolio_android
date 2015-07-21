@@ -35,7 +35,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:22.2.0'
     compile files('src/main/libs/Rong_IMKit_v2_0_2.jar')
+    compile project(':baselibrary')
 }

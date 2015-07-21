@@ -5,10 +5,11 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+
     }
     buildTypes {
         release {
@@ -19,7 +20,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('src/main/libs/photoView.jar')
+    compile project(':PhotoViewlibrary')
     compile project(':baselibrary')
 }
