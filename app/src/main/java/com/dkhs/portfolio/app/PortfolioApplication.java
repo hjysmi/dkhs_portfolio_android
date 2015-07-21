@@ -13,6 +13,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.common.GlobalParams;
@@ -45,7 +46,6 @@ public class PortfolioApplication extends Application {
 //
         AppConfig.config(this);
         super.onCreate();
-
     }
 
 

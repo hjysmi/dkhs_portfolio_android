@@ -11,6 +11,10 @@ package com.dkhs.portfolio.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,6 +63,21 @@ public class TimeUtils {
             return "昨天";
         } else {
             return diff / DAY + "天前";
+        }
+    }
+
+
+    public static String getBriefTimeString(long time){
+
+        DateTime dateTime=new DateTime(time);
+        LocalDate date=dateTime.toLocalDate();
+        LocalDate currentDate=   LocalDate.now();
+        if(date ==currentDate){
+           return dateTime.toString("HH:mm");
+        }else if(date.getYear()== currentDate.getYear()){
+            return dateTime.toString("MM-ddH H:mm");
+        }else{
+            return dateTime.toString("yyyy-MM-ddH H:mm");
         }
     }
 

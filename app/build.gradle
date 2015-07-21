@@ -13,10 +13,9 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 21
-
-
         versionCode 109010720
         versionName "1.9.1.0720"
+//        multiDexEnabled true
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
@@ -97,6 +96,11 @@ android {
 
         classpath = files()
     }
+    android {
+        packagingOptions {
+            exclude 'META-INF/LICENSE.txt'
+        }
+    }
 
 
 }
@@ -104,7 +108,6 @@ dependencies {
     //    compile 'com.android.support:design:22.2.0'
     //ANR catch
     compile 'com.github.anrwatchdog:anrwatchdog:1.1.+'
-    compile 'com.android.support:recyclerview-v7:22.1.0'
     compile 'com.android.support:gridlayout-v7:21.0.0'
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -129,4 +132,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
+    compile project(':photoBrower')
 }

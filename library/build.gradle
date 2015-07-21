@@ -6,9 +6,10 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 21
         versionCode 15
         versionName "1.1.5"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -21,7 +22,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(':baselibrary')
 }

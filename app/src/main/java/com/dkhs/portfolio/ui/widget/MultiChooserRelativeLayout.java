@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MenuBean;
-import com.dkhs.portfolio.ui.adapter.BaseRVAdapter;
+import com.dkhs.portfolio.ui.adapter.AutoRVAdapter;
 import com.dkhs.portfolio.ui.adapter.RVHolder;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.AnimationHelper;
@@ -261,7 +261,7 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
     }
 
 
-    class FloatMenuAdapter extends BaseRVAdapter {
+    class FloatMenuAdapter extends AutoRVAdapter {
 
         private MenuBean selectIndex=new MenuBean();
 
@@ -273,7 +273,6 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
         @Override
         public int onCreateViewLayoutID(int viewType) {
 
-//            LogUtils.e(viewType+"");
             return R.layout.item_menu;
         }
 
@@ -285,7 +284,7 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
             holder.getViewHolder().setTextView(R.id.textView, item.getKey());
 
             View view =  holder.getViewHolder().get(R.id.textView);
-            holder.getViewHolder().getRootView().setClickable(item.isEnable());
+            holder.getViewHolder().getConvertView().setClickable(item.isEnable());
             if (item.isEnable()) {
                 view.setEnabled(true);
 

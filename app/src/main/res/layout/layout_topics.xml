@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:background="@color/activity_bg_color"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/white_grayborder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="8dp"
+                android:padding="2sp"
+                android:src="@drawable/ic_user_head" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:paddingTop="4dp"
+                android:text="Fenng"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/CommonTextAppearance_super_Mini_Gray"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:text="@string/add_text"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/titleTV"
+            style="@style/CommonTextAppearance_Middle_Black"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Fenng"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/content"
+            style="@style/CommonTextAppearance_Middle_Gray"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="天天动听是刘春宁一手操办收购的，这次阿里宣布高晓松宋柯加盟，新闻稿可都是虾米在前面然后才是天天动听。 要知道天天动听号称日活比虾米高很多啊 这是不是意味着收购的天天动听就是一垃圾呢? 日活跌没了吧?" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:id="@+id/iv"
+            android:maxHeight="600px"
+            android:maxWidth="238px"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/ic_launcher" />
+
+        <View
+            style="@style/divider_line"
+
+            android:layout_marginTop="8dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="8dp"
+                android:id="@+id/fl_commend"
+
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_commend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:drawableLeft="@drawable/ic_coment"
+                    android:gravity="center"
+                    android:text="@string/commend"
+                    android:textSize="12sp" />
+            </FrameLayout>
+
+            <View
+                style="@style/vertical_divider_line"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp" />
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/fl_star"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/ic_star"
+                    android:gravity="center"
+                    android:text="@string/star"
+                    android:textSize="12sp" />
+            </FrameLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

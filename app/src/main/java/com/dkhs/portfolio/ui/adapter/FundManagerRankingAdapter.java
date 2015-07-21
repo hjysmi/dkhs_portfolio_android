@@ -1,11 +1,12 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.adpter.adapter.SingleAutoAdapter;
+import com.dkhs.adpter.util.ViewHolder;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/13.
  */
-public class FundManagerRankingAdapter  extends  AutoAdapter {
+public class FundManagerRankingAdapter  extends SingleAutoAdapter {
 
 
 
@@ -31,16 +32,15 @@ public class FundManagerRankingAdapter  extends  AutoAdapter {
         sortKey=key;
     }
 
+
     @Override
-    public int setLayoutID() {
-        return R.layout.item_fund_manager_ranking;
+    public int getLayoutResId() {
+        return  R.layout.item_fund_manager_ranking;
     }
 
     @Override
-    public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
-
-
-        FundManagerBean fundManagerBean= (FundManagerBean) list.get(position);
+    public void onBindView(ViewHolder vh, Object data, int position) {
+        FundManagerBean fundManagerBean= (FundManagerBean) mData.get(position);
         vh.setTextView(R.id.tv_name,fundManagerBean.name);
         vh.setTextView(R.id.tv_join_time,fundManagerBean.work_seniority+"");
 
@@ -49,6 +49,4 @@ public class FundManagerRankingAdapter  extends  AutoAdapter {
         vh.setTextView(R.id.tv_percent_value,fundManagerBean.getValueString(sortKey));
 
     }
-
-
 }

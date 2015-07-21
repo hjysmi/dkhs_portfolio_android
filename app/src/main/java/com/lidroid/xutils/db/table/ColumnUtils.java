@@ -20,7 +20,7 @@ import android.text.TextUtils;
 import com.lidroid.xutils.db.annotation.Check;
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.CurrentTimestamp;
-import com.lidroid.xutils.db.annotation.Default;
+import com.lidroid.xutils.db.annotation.DEFAULT;
 import com.lidroid.xutils.db.annotation.Finder;
 import com.lidroid.xutils.db.annotation.Foreign;
 import com.lidroid.xutils.db.annotation.Id;
@@ -187,7 +187,7 @@ public class ColumnUtils {
     }
 
     public static boolean isDefalut(Field field) {
-        return field.getAnnotation(Default.class) != null;
+        return field.getAnnotation(DEFAULT.class) != null;
     }
 
 

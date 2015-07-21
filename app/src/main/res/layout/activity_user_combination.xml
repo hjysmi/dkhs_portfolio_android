@@ -131,12 +131,12 @@
 
         <LinearLayout
             android:id="@+id/ll_combination_title"
-            android:layout_width="fill_parent"
             style="@style/gray_text_tabline"
-            android:paddingRight="15dp"
+            android:layout_width="fill_parent"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingRight="15dp">
 
             <TextView
                 style="@style/gray_title_text"
@@ -166,15 +166,14 @@
     </RelativeLayout>
 
 
-
-
     <com.dkhs.portfolio.ui.FloatingActionMenu
         android:id="@+id/floating_action_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-
+    <View
+        style="@style/divider_line"
+        android:alpha="0.2" />
 </RelativeLayout>
