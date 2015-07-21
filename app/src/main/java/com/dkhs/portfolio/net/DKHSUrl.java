@@ -18,13 +18,13 @@ package com.dkhs.portfolio.net;
 public class DKHSUrl {
 
     // 测试
-    public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
+    public static final String BASE_TEST_URL = "http://192.168.107.90:8010";
 //    public static final String BASE_TEST_URL = "http://192.168.107.75:8000";
 
     // 开发
     public static final String BASE_DEV_URL = "http://121.41.25.170:8010";
     // 正式
-    public static final String BASE_DEV_MAIN = "https://www.dkhs.com";
+    public static final String BASE_DEV_MAIN = "http://192.168.107.90:8010";
     // 服务器
     public static final String BASE_DEV_TAG = "http://121.41.25.170:8050";
 

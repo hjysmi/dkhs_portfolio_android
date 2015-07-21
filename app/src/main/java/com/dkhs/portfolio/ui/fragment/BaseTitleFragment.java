@@ -18,7 +18,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -45,7 +44,7 @@ public abstract class BaseTitleFragment extends VisiableLoadFragment {
 
     @ViewInject(R.id.tv_title)
     private TextView tvTitle;
-//    @ViewInject(R.id.includeHead)
+    //    @ViewInject(R.id.includeHead)
     protected View toolBar;
 
     @Override
@@ -64,7 +63,7 @@ public abstract class BaseTitleFragment extends VisiableLoadFragment {
         super.onViewCreated(view, savedInstanceState);
         ViewUtils.inject(this, view); // 注入view和事件
         btnBack = (TextView) view.findViewById(BACKBUTTON_ID);
-        toolBar =  view.findViewById(R.id.tool);
+        toolBar = view.findViewById(R.id.tool);
         btnRight = (TextView) view.findViewById(RIGHTBUTTON_ID);
         btnSecondRight = (TextView) view.findViewById(SECONDRIGHTBUTTON_ID);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);
@@ -101,4 +100,8 @@ public abstract class BaseTitleFragment extends VisiableLoadFragment {
         return btnSecondRight;
     }
 
+    @Override
+    public void requestData() {
+
+    }
 }

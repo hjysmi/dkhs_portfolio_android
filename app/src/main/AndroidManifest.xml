@@ -390,6 +390,7 @@
             android:name=".ui.InviteCodeActivity"
             android:label="@string/title_invite_friend"></activity>
         <activity android:name=".ui.ShakeActivity"></activity>
+        <activity android:name=".ui.TestActivity"></activity>
     </application>
 
 </manifest>
