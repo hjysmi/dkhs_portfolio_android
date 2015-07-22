@@ -16,6 +16,7 @@
 package com.lidroid.xutils.db.table;
 
 import android.text.TextUtils;
+
 import com.lidroid.xutils.DbUtils;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class Table {
     public final DbUtils db;
     public final String tableName;
     public final Id id;
+    public final boolean isCreateByText;
 
     /**
      * key: columnName
@@ -45,6 +47,7 @@ public class Table {
 
     private Table(DbUtils db, Class<?> entityType) {
         this.db = db;
+        this.isCreateByText = false;
         this.tableName = TableUtils.getTableName(entityType);
         this.id = TableUtils.getId(entityType);
         this.columnMap = TableUtils.getColumnMap(entityType);
@@ -58,6 +61,32 @@ public class Table {
         }
     }
 
+    private Table(DbUtils db, Class<?> entityType, String tableName) {
+        this.db = db;
+        this.isCreateByText = true;
+        this.tableName = tableName;
+        this.id = TableUtils.getId(entityType);
+        this.columnMap = TableUtils.getColumnMap(entityType);
+
+        finderMap = new HashMap<String, Finder>();
+        for (Column column : columnMap.values()) {
+            column.setTable(this);
+            if (column instanceof Finder) {
+                finderMap.put(column.getColumnName(), (Finder) column);
+            }
+        }
+    }
+
+    public static synchronized Table get(DbUtils db, Class<?> entityType,String tableName) {
+        String tableKey = db.getDaoConfig().getDbName() + "#" + tableName;
+        Table table = tableMap.get(tableKey);
+        if (table == null) {
+            table = new Table(db, entityType,tableName);
+            tableMap.put(tableKey, table);
+        }
+
+        return table;
+    }
     public static synchronized Table get(DbUtils db, Class<?> entityType) {
         String tableKey = db.getDaoConfig().getDbName() + "#" + entityType.getName();
         Table table = tableMap.get(tableKey);
@@ -68,6 +97,8 @@ public class Table {
 
         return table;
     }
+
+
 
     public static synchronized void remove(DbUtils db, Class<?> entityType) {
         String tableKey = db.getDaoConfig().getDbName() + "#" + entityType.getName();

@@ -40,6 +40,10 @@ public class MarkStockViewBean extends ViewBean {
         this.isDefColor = isDefColor;
     }
 
+    public void setStockQuotesBean(StockQuotesBean stockQuotesBean) {
+        this.mStockQuotesBean = stockQuotesBean;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, MarkIndexViewPool mViewPool) {
         return new ViewHolder(inflate(container, R.layout.market_layout_market));
@@ -48,6 +52,7 @@ public class MarkStockViewBean extends ViewBean {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
         ((ViewHolder) itemHolder).bindView(mStockQuotesBean, isDefColor);
+        ViewUitls.fullSpanView(itemHolder);
     }
 
 

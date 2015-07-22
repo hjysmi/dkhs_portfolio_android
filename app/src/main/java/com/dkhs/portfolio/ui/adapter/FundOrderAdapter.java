@@ -12,7 +12,8 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.lidroid.xutils.util.LogUtils;
+import com.dkhs.adpter.adapter.SingleAutoAdapter;
+import com.dkhs.adpter.util.ViewHolder;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
  * @Description TODO 基金排行榜适配器
  * @date 2015/6/2.
  */
-public class FundOrderAdapter extends AutoAdapter {
+public class FundOrderAdapter extends SingleAutoAdapter {
 
 
     public FundOrderAdapter(Context context, List<?> list) {
@@ -38,14 +39,15 @@ public class FundOrderAdapter extends AutoAdapter {
         this.sort = sort;
     }
 
+
     @Override
-    public int setLayoutID() {
+    public int getLayoutResId() {
         return R.layout.item_optional_fund_price;
     }
 
     @Override
-    public void onViewCreated(int position, View v, ViewHolderUtils.ViewHolder vh) {
-        FundPriceBean fundBean = (FundPriceBean) list.get(position);
+    public void onBindView(ViewHolder vh, Object data, int position) {
+        FundPriceBean fundBean = (FundPriceBean) mData.get(position);
         vh.setTextView(R.id.tv_stock_name, fundBean.getAbbrname());
         vh.setTextView(R.id.tv_stock_num, fundBean.getSymbol());
         vh.setTextView(R.id.tv_trade_day, TimeUtils.simpleDateToMonthDay(fundBean.getTradedate()));
@@ -56,7 +58,7 @@ public class FundOrderAdapter extends AutoAdapter {
          */
         vh.get(R.id.ll_percent_value).setBackgroundColor(0);
         vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-        vh.getTextView(R.id.tv_percent_value).setPadding(0, 0, context.getResources().getDimensionPixelOffset(R.dimen.padding_kline), 0);
+        vh.getTextView(R.id.tv_percent_value).setPadding(0, 0, mContext.getResources().getDimensionPixelOffset(R.dimen.padding_kline), 0);
 
         if (!TextUtils.isEmpty(fundBean.getAbbrname()) && fundBean.getAbbrname().length() > 8) {
             vh.getTextView(R.id.tv_stock_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -88,19 +90,16 @@ public class FundOrderAdapter extends AutoAdapter {
         }
 
 
-
-
-            vh.getTextView(R.id.tv_percent_value).setTextColor(ColorTemplate.getPercentColor(value));
+        vh.getTextView(R.id.tv_percent_value).setTextColor(ColorTemplate.getPercentColor(value));
 
         if(StockUitls.isDelistStock(fundBean.getList_status())){
-            LogUtils.e("isDelistStock");
-            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
-            vh.setTextView(R.id.tv_percent_value, context.getString(  R.string.exit_stock));
+
+            vh.getTextView(R.id.tv_percent_value).setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
+            vh.setTextView(R.id.tv_percent_value, mContext.getString(  R.string.exit_stock));
 
         }else if(fundBean.isStop()){
-            LogUtils.e("isStop");
-            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
-            vh.setTextView(R.id.tv_percent_value, context.getString(  R.string.delist));
+            vh.getTextView(R.id.tv_percent_value).setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
+            vh.setTextView(R.id.tv_percent_value, mContext.getString(  R.string.delist));
         }
 
 

@@ -29,6 +29,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,11 @@ public class MainInfoFragment extends BaseTitleFragment {
         initView(view);
         toolBar.setClickable(true);
         setTitle(R.string.title_info);
+    }
+
+    @Override
+    public void requestData() {
+
     }
 
     private void initView(View view) {
@@ -123,6 +129,19 @@ public class MainInfoFragment extends BaseTitleFragment {
             }
         });
 
+    }
+
+
+    @Override
+    public void onViewHide() {
+        LogUtils.e("onViewHide");
+        super.onViewHide();
+    }
+
+    @Override
+    public void onViewShow() {
+        LogUtils.e("onViewShow");
+        super.onViewShow();
     }
 
     private void updateAdBanner(AdBean adBean) {

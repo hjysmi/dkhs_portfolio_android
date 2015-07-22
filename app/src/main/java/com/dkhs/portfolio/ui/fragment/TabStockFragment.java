@@ -195,7 +195,7 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
             loadDataListFragment.setDataUpdateListener(this);
             // }
         }
-        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
     private TextView viewLastClick;

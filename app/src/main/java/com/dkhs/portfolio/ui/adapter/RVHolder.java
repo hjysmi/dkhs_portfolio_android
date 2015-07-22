@@ -2,6 +2,9 @@ package com.dkhs.portfolio.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.dkhs.adpter.util.ViewHolder;
+
 /**
  * @author zwm
  * @version 2.0
@@ -12,15 +15,15 @@ import android.view.View;
 public class RVHolder  extends RecyclerView.ViewHolder {
 
 
-    private ViewHolderUtils.ViewHolder viewHolder;
+    private ViewHolder viewHolder;
 
     public RVHolder(View itemView) {
         super(itemView);
-        viewHolder=ViewHolderUtils.get(itemView);
+        viewHolder=ViewHolder.newInstant(itemView);
     }
 
-
-    public ViewHolderUtils.ViewHolder getViewHolder() {
+    public ViewHolder getViewHolder() {
         return viewHolder;
     }
+
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="save">保存</string>
+    <string name="no_sd">没有sd卡不能保存</string>
+
+</resources>
