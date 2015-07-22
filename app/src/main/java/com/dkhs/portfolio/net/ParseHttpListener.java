@@ -130,6 +130,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     public static final int MSG_PARSEDATE = 10;
     public static final int MSG_UPDATEUI = 20;
+    public static final int MSG_ERROR = 30;
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
     private volatile ServiceHandler mMainHandler;
@@ -146,14 +147,40 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
                 case MSG_PARSEDATE:
                     String jsonObject = (String) msg.obj;
                     if (isEncry) {
-                        jsonObject = handleErrorMessage(SecurityUtils.encryptResponeJsonData(jsonObject));
+//                        handleErrorMessage(jsonObject);
+                        jsonObject = SecurityUtils.encryptResponeJsonData(jsonObject);
+                        if (handleErrorMessage(jsonObject)) {
+                            notifyError(jsonObject);
+                        } else {
+                            notifyDateParse(parseDateTask(jsonObject));
+
+                        }
+                    } else {
+
+                        notifyDateParse(parseDateTask(jsonObject));
                     }
-                    notifyDateParse(parseDateTask(jsonObject));
+
                     stopSelf();
                     break;
                 case MSG_UPDATEUI:
                     T obj = (T) msg.obj;
                     afterParseData(obj);
+
+
+////                    jsonObject = SecurityUtils.encryptResponeJsonData((String) obj);
+//                    if (handleErrorMessage((String) obj)) {
+//                        notifyError((String) obj);
+//                    } else {
+//                        afterParseData(obj);
+//
+//                    }
+
+
+                    break;
+
+                case MSG_ERROR:
+                    String error = (String) msg.obj;
+                    onFailure(777, error);
                     break;
 
                 default:
@@ -164,21 +191,17 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     }
 
 
-    private String handleErrorMessage(String result) {
+    private boolean handleErrorMessage(String result) {
 
         try {
-            if (ErrorBundle.isContainError(result)) {
-                PromptManager.showToast(ErrorBundle.parseToErrorBundle(result).getErrorMessage());
-                return "";
-            }
 
+            return ErrorBundle.isContainError(result);
 
         } catch (JSONException e) {
 
             e.printStackTrace();
         }
-        return result;
-
+        return false;
 
     }
 
@@ -199,6 +222,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     private void notifyDateParse(Object object) {
         Message msg = mMainHandler.obtainMessage();
         msg.what = MSG_UPDATEUI;
+        msg.obj = object;
+        mMainHandler.sendMessage(msg);
+    }
+
+    private void notifyError(Object object) {
+        Message msg = mMainHandler.obtainMessage();
+        msg.what = MSG_ERROR;
         msg.obj = object;
         mMainHandler.sendMessage(msg);
     }
