@@ -100,11 +100,8 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
 
     public void refresh(String type, String sort) {
         this.sort = sort;
-
         this.type = type;
-
         loadData();
-
     }
 
     @Override
