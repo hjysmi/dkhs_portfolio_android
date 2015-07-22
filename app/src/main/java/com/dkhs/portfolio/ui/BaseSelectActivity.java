@@ -421,7 +421,9 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         // 股票模式
         STOCK(2),
         // 添加自选股模式
-        ADD_OPTIONAL(3);
+        ADD_OPTIONAL(3),
+        // 添加自选股模式
+        ADD_STATUS(4);
 
         private int typeId;
 

@@ -144,6 +144,10 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.dkhs.portfolio.ui.SelectStatusStockActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
             android:name=".ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
         <activity

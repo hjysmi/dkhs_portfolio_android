@@ -58,9 +58,11 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     private static final String TAG = FragmentSearchStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
+    private static final String ARGUMENT_LOAD_STATUS = "isload_status";
     private static final String ARGUMENT_SEARCH_TYPE = "argument_search_type";
     private static final String SEARCH_TYPE_FUNDS = "search_type_funds";
     private static final String SEARCH_TYPE_STOCK = "search_type_stock";
+    //    private static final String SEARCH_TYPE_STATUS_STOCK = "search_type_status_stock";
     private static final String SEARCH_TYPE_HISTORY = "search_type_history";
     private static final String SEARCH_TYPE_STOCKANDINDEX = "search_type_stockandindex";
 
@@ -78,6 +80,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     private View tvHistoryTip;
     private View tvClearHistory;
     private boolean isFund;
+    private boolean isStatus;
 
     LoadMoreDataEngine mLoadDataEngine;
     SearchStockEngineImpl mSearchEngine;
@@ -87,7 +90,6 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCK);
-        // args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -102,22 +104,24 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         return fragment;
     }
 
-    public static FragmentSearchStockFund getItemClickBackFragment() {
+    public static FragmentSearchStockFund getItemClickBackFragment(boolean isStatus) {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCKANDINDEX);
+        args.putBoolean(ARGUMENT_LOAD_STATUS, isStatus);
         fragment.setArguments(args);
         return fragment;
     }
 
 
-    public static FragmentSearchStockFund getHistoryFragment(boolean isItemClickBack) {
+    public static FragmentSearchStockFund getHistoryFragment(boolean isItemClickBack, boolean isStatus) {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_HISTORY);
+        args.putBoolean(ARGUMENT_LOAD_STATUS, isStatus);
         args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, isItemClickBack);
         fragment.setArguments(args);
         return fragment;
@@ -150,12 +154,13 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
             isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
             isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
             mSearchType = bundle.getString(ARGUMENT_SEARCH_TYPE);
+            isStatus = bundle.getBoolean(ARGUMENT_LOAD_STATUS);
 
         }
         if (isFund) {
             mAdapterConbinStock = new SearchFundAdatper(getActivity(), mDataList, true);
         } else if (isItemClickBack) {
-            mAdapterConbinStock = new AddSearchItemAdapter(getActivity(), mDataList);
+            mAdapterConbinStock = new AddSearchItemAdapter(getActivity(), mDataList, isStatus);
         } else {
             mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList, true);
         }
@@ -219,9 +224,11 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             SelectStockBean itemStock = mDataList.get(position);
-            VisitorDataEngine.saveHistory(itemStock.parseHistoryBean());
 
-            if (StockUitls.isFundType(itemStock.symbol_type)) {
+            VisitorDataEngine.saveHistory(itemStock.parseHistoryBean());
+            if (isStatus) {
+                PromptManager.showToast("选择添加话题股票：" + itemStock.getName());
+            } else if (StockUitls.isFundType(itemStock.symbol_type)) {
                 startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
             } else {
 
