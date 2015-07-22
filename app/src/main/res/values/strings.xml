@@ -667,5 +667,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!--发表帖子-->
+    <string name="post_topic">发表帖子</string>
+    <string name="send">发送</string>
+    <string name="hint_topic_title">标题(可不填)</string>
+    <string name="hint_content">写点观点...</string>
+    <string name="pls_instore_sdcard">请先安装好sd卡</string>
+    <string name="save_draft">是否保存草稿</string>
+    <string name="retake_picture">重新选择照片</string>
+    <string name="delete_picture">删除照片</string>
+    <!--发表帖子-->
 
 </resources>
