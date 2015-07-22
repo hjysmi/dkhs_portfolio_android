@@ -18,25 +18,6 @@ import java.util.TreeMap;
 public class EncryUtil {
 
     /**
-     * 生成RSA签名
-     */
-    public static String handleRSA(TreeMap<String, Object> map,
-                                   String privateKey) {
-        StringBuffer sbuffer = new StringBuffer();
-        for (Entry<String, Object> entry : map.entrySet()) {
-            sbuffer.append(entry.getValue());
-        }
-        String signTemp = sbuffer.toString();
-        System.out.println(signTemp);
-
-        String sign = "";
-        if (!TextUtils.isEmpty(privateKey)) {
-            sign = RSA.sign(signTemp, privateKey);
-        }
-        return sign;
-    }
-
-    /**
      * 对易宝支付返回的结果进行验签
      *
      * @param data               易宝支付返回的业务数据密文
@@ -93,6 +74,25 @@ public class EncryUtil {
                 yibaoPublickKey);
 
         return result;
+    }
+
+    /**
+     * 生成RSA签名
+     */
+    public static String handleRSA(TreeMap<String, Object> map,
+                                   String privateKey) {
+        StringBuffer sbuffer = new StringBuffer();
+        for (Entry<String, Object> entry : map.entrySet()) {
+            sbuffer.append(entry.getValue());
+        }
+        String signTemp = sbuffer.toString();
+        System.out.println("签名内容：" + signTemp);
+
+        String sign = "";
+        if (!TextUtils.isEmpty(privateKey)) {
+            sign = RSA.sign(signTemp, privateKey);
+        }
+        return sign;
     }
 
     /**

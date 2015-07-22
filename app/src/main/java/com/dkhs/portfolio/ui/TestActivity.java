@@ -32,12 +32,22 @@ public class TestActivity extends FragmentActivity {
     }
 
     private void getData() {
-        try {
 
-            new SecurityUtils().testCreditCardPay();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+
+                    new SecurityUtils().testCreditCardPay();
+                } catch (Exception e
+                        ) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+        }.start();
 
 
     }

@@ -4,14 +4,13 @@ package com.dkhs.portfolio.security;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
-
-import org.parceler.apache.commons.lang.StringUtils;
 
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
@@ -74,7 +73,7 @@ public class SecurityUtils {
         System.out.println("业务数据明文：" + info);
 
         //通过随机生成的16位AESkey 对数据进行AES加密
-        String data =AES.encryptToBase64(info, merchantAesKey);
+        String data = AES.encryptToBase64(info, merchantAesKey);
 
         System.out.println("merchantAesKey：" + merchantAesKey);
         System.out.println("含有签名的业务数据密文data:" + data);
@@ -109,13 +108,13 @@ public class SecurityUtils {
 
     }
 
-    BasicHttpListener httpListener = new BasicHttpListener() {
+    BasicHttpListener httpListener = new ParseHttpListener<Object>() {
         @Override
-        public void onSuccess(String result) {
+        protected Object parseDateTask(String jsonData) {
             try {
 
 
-                EncryptData encryptData = DataParse.parseObjectJson(EncryptData.class, result);
+                EncryptData encryptData = DataParse.parseObjectJson(EncryptData.class, jsonData);
 
                 System.out.println("解密前的aesKey：" + encryptData.getEncryptkey());
                 String aesKey = com.dkhs.portfolio.security.RSA.decrypt(encryptData.getEncryptkey(), RSA_CLIENT_PRIVATE);
@@ -132,7 +131,7 @@ public class SecurityUtils {
 
 
                 /** 3.取得data明文sign。 */
-                String sign = StringUtils.trimToEmpty(dataMap.get("signature"));
+                String sign = CheckUtils.trimToEmpty(dataMap.get("signature"));
 
                 /** 4.对map中的值进行验证 */
                 StringBuffer signData = new StringBuffer();
@@ -141,14 +140,14 @@ public class SecurityUtils {
                     Map.Entry<String, String> entry = iter.next();
 
                     /** 把sign参数隔过去 */
-                    if (StringUtils.equals((String) entry.getKey(), "signature")) {
+                    if (CheckUtils.equals((String) entry.getKey(), "signature")) {
                         continue;
                     }
                     signData.append(entry.getValue() == null ? "" : entry.getValue());
                 }
 
                 /** 5. result为true时表明验签通过 */
-                boolean isCheckSign = com.dkhs.portfolio.security.RSA.checkSign(signData.toString(), sign,
+                boolean isCheckSign = RSA.checkSign(signData.toString(), sign,
                         RSA_SERVER_PUBLIC);
 
 
@@ -161,6 +160,12 @@ public class SecurityUtils {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+
         }
     };
 
