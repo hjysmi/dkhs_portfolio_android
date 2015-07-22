@@ -14,6 +14,7 @@ import android.widget.ListAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.TopicsEngineImpl;
 import com.dkhs.portfolio.ui.adapter.HotTopicsAdapter;
@@ -32,7 +33,7 @@ public class HotTopicsFragment extends LoadMoreListFragment {
 
 
     private List<TopicsBean> mDataList = new ArrayList<>();
-    private TopicsEngineImpl mTopicsEngine= null;
+    private HotTopicEngineImpl mTopicsEngine= null;
 
 
     private BaseAdapter mAdapter;
@@ -44,7 +45,7 @@ public class HotTopicsFragment extends LoadMoreListFragment {
     @Override
     ListAdapter getListAdapter() {
 
-        if(mAdapter !=null){
+        if(mAdapter == null){
             mAdapter=  new HotTopicsAdapter(mActivity,mDataList);
         }
         return mAdapter;
@@ -52,8 +53,8 @@ public class HotTopicsFragment extends LoadMoreListFragment {
 
     @Override
     LoadMoreDataEngine getLoadEngine() {
-        if(mTopicsEngine !=null){
-            mTopicsEngine=  new TopicsEngineImpl(this);
+        if(mTopicsEngine ==null){
+            mTopicsEngine=  new HotTopicEngineImpl(this);
         }
         return mTopicsEngine;
     }
