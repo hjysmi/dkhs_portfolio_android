@@ -83,7 +83,6 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                         moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
                         }.getType());
 
-                        moreBean.getResults();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
