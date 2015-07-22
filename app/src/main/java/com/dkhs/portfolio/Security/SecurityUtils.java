@@ -51,7 +51,7 @@ public class SecurityUtils {
     public void testCreditCardPay() throws Exception {
 
         int amount = 5;
-        String idcard = "1234353454645645645";
+        String idcard = "hello world!";
         String owner = "张三";
 
 
@@ -74,7 +74,7 @@ public class SecurityUtils {
         System.out.println("业务数据明文：" + info);
 
         //通过随机生成的16位AESkey 对数据进行AES加密
-        String data = AES.encryptToBase64(info, merchantAesKey);
+        String data =AES.encryptToBase64(info, merchantAesKey);
 
         System.out.println("merchantAesKey：" + merchantAesKey);
         System.out.println("含有签名的业务数据密文data:" + data);
@@ -118,10 +118,10 @@ public class SecurityUtils {
                 EncryptData encryptData = DataParse.parseObjectJson(EncryptData.class, result);
 
                 System.out.println("解密前的aesKey：" + encryptData.getEncryptkey());
-                String aesKey = RSA.decrypt(encryptData.getEncryptkey(), RSA_CLIENT_PRIVATE);
+                String aesKey = com.dkhs.portfolio.security.RSA.decrypt(encryptData.getEncryptkey(), RSA_CLIENT_PRIVATE);
                 System.out.println("解密后aesKey：" + aesKey);
 
-                String rawData = AES.decryptFromBase64(encryptData.getData(), aesKey);
+                String rawData = com.dkhs.portfolio.security.AES.decryptFromBase64(encryptData.getData(), aesKey);
                 System.out.println("解密后data：" + rawData);
 
 
@@ -148,7 +148,7 @@ public class SecurityUtils {
                 }
 
                 /** 5. result为true时表明验签通过 */
-                boolean isCheckSign = RSA.checkSign(signData.toString(), sign,
+                boolean isCheckSign = com.dkhs.portfolio.security.RSA.checkSign(signData.toString(), sign,
                         RSA_SERVER_PUBLIC);
 
 
@@ -167,11 +167,11 @@ public class SecurityUtils {
 
     public static class EncryptData {
         public String getEncryptkey() {
-            return encryptkey;
+            return signature;
         }
 
         public void setEncryptkey(String encryptkey) {
-            this.encryptkey = encryptkey;
+            this.signature = encryptkey;
         }
 
         public String getData() {
@@ -182,7 +182,7 @@ public class SecurityUtils {
             this.data = data;
         }
 
-        public String encryptkey;
+        public String signature;
         public String data;
     }
 
