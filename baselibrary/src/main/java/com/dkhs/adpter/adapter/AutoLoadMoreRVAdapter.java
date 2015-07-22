@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.dkhs.adpter.itemhandler.LoadMoreHandler;
-import com.dkhs.adpter.listener.ItemHandler;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ClassMap;
 import com.dkhs.adpter.util.ViewHolder;
 

@@ -13,7 +13,7 @@ import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
-import com.dkhs.adpter.listener.ItemHandler;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 
 /**

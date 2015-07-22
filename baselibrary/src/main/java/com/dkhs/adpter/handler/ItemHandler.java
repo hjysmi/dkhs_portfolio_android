@@ -1,4 +1,4 @@
-package com.dkhs.adpter.listener;
+package com.dkhs.adpter.handler;
 
 
 import com.dkhs.adpter.util.ViewHolder;
@@ -12,4 +12,4 @@ public interface ItemHandler<T extends Object> {
 
     public Class<?> getDataClass();
 
-}  
+}

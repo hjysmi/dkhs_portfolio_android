@@ -2,10 +2,14 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 
 import android.view.View;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 
+import com.dkhs.adpter.handler.ItemHandlerClickListener;
+import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.adpter.listener.ItemHandler;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 
 /**
@@ -15,7 +19,7 @@ import com.dkhs.adpter.util.ViewHolder;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/16.
  */
-public class TopicsHandler implements ItemHandler<TopicsBean>{
+public class TopicsHandler implements ItemHandler<TopicsBean> {
 
 
 //    @ViewInject(R.id.iv_avatar)
@@ -46,13 +50,45 @@ public class TopicsHandler implements ItemHandler<TopicsBean>{
 
     @Override
     public void onBindView(ViewHolder vh, TopicsBean data, int position) {
-        StarClickListenerImp starClickListenerImp=null;
-        if(null !=  vh.get(R.id.fl_star).getTag()){
-            starClickListenerImp= (StarClickListenerImp) vh.get(R.id.fl_star).getTag();
+        setClickListener( vh.get(R.id.fl_commend),data);
+        setClickListener( vh.get(R.id.iv_avatar),data);
+        setClickListener( vh.get(R.id.iv),data);
+        setClickListener( vh.get(R.id.main_ll),data);
+        setClickListener( vh.get(R.id.fl_star),data);
+    }
+
+    public void setClickListener(View  view, TopicsBean data){
+        ItemHandlerClickListenerImp<TopicsBean> itemHandlerClickListener=null;
+        if(null !=  view.getTag() && view.getTag() instanceof  ItemHandlerClickListenerImp){
+            itemHandlerClickListener= (ItemHandlerClickListenerImp<TopicsBean>) view.getTag();
         }else{
-            starClickListenerImp=new StarClickListenerImp();
+           switch (view.getId()){
+               case  R.id.fl_star:
+                   itemHandlerClickListener=new StarClickListenerImp();
+                   break;
+               case  R.id.fl_commend:
+                   itemHandlerClickListener=new CommendClickListenerImp();
+                   break;
+               case  R.id.iv_avatar:
+                   itemHandlerClickListener=new AvatarClickListenerImp();
+                   break;
+               case  R.id.iv:
+                   itemHandlerClickListener=new ImageViewClickListenerImp();
+                   break;
+               case  R.id.main_ll:
+                   itemHandlerClickListener=new ItemClickListenerImp();
+                   break;
+               default:
+                   itemHandlerClickListener=new ItemHandlerClickListenerImp<TopicsBean>();
+                   break;
+           }
+            view.setOnClickListener(itemHandlerClickListener);
+            view.setTag(itemHandlerClickListener);
         }
-        starClickListenerImp.setTopicsBean((TopicsBean) data);
+
+        itemHandlerClickListener.setDate(data);
+
+
     }
 
     @Override
@@ -60,14 +96,39 @@ public class TopicsHandler implements ItemHandler<TopicsBean>{
         return TopicsBean.class;
     }
 
-
-    class  StarClickListenerImp implements View.OnClickListener{
+    class  StarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 
 
         private TopicsBean topicsBean;
 
-        public void setTopicsBean(TopicsBean topicsBean) {
-            this.topicsBean = topicsBean;
+
+        @Override
+        public View.OnClickListener setDate(TopicsBean o) {
+            this.topicsBean = o;
+            return this;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ImageView imageView= (ImageView) v.findViewById(R.id.iv_star);
+            if(topicsBean.star){
+                imageView.setImageResource(R.drawable.ic_stared);
+            }else{
+                imageView.setImageResource(R.drawable.ic_star);
+            }
+            topicsBean.star=!topicsBean.star;
+        }
+    }
+    class  CommendClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+
+        private TopicsBean topicsBean;
+
+
+        @Override
+        public View.OnClickListener setDate(TopicsBean o) {
+            this.topicsBean = o;
+            return this;
         }
 
         @Override
@@ -75,5 +136,62 @@ public class TopicsHandler implements ItemHandler<TopicsBean>{
 
         }
     }
+    class  AvatarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+
+        private TopicsBean topicsBean;
+
+
+        @Override
+        public View.OnClickListener setDate(TopicsBean o) {
+            this.topicsBean = o;
+            return this;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+    class  ImageViewClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+
+        private TopicsBean topicsBean;
+
+
+        @Override
+        public View.OnClickListener setDate(TopicsBean o) {
+            this.topicsBean = o;
+            return this;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+    class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+
+        private TopicsBean topicsBean;
+
+
+        @Override
+        public View.OnClickListener setDate(TopicsBean o) {
+            this.topicsBean = o;
+            return this;
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+
+
+    }
+
+
+
+
 
 }

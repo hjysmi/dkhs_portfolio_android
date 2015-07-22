@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 public class TopicsBean {
 
 
+    public boolean star;
+
 
 
 }
