@@ -195,6 +195,10 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void displayFragmentC() {
+
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {
@@ -283,7 +287,7 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
                 return true;
-            }else{
+            } else {
                 GlobalParams.clearUserInfo();
             }
 

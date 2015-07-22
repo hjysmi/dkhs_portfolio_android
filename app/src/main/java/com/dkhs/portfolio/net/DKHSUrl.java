@@ -130,17 +130,18 @@ public class DKHSUrl {
 
     }
 
-    public interface  Ads{
+    public interface Ads {
 
         String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
         String getSplashAds = "/api/v1/ads/area/splash/";
         String getInvitingInfo = "/api/v1/accounts/invitations/code/";
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
-        String getSignUp= "/api/v1/ads/area/signup/";
-        String getInvite= "/api/v1/ads/area/Invite//";
+        String getSignUp = "/api/v1/ads/area/signup/";
+        String getInvite = "/api/v1/ads/area/Invite//";
 
     }
-    public interface  Shake{
+
+    public interface Shake {
         String getShakeInfo = "/api/v1/shakes/symbols/next/";
         String getDescriptionOfActivities = "/portfolio/shakes";
     }

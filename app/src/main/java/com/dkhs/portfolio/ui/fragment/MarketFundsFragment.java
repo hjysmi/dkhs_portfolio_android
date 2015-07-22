@@ -22,16 +22,13 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerSortMenuBean;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
-import com.dkhs.portfolio.engine.Action1;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.ui.listener.SwitchThreeStateOnClickListener;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -144,7 +141,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         setDrawableDown(tvPercentgae);
         tvPercentgae.setText(R.string.win_rate_day);
         tvCurrent.setText(R.string.join_time);
-        fundTypeTV.setText(R.string.fund_manager);
+        fundTypeTV.setText(R.string.fund_manager_order);
         sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
 
 //         mSwitchThreeStateOnClickListener=     new SwitchThreeStateOnClickListener(tvCurrent, new Action1<SwitchThreeStateOnClickListener.Status>() {
@@ -228,7 +225,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             }
         } else if (menuBean instanceof FundManagerSortMenuBean) {
             tvCurrent.setText(R.string.join_time);
-            fundTypeTV.setText(R.string.fund_manager);
+            fundTypeTV.setText(R.string.fund_manager_order);
 //            mSwitchThreeStateOnClickListener.updateState(SwitchThreeStateOnClickListener.Status.NORMAL,false);
             tvCurrent.setClickable(true);
             sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
@@ -255,11 +252,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         }
 
     }
-
-
-
-
-
 
 
     private void replaceFundManagerRankingsDataList(String type, String sort) {

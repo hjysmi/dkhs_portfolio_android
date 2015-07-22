@@ -6,9 +6,11 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 
+import com.dkhs.portfolio.security.SecurityUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -114,7 +116,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
 
     /**
-     * @param @param errCode 错误编码，具体查看 {@link Network.HttpCode}
+     * @param @param errCode 错误编码，具体查看
      * @param @param errMsg 错误信息
      * @return void 返回类型
      * @Title: onFailure
@@ -131,7 +133,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
     private volatile ServiceHandler mMainHandler;
-
+    protected boolean isEncry;
 
     private final class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -143,6 +145,9 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
             switch (msg.what) {
                 case MSG_PARSEDATE:
                     String jsonObject = (String) msg.obj;
+                    if (isEncry) {
+                        jsonObject = handleErrorMessage(SecurityUtils.encryptResponeJsonData(jsonObject));
+                    }
                     notifyDateParse(parseDateTask(jsonObject));
                     stopSelf();
                     break;
@@ -156,6 +161,31 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
             }
 
         }
+    }
+
+
+    private String handleErrorMessage(String result) {
+
+        try {
+            if (ErrorBundle.isContainError(result)) {
+                PromptManager.showToast(ErrorBundle.parseToErrorBundle(result).getErrorMessage());
+                return "";
+            }
+
+
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+        }
+        return result;
+
+
+    }
+
+
+    public ParseHttpListener openEncry() {
+        this.isEncry = true;
+        return this;
     }
 
     public void beginParseDate(String jsonObject) {

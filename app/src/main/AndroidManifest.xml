@@ -86,6 +86,7 @@
             android:name="com.dkhs.portfolio.ui.PositionAdjustActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.SelectStockActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.TestActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalStockListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectAddOptionalActivity" />
