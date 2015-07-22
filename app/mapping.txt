@@ -24424,16 +24424,18 @@ com.dkhs.portfolio.net.ParseHttpListener -> com.dkhs.portfolio.c.k:
     void requestCallBack() -> requestCallBack
     void onSuccess(java.lang.String) -> onSuccess
     void onFailure(int,java.lang.String) -> onFailure
-    java.lang.String handleErrorMessage(java.lang.String) -> a
+    boolean handleErrorMessage(java.lang.String) -> a
     com.dkhs.portfolio.net.ParseHttpListener openEncry() -> l
     void beginParseDate(java.lang.String) -> d
     void notifyDateParse(java.lang.Object) -> b
+    void notifyError(java.lang.Object) -> c
     void stopSelf() -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
-    java.lang.String access$000(com.dkhs.portfolio.net.ParseHttpListener,java.lang.String) -> b
+    boolean access$000(com.dkhs.portfolio.net.ParseHttpListener,java.lang.String) -> b
     void access$100(com.dkhs.portfolio.net.ParseHttpListener,java.lang.Object) -> a
-    void access$200(com.dkhs.portfolio.net.ParseHttpListener) -> a
+    void access$200(com.dkhs.portfolio.net.ParseHttpListener,java.lang.Object) -> b
+    void access$300(com.dkhs.portfolio.net.ParseHttpListener) -> a
 com.dkhs.portfolio.net.ParseHttpListener$ServiceHandler -> com.dkhs.portfolio.c.k$a:
     com.dkhs.portfolio.net.ParseHttpListener this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
