@@ -84,8 +84,6 @@ public class SecurityUtils {
         String requestURL = "";
 
 
-
-
         //将data和encryptkey传给服务器
         System.out.println("完成后data：" + data);
         System.out.println("完成后encryptkey：" + encryptkey);
@@ -159,7 +157,7 @@ public class SecurityUtils {
                 }
 
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
     };

@@ -26,11 +26,13 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.BBSActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
+import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
@@ -43,6 +45,9 @@ import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.rong.imkit.RongIM;
 
@@ -185,7 +190,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void updateMessageCenterState() {
 
-        LogUtils.e("updateMessageCenterState");
         if (PortfolioApplication.hasUserLogin()) {
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
             if (totalCount > 0) {
@@ -246,11 +250,16 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.ll_flowPackage:
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
-                    startActivity(intent);
-                }
+                ArrayList<String> list=new ArrayList();
+                list.add("http://img.1985t.com/uploads/attaches/2014/07/18314-I1VlAZ.jpg");
+                PhotoViewActivity.startPhotoViewActivity(mActivity,list,0);
+//                startActivity(new Intent(mActivity, BBSActivity.class));
+//                if (!UIUtils.iStartLoginActivity(getActivity())) {
+//
+//                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+//                    startActivity(intent);
+//                }
                 break;
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {

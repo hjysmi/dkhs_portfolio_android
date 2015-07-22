@@ -97,6 +97,11 @@ android {
 
         classpath = files()
     }
+    android {
+        packagingOptions {
+            exclude 'META-INF/LICENSE.txt'
+        }
+    }
 
 
 }
@@ -129,4 +134,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
+    compile project(':photoBrower')
 }

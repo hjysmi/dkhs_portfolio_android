@@ -655,8 +655,17 @@
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
+    <string name="commend">评论</string>
+    <string name="star">赞</string>
+    <string name="title_activity_bbs">BBSActivity</string>
+
+ 
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
+    <string name="title_activity_photo_view">PhotoViewActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 
 </resources>

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.dkhs.adpter.util.ViewHolder;
+
 import java.util.List;
 
 /**
@@ -16,13 +18,13 @@ import java.util.List;
  * @Description TODO()
  * @date 2015/6/1.
  */
-public abstract class BaseRVAdapter extends RecyclerView.Adapter<RVHolder> {
+public abstract class AutoRVAdapter extends RecyclerView.Adapter<RVHolder> {
 
     public List<?> list;
 
     private Context context;
 
-    public BaseRVAdapter(Context context, List<?> list) {
+    public AutoRVAdapter(Context context, List<?> list) {
         this.list = list;
         this.context = context;
     }
@@ -47,7 +49,7 @@ public abstract class BaseRVAdapter extends RecyclerView.Adapter<RVHolder> {
 
         onBindViewHolder(holder.getViewHolder(), position);
         if (onItemClickListener != null) {
-            holder.getViewHolder().getRootView().setOnClickListener(new View.OnClickListener() {
+            holder.getViewHolder().getConvertView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(null, v, holder.getPosition(), holder.getItemId());
@@ -57,7 +59,7 @@ public abstract class BaseRVAdapter extends RecyclerView.Adapter<RVHolder> {
 
     }
 
-    public void onBindViewHolder(ViewHolderUtils.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
     }
 
