@@ -18,10 +18,8 @@ android {
         }
     }
 }
-repositories {
-    mavenCentral()
-}
+
 dependencies {
-    compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile project(':baselibrary')
+    compile files('src/main/libs/PhotoViewi.jar.jar')
 }

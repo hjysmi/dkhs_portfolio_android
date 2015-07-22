@@ -180,7 +180,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
         if(!TextUtils.isEmpty(mWapShareBean.getUrl())){
             getRightButton().setOnClickListener(this);
-            getRightButton().setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share), null,
+            getRightButton().setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share_selector), null,
                     null, null);
         }else{
             getRightButton().setVisibility(View.GONE);

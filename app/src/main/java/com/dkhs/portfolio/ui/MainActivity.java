@@ -178,6 +178,8 @@ public class MainActivity extends BaseActivity {
 
 
     protected void displayFragmentB() {
+
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
@@ -198,6 +200,10 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void displayFragmentC() {
+
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {

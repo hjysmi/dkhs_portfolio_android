@@ -4,6 +4,7 @@ package com.dkhs.portfolio.security;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -58,6 +59,7 @@ public class SecurityUtils {
         map.put("amount", amount);
         map.put("idcard", idcard);
         map.put("owner", owner);
+        map.put("timestamp", TimeUtils.getUTCdatetimeAsString());
 
 
         // 通过私钥生成RSA签名
@@ -65,7 +67,7 @@ public class SecurityUtils {
         System.out.println("RSA签名：" + sign);
 
         //将签名参数传递给服务器
-        map.put("sign", sign);
+        map.put("signature", sign);
         // 生成data
         Gson gson = new GsonBuilder().create();
         String info = gson.toJson(map);
@@ -90,7 +92,7 @@ public class SecurityUtils {
         RequestParams params = new RequestParams();
 
         params.addQueryStringParameter("encryptkey", encryptkey);
-        String requestUrl = "/api/v1/encrypt/?data={0}&encryptkey={1}";
+        String requestUrl = "/api/v1/encrypt/?data={0}&signature={1}";
 //        MessageFormat.format(requestUrl, data, encryptkey);
         DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(requestUrl, URLEncoder.encode(data, "UTF-8"), URLEncoder.encode(encryptkey, "UTF-8")), null, httpListener);
 //        DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(requestUrl, data, encryptkey), null, null);
@@ -130,7 +132,7 @@ public class SecurityUtils {
 
 
                 /** 3.取得data明文sign。 */
-                String sign = StringUtils.trimToEmpty(dataMap.get("sign"));
+                String sign = StringUtils.trimToEmpty(dataMap.get("signature"));
 
                 /** 4.对map中的值进行验证 */
                 StringBuffer signData = new StringBuffer();
@@ -139,7 +141,7 @@ public class SecurityUtils {
                     Map.Entry<String, String> entry = iter.next();
 
                     /** 把sign参数隔过去 */
-                    if (StringUtils.equals((String) entry.getKey(), "sign")) {
+                    if (StringUtils.equals((String) entry.getKey(), "signature")) {
                         continue;
                     }
                     signData.append(entry.getValue() == null ? "" : entry.getValue());

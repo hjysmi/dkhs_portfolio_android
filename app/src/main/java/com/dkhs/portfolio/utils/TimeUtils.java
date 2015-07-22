@@ -12,9 +12,9 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,16 +67,16 @@ public class TimeUtils {
     }
 
 
-    public static String getBriefTimeString(long time){
+    public static String getBriefTimeString(long time) {
 
-        DateTime dateTime=new DateTime(time);
-        LocalDate date=dateTime.toLocalDate();
-        LocalDate currentDate=   LocalDate.now();
-        if(date ==currentDate){
-           return dateTime.toString("HH:mm");
-        }else if(date.getYear()== currentDate.getYear()){
+        DateTime dateTime = new DateTime(time);
+        LocalDate date = dateTime.toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+        if (date == currentDate) {
+            return dateTime.toString("HH:mm");
+        } else if (date.getYear() == currentDate.getYear()) {
             return dateTime.toString("MM-ddH H:mm");
-        }else{
+        } else {
             return dateTime.toString("yyyy-MM-ddH H:mm");
         }
     }
@@ -174,8 +174,9 @@ public class TimeUtils {
     public static String getSimpleFormatTime(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[2].format(toDate(iso8601str));
     }
-    public static String getSimpleFormatTime(String format,String iso8601str) {
-        return  new SimpleDateFormat(format, Locale.CHINA).format(toDate(iso8601str));
+
+    public static String getSimpleFormatTime(String format, String iso8601str) {
+        return new SimpleDateFormat(format, Locale.CHINA).format(toDate(iso8601str));
     }
 
     public static String getSimpleDay(String iso8601str) {
@@ -311,6 +312,25 @@ public class TimeUtils {
         }
 
         return date;
+    }
+
+
+    public static Timestamp getCurrentDate() {
+
+        Calendar c = Calendar.getInstance();
+        c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), 0, 0, 0);
+        Timestamp t = new Timestamp(c.getTime().getTime());
+        t.setNanos(0);
+        return t;
+    }
+
+
+    public static String getUTCdatetimeAsString() {
+        final SimpleDateFormat sdf = ACCEPTED_TIMESTAMP_FORMATS[5];
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        final String utcTime = sdf.format(new Date());
+
+        return utcTime;
     }
 
     // public static Calendar simpleStringToCalend(String dateString) {
