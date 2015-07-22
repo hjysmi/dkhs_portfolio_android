@@ -87,8 +87,6 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                         e.printStackTrace();
                     }
                 }
-
-
                 HotTopicEngineImpl.this.responseStatus|=4;
                 mFristpageTopicsBeans=moreBean.getResults();
                 setMoreDataBean(moreBean);
