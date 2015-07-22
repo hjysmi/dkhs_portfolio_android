@@ -166,7 +166,8 @@ public class DKHSUrl {
 
     public interface  BBS{
         String getLatestTopic = "";
-        String getHotTopic = "";
+        String getHotTopic = "api/v1/statuses/public_timeline/?recommend_level=1";
+        String getStickTopic = "api/v1/statuses/public_timeline/?recommend_level=2";
     }
 
     public interface News {

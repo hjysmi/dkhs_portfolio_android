@@ -45,32 +45,11 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
 
     private BaseAdapter mAdapter;
 
-    @Override
-    public void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle bundle = getArguments();
-
         loadData();
     }
 

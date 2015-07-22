@@ -18,7 +18,7 @@ import com.dkhs.adpter.util.ClassMap;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/16.
  */
-public class HotTopicsAdapter extends com.dkhs.adpter.adapter.AutoRVAdapter {
+public class HotTopicsAdapter extends com.dkhs.adpter.adapter.AutoAdapter {
 
 
     public HotTopicsAdapter(Context context, List<?> data) {

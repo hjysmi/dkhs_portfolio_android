@@ -9,6 +9,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res-auto"
                   android:layout_width="match_parent"
+                  style="@style/white_grayborder_layout"
                   android:layout_height="match_parent"
                   android:layout_marginBottom="16dp"
                   android:orientation="vertical">
@@ -27,6 +28,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/stick_ll1"
             android:orientation="horizontal">
 
             <TextView
@@ -44,9 +46,12 @@
 
         </LinearLayout>
 
-        <View style="@style/inset_divider_line"/>
+        <View
+            android:id="@+id/line1"
+            style="@style/inset_divider_line"/>
 
         <LinearLayout
+            android:id="@+id/stick_ll2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -89,6 +94,7 @@
         <View style="@style/inset_divider_line"/>
 
         <LinearLayout
+            android:id="@+id/stick_ll3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -110,6 +116,7 @@
         <View style="@style/inset_divider_line"/>
 
         <LinearLayout
+            android:id="@+id/stick_ll5"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

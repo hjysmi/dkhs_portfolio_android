@@ -28,11 +28,13 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
 
     public Context mContext;
 
+
+    private  OnSliderClickListenerImp mOnSliderClickListenerImp=new OnSliderClickListenerImp();
+
     public BannerHandler(Context mContext) {
         this.mContext = mContext;
     }
 
-    String s=" {\"id\": 2, \"code\": \"news_banner\", \"title\": \"\\u8d44\\u8baf\\u9875\\u5e7f\\u544a\", \"description\": \"\\u8d44\\u8baf\\u9875\\u5e7f\\u544a\", \"ads\": [{\"id\": 3, \"title\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"description\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"display_time\": 3, \"image\": \"http://com-dkhs-media-test.oss.aliyuncs.com/a/2015/06/25/11/4751/banner1.png\", \"redirect_url\": \"http://121.41.25.170:8030/portfolio/portfoliogame/\"}, {\"id\": 4, \"title\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"description\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"display_time\": 2, \"image\": \"http://com-dkhs-media-test.oss.aliyuncs.com/a/2015/06/25/11/4820/banner2.png\", \"redirect_url\": \"http://121.41.25.170:8030/portfolio/portfoliogame/\"}]}";
 
 
     @Override
@@ -42,7 +44,7 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
 
     @Override
     public void onBindView(ViewHolder vh, BannerTopicsBean data, int position) {
-        AdBean adBean= DataParse.parseObjectJson(AdBean.class,s);
+        AdBean adBean= data.adBean;
         int duration=1;
         SliderLayout  slider=vh.get(R.id.slider);
         for (AdBean.AdsEntity item : adBean.getAds()){
@@ -56,7 +58,7 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
             Bundle bundle=new Bundle();
             bundle.putString("redirect_url",item.getRedirect_url());
             textSliderView.bundle(bundle);
-            textSliderView.setOnSliderClickListener(new OnSliderClickListenerImp());
+            textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
             slider.addSlider(textSliderView);
         }
         slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
@@ -64,6 +66,9 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
         slider.setCustomAnimation(new DescriptionAnimation());
         slider.setDuration(duration*1000);
         slider.startAutoCycle();
+
+
+
     }
 
 

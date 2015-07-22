@@ -29,7 +29,7 @@ import java.util.List;
  * @version 1.0
  * @ClassName FundManagerRankingsFragment
  * @date 2015/6/02.13:27
- * @Description  基金经理排行
+ * @Description 基金经理排行
  */
 public class FundManagerRankingsFragment extends LoadMoreListFragment implements MarketFundsFragment.OnRefreshI {
 
@@ -91,7 +91,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
         mSwipeLayout.setRefreshing(true);
         startLoadData();
 
-        if(!sort.equals("work_seniority")&& ! sort.equals("-work_seniority")){
+        if (!sort.equals("work_seniority") && !sort.equals("-work_seniority")) {
             mAdapter.setSortKey(sort);
         }
 
@@ -101,7 +101,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
     public void refresh(String type, String sort) {
         this.sort = sort;
 
-            this.type = type;
+        this.type = type;
 
         loadData();
 
@@ -163,7 +163,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                FundManagerBean fundManagerBean=mDataList.get(position);
+                FundManagerBean fundManagerBean = mDataList.get(position);
                 startActivity(FundManagerActivity.newIntent(mActivity, fundManagerBean.id + ""));
             }
         };
