@@ -153,4 +153,9 @@
     <color name="zuhe_divline">#DCDCDC</color>
     <color name="user_combination_head_bg">#ff6363</color>
 
+    <color name="actionsheet_pressed">#DDDEDF</color>
+    <color name="actionsheet_top_seperated">#E7E7E7</color>
+    <color name="actionsheet_middle_seperated">#F4F4F4</color>
+    <color name="actionsheet_bottom_seperated">#E6E6E6</color>
+
 </resources>
