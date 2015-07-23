@@ -49,7 +49,6 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -730,10 +729,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
             if (TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
-                todayListener.setFromYanbao(true);
             } else {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
-                todayListener.setFromYanbao(false);
             }
             // dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }

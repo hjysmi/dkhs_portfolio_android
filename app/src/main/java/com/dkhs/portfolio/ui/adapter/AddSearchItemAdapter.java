@@ -9,6 +9,8 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -31,6 +33,7 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
 
 
     private ChangeFollowView changeFollowView;
+    private boolean isStatus;
 
     /**
      * @param context
@@ -41,6 +44,12 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
     public AddSearchItemAdapter(Context context, List<SelectStockBean> datas) {
         super(context, datas, false);
         init(context);
+    }
+
+    public AddSearchItemAdapter(Context context, List<SelectStockBean> datas, boolean isStatus) {
+        super(context, datas, false);
+        init(context);
+        this.isStatus = isStatus;
     }
 
 
@@ -60,10 +69,22 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
                     SelectAddOptionalActivity.mFollowList.remove(stockBean);
                 }
 
+                notifyDataSetChanged();
             }
         }
     };
 
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = super.getView(position, convertView, parent);
+        if (isStatus) {
+            ViewHodler viewHolder = (ViewHodler) view.getTag();
+            if (null != viewHolder)
+                viewHolder.mCheckbox.setVisibility(View.GONE);
+        }
+        return view;
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

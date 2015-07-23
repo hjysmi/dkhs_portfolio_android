@@ -438,6 +438,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     }
 
+
     public void animHeader(float percent) {
 
         ViewHelper.setTranslationX(ivHeader, -(headerLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
