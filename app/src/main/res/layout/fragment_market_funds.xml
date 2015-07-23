@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="left|center_vertical"
                 android:paddingRight="12dp"
-                android:text="@string/fund_manager"
+                android:text="@string/fund_manager_order"
                 android:textColor="@color/menu_title_text_color" />
         </RelativeLayout>
 

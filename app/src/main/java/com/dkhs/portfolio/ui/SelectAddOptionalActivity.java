@@ -143,4 +143,8 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
