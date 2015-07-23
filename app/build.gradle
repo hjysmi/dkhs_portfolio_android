@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     compileOptions {
         encoding "UTF-8"
@@ -13,9 +13,12 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 108020708
-        versionName "1.8.2.0708"
-//        multiDexEnabled true
+
+
+
+        versionCode 200010723
+        versionName "2.0.1.0723"
+
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }

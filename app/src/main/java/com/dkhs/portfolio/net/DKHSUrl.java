@@ -18,8 +18,8 @@ package com.dkhs.portfolio.net;
 public class DKHSUrl {
 
     // 测试
+//    public static final String BASE_TEST_URL = "http://192.168.107.90:8010";
     public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
-//    public static final String BASE_TEST_URL = "http://192.168.107.75:8000";
 
     // 开发
     public static final String BASE_DEV_URL = "http://121.41.25.170:8010";
@@ -130,17 +130,18 @@ public class DKHSUrl {
 
     }
 
-    public interface  Ads{
+    public interface Ads {
 
         String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
         String getSplashAds = "/api/v1/ads/area/splash/";
         String getInvitingInfo = "/api/v1/accounts/invitations/code/";
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
-        String getSignUp= "/api/v1/ads/area/signup/";
-        String getInvite= "/api/v1/ads/area/Invite//";
+        String getSignUp = "/api/v1/ads/area/signup/";
+        String getInvite = "/api/v1/ads/area/Invite//";
 
     }
-    public interface  Shake{
+
+    public interface Shake {
         String getShakeInfo = "/api/v1/shakes/symbols/next/";
         String getDescriptionOfActivities = "/portfolio/shakes";
     }
@@ -164,7 +165,7 @@ public class DKHSUrl {
         String managerInfo = "/api/v1/symbols/funds/managers/%s/";
     }
 
-    public interface  BBS{
+    public interface BBS {
         String getLatestTopic = "";
         String getHotTopic = "/api/v1/statuses/public_timeline/";
         String getStickTopic = "/api/v1/statuses/public_timeline/";

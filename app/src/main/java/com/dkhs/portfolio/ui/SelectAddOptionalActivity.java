@@ -118,13 +118,13 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     @Override
     protected void setTabViewPage(List<Fragment> fragmenList) {
 
-        fragmenList.add(FragmentSearchStockFund.getHistoryFragment(true));
+        fragmenList.add(FragmentSearchStockFund.getHistoryFragment(true,false));
 
     }
 
     @Override
     protected FragmentSearchStockFund getSearchFragment() {
-        return FragmentSearchStockFund.getItemClickBackFragment();
+        return FragmentSearchStockFund.getItemClickBackFragment(false);
     }
 
     @Override
@@ -143,4 +143,8 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

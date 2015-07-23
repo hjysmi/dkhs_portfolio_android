@@ -8,11 +8,16 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,31 +31,22 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.BBSActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
-import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
-import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.PhotoViewActivity;
-import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
+import com.dkhs.portfolio.ui.adapter.UserInfoAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.widget.HorizontalDividerItemDecoration;
 import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.rong.imkit.RongIM;
 
 /**
  * @author zjz
@@ -71,8 +67,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     private TextView settingTextAccountText;
     @ViewInject(R.id.setting_text_name_text)
     private TextView settingTextNameText;
-    @ViewInject(R.id.tv_unread_count)
-    private TextView unreadCountTV;
+//
+//    @ViewInject(R.id.tv_unread_count)
+//    private TextView unreadCountTV;
 
     @ViewInject(R.id.tv_followers)
     private TextView tvFollowers;
@@ -80,6 +77,14 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     @ViewInject(R.id.tv_following)
     private TextView tvFollowing;
     private UserEngineImpl userImp = new UserEngineImpl();
+    private UserInfoAdapter mInfoAdatper;
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mInfoAdatper = new UserInfoAdapter(getActivity());
+    }
 
     @Override
     public int setContentLayoutId() {
@@ -102,9 +107,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
 
-
-
-
     private void initView(View view) {
 
         TextView addButton = getRightButton();
@@ -120,6 +122,21 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         });
         BusProvider.getInstance().register(this);
         updateUserInfo();
+
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(OrientationHelper.VERTICAL);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(mInfoAdatper);
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                .sizeProvider(mInfoAdatper)
+                .color(Color.TRANSPARENT)
+                .build());
+
+
     }
 
     private void updateUserInfo() {
@@ -193,11 +210,10 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
         if (PortfolioApplication.hasUserLogin()) {
             int totalCount = MessageManager.getInstance().getTotalUnreadCount();
-            if (totalCount > 0) {
-                unreadCountTV.setVisibility(View.VISIBLE);
-                unreadCountTV.setText(totalCount + "");
-            } else {
-                unreadCountTV.setVisibility(View.GONE);
+
+            if (null != mInfoAdatper) {
+
+                mInfoAdatper.setUnreadCount(totalCount);
             }
         }
     }
@@ -214,12 +230,11 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         startActivity(intent);
     }
 
-    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.message_center_layout,
-            R.id.ll_following, R.id.ll_followers,R.id.ll_flowPackage,R.id.ll_inviteFriends})
+    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout,})
     public void onClick(View v) {
         int id = v.getId();
 
-        switch (id){
+        switch (id) {
             case R.id.btn_login:
                 UIUtils.iStartLoginActivity(getActivity());
                 break;
@@ -231,13 +246,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                     startActivity(new Intent(getActivity(), MyCombinationActivity.class));
                 }
                 break;
-            case R.id.message_center_layout:
-                if (!UIUtils.iStartLoginActivity(getActivity()) ) {
 
-                    MessageManager.getInstance().startConversationList(getActivity());
-//                    RongIM.getInstance().startConversationList(getActivity());
-                }
-                break;
             case R.id.ll_following:
                 Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
                 followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
@@ -250,18 +259,16 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
                 startActivity(intent1);
                 break;
-            case R.id.ll_flowPackage:
 
-//                ArrayList<String> list=new ArrayList();
-//                list.add("http://img.1985t.com/uploads/attaches/2014/07/18314-I1VlAZ.jpg");
-//                PhotoViewActivity.startPhotoViewActivity(mActivity,list,0);
+                ArrayList<String> list=new ArrayList();
+                list.add("http://img.1985t.com/uploads/attaches/2014/07/18314-I1VlAZ.jpg");
+                PhotoViewActivity.startPhotoViewActivity(mActivity,list,0);
 //                startActivity(new Intent(mActivity, BBSActivity.class));
-
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
-
-                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
-                    startActivity(intent);
-                }
+//                if (!UIUtils.iStartLoginActivity(getActivity())) {
+//
+//                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+//                    startActivity(intent);
+//                }
                 break;
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
@@ -286,7 +293,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         updateMessageCenterState();
 
     }
-
 
 
 }

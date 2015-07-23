@@ -437,6 +437,10 @@
     <string name="creat_combination">自建组合</string>
     <string name="creat_combination_name">组合名称</string>
     <string name="message_center">消息中心</string>
+    <string name="info_title_mycom">我的组合</string>
+    <string name="info_title_mytopic">我的主贴</string>
+    <string name="info_title_myreply">我的回复</string>
+    <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
     <string name="msg_follow_success">关注成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
@@ -553,6 +557,7 @@
 
     <string name="fund_detail_name">基金全称</string>
     <string name="fund_manager">基金经理</string>
+    <string name="fund_manager_order">基金经理排行</string>
     <string name="fund_comp">基金公司</string>
     <string name="fund_stype">基金类型</string>
     <string name="fund_create_date">成立日期</string>
@@ -660,7 +665,6 @@
     <string name="star">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
- 
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
     <string name="title_activity_photo_view">PhotoViewActivity</string>

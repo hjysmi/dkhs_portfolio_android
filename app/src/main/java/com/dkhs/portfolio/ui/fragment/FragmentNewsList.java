@@ -32,7 +32,6 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -125,7 +124,6 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
             // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setFromYanbao(false);
         }
 
     }
@@ -245,7 +243,6 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
             isLoadingMore = true;
             // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setFromYanbao(false);
         }
     }
 

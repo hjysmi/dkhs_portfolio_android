@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
@@ -26,7 +25,6 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +88,6 @@ public class FragmentForOptionOnr extends Fragment {
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                     OpitionNewsEngineImple.NEWS_OPITION_FOREACH, vo);
 
-            mLoadDataEngine.setFromYanbao(false);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

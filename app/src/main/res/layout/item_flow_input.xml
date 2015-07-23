@@ -39,7 +39,6 @@
             android:id="@+id/tv_flow_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="flow title"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -48,7 +47,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_flow_title"
-            android:text="flow tip"
             android:textColor="@color/gray_textcolor"
             android:textSize="12sp" />
 

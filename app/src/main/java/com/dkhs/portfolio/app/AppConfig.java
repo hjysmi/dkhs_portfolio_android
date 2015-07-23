@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.app;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -15,11 +14,12 @@ import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.github.anrwatchdog.ANRWatchDog;
-//import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
+
+//import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by zjz on 2015/5/27.

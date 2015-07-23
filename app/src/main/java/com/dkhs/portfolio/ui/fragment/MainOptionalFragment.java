@@ -17,7 +17,6 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -144,7 +143,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                // startActivity(intent);
                 UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });

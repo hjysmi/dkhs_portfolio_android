@@ -12,7 +12,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
 import java.text.ParseException;
@@ -174,8 +173,9 @@ public class TimeUtils {
     public static String getSimpleFormatTime(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[2].format(toDate(iso8601str));
     }
-    public static String getSimpleFormatTime(String format,String iso8601str) {
-        return  new SimpleDateFormat(format, Locale.CHINA).format(toDate(iso8601str));
+
+    public static String getSimpleFormatTime(String format, String iso8601str) {
+        return new SimpleDateFormat(format, Locale.CHINA).format(toDate(iso8601str));
     }
 
     public static String getSimpleDay(String iso8601str) {
@@ -311,6 +311,15 @@ public class TimeUtils {
         }
 
         return date;
+    }
+
+
+    public static String getUTCdatetimeAsString() {
+        final SimpleDateFormat sdf = ACCEPTED_TIMESTAMP_FORMATS[5];
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        final String utcTime = sdf.format(new Date());
+
+        return utcTime;
     }
 
     // public static Calendar simpleStringToCalend(String dateString) {
