@@ -6,9 +6,11 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 
+import com.dkhs.portfolio.security.SecurityUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -50,21 +52,21 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     public ParseHttpListener setLoadingDialog(Context context) {
         this.mContext = context;
-        this.msg = "";// mContext.getString(R.string.loading);
+        this.msg = "";// mActivity.getString(R.string.loading);
 
         return this;
     }
 
     public ParseHttpListener setLoadingDialog(Context context, boolean isCancelable) {
         this.mContext = context;
-        this.msg = "";// mContext.getString(R.string.loading);
+        this.msg = "";// mActivity.getString(R.string.loading);
         this.isHideDialog = isCancelable;
         return this;
     }
 
     public ParseHttpListener cancelLoadingDialog() {
         this.mContext = null;
-        this.msg = "";// mContext.getString(R.string.loading);
+        this.msg = "";// mActivity.getString(R.string.loading);
         PromptManager.closeProgressDialog();
         return this;
     }
@@ -114,7 +116,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
 
     /**
-     * @param @param errCode 错误编码，具体查看 {@link Network.HttpCode}
+     * @param @param errCode 错误编码，具体查看
      * @param @param errMsg 错误信息
      * @return void 返回类型
      * @Title: onFailure
@@ -128,10 +130,11 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     public static final int MSG_PARSEDATE = 10;
     public static final int MSG_UPDATEUI = 20;
+    public static final int MSG_ERROR = 30;
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
     private volatile ServiceHandler mMainHandler;
-
+    protected boolean isEncry;
 
     private final class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -143,12 +146,41 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
             switch (msg.what) {
                 case MSG_PARSEDATE:
                     String jsonObject = (String) msg.obj;
-                    notifyDateParse(parseDateTask(jsonObject));
+                    if (isEncry) {
+//                        handleErrorMessage(jsonObject);
+                        jsonObject = SecurityUtils.encryptResponeJsonData(jsonObject);
+                        if (handleErrorMessage(jsonObject)) {
+                            notifyError(jsonObject);
+                        } else {
+                            notifyDateParse(parseDateTask(jsonObject));
+
+                        }
+                    } else {
+
+                        notifyDateParse(parseDateTask(jsonObject));
+                    }
+
                     stopSelf();
                     break;
                 case MSG_UPDATEUI:
                     T obj = (T) msg.obj;
                     afterParseData(obj);
+
+
+////                    jsonObject = SecurityUtils.encryptResponeJsonData((String) obj);
+//                    if (handleErrorMessage((String) obj)) {
+//                        notifyError((String) obj);
+//                    } else {
+//                        afterParseData(obj);
+//
+//                    }
+
+
+                    break;
+
+                case MSG_ERROR:
+                    String error = (String) msg.obj;
+                    onFailure(777, error);
                     break;
 
                 default:
@@ -156,6 +188,27 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
             }
 
         }
+    }
+
+
+    private boolean handleErrorMessage(String result) {
+
+        try {
+
+            return ErrorBundle.isContainError(result);
+
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+
+    public ParseHttpListener openEncry() {
+        this.isEncry = true;
+        return this;
     }
 
     public void beginParseDate(String jsonObject) {
@@ -169,6 +222,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     private void notifyDateParse(Object object) {
         Message msg = mMainHandler.obtainMessage();
         msg.what = MSG_UPDATEUI;
+        msg.obj = object;
+        mMainHandler.sendMessage(msg);
+    }
+
+    private void notifyError(Object object) {
+        Message msg = mMainHandler.obtainMessage();
+        msg.what = MSG_ERROR;
         msg.obj = object;
         mMainHandler.sendMessage(msg);
     }

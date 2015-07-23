@@ -12,6 +12,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.listener.SingleItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -124,6 +126,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             mEndLoadProgressBar.setVisibility(View.GONE);
             mEndLoadTipsTextView.setText(msg);
         }
+    }
+
+    @Override
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        super.setOnItemClickListener(new SingleItemClickListener(listener));
     }
 
     public boolean isCanRefresh() {

@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -36,32 +35,27 @@ public abstract class BaseTitleFragment extends BaseFragment {
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
     @ViewInject(R.id.btn_back)
-    private TextImageButton btnBack;
+    private TextView btnBack;
 
     @ViewInject(RIGHTBUTTON_ID)
-    private Button btnRight;
+    private TextView btnRight;
 
     @ViewInject(SECONDRIGHTBUTTON_ID)
-    private Button btnSecondRight;
+    private TextView btnSecondRight;
 
     @ViewInject(R.id.tv_title)
     private TextView tvTitle;
 //    @ViewInject(R.id.includeHead)
-    protected RelativeLayout titleRL;
+    protected View toolBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View wrapper = inflater.inflate(R.layout.layout_model, null);
         wrapper.setBackgroundResource(R.color.person_setting_backgroud);
         RelativeLayout layoutContent = (RelativeLayout) wrapper.findViewById(R.id.layoutContent);
-        // LinearLayout wrapper = new LinearLayout(getActivity()); // for example
-        // inflater.inflate(setContentLayoutId(), wrapper, true);
-
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT);
         layoutContent.addView(View.inflate(getActivity(), setContentLayoutId(), null), params);
-
-        System.out.println("BaseTitleFragment onCreateView()");
         return wrapper;
     }
 
@@ -69,13 +63,12 @@ public abstract class BaseTitleFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ViewUtils.inject(this, view); // 注入view和事件
-        btnBack = (TextImageButton) view.findViewById(BACKBUTTON_ID);
-        titleRL = (RelativeLayout) view.findViewById(R.id.includeHead);
-        btnRight = (Button) view.findViewById(RIGHTBUTTON_ID);
-        btnSecondRight = (Button) view.findViewById(SECONDRIGHTBUTTON_ID);
+        btnBack = (TextView) view.findViewById(BACKBUTTON_ID);
+        toolBar =  view.findViewById(R.id.tool);
+        btnRight = (TextView) view.findViewById(RIGHTBUTTON_ID);
+        btnSecondRight = (TextView) view.findViewById(SECONDRIGHTBUTTON_ID);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);
         hideBackButton();
-        // btnBac.(setVisibilityView.GONE);
     }
 
     public void hideBackButton() {
@@ -96,14 +89,14 @@ public abstract class BaseTitleFragment extends BaseFragment {
         }
     }
 
-    public Button getRightButton() {
+    public TextView getRightButton() {
         // Button btnRight = (Button) findViewById(RIGHTBUTTON_ID);
         btnRight.setVisibility(View.VISIBLE);
         // btnRight.setTextColor(Color.WHITE);
         return btnRight;
     }
 
-    public Button getSecondRightButton() {
+    public TextView getSecondRightButton() {
         btnSecondRight.setVisibility(View.VISIBLE);
         return btnSecondRight;
     }

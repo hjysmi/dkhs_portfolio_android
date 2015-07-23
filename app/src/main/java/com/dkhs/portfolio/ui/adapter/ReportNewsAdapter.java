@@ -58,7 +58,7 @@ public class ReportNewsAdapter extends BaseAdapter {
         // mOptionNewsBean = mDataList.get(position);
         // if (convertView == null) {
         // viewHolder = new ViewHodler();
-        // convertView = View.inflate(mContext, R.layout.adapter_report_news, null);
+        // convertView = View.inflate(mActivity, R.layout.adapter_report_news, null);
         // viewHolder.tvTextName = (TextView) convertView.findViewById(R.id.adapter_market_title);
         // viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
         // viewHolder.tvTextDate = (TextView) convertView.findViewById(R.id.option_news_text_date);
@@ -75,7 +75,7 @@ public class ReportNewsAdapter extends BaseAdapter {
         // viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
         // Paint p= new Paint();
         // Rect rect = new Rect();
-        // p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
+        // p.setTextSize( mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
         // p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect);
         // if(dm.widthPixels - 50 < rect.width()){
         // int le = (int) (mOptionNewsBean.getTitle().length() - mOptionNewsBean.getTitle().length() *(rect.width() -
@@ -104,7 +104,7 @@ public class ReportNewsAdapter extends BaseAdapter {
         // viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSource().getTitle());
         // Paint p= new Paint();
         // Rect rect = new Rect();
-        // p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
+        // p.setTextSize( mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
         // p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect);
         // if(dm.widthPixels * 3/2- 50 < rect.width()){
         // int le = (int) (mOptionNewsBean.getTitle().length() - mOptionNewsBean.getTitle().length() *(rect.width() -

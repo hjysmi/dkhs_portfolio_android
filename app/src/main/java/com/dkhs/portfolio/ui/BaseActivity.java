@@ -5,12 +5,15 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-public class BaseActivity extends FragmentActivity {
+import com.dkhs.portfolio.base.MAppActivity;
+
+public class BaseActivity extends MAppActivity {
 
     protected  Context mContext;
     @Override
@@ -18,6 +21,7 @@ public class BaseActivity extends FragmentActivity {
         super.onCreate(arg0);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // this.getWindow().getDecorView().setOnTouchListener(this);
+        getWindow().setBackgroundDrawable(null);
         mContext=this;
     }
 

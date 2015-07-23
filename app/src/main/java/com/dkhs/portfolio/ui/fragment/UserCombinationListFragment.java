@@ -100,7 +100,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
         localFloatingActionMenu = ((CombinationUserActivity) getActivity()).localFloatingActionMenu;
-        localFloatingActionMenu.attachToListView(getListView(), null, this);
+        localFloatingActionMenu.attachToListViewTop(getListView(), null, this);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -201,7 +201,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                     user.setUsername(((CombinationUserActivity) getActivity()).mUserName);
                     cBean.setUser(user);
                     startActivity(CombinationDetailActivity.newIntent(getActivity(), cBean));
-//                getActivity().startActivity(NewCombinationDetailActivity.getIntent(getActivity(), cBean, false, null));
+//                getActivity().startActivity(NewCombinationDetailActivity.newIntent(getActivity(), cBean, false, null));
                 }
             }
 
@@ -210,21 +210,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_user_combination_list);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-    }
 
 
     @Override

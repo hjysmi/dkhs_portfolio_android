@@ -527,7 +527,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
             // Toast.LENGTH_SHORT).show();
-            // UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            // UIUtils.startAnimationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
             startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }
     };
@@ -538,7 +538,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
             SelectStockBean itemStock = mDataList.get(position);
             startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
-            // UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            // UIUtils.startAnimationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
             //
             getActivity().finish();
         }
@@ -559,19 +559,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_select);
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-    }
 
     @Override
     public void onLoadMore() {

@@ -40,16 +40,6 @@
     </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/tv_invite_tip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="30dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:text="@string/hint_invite_code_tip"
-        android:textColor="@color/light_gray"
-        android:textSize="@dimen/list_text_size" />
 
 
     <Button

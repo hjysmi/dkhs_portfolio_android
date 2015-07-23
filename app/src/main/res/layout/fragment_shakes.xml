@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/title_color"
     tools:context="com.dkhs.portfolio.ui.fragment.ShakeFragment">
 
@@ -13,68 +13,59 @@
         android:background="@color/title_color">
 
 
-
-        <Button
-            android:id="@+id/btn_header_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            android:text="@string/introduce"
-            android:visibility="visible"
-            android:paddingBottom="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:scaleType="fitCenter"
-            android:textColor="@color/white_textselector"
-            android:textSize="14sp" />
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:paddingTop="@dimen/tool_bar_top_padding"
             android:singleLine="true"
             android:text="@string/shakeItOff"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
+        <View
+            style="@style/divider_line"
+            android:alpha="0.2"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white" />
     </RelativeLayout>
+
     <android.support.percent.PercentRelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/shakeIv"
             android:layout_width="0dp"
-            android:scaleType="fitStart"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            app:layout_widthPercent="50%"
-            android:src="@drawable/shake_01"
-            android:layout_height="wrap_content" />
+            android:scaleType="fitStart"
+            android:src="@drawable/shake_02"
+            app:layout_widthPercent="50%" />
+
         <ImageView
             android:id="@+id/ribbonIV"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:scaleType="fitStart"
-            android:layout_centerInParent="true"
-            app:layout_widthPercent="80%"
             android:src="@drawable/loading_ribbon_1"
-            android:layout_height="wrap_content" />
-        <TextView
+            app:layout_widthPercent="80%" />
+
+        <ImageView
             android:id="@+id/activitySloganTv"
-            android:layout_below="@+id/shakeIv"
-            android:text="摇吧!摇出你的股市幸运消息."
-            android:drawableLeft="@drawable/ic_boot_cut"
-            android:gravity="center"
-            android:drawablePadding="8dp"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shakeIv"
             android:layout_centerInParent="true"
-            android:textSize="15sp"
-            android:textColor="#ffe5aa"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="42dp"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/bg_before_shake" />
 
 
-
-   </android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
 
 </FrameLayout>

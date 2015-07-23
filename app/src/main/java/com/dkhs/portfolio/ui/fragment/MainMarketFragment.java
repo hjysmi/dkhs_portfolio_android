@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
@@ -46,9 +46,9 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     @ViewInject(R.id.vp)
     ViewPager vp;
     @ViewInject(R.id.btn_refresh)
-    Button mBtnrefresh;
+    TextView mBtnrefresh;
     @ViewInject(R.id.btn_search)
-    Button mBtnsearch;
+    TextView mBtnsearch;
 
     BasePagerFragmentAdapter mAdapter;
     private TabWidget tabWidget;
@@ -76,7 +76,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         super.onViewCreated(view, savedInstanceState);
         fragmentList = new ArrayList<Fragment>();
         mRlheadertitle.setClickable(true);
-        fragmentList.add(new MarketStockFragment());
+        fragmentList.add(new NewMarketStockFragment());
         fragmentList.add(new MarketFundsFragment());
         fragmentList.add(new MarketCombinationFragment());
         mAdapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList);
@@ -184,20 +184,27 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         tabWidget.setSelection(i);
         switch (i) {
             case 0:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                        null, null, null);
                 mBtnsearch.setVisibility(View.VISIBLE);
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
             case 1:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                        null, null, null);
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setVisibility(View.VISIBLE);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
+                mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 break;
             case 2:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add),
+                        null, null, null);
                 mBtnrefresh.setVisibility(View.VISIBLE);
-                mBtnsearch.setVisibility(View.GONE);
+                mBtnsearch.setVisibility(View.VISIBLE);
+                mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
         }

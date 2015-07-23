@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -92,6 +93,7 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         Bundle args = new Bundle();
         args.putString(FragmentSelectStockFund.ARGUMENT_USER_ID, userId);
         fragment.setArguments(args);
+        LogUtils.e("----------------------");
         return fragment;
     }
 
@@ -143,7 +145,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     public void onResume() {
 
         super.onResume();
-        MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
         // refreshEditView();
 
@@ -174,12 +175,15 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
-            // loadDataListFragment.refreshNoCaseTime();
-//            reloadData();
-            if(null!=loadDataListFragment){
+
+            if (loadDataListFragment != null) {
+                // FIXME: 2015/7/6 在部分机型部分时机会爆java.lang.NullPointerException  待测试这个方法是否有效
+                // at com.dkhs.portfolio.ui.fragment.TabStockFragment$1.run(Unknown Source)
+                // at com.dkhs.portfolio.common.WeakHandler$WeakRunnable.run(Unknown Source)
                 loadDataListFragment.refresh();
+                updateHandler.postDelayed(this, mPollRequestTime);
             }
-            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+
         }
     };
 
@@ -377,8 +381,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         // TODO Auto-generated method stub
         super.onPause();
 
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);
         BusProvider.getInstance().unregister(this);
     }

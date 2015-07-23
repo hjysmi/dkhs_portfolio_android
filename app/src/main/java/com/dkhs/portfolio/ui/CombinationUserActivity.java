@@ -91,6 +91,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_user_combination);
         context = this;
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
@@ -104,7 +105,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             }
 
             if (isMyInfo) {
-                Button rightBtn = getRightButton();
+                TextView rightBtn = getRightButton();
                 rightBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_edit_selector), null,
                         null, null);
                 rightBtn.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +124,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void startSettingActivity() {
         startActivity(SettingActivity.getEditUserInfoIntent(this));
-        // UIUtils.startAminationActivity(getActivity(), intent);
+        // UIUtils.startAnimationActivity(getActivity(), intent);
     }
 
 

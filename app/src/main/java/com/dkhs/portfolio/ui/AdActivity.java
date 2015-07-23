@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -43,7 +44,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     public static final String KEY_URI = "key_uri";
-    public static final String KEY_SHARE = "key_share";
 
 
     private static  final  String js="javascript:(function(){" +
@@ -56,7 +56,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
         @Override
         public boolean handleMessage(Message msg) {
 
-
             switch (msg.what){
                 case 1:
                     setTitle(mTitle);
@@ -64,23 +63,19 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                 case 2:
                     showShareButton();
                     break;
+                default:
+
+                    break;
             }
             return false;
         }
     });
 
-
-
     private WapShareBean mWapShareBean;
 
-
-    public static Intent getIntent(Context ctx, String url) {
-        return getIntent(ctx,url,true);
-    }
-   public static Intent getIntent(Context ctx, String url,boolean share) {
+   public static Intent getIntent(Context ctx, String url) {
         Intent intent = new Intent();
         intent.putExtra(KEY_URI, url);
-        intent.putExtra(KEY_SHARE, share);
         intent.setClass(ctx, AdActivity.class);
         return intent;
     }
@@ -88,7 +83,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     private String mTitle;
     private String mUrl;
-    private boolean  mShare;
     @ViewInject(R.id.webView)
     private WebView mWebView;
 
@@ -98,15 +92,11 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
         handleIntent(getIntent());
         setContentView(R.layout.activity_ad);
         ViewUtils.inject(this);
-        LogUtils.e(mUrl);
-
         messageHandler = new MessageHandler(this);
         initView();
-
     }
 
     private void handleIntent(Intent intent) {
-        mShare = intent.getBooleanExtra(KEY_SHARE, true);
         mUrl = intent.getStringExtra(KEY_URI);
     }
 
@@ -118,7 +108,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
         mWebView.getSettings().setJavaScriptEnabled(true);
         String userAgent=    mWebView.getSettings().getUserAgentString();
-//        LogUtils.e(userAgent);
         mWebView.getSettings().setUserAgentString(userAgent+" dkhs_shuiniu");
         mWebView.setWebChromeClient(new WebChromeClient());
 
@@ -126,7 +115,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
             mWebView.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    super.onPageStarted(view, url, favicon); /*                mWebView.addJavascriptInterface(new JavascriptInterface(), "share");*/
+                    super.onPageStarted(view, url, favicon);
                 }
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -138,8 +127,30 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                     super.onPageFinished(view, url);
                 }
             });
+        mWebView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {  //表示按返回键
+                        mWebView.goBack();   //后退
+                        return true;    //已处理
+                    }
+                }
+                return false;
+            }
+        });
+        getBtnBack().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if( mWebView.canGoBack()){
+                    mWebView.goBack();
+                }else{
+                    finish();
+                }
 
+            }
+        });
 
 
     }
@@ -163,9 +174,11 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     }
 
+
+
     private void showShareButton() {
 
-        if(!TextUtils.isEmpty(mWapShareBean.getUrl())   && mShare){
+        if(!TextUtils.isEmpty(mWapShareBean.getUrl())){
             getRightButton().setOnClickListener(this);
             getRightButton().setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share), null,
                     null, null);

@@ -41,8 +41,8 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 
     }
 
-    // public AdjustHistoryAdapter(Context mContext) {
-    // this.mContext = mContext;
+    // public AdjustHistoryAdapter(Context mActivity) {
+    // this.mActivity = mActivity;
     //
     // }
 

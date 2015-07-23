@@ -28,7 +28,6 @@ import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -92,7 +91,6 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, bundle.getInt(NEWS_TYPE), vo);
             mLoadDataEngine.loadData();
             // mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.setFromYanbao(false);
         }
 
     }
@@ -246,26 +244,6 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_yanbao);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        /*
-         * if(uservivible){
-         * initDate();
-         * }
-         */
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

@@ -9,7 +9,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/6/5.
  */
-public class FundManagerInfoBean {
+public class FundManagerInfoBean  extends  FundManagerBean {
 
 
     /**
@@ -18,9 +18,7 @@ public class FundManagerInfoBean {
      * name : 许杰
      * achivements : [{"end_date":null,"cp_rate":0,"fund":{"id":102005770,"symbol":"FP001276","list_status":1,"symbol_stype":301,"abbr_name":"建信新经济灵活配置混合"},"start_date":"2015-05-26","sh300_rate":1.61},{"end_date":null,"cp_rate":47.5,"fund":{"id":102005120,"symbol":"FP000995","list_status":1,"symbol_stype":301,"abbr_name":"建信睿盈灵活配置混合C"},"start_date":"2015-02-03","sh300_rate":54.49},{"end_date":null,"cp_rate":48.7,"fund":{"id":102005119,"symbol":"FP000994","list_status":1,"symbol_stype":301,"abbr_name":"建信睿盈灵活配置混合A"},"start_date":"2015-02-03","sh300_rate":54.49},{"end_date":null,"cp_rate":80.9,"fund":{"id":102004670,"symbol":"FP000756","list_status":1,"symbol_stype":300,"abbr_name":"建信潜力新蓝筹股票"},"start_date":"2014-09-10","sh300_rate":111.9},{"end_date":null,"cp_rate":177.5,"fund":{"id":102002650,"symbol":"FP530019","list_status":1,"symbol_stype":300,"abbr_name":"建信社会责任股票"},"start_date":"2012-08-14","sh300_rate":120.3},{"end_date":null,"cp_rate":138.84,"fund":{"id":102002197,"symbol":"FP530016","list_status":1,"symbol_stype":301,"abbr_name":"建信恒稳价值混合"},"start_date":"2012-03-21","sh300_rate":100.48},{"end_date":"2011-09-30","cp_rate":-16.62,"fund":{"id":102000320,"symbol":"FP162208","list_status":1,"symbol_stype":300,"abbr_name":"泰达宏利首选企业股票"},"start_date":"2010-02-08","sh300_rate":-18.13},{"end_date":"2011-09-30","cp_rate":-1.94,"fund":{"id":102000526,"symbol":"FP162299","list_status":1,"symbol_stype":302,"abbr_name":"泰达宏利集利债券C"},"start_date":"2008-09-26","sh300_rate":16.09},{"end_date":"2011-09-30","cp_rate":-0.09,"fund":{"id":102000524,"symbol":"FP162210","list_status":1,"symbol_stype":302,"abbr_name":"泰达宏利集利债券A"},"start_date":"2008-09-26","sh300_rate":16.09},{"end_date":"2011-09-30","cp_rate":91.08,"fund":{"id":102000175,"symbol":"FP162205","list_status":1,"symbol_stype":301,"abbr_name":"泰达宏利风险预算混合"},"start_date":"2006-12-23","sh300_rate":36.17}]
      */
-    private int id;
     private String resume;
-    private String name;
     private List<AchivementsEntity> achivements;
 
     public void setId(int id) {

@@ -22,11 +22,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -35,28 +34,21 @@ import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
-import com.dkhs.portfolio.bean.errorbundle.BaseError;
-import com.dkhs.portfolio.bean.errorbundle.RaiseUpDown;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UpdatePositinoEvent;
-import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,19 +66,16 @@ import java.util.List;
  */
 public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify, OnClickListener {
 
-    // private static final String KEY_VIEW_TYPE = "key_view_type";
     public static final String EXTRA_POSITIONDETAIL = "extra_positiondetail";
     public static final String EXTRA_ISADJUSTCOMBINATION = "EXTRA_ISADJUSTCOMBINATION";
     public static final String EXTRA_COMBINATION_ID = "key_combination_id";
-    // public static final String VALUE_CREATE_CONBINA = "value_create_conbina";
-    // public static final String VALUE_ADJUST_CONBINA = "value_adjust_conbina";
     private final int REQUESTCODE_SELECT_STOCK = 901;
     public static final String COME_FROM = "come_frome";
     public static final int COME_MAIN = 0;
     public static final int COME_COMBOLE = 1;
     private PieGraph pgView;
     private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
-    private ListViewEx lvStock;
+    private ListView lvStock;
     private OptionalStockAdapter stockAdapter;
     public static float surValue;
     private TextView tvSurpusValue;
@@ -97,14 +86,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private TextView tvTodayNetvalue;
     private EditText etConbinationName;
     private EditText etConbinationDesc;
-    private Button btnConfirm;
-    private Button btnAverage;
+    private TextView btnConfirm;
+    private TextView btnAverage;
 
     private PositionDetail mPositionDetailBean;
     private String mCombinationId;
     private boolean isAdjustCombination;
-    private TextView positionTextValue;
-    private TextView positionTextCreatedate;
+    //    private TextView positionTextValue;
+//    private TextView positionTextCreatedate;
     private boolean firse = false;
 
     public static Intent newIntent(Context context, String combinationId) {
@@ -135,6 +124,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         initData();
         initView();
+        getSwipeBackLayout().setEnableGesture(false);
 
         if (isAdjustCombination) {
 
@@ -177,6 +167,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
+    private View headerView;
+    private FloatingActionMenu mFloatingActionMenu;
+
     /**
      * @return void
      * @Title
@@ -185,24 +178,73 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private void initView() {
 
         btnConfirm = getRightButton();
-        btnConfirm.setText(R.string.confirm);
+        btnConfirm.setText(R.string.finish);
         btnConfirm.setOnClickListener(this);
-        findViewById(R.id.btn_add_postional).setOnClickListener(this);
-        findViewById(R.id.btn_confirm).setOnClickListener(this);
-        positionTextValue = (TextView) findViewById(R.id.position_text_value);
-        positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
-//        View viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
-        btnAverage = (Button) findViewById(R.id.btn_average);
+
+        headerView = View.inflate(this, R.layout.layout_postionadjust_header, null);
+        mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floatingMenu);
+        mFloatingActionMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
+
+//        headerView.findViewById(R.id.btn_add_postional).setOnClickListener(this);
+//        positionTextValue = (TextView) headerView.findViewById(R.id.position_text_value);
+//        positionTextCreatedate = (TextView) headerView.findViewById(R.id.position_text_createdate);
+        btnAverage = (TextView) headerView.findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
-        etConbinationName = (EditText) findViewById(R.id.et_myconbina_name);
-        etConbinationDesc = (EditText) findViewById(R.id.et_myconbina_desc);
+        etConbinationName = (EditText) headerView.findViewById(R.id.et_myconbina_name);
+        etConbinationDesc = (EditText) headerView.findViewById(R.id.et_myconbina_desc);
         initConbinationInfoView();
 
-        // initPieView();
-        pgView = (PieGraph) findViewById(R.id.piegrah);
 
-        mFooterView = View.inflate(this, R.layout.layout_optional_percent, null);
+        etConbinationDesc.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(final View view, boolean hasFocus) {
+                        if (hasFocus) {
+
+                            view.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.requestFocus();
+//                                    view.requestFocusFromTouch();
+                                }
+                            });
+                        } else {
+                            view.clearFocus();
+                        }
+                    }
+                });
+        etConbinationName.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(final View view, boolean hasFocus) {
+                        if (hasFocus) {
+
+
+                            view.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    view.requestFocus();
+//                                    view.requestFocusFromTouch();
+                                }
+                            });
+                        } else {
+                            view.clearFocus();
+                        }
+                    }
+                });
+
+
+        // initPieView();
+        pgView = (PieGraph) headerView.findViewById(R.id.piegrah);
+
+        mFooterView = View.inflate(this, R.layout.layout_postionadjust_bottom, null);
         mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
+        mFooterView.findViewById(R.id.rl_info).setVisibility(View.INVISIBLE);
+        mFooterView.findViewById(R.id.v_divline).setVisibility(View.INVISIBLE);
+//        Button btnconfirm = (Button) mFooterView.findViewById(R.id.btn_confirm);
+//        btnconfirm.setOnClickListener(this);
+//        btnconfirm.setVisibility(View.VISIBLE);
+
         surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
         tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);
         // surSeekbar.setEnabled(false);
@@ -215,7 +257,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         initFooterView();
 
         initStockPercentView();
-
+        initFloatingActionMenu();
         isShowAverageButton();
 
         etConbinationName.addTextChangedListener(new TextWatcher() {
@@ -240,13 +282,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
+
     private void initConbinationInfoView() {
 
         if (isAdjustCombination) {
             setTitle(R.string.adjust_combination);
-            findViewById(R.id.create_portfolio_info).setVisibility(View.GONE);
-            findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
-            findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
+            headerView.findViewById(R.id.create_portfolio_info).setVisibility(View.GONE);
+//            headerView.findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
+//            headerView.findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
 
         } else {
             setTitle(R.string.create_combination);
@@ -259,13 +302,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             etConbinationName.setText(mPositionDetailBean.getPortfolio().getName());
             etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDefDescription());
             // viewCombinationInfo.setVisibility(View.VISIBLE);
-            positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
-            positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
-                    .getNetvalue() - 1));
-            // String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
-            // time = time.substring(0, time.length() - 4);
-            positionTextCreatedate.setText("成立时间: "
-                    + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
+//            positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
+//            positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
+//                    .getNetvalue() - 1));
+//            // String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
+//            // time = time.substring(0, time.length() - 4);
+//            positionTextCreatedate.setText("成立时间: "
+//                    + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
 
             setPieList(mPositionDetailBean.getFund_percent());
             setFootData(mPositionDetailBean.getFund_percent());
@@ -296,11 +339,36 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      */
 
     private void initStockPercentView() {
-        lvStock = (ListViewEx) findViewById(R.id.lv_optional_layout);
+        lvStock = (ListView) findViewById(R.id.lv_optional_layout);
+        mFloatingActionMenu.attachToListView(lvStock);
+
         stockAdapter = new OptionalStockAdapter(this, stockList);
         stockAdapter.setDutyNotifyListener(this);
+//        lvStock.setItemsCanFocus(true);
         lvStock.addFooterView(mFooterView);
+        lvStock.addHeaderView(headerView);
         lvStock.setAdapter(stockAdapter);
+
+    }
+
+    private final int MENU_ADD = 6;
+    FloatingActionMenu.OnMenuItemSelectedListener mFloatMenuSelectListner = new FloatingActionMenu.OnMenuItemSelectedListener() {
+
+        @Override
+        public boolean onMenuItemSelected(int selectIndex) {
+            if (selectIndex == MENU_ADD) {
+                startSelectStockActivity(false);
+            }
+            return false;
+        }
+
+    };
+
+    private void initFloatingActionMenu() {
+        mFloatingActionMenu.removeAllItems();
+
+        mFloatingActionMenu.addItem(MENU_ADD, R.string.float_menu_addstock, R.drawable.ic_add);
+
 
     }
 
@@ -317,8 +385,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 .findDrawableByLayerId(android.R.id.progress);
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
-        gd.setColor(ColorTemplate.DEF_RED);
-        mFooterView.findViewById(R.id.view_color).setBackgroundColor(ColorTemplate.DEF_RED);
+        gd.setColor(ColorTemplate.SURP_RED);
+        mFooterView.findViewById(R.id.view_color).setBackgroundColor(ColorTemplate.SURP_RED);
         // return foot;
     }
 
@@ -336,7 +404,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
 
         PieSlice emptySlice = new PieSlice();
-        emptySlice.setColor(ColorTemplate.DEF_RED);
+        emptySlice.setColor(ColorTemplate.SURP_RED);
 
         emptySlice.setValue(survalue);
 
@@ -427,7 +495,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.btn_confirm:
             case R.id.btn_right: {
 
                 if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
@@ -444,10 +511,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     }
                 }
                 // Toast.makeText(PositionAdjustActivity.this, "确定添加", Toast.LENGTH_SHORT).show();
-            }
-            break;
-            case R.id.btn_add_postional: {
-                startSelectStockActivity(false);
             }
             break;
             case R.id.btn_average: {
@@ -481,7 +544,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
         }
         startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
-        UIUtils.setOverridePendingAmin(this);
+        UIUtils.setOverridePendingAnin(this);
     }
 
     private void averageValue() {
@@ -555,65 +618,81 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             return null;
         }
 
+//        @Override
+//        public void onFailure(int errCode, String errMsg) {
+//            try {
+//
+//                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+//
+//                BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
+//                }.getType());
+//                RaiseUpDown raiseError = baseErrors.getErrors();
+//                StringBuilder sbRaiseUp = null;
+//                StringBuilder sbRaiseDown = null;
+//                if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
+//                    super.onFailure(errCode, errMsg);
+//                    return;
+//                }
+//                if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
+//                    // Toast.makeText(getApplicationContext(),
+//                    // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
+//                    // .show();
+//                    sbRaiseDown = new StringBuilder();
+//                    for (String code : raiseError.getRaise_down()) {
+//                        sbRaiseDown.append(code);
+//                        sbRaiseDown.append("、");
+//
+//                    }
+//                }
+//                if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+//                    sbRaiseUp = new StringBuilder();
+//                    for (String code : raiseError.getRaise_up()) {
+//                        sbRaiseUp.append(code);
+//                        sbRaiseUp.append("、");
+//                    }
+//
+//                }
+//
+//                StringBuilder sbToastText = new StringBuilder();
+//                if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
+//                    sbToastText.append("涨停股");
+//                    sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
+//                    sbToastText.append("无法调高占比.");
+//                    sbToastText.append("\n");
+//
+//                }
+//                if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
+//                    sbToastText.append("跌停股");
+//                    sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
+//                    sbToastText.append("无法调低占比.");
+//                    sbToastText.append("\n");
+//                }
+//
+//                copyDefalutList(mPositionDetailBean.getPositionList());
+//                updatePieView();
+//                Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
+//            } catch (Exception e) {
+//                // TODO: handle exception
+//            }
+//        }
+//
+
+
         @Override
-        public void onFailure(int errCode, String errMsg) {
-            try {
+        public void onFailure(ErrorBundle errorBundle) {
 
-                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
-                }.getType());
-                RaiseUpDown raiseError = baseErrors.getErrors();
-                StringBuilder sbRaiseUp = null;
-                StringBuilder sbRaiseDown = null;
-                if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
-                    super.onFailure(errCode, errMsg);
-                    return;
-                }
-                if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
-                    // Toast.makeText(getApplicationContext(),
-                    // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
-                    // .show();
-                    sbRaiseDown = new StringBuilder();
-                    for (String code : raiseError.getRaise_down()) {
-                        sbRaiseDown.append(code);
-                        sbRaiseDown.append("、");
-
-                    }
-                }
-                if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
-                    sbRaiseUp = new StringBuilder();
-                    for (String code : raiseError.getRaise_up()) {
-                        sbRaiseUp.append(code);
-                        sbRaiseUp.append("、");
-                    }
-
-                }
-
-                StringBuilder sbToastText = new StringBuilder();
-                if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
-                    sbToastText.append("涨停股");
-                    sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
-                    sbToastText.append("无法调高占比.");
-                    sbToastText.append("\n");
-
-                }
-                if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
-                    sbToastText.append("跌停股");
-                    sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
-                    sbToastText.append("无法调低占比.");
-                    sbToastText.append("\n");
-                }
+            if (!TextUtils.isEmpty(errorBundle.getErrorKey()) && errorBundle.getErrorKey().equals(MyCombinationEngineImpl.ERROR_KEY_AJUST)) {
 
                 copyDefalutList(mPositionDetailBean.getPositionList());
                 updatePieView();
-                Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
-                // TODO: handle exception
+                PromptManager.showLToast(errorBundle.getErrorMessage());
+            } else {
+                super.onFailure(errorBundle);
             }
-        }
 
-        ;
+
+        }
 
         @Override
         protected void afterParseData(Object object) {
@@ -631,19 +710,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
 
             List<ConStockBean> originalBeanList = mPositionDetailBean.getPositionList();
-
+            ConStockBean tempBean;
             for (ConStockBean originStock : originalBeanList) {
                 if (tempList.contains(originStock)) {
                     int index = tempList.indexOf(originStock);
-                    ConStockBean bean = tempList.get(index);
-                    if (originStock.getPercent() == bean.getPercent()) {
+                    tempBean = tempList.get(index);
+                    if (originStock.getPercent() == tempBean.getPercent()) {
                         tempList.remove(index);
                     }
 
                 } else {
-                    originStock.setPercent(0);
-                    // originStock.setPercent(0);
-                    tempList.add(originStock);
+
+                    tempBean = originStock.clone();
+                    tempBean.setPercent(0);
+                    tempList.add(tempBean);
 
                 }
 
@@ -663,6 +743,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
         return symbols;
     }
+
 
     private void createCombinationByServer() {
 
@@ -721,7 +802,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                         }
 
+
                         @Override
+                        public void onFailure(ErrorBundle errorBundle) {
+//                            super.onFailure(errorBundle);
+                            if (!TextUtils.isEmpty(errorBundle.getErrorKey()) && errorBundle.getErrorKey().equals(MyCombinationEngineImpl.ERROR_KEY_AJUST)) {
+
+                                for (ConStockBean stock : stockList) {
+                                    stock.setPercent(0);
+                                }
+                                updatePieView();
+                                PromptManager.showLToast(errorBundle.getErrorMessage());
+                            } else {
+                                super.onFailure(errorBundle);
+                            }
+
+                        }
+
+                       /* @Override
                         public void onFailure(int errCode, String errMsg) {
                             try {
 
@@ -744,8 +842,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                                         sb.append("、");
 
                                         for (ConStockBean stock : stockList) {
-                                            // System.out.println("stock code:"+stock.getStockCode());
-                                            if (stock.getStockCode().equalsIgnoreCase(code)) {
+                                            if (stock.getStockSymbol().equalsIgnoreCase(code)) {
                                                 stock.setPercent(0);
                                             }
                                         }
@@ -761,8 +858,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                             }
 
                         }
-
-                        ;
+*/
 
                         @Override
                         protected CombinationBean parseDateTask(String jsonData) {
@@ -811,13 +907,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-//                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
-//                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
                     ArrayList<SelectStockBean> listStock = Parcels.unwrap(data
                             .getParcelableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST));
 
-//                                    (ArrayList<SelectStockBean>) data
-//                                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
@@ -854,6 +946,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             btnAverage.setVisibility(View.INVISIBLE);
         }
     }
+
+    private static final String TAG = PositionAdjustActivity.class.getSimpleName();
 
     private void setAddStockBack(List<SelectStockBean> listStock) {
         int i = 0;
@@ -920,23 +1014,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_adjust);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 
     @Override
     public void updateSurpus(int value) {

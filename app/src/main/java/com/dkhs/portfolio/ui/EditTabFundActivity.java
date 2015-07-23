@@ -80,7 +80,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     private void initView() {
         optionEditList = (DragListView) findViewById(R.id.option_edit_list);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
-        Button btnRight = getRightButton();
+        TextView btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
@@ -202,14 +202,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_edit);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
+
 
     private boolean isFirstLoad = true;
 
@@ -217,9 +210,6 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
         if (isFirstLoad) {
             isFirstLoad = false;
             mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener);

@@ -8,7 +8,7 @@ import java.util.List;
 public class MarkSectorBean {
 
     private int total_page;
-    private List<StockQuotesBean> results;
+    private List<SectorBean> results;
     private String server_time;
     private int total_count;
     private int trade_status;
@@ -18,7 +18,7 @@ public class MarkSectorBean {
         this.total_page = total_page;
     }
 
-    public void setResults(List<StockQuotesBean> results) {
+    public void setResults(List<SectorBean> results) {
         this.results = results;
     }
 
@@ -42,7 +42,7 @@ public class MarkSectorBean {
         return total_page;
     }
 
-    public List<StockQuotesBean> getResults() {
+    public List<SectorBean> getResults() {
         return results;
     }
 

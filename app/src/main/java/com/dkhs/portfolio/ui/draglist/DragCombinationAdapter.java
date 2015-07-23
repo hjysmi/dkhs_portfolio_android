@@ -93,7 +93,7 @@ public class DragCombinationAdapter extends DragListAdapter {
         }
 
         CombinationBean conBean = (CombinationBean) getDataList().get(position).elment;
-        UIUtils.startAminationActivity((Activity) context, StockRemindActivity.newCombinatIntent(context, conBean));
+        UIUtils.startAnimationActivity((Activity) context, StockRemindActivity.newCombinatIntent(context, conBean));
 
     }
 

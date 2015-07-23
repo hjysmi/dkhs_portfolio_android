@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -111,14 +110,12 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
 
     final static class ViewHodler {
         LinearLayout tvLayoutTitle;
-        TextView tvTextIndex;
-        TextView tvTextEdition;
-        TextView tvTextChange;
+
         TextView tvTextName;
         TextView tvTextNameNum;
         TextView tvTextItemIndex;
         TextView tvTextPercent;
-        ImageView tvUpDown;
+
     }
 
     class OnItemListener implements OnClickListener {
@@ -132,9 +129,9 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         public void onClick(View v) {
             // TODO Auto-generated method stub
             SelectStockBean itemStock = mDataList.get(position);
-            UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
+            UIUtils.startAnimationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
 
-            // mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            // mActivity.startActivity(StockQuotesActivity.newIntent(mActivity, itemStock));
         }
 
     }

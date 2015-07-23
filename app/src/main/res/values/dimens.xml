@@ -5,6 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="slidingmenu_offset">100dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
+    <dimen name="tool_bar_top_padding">0dp</dimen>
     <dimen name="radius_size">3dip</dimen>
     <dimen name="profile_image_width_small">33.329987dip</dimen>
     <dimen name="upload_img_size">120.0dip</dimen>

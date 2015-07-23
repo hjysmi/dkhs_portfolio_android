@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -24,7 +25,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class ModifyUNameActivity extends ModelAcitivity implements OnClickListener {
     // private Button btnCancle;
-    private Button btnSave;
+    private TextView btnSave;
     private EditText changeEditName;
     private UserEngineImpl mUserEngineImpl;
     private Context context;
@@ -132,21 +133,5 @@ public class ModifyUNameActivity extends ModelAcitivity implements OnClickListen
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_change_username);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 }

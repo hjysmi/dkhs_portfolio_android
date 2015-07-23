@@ -1,9 +1,11 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zjz on 2015/6/13.
@@ -32,7 +34,7 @@ public abstract class VisiableLoadFragment extends BaseFragment {
 //    private VisiableLoadFragment parentFragment;
 
 
-    protected Context mContext;
+    protected Activity mActivity;
     private static final String TAG = VisiableLoadFragment.class.getSimpleName();
 
     @Override
@@ -72,7 +74,6 @@ public abstract class VisiableLoadFragment extends BaseFragment {
                 isViewShown = false;
             }
         }
-
         super.setUserVisibleHint(isVisibleToUser);
     }
 
@@ -81,7 +82,17 @@ public abstract class VisiableLoadFragment extends BaseFragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             //do when hidden
+
+            if(getView() !=null){
+                onViewHide();
+            }
+
         } else {
+            if(getView() !=null){
+                requestData();
+                onViewShow();
+
+            }
             //do when show
         }
     }
@@ -114,18 +125,16 @@ public abstract class VisiableLoadFragment extends BaseFragment {
 
     public void onViewShow() {
 //        Log.e(TAG, this + "=============> onViewShow");
-
     }
 
     public void onViewHide() {
-
 //        Log.e(TAG, this + "=============> onViewHide");
 
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mContext=getActivity();
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 }

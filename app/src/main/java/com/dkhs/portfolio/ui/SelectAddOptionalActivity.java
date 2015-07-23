@@ -46,6 +46,7 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         // findViewById(R.id.rl_search_stock).setVisibility(View.GONE);
         findViewById(R.id.rl_add_stocklist).setVisibility(View.GONE);
         getRightButton().setVisibility(View.GONE);
@@ -162,19 +163,5 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
         return R.array.select_optional_stock;
     }
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onResume(this);
-    }
 }

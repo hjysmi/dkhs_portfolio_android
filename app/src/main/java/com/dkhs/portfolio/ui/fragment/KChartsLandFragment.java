@@ -416,10 +416,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     @Override
     public void onResume() {
-
         super.onResume();
         BusProvider.getInstance().register(this);
-        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override
@@ -530,8 +528,6 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
         // TODO Auto-generated method stub
         super.onPause();
         BusProvider.getInstance().unregister(this);
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
     }
 
     @Override

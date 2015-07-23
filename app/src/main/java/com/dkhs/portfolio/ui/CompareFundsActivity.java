@@ -39,6 +39,7 @@ public class CompareFundsActivity extends ModelAcitivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle(R.string.performance_comparison);
+        hadFragment();
 //        replaceCompareView();
         replaceContentFragment(FragmentCompare.newInstance());
     }

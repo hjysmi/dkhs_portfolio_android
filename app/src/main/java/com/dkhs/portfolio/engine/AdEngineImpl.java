@@ -1,8 +1,10 @@
 package com.dkhs.portfolio.engine;
 
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 /**
@@ -30,6 +32,37 @@ public class AdEngineImpl {
     }
 
 
+
+    public static void getSignUp(   Action1<AdBean> action1) {
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Ads.getSignUp, null,new AdParseHttpListener(action1) );
+    }
+    public static void getInvite(   Action1<AdBean> action1) {
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Ads.getInvite, null,new AdParseHttpListener(action1) );
+    }
+
+
+    static   class AdParseHttpListener extends  SimpleParseHttpListener{
+
+        Action1<AdBean> action1;
+
+        public AdParseHttpListener(Action1<AdBean> action1) {
+            this.action1 = action1;
+        }
+
+        @Override
+        public Class getClassType() {
+            return AdBean.class;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            if(object !=null ){
+                action1.call((AdBean) object);
+            }else{
+                action1.call(null);
+            }
+        }
+    }
 
 
 

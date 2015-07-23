@@ -9,10 +9,9 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,7 +32,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -48,7 +46,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-3 上午10:32:39
  */
-public class TrendSevenDayChartFragment extends BaseFragment {
+public class TrendSevenDayChartFragment extends VisiableLoadFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String TREND_TYPE_SEVENDAY = "trend_sevenday";
 
@@ -83,6 +81,11 @@ public class TrendSevenDayChartFragment extends BaseFragment {
     }
 
     @Override
+    public void requestData() {
+        mNetValueDataEngine.requerySevenDay(sevendayListener);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -113,28 +116,40 @@ public class TrendSevenDayChartFragment extends BaseFragment {
 
     }
 
-    private View rootView;
+//    private View rootView;
+
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        if (rootView == null) {
+//            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
+//            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+//            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
+//            pb.setVisibility(View.VISIBLE);
+//            initMaChart(mMaChart);
+//            // setupBottomTextViewData();
+//            initView(rootView);
+//            // PromptManager.showProgressDialog(getActivity(), "");
+//            mNetValueDataEngine.requerySevenDay(sevendayListener);
+//
+//        }
+//        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+//        ViewGroup parent = (ViewGroup) rootView.getParent();
+//        if (parent != null) {
+//            parent.removeView(rootView);
+//        }
+//        return rootView;
+//    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
-            pb.setVisibility(View.VISIBLE);
-            initMaChart(mMaChart);
-            // setupBottomTextViewData();
-            initView(rootView);
-            // PromptManager.showProgressDialog(getActivity(), "");
-            mNetValueDataEngine.requerySevenDay(sevendayListener);
-
-        }
-        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
-        return rootView;
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mMaChart = (TrendChart) view.findViewById(R.id.machart);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
+        initMaChart(mMaChart);
+        // setupBottomTextViewData();
+        initView(view);
     }
 
     private void initView(View view) {
@@ -422,6 +437,18 @@ public class TrendSevenDayChartFragment extends BaseFragment {
     private String strRight;
 
     @Override
+    public void onViewShow() {
+        super.onViewShow();
+        startRequry();
+    }
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
+        stopRequry();
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isAdded()) {
             super.setUserVisibleHint(isVisibleToUser);
@@ -434,16 +461,12 @@ public class TrendSevenDayChartFragment extends BaseFragment {
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
     }
 
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override
@@ -461,6 +484,6 @@ public class TrendSevenDayChartFragment extends BaseFragment {
     @Override
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
-        return 0;
+        return R.layout.fragment_trend_chart;
     }
 }

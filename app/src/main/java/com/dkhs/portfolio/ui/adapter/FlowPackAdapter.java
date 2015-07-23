@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FlowOverViewBean;
-import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteCodeActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
@@ -87,7 +86,7 @@ public class FlowPackAdapter extends BaseAdapter {
         TextView tvTitle = vholder.get(R.id.tv_flow_title);
         TextView tvTip = vholder.get(R.id.tv_flow_tip);
         tvTitle.setText(titleTexts[position]);
-        tvTip.setText(tipTexts[position]);
+//        tvTip.setText(tipTexts[position]);
 
         ivIcon.setImageResource(iconRes[position]);
 
@@ -98,18 +97,34 @@ public class FlowPackAdapter extends BaseAdapter {
             switch (position) {
                 case 0: {
                     hasDone = mOverViewBean.getTasks().isBind_mobile();
+                    if (null != mOverViewBean.getTasks_desc()) {
+
+                        tvTip.setText(mOverViewBean.getTasks_desc().getBind_mobile_desc());
+                    }
                 }
                 break;
                 case 1: {
                     hasDone = mOverViewBean.getTasks().isInvite_code();
+                    if (null != mOverViewBean.getTasks_desc()) {
+
+                        tvTip.setText(mOverViewBean.getTasks_desc().getInvite_code_desc());
+                    }
                 }
                 break;
                 case 2: {
                     hasDone = mOverViewBean.getTasks().isInvite_friends();
+                    if (null != mOverViewBean.getTasks_desc()) {
+
+                        tvTip.setText(mOverViewBean.getTasks_desc().getInvite_friends_desc());
+                    }
                 }
                 break;
                 case 3: {
                     hasDone = mOverViewBean.getTasks().isFirst_portfolio();
+                    if (null != mOverViewBean.getTasks_desc()) {
+
+                        tvTip.setText(mOverViewBean.getTasks_desc().getFirst_portfolio_desc());
+                    }
                 }
                 break;
             }
@@ -149,27 +164,27 @@ public class FlowPackAdapter extends BaseAdapter {
                 break;
                 case 1: {
 
-                    if(mOverViewBean.getTasks().isBind_mobile()) {
+                    if (mOverViewBean.getTasks().isBind_mobile()) {
                         mContext.startActivity(InviteCodeActivity.newIntent(mContext));
-                    }else{
-                    final MAlertDialog mAlertDialog= PromptManager.getAlertDialog(mContext);
-                    mAlertDialog.setTitle(R.string.tips);
-                    mAlertDialog.setMessage("绑定手机号才可以验证邀请码哦");
+                    } else {
+                        final MAlertDialog mAlertDialog = PromptManager.getAlertDialog(mContext);
+                        mAlertDialog.setTitle(R.string.tips);
+                        mAlertDialog.setMessage("绑定手机号才可以验证邀请码哦");
 
-                    mAlertDialog.setButton1("去绑定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mContext.startActivity(RLFActivity.bindPhoneIntent(mContext));
-                            mAlertDialog.dismiss();
-                        }
-                    });
-                    mAlertDialog.setButton3("取消",null);
-                    mAlertDialog.show();
+                        mAlertDialog.setButton1("去绑定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mContext.startActivity(RLFActivity.bindPhoneIntent(mContext));
+                                mAlertDialog.dismiss();
+                            }
+                        });
+                        mAlertDialog.setButton3("取消", null);
+                        mAlertDialog.show();
                     }
                 }
                 break;
                 case 2: {
-                    mContext.startActivity(new Intent(mContext,InviteFriendsActivity.class));
+                    mContext.startActivity(new Intent(mContext, InviteFriendsActivity.class));
                 }
                 break;
                 case 3: {

@@ -30,7 +30,6 @@ import com.dkhs.portfolio.ui.adapter.CombinationRankAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,19 +190,29 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void onPause() {
 
         super.onPause();
-        MobclickAgent.onPageEnd(mPageName);
-        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+//
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart(mPageName);
-        dataHandler.removeCallbacks(runnable);
-        dataHandler.postDelayed(runnable, 60);
+//
 
     }
 
+
+    @Override
+    public void onViewHide() {
+        super.onViewHide();
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+    }
+
+    @Override
+    public void onViewShow() {
+        super.onViewShow();
+        dataHandler.removeCallbacks(runnable);
+        dataHandler.postDelayed(runnable, 60);
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -212,11 +221,11 @@ public class CombinationRankFragment extends LoadMoreListFragment {
             if (null != bundle) {
                 mOrderType = bundle.getString(ARGUMENT_ORDER_TYPE);
             }
-            // loadData();
-            dataHandler.postDelayed(runnable, 60);
+//            // loadData();
+//            dataHandler.postDelayed(runnable, 60);
 
         } else {
-            dataHandler.removeCallbacks(runnable);
+//            dataHandler.removeCallbacks(runnable);
         }
         super.setUserVisibleHint(isVisibleToUser);
     }

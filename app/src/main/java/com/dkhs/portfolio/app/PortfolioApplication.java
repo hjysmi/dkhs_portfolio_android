@@ -16,6 +16,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.common.GlobalParams;
+//import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,16 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         mInstance = this;
+//
         AppConfig.config(this);
         super.onCreate();
 
     }
 
+
+    public List<Activity> getLists() {
+        return lists;
+    }
 
     private List<Activity> lists = new ArrayList<Activity>();
 

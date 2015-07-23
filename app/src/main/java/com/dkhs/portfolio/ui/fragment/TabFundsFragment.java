@@ -137,7 +137,6 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
     public void onResume() {
 
         super.onResume();
-        MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
 
     }
@@ -350,7 +349,6 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         super.onPause();
         updateHandler.removeCallbacks(updateRunnable);
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);
         BusProvider.getInstance().unregister(this);
     }

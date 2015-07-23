@@ -58,8 +58,8 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
     @Override
     protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_optionalstock_list);
         context = this;
         setTitle(R.string.optional_stock);
@@ -76,8 +76,6 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -104,7 +102,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
     private void initView() {
 
-        Button addButton = getRightButton();
+        TextView addButton = getRightButton();
 //        addButton.setBackgroundResource(R.drawable.btn_search_select);
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select), null, null,
                 null);
@@ -113,7 +111,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         /*Button bottomButton = (Button) findViewById(R.id.btn_add_optional_stock);
         bottomButton.setOnClickListener(mAddButtonClickListener);*/
 
-        Button btnRefresh = getSecondRightButton();
+        TextView btnRefresh = getSecondRightButton();
         // btnRefresh.setOnClickListener(this);
         // btnRefresh.setBackgroundDrawable(null);
         btnRefresh.setText("编辑");
@@ -279,12 +277,5 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
+
 }

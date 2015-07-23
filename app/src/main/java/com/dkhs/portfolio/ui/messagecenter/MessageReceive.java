@@ -87,7 +87,6 @@ public class MessageReceive extends BroadcastReceiver {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
             Log.d(TAG, "onReceived-message，" + message.getObjectName());
         }
-        //todo 通知栏操作:
         intent.putExtra(KEY_MESSAGE, message);
         return intent;
     }

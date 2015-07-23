@@ -1,9 +1,11 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.animation.LayoutTransition;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
@@ -170,7 +172,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         btnMoreHand.setOnClickListener(this);
         btnMoreAmplit.setOnClickListener(this);
 
-        mIndexAdapter = new MarketCenterGridAdapter(getActivity(), mIndexDataList, false);
+        mIndexAdapter = new MarketCenterGridAdapter(getActivity());
         mPlateAdapter = new MarketPlateGridAdapter(getActivity(), mSecotrList);
         gvPlate.setAdapter(mPlateAdapter);
         gvPlate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -450,12 +452,12 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         }
 
         if (null != intent) {
-            UIUtils.startAminationActivity(getActivity(), intent);
+            UIUtils.startAnimationActivity(getActivity(), intent);
         }
     }
 
     private void startQuoteActivity(SelectStockBean itemStock) {
-        UIUtils.startAminationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
+        UIUtils.startAnimationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
         // startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
 
     }
@@ -463,7 +465,6 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPause(getActivity());
     }
 
 //    public class RequestMarketTask extends TimerTask {
@@ -500,7 +501,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         if (null != plateEngine) {
             plateEngine.loadData();
         }
-        getActivity().runOnUiThread(new Runnable() {
+        mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 startAnimaRefresh();

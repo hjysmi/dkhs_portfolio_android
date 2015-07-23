@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="left|center_vertical"
                 android:paddingRight="12dp"
-                android:text="@string/all"
+                android:text="@string/fund_manager_order"
                 android:textColor="@color/menu_title_text_color" />
         </RelativeLayout>
 
@@ -40,7 +40,9 @@
                 android:id="@+id/tv_current"
                 style="@style/gray_title_text"
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:layout_centerInParent="true"
                 android:text="@string/market_net_value"
                 android:textColor="@color/theme_color" />
@@ -49,15 +51,19 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="match_parent"
+
             android:layout_weight="2">
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/tv_percentage"
                 style="@style/gray_title_text"
-                android:layout_width="wrap_content"
+                android:singleLine="true"
+                android:gravity="right"
+                android:drawablePadding="12dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/day_income"
+                android:text="@string/win_rate_day"
                 android:textColor="@color/menu_title_text_color" />
         </RelativeLayout>
     </LinearLayout>

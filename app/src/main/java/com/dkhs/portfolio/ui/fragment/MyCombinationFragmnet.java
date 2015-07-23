@@ -94,19 +94,6 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        // mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        // mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
-
-        // @Override
-        // public void onRefresh() {
-        // // TODO Auto-generated method
-        //
-        // refresh();
-        // }
-        // });
-        // mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
-
-        // mAppList = getPackageManager().getInstalledApplications(0);
         tvEmptyText = (TextView) view.findViewById(R.id.add_data);
         tvEmptyText.setText(R.string.click_creat_combina);
         tvEmptyText.setOnClickListener(new OnClickListener() {
@@ -143,7 +130,7 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
             }
         };
         // set creator
-        mListView.setMenuCreator(creator);
+//        mListView.setMenuCreator(creator);
 
         // step 2. listener item click event
         mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {

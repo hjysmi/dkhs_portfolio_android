@@ -178,7 +178,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initView() {
-        Button btnRight = getRightButton();
+        TextView btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
 

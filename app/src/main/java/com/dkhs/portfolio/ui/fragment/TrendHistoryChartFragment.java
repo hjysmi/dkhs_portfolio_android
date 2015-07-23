@@ -10,11 +10,9 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +21,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -34,7 +33,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -49,7 +47,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-3 上午10:32:39
  */
-public class TrendHistoryChartFragment extends BaseFragment {
+public class TrendHistoryChartFragment extends VisiableLoadFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String TREND_TYPE_HISTORY = "trend_history";
 
@@ -68,7 +66,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
 
-    private Handler updateHandler;
+    private WeakHandler updateHandler;
     private Calendar mCreateCalender;
 
     private DrawLineDataEntity historyNetvalue;
@@ -115,28 +113,45 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
     }
 
-    private View rootView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
-            pb.setVisibility(View.VISIBLE);
-            initMaChart(mMaChart);
-            // setupBottomTextViewData();
-            initView(rootView);
-            // PromptManager.showProgressDialog(getActivity(), "");
-            mNetValueDataEngine.requeryHistory(historyListener);
+    public void requestData() {
+        mNetValueDataEngine.requeryHistory(historyListener);
+    }
 
-        }
-        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
-        return rootView;
+//    private View rootView;
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        if (rootView == null) {
+//            rootView = inflater.inflate(, null);
+//            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+//            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
+//            pb.setVisibility(View.VISIBLE);
+//            initMaChart(mMaChart);
+//            // setupBottomTextViewData();
+//            initView(rootView);
+//            // PromptManager.showProgressDialog(getActivity(), "");
+//            mNetValueDataEngine.requeryHistory(historyListener);
+//
+//        }
+//        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+//        ViewGroup parent = (ViewGroup) rootView.getParent();
+//        if (parent != null) {
+//            parent.removeView(rootView);
+//        }
+//        return rootView;
+//    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mMaChart = (TrendChart) view.findViewById(R.id.machart);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
+        initMaChart(mMaChart);
+        // setupBottomTextViewData();
+        initView(view);
     }
 
     private void initView(View view) {
@@ -352,7 +367,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
     }
 
     @SuppressLint("HandlerLeak")
-    Handler dataHandler = new Handler();
+    WeakHandler dataHandler = new WeakHandler();
 
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
@@ -438,8 +453,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-        MobclickAgent.onPageEnd(mPageName);
+//        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 
     Runnable runnable = new Runnable() {
@@ -469,7 +483,6 @@ public class TrendHistoryChartFragment extends BaseFragment {
         // TODO Auto-generated method stub
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override
@@ -487,6 +500,6 @@ public class TrendHistoryChartFragment extends BaseFragment {
     @Override
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
-        return 0;
+        return R.layout.fragment_trend_chart;
     }
 }
