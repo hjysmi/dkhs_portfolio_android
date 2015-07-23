@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.dkhs.portfolio.ui.widget.DKHSEditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="@string/hint_topic_title"
+        android:paddingBottom="@dimen/widget_padding_medium"
+        android:paddingLeft="@dimen/widget_padding_medium"
+        android:paddingTop="@dimen/widget_padding_medium"
+        android:textColor="@color/edit_textcolor"
+        android:textSize="@dimen/title_text_size" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/titlebar_height"
+            android:background="@color/person_setting_backgroud">
+
+            <ImageButton
+                android:id="@+id/upload_img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bottom_menu_selector"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
+                android:src="@drawable/kb_icon_camera" />
+
+            <ImageButton
+                android:id="@+id/ib_img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bottom_menu_selector"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
+                android:src="@drawable/kb_icon_camera" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/upload_img">
+
+                <ImageButton
+                    android:id="@+id/ib_emoji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_menu_selector"
+                    android:src="@drawable/kb_icon_emoji" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/upload_img">
+
+                <ImageButton
+                    android:id="@+id/ib_dollar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bottom_menu_selector"
+                    android:src="@drawable/kb_icon_dollar" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ll_emotion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f6f5f5"
+            android:visibility="gone">
+
+            <!--<FrameLayout
+                android:id="@+id/emojicons"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />-->
+             <android.support.v4.view.ViewPager
+                 android:id="@+id/vp_emoji"
+                 android:layout_width="match_parent"
+                 android:layout_height="140dp" >
+             </android.support.v4.view.ViewPager>
+
+             <LinearLayout
+                 android:layout_below="@id/vp_emoji"
+                 android:id="@+id/iv_image"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="6dip"
+                 android:gravity="center"
+                 android:orientation="horizontal" >
+             </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_bottom"
+        android:layout_below="@id/et_title"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dip"
+            android:background="@color/subscribe_seperate_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="80dip"
+                android:clickable="true"
+                android:layout_height="80dip"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/widget_margin_xlarge"
+                android:layout_marginRight="@dimen/widget_margin_xlarge"
+                android:layout_marginTop="@dimen/widget_margin_xlarge"
+                android:src="@drawable/ic_launcher"
+                android:visibility="gone" />
+
+            <com.dkhs.portfolio.ui.widget.DKHSEditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/iv_photo"
+                android:background="@null"
+                android:fadingEdge="none"
+                android:gravity="top"
+                android:paddingBottom="@dimen/widget_padding_medium"
+                android:paddingLeft="@dimen/widget_padding_medium"
+                android:paddingTop="@dimen/widget_padding_medium"
+                android:textSize="20sp"
+                android:hint="@string/hint_content"
+                android:imeOptions="actionSend|flagNoEnterAction"
+                android:lineSpacingExtra="3.0dip" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

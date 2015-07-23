@@ -94,7 +94,21 @@
     <dimen name="chartViewHeight">300dp</dimen>
     <integer name="animation_list_duration">100</integer>
 
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="widget_padding_small">5dp</dimen>
+    <dimen name="widget_padding_normal">10dp</dimen>
+    <dimen name="widget_padding_medium">15dp</dimen>
+    <dimen name="widget_padding_large">20dp</dimen>
+    <dimen name="widget_padding_xlarge">30dp</dimen>
+    <dimen name="widget_padding_xxlarge">40dp</dimen>
+    <dimen name="widget_margin_small">5dp</dimen>
+    <dimen name="widget_margin_normal">10dp</dimen>
+    <dimen name="widget_margin_medium">15dp</dimen>
+    <dimen name="widget_margin_large">20dp</dimen>
+    <dimen name="widget_margin_xlarge">30dp</dimen>
+    <dimen name="widget_margin_xxlarge">40dp</dimen>
 
+    <dimen name="actionsheet_seperated_height">5dp</dimen>
 
 
 
