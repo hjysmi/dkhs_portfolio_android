@@ -3,12 +3,14 @@ package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
 
+import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 
+import java.util.HashMap;
 import java.util.List;
 
-import com.dkhs.adpter.util.ClassMap;
 
 
 /**
@@ -26,10 +28,19 @@ public class HotTopicsAdapter extends com.dkhs.adpter.adapter.AutoAdapter {
     }
 
     @Override
-    protected void initHandlers(ClassMap adapterItemMap) {
-        adapterItemMap.add(new BannerHandler(mContext));
-        adapterItemMap.add(new TopicsHandler());
+    protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
+        addHandler(0, new BannerHandler(mContext));
+        addHandler(1, new TopicsHandler());
     }
 
+    @Override
+    protected int getViewType(int position) {
+
+        if (mData.get(position) instanceof BannerTopicsBean) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 
 }

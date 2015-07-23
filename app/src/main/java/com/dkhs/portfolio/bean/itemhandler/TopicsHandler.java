@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler;
 
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -11,6 +12,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
+
+import org.parceler.apache.commons.lang.StringUtils;
 
 /**
  * @author zwm
@@ -55,6 +61,33 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         setClickListener( vh.get(R.id.iv),data);
         setClickListener( vh.get(R.id.main_ll),data);
         setClickListener( vh.get(R.id.fl_star),data);
+
+        vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
+        if(TextUtils.isEmpty(data.title)){
+            vh.get(R.id.titleTV).setVisibility(View.GONE);
+        }else {
+            vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
+            vh.setTextView(R.id.titleTV, data.title);
+        }
+        ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(),vh.getImageView(R.id.iv_avatar));
+        vh.setTextView(R.id.content,data.text);
+        vh.get(R.id.iv).setVisibility(View.GONE);
+
+        if(data.favorites_count>0){
+            vh.setTextView(R.id.tv_star, StringFromatUtils.handleNumber(data.favorites_count));
+        }else{
+            vh.setTextView(R.id.tv_star,vh.getConvertView().getContext().getString(R.string.star));
+        }
+
+        if(data.comments_count>0){
+            vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
+        }else{
+            vh.setTextView(R.id.tv_commend,vh.getConvertView().getContext().getString(R.string.commend));
+        }
+
+
+
+
     }
 
     public void setClickListener(View  view, TopicsBean data){
@@ -91,10 +124,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
     }
 
-    @Override
-    public Class<?> getDataClass() {
-        return TopicsBean.class;
-    }
+
 
     class  StarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 

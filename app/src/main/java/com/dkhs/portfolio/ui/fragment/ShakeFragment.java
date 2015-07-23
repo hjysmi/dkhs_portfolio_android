@@ -94,7 +94,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     break;
                 case 3:
                     if (msg.obj != null) {
-                        mSuccessObject = (ShakeBean) msg.obj;
+                        mSuccessObject =  msg.obj;
                         if (!animationDrawable.isRunning()) {
                             mLoadingRibbonAD.stop();
                             gotoShakeActivity(mSuccessObject);
@@ -177,7 +177,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             protected void afterParseData(Object object) {
                 //获取数据
                 if (object != null) {
-                    onFinish();
+                    finish();
                     Message message = new Message();
                     message.what = 3;
                     message.obj = object;
@@ -192,7 +192,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
             }
 
-            private void onFinish() {
+            private void finish() {
                 getData = false;
                 uiHandler.sendEmptyMessage(1);
             }

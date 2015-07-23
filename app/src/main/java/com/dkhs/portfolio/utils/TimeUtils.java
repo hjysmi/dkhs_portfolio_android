@@ -67,7 +67,7 @@ public class TimeUtils {
     }
 
 
-    public static String getBriefTimeString(long time){
+    public static String getBriefTimeString(String time){
 
         DateTime dateTime=new DateTime(time);
         LocalDate date=dateTime.toLocalDate();

@@ -8,15 +8,6 @@ import android.widget.TextView;
 
 import com.dkhs.R;
 
-
-/**
- * 比较规范独立的的ViewHolder.
- * @author Jack Tony
- * 
- * @see "http://www.cnblogs.com/tianzhijiexian/p/4157889.html"
- * 
- * @date 2015/4/28
- */
 public class ViewHolder {
 
     private SparseArray<View> viewHolder;
@@ -34,7 +25,7 @@ public class ViewHolder {
 
     private ViewHolder(View view) {
         this.view = view;
-        viewHolder = new SparseArray<View>();
+        viewHolder = new SparseArray<>();
         view.setTag(viewHolder);
     }
 
@@ -65,6 +56,7 @@ public class ViewHolder {
     }
 
     public void setTextView(int  id,CharSequence charSequence){
+
         getTextView(id).setText(charSequence);
     }
 }

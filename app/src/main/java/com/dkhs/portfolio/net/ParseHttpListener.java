@@ -114,7 +114,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
 
     /**
-     * @param @param errCode 错误编码，具体查看 {@link Network.HttpCode}
+     * @param @param errCode 错误编码，具体查看
      * @param @param errMsg 错误信息
      * @return void 返回类型
      * @Title: onFailure
@@ -124,6 +124,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         // GTGUtils.showTip(HttpCode.getCodeResId(errCode));
         // LogUtils.e("Error code :" + errCode + ",message : " + err.toString());
         super.onFailure(errCode, errMsg);
+        onFinish();
     }
 
     public static final int MSG_PARSEDATE = 10;
@@ -149,6 +150,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
                 case MSG_UPDATEUI:
                     T obj = (T) msg.obj;
                     afterParseData(obj);
+                    onFinish();
                     break;
 
                 default:
@@ -178,6 +180,10 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     }
 
+    public void onFinish(){
+
+    }
+
     // 耗时操作，解析数据
 
     /**
@@ -192,7 +198,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     // ui操作
 
     /**
-     * @param object :{@link #parseDateTask(JSONObject jsonData)}中解析之后返回的数据对象
+     * @param object  中解析之后返回的数据对象
      * @return void
      * @Title: afterParseData
      * 该方法在主线程中执行，用于UI更新之类的操作

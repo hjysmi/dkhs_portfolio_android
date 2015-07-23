@@ -3,6 +3,7 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -47,35 +48,66 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
         AdBean adBean= data.adBean;
         int duration=1;
         SliderLayout  slider=vh.get(R.id.slider);
-        for (AdBean.AdsEntity item : adBean.getAds()){
-            TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
-            textSliderView
-                    .description(item.getTitle())
-                    .image(item.getImage())
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-            ;
-            duration=item.getDisplay_time();
-            Bundle bundle=new Bundle();
-            bundle.putString("redirect_url",item.getRedirect_url());
-            textSliderView.bundle(bundle);
-            textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
-            slider.addSlider(textSliderView);
+        if(adBean != null) {
+            for (AdBean.AdsEntity item : adBean.getAds()) {
+                TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
+                textSliderView
+                        .description(item.getTitle())
+                        .image(item.getImage())
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                ;
+                duration = item.getDisplay_time();
+                Bundle bundle = new Bundle();
+                bundle.putString("redirect_url", item.getRedirect_url());
+                textSliderView.bundle(bundle);
+                textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                slider.addSlider(textSliderView);
+            }
+            slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            slider.setPresetTransformer(SliderLayout.Transformer.Default);
+            slider.setCustomAnimation(new DescriptionAnimation());
+            slider.setDuration(duration * 1000);
+            slider.startAutoCycle();
+        }else{
+            slider.setVisibility(View.GONE);
         }
-        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        slider.setPresetTransformer(SliderLayout.Transformer.Default);
-        slider.setCustomAnimation(new DescriptionAnimation());
-        slider.setDuration(duration*1000);
-        slider.startAutoCycle();
+
+        if(data.hotTopicsBeans != null ) {
+            int size = data.hotTopicsBeans.size();
+            switch (size) {
+                case 5:
+                    vh.get(R.id.stick_ll5).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line4).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics5, data.hotTopicsBeans.get(4).title);
+
+                case 4:
+
+                    vh.get(R.id.stick_ll4).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line3).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics4, data.hotTopicsBeans.get(3).title);
+                case 3:
+                    vh.get(R.id.stick_ll3).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line2).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics3, data.hotTopicsBeans.get(2).title);
+                case 2:
+                    vh.get(R.id.stick_ll2).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line1).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics2, data.hotTopicsBeans.get(1).title);
+                case 1:
+
+                    vh.get(R.id.stick_ll1).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics1, data.hotTopicsBeans.get(0).title);
+            }
+        }
+
+
 
 
 
     }
 
 
-    @Override
-    public Class<?> getDataClass() {
-        return BannerTopicsBean.class;
-    }
+
 
     class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickListener{
 

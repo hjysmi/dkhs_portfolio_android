@@ -22,8 +22,5 @@ public class LoadMoreHandler implements ItemHandler {
 
     }
 
-    @Override
-    public Class<?> getDataClass() {
-        return null;
-    }
+
 }
