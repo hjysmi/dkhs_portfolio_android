@@ -9,9 +9,16 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ImageSpan;
+import android.text.style.URLSpan;
+import android.util.Log;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.net.DKHSUrl;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.widget.MyClickableSpan;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -81,28 +88,135 @@ public class TextModifyUtil {
 
     }
 
+    private static List<MyClickableSpan> spans = new ArrayList<MyClickableSpan>();
+
     public static void setAtText(SpannableStringBuilder builder, String patternStr,Context context) {
+//        Pattern pattern = Pattern.compile(patternStr);
+//        Matcher matcher = pattern.matcher(builder.toString());
+//        String temptStr = builder.toString();
+//        int tempt = 0;
+//        while (matcher.find()) {
+//            String s = matcher.group();
+//            int index = temptStr.indexOf(s);
+//            temptStr = temptStr.substring(index + s.length());
+//            tempt += index + s.length();
+//            //TODO 输入at之后跳转
+////			Intent intent = new Intent(context, WriteStatusActivity.class);
+////			intent.putExtra("at", s);
+////			builder.setSpan(getClickableSpan(context, intent),
+////					tempt - s.length(), tempt - 1,
+////					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+//        }
+        spans.clear();;
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(builder.toString());
         String temptStr = builder.toString();
+        String start = "<a\\shref='http.+'>";
+        String end = "</a>";
+        Pattern startP =Pattern.compile(start);
+        Pattern endP =Pattern.compile(end);
         int tempt = 0;
+        SpannableStringBuilder tempBuilder = new SpannableStringBuilder();
         while (matcher.find()) {
             String s = matcher.group();
             int index = temptStr.indexOf(s);
             temptStr = temptStr.substring(index + s.length());
-            tempt += index + s.length();
+            tempBuilder.append(builder.subSequence(tempt, builder.length() - temptStr.length() - s.length()));
+            //记录位置和要显示的可点击字体的长度，并放入集合
+            //每次截取之后的下一次开始截取的位置
+            tempt = builder.length() - temptStr.length();
+            Matcher matcherS = startP.matcher(s);
+            Matcher matcherE = endP.matcher(s);
+            String startA = "";
+            String endA = "";
+            if(matcherS.find()){
+                startA = matcherS.group();
+            }
+            if(matcherE.find()){
+                endA = matcherE.group();
+            }
+//            Log.i("MATTERN", startA +"...starA.length..." +startA.length()+"..."+endA +"...endA.length..." +endA.length());
+//            Log.i("MATTERN", s +"...s.length..." +s.length()+"...");
+            String target = s.substring(startA.length(), s.length() - endA.length());
+//            spans.add(getClickableSpan(context,new Intent(context, PostTopicActivity.class),tempBuilder.length(), target.length()));
+            tempBuilder.append(target);
             //TODO 输入at之后跳转
 //			Intent intent = new Intent(context, WriteStatusActivity.class);
 //			intent.putExtra("at", s);
 //			builder.setSpan(getClickableSpan(context, intent),
 //					tempt - s.length(), tempt - 1,
 //					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         }
+        for(MyClickableSpan span : spans){
+            tempBuilder.setSpan(span, span.startIndex, span.startIndex+span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        builder = tempBuilder;
+        builder.clear();
+        Log.i("MATTERN" ,tempBuilder.toString());
+        Log.i("MATTERN" ,builder.toString());
     }
 
-    private static MyClickableSpan getClickableSpan(Context context, Intent intent) {
-        return new MyClickableSpan(context, intent);
+    public static SpannableStringBuilder getAtBuilder(SpannableStringBuilder builder, String patternStr,Context context) {
+        spans.clear();;
+        Pattern pattern = Pattern.compile(patternStr);
+        Matcher matcher = pattern.matcher(builder.toString());
+        String temptStr = builder.toString();
+        String start = "<a\\shref='http.+'>";
+        String end = "</a>";
+        Pattern startP =Pattern.compile(start);
+        Pattern endP =Pattern.compile(end);
+        int tempt = 0;
+        SpannableStringBuilder tempBuilder = new SpannableStringBuilder();
+        while (matcher.find()) {
+            String s = matcher.group();
+            Log.i("MATTERN" , s);
+            int index = temptStr.indexOf(s);
+            temptStr = temptStr.substring(index + s.length());
+            tempBuilder.append(builder.subSequence(tempt, builder.length() - temptStr.length() - s.length()));
+            //记录位置和要显示的可点击字体的长度，并放入集合
+            //每次截取之后的下一次开始截取的位置
+            tempt = builder.length() - temptStr.length();
+            Matcher matcherS = startP.matcher(s);
+            Matcher matcherE = endP.matcher(s);
+            String startA = "";
+            String endA = "";
+            if(matcherS.find()){
+                startA = matcherS.group();
+            }
+            if(matcherE.find()){
+                endA = matcherE.group();
+            }
+//            Log.i("MATTERN", startA +"...starA.length..." +startA.length()+"..."+endA +"...endA.length..." +endA.length());
+//            Log.i("MATTERN", s +"...s.length..." +s.length()+"...");
+            String target = s.substring(startA.length(), s.length() - endA.length());
+//            spans.add(getClickableSpan(context,new Intent(context, PostTopicActivity.class),tempBuilder.length(), target.length()));
+            tempBuilder.append(target);
+            //TODO 输入at之后跳转
+//			Intent intent = new Intent(context, WriteStatusActivity.class);
+//			intent.putExtra("at", s);
+//			builder.setSpan(getClickableSpan(context, intent),
+//					tempt - s.length(), tempt - 1,
+//					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        for(MyClickableSpan span : spans){
+            tempBuilder.setSpan(span, span.startIndex, span.startIndex+span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return tempBuilder;
+    }
+
+//    private static MyClickableSpan getClickableSpan(Context context, Intent intent, int startIndex, int sLen) {
+//        MyClickableSpan span = new MyClickableSpan(context);
+//        span.startIndex = startIndex;
+//        span.sLen = sLen;
+//        return span;
+//    }
+
+    private static MyClickableSpan getMyClickableSpan(Context context, URLSpan urlSpan) {
+        String url = urlSpan.getURL();
+        MyClickableSpan mySpan = new MyClickableSpan(context.getResources().getColor(R.color.blue), context);
+        mySpan.url = url;
+        return mySpan;
     }
 
 }
