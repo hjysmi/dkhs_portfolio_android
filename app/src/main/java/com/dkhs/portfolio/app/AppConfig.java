@@ -55,8 +55,8 @@ public final class AppConfig {
         if (isDebug) {
 //            LeakCanary.install((Application) context);
             CrashHandler.getInstance(context);
-            ANRWatchDog anrWatchDog = new ANRWatchDog();
-            anrWatchDog.start();
+//            ANRWatchDog anrWatchDog = new ANRWatchDog();
+//            anrWatchDog.start();
 
 //            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 //                    .detectAll()    // detect everything potentially suspect
@@ -114,7 +114,6 @@ public final class AppConfig {
                     }
                 }
 
-                ;
             }.start();
 
         }

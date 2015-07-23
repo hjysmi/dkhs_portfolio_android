@@ -33,6 +33,7 @@ import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
@@ -255,6 +256,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 //                list.add("http://img.1985t.com/uploads/attaches/2014/07/18314-I1VlAZ.jpg");
 //                PhotoViewActivity.startPhotoViewActivity(mActivity,list,0);
                 startActivity(new Intent(mActivity, BBSActivity.class));
+
 //                if (!UIUtils.iStartLoginActivity(getActivity())) {
 //
 //                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);

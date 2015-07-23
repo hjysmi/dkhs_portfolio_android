@@ -5,10 +5,9 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.List;
 import com.dkhs.adpter.handler.ItemHandler;
-import com.dkhs.adpter.util.ViewHolder;
 
 
-public  abstract     class SingleRVAutoAdapter extends  AutoRVAdapter implements ItemHandler{
+public  abstract  class SingleRVAutoAdapter extends  AutoRVAdapter implements ItemHandler{
 
 
     @Override
