@@ -14,6 +14,13 @@ import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * @author zwm
+ * @version 2.0
+ * @ClassName YanbaoDetailActivity
+ * @Description
+ * @date 2015/7/9.修改布局,优化体验
+ */
 public class YanbaoDetailActivity extends ModelAcitivity {
     private TextView newsTitleName;
     private TextView newsTitleDate;
@@ -119,22 +126,4 @@ public class YanbaoDetailActivity extends ModelAcitivity {
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_yanbao_news);
-
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 }

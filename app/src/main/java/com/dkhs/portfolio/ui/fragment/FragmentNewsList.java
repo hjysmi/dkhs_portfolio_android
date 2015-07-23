@@ -32,7 +32,6 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -125,7 +124,6 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
             // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setFromYanbao(false);
         }
 
     }
@@ -245,7 +243,6 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
             isLoadingMore = true;
             // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setFromYanbao(false);
         }
     }
 
@@ -339,21 +336,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
         this.mStockQuoteScrollListener = scrollListener;
     }
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-    }
 
     private boolean isViewShown;
 

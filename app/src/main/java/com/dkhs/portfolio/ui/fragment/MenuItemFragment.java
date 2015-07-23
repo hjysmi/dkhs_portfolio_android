@@ -12,8 +12,10 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
+import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -25,7 +27,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -41,26 +42,31 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public static final int TABINDEX_2 = R.id.tab_2;
     public static final int TABINDEX_3 = R.id.tab_3;
     public static final int TABINDEX_4 = R.id.tab_4;
+    public static final int TABINDEX_5 = R.id.tab_5;
 
     @ViewInject(R.id.btn_tab1)
-    private Button btnTab1;
+    private View btnTab1;
     @ViewInject(R.id.tv_tab1)
     private TextView tvTab1;
 
     @ViewInject(R.id.btn_tab2)
-    private Button btnTab2;
+    private View btnTab2;
     @ViewInject(R.id.tv_tab2)
     private TextView tvTab2;
 
     @ViewInject(R.id.btn_tab3)
-    private Button btnTab3;
+    private View btnTab3;
     @ViewInject(R.id.tv_tab3)
     private TextView tvTab3;
 
     @ViewInject(R.id.btn_tab4)
-    private Button btnTab4;
+    private View btnTab4;
     @ViewInject(R.id.tv_tab4)
     private TextView tvTab4;
+    @ViewInject(R.id.btn_tab5)
+    private View btnTab5;
+    @ViewInject(R.id.tv_tab5)
+    private TextView tvTab5;
 
     @ViewInject(R.id.tab_1)
     private View tabLayout1;
@@ -70,6 +76,8 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     private View tabLayout3;
     @ViewInject(R.id.tab_4)
     private View tabLayout4;
+    @ViewInject(R.id.tab_5)
+    private View tabLayout5;
     @ViewInject(R.id.tv_new_count)
     private TextView newCountTV;
 
@@ -83,7 +91,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         Bundle arguments = new Bundle();
         arguments.putInt(KEY_TABINDEX, value);
         fragment.setArguments(arguments);
-
         return fragment;
     }
 
@@ -112,6 +119,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         return R.layout.layout_bottom;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -123,10 +131,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public void clickTab(int index) {
         mIndex = index;
         setupView();
-
-        // BusProvider.getInstance().post(new TabSelectEvent(index));
         ((MainActivity) getActivity()).showContentIndex(index);
-        // App.getInstance().mTabIndex = index;
 
     }
 
@@ -149,6 +154,11 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectText(tvTab4);
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
+        }
+        else if (mIndex == TABINDEX_5) {
+            setSelectText(tvTab5);
+            setSelectView(btnTab5);
+            setSelectView(tabLayout5);
             MessageManager.getInstance().setHasNewUnread(false);
             AnimationHelper.dismissScale(newCountTV);
         }
@@ -160,20 +170,44 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         btnTab2.setEnabled(true);
         btnTab3.setEnabled(true);
         btnTab4.setEnabled(true);
+        btnTab5.setEnabled(true);
         tabLayout1.setEnabled(true);
         tabLayout2.setEnabled(true);
         tabLayout3.setEnabled(true);
         tabLayout4.setEnabled(true);
+        tabLayout5.setEnabled(true);
         ColorStateList cls = getResources().getColorStateList(R.color.compare_select_gray);
         tvTab1.setTextColor(cls);
         tvTab2.setTextColor(cls);
         tvTab3.setTextColor(cls);
         tvTab4.setTextColor(cls);
+        tvTab5.setTextColor(cls);
     }
 
     private void setSelectView(View rButton) {
         rButton.setEnabled(false);
     }
+
+    @Subscribe
+    public void lockMenu(LockMenuEvent lockMenuEvent) {
+        tabLayout1.setClickable(false);
+        tabLayout2.setClickable(false);
+        tabLayout3.setClickable(false);
+        tabLayout4.setClickable(false);
+        tabLayout5.setClickable(false);
+    }
+    @Subscribe
+    public void unLockMenu(UnLockMenuEvent unLockMenuEvent){
+        tabLayout1.setClickable(true);
+        tabLayout2.setClickable(true);
+        tabLayout3.setClickable(true);
+
+        tabLayout4.setClickable(true);
+        tabLayout5.setClickable(true);
+//        mRootView.findViewById(mIndex).setClickable(false);
+
+    }
+
 
     @Override
     public void onDestroy() {
@@ -185,7 +219,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         tvSelect.setTextColor(getResources().getColorStateList(R.color.title_color));
     }
 
-    @OnClick({ R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4 })
+    @OnClick({ R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4 ,R.id.tab_5})
     public void onClick(View v) {
         int id = v.getId();
         clickTab(id);
@@ -193,14 +227,11 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         if (PortfolioApplication.hasUserLogin() && MessageManager.getInstance().isHasNewUnread()
                 && MessageManager.getInstance().getTotalUnreadCount() > 0) {
             updateNewMessageView(true);
-
         } else {
-
             updateNewMessageView(false);
         }
 
@@ -233,7 +264,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("curChoice", mIndex);
-
     }
 
 }

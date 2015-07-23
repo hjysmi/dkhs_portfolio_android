@@ -188,7 +188,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                     case OpitionNewsEngineImple.NEWSALL:
                         intent = OptionListAcitivity.newIntent(context, optionNewsBean.getSymbols().get(0).getSymbol()
                                 + "", "20", optionNewsBean.getSymbols().get(0).getAbbrName());
-                        UIUtils.startAminationActivity(getActivity(), intent);
+                        UIUtils.startAnimationActivity(getActivity(), intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP:
                         if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
@@ -203,14 +203,14 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                             intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                         }
                         // startActivity(intent);
-                        UIUtils.startAminationActivity(getActivity(), intent);
+                        UIUtils.startAnimationActivity(getActivity(), intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
                         if (vo.getContentType().equals("20")) {
                             intent = OptionListAcitivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                                     .getSymbol()
                                     + "", "20", optionNewsBean.getSymbols().get(0).getAbbrName());
-                            UIUtils.startAminationActivity(getActivity(), intent);
+                            UIUtils.startAnimationActivity(getActivity(), intent);
                         } else {
                             if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
                                 intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
@@ -219,7 +219,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                             } else {
                                 intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                             }
-                            UIUtils.startAminationActivity(getActivity(), intent);
+                            UIUtils.startAnimationActivity(getActivity(), intent);
                         }
 
                         break;
@@ -232,11 +232,11 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                                         intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name,
                                                 optionNewsBean.getSymbols().get(0).getAbbrName(), optionNewsBean
                                                         .getSymbols().get(0).getId());
-                                        UIUtils.startAminationActivity(getActivity(), intent);
+                                        UIUtils.startAnimationActivity(getActivity(), intent);
                                     } else {
                                         intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name, null,
                                                 null);
-                                        UIUtils.startAminationActivity(getActivity(), intent);
+                                        UIUtils.startAnimationActivity(getActivity(), intent);
                                     }
                                     break;
 
@@ -251,7 +251,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                                         intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null,
                                                 null, null);
                                     }
-                                    UIUtils.startAminationActivity(getActivity(), intent);
+                                    UIUtils.startAnimationActivity(getActivity(), intent);
                                     break;
                             }
 

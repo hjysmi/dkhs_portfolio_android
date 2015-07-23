@@ -15,11 +15,11 @@ import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.WebActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -96,21 +96,21 @@ public class MessageHandler {
 //                gotoNewOrYaoBaoDetail(segments.get(1));
 //            } else {
 //                //不在定义范围内 ,使用WebActivity去处理
-//                context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+//                context.startActivity(WebActivity.newIntent(context, messageContent.getTitle(), messageContent.getUrl()));
 //            }
 //        } else {
 //            //不在定义范围内 ,使用WebActivity去处理
-//            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+//            context.startActivity(WebActivity.newIntent(context, messageContent.getTitle(), messageContent.getUrl()));
 //        }
         if (!handleURL(messageContent.getUrl())) {
-            context.startActivity(WebActivity.getIntent(context, messageContent.getTitle(), messageContent.getUrl()));
+            context.startActivity(AdActivity.getIntent(context, messageContent.getUrl()));
         }
     }
 
 
     public boolean handleURL(String url) {
         Uri uri = Uri.parse(url);
-        boolean hasHandle = false;
+        boolean hasHandle = true;
         List<String> segments = uri.getPathSegments();
         if (segments.size() > 0) {
             if (segments.get(0).equals("s") && segments.size() >= 3) {
@@ -125,7 +125,11 @@ public class MessageHandler {
             }else if(segments.get(0).equals("u") && segments.size() >= 2){
                 hasHandle = true;
                 gotoCombinationUserActivity(segments.get(1));
+            }else{
+                context.startActivity(AdActivity.getIntent(context,url));
             }
+        }else{
+            context.startActivity(AdActivity.getIntent(context,url));
         }
 
         return hasHandle;
@@ -166,7 +170,7 @@ public class MessageHandler {
                     }
                     context.startActivity(intent);
                     // startActivity(intent);
-//                    UIUtils.startAminationActivity(context, intent);
+//                    UIUtils.startAnimationActivity(context, intent);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

@@ -20,6 +20,8 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RongConnectSuccessEvent;
 import com.lidroid.xutils.util.LogUtils;
 
 import java.util.HashMap;
@@ -196,6 +198,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
                     if (unreadCount > 0) {
                         MessageManager.getInstance().setHasNewUnread(true);
                     }
+                    BusProvider.getInstance().post(new RongConnectSuccessEvent());
 
                 }
 
@@ -241,9 +244,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public void startConversationList(Context context) {
         cancelAllNotification(context);
-        if (isValid()) {
             RongIM.getInstance().startConversationList(context);
-        }
     }
 
 

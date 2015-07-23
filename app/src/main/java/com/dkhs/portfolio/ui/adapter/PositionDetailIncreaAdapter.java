@@ -23,11 +23,11 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName OptionalStockAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-25 下午3:35:49
- * @version 1.0
  */
 public class PositionDetailIncreaAdapter extends BaseAdapter {
     private Context mContext;
@@ -89,7 +89,7 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
 
         if (position == stockList.size()) {// 剩余占比图
 
-            viewHolder.colorView.setBackgroundColor(ColorTemplate.DEF_RED);
+            viewHolder.colorView.setBackgroundColor(ColorTemplate.SURP_RED);
             viewHolder.tvCenterValue.setText(StringFromatUtils.get2PointPercent((surpusValu == -1 ? getSurpusValue()
                     : surpusValu)));
             viewHolder.tvRightValue.setVisibility(View.INVISIBLE);

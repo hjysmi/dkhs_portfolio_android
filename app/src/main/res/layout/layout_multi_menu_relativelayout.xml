@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/im_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/alpha_gray"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/ll_menu"
+        android:paddingTop="6dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <TextView
+            android:text="@string/fund_manager_rankings"
+            android:gravity="center_vertical"
+            style="@style/gray_text_tabline"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view2"
+            android:layout_marginTop="2dp"
+            android:layout_width="fill_parent"
+            android:overScrollMode="never"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/fund_rankings"
+            android:gravity="center_vertical"
+            style="@style/gray_text_tabline" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="2dp"
+            android:overScrollMode="never"
+            android:layout_height="wrap_content" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_marginTop="12dp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

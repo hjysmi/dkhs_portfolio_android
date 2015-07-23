@@ -13,6 +13,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -25,9 +26,13 @@ import java.util.List;
 
 public class MyCombinationEngineImpl {
 
+
+    public static final String ERROR_KEY_AJUST = "symbols_cannot_adjust";
+
+
     /**
      * 查询我的组合列表
-     * 
+     *
      * @param listener :服务器响应监听
      */
     public void getCombinationList(IHttpListener listener) {
@@ -60,7 +65,7 @@ public class MyCombinationEngineImpl {
 
     /**
      * 创建我的组合
-     * 
+     *
      * @param listener :服务器响应监听
      */
     public void createCombination(String name, String desciption, List<SubmitSymbol> symbols, IHttpListener listener) {
@@ -96,7 +101,7 @@ public class MyCombinationEngineImpl {
 
     /**
      * 删除我的组合
-     * 
+     *
      * @param listener :服务器响应监听
      */
     public void deleteCombination(String Ids, IHttpListener listener) {
@@ -112,7 +117,7 @@ public class MyCombinationEngineImpl {
 
     /**
      * 修改组合名称、描述
-     * 
+     *
      * @param listener :服务器响应监听
      */
     public void updateCombination(String id, String name, String desc, IHttpListener listener) {
@@ -127,7 +132,7 @@ public class MyCombinationEngineImpl {
 
     /**
      * 修改持仓组合
-     * 
+     *
      * @param listener :服务器响应监听
      */
     public void adjustCombination(String id, List<SubmitSymbol> symbols, IHttpListener listener) {
@@ -160,14 +165,14 @@ public class MyCombinationEngineImpl {
 
     /**
      * 查询持仓明细
-     * 
+     *
      * @param listener :服务器响应监听
      */
-    public void queryCombinationDetail(String id, IHttpListener listener) {
+    public HttpHandler queryCombinationDetail(String id, IHttpListener listener) {
 
         // queryCombinationDetailByDay(id, listener);
-        String[] params = { id };
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, params, listener);
+        String[] params = {id};
+        return DKHSClient.requestByGet(DKHSUrl.Portfolio.create, params, listener);
     }
 
     public void queryCombinationDetailByDay(String id, String date, IHttpListener listener) {
@@ -175,7 +180,7 @@ public class MyCombinationEngineImpl {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("date", date);
         params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, new String[] { id, }, params, listener);
+        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, new String[]{id,}, params, listener);
 
     }
 
@@ -202,7 +207,7 @@ public class MyCombinationEngineImpl {
 
     /**
      * 查询持仓信息
-     * 
+     *
      * @param listener :服务器响应监听
      */
     public void getCombinationPortfolio(String id, IHttpListener listener) {
@@ -215,11 +220,10 @@ public class MyCombinationEngineImpl {
     }
 
     /**
-     * 
      * 设置组合提醒
      */
     public void portfolioRemind(String comId, float priceUp, float priceDown, float percent, boolean isAjust,
-            IHttpListener listener) {
+                                IHttpListener listener) {
 
         PortfolioAlertBean alertSetBean = new PortfolioAlertBean(priceUp, priceDown, percent, isAjust);
 
@@ -230,7 +234,6 @@ public class MyCombinationEngineImpl {
     }
 
     /**
-     * 
      * 取消组合提醒
      */
     public void delPortfolioRemind(String comId, IHttpListener listener) {

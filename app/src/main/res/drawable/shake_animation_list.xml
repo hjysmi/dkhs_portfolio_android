@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/shake_01" android:duration="@integer/animation_list_duration"/>
+
     <item android:drawable="@drawable/shake_02" android:duration="@integer/animation_list_duration"/>
     <item android:drawable="@drawable/shake_03" android:duration="@integer/animation_list_duration"/>
     <item android:drawable="@drawable/shake_04" android:duration="@integer/animation_list_duration"/>
+    <item android:drawable="@drawable/shake_01" android:duration="@integer/animation_list_duration"/>
 
 </animation-list>

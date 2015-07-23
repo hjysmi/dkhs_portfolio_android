@@ -35,7 +35,6 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.util.LogUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +74,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_LOGINANNOY = "extra_loginannoy";
 
     private boolean isLoginByAnnoy = false;
-    WeakHandler weakHandler=new WeakHandler(){
+    WeakHandler weakHandler = new WeakHandler() {
 
     };
 
@@ -400,10 +399,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             PromptManager.closeProgressDialog();
         }
 
-        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
+            if (TextUtils.isEmpty(jsonData)) {
+                return null;
+            }
             try {
                 JSONObject json = new JSONObject(jsonData);
                 UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
@@ -425,10 +426,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         protected void afterParseData(UserEntity entity) {
-            PromptManager.closeProgressDialog();
-            PortfolioApplication.getInstance().exitApp();
-            PortfolioApplication.getInstance().setLogin(true);
-            goMainPage();
+            if(null!=entity){
+                PromptManager.closeProgressDialog();
+                PortfolioApplication.getInstance().exitApp();
+                PortfolioApplication.getInstance().setLogin(true);
+                goMainPage();
+            }
         }
     };
 
@@ -695,21 +698,5 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 }

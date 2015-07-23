@@ -22,6 +22,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 import java.io.File;
+import java.util.TreeMap;
 
 /**
  * @author zcm
@@ -41,19 +42,37 @@ public class UserEngineImpl {
      * @param listener
      */
     public void login(String username, String password, int logintype, ParseHttpListener<UserEntity> listener) {
-        RequestParams params = new RequestParams();
+
+//        RequestParams params = new RequestParams();
+//        if (logintype == ConstantValue.IS_CAPTCHA) {
+//            params.addBodyParameter("mobile", username);
+//            params.addBodyParameter("captcha", password);
+//        } else if (logintype == ConstantValue.IS_MOBILE) {
+//            params.addBodyParameter("mobile", username);
+//            params.addBodyParameter("password", password);
+//        } else if (logintype == ConstantValue.IS_EMAIL) {
+//            params.addBodyParameter("email", username);
+//            params.addBodyParameter("password", password);
+//        }
+//        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.login, params, listener);
+        TreeMap<String, String> paramsMap = new TreeMap<String, String>();
         if (logintype == ConstantValue.IS_CAPTCHA) {
-            params.addBodyParameter("mobile", username);
-            params.addBodyParameter("captcha", password);
+            paramsMap.put("mobile", username);
+            paramsMap.put("captcha", password);
         } else if (logintype == ConstantValue.IS_MOBILE) {
-            params.addBodyParameter("mobile", username);
-            params.addBodyParameter("password", password);
+            paramsMap.put("mobile", username);
+            paramsMap.put("password", password);
         } else if (logintype == ConstantValue.IS_EMAIL) {
-            params.addBodyParameter("email", username);
-            params.addBodyParameter("password", password);
+
+            paramsMap.put("email", username);
+            paramsMap.put("password", password);
         }
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.login, params, listener);
+
+        DKHSClient.requestPostByEncryp(paramsMap, DKHSUrl.User.login, listener.openEncry());
+
+
     }
+
 
     /**
      * 设置密码
@@ -110,23 +129,44 @@ public class UserEngineImpl {
 
     public void register(String mobile, String password, String captha, String username,
                          ParseHttpListener<UserEntity> listener) {
-        RequestParams params = new RequestParams();
-        params.addBodyParameter("mobile", mobile);
-        params.addBodyParameter("captcha", captha);
-        params.addBodyParameter("password", password);
-        params.addBodyParameter("username", username);
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
+//        RequestParams params = new RequestParams();
+//        params.addBodyParameter("mobile", mobile);
+//        params.addBodyParameter("captcha", captha);
+//        params.addBodyParameter("password", password);
+//        params.addBodyParameter("username", username);
+//        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
+
+        TreeMap<String, String> paramsMap = new TreeMap<String, String>();
+
+        paramsMap.put("mobile", username);
+        paramsMap.put("captcha", password);
+        paramsMap.put("password", password);
+        paramsMap.put("username", username);
+
+        DKHSClient.requestPostByEncryp(paramsMap, DKHSUrl.User.register, listener.openEncry());
+
     }
 
     public void registerThreePlatform(String username, String openid, String provider, ThreePlatform extraData,
                                       ParseHttpListener<UserEntity> listener) {
-        RequestParams params = new RequestParams();
+//        RequestParams params = new RequestParams();
+//
+//        params.addBodyParameter("provider", provider);
+//        params.addBodyParameter("openid", openid);
+//        params.addBodyParameter("username", username);
+//        params.addBodyParameter("extra_data", new Gson().toJson(extraData));
+//        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
+//
 
-        params.addBodyParameter("provider", provider);
-        params.addBodyParameter("openid", openid);
-        params.addBodyParameter("username", username);
-        params.addBodyParameter("extra_data", new Gson().toJson(extraData));
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
+
+        TreeMap<String, String> paramsMap = new TreeMap<String, String>();
+
+        paramsMap.put("provider", provider);
+        paramsMap.put("openid", openid);
+        paramsMap.put("username", username);
+        paramsMap.put("extra_data", new Gson().toJson(extraData));
+
+        DKHSClient.requestPostByEncryp(paramsMap, DKHSUrl.User.register, listener.openEncry());
     }
 
     public static void bindThreePlatform(String openid, String provider, ThreePlatform extraData,

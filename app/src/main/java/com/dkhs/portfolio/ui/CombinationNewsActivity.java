@@ -38,6 +38,7 @@ public class CombinationNewsActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setTitle(R.string.related_news);
 //        replaceCompareView();
         replaceContentFragment(FragmentCombinationNews.newInstance());

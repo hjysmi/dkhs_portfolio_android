@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="30dp">
+
+
+    <include
+        android:id="@+id/surp_view"
+        layout="@layout/layout_optional_percent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_line1" />
+
+    <View
+        style="@style/divider_line"
+        android:layout_below="@+id/surp_view" />
+</RelativeLayout>

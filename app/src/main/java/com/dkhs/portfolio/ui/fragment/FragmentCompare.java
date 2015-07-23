@@ -491,7 +491,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
                 // Intent intent = new Intent(getActivity(),
                 // SelectStockActivity.class);
-                // UIUtils.setOverridePendingAmin(getActivity());
+                // UIUtils.setOverridePendingAnin(getActivity());
                 startActivityForResult(intent, REQUESTCODE_SELECT_FUND);
             }
             break;
@@ -1079,23 +1079,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
         // historyNetValueListener.stopRequest(true);
     }
 
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_compare);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-    }
 
     /**
      * @return

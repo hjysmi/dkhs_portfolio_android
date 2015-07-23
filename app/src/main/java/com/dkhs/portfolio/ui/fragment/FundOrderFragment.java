@@ -29,12 +29,15 @@ import java.util.List;
  * @date 2015/6/02.13:27
  * @Description
  */
-public class FundOrderFragment extends LoadMoreListFragment {
+public class FundOrderFragment extends LoadMoreListFragment implements MarketFundsFragment.OnRefreshI {
 
     private List<FundPriceBean> dataList = new ArrayList<>();
     private FundOrderEngineImpl fundOrderEngine = null;
 
     private FundOrderAdapter adapter;
+
+
+
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -51,7 +54,6 @@ public class FundOrderFragment extends LoadMoreListFragment {
         fundsOrderFragment.setArguments(bundle);
         return fundsOrderFragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,8 +75,8 @@ public class FundOrderFragment extends LoadMoreListFragment {
         Bundle bundle = getArguments();
         type = bundle.getString("type");
         sort = bundle.getString("sort");
+//        mListView.setDivider(null);
         loadData();
-
     }
 
 
@@ -92,6 +94,7 @@ public class FundOrderFragment extends LoadMoreListFragment {
         setHttpHandler(getLoadEngine().loadDate(type, sort));
     }
 
+    @Override
     public void refresh(String type, String sort) {
         this.sort = sort;
         this.type = type;

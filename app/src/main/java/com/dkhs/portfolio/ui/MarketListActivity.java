@@ -91,7 +91,7 @@ public class MarketListActivity extends RefreshModelActivity {
     protected void onNewIntent(Intent intent) {
 
         super.onNewIntent(intent);
-        setIntent(intent);// must store the new intent unless getIntent() will return the old one
+        setIntent(intent);// must store the new intent unless newIntent() will return the old one
         processExtraData();
 
     }
@@ -114,6 +114,8 @@ public class MarketListActivity extends RefreshModelActivity {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         processExtraData();
+        hadFragment();
+
         setContentView(R.layout.activity_market);
         setTitleByType(mLoadType);
         initView();

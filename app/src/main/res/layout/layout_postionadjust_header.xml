@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <!-- 持仓组合 创建信息 -->
+
+
+    <include
+        android:id="@+id/create_portfolio_info"
+        layout="@layout/layout_create_conbina_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 持仓组合 创建信息 end -->
+
+
+    <!-- 净值占比饼图 -->
+
+    <include
+        layout="@layout/layout_pieview"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="20dp" />
+
+
+    <TextView
+        android:id="@+id/btn_average"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="6dp"
+        android:background="@drawable/btn_border_gray_selector"
+        android:paddingBottom="3dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="3dp"
+        android:text="均分占比"
+        android:gravity="center"
+        android:visibility="gone"
+        />
+
+    <!-- 净值占比饼图 End -->
+
+    <View style="@style/divider_line" />
+</LinearLayout>

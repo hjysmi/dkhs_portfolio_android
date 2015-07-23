@@ -34,6 +34,7 @@ public class ShakeDetector implements SensorEventListener {
          * Called on the main thread when the device is shaken.
          */
         void hearShake();
+        void finishShake();
 
     }
 
@@ -83,6 +84,8 @@ public class ShakeDetector implements SensorEventListener {
     }
 
 
+    private long startTimeLong;
+    private boolean shacke;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -91,8 +94,17 @@ public class ShakeDetector implements SensorEventListener {
         queue.add(timestamp, accelerating);
         if (queue.isShaking()) {
             queue.clear();
-            LogUtils.e("hearShake");
-            listener.hearShake();
+            if(!shacke) {
+                listener.hearShake();
+            }
+            shacke=true;
+            startTimeLong=System.currentTimeMillis();
+
+        }else{
+            if(System.currentTimeMillis()-startTimeLong > 1200&& shacke){
+                listener.finishShake();
+                shacke=false;
+            }
         }
     }
 
@@ -119,7 +131,7 @@ public class ShakeDetector implements SensorEventListener {
         /**
          * Window size in ns. Used to compute the average.
          */
-        private static final long MAX_WINDOW_SIZE = 500000000; // 0.5s
+        private static final long MAX_WINDOW_SIZE = 300000000; // 0.5s
         private static final long MIN_WINDOW_SIZE = MAX_WINDOW_SIZE >> 1; // 0.25s
 
         /**

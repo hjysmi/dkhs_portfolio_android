@@ -11,9 +11,11 @@ package com.dkhs.portfolio.net;
 import android.os.Looper;
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.bean.EncryptData;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.security.SecurityUtils;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -25,61 +27,90 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.ResponseStream;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 
 import org.apache.http.NameValuePair;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName DKHSClilent
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-11 上午11:19:14
- * @version 1.0
  */
 public class DKHSClient {
 
     // static HttpUtils mHttpUtils = new HttpUtils();
 
     public static HttpHandler
-            request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+    request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
 
         return requestServer(new HttpUtils(), method, url, params, listener, true);
 
     }
-    public static void  requestSync(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
 
-         requestSyncServer(new HttpUtils(), method, url, params, listener, true);
+    public static void requestSync(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+
+        requestSyncServer(new HttpUtils(), method, url, params, listener, true);
 
     }
 
     public static HttpHandler request(HttpMethod method, String url, RequestParams params,
-            final IHttpListener listener, boolean isShowTip) {
+                                      final IHttpListener listener, boolean isShowTip) {
 
         return requestServer(new HttpUtils(), method, url, params, listener, isShowTip);
 
     }
 
     public static HttpHandler requestNotTip(HttpMethod method, String url, RequestParams params,
-            final IHttpListener listener) {
+                                            final IHttpListener listener) {
 
         return requestServer(new HttpUtils(), method, url, params, listener, false);
 
     }
 
     public static HttpHandler requestLong(HttpMethod method, String url, RequestParams params,
-            final IHttpListener listener) {
+                                          final IHttpListener listener) {
 
         return requestServer(new HttpUtils(10 * 60 * 1000), method, url, params, listener, false);
 
     }
 
+    public static HttpHandler requestGetByEncryp(TreeMap map, String requestUrl, ParseHttpListener listener) {
+        try {
+            requestUrl = requestUrl + "?data={0}&signature={1}";
+            EncryptData encryptData = SecurityUtils.requestByEncryp(map);
+            requestUrl = MessageFormat.format(requestUrl, URLEncoder.encode(encryptData.getData(), "UTF-8"), URLEncoder.encode(encryptData.getEncryptkey(), "UTF-8"));
+            return DKHSClient.request(HttpRequest.HttpMethod.GET, requestUrl, null, listener.openEncry());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static HttpHandler requestPostByEncryp(TreeMap map, String requestUrl, ParseHttpListener listener) {
+        try {
+            EncryptData encryptData = SecurityUtils.requestByEncryp(map);
+            RequestParams params = new RequestParams();
+            params.addBodyParameter("data", encryptData.getData());
+            params.addBodyParameter("signature", encryptData.getEncryptkey());
+            return DKHSClient.request(HttpMethod.POST, requestUrl, params, listener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private static HttpHandler requestServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
-                                               final IHttpListener listener, boolean isShowTip) {
+                                             final IHttpListener listener, boolean isShowTip) {
         final CacheHelper cacheHelper = new CacheHelper(method, url, params);
 
         if (NetUtil.checkNetWork()) {
@@ -123,6 +154,8 @@ public class DKHSClient {
             if (null != listener) {
                 listener.beforeRequest();
             }
+
+
             // mHttpUtils.sendSync(method, requestUrl)
             return mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
@@ -186,7 +219,7 @@ public class DKHSClient {
 
 
     private static void requestSyncServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
-                                             final IHttpListener listener, boolean isShowTip) {
+                                          final IHttpListener listener, boolean isShowTip) {
         final CacheHelper cacheHelper = new CacheHelper(method, url, params);
 
         if (NetUtil.checkNetWork()) {
@@ -232,14 +265,14 @@ public class DKHSClient {
             }
             // mHttpUtils.sendSync(method, requestUrl)
             try {
-                ResponseStream responseStream= mHttpUtils.sendSync(method, requestUrl, params);
-              String s=  responseStream.readString();
+                ResponseStream responseStream = mHttpUtils.sendSync(method, requestUrl, params);
+                String s = responseStream.readString();
                 listener.onHttpSuccess(s);
             } catch (HttpException e) {
-                listener.onHttpFailure(-1,e);
+                listener.onHttpFailure(-1, e);
                 e.printStackTrace();
             } catch (IOException e) {
-                listener.onHttpFailure(-2,e);
+                listener.onHttpFailure(-2, e);
                 e.printStackTrace();
             }
         } else {
@@ -273,7 +306,7 @@ public class DKHSClient {
     }
 
     public static HttpHandler requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener,
-            boolean isShowTip) {
+                                           boolean isShowTip) {
 
         return requestByGet(urlPrefix, urlPath, null, listener, isShowTip);
     }
@@ -284,12 +317,12 @@ public class DKHSClient {
     }
 
     public static HttpHandler requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
-            final IHttpListener listener) {
+                                           final IHttpListener listener) {
         return requestByGet(urlPrefix, urlPath, params, listener, true);
     }
 
     public static HttpHandler requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
-            final IHttpListener listener, boolean isShowTip) {
+                                           final IHttpListener listener, boolean isShowTip) {
 
         StringBuilder sbParams = new StringBuilder(urlPrefix);
 

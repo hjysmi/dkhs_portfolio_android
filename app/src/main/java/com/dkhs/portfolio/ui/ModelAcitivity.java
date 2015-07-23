@@ -1,13 +1,13 @@
 package com.dkhs.portfolio.ui;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,8 +17,9 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -29,10 +30,12 @@ public class ModelAcitivity extends SwipeBackActivity {
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
-    private TextImageButton btnBack;
+    private TextView btnBack;
     private View mTitleView;
     protected UserEngineImpl engine;
-    protected Context mContext;
+    protected Activity mActivity;
+
+    public boolean hadFragment;
 
     /**
      * 显示子页面的容器
@@ -43,16 +46,40 @@ public class ModelAcitivity extends SwipeBackActivity {
      * 返回按钮
      */
 
+    public void hadFragment() {
+        hadFragment = true;
+    }
+
     // private LinearLayout llBack;
     @Override
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
+        //方便定位类
+        LogUtils.d("start Activity ", this.getClass().getSimpleName());
         PortfolioApplication.getInstance().addActivity(this);
-        mContext=this;
+        mActivity = this;
         onCreate(arg0, R.layout.layout_model_default);
+
 
     }
 
+    protected void onResume() {
+        super.onResume();
+        if (!hadFragment) {
+            MobclickAgent.onPageStart(this.getClass().getSimpleName());
+        }
+        MobclickAgent.onResume(this);
+        //统计时长
+    }
+
+    protected void onPause() {
+        super.onPause();
+        if (!hadFragment) {
+            MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+        }
+
+        MobclickAgent.onPause(this);
+    }
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
@@ -68,9 +95,9 @@ public class ModelAcitivity extends SwipeBackActivity {
         super.setContentView(R.layout.layout_model);
 
         SwipeBackLayout mSwipeBackLayout = getSwipeBackLayout();
-        // 设置可以滑动的区域，推荐用屏幕像素的一半来指定
+//         设置可以滑动的区域，推荐用屏幕像素的一半来指定
         mSwipeBackLayout.setEdgeSize(100);
-        // 设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
+//         设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
         // saveTrackingMode(SwipeBackLayout.EDGE_ALL);
         // ViewStub view = (ViewStub) findViewById(R.id.layout_model_right);
@@ -85,7 +112,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     @Override
     public void setContentView(int layoutResID) {
-        // TODO Auto-generated method stub
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT);
         layoutContent.addView(View.inflate(this, layoutResID, null), params);
@@ -94,7 +120,6 @@ public class ModelAcitivity extends SwipeBackActivity {
     public void setContentView(View view, LayoutParams params) {
         if (view == null)
             return;
-
         layoutContent.addView(view, params);
     }
 
@@ -119,10 +144,11 @@ public class ModelAcitivity extends SwipeBackActivity {
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
-        mTitleView = findViewById(R.id.includeHead);
+        mTitleView = findViewById(R.id.tool);
 
-        btnBack = (TextImageButton) findViewById(BACKBUTTON_ID);
-
+        btnBack = (TextView) findViewById(BACKBUTTON_ID);
+        btnBack.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_back_selector),
+                null, null, null);
         // llBack = (LinearLayout) findViewById(R.id.llHeadBack);
 
         // 监听返回键 使得子页面不必重复监听
@@ -174,7 +200,6 @@ public class ModelAcitivity extends SwipeBackActivity {
      */
     @Override
     public void setTitle(CharSequence title) {
-        // TODO Auto-generated method stub
         // super.setTitle(title);
         ((TextView) findViewById(R.id.tv_title)).setText(title);
     }
@@ -217,15 +242,15 @@ public class ModelAcitivity extends SwipeBackActivity {
         titleTip.setVisibility(View.VISIBLE);
     }
 
-    public Button getRightButton() {
-        Button btnRight = (Button) findViewById(RIGHTBUTTON_ID);
+    public TextView getRightButton() {
+        TextView btnRight = (TextView) findViewById(RIGHTBUTTON_ID);
         btnRight.setVisibility(View.VISIBLE);
         // btnRight.setTextColor(Color.WHITE);
         return btnRight;
     }
 
-    public Button getSecondRightButton() {
-        Button btn = (Button) findViewById(SECONDRIGHTBUTTON_ID);
+    public TextView getSecondRightButton() {
+        TextView btn = (TextView) findViewById(SECONDRIGHTBUTTON_ID);
         btn.setVisibility(View.VISIBLE);
         return btn;
     }
@@ -238,14 +263,14 @@ public class ModelAcitivity extends SwipeBackActivity {
      * @Description: 隐藏标题栏
      */
     public void hideHead() {
-        RelativeLayout rlHead = (RelativeLayout) findViewById(R.id.includeHead);
+        View rlHead = findViewById(R.id.tool);
         if (rlHead.getVisibility() == View.VISIBLE) {
             rlHead.setVisibility(View.GONE);
         }
     }
 
     public void showHead() {
-        RelativeLayout rlHead = (RelativeLayout) findViewById(R.id.includeHead);
+        View rlHead = findViewById(R.id.tool);
         if (rlHead.getVisibility() == View.GONE) {
             rlHead.setVisibility(View.VISIBLE);
         }
@@ -264,38 +289,28 @@ public class ModelAcitivity extends SwipeBackActivity {
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundResource(drawable);
         imageView.setLayoutParams(params);
-
         layoutContent.addView(imageView);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        UIUtils.outAminationActivity(this);
-        // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_right);
+        UIUtils.outAnimationActivity(this);
+
     }
 
     @Override
     protected void onDestroy() {
+        PortfolioApplication.getInstance().getLists().remove(this);
         super.onDestroy();
     }
 
-    public TextImageButton getBtnBack() {
+    public TextView getBtnBack() {
         return btnBack;
     }
 
-    public void setBtnBack(TextImageButton btnBack) {
+    public void setBtnBack(TextView btnBack) {
         this.btnBack = btnBack;
     }
 
@@ -338,7 +353,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        UIUtils.setOverridePendingAmin(this);
+        UIUtils.setOverridePendingAnin(this);
     }
 
     public void startActivityNoAnim(Intent intent) {
@@ -347,6 +362,11 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     public void updateTitleBackgroud(int resId) {
         getTitleView().setBackgroundResource(resId);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setStatusBarColor(getResources().getColor(resId));
+        }
+
+
     }
 
     public void updateTitleBackgroudByValue(float value) {

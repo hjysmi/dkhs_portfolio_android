@@ -200,16 +200,10 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
     public void onPause() {
 
         super.onPause();
-        MobclickAgent.onPageEnd(mPageName);
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        MobclickAgent.onPageStart(mPageName);
-    }
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

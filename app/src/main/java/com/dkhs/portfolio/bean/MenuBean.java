@@ -20,7 +20,6 @@ public class MenuBean {
 
     private String value;
 
-
     public String getValue() {
         return value;
     }
@@ -77,6 +76,53 @@ public class MenuBean {
 
         for (int i = 0; i < key.length; i++) {
             SortTypeMenuBean item = new SortTypeMenuBean();
+            item.setEnable(true);
+            item.setKey(key[i]);
+            item.setValue(value[i]);
+            list.add(item);
+        }
+        return list;
+    }
+    public static LinkedList<MenuBean> sepFundSortFromXml(Context ctx) {
+
+        LinkedList<MenuBean> list = new LinkedList<>();
+
+        String[] key = ctx.getResources().getStringArray(R.array.sep_fund_sort_keys);
+        String[] value = ctx.getResources().getStringArray(R.array.sep_fund_sort_values);
+        for (int i = 0; i < key.length; i++) {
+            SortTypeMenuBean item = new SortTypeMenuBean();
+            item.setEnable(true);
+            item.setKey(key[i]);
+            item.setValue(value[i]);
+            list.add(item);
+        }
+        return list;
+    }
+    public static LinkedList<MenuBean> fundManagerSortFromXml(Context ctx) {
+
+        LinkedList<MenuBean> list = new LinkedList<>();
+
+        String[] key = ctx.getResources().getStringArray(R.array.fund_manager_sort_keys);
+        String[] value = ctx.getResources().getStringArray(R.array.fund_manager_sort_values);
+        for (int i = 0; i < key.length; i++) {
+            SortTypeMenuBean item = new SortTypeMenuBean();
+            item.setEnable(true);
+            item.setKey(key[i]);
+            item.setValue(value[i]);
+            list.add(item);
+        }
+        return list;
+    }
+    public static LinkedList<MenuBean> fundManagerFromXml(Context ctx) {
+
+        LinkedList<MenuBean> list = new LinkedList<>();
+
+        String[] key = ctx.getResources().getStringArray(R.array.manager_key);
+        String[] value = ctx.getResources().getStringArray(R.array.manager_value);
+
+
+        for (int i = 0; i < key.length; i++) {
+            FundManagerSortMenuBean item = new FundManagerSortMenuBean();
             item.setEnable(true);
             item.setKey(key[i]);
             item.setValue(value[i]);

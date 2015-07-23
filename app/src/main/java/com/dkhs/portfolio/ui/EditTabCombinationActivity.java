@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -136,7 +137,7 @@ public class EditTabCombinationActivity extends ModelAcitivity implements OnClic
     private void initView() {
         optionEditList = (DragListView) findViewById(R.id.option_edit_list);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
-        Button btnRight = getRightButton();
+        TextView btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);

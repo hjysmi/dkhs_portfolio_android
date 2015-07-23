@@ -27,6 +27,10 @@ public final class MessageManager {
     private RongConnect mConnct;
     private boolean hasNewUnread;
 
+    public boolean isConnect() {
+        return mConnct.isValid();
+    }
+
     // private int mTotalUnreadCount;
 
     private static class SingleMessageManager {

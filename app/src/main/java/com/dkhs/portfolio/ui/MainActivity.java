@@ -18,8 +18,8 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -28,6 +28,7 @@ import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
+import com.dkhs.portfolio.ui.fragment.ShakeFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
@@ -47,9 +48,13 @@ import io.rong.imlib.model.Message;
  */
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
+    private static final String TAG_FRAGMENT_A = "A";
+    private static final String TAG_FRAGMENT_B = "B";
+    private static final String TAG_FRAGMENT_C = "C";
+    private static final String TAG_FRAGMENT_D = "D";
+    private static final String TAG_FRAGMENT_E = "E";
 
     private MessageHandler handler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +127,7 @@ public class MainActivity extends BaseActivity {
         switch (index) {
             case MenuItemFragment.TABINDEX_1: {
                 displayFragmentA();
-                // Intent intent = new Intent(this, MainActivity.class);
-                // startActivity(intent);
+
             }
             break;
             case MenuItemFragment.TABINDEX_2: {
@@ -139,20 +143,19 @@ public class MainActivity extends BaseActivity {
                 displayFragmentD();
             }
             break;
+            case MenuItemFragment.TABINDEX_5: {
+                displayFragmentE();
+            }
+            break;
 
             default:
                 break;
         }
     }
 
-    private Fragment fragmentA;
-    private Fragment fragmentB;
-    private Fragment fragmentC;
-    private Fragment fragmentD;
-
     protected void displayFragmentA() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentA = getSupportFragmentManager().findFragmentByTag("A");
+        Fragment fragmentA = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_A);
         if (null == fragmentA) {
             fragmentA = new MainOptionalFragment();
         }
@@ -164,7 +167,7 @@ public class MainActivity extends BaseActivity {
             }
 
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentA, "A");
+            ft.add(R.id.content_layout, fragmentA, TAG_FRAGMENT_A);
         }
 
         ft.commit();
@@ -173,15 +176,16 @@ public class MainActivity extends BaseActivity {
 
     protected void displayFragmentB() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentB = getSupportFragmentManager().findFragmentByTag("B");
+        Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
             fragmentB = new MainMarketFragment();
+//            fragmentB = new ShakesFragment();
         }
         hideAllFragment();
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
             ft.show(fragmentB);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentB, "B");
+            ft.add(R.id.content_layout, fragmentB, TAG_FRAGMENT_B);
         }
         if (fragmentB instanceof VisiableLoadFragment) {
             ((VisiableLoadFragment) fragmentB).onViewShow();
@@ -191,16 +195,17 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void displayFragmentC() {
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentC = getSupportFragmentManager().findFragmentByTag("C");
+        Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {
-            fragmentC = new MainInfoFragment();
+            fragmentC = new ShakeFragment();
         }
         hideAllFragment();
         if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
             ft.show(fragmentC);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentC, "C");
+            ft.add(R.id.content_layout, fragmentC, TAG_FRAGMENT_C);
         }
 
         ft.commit();
@@ -208,15 +213,31 @@ public class MainActivity extends BaseActivity {
 
     protected void displayFragmentD() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentD = getSupportFragmentManager().findFragmentByTag("D");
+        Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
         if (null == fragmentD) {
-            fragmentD = new UserFragment();
+            fragmentD = new MainInfoFragment();
         }
         hideAllFragment();
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container
             ft.show(fragmentD);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.content_layout, fragmentD, "D");
+            ft.add(R.id.content_layout, fragmentD, TAG_FRAGMENT_D);
+        }
+
+        ft.commit();
+    }
+
+    protected void displayFragmentE() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragmentE = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_E);
+        if (null == fragmentE) {
+            fragmentE = new UserFragment();
+        }
+        hideAllFragment();
+        if (null != fragmentE && fragmentE.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentE);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.content_layout, fragmentE, TAG_FRAGMENT_E);
         }
 
         ft.commit();
@@ -226,25 +247,32 @@ public class MainActivity extends BaseActivity {
     private void hideAllFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-        if (null != fragmentA && fragmentA.isAdded()) {
-            ft.hide(fragmentA);
-            if (fragmentA instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragmentA).onViewHide();
-            }
+        Fragment fragmentA = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_A);
+        Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
+        Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
+        Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
+        Fragment fragmentE = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_E);
+
+        hideFragment(fragmentA, ft);
+        hideFragment(fragmentB, ft);
+        hideFragment(fragmentC, ft);
+        hideFragment(fragmentD, ft);
+        hideFragment(fragmentE, ft);
+        ft.commitAllowingStateLoss();
+
+        if (fragmentA instanceof VisiableLoadFragment) {
+            ((VisiableLoadFragment) fragmentA).onViewHide();
         }
-        if (null != fragmentB && fragmentB.isAdded()) {
-            ft.hide(fragmentB);
-            if (fragmentB instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragmentB).onViewHide();
-            }
+        if (fragmentB instanceof VisiableLoadFragment) {
+            ((VisiableLoadFragment) fragmentB).onViewHide();
         }
-        if (null != fragmentC && fragmentC.isAdded()) {
-            ft.hide(fragmentC);
+    }
+
+
+    private void hideFragment(Fragment fragment, FragmentTransaction ft) {
+        if (null != fragment && fragment.isAdded()) {
+            ft.hide(fragment);
         }
-        if (null != fragmentD && fragmentD.isAdded()) {
-            ft.hide(fragmentD);
-        }
-        ft.commit();
     }
 
     private long exitTime;
@@ -256,11 +284,13 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
                 return true;
+            } else {
+                GlobalParams.clearUserInfo();
             }
 
         }
 
-        GlobalParams.clearUserInfo();
+
         return super.onKeyDown(keyCode, event);
     }
 
@@ -286,7 +316,6 @@ public class MainActivity extends BaseActivity {
         // TODO Auto-generated method stub
         super.onRestoreInstanceState(savedInstanceState);
     }
-
 
 
     ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {

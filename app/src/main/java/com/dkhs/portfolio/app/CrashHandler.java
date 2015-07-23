@@ -260,7 +260,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         try {
             // long timestamp = System.currentTimeMillis();
             // String fileName = "crash-" + timestamp + CRASH_REPORTER_EXTENSION;
-            // FileOutputStream trace = mContext.openFileOutput(ErrorReportName, Context.MODE_APPEND);
+            // FileOutputStream trace = mActivity.openFileOutput(ErrorReportName, Context.MODE_APPEND);
             // trace.write(crashinfo.toString().getBytes());
             // trace.flush();
             // trace.close();

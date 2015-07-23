@@ -377,13 +377,6 @@ public class KChartsFragment extends AbstractKChartView {
     }
 
     @Override
-    public void onResume() {
-
-        super.onResume();
-        MobclickAgent.onPageStart(mPageName);
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
 
@@ -477,13 +470,6 @@ public class KChartsFragment extends AbstractKChartView {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-    }
 
     public String getCheckValue() {
         return checkValue;

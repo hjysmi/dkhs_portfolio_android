@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,6 +84,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hadFragment();
         setContentView(R.layout.activity_new_combinationdetail);
         ViewUtils.inject(this);
 
@@ -101,7 +103,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
      * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
-    protected void onResume() {
+    public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
         BusProvider.getInstance().register(this);
@@ -113,7 +115,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
      * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
     }
@@ -131,11 +133,11 @@ public class CombinationDetailActivity extends ModelAcitivity {
 
     private void handleExtras(Bundle extras) {
 //        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
-        mCombinationBean =   Parcels.unwrap(extras.getParcelable(EXTRA_COMBINATION));
-        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId()>0) {
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(EXTRA_COMBINATION));
+        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId() > 0) {
 
             if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
-                if (mCombinationBean.getUser().getId()==UserEngineImpl.getUserEntity().getId()) {
+                if (mCombinationBean.getUser().getId() == UserEngineImpl.getUserEntity().getId()) {
                     isMyCombination = true;
                 }
             }
@@ -183,7 +185,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
                 }
                 break;
                 case MENU_REMIND: {
-                    if(!UIUtils.iStartLoginActivity(CombinationDetailActivity.this)){
+                    if (!UIUtils.iStartLoginActivity(CombinationDetailActivity.this)) {
 
                         startActivity(StockRemindActivity.newCombinatIntent(CombinationDetailActivity.this,
                                 mCombinationBean));
@@ -221,8 +223,9 @@ public class CombinationDetailActivity extends ModelAcitivity {
                 }
                 break;
                 case MENU_SHARE: {
-                    if (null != mFragmentTrend) {
-                        mFragmentTrend.showShareImage();
+                    Fragment mFragmentTrend = getSupportFragmentManager().findFragmentById(R.id.rl_trend_view);
+                    if (null != mFragmentTrend && mFragmentTrend instanceof FragmentNetValueTrend) {
+                        ((FragmentNetValueTrend) mFragmentTrend).showShareImage();
 
                     }
                 }
@@ -291,9 +294,13 @@ public class CombinationDetailActivity extends ModelAcitivity {
     }
 
 
-    private FragmentNetValueTrend mFragmentTrend;
+//    private FragmentNetValueTrend mFragmentTrend;
 
     private void replaceTrendView() {
+//        if (null == mFragmentTrend) {
+//            mFragmentTrend = FragmentNetValueTrend.newInstance(true, null);
+//        }
+        Fragment mFragmentTrend = getSupportFragmentManager().findFragmentById(R.id.rl_trend_view);
         if (null == mFragmentTrend) {
             mFragmentTrend = FragmentNetValueTrend.newInstance(true, null);
         }
@@ -332,7 +339,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_MODIFY_COMBINATION:
-                    CombinationBean cBean =   Parcels.unwrap(data
+                    CombinationBean cBean = Parcels.unwrap(data
                             .getParcelableExtra(ModifyComNameActivity.ARGUMENT_COMBINATION_BEAN));
                     if (null != cBean) {
                         mCombinationBean = cBean;

@@ -129,6 +129,12 @@ public class LogUtils {
             Log.e(tag, content, tr);
         }
     }
+    public static void d(String tag,String message) {
+        if (!allowE) return;
+
+            Log.d(tag, message);
+
+    }
 
     public static void i(String content) {
         if (!allowI) return;

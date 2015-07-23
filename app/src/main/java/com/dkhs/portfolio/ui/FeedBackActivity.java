@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -41,7 +42,7 @@ import java.io.File;
  */
 public class FeedBackActivity extends ModelAcitivity implements OnClickListener {
 
-    private Button btnSave;
+    private TextView btnSave;
     private EditText feedEditText;
     private ImageView feedImageLoad;
     private EditText feedEditCom;
@@ -64,7 +65,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener 
         feedEditText = (EditText) findViewById(R.id.feed_edit_text);
         feedImageLoad = (ImageView) findViewById(R.id.feed_image_load);
         feedEditCom = (EditText) findViewById(R.id.feed_edit_com);
-        TextImageButton btnCancle = getBtnBack();
+        TextView btnCancle = getBtnBack();
         btnSave = getRightButton();
 
 
@@ -189,17 +190,11 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener 
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
     }
 
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
     }
 }

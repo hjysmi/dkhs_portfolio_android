@@ -163,7 +163,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
-            UIUtils.startAminationActivity(getActivity(),
+            UIUtils.startAnimationActivity(getActivity(),
                     StockQuotesActivity.newIntent(getActivity(), mDataList.get(position)));
         }
     };
@@ -274,7 +274,6 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         // TODO Auto-generated method stub
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
     }
 
     @Override
@@ -286,7 +285,6 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
 //            mMarketTimer = new Timer(true);
 //            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
 //        }
-        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override

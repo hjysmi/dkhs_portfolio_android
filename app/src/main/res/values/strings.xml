@@ -116,8 +116,8 @@
     <string name="descrition_format">简介:%1$s</string>
     <string name="position_from_to">从%1$s调至%2$s</string>
     <string name="select_fund">选择参照基金</string>
-    <string name="select_stock">添加个股 </string>
-    <string name="create_funds">创建组合 </string>
+    <string name="select_stock">选择股票</string>
+    <string name="create_funds">创建组合</string>
     <string name="search_fund_hint">基金简称/代码/拼音</string>
     <string name="add_postional_format">添加(%1$d)</string>
     <string name="add_text">添加</string>
@@ -405,10 +405,12 @@
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
     <string name="message_server_error">数据请求失败,请稍后重试.</string>
+    <string name="message_server_error429">请求频率过快,请稍候再尝试</string>
 
     <!-- Main page -->
     <string name="tab_1">自选</string>
     <string name="tab_2">行情</string>
+    <string name="tab_5">摇一摇</string>
     <string name="tab_3">资讯</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
@@ -538,7 +540,7 @@
     <string name="percent_tyear">今年以来</string>
     <string name="office_tenure">任职起</string>
     <string name="net_cumulative">累计收益</string>
-    <string name="title_activity_fund_manager">现任基金经理</string>
+    <string name="title_activity_fund_manager">基金经理</string>
 
 
     <string name="wanshou">万份收益</string>
@@ -548,6 +550,7 @@
 
     <string name="fund_detail_name">基金全称</string>
     <string name="fund_manager">基金经理</string>
+    <string name="fund_manager_order">基金经理排行</string>
     <string name="fund_comp">基金公司</string>
     <string name="fund_stype">基金类型</string>
     <string name="fund_create_date">成立日期</string>
@@ -563,7 +566,7 @@
     <string name="between_date"> 至 </string>
     <string name="sh300">沪深300</string>
     <string name="more_fund_compare">更多基金比较</string>
-    <string name="ad3">成功注册即送50M流量，限量抢！</string>
+    <string name="ad3">成功注册即送10M流量，限量抢！</string>
     <string name="invite_friends">邀请好友</string>
     <string name="inviting">立即邀请</string>
 
@@ -582,7 +585,7 @@
     <string name="invite_friend">邀请好友</string>
     <string name="create_combinatino">创建组合</string>
     <string name="flow_bind_tip">绑定成功即可兑换流量</string>
-    <string name="flow_input_tip">填写成功立即获得50M流量</string>
+    <string name="flow_input_tip">填写成功立即获得10M流量</string>
     <string name="flow_invite_tip">每邀请1位好友成功注册送50M流量</string>
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
@@ -604,7 +607,7 @@
     <string name="title_invite_friend">填写邀请码</string>
     <string name="invite_code">邀请码</string>
     <string name="hint_invite_code">输入邀请码</string>
-    <string name="hint_invite_code_tip">提交成功，立即获得50M流量</string>
+    <string name="hint_invite_code_tip">提交成功，立即获得10M流量</string>
     <string name="post">提交</string>
     <string name="post_success_tip">提交成功</string>
     <string name="post_failure_tip">提交失败</string>
@@ -624,8 +627,31 @@
     <string name="exit_app">退出谁牛</string>
     <string name="no_update">暂不更新</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="shakeItOff">摇一摇</string>
     <string name="introduce">说明</string>
+    <string name="the_number_of_times">已使用%1$d次机会,今日还剩%2$d次</string>
+    <string name="the_last_times">今日%1$d次机会已用完,明日再来</string>
+    <string name="recommend_symbol">"推荐股票:  "</string>
+    <string name="recently_come_in">"近5日资金流入:  %1$s"</string>
+    <string name="up_precent">"上涨概率:  %1$s"</string>
+    <string name="shake_ad">摇吧!摇出你的股市幸运消息.</string>
+    <string name="shake_err_no_login">请登录后再来摇出你的幸运消息吧</string>
+    <string name="free_flow_pre">额外获得</string>
+    <string name="free_flow_postfix">流量，恭喜啦！</string>
+    <string name="count_dwon">倒计时</string>
+    <string name="activity_shake">谁牛小炒</string>
+
+
+    <string name="float_menu_addstock">添加股票</string>
+    <string name="next_step">下一步</string>
+    <string name="combination_create_time">创建时间</string>
+    <string name="join_time">从业时间</string>
+    <string name="fund_manager_rankings">基金经理排行</string>
+    <string name="fund_rankings">传统基金排行</string>
+    <string name="win_rate_day">日战胜指数</string>
+    <string name="win_rate_format">%s战胜指数</string>
+    <string name="current_management_of_the_fund">当前管理的基金</string>
+    <string name="history_management_of_the_fund">历史管理的基金</string>
 </resources>

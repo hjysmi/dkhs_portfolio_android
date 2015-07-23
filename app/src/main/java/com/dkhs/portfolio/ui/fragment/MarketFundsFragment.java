@@ -8,7 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,12 +19,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.FundManagerSortMenuBean;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
+import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -40,24 +44,12 @@ import java.util.LinkedList;
  */
 public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
-
-    private LinkedList<MenuBean> sorts;
-
-    @Override
-    public int setContentLayoutId() {
-        return R.layout.fragment_market_funds;
-    }
-
-    private FundOrderFragment loadDataListFragment;
-
     @ViewInject(R.id.rl_menu)
     ViewGroup menuRL;
-    private MenuChooserRelativeLayout fundTypeMenuChooserL;
+    private MultiChooserRelativeLayout fundTypeMenuChooserL;
     private MenuChooserRelativeLayout sortTypeMenuChooserL;
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
-    // @ViewInject(R.id.tv_increase)
-    // private TextView tvChange;
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
     @ViewInject(R.id.tv_fund_type)
@@ -65,8 +57,23 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @ViewInject(R.id.view_stock_title)
     private View titleView;
+    @ViewInject(R.id.rootView)
+    private ViewGroup mRootView;
 
-    private Context context;
+    private LinkedList<MenuBean> sorts;
+//    private SwitchThreeStateOnClickListener mSwitchThreeStateOnClickListener;
+
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_market_funds;
+    }
+
+    private FundOrderFragment loadDataListFragment;
+    private FundManagerRankingsFragment fundManagerRankingsFragment;
+
+    public interface OnRefreshI {
+        public void refresh(String type, String sort);
+    }
 
 
     @Override
@@ -89,54 +96,75 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
+        initView(getView());
         super.onViewCreated(view, savedInstanceState);
-
-
     }
 
     @Override
     public void requestData() {
-        initView(getView());
+
     }
 
+    @Override
+    public void onViewShow() {
+
+
+        super.onViewShow();
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+        if (isVisibleToUser && isVisible()) {
+            if (getView() != null) {
+                onViewShow();
+            }
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+
     public void initView(View view) {
-        fundTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
+        fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL.setParentView(menuRL);
-        fundTypeMenuChooserL.setParentView(menuRL);
+        fundTypeMenuChooserL.setParentView(mRootView);
 
         LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
-        sorts = MenuBean.fundSortFromXml(getActivity());
+        sorts = MenuBean.fundManagerSortFromXml(getActivity());
 
-        fundTypeMenuChooserL.setData(types);
+        fundTypeMenuChooserL.setData(types, MenuBean.fundManagerFromXml(getActivity()));
         String type = types.getFirst().getValue();
         String sort = sorts.getFirst().getValue();
 
         sortTypeMenuChooserL.setData(sorts);
         setDrawableDown(fundTypeTV);
         setDrawableDown(tvPercentgae);
-        replaceDataList(type, sort);
+        tvPercentgae.setText(R.string.win_rate_day);
+        tvCurrent.setText(R.string.join_time);
+        fundTypeTV.setText(R.string.fund_manager_order);
+        sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
+
+//         mSwitchThreeStateOnClickListener=     new SwitchThreeStateOnClickListener(tvCurrent, new Action1<SwitchThreeStateOnClickListener.Status>() {
+//            @Override
+//            public void call(SwitchThreeStateOnClickListener.Status status) {
+//
+//                switch (status) {
+//                    case NORMAL:
+//                        fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+//                        break;
+//                    case UP:
+//                        fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), "-work_seniority");
+//                        break;
+//                    case DOWN:
+//                        fundManagerRankingsFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), "work_seniority");
+//                        break;
+//                }
+//            }
+//        });
+//        tvCurrent.setOnClickListener(mSwitchThreeStateOnClickListener);
+        replaceFundManagerRankingsDataList(type, sort);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-
-    private void replaceDataList(String type, String sort) {
-//        if (null == loadDataListFragment) {
-        loadDataListFragment = FundOrderFragment.newInstant(type, sort);
-//        }
-        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     @OnClick({R.id.tv_current, R.id.tv_percentage, R.id.tv_increase, R.id.rl_fund_type})
     public void onClick(View v) {
@@ -159,15 +187,19 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             }
             break;
             case R.id.btn_refresh: {
-
-                loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+                refresh();
             }
             break;
+            case R.id.btn_search:
+                UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), SelectAddOptionalActivity.class));
+                break;
             default:
                 break;
         }
 
     }
+
+    String sortKeyFormatStr;
 
     @Subscribe
     public void update(MenuBean menuBean) {
@@ -175,42 +207,82 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         if (menuBean instanceof FundTypeMenuBean) {
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
+            sortKeyFormatStr = "%s";
+            tvCurrent.setText(R.string.net_value);
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
              */
+//            mSwitchThreeStateOnClickListener.updateState(SwitchThreeStateOnClickListener.Status.NORMAL,false);
+            tvCurrent.setClickable(false);
             if (StockUitls.isSepFund(type.getCode())) {
-//                sorts.removeLast();
-                MenuBean m = sorts.getFirst();
-                m.setKey(getString(R.string.year_yld));
-                m.setValue("-year_yld");
-                sortTypeMenuChooserL.notifyDataSetChanged();
+                sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.sepFundSortFromXml(mActivity));
                 tvCurrent.setText(R.string.tenthou_unit_incm);
-//                sorts.getLast().setEnable(false);
                 tvPercentgae.setText(R.string.year_yld);
-
             } else {
-
-                MenuBean m = sorts.getFirst();
-                m.setKey(getString(R.string.percent_day));
-                m.setValue("-percent_day");
-                tvCurrent.setText(R.string.net_value);
-                MenuBean allNetValue = new MenuBean();
-//                sorts.getLast().setEnable(true);
-//                m.setKey("累计净值");
-//                m.setValue("-net_cumulative");
-//                sorts.addLast(allNetValue);
-
-                sortTypeMenuChooserL.notifyDataSetChanged();
+                sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundSortFromXml(mActivity));
                 tvPercentgae.setText(sortTypeMenuChooserL.getSelectItem().getKey());
             }
+        } else if (menuBean instanceof FundManagerSortMenuBean) {
+            tvCurrent.setText(R.string.join_time);
+            fundTypeTV.setText(R.string.fund_manager_order);
+//            mSwitchThreeStateOnClickListener.updateState(SwitchThreeStateOnClickListener.Status.NORMAL,false);
+            tvCurrent.setClickable(true);
+            sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
+            tvPercentgae.setText(R.string.win_rate_day);
+            sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity));
         } else {
-            tvPercentgae.setText(menuBean.getKey());
+            tvPercentgae.setText(String.format(sortKeyFormatStr, menuBean.getKey()));
         }
 
+        refresh();
 
-        loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
     }
+
+    private void refresh() {
+
+
+        if (fundTypeMenuChooserL.getSelectItem() instanceof FundManagerSortMenuBean) {
+
+            replaceFundManagerRankingsDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+
+        } else {
+
+            replaceFundDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
+        }
+
+    }
+
+
+    private void replaceFundManagerRankingsDataList(String type, String sort) {
+        if (loadDataListFragment != null) {
+            getChildFragmentManager().beginTransaction().detach(loadDataListFragment).commitAllowingStateLoss();
+        }
+        if (fundManagerRankingsFragment == null) {
+            fundManagerRankingsFragment = FundManagerRankingsFragment.newInstant(type, sort);
+            getChildFragmentManager().beginTransaction().add(R.id.view_datalist, fundManagerRankingsFragment, "fundManagerRankingsFragment").commitAllowingStateLoss();
+        } else {
+            getChildFragmentManager().beginTransaction().attach(fundManagerRankingsFragment).commitAllowingStateLoss();
+            fundManagerRankingsFragment.refresh(type, sort);
+        }
+    }
+
+    private void replaceFundDataList(String type, String sort) {
+
+        if (fundManagerRankingsFragment != null) {
+            getChildFragmentManager().beginTransaction().detach(fundManagerRankingsFragment).commitAllowingStateLoss();
+        }
+        if (loadDataListFragment == null) {
+            loadDataListFragment = FundOrderFragment.newInstant(type, sort);
+            getChildFragmentManager().beginTransaction().add(R.id.view_datalist, loadDataListFragment, "loadDataListFragment").commitAllowingStateLoss();
+
+        } else {
+            getChildFragmentManager().beginTransaction().attach(loadDataListFragment).commitAllowingStateLoss();
+            loadDataListFragment.refresh(type, sort);
+        }
+
+    }
+
 
     @Subscribe
     public void menuRLdismiss(MenuChooserRelativeLayout menuChooserRelativeLayout) {
@@ -220,6 +292,12 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             setDrawableDown(fundTypeTV);
         }
 
+    }
+
+    @Subscribe
+    public void menuRLdismiss(MultiChooserRelativeLayout menuChooserRelativeLayout) {
+
+        setDrawableDown(fundTypeTV);
     }
 
 

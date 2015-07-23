@@ -4,37 +4,35 @@
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud">
 
-    <RelativeLayout
-        android:id="@+id/rl_header_title"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
+        android:id="@+id/tool"
         android:background="@color/title_color">
+        <RelativeLayout
+            android:id="@+id/rl_header_title"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/tool_bar_top_padding"
+            android:layout_height="48dp">
 
-        <Button
+
+        <TextView
             android:id="@+id/btn_header_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@null"
-            android:padding="15dp"
-            android:scaleType="fitCenter"
+            style="@style/tool_bar_menu"
             android:text="@string/edit"
-            android:textColor="@color/white_textselector" />
+            />
 
-        <Button
+        <TextView
             android:id="@+id/btn_header_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@null"
-
-            android:paddingBottom="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:scaleType="fitCenter"
-            android:textColor="@color/white_textselector"
+            style="@style/tool_bar_menu"
             android:textSize="14sp" />
 
 
@@ -44,12 +42,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
-    </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/rl_header_title" />
+        android:layout_below="@+id/tool" />
 
 </RelativeLayout>

@@ -6,22 +6,27 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.github.anrwatchdog.ANRWatchDog;
 import com.umeng.analytics.AnalyticsConfig;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
+
+//import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by zjz on 2015/5/27.
  */
 public final class AppConfig {
 
-    public static final boolean isDebug = false;
+    public static final boolean isDebug = BuildConfig.isSandbox;
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
@@ -39,21 +44,30 @@ public final class AppConfig {
         //设置友盟统计的不同平台配置
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(context));
 
-        //融云API，根据不同的版本配置不同的APP key,默认为debug key
-        //正式版本需要修改为release key
-//        if (!isDebug) {
-//            setRongYunMetaData();
-//        }
-
-
+        MobclickAgent.openActivityDurationTrack(false);
         //是否替换本地raw里面的数据库
         if (hasReplaceRawDB || !PortfolioPreferenceManager.hasLoadSearchStock()) {
             copyDataBaseToPhone();
         }
 
         // 注册crashHandler，程序异常的日志管理工具
-        CrashHandler crashHandler = CrashHandler.getInstance(context);
 
+        if (isDebug) {
+//            LeakCanary.install((Application) context);
+            CrashHandler.getInstance(context);
+            ANRWatchDog anrWatchDog = new ANRWatchDog();
+            anrWatchDog.start();
+
+//            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+//                    .detectAll()    // detect everything potentially suspect
+//                    .penaltyLog()   // penalty is to write to log
+//                    .build());
+//            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                    .detectAll()
+//                    .penaltyLog()
+//                    .build());
+
+        }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
 
@@ -65,10 +79,6 @@ public final class AppConfig {
         //消息中心模块的初始化
         MessageManager.getInstance();
 
-
-//        if (!BuildConfig.DEBUG) {
-//            new ANRWatchDog().start();
-//        }
     }
 
 

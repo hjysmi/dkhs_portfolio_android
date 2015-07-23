@@ -21,6 +21,7 @@ public class ColorTemplate {
     // public static final int DEF_RED =0xFFE73535;
     // public static final int DEF_GREEN = Color.GREEN;
     public static final int DEF_RED = PortfolioApplication.getInstance().getResources().getColor(R.color.tag_red);
+    public static final int SURP_RED = PortfolioApplication.getInstance().getResources().getColor(R.color.surp_red);
     public static final int DEF_GREEN = PortfolioApplication.getInstance().getResources().getColor(R.color.tag_green);
     public static final int DEF_GRAY = PortfolioApplication.getInstance().getResources().getColor(R.color.tag_gray);
     public static final int THEME_COLOR = PortfolioApplication.getInstance().getResources()
@@ -104,20 +105,24 @@ public class ColorTemplate {
         int textColor = 0;
         try {
             float percent = Float.valueOf(percentText);
-            if (percent < 0) {
-                textColor = ColorTemplate.DEF_GREEN;
-            } else if (percent == 0) {
-                textColor = Color.BLACK;
-            } else {
-                textColor = ColorTemplate.DEF_RED;
-
-            }
+            textColor = getPercentColor(percent);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         return textColor;
     }
+
+    public static int getPercentColor(float percent) {
+        int textColor;
+        if (percent < 0) {
+            textColor = ColorTemplate.DEF_GREEN;
+        } else if (percent == 0) {
+            textColor = Color.BLACK;
+        } else {
+            textColor = ColorTemplate.DEF_RED;
+        }
+        return textColor;
+    }
+
 
 }

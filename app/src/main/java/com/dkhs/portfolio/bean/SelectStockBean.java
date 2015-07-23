@@ -185,6 +185,26 @@ public class SelectStockBean extends DragListItem {
         return selectBean;
     }
 
+    public static SelectStockBean copy(StockQuotesBean stockBean) {
+
+        SelectStockBean selectBean = new SelectStockBean();
+        selectBean.id = stockBean.getId();
+        selectBean.name = stockBean.getAbbrName();
+        selectBean.currentValue = stockBean.getCurrent();
+        selectBean.code = stockBean.getCode();
+        selectBean.symbol = stockBean.getSymbol();
+        selectBean.percentage = stockBean.getPercentage();
+        selectBean.isFollowed = stockBean.isFollowed();
+        selectBean.symbol_type = stockBean.getSymbol_type();
+        selectBean.isStop = stockBean.getIs_stop() == 1;
+//        selectBean.sortId = stockBean.getso;
+        selectBean.change = stockBean.getChange();
+        selectBean.list_status = stockBean.getList_status() + "";
+        selectBean.total_capital = stockBean.getTotal_capital();
+        selectBean.alertSetBean = stockBean.getAlertSetBean();
+        return selectBean;
+    }
+
 
     public ConStockBean parseStock() {
 

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -30,7 +31,7 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
     private EditText passwordSettingNew;
     private CheckBox passwordSettingCheck;
     // private Button btnCancle;
-    private Button btnSave;
+    private TextView btnSave;
     private static final int CHANGE_PASSWORD_MODE = 2002;
     private Context context;
 
@@ -151,21 +152,5 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_change_password);
 
-    @Override
-    public void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageEnd(mPageName);
-        MobclickAgent.onPause(this);
-    }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onPageStart(mPageName);
-        MobclickAgent.onResume(this);
-    }
 }

@@ -11,10 +11,20 @@ public class AllMarketBean {
 //    "turnover_data": {}, /换手榜
 //    "amplitude_data": {}, /振幅榜
     private MarkSectorBean sect_data;
-    private MarkSectorBean rise_data;
-    private MarkSectorBean amplitude_data;
-    private MarkSectorBean turnover_data;
-    private MarkSectorBean drop_data;
+    private MarkStockBean rise_data;
+    private MarkStockBean amplitude_data;
+    private MarkStockBean turnover_data;
+    private MarkStockBean drop_data;
+
+    public MarkStockBean getMidx_data() {
+        return midx_data;
+    }
+
+    public void setMidx_data(MarkStockBean midx_data) {
+        this.midx_data = midx_data;
+    }
+
+    private MarkStockBean midx_data;
 
     public MarkSectorBean getSect_data() {
         return sect_data;
@@ -24,36 +34,36 @@ public class AllMarketBean {
         this.sect_data = sect_data;
     }
 
-    public MarkSectorBean getRise_data() {
+    public MarkStockBean getRise_data() {
         return rise_data;
     }
 
-    public void setRise_data(MarkSectorBean rise_data) {
+    public void setRise_data(MarkStockBean rise_data) {
         this.rise_data = rise_data;
     }
 
-    public MarkSectorBean getAmplitude_data() {
+    public MarkStockBean getAmplitude_data() {
         return amplitude_data;
     }
 
-    public void setAmplitude_data(MarkSectorBean amplitude_data) {
+    public void setAmplitude_data(MarkStockBean amplitude_data) {
         this.amplitude_data = amplitude_data;
     }
 
-    public MarkSectorBean getTurnover_data() {
+    public MarkStockBean getTurnover_data() {
         return turnover_data;
     }
 
-    public void setTurnover_data(MarkSectorBean turnover_data) {
+    public void setTurnover_data(MarkStockBean turnover_data) {
         this.turnover_data = turnover_data;
     }
 
 
-    public void setDrop_data(MarkSectorBean drop_data) {
+    public void setDrop_data(MarkStockBean drop_data) {
         this.drop_data = drop_data;
     }
 
-    public MarkSectorBean getDrop_data() {
+    public MarkStockBean getDrop_data() {
         return drop_data;
     }
 
