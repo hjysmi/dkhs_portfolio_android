@@ -15,8 +15,10 @@ android {
         targetSdkVersion 21
 
 
-        versionCode 109010722
-        versionName "1.9.1.0722"
+
+        versionCode 200010723
+        versionName "2.0.1.0723"
+
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
@@ -97,6 +99,11 @@ android {
 
         classpath = files()
     }
+    android {
+        packagingOptions {
+            exclude 'META-INF/LICENSE.txt'
+        }
+    }
 
 
 }
@@ -129,4 +136,5 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
+    compile project(':photoBrower')
 }

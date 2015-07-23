@@ -95,13 +95,13 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         }
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.getSymbol()));
+        viewHolder.tvStockNum.setText(item.getSymbol());
         if (!TextUtils.isEmpty(item.name) && item.name.length() > 10) {
             viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+//            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         } else {
             viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+//            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         }
 
         return convertView;

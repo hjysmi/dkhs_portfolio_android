@@ -16,10 +16,20 @@
 package com.lidroid.xutils.db.sqlite;
 
 import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.table.*;
+import com.lidroid.xutils.db.table.Column;
+import com.lidroid.xutils.db.table.ColumnUtils;
+import com.lidroid.xutils.db.table.Finder;
+import com.lidroid.xutils.db.table.Id;
+import com.lidroid.xutils.db.table.KeyValue;
+import com.lidroid.xutils.db.table.Table;
+import com.lidroid.xutils.db.table.TableUtils;
 import com.lidroid.xutils.exception.DbException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Build "insert", "replace",，"update", "delete" and "create" sql.
@@ -242,12 +252,19 @@ public class SqlInfoBuilder {
             }
             sqlBuffer.append("\"").append(column.getColumnName()).append("\"  ");
             sqlBuffer.append(column.getColumnDbType());
+//            if (ColumnUtils.isDefalut(column.getColumnField())) {
+//                sqlBuffer.append(" DEFAULT");
+//            }
+            if (ColumnUtils.isCurrentTime(column.getColumnField())) {
+                sqlBuffer.append(" CURRENT_TIMESTAMP");
+            }
             if (ColumnUtils.isUnique(column.getColumnField())) {
                 sqlBuffer.append(" UNIQUE");
             }
             if (ColumnUtils.isNotNull(column.getColumnField())) {
                 sqlBuffer.append(" NOT NULL");
             }
+
             String check = ColumnUtils.getCheck(column.getColumnField());
             if (check != null) {
                 sqlBuffer.append(" CHECK(").append(check).append(")");

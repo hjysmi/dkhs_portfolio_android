@@ -9,19 +9,24 @@ import android.view.ViewGroup;
 /**
  * Created by zjz on 2015/7/3.
  */
-public  abstract class ViewBean {
-    ViewBean() {}
+public abstract class ViewBean {
+    ViewBean() {
+    }
 
     public ViewBean(SparseArray<ViewBean> viewDatas) {
         viewDatas.put(getViewType(), this);
     }
 
     public abstract RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, MarkIndexViewPool mViewPool);
-    public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {}
+
+    public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
+    }
+
     public abstract int getViewType();
 
 
     protected static View inflate(ViewGroup container, int layoutId) {
         return LayoutInflater.from(container.getContext()).inflate(layoutId, container, false);
     }
+
 }

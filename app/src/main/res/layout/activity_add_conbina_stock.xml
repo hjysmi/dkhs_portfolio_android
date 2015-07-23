@@ -4,28 +4,18 @@
     android:id="@+id/rl_base_add_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_gray" >
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/rl_search_stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/search_bg_selector"
-        android:focusableInTouchMode="true"
-        android:layout_margin="5dp"
+        android:background="@color/theme_gray"
         android:paddingBottom="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="5dp" >
+        android:paddingTop="5dp">
 
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
-            android:layout_centerVertical="true"
-            android:src="@drawable/search_gray" />
 
         <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_search_key"
@@ -33,21 +23,22 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:background="@null"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            dkhs:needVisible ="true"
-            android:textColorHint="#999999"
-            android:layout_toRightOf="@+id/iv_search"
+            android:background="@drawable/search_bg_selector"
+            android:drawableLeft="@drawable/search_gray"
+            android:drawablePadding="10dp"
             android:hint="@string/search_stock"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
             android:singleLine="true"
-            android:textSize="16sp" />
+            android:textColorHint="#999999"
+            android:textSize="16sp"
+            dkhs:needVisible="true" />
     </RelativeLayout>
 
-    <GridView
+    <com.dkhs.portfolio.ui.widget.GridViewEx
         android:id="@+id/rl_add_stocklist"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/select_fund_height"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rl_search_stock"
         android:background="@color/white"
         android:clickable="true"
@@ -61,8 +52,8 @@
     <View
         android:id="@+id/divider_line"
         style="@style/divider_line"
-        android:visibility="gone"
-        android:layout_below="@+id/rl_add_stocklist" />
+        android:layout_below="@+id/rl_add_stocklist"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rl_stock_searchview"
@@ -75,15 +66,13 @@
         android:id="@+id/rl_stock_rowview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/divider_line" >
+        android:layout_below="@+id/divider_line">
 
         <LinearLayout
             android:id="@+id/indicator_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/popwindow_padding"
-            android:paddingRight="@dimen/popwindow_padding" >
+            android:orientation="horizontal">
 
             <com.dkhs.portfolio.ui.widget.HScrollTitleView
                 android:id="@+id/hs_title"
@@ -92,30 +81,27 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="3" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_order"
                 style="@style/hw_wrap"
                 android:layout_width="0dip"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="@color/theme_gray"
                 android:gravity="center"
                 android:paddingBottom="3dp"
                 android:text="月排行"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <View
-            style="@style/divider_line"
-            android:layout_alignBottom="@+id/indicator_title" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/indicator_title" >
-        </android.support.v4.view.ViewPager>
+            android:layout_below="@+id/indicator_title"></android.support.v4.view.ViewPager>
 
     </RelativeLayout>
 

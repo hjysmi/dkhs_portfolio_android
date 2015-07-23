@@ -20,6 +20,7 @@ import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.adpter.util.ViewHolder;
 
 /**
  * Created by zjz on 2015/6/18.
@@ -80,7 +81,7 @@ public class FlowPackAdapter extends BaseAdapter {
             convertView = View.inflate(mContext, R.layout.item_flow_input, null);
         }
 //        onViewCreated(position, convertView, ViewHolderUtils.get(convertView));
-        ViewHolderUtils.ViewHolder vholder = ViewHolderUtils.get(convertView);
+        ViewHolder vholder = ViewHolder.newInstant(convertView);
         Button btnAction = vholder.get(R.id.btn_action);
         ImageView ivIcon = vholder.get(R.id.iv_flow_icon);
         TextView tvTitle = vholder.get(R.id.tv_flow_title);

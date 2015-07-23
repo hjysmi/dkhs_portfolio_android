@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_history_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:paddingLeft="10dp"
+        android:text="以下为历史搜索结果"
+        android:textColor="@color/gray_textcolor"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+
+    <ListView
+        android:id="@android:id/list"
+        style="@style/listViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_history_tip"
+        android:drawSelectorOnTop="false"
+
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:smoothScrollbar="true" />
+
+</RelativeLayout>

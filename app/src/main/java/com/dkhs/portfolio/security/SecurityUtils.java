@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.security;
 
-
 import com.dkhs.portfolio.bean.EncryptData;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;

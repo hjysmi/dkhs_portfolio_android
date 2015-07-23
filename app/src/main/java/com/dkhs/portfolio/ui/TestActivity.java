@@ -2,10 +2,9 @@ package com.dkhs.portfolio.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.security.SecurityUtils;
+import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
 
 /**
  * Created by zjz on 2015/5/13.
@@ -16,18 +15,12 @@ public class TestActivity extends FragmentActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_test);
+//        getData();
 
-
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.stock_layout, TabF10Fragment.newIntent("sz300363", TabF10Fragment.TabType.INTRODUCTION)).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.stock_layout, TabF10Fragment.newIntent("sz300363", TabF10Fragment.TabType.INTRODUCTION)).commit();
 
 //        replaceContentFragment(TabF10Fragment.newIntent("sz300363", TabF10Fragment.TabType.INTRODUCTION));
-        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData();
-            }
-        });
     }
 
     private void getData() {
@@ -41,17 +34,7 @@ public class TestActivity extends FragmentActivity {
 //        for (F10DataBean dataBean1 : list) {
 //            ll.addView(new F10ViewParse(this, dataBean1).getContentView());
 //        }
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    new SecurityUtils().testCreditCardPay();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
-            }
-        }.start();
 
 
     }

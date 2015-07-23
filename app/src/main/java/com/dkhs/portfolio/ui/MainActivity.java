@@ -36,6 +36,7 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.umeng.analytics.MobclickAgent;
 
 import io.rong.imlib.model.Message;
 
@@ -95,11 +96,13 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         MessageManager.getInstance().connect();
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -195,7 +198,6 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void displayFragmentC() {
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {
@@ -284,7 +286,7 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
                 return true;
-            } else {
+            }else{
                 GlobalParams.clearUserInfo();
             }
 

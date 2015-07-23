@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <com.dkhs.portfolio.ui.widget.RatioLayout
         android:layout_width="match_parent"
@@ -12,7 +13,7 @@
         android:background="@drawable/gray_bg_selector"
         android:gravity="center"
         app:height_ratio="0.8"
-        app:width_ratio="1.0"/>
+        app:width_ratio="1.0" />
 
     <LinearLayout
         android:layout_width="wrap_content"

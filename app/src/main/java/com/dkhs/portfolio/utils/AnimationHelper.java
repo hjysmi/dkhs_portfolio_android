@@ -332,5 +332,16 @@ public class AnimationHelper {
         return anim;
     }
 
+    public static void rotate90Animation(View view) {
+        ObjectAnimator animIn = ObjectAnimator.ofFloat(view, "rotationY", 90f, 0f).setDuration(300);
+        animIn.start();
+        animIn.addListener(new AnimatorListenerAdapter() {
+            public void onAnimationEnd(Animator anim) {
+                View view = (View) ((ObjectAnimator) anim).getTarget();
+                view.setRotationY(0f);
+            }
+        });
+    }
+
 
 }
