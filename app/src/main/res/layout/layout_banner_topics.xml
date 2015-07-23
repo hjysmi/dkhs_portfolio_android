@@ -18,6 +18,7 @@
         <com.dkhs.portfolio.ui.widget.ScaleLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/sliderSL"
             app:scale="0.3125">
 
             <com.daimajia.slider.library.SliderLayout

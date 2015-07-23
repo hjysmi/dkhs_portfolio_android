@@ -11,8 +11,6 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.ErrorBundle;
-import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.google.gson.Gson;
@@ -21,7 +19,6 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +41,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
     private BannerTopicsBean mBannerTopicsBean = new BannerTopicsBean();
 
-    private List<TopicsBean> mFristpageTopicsBeans;
+    private List<TopicsBean> mFirstPageTopicsBeans;
 
     public HotTopicEngineImpl(ILoadDataBackListener loadListener) {
         super(loadListener);
@@ -92,7 +89,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
             @Override
             protected void afterParseData(MoreDataBean object) {
-                mFristpageTopicsBeans = object.getResults();
+                mFirstPageTopicsBeans = object.getResults();
                 setMoreDataBean(object);
             }
 
@@ -183,13 +180,13 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                         setStatu(more.getStatu());
                         List list = new ArrayList();
                         list.add(mBannerTopicsBean);
-                        if (mFristpageTopicsBeans != null)
-                            list.addAll(mFristpageTopicsBeans);
+                        if (mFirstPageTopicsBeans != null)
+                            list.addAll(mFirstPageTopicsBeans);
                         more.setResults(list);
                         getLoadListener().loadFinish(more);
                         responseStatus = 0;
                         mBannerTopicsBean = new BannerTopicsBean();
-                        mFristpageTopicsBeans = null;
+                        mFirstPageTopicsBeans = null;
                     }
                     break;
             }

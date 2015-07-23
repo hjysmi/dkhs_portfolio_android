@@ -49,6 +49,8 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
         int duration=1;
         SliderLayout  slider=vh.get(R.id.slider);
         if(adBean != null) {
+            vh.get(R.id.sliderSL).setVisibility(View.VISIBLE);
+            slider.removeAllSliders();
             for (AdBean.AdsEntity item : adBean.getAds()) {
                 TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
                 textSliderView
@@ -69,7 +71,7 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
             slider.setDuration(duration * 1000);
             slider.startAutoCycle();
         }else{
-            slider.setVisibility(View.GONE);
+            vh.get(R.id.sliderSL).setVisibility(View.GONE);
         }
 
         if(data.hotTopicsBeans != null ) {

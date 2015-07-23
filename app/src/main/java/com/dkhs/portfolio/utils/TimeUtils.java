@@ -75,9 +75,9 @@ public class TimeUtils {
         if(date ==currentDate){
            return dateTime.toString("HH:mm");
         }else if(date.getYear()== currentDate.getYear()){
-            return dateTime.toString("MM-ddH H:mm");
+            return dateTime.toString("MM-dd HH:mm");
         }else{
-            return dateTime.toString("yyyy-MM-ddH H:mm");
+            return dateTime.toString("yyyy-MM-dd HH:mm");
         }
     }
 

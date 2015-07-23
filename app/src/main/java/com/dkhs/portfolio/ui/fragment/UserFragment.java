@@ -255,13 +255,13 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 //                ArrayList<String> list=new ArrayList();
 //                list.add("http://img.1985t.com/uploads/attaches/2014/07/18314-I1VlAZ.jpg");
 //                PhotoViewActivity.startPhotoViewActivity(mActivity,list,0);
-                startActivity(new Intent(mActivity, BBSActivity.class));
+//                startActivity(new Intent(mActivity, BBSActivity.class));
 
-//                if (!UIUtils.iStartLoginActivity(getActivity())) {
-//
-//                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
-//                    startActivity(intent);
-//                }
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
+
+                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ll_inviteFriends:
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
