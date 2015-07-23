@@ -92,6 +92,7 @@
     <dimen name="stock_item_def_text">16sp</dimen>
     <dimen name="small_stock_item_text">14sp</dimen>
     <dimen name="chartViewHeight">300dp</dimen>
+    <dimen name="div_height">0.5px</dimen>
     <integer name="animation_list_duration">100</integer>
 
     <dimen name="title_text_size">20sp</dimen>
