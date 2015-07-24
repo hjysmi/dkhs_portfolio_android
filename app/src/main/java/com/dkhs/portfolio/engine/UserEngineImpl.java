@@ -138,8 +138,8 @@ public class UserEngineImpl {
 
         TreeMap<String, String> paramsMap = new TreeMap<String, String>();
 
-        paramsMap.put("mobile", username);
-        paramsMap.put("captcha", password);
+        paramsMap.put("mobile", mobile);
+        paramsMap.put("captcha", captha);
         paramsMap.put("password", password);
         paramsMap.put("username", username);
 
