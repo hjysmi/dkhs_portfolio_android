@@ -3,6 +3,7 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -13,7 +14,7 @@ import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
-import com.dkhs.adpter.listener.ItemHandler;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 
 /**
@@ -28,11 +29,13 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
 
     public Context mContext;
 
+
+    private  OnSliderClickListenerImp mOnSliderClickListenerImp=new OnSliderClickListenerImp();
+
     public BannerHandler(Context mContext) {
         this.mContext = mContext;
     }
 
-    String s=" {\"id\": 2, \"code\": \"news_banner\", \"title\": \"\\u8d44\\u8baf\\u9875\\u5e7f\\u544a\", \"description\": \"\\u8d44\\u8baf\\u9875\\u5e7f\\u544a\", \"ads\": [{\"id\": 3, \"title\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"description\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"display_time\": 3, \"image\": \"http://com-dkhs-media-test.oss.aliyuncs.com/a/2015/06/25/11/4751/banner1.png\", \"redirect_url\": \"http://121.41.25.170:8030/portfolio/portfoliogame/\"}, {\"id\": 4, \"title\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"description\": \"\\u8d44\\u8baf\\u754c\\u9762\\u5e7f\\u544a\\u754c\\u97622\", \"display_time\": 2, \"image\": \"http://com-dkhs-media-test.oss.aliyuncs.com/a/2015/06/25/11/4820/banner2.png\", \"redirect_url\": \"http://121.41.25.170:8030/portfolio/portfoliogame/\"}]}";
 
 
     @Override
@@ -42,35 +45,71 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
 
     @Override
     public void onBindView(ViewHolder vh, BannerTopicsBean data, int position) {
-        AdBean adBean= DataParse.parseObjectJson(AdBean.class,s);
+        AdBean adBean= data.adBean;
         int duration=1;
         SliderLayout  slider=vh.get(R.id.slider);
-        for (AdBean.AdsEntity item : adBean.getAds()){
-            TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
-            textSliderView
-                    .description(item.getTitle())
-                    .image(item.getImage())
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-            ;
-            duration=item.getDisplay_time();
-            Bundle bundle=new Bundle();
-            bundle.putString("redirect_url",item.getRedirect_url());
-            textSliderView.bundle(bundle);
-            textSliderView.setOnSliderClickListener(new OnSliderClickListenerImp());
-            slider.addSlider(textSliderView);
+        if(adBean != null) {
+            vh.get(R.id.sliderSL).setVisibility(View.VISIBLE);
+            slider.removeAllSliders();
+            for (AdBean.AdsEntity item : adBean.getAds()) {
+                TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
+                textSliderView
+                        .description(item.getTitle())
+                        .image(item.getImage())
+                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                ;
+                duration = item.getDisplay_time();
+                Bundle bundle = new Bundle();
+                bundle.putString("redirect_url", item.getRedirect_url());
+                textSliderView.bundle(bundle);
+                textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                slider.addSlider(textSliderView);
+            }
+            slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+            slider.setPresetTransformer(SliderLayout.Transformer.Default);
+            slider.setCustomAnimation(new DescriptionAnimation());
+            slider.setDuration(duration * 1000);
+            slider.startAutoCycle();
+        }else{
+            vh.get(R.id.sliderSL).setVisibility(View.GONE);
         }
-        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        slider.setPresetTransformer(SliderLayout.Transformer.Default);
-        slider.setCustomAnimation(new DescriptionAnimation());
-        slider.setDuration(duration*1000);
-        slider.startAutoCycle();
+
+        if(data.hotTopicsBeans != null ) {
+            int size = data.hotTopicsBeans.size();
+            switch (size) {
+                case 5:
+                    vh.get(R.id.stick_ll5).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line4).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics5, data.hotTopicsBeans.get(4).title);
+
+                case 4:
+
+                    vh.get(R.id.stick_ll4).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line3).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics4, data.hotTopicsBeans.get(3).title);
+                case 3:
+                    vh.get(R.id.stick_ll3).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line2).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics3, data.hotTopicsBeans.get(2).title);
+                case 2:
+                    vh.get(R.id.stick_ll2).setVisibility(View.VISIBLE);
+                    vh.get(R.id.line1).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics2, data.hotTopicsBeans.get(1).title);
+                case 1:
+
+                    vh.get(R.id.stick_ll1).setVisibility(View.VISIBLE);
+                    vh.setTextView(R.id.recommend_topics1, data.hotTopicsBeans.get(0).title);
+            }
+        }
+
+
+
+
+
     }
 
 
-    @Override
-    public Class<?> getDataClass() {
-        return BannerTopicsBean.class;
-    }
+
 
     class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickListener{
 

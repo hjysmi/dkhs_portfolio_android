@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import java.util.HashMap;
 import java.util.List;
 
-import com.dkhs.adpter.listener.ItemHandler;
-import com.dkhs.adpter.util.ClassMap;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 
 
@@ -17,14 +18,19 @@ public abstract class AutoAdapter extends BaseAdapter {
     protected List<?> mData;
     protected Context mContext;
 
-    private ClassMap mClassMap =new ClassMap();
+    private HashMap<Integer,ItemHandler> mItemHandlerHashMap =new HashMap<>();
     protected AutoAdapter(Context context,List<?> data) {
         mData = data;
         mContext = context;
-        initHandlers(mClassMap);
+        initHandlers(mItemHandlerHashMap);
     }
 
-    protected abstract void initHandlers(ClassMap mAdapterItemMap);
+    protected abstract void initHandlers(HashMap<Integer,ItemHandler> itemHandlerHashMap);
+
+
+    protected void addHandler(int index,ItemHandler itemHandler){
+        mItemHandlerHashMap.put(index,itemHandler);
+    }
 
     @Override
     public int getCount() {
@@ -43,19 +49,20 @@ public abstract class AutoAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-
-        return mClassMap.getViewType(mData.get(position).getClass());
+        return getViewType(position);
     }
+
+    protected abstract int getViewType(int position);
 
     @Override
     public int getViewTypeCount() {
-        return mClassMap.size();
+        return mItemHandlerHashMap.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ItemHandler item =getItemHandler(mData.get(position).getClass());
+        ItemHandler item =getItemHandler(getViewType(position));
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             convertView = inflater.inflate(item.getLayoutResId(), null);
@@ -64,12 +71,10 @@ public abstract class AutoAdapter extends BaseAdapter {
         return convertView;
     }
 
-    protected ItemHandler getItemHandler(Class cla) {
-        return mClassMap.get(cla.toString());
+    protected ItemHandler getItemHandler(int index) {
+        return mItemHandlerHashMap.get(index);
     }
-    protected ItemHandler getItemHandler(String clsDefine) {
-        return mClassMap.get(clsDefine);
-    }
+
 }
 
 

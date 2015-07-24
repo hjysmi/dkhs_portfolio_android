@@ -19,7 +19,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
  * @version 1.0
  * @ClassName TopicsEngineImpl
  * @date 2015/4/23.13:39
- * @Description 基金经理排行榜列表
+ * @Description
  */
 public class TopicsEngineImpl extends LoadMoreDataEngine {
 
@@ -52,8 +52,6 @@ public class TopicsEngineImpl extends LoadMoreDataEngine {
 
     @Override
     public HttpHandler loadData() {
-
-
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
@@ -63,8 +61,6 @@ public class TopicsEngineImpl extends LoadMoreDataEngine {
 
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {
-
-
         return loadData();
     }
 

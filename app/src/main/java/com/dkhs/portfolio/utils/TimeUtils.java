@@ -66,17 +66,17 @@ public class TimeUtils {
     }
 
 
-    public static String getBriefTimeString(long time) {
+    public static String getBriefTimeString(String time){
 
-        DateTime dateTime = new DateTime(time);
-        LocalDate date = dateTime.toLocalDate();
-        LocalDate currentDate = LocalDate.now();
-        if (date == currentDate) {
-            return dateTime.toString("HH:mm");
-        } else if (date.getYear() == currentDate.getYear()) {
-            return dateTime.toString("MM-ddH H:mm");
-        } else {
-            return dateTime.toString("yyyy-MM-ddH H:mm");
+        DateTime dateTime=new DateTime(time);
+        LocalDate date=dateTime.toLocalDate();
+        LocalDate currentDate=   LocalDate.now();
+        if(date ==currentDate){
+           return dateTime.toString("HH:mm");
+        }else if(date.getYear()== currentDate.getYear()){
+            return dateTime.toString("MM-dd HH:mm");
+        }else{
+            return dateTime.toString("yyyy-MM-dd HH:mm");
         }
     }
 
