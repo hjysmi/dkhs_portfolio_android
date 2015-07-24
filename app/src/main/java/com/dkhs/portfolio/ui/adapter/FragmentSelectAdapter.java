@@ -124,7 +124,7 @@ public class FragmentSelectAdapter {
      * 实现标题栏的代码实现
      */
     public void createView() {
-        View view = inflater.inflate(R.layout.selectadapter_layout, null);
+        View view = inflater.inflate(R.layout.adapter_selecta_layout, null);
         pager = (ScrollViewPager) view.findViewById(R.id.selectadapter_pager);
         pager.setAdapter(new OrderFragmentAdapter(mFragmentManager, fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);

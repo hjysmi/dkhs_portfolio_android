@@ -46,7 +46,7 @@ public class MarkStockViewBean extends ViewBean {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, MarkIndexViewPool mViewPool) {
-        return new ViewHolder(inflate(container, R.layout.market_layout_market));
+        return new ViewHolder(inflate(container, R.layout.item_market_stock_list));
     }
 
     @Override

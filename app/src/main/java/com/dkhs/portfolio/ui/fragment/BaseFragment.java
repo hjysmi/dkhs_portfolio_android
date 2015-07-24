@@ -8,20 +8,19 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
-import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.ViewUtils;
+import com.umeng.analytics.MobclickAgent;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * @author zjz
@@ -52,7 +51,8 @@ public abstract class BaseFragment extends Fragment implements InstanceVisibilit
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(setContentLayoutId(), null);
+//        View view = inflater.inflate(setContentLayoutId(), null);
+        View view = (ViewGroup) inflater.inflate(setContentLayoutId(), container, false);
         ViewUtils.inject(this, view); // 注入view和事件
         return view;
 
@@ -73,7 +73,6 @@ public abstract class BaseFragment extends Fragment implements InstanceVisibilit
     }
 
     public abstract int setContentLayoutId();
-
 
 
     @Override

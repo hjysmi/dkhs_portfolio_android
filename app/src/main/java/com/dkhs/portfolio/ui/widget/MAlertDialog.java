@@ -146,7 +146,7 @@ public class MAlertDialog {
 
 
         ArrayAdapter adapter = new ArrayAdapter<CharSequence>(
-                context, R.layout.select_dialog_singlechoice, R.id.text1, items) {
+                context, R.layout.dialog_select_singlechoice, R.id.text1, items) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -181,7 +181,7 @@ public class MAlertDialog {
 
 
         ArrayAdapter adapter = new ArrayAdapter<CharSequence>(
-                context, R.layout.select_dialog_multichoice, R.id.text1, items) {
+                context, R.layout.dialog_select_multichoice, R.id.text1, items) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);

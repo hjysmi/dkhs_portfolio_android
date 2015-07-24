@@ -1,7 +1,5 @@
-package com.dkhs.portfolio.utils;
+package com.dkhs.security;
 
-
-import org.apache.commons.codec.binary.Base64;
 
 import java.security.InvalidKeyException;
 import java.security.Key;

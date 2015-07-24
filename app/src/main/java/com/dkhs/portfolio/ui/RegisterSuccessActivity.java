@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.WeakHandler;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,7 +46,7 @@ public class RegisterSuccessActivity extends ModelAcitivity implements OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.regist_success);
+        setContentView(R.layout.activity_regist_success);
         initViews();
         setListener();
         initData();
