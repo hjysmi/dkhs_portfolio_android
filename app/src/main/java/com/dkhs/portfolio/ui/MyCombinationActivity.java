@@ -13,12 +13,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zjz
@@ -36,7 +34,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         hadFragment();
-        setContentView(R.layout.activity_mycombination);
+//        setContentView(R.layout.activity_mycombination);
         setTitle(R.string.my_combination);
 
         initTitleView();
@@ -79,8 +77,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
     private void replaceCombinationListView() {
         listFragment = new MyCombinationFragmnet();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout, listFragment).commit();
-
+//        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout, listFragment).commit();
+        replaceContentFragment(listFragment);
     }
 
     @Override

@@ -16,8 +16,8 @@ android {
 
 
 
-        versionCode 200010723
-        versionName "2.0.1.0723"
+        versionCode 200010724
+        versionName "2.0.1.0724"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]

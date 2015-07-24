@@ -14,6 +14,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
+import com.dkhs.portfolio.ui.MyDraftActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.widget.FlexibleDividerDecoration;
@@ -113,6 +114,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
             case 3://我的回复
                 break;
             case 4://我的草稿
+                mContext.startActivity(new Intent(mContext, MyDraftActivity.class));
+
                 break;
 
 

@@ -8,6 +8,9 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,16 +24,25 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
+import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.base.widget.ListView;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -48,7 +60,7 @@ import java.util.TimerTask;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-3-30 上午9:00:48
  */
-public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoadDataBackListener {
+public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBackListener {
     // private List<ApplicationInfo> mAppList;
     private CombinationAdapter mAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
@@ -58,7 +70,7 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.fragment_mycombination;
+        return R.layout.activity_my_draft;
     }
 
     /**
@@ -91,11 +103,70 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
             }
         });
-        ListView mListView = (ListView) view.findViewById(R.id.swipemenu_listView);
+        SwipeMenuListView mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
         mAdapter = new CombinationAdapter();
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(tvEmptyText);
 
+        // step 1. create a MenuCreator
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+
+                SwipeMenuItem deleteItem = new SwipeMenuItem(MyDraftFragmnet.this.getActivity());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.red_delete)));
+                // set item width
+                deleteItem.setWidth(UIUtils.dp2px(90));
+                deleteItem.setTitle("删除");
+                // set item title fontsize
+                deleteItem.setTitleSize(18);
+                // set item title font color
+                deleteItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+        // set creator
+//        mListView.setMenuCreator(creator);
+
+        // step 2. listener item click event
+        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                // ApplicationInfo item = mAppList.get(position);
+                switch (index) {
+                    case 0:
+                        // open
+                        // open(item);
+                        delCombination(position);
+                        // PromptManager.showToast("删除");
+                        break;
+                    case 1:
+                        // delete
+                        // delete(item);
+                        // mAppList.remove(position);
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // set SwipeListener
+        mListView.setOnSwipeListener(new OnSwipeListener() {
+
+            @Override
+            public void onSwipeStart(int position) {
+                // swipe start
+            }
+
+            @Override
+            public void onSwipeEnd(int position) {
+                // swipe end
+            }
+        });
 
         // other setting
         // listView.setCloseInterpolator(new BounceInterpolator());
@@ -126,6 +197,98 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
         refresh();
     }
 
+    private void delCombination(int position) {
+        final CombinationBean item = mDataList.get(position);
+        // CombinationBean mCombination = (CombinationBean) item.data;
+        if (PortfolioApplication.hasUserLogin()) {
+
+            showDelDialog(item);
+        }
+    }
+
+    public void showDelDialog(final CombinationBean mCombination) {
+
+        MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
+        builder.setMessage(R.string.dialog_message_delete_combination);
+        // builder.setTitle(R.string.tips);
+        // final CombinationBean mCombination = (CombinationBean) item.data;
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
+
+                    @Override
+                    public void onSuccess(String result) {
+                        // mCombinationAdapter.getDelPosition().clear();
+                        super.onSuccess(result);
+                        mDataList.remove(mCombination);
+                        mAdapter.notifyDataSetChanged();
+                        // rvConbinationAdatper.notifyDataSetChanged();
+                        // rvConbinationAdatper.notifyItemRemoved(position)
+                        // mAdapter.notifyDataSetChanged();
+                        // combinationActivity.setButtonFinish();
+                        // upateDelViewStatus();
+                    }
+
+                    @Override
+                    public void onFailure(int errCode, String errMsg) {
+                        super.onFailure(errCode, errMsg);
+                        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /**
+                     * @Title
+                     * @Description TODO: (用一句话描述这个方法的功能)
+                     * @return
+                     */
+                    @Override
+                    public void beforeRequest() {
+                        // TODO Auto-generated method stub
+                        super.beforeRequest();
+                    }
+
+                    /**
+                     * @Title
+                     * @Description TODO: (用一句话描述这个方法的功能)
+                     * @return
+                     */
+                    @Override
+                    public void requestCallBack() {
+                        // TODO Auto-generated method stub
+                        super.requestCallBack();
+                        // refreshData();
+                        // refresh();
+                    }
+
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+                        // TODO Auto-generated method stub
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Object object) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                }.setLoadingDialog(getActivity(), "", false));
+                dialog.dismiss();
+            }
+
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+
+    }
 
     class CombinationAdapter extends BaseAdapter {
 
