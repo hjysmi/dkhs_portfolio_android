@@ -230,7 +230,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         startActivity(intent);
     }
 
-    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout,})
+    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout})
     public void onClick(View v) {
         int id = v.getId();
 
@@ -260,22 +260,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 startActivity(intent1);
                 break;
 
-                ArrayList<String> list=new ArrayList();
-                list.add("http://img.1985t.com/uploads/attaches/2014/07/18314-I1VlAZ.jpg");
-                PhotoViewActivity.startPhotoViewActivity(mActivity,list,0);
-//                startActivity(new Intent(mActivity, BBSActivity.class));
-//                if (!UIUtils.iStartLoginActivity(getActivity())) {
-//
-//                    Intent intent = new Intent(getActivity(), FlowPackageActivity.class);
-//                    startActivity(intent);
-//                }
-                break;
-            case R.id.ll_inviteFriends:
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
-                    startActivity(new Intent(getActivity(), InviteFriendsActivity.class));
-                }
-
-                break;
         }
 
 
