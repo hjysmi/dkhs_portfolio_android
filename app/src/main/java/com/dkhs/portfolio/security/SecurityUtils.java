@@ -154,6 +154,7 @@ public class SecurityUtils {
             }
 
             /** 5. result为true时表明验签通过 */
+            System.out.println("验签内容:" + signData.toString());
             boolean isCheckSign = RSA.checkSign(signData.toString(), sign,
                     RSA_SERVER_PUBLIC);
 
