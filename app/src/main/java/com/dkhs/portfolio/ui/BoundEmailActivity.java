@@ -31,7 +31,6 @@ import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +58,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
     private TextView rltAgreement;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.email_layout);
+        setContentView(R.layout.activity_email_input);
         initViews();
         setListener();
         initData();
@@ -74,7 +73,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
         dlg.show();
         dlg.setCancelable(false);
         Window window = dlg.getWindow();
-        window.setContentView(R.layout.captcha_login_dialog_layout);
+        window.setContentView(R.layout.dialog_captcha);
         Button login = (Button) window.findViewById(R.id.login);
         login.setClickable(true);
         login.setOnClickListener(new OnClickListener() {

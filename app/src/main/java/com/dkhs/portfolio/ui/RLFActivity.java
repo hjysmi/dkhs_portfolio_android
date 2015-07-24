@@ -24,7 +24,6 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.Action1;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
@@ -91,7 +90,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rlf_layout);
+        setContentView(R.layout.activity_rlf_layout);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
