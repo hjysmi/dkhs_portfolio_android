@@ -12,7 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences.Editor;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.common.SecurePreferences;
+import com.dkhs.security.SecurePreferences;
 
 /**
  * @author zjz

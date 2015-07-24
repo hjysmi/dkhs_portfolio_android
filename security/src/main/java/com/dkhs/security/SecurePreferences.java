@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.common;
+package com.dkhs.security;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;

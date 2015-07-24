@@ -26,9 +26,9 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.security.SecurityUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 
@@ -343,7 +343,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                UserEntity entity = UserEntityDesUtil.encrypt(user);
+                UserEntity entity = SecurityUtils.encrypt(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {

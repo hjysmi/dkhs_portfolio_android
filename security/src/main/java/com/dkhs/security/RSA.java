@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.security;
+package com.dkhs.security;
 
 /*
  --------------------------------------------**********--------------------------------------------

@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.security;
+package com.dkhs.security;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
