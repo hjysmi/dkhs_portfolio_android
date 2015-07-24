@@ -401,6 +401,11 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             >
         </activity>
+        <activity
+            android:name=".ui.StatusActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            >
+        </activity>
     </application>
 
 </manifest>

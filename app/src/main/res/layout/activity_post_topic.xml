@@ -13,7 +13,6 @@
         android:paddingBottom="@dimen/widget_padding_medium"
         android:paddingLeft="@dimen/widget_padding_medium"
         android:paddingTop="@dimen/widget_padding_medium"
-        android:textColor="@color/edit_textcolor"
         android:textSize="@dimen/title_text_size" />
 
     <LinearLayout
@@ -91,7 +90,7 @@
              <android.support.v4.view.ViewPager
                  android:id="@+id/vp_emoji"
                  android:layout_width="match_parent"
-                 android:layout_height="140dp" >
+                 android:layout_height="160dp" >
              </android.support.v4.view.ViewPager>
 
              <LinearLayout

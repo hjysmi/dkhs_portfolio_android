@@ -29,7 +29,4 @@ public class DKHSEmojisPagerAdapter extends FragmentStatePagerAdapter{
         return fragments.size();
     }
 
-    public interface OnEmojiconClickedListener {
-        void onEmojiconClicked(Emojicon emojicon);
-    }
 }
