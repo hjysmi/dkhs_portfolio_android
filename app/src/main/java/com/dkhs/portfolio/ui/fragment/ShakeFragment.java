@@ -199,14 +199,11 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
             @Override
             public void onFailure(final int errCode, final String errMsg) {
-                onFinish();
                 if (errCode == 401) {
-
                     ErrorBundle errorBundle = new ErrorBundle();
                     errorBundle.setErrorCode(401);
                     errorBundle.setErrorMessage(mActivity.getString(R.string.shake_err_no_login));
                     mSuccessObject = errorBundle;
-
                 } else {
 
                     failure(errCode, errMsg);

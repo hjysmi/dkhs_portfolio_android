@@ -91,14 +91,19 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             protected void afterParseData(MoreDataBean object) {
                 mFirstPageTopicsBeans = object.getResults();
                 setMoreDataBean(object);
+                onFinish();
             }
 
-
             @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                onFinish();
+            }
+
             public void onFinish() {
                 HotTopicEngineImpl.this.responseStatus = responseStatus | 4;
                 mWeakHandler.sendEmptyMessage(responseStatus);
-                super.onFinish();
+
             }
         });
         RequestParams params2 = new RequestParams();
@@ -120,7 +125,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                     }
                 }
                 mBannerTopicsBean.hotTopicsBeans = moreBean.getResults();
-
+                onFinish();
                 return moreBean;
             }
 
@@ -131,11 +136,16 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
 
             @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                onFinish();
+            }
+
             public void onFinish() {
 
                 HotTopicEngineImpl.this.responseStatus = responseStatus | 1;
                 mWeakHandler.sendEmptyMessage(responseStatus);
-                super.onFinish();
+
             }
         });
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Ads.getNewsBannerAds, null, new SimpleParseHttpListener() {
@@ -152,14 +162,19 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 //                    updateAdBanner(adBean);
                     mBannerTopicsBean.adBean = adBean;
                 }
-
+                onFinish();
             }
 
             @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                onFinish();
+            }
+
             public void onFinish() {
                 HotTopicEngineImpl.this.responseStatus = responseStatus | 2;
                 mWeakHandler.sendEmptyMessage(responseStatus);
-                super.onFinish();
+
             }
         });
 

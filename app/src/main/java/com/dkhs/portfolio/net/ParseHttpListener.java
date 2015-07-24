@@ -126,7 +126,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         // GTGUtils.showTip(HttpCode.getCodeResId(errCode));
         // LogUtils.e("Error code :" + errCode + ",message : " + err.toString());
         super.onFailure(errCode, errMsg);
-        onFinish();
     }
 
     public static final int MSG_PARSEDATE = 10;
@@ -175,9 +174,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 //                        afterParseData(obj);
 //
 //                    }
-
-
-                    onFinish();
                     break;
 
                 case MSG_ERROR:
@@ -237,10 +233,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     private void stopSelf() {
         mServiceLooper.quit();
-
-    }
-
-    public void onFinish(){
 
     }
 
