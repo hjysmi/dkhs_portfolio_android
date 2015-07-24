@@ -5,6 +5,8 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
+
 /**
  * If an object of this type is attached to the text of a TextView with a
  * movement method of LinkMovementMethod, the affected spans of text can be
@@ -16,31 +18,31 @@ public class MyClickableSpan extends ClickableSpan {
 
 	int color = -1;
 	private Context context;
-	private Intent intent;
+    public String url;
+    public int startIndex;
+    public int sLen;
 
-	public MyClickableSpan(Context context, Intent intent) {
-		this(-1, context, intent);
+	public MyClickableSpan(Context context) {
+		this(-1, context);
 	}
 
 	/**
 	 * constructor
 	 * @param color the link color
 	 * @param context
-	 * @param intent
 	 */
-	public MyClickableSpan(int color, Context context, Intent intent) {
+	public MyClickableSpan(int color, Context context) {
 		if (color!=-1) {
 			this.color = color;
 		}
 		this.context = context;
-		this.intent = intent;
 	}
 
 	/**
 	 * Performs the click action associated with this span.
 	 */
 	public void onClick(View widget){
-		context.startActivity(intent);
+        new MessageHandler(context).handleURL(url);
 	};
 
 	/**

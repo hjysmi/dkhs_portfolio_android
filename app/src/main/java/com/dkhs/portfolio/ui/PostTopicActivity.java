@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +45,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/7/16.
  */
-public class PostTopicActivity extends ModelAcitivity implements EmojiconsFragment.OnEmojiconBackspaceClickedListener, EmojiconGridFragment.OnEmojiconClickedListener, View.OnClickListener {
+public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragment.OnEmojiconBackspaceClickedListener, DKHSEmojiFragment.OnEmojiconClickedListener, View.OnClickListener {
 
     public static final String MY_CAMERA = "/my_camera";
     public static final String UPLOAD_JPG = "/upload.jpg";
@@ -57,10 +60,6 @@ public class PostTopicActivity extends ModelAcitivity implements EmojiconsFragme
         super.onCreate(arg0);
         setContentView(R.layout.activity_post_topic);
         initViews();
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.emojicons, EmojiconsFragment.newInstance(false))
-//                .commit();
         initEmoji();
     }
 
@@ -79,6 +78,7 @@ public class PostTopicActivity extends ModelAcitivity implements EmojiconsFragme
     private EditText curEt;
     private ImageView ivPhoto;
     private View ibImg;
+    private TextView rightBtn;
 
     private void initViews() {
         setTitle(R.string.post_topic);
@@ -90,7 +90,7 @@ public class PostTopicActivity extends ModelAcitivity implements EmojiconsFragme
         TextView backBtn = (TextView) getBtnBack();
         backBtn.setCompoundDrawables(null, null, null, null);
         backBtn.setText(R.string.cancel);
-        TextView rightBtn = (TextView) getRightButton();
+        rightBtn = (TextView) getRightButton();
         rightBtn.setCompoundDrawables(null, null, null, null);
         rightBtn.setText(R.string.send);
         rightBtn.setEnabled(false);
@@ -127,9 +127,46 @@ public class PostTopicActivity extends ModelAcitivity implements EmojiconsFragme
             }
         });
         curEt = etTitle;
+        MyTextWatcher watcher = new MyTextWatcher();
+        etTitle.addTextChangedListener(watcher);
+        etContent.addTextChangedListener(watcher);
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
+
+    private int etCount;
+
+    private class MyTextWatcher implements TextWatcher{
+        private  boolean isBeforeNull;
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            isBeforeNull = TextUtils.isEmpty(charSequence);
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if(!TextUtils.isEmpty(editable)){
+                if(isBeforeNull){
+                    etCount ++;
+                }
+                if(etCount == 2){
+                    rightBtn.setEnabled(true);
+                    rightBtn.setClickable(true);
+                }
+            }else{
+                if(!isBeforeNull){
+                    etCount--;
+                }
+                rightBtn.setEnabled(false);
+                rightBtn.setClickable(false);
+            }
+        }
+    }
+
 
     /**
      * 隐藏表情
@@ -156,16 +193,6 @@ public class PostTopicActivity extends ModelAcitivity implements EmojiconsFragme
         findViewById(R.id.ll_emotion).setVisibility(View.VISIBLE);
         ibEmoji.setImageResource(R.drawable.kb_icon_keyboard);
         imm.hideSoftInputFromWindow(curEt.getWindowToken(), 0);
-    }
-
-    @Override
-    public void onEmojiconBackspaceClicked(View v) {
-        EmojiconsFragment.backspace(curEt);
-    }
-
-    @Override
-    public void onEmojiconClicked(Emojicon emojicon) {
-        EmojiconsFragment.input(curEt, emojicon);
     }
 
     @Override
@@ -374,5 +401,15 @@ public class PostTopicActivity extends ModelAcitivity implements EmojiconsFragme
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onEmojiconBackSpaceClicked(Emojicon emojicon) {
+        DKHSEmojiFragment.backspace(curEt);
+    }
+
+    @Override
+    public void onEmojiconClicked(Emojicon emojicon) {
+        DKHSEmojiFragment.input(curEt, emojicon);
     }
 }
