@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 
 import com.dkhs.portfolio.security.SecurityUtils;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -195,7 +196,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
         try {
 
-            return ErrorBundle.isContainError(result);
+            return TextUtils.isEmpty(result) || ErrorBundle.isContainError(result);
 
         } catch (JSONException e) {
 
