@@ -397,7 +397,9 @@
         <activity
             android:name=".ui.PostTopicActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-
+        <activity
+            android:name=".ui.StatusActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name=".ui.MyDraftActivity"
             android:label="@string/title_my_draft"></activity>

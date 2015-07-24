@@ -199,6 +199,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
             @Override
             public void onFailure(final int errCode, final String errMsg) {
+//                super.onFailure(errCode,errMsg);
                 onFinish();
                 if (errCode == 401) {
 

@@ -1,13 +1,16 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -22,6 +25,9 @@ import java.util.List;
  * Created by zhangcm on 2015/7/21.
  */
 public class DKHSEmojiFragment extends Fragment implements AdapterView.OnItemClickListener {
+
+    private OnEmojiconBackspaceClickedListener mOnEmojiconBackspaceClickedListener;
+    private OnEmojiconClickedListener mOnEmojiconClickedListener;
 
     private static final String EMOJI_DATA = "emoji_data";
     private List<Emojicon> emojis;
@@ -50,7 +56,13 @@ public class DKHSEmojiFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        if(position == emojis.size() -1){
+            if(mOnEmojiconBackspaceClickedListener != null)
+                mOnEmojiconBackspaceClickedListener.onEmojiconBackSpaceClicked(emojis.get(position));
+        }else{
+            if(mOnEmojiconClickedListener != null)
+                mOnEmojiconClickedListener.onEmojiconClicked(emojis.get(position));
+        }
     }
 
     public class EmojiAdapter extends BaseAdapter{
@@ -90,4 +102,55 @@ public class DKHSEmojiFragment extends Fragment implements AdapterView.OnItemCli
         }
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (getActivity() instanceof OnEmojiconBackspaceClickedListener) {
+            mOnEmojiconBackspaceClickedListener = (OnEmojiconBackspaceClickedListener) getActivity();
+        } else if(getParentFragment() instanceof  OnEmojiconBackspaceClickedListener) {
+            mOnEmojiconBackspaceClickedListener = (OnEmojiconBackspaceClickedListener) getParentFragment();
+        } else {
+            throw new IllegalArgumentException(activity + " must implement interface " + OnEmojiconBackspaceClickedListener.class.getSimpleName());
+        }
+        if (activity instanceof OnEmojiconClickedListener) {
+            mOnEmojiconClickedListener = (OnEmojiconClickedListener) activity;
+        } else if (getParentFragment() instanceof OnEmojiconClickedListener) {
+            mOnEmojiconClickedListener = (OnEmojiconClickedListener) getParentFragment();
+        } else {
+            throw new IllegalArgumentException(activity + " must implement interface " + OnEmojiconClickedListener.class.getSimpleName());
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        mOnEmojiconBackspaceClickedListener = null;
+        mOnEmojiconClickedListener = null;
+        super.onDetach();
+    }
+
+    public interface OnEmojiconClickedListener {
+        void onEmojiconClicked(Emojicon emojicon);
+    }
+    public interface OnEmojiconBackspaceClickedListener {
+        void onEmojiconBackSpaceClicked(Emojicon emojicon);
+    }
+
+    public static void backspace(EditText editText) {
+        KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+        editText.dispatchKeyEvent(event);
+    }
+
+    public static void input(EditText editText, Emojicon emojicon) {
+        if (editText == null || emojicon == null) {
+            return;
+        }
+
+        int start = editText.getSelectionStart();
+        int end = editText.getSelectionEnd();
+        if (start < 0) {
+            editText.append(emojicon.getEmoji());
+        } else {
+            editText.getText().replace(Math.min(start, end), Math.max(start, end), emojicon.getEmoji(), 0, emojicon.getEmoji().length());
+        }
+    }
 }
