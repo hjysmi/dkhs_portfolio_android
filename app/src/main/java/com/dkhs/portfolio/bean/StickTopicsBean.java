@@ -1,29 +1,26 @@
 package com.dkhs.portfolio.bean;
 
-import com.rockerhieu.emojicon.emoji.People;
-
 import java.util.List;
 
 /**
  * @author zwm
  * @version 2.0
- * className TopcsBean
- * @deprecated  TODO(这里用一句话描述这个类的作用)
- * date 2015/7/16.
+ * @ClassName StickTopics
+ * @Description TODO(这里用一句话描述这个类的作用)
+ * @date 2015/7/22.
  */
-public class TopicsBean {
+public class StickTopicsBean {
 
 
-    public boolean star;
     /**
      * lon : null
      * text : 测试一下哦
      * retweeted_status : null
-     * comments_count : 11
+     * comments_count : 0
      * recommend_level : 1
      * attitudes_count : 0
      * state : 1
-     * retweets_count : 1
+     * retweets_count : 0
      * truncated : false
      * publish_at : null
      * id : 1846624

@@ -2,11 +2,11 @@ package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.dkhs.adpter.adapter.*;
-import com.dkhs.adpter.util.ClassMap;
-import com.dkhs.adpter.util.ViewHolder;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 
 /**
@@ -24,9 +24,15 @@ public class LatestTopicsAdapter extends AutoAdapter {
     }
 
     @Override
-    protected void initHandlers(ClassMap mAdapterItemMap) {
-
-        mAdapterItemMap.add(new TopicsHandler());
+    protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
+        addHandler(0,new TopicsHandler());
     }
+
+    @Override
+    protected int getViewType(int position) {
+        return 0;
+    }
+
+
 
 }

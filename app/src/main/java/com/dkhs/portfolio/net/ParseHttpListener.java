@@ -175,8 +175,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 //                        afterParseData(obj);
 //
 //                    }
-
-
                     break;
 
                 case MSG_ERROR:
@@ -253,7 +251,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     // ui操作
 
     /**
-     * @param object :{@link #parseDateTask(JSONObject jsonData)}中解析之后返回的数据对象
+     * @param object  中解析之后返回的数据对象
      * @return void
      * @Title: afterParseData
      * 该方法在主线程中执行，用于UI更新之类的操作

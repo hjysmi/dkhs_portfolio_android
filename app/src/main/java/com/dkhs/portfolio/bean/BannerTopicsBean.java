@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean;
 
 
+import java.util.List;
 
 /**
  * @author zwm
@@ -10,6 +11,9 @@ package com.dkhs.portfolio.bean;
  * @date 2015/7/16.
  */
 public class BannerTopicsBean  {
+
+    public AdBean adBean;
+    public List<TopicsBean>  hotTopicsBeans;
 
 
 }

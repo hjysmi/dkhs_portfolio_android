@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.rong.imlib.model.Message;
@@ -146,6 +147,8 @@ public class MessageHandler {
      */
     private void gotoNewOrYaoBaoDetail(String id) {
 
+
+        JSONObject jsonObject=new JSONObject();
         BaseInfoEngine baseInfoEngine = new BaseInfoEngine();
         baseInfoEngine.getOptionNewsBean(id, new BasicHttpListener() {
             @Override
