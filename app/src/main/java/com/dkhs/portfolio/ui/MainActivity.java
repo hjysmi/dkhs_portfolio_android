@@ -36,6 +36,7 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import io.rong.imlib.model.Message;
@@ -178,8 +179,7 @@ public class MainActivity extends BaseActivity {
 
 
     protected void displayFragmentB() {
-
-
+        TimeUtils.getUTCdatetimeAsString();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
