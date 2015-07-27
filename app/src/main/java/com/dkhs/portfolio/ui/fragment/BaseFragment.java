@@ -92,7 +92,9 @@ public abstract class BaseFragment extends Fragment {
         super.startActivityForResult(intent, requestCode);
     }
 
-//
+    /**
+     * fix me
+     */
 //    public void onVisibleHintChanged(boolean isVisibleToUser) {
 //
 //        if (mVisibleToUser != isVisibleToUser) {
@@ -126,6 +128,9 @@ public abstract class BaseFragment extends Fragment {
 //        onVisibleHintChanged(!hidden);
 //    }
 
+    /**
+     * fix me
+     */
 //    public void onViewShow() {
 //        List<Fragment> fragments = getChildFragmentManager().getFragments();
 //        if (fragments != null) {
@@ -137,7 +142,10 @@ public abstract class BaseFragment extends Fragment {
 //            }
 //        }
 //    }
-//
+
+    /**
+     * fix me
+     */
 //    public void onViewHide() {
 //        List<Fragment> fragments = getChildFragmentManager().getFragments();
 //        if (fragments != null) {
@@ -145,6 +153,7 @@ public abstract class BaseFragment extends Fragment {
 //                if (fragment != null && fragment instanceof InstanceVisibilityStateI) {
 //                    InstanceVisibilityStateI instanceVisibilityStateI = (InstanceVisibilityStateI) fragment;
 //                    instanceVisibilityStateI.saveStats();
+//
 //                }
 //            }
 //        }
@@ -169,7 +178,6 @@ public abstract class BaseFragment extends Fragment {
 //        onVisibleHintChanged(mSaveVisibleToUser);
 //    }
 //
-
     @Override
     public void onHiddenChanged(boolean hidden) {
 
