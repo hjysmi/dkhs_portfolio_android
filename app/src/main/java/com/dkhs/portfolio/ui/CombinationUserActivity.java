@@ -17,10 +17,15 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -36,6 +41,8 @@ import com.nineoldandroids.view.ViewHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.List;
+
 
 /**
  * @author zjz
@@ -44,7 +51,7 @@ import org.json.JSONException;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-11-6 下午4:40:09
  */
-public class CombinationUserActivity extends ModelAcitivity implements View.OnClickListener, UserCombinationListFragment.OnFragmentInteractionListener {
+public class CombinationUserActivity extends ModelAcitivity implements View.OnClickListener,LoadMoreDataEngine.ILoadDataBackListener {
 
     private final int MENU_FOLLOW_OR_UNFOLLOWE = 0;
     private String mUserId;
@@ -67,12 +74,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private View bgV;
     private View combinationTitleLL;
-    private int headerTop;
-    private int headerLeft;
-    private int userNameTop;
-    private int userDescTop;
-    private int userNameLeft;
-    private int userDescLeft;
+    private LinearLayout combinationLL;
 
 
     public FloatingActionMenu localFloatingActionMenu;
@@ -86,6 +88,11 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         intent.putExtra("username", username);
         return intent;
     }
+    private void handleExtras(Bundle extras) {
+        mUserId = extras.getString("user_id");
+        mUserName = extras.getString("username");
+    }
+
 
 
     @Override
@@ -103,7 +110,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             if (null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(mUserId)) {
                 isMyInfo = true;
             }
-
             if (isMyInfo) {
                 TextView rightBtn = getRightButton();
                 rightBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_edit_selector), null,
@@ -124,24 +130,17 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void startSettingActivity() {
         startActivity(new Intent(this, PostTopicActivity.class));
-//        startActivity(SettingActivity.getEditUserInfoIntent(this));
-        // UIUtils.startAnimationActivity(getActivity(), intent);
     }
 
 
-    private void handleExtras(Bundle extras) {
-        mUserId = extras.getString("user_id");
-        mUserName = extras.getString("username");
-    }
 
 
     private void initViews() {
-
         ivHeader = (ImageView) findViewById(R.id.iv_uheader);
         tvUName = (TextView) findViewById(R.id.tv_user_name);
         tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
-
         tvFollowers = (TextView) findViewById(R.id.tv_followers);
+        combinationLL = (LinearLayout) findViewById(R.id.combinationLL);
 
         tvFollowing = (TextView) findViewById(R.id.tv_following);
         tvSymbols = (TextView) findViewById(R.id.tv_symbols);
@@ -185,7 +184,9 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             }
         });
 
-        replaceCombinationListView();
+//        replaceCombinationListView();
+
+          new UserCombinationEngineImpl(this, mUserId).loadData();
     }
 
     @Override
@@ -199,14 +200,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     }
 
-    private void replaceCombinationListView() {
-        UserCombinationListFragment userCombinationListFragment;
-        userCombinationListFragment = UserCombinationListFragment.getFragment( mUserId);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rl_combination_list, userCombinationListFragment)
-                .commitAllowingStateLoss();
 
-    }
 
     private void initData() {
 
@@ -296,21 +290,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         }
 
         updateUserFolllowInfo(object);
-        tvUserDesc.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                tvUserDesc.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                userDescLeft = tvUserDesc.getLeft();
-            }
-        });
 
-        tvUName.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                tvUName.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                userNameLeft = tvUName.getLeft();
-            }
-        });
 
     }
 
@@ -397,31 +377,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-        if (hasFocus) {
-            headerTop = ivHeader.getTop();
-            headerLeft = ivHeader.getLeft();
-            userNameTop = tvUName.getTop();
-            userNameLeft = tvUName.getLeft();
-            userDescTop = tvUserDesc.getTop();
-            userDescLeft = tvUserDesc.getLeft();
-        }
-    }
 
 
-    private float toPercent;
-
-    /**
-     * 动画效果
-     *
-     * @param
-     */
-    public void onScrollChanged(float percent) {
-        animHeader(percent);
-    }
 
 
     @Override
@@ -439,31 +396,42 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
 
-    public void animHeader(float percent) {
 
-        ViewHelper.setTranslationX(ivHeader, -(headerLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
-        ViewHelper.setTranslationY(ivHeader, -(headerTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
+    @Override
+    public void loadFinish(MoreDataBean object) {
 
-        ViewHelper.setTranslationX(tvUserDesc, -(userDescLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height) - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) * 2) * percent);
-        ViewHelper.setTranslationY(tvUserDesc, -(userDescTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height) - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) + getResources().getDimensionPixelOffset(R.dimen.header_userDesc_height)) * percent);
-        ViewHelper.setTranslationX(tvUName, -(userNameLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height) - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) * 2) * percent);
-        ViewHelper.setTranslationY(tvUName, -(userNameTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin_top)) * percent);
-        ViewHelper.setTranslationY(combinationTitleLL, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance) * percent);
-        ViewHelper.setTranslationY(llTool, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance) * percent);
-//
-        ViewHelper.setAlpha(llTool, 1 - percent);
+        List<CombinationBean>  list=object.getResults();
+        combinationLL.removeAllViews();
 
-        if (1 == percent) {
-            if (llTool.getVisibility() == View.VISIBLE) {
-                llTool.setVisibility(View.GONE);
-            }
-        } else {
-            if (llTool.getVisibility() == View.GONE) {
-                llTool.setVisibility(View.VISIBLE);
-            }
+        if(list.size()==0){
+
+            combinationLL.addView(getEmpty("暂无组合"));
+        }else {
+
         }
-        ViewHelper.setTranslationY(bgV, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance) * percent);
+
     }
 
+    public View getEmpty(String emptyStr){
+        View view= getLayoutInflater().inflate(R.layout.layout_empty,null);
+        TextView textView= (TextView) view.findViewById(R.id.tv_empty);
+        textView.setText(emptyStr);
+        return view;
+    }
+//    public View getCombinationView( List<CombinationBean>  list){
+//
+//        if(list.size() > 0){
+//
+//        }
+//
+//
+//    }
 
+    @Override
+    public void loadFail() {
+
+
+
+
+    }
 }

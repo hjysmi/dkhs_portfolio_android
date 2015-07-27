@@ -1,6 +1,6 @@
 package com.dkhs.portfolio.bean;
 
-import com.rockerhieu.emojicon.emoji.People;
+import org.parceler.Parcel;
 
 import java.util.List;
 
@@ -8,9 +8,10 @@ import java.util.List;
  * @author zwm
  * @version 2.0
  * className TopcsBean
- * @deprecated  TODO(这里用一句话描述这个类的作用)
+ *   TODO(这里用一句话描述这个类的作用)
  * date 2015/7/16.
  */
+@Parcel
 public class TopicsBean {
 
 
@@ -55,16 +56,16 @@ public class TopicsBean {
     public String replied_comment;
     public int favorites_count;
     public String title;
-    public List<?> symbols;
+    public List<String> symbols;
     public String source;
     public int status_type;
-    public List<?> medias;
+    public List<String> medias;
     public String created_at;
     public String replied_status;
     public int content_type;
+
     public PeopleBean user;
     public String lat;
     public String modified_at;
-
 
 }

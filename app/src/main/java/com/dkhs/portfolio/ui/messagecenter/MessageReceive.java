@@ -160,6 +160,8 @@ public class MessageReceive extends BroadcastReceiver {
                     .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
                     .setContentIntent(pendingIntent)
                     .build();
+            notificationCompat.icon=R.drawable.ic_launcher;
+
             NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(notificationId, notificationCompat);
         }

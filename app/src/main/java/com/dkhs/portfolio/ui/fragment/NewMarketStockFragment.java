@@ -90,7 +90,6 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         loadingAllData();
         updateHandler.postDelayed(updateRunnable, mPollRequestTime);
 
-
         if (isLoading) {
             startAnimaRefresh();
         } else {

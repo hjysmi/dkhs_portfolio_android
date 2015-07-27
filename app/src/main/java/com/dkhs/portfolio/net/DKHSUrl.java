@@ -169,6 +169,9 @@ public class DKHSUrl {
         String getLatestTopic = "";
         String getHotTopic = "/api/v1/statuses/public_timeline/";
         String getStickTopic = "/api/v1/statuses/public_timeline/";
+        String getCommend = "/api/v1/statuses/public_timeline/";
+
+
     }
 
     public interface News {
