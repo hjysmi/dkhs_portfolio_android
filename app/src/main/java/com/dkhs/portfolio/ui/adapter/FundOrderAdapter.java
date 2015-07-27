@@ -6,14 +6,14 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 
+import com.dkhs.adpter.adapter.SingleAutoAdapter;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.dkhs.adpter.adapter.SingleAutoAdapter;
-import com.dkhs.adpter.util.ViewHolder;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class FundOrderAdapter extends SingleAutoAdapter {
         FundPriceBean fundBean = (FundPriceBean) mData.get(position);
         vh.setTextView(R.id.tv_stock_name, fundBean.getAbbrname());
         vh.setTextView(R.id.tv_stock_num, fundBean.getSymbol());
-        vh.setTextView(R.id.tv_trade_day, TimeUtils.simpleDateToMonthDay(fundBean.getTradedate()));
+        vh.setTextView(R.id.tv_trade_day, TimeUtils.getMMDDString(fundBean.getTradedate()));
         float value = fundBean.getValue(sort);
         /**
          * (306, '货币型','hb'),
@@ -69,13 +69,12 @@ public class FundOrderAdapter extends SingleAutoAdapter {
         vh.getImageView(R.id.iv_qiri).setImageResource(R.drawable.ic_qiri_gray);
 
 
-
         if (StockUitls.isSepFund(fundBean.getSymbol_stype())) {
 
             if (fundType.equals("hb") || fundType.equals("lc")) {
                 vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
                 vh.getImageView(R.id.iv_qiri).setVisibility(View.GONE);
-            }else {
+            } else {
                 vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
                 vh.getImageView(R.id.iv_qiri).setVisibility(View.VISIBLE);
             }
@@ -92,14 +91,14 @@ public class FundOrderAdapter extends SingleAutoAdapter {
 
         vh.getTextView(R.id.tv_percent_value).setTextColor(ColorTemplate.getPercentColor(value));
 
-        if(StockUitls.isDelistStock(fundBean.getList_status())){
+        if (StockUitls.isDelistStock(fundBean.getList_status())) {
 
             vh.getTextView(R.id.tv_percent_value).setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
-            vh.setTextView(R.id.tv_percent_value, mContext.getString(  R.string.exit_stock));
+            vh.setTextView(R.id.tv_percent_value, mContext.getString(R.string.exit_stock));
 
-        }else if(fundBean.isStop()){
+        } else if (fundBean.isStop()) {
             vh.getTextView(R.id.tv_percent_value).setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
-            vh.setTextView(R.id.tv_percent_value, mContext.getString(  R.string.delist));
+            vh.setTextView(R.id.tv_percent_value, mContext.getString(R.string.delist));
         }
 
 
