@@ -77,7 +77,7 @@ public class TimeUtils {
     }
 
     private static final String FORMAT_TEMPLATE_BASE = "yyyy-MM-dd HH:mm:ss";
-    private static final String FORMAT_TEMPLATE_ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZ";
+    private static final String FORMAT_TEMPLATE_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     private static final String FORMAT_TEMPLATE_DAY = "yyyy-MM-dd";
     private static final String TAG = "TimeUtils";
 
@@ -145,11 +145,6 @@ public class TimeUtils {
         dateString += weekString;
         return dateString;
     }
-
-//    public static String getTimeByMSecond(float second) {
-//        return new SimpleDateFormat("HH:mm").format(float2Date(second));
-//
-//    }
 
     public static java.util.Date float2Date(float second) {
         java.util.Date date_origine = new Date((long) (second * 1000));
@@ -255,7 +250,6 @@ public class TimeUtils {
 
 
     public static String getUTCdatetimeAsString() {
-
         return new DateTime(DateTimeZone.UTC).toString(FORMAT_TEMPLATE_ISO8601, Locale.CHINA);
     }
 
