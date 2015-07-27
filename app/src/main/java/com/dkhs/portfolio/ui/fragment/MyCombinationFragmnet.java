@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
     private UserCombinationEngineImpl dataEngine;
 
     // public SwipeRefreshLayout mSwipeLayout;
+    private static final String TAG = MyCombinationFragmnet.class.getSimpleName();
 
     @Override
     public int setContentLayoutId() {
@@ -123,6 +125,7 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
     @Override
     public void requestData() {
+        Log.e(TAG, "requestData");
         refresh();
     }
 
@@ -222,6 +225,8 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
         @Override
         public void run() {
+
+            Log.e(TAG, "RequestCombinationTask run");
             refresh();
 
         }
@@ -245,7 +250,10 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
         }
     });
 
+
     public void refresh() {
+
+        Log.e(TAG, "refresh");
         uiHandler.sendEmptyMessage(777);
         isRefresh = true;
 

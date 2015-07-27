@@ -92,40 +92,31 @@ public class TimeUtils {
 
     public static String getTimeString(String iso8601Time) {
         return new DateTime(iso8601Time).toString("HH:mm", Locale.CHINA);
-//        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
     }
 
     public static String getMMDDString(String iso8601Time) {
         return new DateTime(iso8601Time).toString("MM-dd", Locale.CHINA);
-//        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
     }
 
     public static String getMDTimeString(String iso8601Time) {
         return new DateTime(iso8601Time).toString("MM-dd HH:mm:ss", Locale.CHINA);
-//        return new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
     }
 
     public static String getDaySecondString(String iso8601Time) {
         return new DateTime(iso8601Time).toString(FORMAT_TEMPLATE_DAY_MM, Locale.CHINA);
-//        return new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
     }
 
 
     public static String getSimpleDay(String iso8601str) {
-        return new DateTime(iso8601str).toString(FORMAT_TEMPLATE_DAY);
+        return new DateTime(iso8601str).toString(FORMAT_TEMPLATE_DAY, Locale.CHINA);
     }
 
 
     public static String getHourString(String iso8601Time) {
-//        if (TextUtils.isEmpty(iso8601Time)) {
-//            return "";
-//        }
-//        return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
 
         return new DateTime(iso8601Time).toString("HH:mm:ss", Locale.CHINA);
 
     }
-
 
     //比较是否是同一天的时间
     public static boolean isSameDay(String iso8601Time) {
@@ -170,24 +161,6 @@ public class TimeUtils {
         return date.getTime();
     }
 
-
-//    /**
-//     * Transform ISO 8601 string to Calendar.
-//     */
-//    public static Calendar toCalendar(final String iso8601string) {
-//        Calendar calendar = GregorianCalendar.getInstance();
-//        String s = iso8601string.replace("Z", "+00:00");
-//        try {
-//            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-//
-//            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
-//            calendar.setTime(date);
-//        } catch (Exception e) {
-//
-//            e.printStackTrace();
-//        }
-//        return calendar;
-//    }
 
     public static Calendar getCalendar(final String simpleDate) {
 
