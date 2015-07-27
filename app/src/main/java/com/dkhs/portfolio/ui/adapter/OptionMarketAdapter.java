@@ -14,7 +14,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.utils.TimeUtils;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class OptionMarketAdapter extends BaseAdapter {
@@ -89,39 +88,16 @@ public class OptionMarketAdapter extends BaseAdapter {
 
             viewHolder.tvTextNameNum.getLayoutParams().width = rect.width();
             viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
-            Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
             if (null != mOptionNewsBean.getSource()) {
                 viewHolder.text.setText(mOptionNewsBean.getSource().getTitle());
             }
-            if (TimeUtils.compareTime(old)) {
-                viewHolder.tvTextDate.setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old.get(Calendar.HOUR_OF_DAY)) + ":" + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old.get(Calendar.MINUTE)));
+
+            if (TimeUtils.isSameDay(mOptionNewsBean.getPublish())) {
+                viewHolder.tvTextDate.setText(TimeUtils.getTimeString(mOptionNewsBean.getPublish()));
             } else {
-                int t = old.get(Calendar.MONTH) + 1;
-                viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t) + "-" + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old.get(Calendar.DAY_OF_MONTH)));
+                viewHolder.tvTextDate.setText(TimeUtils.getMMDDString(mOptionNewsBean.getPublish()));
             }
-            //viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
-			/*observer.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-				@Override
-				public void onGlobalLayout() {
-				ViewTreeObserver obs = tv.getViewTreeObserver();
-				obs.removeGlobalOnLayoutListener(this);
-				if(tv.getLineCount() > 1){
-					String text;
-					try {
-						int lineEndIndex = tv.getLayout().getLineEnd(0); //设置第六行打省略号
-						if(tv.getLayout().getLineEnd(1) > (lineEndIndex / 2)){
-							text = tv.getText().subSequence(0, lineEndIndex*3/2) +"...";
-							tv.setText(text);
-						}else{
-							tv.setText(mOptionNewsBean.getTitle());
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				}
-				});*/
+
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

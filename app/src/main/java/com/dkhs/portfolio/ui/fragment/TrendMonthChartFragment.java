@@ -96,7 +96,7 @@ public class TrendMonthChartFragment extends VisiableLoadFragment {
             handleExtras(extras);
         }
 
-        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        mCreateCalender = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
 
     }
 
@@ -398,8 +398,8 @@ public class TrendMonthChartFragment extends VisiableLoadFragment {
                 pointEntity.setValue(value);
                 pointEntity.setTime("日期: " + todayBean.getDate());
                 pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
-                if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                    if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                if (dashLineSize == 0 && TimeUtils.getCalendar(todayBean.getDate()) != null) {
+                    if (TimeUtils.getCalendar(todayBean.getDate()).after(mCreateCalender)) {
                         dashLineSize = i;
                     }
                 }

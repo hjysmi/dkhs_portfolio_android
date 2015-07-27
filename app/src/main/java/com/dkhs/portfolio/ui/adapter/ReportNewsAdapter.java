@@ -11,7 +11,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.utils.TimeUtils;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class ReportNewsAdapter extends BaseAdapter {
@@ -174,29 +173,18 @@ public class ReportNewsAdapter extends BaseAdapter {
             viewHolder.tvStockName.setVisibility(View.GONE);
             // viewHolder.tvTextNameNum.getLayoutParams().width = rect.width();
             // viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
-            Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
             if (null != mOptionNewsBean.getSource()) {
                 viewHolder.text.setText(mOptionNewsBean.getSource().getTitle());
             }
-            int t = old.get(Calendar.MONTH) + 1;
-            viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
-                    + "-"
-                    + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
-                    .get(Calendar.DAY_OF_MONTH)));
-            // if (TimeUtils.compareTime(old)) {
-            // viewHolder.tvTextDate
-            // .setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old
-            // .get(Calendar.HOUR_OF_DAY))
-            // + ":"
-            // + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old
-            // .get(Calendar.MINUTE)));
-            // } else {
-            // int t = old.get(Calendar.MONTH) + 1;
-            // viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
-            // + "-"
-            // + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
-            // .get(Calendar.DAY_OF_MONTH)));
-            // }
+
+            viewHolder.tvTextDate.setText(TimeUtils.getMMDDString(mOptionNewsBean.getPublish()));
+//            Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
+//            int t = old.get(Calendar.MONTH) + 1;
+//            viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
+//                    + "-"
+//                    + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
+//                    .get(Calendar.DAY_OF_MONTH)));
+
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

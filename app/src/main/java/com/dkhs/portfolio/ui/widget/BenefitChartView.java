@@ -111,11 +111,11 @@ public class BenefitChartView {
         this.achivementsEntity = achivementsEntity;
         contentView.setVisibility(View.GONE);
         if (null != achivementsEntity.getEnd_date()) {
-            cEnd = TimeUtils.simpleDateToCalendar(achivementsEntity.getEnd_date());
+            cEnd = TimeUtils.getCalendar(achivementsEntity.getEnd_date());
         } else {
             cEnd = Calendar.getInstance();
         }
-        cStart = TimeUtils.simpleDateToCalendar(achivementsEntity.getStart_date());
+        cStart = TimeUtils.getCalendar(achivementsEntity.getStart_date());
         symbol_stype = achivementsEntity.getFund().getSymbol_stype();
         fundId = achivementsEntity.getFund().getId() + "";
         abbrName = achivementsEntity.getFund().getAbbr_name();
@@ -189,7 +189,7 @@ public class BenefitChartView {
         cEnd = Calendar.getInstance();
 
         // FIXME: 2015/6/10 多个基金经理的时候 开始时间怎么算
-        cStart = TimeUtils.simpleDateToCalendar(fundQuoteBean.getManagers().get(0).getStart_date());
+        cStart = TimeUtils.getCalendar(fundQuoteBean.getManagers().get(0).getStart_date());
 
         this.symbol_stype = fundQuoteBean.getSymbol_stype();
         fundId = fundQuoteBean.getId() + "";
@@ -488,10 +488,10 @@ public class BenefitChartView {
             Iterator<ManagersEntity> it = inertManagerList.iterator();
             while (it.hasNext()) {
                 ManagersEntity managerEntity = it.next();
-                Calendar firstCal = TimeUtils.simpleDateToCalendar(firstDay);
-                Calendar managerCal = TimeUtils.simpleDateToCalendar(managerEntity.getStart_date());
+                Calendar firstCal = TimeUtils.getCalendar(firstDay);
+                Calendar managerCal = TimeUtils.getCalendar(managerEntity.getStart_date());
                 if (!managerCal.before(firstCal)) {
-                    Calendar currentCal = TimeUtils.simpleDateToCalendar(day);
+                    Calendar currentCal = TimeUtils.getCalendar(day);
                     if (managerCal.equals(currentCal) || currentCal.after(managerCal)) {
                         sbMangerText.append(managerEntity.getName()).append("  ");
                         it.remove();

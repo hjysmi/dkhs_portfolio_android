@@ -36,7 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.CompareFundsBean;
 import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
@@ -62,7 +61,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -244,7 +242,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
-        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        mCreateCalender = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
 
     }
 
@@ -646,8 +644,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
             // float pointValue = todayBean.getPercentage();
             float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+            if (dashLineSize == 0 && TimeUtils.getCalendar(todayBean.getDate()) != null) {
+                if (TimeUtils.getCalendar(todayBean.getDate()).after(mCreateCalender)) {
                     dashLineSize = i;
                 }
             }
@@ -890,9 +888,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     // }
 
     private void queryBeforeCreateMonth() {
-        cStart = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        cStart = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
         cStart.add(Calendar.MONTH, -1);
-        cEnd = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        cEnd = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
         // setStartTime(String.format(mDayFormat, cStart.get(Calendar.YEAR),
         // (cStart.get(Calendar.MONTH) + 1),
         // cStart.get(Calendar.DAY_OF_MONTH)));
@@ -996,7 +994,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     // }
 
     private boolean isBeforeMonthCreateDate(Calendar cStart) {
-        Calendar beforeMonthCaleder = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        Calendar beforeMonthCaleder = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
         beforeMonthCaleder.add(Calendar.MONTH, -1);
         return cStart.before(beforeMonthCaleder);
 

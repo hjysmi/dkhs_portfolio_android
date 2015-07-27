@@ -56,7 +56,6 @@ import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -269,7 +268,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         protected void afterParseData(PositionDetail object) {
             if (null != object) {
                 if (isDefalutRequest) {
-                    mCurrentCalendar = TimeUtils.simpleDateToCalendar(object.getCurrentDate());
+                    mCurrentCalendar = TimeUtils.getCalendar(object.getCurrentDate());
                 }
                 mPositionDetail = object;
 
@@ -620,7 +619,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
                 }
                 String createDate = mPositionDetail.getPortfolio().getCreateTime();
 
-                Calendar calCreate = TimeUtils.toCalendar(createDate);
+                Calendar calCreate = TimeUtils.getCalendar(createDate);
                 Calendar calSelect = GregorianCalendar.getInstance();
                 // Calendar calToday = GregorianCalendar.getInstance();
                 calSelect.set(year, monthOfYear, dayOfMonth);
@@ -660,7 +659,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             String createDate = mPositionDetail.getPortfolio().getCreateTime();
 
-            Calendar calCreate = TimeUtils.toCalendar(createDate);
+            Calendar calCreate = TimeUtils.getCalendar(createDate);
             Calendar calSelect = GregorianCalendar.getInstance();
             // Calendar calToday = GregorianCalendar.getInstance();
             calSelect.set(year, monthOfYear, dayOfMonth);

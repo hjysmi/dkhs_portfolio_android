@@ -104,7 +104,7 @@ public class TrendTodayChartFragment extends VisiableLoadFragment {
             handleExtras(extras);
         }
 
-        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        mCreateCalender = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
 
     }
 
@@ -326,8 +326,8 @@ public class TrendTodayChartFragment extends VisiableLoadFragment {
             pointEntity.setValue(bean.getNetvalue());
             pointEntity.setIncreaseRange(((bean.getNetvalue() - baseNum) / baseNum) * 100);
 
-            if (dashLineSize == 0 && TimeUtils.toCalendar(bean.getTimestamp()) != null) {
-                if (TimeUtils.toCalendar(bean.getTimestamp()).after(mCreateCalender)) {
+            if (dashLineSize == 0 && TimeUtils.getCalendar(bean.getTimestamp()) != null) {
+                if (TimeUtils.getCalendar(bean.getTimestamp()).after(mCreateCalender)) {
                     dashLineSize = i;
                 }
             }

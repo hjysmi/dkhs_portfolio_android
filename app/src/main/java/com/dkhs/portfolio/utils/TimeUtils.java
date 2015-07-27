@@ -9,13 +9,13 @@
 package com.dkhs.portfolio.utils;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -72,13 +72,14 @@ public class TimeUtils {
         } else if (date.getYear() == currentDate.getYear()) {
             return dateTime.toString("MM-dd HH:mm");
         } else {
-            return dateTime.toString("yyyy-MM-dd HH:mm");
+            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM);
         }
     }
 
     private static final String FORMAT_TEMPLATE_BASE = "yyyy-MM-dd HH:mm:ss";
     private static final String FORMAT_TEMPLATE_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     private static final String FORMAT_TEMPLATE_DAY = "yyyy-MM-dd";
+    private static final String FORMAT_TEMPLATE_DAY_MM = "yyyy-MM-dd HH:mm";
     private static final String TAG = "TimeUtils";
 
 
@@ -94,9 +95,24 @@ public class TimeUtils {
 //        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
     }
 
+    public static String getMMDDString(String iso8601Time) {
+        return new DateTime(iso8601Time).toString("MM-dd", Locale.CHINA);
+//        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
+    }
+
     public static String getMDTimeString(String iso8601Time) {
         return new DateTime(iso8601Time).toString("MM-dd HH:mm:ss", Locale.CHINA);
 //        return new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
+    }
+
+    public static String getDaySecondString(String iso8601Time) {
+        return new DateTime(iso8601Time).toString(FORMAT_TEMPLATE_DAY_MM, Locale.CHINA);
+//        return new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
+    }
+
+
+    public static String getSimpleDay(String iso8601str) {
+        return new DateTime(iso8601str).toString(FORMAT_TEMPLATE_DAY);
     }
 
 
@@ -110,10 +126,10 @@ public class TimeUtils {
 
     }
 
-    public static boolean compareTime(Calendar old) {
-        Calendar c = Calendar.getInstance();
-        return old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH)
-                && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH);
+
+    //比较是否是同一天的时间
+    public static boolean isSameDay(String iso8601Time) {
+        return DateTimeComparator.getDateOnlyInstance().compare(new DateTime(iso8601Time).toDate(), new DateTime().toDate()) == 0;
     }
 
     public static String getTimeString(Calendar calendar) {
@@ -155,97 +171,27 @@ public class TimeUtils {
     }
 
 
-    public static String getSimpleDay(String iso8601str) {
-        return new DateTime(iso8601str).toString(FORMAT_TEMPLATE_DAY);
-    }
+//    /**
+//     * Transform ISO 8601 string to Calendar.
+//     */
+//    public static Calendar toCalendar(final String iso8601string) {
+//        Calendar calendar = GregorianCalendar.getInstance();
+//        String s = iso8601string.replace("Z", "+00:00");
+//        try {
+//            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
+//
+//            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
+//            calendar.setTime(date);
+//        } catch (Exception e) {
+//
+//            e.printStackTrace();
+//        }
+//        return calendar;
+//    }
 
+    public static Calendar getCalendar(final String simpleDate) {
 
-    /**
-     * Transform ISO 8601 string to Calendar.
-     */
-    public static Calendar toCalendar(final String iso8601string) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
-        try {
-            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-
-            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
-            calendar.setTime(date);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return calendar;
-    }
-
-    public static Calendar toCalendarAddHour(final String iso8601string) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
-        try {
-            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-            SimpleDateFormat ss = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CHINA);
-            // ss.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
-            Date date = ss.parse(iso8601string);
-            calendar.setTime(date);
-            int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
-            calendar.set(Calendar.HOUR_OF_DAY, k);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return calendar;
-    }
-
-    public static String addHour(final String iso8601string) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String s = "";
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA).parse(iso8601string);
-            calendar.setTime(date);
-            /*
-             * int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
-             * int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
-             * calendar.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
-             */
-            int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
-            calendar.set(Calendar.HOUR_OF_DAY, k);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            s = sdf.format(calendar.getTime());
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return s;
-    }
-
-    public static Calendar simpleDateToCalendar(final String simpleDate) {
-        Calendar calendar = GregorianCalendar.getInstance();
-
-        try {
-
-            Date date = new SimpleDateFormat(FORMAT_TEMPLATE_DAY, Locale.CHINA).parse(simpleDate);
-            calendar.setTime(date);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return calendar;
-    }
-
-    public static String simpleDateToMonthDay(final String simpleDate) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String monthDayText = "";
-        try {
-
-            Date date = new SimpleDateFormat(FORMAT_TEMPLATE_DAY, Locale.CHINA).parse(simpleDate);
-            calendar.setTime(date);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
-            monthDayText = sdf.format(calendar.getTime());
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return monthDayText;
+        return new DateTime(simpleDate).toCalendar(Locale.CHINA);
     }
 
 
