@@ -63,15 +63,8 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
         return R.layout.fragment_mycombination;
     }
 
-    /**
-     * @param savedInstanceState
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         dataEngine = new UserCombinationEngineImpl(this, "");
 
@@ -81,7 +74,6 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         tvEmptyText = (TextView) view.findViewById(R.id.add_data);
         tvEmptyText.setText(R.string.click_creat_combina);
@@ -125,7 +117,6 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
     @Override
     public void requestData() {
-        Log.e(TAG, "requestData");
         refresh();
     }
 

@@ -2,10 +2,14 @@ package com.dkhs.portfolio.engine;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.DraftBean;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,48 +21,81 @@ public class DraftEngine {
 
     private static final String TAG = "DraftEngine";
 
-    public void getDraftByUserId(long userId) {
-        DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-        List<DraftBean> draftBeanList = new ArrayList<DraftBean>();
-        try {
+    private Bus mEventBus;
+    private String mAuthorID;
 
-            draftBeanList = dbUtils
-                    .findAll(Selector.from(DraftBean.class).where(DraftBean.COLUM_AUTHORID, "=", userId)
-                    );
+    public DraftEngine(String authorID, Bus eventBus) {
+        this.mEventBus = eventBus;
+        this.mAuthorID = authorID;
+    }
 
-            LogUtils.d(TAG, " Select DraftBeanList size:" + draftBeanList.size());
+    public DraftEngine(Bus eventBus) {
+        this.mEventBus = eventBus;
+        this.mAuthorID = String.valueOf(GlobalParams.LOGIN_USER.getId());
+    }
 
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void getDraftByUserId() {
+        new Thread() {
+            @Override
+            public void run() {
+                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                List<DraftBean> draftBeanList = new ArrayList<DraftBean>();
+                try {
+
+                    draftBeanList = dbUtils
+                            .findAll(Selector.from(DraftBean.class).where(DraftBean.COLUM_AUTHORID, "=", mAuthorID)
+                            );
+                    if (null != mEventBus) {
+                        mEventBus.post(new LoadDraftEvent(draftBeanList));
+                    }
+
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
     }
 
 
-    public void delDraft(DraftBean draftBean) {
-        DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+    public void delDraft(final DraftBean draftBean) {
+        new Thread() {
+            @Override
+            public void run() {
+                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
 
-        try {
-            dbUtils.delete(draftBean);
-            LogUtils.d(TAG, "delDraft by id:" + draftBean.getId());
+                try {
+                    dbUtils.delete(draftBean);
+                    LogUtils.d(TAG, "delDraft by id:" + draftBean.getId());
 
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
     }
 
-    public void saveDraft(DraftBean draftBean) {
-        DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+    public void saveDraftfinal(final DraftBean draftBean) {
+        new Thread() {
+            @Override
+            public void run() {
+                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
 
-        try {
-            dbUtils.saveOrUpdate(draftBean);
-            LogUtils.d(TAG, "saveDraft by id:" + draftBean.getId());
+                try {
+                    draftBean.setUtcTime(TimeUtils.getUTCdatetimeAsString());
+                    dbUtils.saveOrUpdate(draftBean);
+                    LogUtils.d(TAG, "saveDraft by id:" + draftBean.getId());
 
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
     }
 
 }
