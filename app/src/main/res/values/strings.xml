@@ -703,6 +703,7 @@
     <string name="report_harass">骚扰我</string>
     <string name="report_fake">虚假中奖</string>
     <string name="report_user">举报%1$s的回复：</string>
+    <string name="report_success">您的举报信息已提交，感谢您的支持</string>
     <!--举报 end-->
 
 

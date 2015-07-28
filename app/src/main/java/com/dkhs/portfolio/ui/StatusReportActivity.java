@@ -21,8 +21,10 @@ public class StatusReportActivity extends ModelAcitivity implements OnClickListe
 
     @ViewInject(R.id.tv_report_user)
     private TextView tvReportUser;
+
+
     @ViewInject(R.id.tv_report_content)
-    private TextView tvReportContent;
+    private TextView tvReportContent;//最多显示200个字符
 
     @ViewInject(R.id.btn_report)
     private Button btnReport;
@@ -59,7 +61,8 @@ public class StatusReportActivity extends ModelAcitivity implements OnClickListe
             public void onClick(View v) {
                 if (null != cbSelectChoice && cbSelectChoice.isChecked()) {
 
-                    PromptManager.showLToast("提交举报内容:" + cbSelectChoice.getText());
+                    //您的举报信息已提交，感谢您的支持！
+                    PromptManager.showSuccessToast(R.string.report_success);
                 }
             }
         });
