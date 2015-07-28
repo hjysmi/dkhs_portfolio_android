@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dkhs.portfolio">
+    package="com.dkhs.portfolio" >
 
     <supports-screens
         android:anyDensity="true"
@@ -28,7 +28,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
@@ -36,7 +35,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTranslucentTheme">
+        android:theme="@style/AppTranslucentTheme" >
 
         <!-- 友盟账号 -->
         <meta-data
@@ -50,7 +49,7 @@
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBackgroud">
+            android:theme="@style/AppThemeNoBackgroud" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -145,9 +144,8 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.dkhs.portfolio.ui.SelectStatusStockActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:name=".ui.SelectStatusStockActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
@@ -167,7 +165,7 @@
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize" >
 
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
@@ -221,8 +219,8 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <receiver android:name=".receiver.CompleteReceiver">
-            <intent-filter android:priority="1000">
+        <receiver android:name=".receiver.CompleteReceiver" >
+            <intent-filter android:priority="1000" >
 
                 <!-- 设置最高优先级 -->
 
@@ -231,14 +229,14 @@
         </receiver>
         <receiver
             android:name=".ui.messagecenter.MessageReceive"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".receiver.MessageNotificationClickReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.dkhs.portfolio.NotificationClick" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -263,7 +261,7 @@
         <activity
             android:name=".ui.RCChatListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -278,7 +276,7 @@
         <activity
             android:name=".ui.RCChatActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -293,7 +291,7 @@
         <activity
             android:name=".ui.RCChatSettingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -310,7 +308,7 @@
         <!-- start Rong Cloud -->
         <activity
             android:name="io.rong.voipkit.activity.CallSideActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -325,7 +323,7 @@
         <activity
             android:name="io.rong.voipkit.activity.CalledSideActivity"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -358,7 +356,7 @@
             android:process=":ipc" />
         <service android:name="io.rong.imlib.ReConnectService" />
 
-        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver">
+        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver" >
             <intent-filter>
                 <action android:name="io.rong.push.message" />
             </intent-filter>
@@ -369,7 +367,7 @@
         <receiver
             android:name=".receiver.NetChangeReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -390,19 +388,31 @@
         <activity android:name=".ui.ShakeActivity" />
         <activity
             android:name=".ui.BBSActivity"
-            android:label="@string/title_activity_bbs"></activity>
+            android:label="@string/title_activity_bbs" />
         <activity
             android:name=".ui.PhotoViewActivity"
-            android:label="@string/title_activity_photo_view"></activity>
+            android:label="@string/title_activity_photo_view" />
         <activity
             android:name=".ui.PostTopicActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.StatusActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.MyDraftActivity"
-            android:label="@string/title_my_draft"></activity>
+            android:label="@string/title_my_draft" />
+        <activity
+            android:name=".ui.TopicsDetailActivity"
+            android:label="@string/title_activity_topics_detail" >
+        </activity>
+        <activity
+            android:name=".ui.InfoActivity"
+            android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".ui.UserTopicsActivity"
+            android:label="@string/title_activity_my_topics" >
+        </activity>
     </application>
 
 </manifest>

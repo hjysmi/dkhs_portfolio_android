@@ -110,6 +110,10 @@ public class MessageHandler {
 
 
     public boolean handleURL(String url) {
+        if(TextUtils.isEmpty(url)){
+            return true;
+        }
+
         Uri uri = Uri.parse(url);
         boolean hasHandle = true;
         List<String> segments = uri.getPathSegments();
@@ -120,7 +124,7 @@ public class MessageHandler {
             } else if (segments.get(0).equals("p") && segments.size() >= 2) {
                 hasHandle = true;
                 gotoOrderFundDetailActivity(segments.get(1));
-            } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
+            } else if (segments.get(0).equals(" ") && segments.size() >= 2) {
                 hasHandle = true;
                 gotoNewOrYaoBaoDetail(segments.get(1));
             }else if(segments.get(0).equals("u") && segments.size() >= 2){

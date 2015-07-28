@@ -413,7 +413,7 @@
     <string name="tab_1">自选</string>
     <string name="tab_2">行情</string>
     <string name="tab_5">摇一摇</string>
-    <string name="tab_3">资讯</string>
+    <string name="tab_3">社区</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
@@ -687,5 +687,8 @@
 
     <!--我的草稿 start -->
     <string name="title_my_draft">我的草稿</string>
+    <string name="title_activity_topics_detail">话题正文</string>
+    <string name="title_activity_info">资讯</string>
+    <string name="title_activity_my_topics">我的主贴</string>
     <!--我的草稿 end-->
 </resources>

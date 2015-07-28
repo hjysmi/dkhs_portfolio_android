@@ -145,12 +145,17 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         }
     }
 
-
     @Override
     public void connect() {
 //        if (PortfolioApplication.)PortfolioApplication
-        if (PortfolioApplication.hasUserLogin() && !isConnect) {
+        if (!isConnect) {
             UserEntity user = UserEngineImpl.getUserEntity();
+
+            if(user ==null ||user.getUsername()== null ){
+                Log.e(TAG, "----user ==null ||user.getUsername()== null ----");
+                return;
+            }
+
             // 先向服务器请求用户连接融云的token，取得token后再去连接融云的服务器。
             new UserEngineImpl().getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(),
                     new BasicHttpListener() {
