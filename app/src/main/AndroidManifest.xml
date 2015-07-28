@@ -403,6 +403,9 @@
         <activity
             android:name=".ui.MyDraftActivity"
             android:label="@string/title_my_draft"></activity>
+        <activity
+            android:name=".ui.StatusReportActivity"
+            android:label="@string/title_status_report"></activity>
     </application>
 
 </manifest>

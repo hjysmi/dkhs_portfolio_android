@@ -687,5 +687,6 @@
 
     <!--我的草稿 start -->
     <string name="title_my_draft">我的草稿</string>
+    <string name="title_status_report">举报</string>
     <!--我的草稿 end-->
 </resources>
