@@ -25,7 +25,7 @@ public class LatestTopicsAdapter extends AutoAdapter {
 
     @Override
     protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-        addHandler(0,new TopicsHandler());
+        addHandler(0,new TopicsHandler(mContext));
     }
 
     @Override

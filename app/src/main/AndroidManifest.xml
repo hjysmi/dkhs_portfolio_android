@@ -145,9 +145,8 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.dkhs.portfolio.ui.SelectStatusStockActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:name=".ui.SelectStatusStockActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
@@ -167,7 +166,7 @@
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize" >
 
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
@@ -390,19 +389,31 @@
         <activity android:name=".ui.ShakeActivity" />
         <activity
             android:name=".ui.BBSActivity"
-            android:label="@string/title_activity_bbs"></activity>
+            android:label="@string/title_activity_bbs" />
         <activity
             android:name=".ui.PhotoViewActivity"
-            android:label="@string/title_activity_photo_view"></activity>
+            android:label="@string/title_activity_photo_view" />
         <activity
             android:name=".ui.PostTopicActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.StatusActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.MyDraftActivity"
-            android:label="@string/title_my_draft"></activity>
+            android:label="@string/title_my_draft" />
+        <activity
+            android:name=".ui.TopicsDetailActivity"
+            android:label="@string/title_activity_topics_detail" >
+        </activity>
+        <activity
+            android:name=".ui.InfoActivity"
+            android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".ui.UserTopicsActivity"
+            android:label="@string/title_activity_my_topics" >
+        </activity>
         <activity
             android:name=".ui.StatusReportActivity"
             android:label="@string/title_status_report"></activity>

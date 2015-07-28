@@ -4,25 +4,16 @@ package com.dkhs.portfolio.bean.itemhandler;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import com.dkhs.adpter.handler.ItemHandlerClickListener;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.adpter.handler.ItemHandler;
-import com.dkhs.adpter.util.ViewHolder;
-import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
-import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
-
-import org.parceler.Parcel;
-import org.parceler.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
 
 /**
  * @author zwm
@@ -32,7 +23,7 @@ import java.util.ArrayList;
  * @date 2015/7/16.
  */
 
-public class TopicsHandler implements ItemHandler<TopicsBean> {
+public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
 
 
 
@@ -57,23 +48,23 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 //    @ViewInject(R.id.fl_layout)
 //    FrameLayout mFllayout;
 
+
+
     private Context mContext;
-    public TopicsHandler(Context context) {
+
+    public TopicsDetailHandler(Context context) {
         mContext=context;
     }
 
     @Override
     public int getLayoutResId() {
-        return R.layout.layout_topics;
+        return R.layout.layout_topics_detail;
     }
 
     @Override
     public void onBindView(ViewHolder vh, final TopicsBean data, int position) {
-        setClickListener( vh.get(R.id.fl_commend),data);
         setClickListener( vh.get(R.id.iv_avatar),data);
         setClickListener( vh.get(R.id.iv),data);
-        setClickListener( vh.get(R.id.main_ll),data);
-        setClickListener( vh.get(R.id.fl_star),data);
 
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
         if(TextUtils.isEmpty(data.title)){
@@ -82,8 +73,9 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
-        ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(),vh.getImageView(R.id.iv_avatar));
+        ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         vh.setTextView(R.id.content,data.text);
+        vh.get(R.id.iv).setVisibility(View.GONE);
 
         if(data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
@@ -91,19 +83,18 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
         }else{
             vh.get(R.id.iv).setVisibility(View.GONE);
-
-        }
-        if(data.favorites_count>0){
-            vh.setTextView(R.id.tv_star, StringFromatUtils.handleNumber(data.favorites_count));
-        }else{
-            vh.setTextView(R.id.tv_star,vh.getConvertView().getContext().getString(R.string.star));
         }
 
-        if(data.comments_count>0){
-            vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
+        if(false){
+            vh.setTextView(R.id.tv_empty,"此贴已删除");
+            vh.get(R.id.main_ll).setVisibility(View.GONE);
+            vh.get(R.id.tv_empty).setVisibility(View.VISIBLE);
         }else{
-            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.commend));
+            vh.get(R.id.main_ll).setVisibility(View.VISIBLE);
+            vh.get(R.id.tv_empty).setVisibility(View.GONE);
+
         }
+
 
     }
 
@@ -202,7 +193,10 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
     }
     class  ImageViewClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 
+
         private TopicsBean topicsBean;
+
+
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -212,9 +206,6 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         @Override
         public void onClick(View v) {
 
-            ArrayList<String> arrayList=new ArrayList<>();
-            arrayList.add(topicsBean.medias.get(0).image_lg);
-            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,0);
         }
     }
     class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
