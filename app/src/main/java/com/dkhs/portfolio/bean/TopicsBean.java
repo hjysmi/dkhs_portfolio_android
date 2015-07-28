@@ -59,13 +59,39 @@ public class TopicsBean {
     public List<String> symbols;
     public String source;
     public int status_type;
-    public List<String> medias;
+
     public String created_at;
     public String replied_status;
     public int content_type;
 
     public PeopleBean user;
     public String lat;
-    public String modified_at;
 
+    public String modified_at;
+    /**
+     * medias : [{"image_sm":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.360x360.jpg","image_xs":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.180x180.jpg","id":689076,"media_type":null,"image_md":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.720x19999.jpg","image_lg":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.1080x29999.jpg","full_path":null,"size":0}]
+     */
+    public List<MediasBean> medias;
+
+    @Parcel
+    public static class MediasBean {
+        /**
+         * image_sm : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.360x360.jpg
+         * image_xs : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.180x180.jpg
+         * id : 689076
+         * media_type : null
+         * image_md : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.720x19999.jpg
+         * image_lg : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.1080x29999.jpg
+         * full_path : null
+         * size : 0
+         */
+        public String image_sm;
+        public String image_xs;
+        public int id;
+        public String media_type;
+        public String image_md;
+        public String image_lg;
+        public String full_path;
+        public int size;
+    }
 }
