@@ -29,7 +29,6 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,20 +42,19 @@ import java.util.List;
  */
 public class MainInfoFragment extends BaseTitleFragment {
 
-
     private SliderLayout slider;
     private Context mContext;
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.fragment_main_info;
+        return R.layout.activity_yanbao;
     }
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext=getActivity();
+        mContext = getActivity();
 
     }
 
@@ -67,47 +65,116 @@ public class MainInfoFragment extends BaseTitleFragment {
 
         initView(view);
         toolBar.setClickable(true);
-        setTitle(R.string.title_bbs);
-    }
-
-    @Override
-    public void requestData() {
-
+        setTitle(R.string.title_info);
     }
 
     private void initView(View view) {
+        LinearLayout layout = (LinearLayout) view.findViewById(R.id.yanbao_layout);
+        String userId = null;
+        UserEntity user = UserEngineImpl.getUserEntity();
+        if (user != null) {
+            userId = user.getId() + "";
+        }
 
-        //// FIXME: 2015/7/23    这里缺少ic_new_post 的点击效果的图片
-        getRightButton().setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_new_post, 0, 0, 0);
+        String[] name = getResources().getStringArray(R.array.main_info_title);
+        NewsforModel infoEngine;
+        List<Fragment> fragmentList = new ArrayList<Fragment>();
 
-        getRightButton().setOnClickListener(new View.OnClickListener() {
+
+        infoEngine = new NewsforModel();
+        infoEngine.setUserid(userId);
+        infoEngine.setContentSubType("301");
+        Fragment hongguanFragment = ReportListForAllFragment.getFragment(infoEngine,
+                OpitionNewsEngineImple.NEWS_GROUP_TWO);
+        fragmentList.add(hongguanFragment);
+
+        infoEngine = new NewsforModel();
+        infoEngine.setUserid(userId);
+        infoEngine.setContentSubType("304");
+        Fragment optionalInfoFragment = ReportListForAllFragment.getFragment(infoEngine,
+                OpitionNewsEngineImple.NEWS_GROUP);
+        fragmentList.add(optionalInfoFragment);
+
+        infoEngine = new NewsforModel();
+        infoEngine.setUserid(userId);
+        infoEngine.setContentSubType("302");
+        Fragment celueFragment = ReportListForAllFragment
+                .getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
+        fragmentList.add(celueFragment);
+
+        new FragmentSelectAdapter(getActivity(), name, fragmentList, layout, getChildFragmentManager());
+
+
+        slider = (SliderLayout) view.findViewById(R.id.slider);
+        AdEngineImpl.getNewsBannerAds(new SimpleParseHttpListener() {
             @Override
-            public void onClick(View v) {
+            public Class getClassType() {
+                return AdBean.class;
+            }
 
+            @Override
+            protected void afterParseData(Object object) {
+
+                if (object != null) {
+                    AdBean adBean = (AdBean) object;
+                    updateAdBanner(adBean);
+                }
             }
         });
-        getChildFragmentManager().beginTransaction().replace(R.id.container,new BBSFragment()).commitAllowingStateLoss();
 
+    }
+
+    private void updateAdBanner(AdBean adBean) {
+
+
+        int duration = 1;
+        for (AdBean.AdsEntity item : adBean.getAds()) {
+            TextSliderView textSliderView = new TextSliderView(getActivity());
+            textSliderView
+                    .description(item.getTitle())
+                    .image(item.getImage())
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+            ;
+            duration = item.getDisplay_time();
+            Bundle bundle = new Bundle();
+            bundle.putString("redirect_url", item.getRedirect_url());
+            textSliderView.bundle(bundle);
+            textSliderView.setOnSliderClickListener(new OnSliderClickListenerImp());
+            slider.addSlider(textSliderView);
+        }
+        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        slider.setPresetTransformer(SliderLayout.Transformer.Default);
+        slider.setCustomAnimation(new DescriptionAnimation());
+        slider.setDuration(duration * 1000);
+        slider.startAutoCycle();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (slider != null) {
+            slider.startAutoCycle();
+        }
     }
 
 
     @Override
-    public void onViewHide() {
-        LogUtils.e("onViewHide");
-        super.onViewHide();
+    public void onPause() {
+        super.onPause();
+        if (slider != null) {
+            slider.stopAutoCycle();
+        }
     }
 
-    @Override
-    public void onViewShow() {
-        LogUtils.e("onViewShow");
-        super.onViewShow();
+    class OnSliderClickListenerImp implements BaseSliderView.OnSliderClickListener {
+
+        @Override
+        public void onSliderClick(BaseSliderView slider) {
+
+            Bundle bundle = slider.getBundle();
+            String redirectUrl = bundle.getString("redirect_url");
+            getActivity().startActivity(AdActivity.getIntent(getActivity(), redirectUrl));
+        }
     }
-
-
-
-
-
-
-
 
 }

@@ -69,7 +69,7 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
         final SelectStockBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.symbol);
-        viewHolder.tvTradeDay.setText(TimeUtils.simpleDateToMonthDay(item.tradeDay));
+        viewHolder.tvTradeDay.setText(TimeUtils.getMMDDString(item.tradeDay));
 
         if (!TextUtils.isEmpty(item.name) && item.name.length() > 8) {
             viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);

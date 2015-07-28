@@ -228,6 +228,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
             VisitorDataEngine.saveHistory(itemStock.parseHistoryBean());
             if (isStatus) {
                 PromptManager.showToast("选择添加话题股票：" + itemStock.getName());
+                setSelectBack(itemStock);
             } else if (StockUitls.isFundType(itemStock.symbol_type)) {
                 startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
             } else {
@@ -244,7 +245,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     private void setSelectBack(SelectStockBean type) {
         Intent intent = new Intent();
         intent.putExtra(ARGUMENT, Parcels.wrap(type));
-        getActivity().setResult(-1, intent);
+        getActivity().setResult(777, intent);
 
         getActivity().finish();
     }

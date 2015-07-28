@@ -530,6 +530,7 @@
     <string name="search_stock">股票简称/代码/拼音</string>
 
     <string name="edit">编辑</string>
+    <string name="delete">删除</string>
 
     <string name="def_not_value">—</string>
     <!--基金详情页-->

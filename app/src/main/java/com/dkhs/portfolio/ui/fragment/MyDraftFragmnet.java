@@ -8,15 +8,13 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -31,27 +29,22 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
-import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.PositionAdjustActivity;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
+import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @author zjz
@@ -61,81 +54,90 @@ import java.util.TimerTask;
  * @date 2015-3-30 上午9:00:48
  */
 public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBackListener {
-    // private List<ApplicationInfo> mAppList;
-    private CombinationAdapter mAdapter;
-    private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
-    private UserCombinationEngineImpl dataEngine;
 
-    // public SwipeRefreshLayout mSwipeLayout;
+    private MyDraftAdapter mAdapter;
+    private List<DraftBean> mDataList = new ArrayList<DraftBean>();
+    private DraftEngine dataEngine;
+    private static final String TAG = "MyDraftFragmnet";
+    public TextView tvEmptyText;
+
+    private MainThreadBus eventBus;
 
     @Override
     public int setContentLayoutId() {
         return R.layout.activity_my_draft;
     }
 
-    /**
-     * @param savedInstanceState
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        dataEngine = new UserCombinationEngineImpl(this, "");
+        eventBus = new MainThreadBus();
+        dataEngine = new DraftEngine(eventBus);
 
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    creatTestDraftData();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
     }
 
-    public TextView tvEmptyText;
+    private void creatTestDraftData() throws DbException {
+        List<DraftBean> list = new ArrayList<>();
+        String authorId = String.valueOf(GlobalParams.LOGIN_USER.getId());
+        Log.d(TAG, "authorId:" + authorId);
+        for (int i = 0; i < 30; i++) {
+            DraftBean bean = new DraftBean();
+            bean.setAuthorId(authorId);
+            bean.setContent(i + " 的法律上的家乐福事件的佛上的浪费jam率魔法攻击的交流伺服啊上的飞机上的飞机的方式金克拉大煞风景");
+            if (i % 3 == 0) {
+                bean.setTitle(i + "标题很厉害的粉红色的活佛是");
+            }
+            bean.setLabel(1);
+            if (i % 4 == 0) {
+                bean.setLabel(2);
+            }
+            bean.setUtcTime(TimeUtils.getUTCdatetimeAsString());
+            list.add(bean);
+        }
+        DbUtils.create(getActivity()).saveAll(list);
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        tvEmptyText = (TextView) view.findViewById(R.id.add_data);
-        tvEmptyText.setText(R.string.click_creat_combina);
-        tvEmptyText.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                createNewCombination();
-
-            }
-        });
+        tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
         SwipeMenuListView mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
-        mAdapter = new CombinationAdapter();
+        mAdapter = new MyDraftAdapter();
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(tvEmptyText);
 
-        // step 1. create a MenuCreator
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
             @Override
             public void create(SwipeMenu menu) {
 
                 SwipeMenuItem deleteItem = new SwipeMenuItem(MyDraftFragmnet.this.getActivity());
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.red_delete)));
-                // set item width
+                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.tag_red)));
                 deleteItem.setWidth(UIUtils.dp2px(90));
-                deleteItem.setTitle("删除");
-                // set item title fontsize
+                deleteItem.setTitle(R.string.delete);
                 deleteItem.setTitleSize(18);
-                // set item title font color
                 deleteItem.setTitleColor(Color.WHITE);
-                // add to menu
                 menu.addMenuItem(deleteItem);
             }
         };
         // set creator
-//        mListView.setMenuCreator(creator);
+        mListView.setMenuCreator(creator);
 
         // step 2. listener item click event
         mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                // ApplicationInfo item = mAppList.get(position);
                 switch (index) {
                     case 0:
                         // open
@@ -168,15 +170,11 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
             }
         });
 
-        // other setting
-        // listView.setCloseInterpolator(new BounceInterpolator());
 
-        // test item long click
         mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // Toast.makeText(getApplicationContext(), position + " long click", 0).show();
                 return false;
             }
         });
@@ -185,8 +183,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                PromptManager.showToast("查看草稿详情");
+//                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
         });
@@ -194,103 +192,28 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
 
     @Override
     public void requestData() {
-        refresh();
+
     }
 
     private void delCombination(int position) {
-        final CombinationBean item = mDataList.get(position);
-        // CombinationBean mCombination = (CombinationBean) item.data;
-        if (PortfolioApplication.hasUserLogin()) {
+        final DraftBean item = mDataList.get(position);
+        mDataList.remove(item);
+        mAdapter.notifyDataSetChanged();
+        dataEngine.delDraft(item);
+    }
 
-            showDelDialog(item);
+    @Subscribe
+    public void onEventMainThread(LoadDraftEvent event) {
+        Log.d(TAG, "onEventMainThread LoadDraftEvent");
+        if (null != event && null != event.dataList) {
+            this.mDataList.clear();
+            this.mDataList.addAll(event.dataList);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
-    public void showDelDialog(final CombinationBean mCombination) {
 
-        MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
-        builder.setMessage(R.string.dialog_message_delete_combination);
-        // builder.setTitle(R.string.tips);
-        // final CombinationBean mCombination = (CombinationBean) item.data;
-        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        // mCombinationAdapter.getDelPosition().clear();
-                        super.onSuccess(result);
-                        mDataList.remove(mCombination);
-                        mAdapter.notifyDataSetChanged();
-                        // rvConbinationAdatper.notifyDataSetChanged();
-                        // rvConbinationAdatper.notifyItemRemoved(position)
-                        // mAdapter.notifyDataSetChanged();
-                        // combinationActivity.setButtonFinish();
-                        // upateDelViewStatus();
-                    }
-
-                    @Override
-                    public void onFailure(int errCode, String errMsg) {
-                        super.onFailure(errCode, errMsg);
-                        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void beforeRequest() {
-                        // TODO Auto-generated method stub
-                        super.beforeRequest();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void requestCallBack() {
-                        // TODO Auto-generated method stub
-                        super.requestCallBack();
-                        // refreshData();
-                        // refresh();
-                    }
-
-                    @Override
-                    protected Object parseDateTask(String jsonData) {
-                        // TODO Auto-generated method stub
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(Object object) {
-                        // TODO Auto-generated method stub
-
-                    }
-
-                }.setLoadingDialog(getActivity(), "", false));
-                dialog.dismiss();
-            }
-
-        });
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-
-    }
-
-    class CombinationAdapter extends BaseAdapter {
+    class MyDraftAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -298,7 +221,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
         }
 
         @Override
-        public CombinationBean getItem(int position) {
+        public DraftBean getItem(int position) {
             return mDataList.get(position);
         }
 
@@ -310,113 +233,79 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(getActivity(), R.layout.item_new_combination, null);
+                convertView = View.inflate(getActivity(), R.layout.adapter_my_draft, null);
                 new ViewHolder(convertView);
             }
             ViewHolder holder = (ViewHolder) convertView.getTag();
 
-            final CombinationBean comBean = mDataList.get(position);
-            holder.tvTitle.setText(comBean.getName());
+            final DraftBean item = mDataList.get(position);
+            String title = item.getTitle();
+            if (TextUtils.isEmpty(title)) {
+                holder.tvTitle.setVisibility(View.GONE);
+            } else {
+                holder.tvTitle.setVisibility(View.VISIBLE);
+                holder.tvTitle.setText(title);
+            }
+            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getUtcTime()));
+            String strLabel = item.getLabel() == 1 ? "主贴" : "回复";
+            holder.tvLabel.setText(strLabel);
 
-            float currenValue = comBean.getChng_pct_day();
-            holder.tvCurrent.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
-            holder.tvCurrent.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
+            String strContent = item.getContent();
 
-            float addValue = comBean.getCumulative();
-            holder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
-            holder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
+            if (TextUtils.isEmpty(strContent)) {
+                holder.tvContent.setVisibility(View.GONE);
+            } else {
+                holder.tvContent.setVisibility(View.VISIBLE);
+                if (strContent.length() > 99) {
+                    holder.tvContent.setText(strContent.substring(0, 99) + "……");
+                } else {
+                    holder.tvContent.setText(strContent);
+                }
+            }
+
 
             return convertView;
         }
 
         class ViewHolder {
             public TextView tvTitle;
-            public TextView tvCurrent;
-            public TextView tvAddup;
+            public TextView tvContent;
+            public TextView tvEditTime;
+            public TextView tvLabel;
+
 
             public ViewHolder(View row) {
-                tvTitle = (TextView) row.findViewById(R.id.tv_combin_title);
-                tvCurrent = (TextView) row.findViewById(R.id.tv_mycob_curren_value);
-                tvAddup = (TextView) row.findViewById(R.id.tv_mycob_add_value);
-
-                // iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
-                // tv_name = (TextView) view.findViewById(R.id.tv_name);
+                tvTitle = (TextView) row.findViewById(R.id.tv_draft_title);
+                tvContent = (TextView) row.findViewById(R.id.tv_draft_content);
+                tvEditTime = (TextView) row.findViewById(R.id.tv_edit_time);
+                tvLabel = (TextView) row.findViewById(R.id.tv_label);
                 row.setTag(this);
             }
         }
     }
 
 
-    private static final long mCombinationRequestTime = 1000 * 30;
-    private Timer mCombinationTimer;
-
     @Override
     public void onResume() {
         super.onResume();
+        eventBus.register(this);
 
+        dataEngine.getDraftByUserId();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        eventBus.unregister(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-
     }
 
-    @Override
-    public void onViewHide() {
-        super.onViewHide();
-        if (mCombinationTimer != null) {
-            mCombinationTimer.cancel();
-            mCombinationTimer = null;
-        }
-    }
-
-    @Override
-    public void onViewShow() {
-        super.onViewShow();
-        if (mCombinationTimer == null) {
-            mCombinationTimer = new Timer(true);
-            mCombinationTimer.schedule(new RequestCombinationTask(), 20, mCombinationRequestTime);
-        }
-    }
-
-    public class RequestCombinationTask extends TimerTask {
-
-        @Override
-        public void run() {
-            refresh();
-
-        }
-    }
-
-    WeakHandler uiHandler = new WeakHandler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case 777:
-                    startLoadData();
-                    break;
-                case 888:
-                    endLoadData();
-                    break;
-
-                default:
-                    break;
-            }
-            return false;
-        }
-    });
-
-    public void refresh() {
-        uiHandler.sendEmptyMessage(777);
-        isRefresh = true;
-
-        dataEngine.loadAllData();
-
-    }
-
-    private boolean isRefresh;
 
     /**
      * @param object
@@ -426,17 +315,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
      */
     @Override
     public void loadFinish(MoreDataBean object) {
-        // mSwipeLayout.setRefreshing(false);
-        uiHandler.sendEmptyMessage(888);
         if (null != object.getResults()) {
-            if (!UIUtils.roundAble(object.getStatu())) {
-                if (mCombinationTimer != null) {
-                    mCombinationTimer.cancel();
-                    mCombinationTimer = null;
-                }
-            }
             mDataList.clear();
-            isRefresh = false;
             mDataList.addAll(object.getResults());
 
             mAdapter.notifyDataSetChanged();
@@ -451,28 +331,12 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
      */
     @Override
     public void loadFail() {
-        isRefresh = false;
-    }
-
-    private void startLoadData() {
-        if (getActivity() instanceof MyCombinationActivity) {
-            ((MyCombinationActivity) getActivity()).rotateRefreshButton();
-        }
-    }
-
-    private void endLoadData() {
-        if (getActivity() instanceof MyCombinationActivity) {
-            ((MyCombinationActivity) getActivity()).stopRefreshAnimation();
-        }
-    }
-
-    public void createNewCombination() {
-        if (mDataList.size() >= 20) {
-            PromptManager.showShortToast(R.string.more_combination_tip);
-        } else {
-            startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
-        }
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

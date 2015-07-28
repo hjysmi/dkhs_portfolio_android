@@ -29,7 +29,6 @@ import com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.Collections;
 import java.util.List;
@@ -177,7 +176,7 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         loadDataListFragment.setDataUpdateListener(this);
         // }
 //        }
-        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
 
