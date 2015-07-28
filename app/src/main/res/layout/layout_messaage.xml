@@ -56,7 +56,7 @@
             android:paddingBottom="2dp"
             android:paddingRight="2dp"
             style="@style/CommonTextAppearance_Mini_Gray"
-            android:textColor="@color/ma5_color"
+            android:textColor="@color/text_content_color"
             android:layout_height="wrap_content" />
         <View
             android:layout_marginTop="8dp"

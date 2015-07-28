@@ -26,7 +26,6 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
@@ -130,7 +129,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private View viewHeader;
     private String symbolType;
     //    private List<Fragment> bottmoTabFragmentList;
-    private Button klinVirtulCheck;
+    private TextView tvKlinVirtulCheck;
     private static String checkValue = "0";
     private static final long mPollRequestTime = 1000 * 15;
     private static final String TAG = "StockQuotesActivity";
@@ -271,8 +270,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         bottomLayout = findViewById(R.id.stock_layout);
 
-        klinVirtulCheck = (Button) findViewById(R.id.klin_virtul_check);
-        klinVirtulCheck.setOnClickListener(this);
+        tvKlinVirtulCheck = (TextView) findViewById(R.id.klin_virtul_check);
+        tvKlinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         hsTitleBottom = (HScrollTitleView) findViewById(R.id.hs_title_bottom);
         hsTitleSticker = (HScrollTitleView) findViewById(R.id.hs_title_sticker);
@@ -647,10 +646,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             if (null != pager) {
                 pager.setCurrentItem(position);
                 if (position == 0) {
-                    klinVirtulCheck.setVisibility(View.GONE);
+                    tvKlinVirtulCheck.setVisibility(View.GONE);
                 } else {
                     if (null != mStockBean && !StockUitls.isIndexStock(mStockBean.symbol_type)) {
-                        klinVirtulCheck.setVisibility(View.VISIBLE);
+                        tvKlinVirtulCheck.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -878,16 +877,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void setFuquanView() {
         switch (checkValue) {
             case "0":
-                klinVirtulCheck.setText("不复权  ▼");
+                tvKlinVirtulCheck.setText("不复权  ▼");
                 // PortfolioApplication.getInstance().setCheckValue("0");
                 // setc
                 break;
             case "1":
-                klinVirtulCheck.setText("前复权  ▼");
+                tvKlinVirtulCheck.setText("前复权  ▼");
                 // PortfolioApplication.getInstance().setCheckValue("1");
                 break;
             default:
-                klinVirtulCheck.setText("后复权  ▼");
+                tvKlinVirtulCheck.setText("后复权  ▼");
                 // PortfolioApplication.getInstance().setCheckValue("2");
                 break;
         }
