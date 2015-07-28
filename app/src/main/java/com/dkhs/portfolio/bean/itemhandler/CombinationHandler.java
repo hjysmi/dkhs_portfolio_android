@@ -2,6 +2,7 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
+import com.dkhs.portfolio.R;
 
 /**
  * @author zwm
@@ -13,7 +14,7 @@ import com.dkhs.adpter.util.ViewHolder;
 public class CombinationHandler implements ItemHandler {
     @Override
     public int getLayoutResId() {
-        return 0;
+        return R.layout.item_combination;
     }
 
     @Override

@@ -134,7 +134,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
 
 
-
     private void initViews() {
         ivHeader = (ImageView) findViewById(R.id.iv_uheader);
         tvUName = (TextView) findViewById(R.id.tv_user_name);
@@ -313,7 +312,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void handleNumber(TextView tv, int count) {
-
         tv.setText(StringFromatUtils.handleNumber(count));
     }
 
@@ -423,7 +421,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 //        if(list.size() > 0){
 //
 //        }
-//
 //
 //    }
 

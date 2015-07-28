@@ -65,7 +65,8 @@ public class MainInfoFragment extends BaseTitleFragment {
     }
 
     private void initView(View view) {
-        getRightButton().setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_new_post,0,0,0);
+        getRightButton().setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_edit_selector), null,
+                null, null);
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,17 +78,7 @@ public class MainInfoFragment extends BaseTitleFragment {
     }
 
 
-    @Override
-    public void onViewHide() {
-        LogUtils.e("onViewHide");
-        super.onViewHide();
-    }
 
-    @Override
-    public void onViewShow() {
-        LogUtils.e("onViewShow");
-        super.onViewShow();
-    }
 
 
 }

@@ -52,9 +52,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
 
     private Context mContext;
 
-
     public TopicsDetailHandler(Context context) {
-
         mContext=context;
     }
 
@@ -65,6 +63,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
 
     @Override
     public void onBindView(ViewHolder vh, final TopicsBean data, int position) {
+        setClickListener( vh.get(R.id.iv_avatar),data);
+        setClickListener( vh.get(R.id.iv),data);
+
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
         if(TextUtils.isEmpty(data.title)){
             vh.get(R.id.titleTV).setVisibility(View.GONE);
@@ -75,6 +76,14 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
         ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         vh.setTextView(R.id.content,data.text);
         vh.get(R.id.iv).setVisibility(View.GONE);
+
+        if(data.medias != null && data.medias.size() > 0) {
+            vh.get(R.id.iv).setVisibility(View.VISIBLE);
+            ImageLoaderUtils.setImage(data.medias.get(0).image_sm,vh.getImageView(R.id.iv));
+
+        }else{
+            vh.get(R.id.iv).setVisibility(View.GONE);
+        }
 
         if(false){
             vh.setTextView(R.id.tv_empty,"此贴已删除");
