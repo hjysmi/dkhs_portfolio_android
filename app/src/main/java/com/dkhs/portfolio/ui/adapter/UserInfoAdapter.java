@@ -15,6 +15,7 @@ import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
+import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.widget.FlexibleDividerDecoration;
@@ -112,6 +113,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
             case 2://我的话题
                 break;
             case 3://我的回复
+                mContext.startActivity(new Intent(mContext, StatusReportActivity.class));
+
                 break;
             case 4://我的草稿
                 mContext.startActivity(new Intent(mContext, MyDraftActivity.class));

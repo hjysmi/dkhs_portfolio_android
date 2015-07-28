@@ -687,6 +687,20 @@
 
     <!--我的草稿 start -->
     <string name="title_my_draft">我的草稿</string>
-    <string name="title_status_report">举报</string>
     <!--我的草稿 end-->
+
+    <!--举报 start -->
+
+    <string name="title_status_report">举报</string>
+    <string name="report_rubbish">垃圾营销</string>
+    <string name="report_pornographic">淫秽色情</string>
+    <string name="report_no_truly">不实信息</string>
+    <string name="report_sensity">敏感信息</string>
+    <string name="report_plagiarist">抄袭内容</string>
+    <string name="report_harass">骚扰我</string>
+    <string name="report_fake">虚假中奖</string>
+    <string name="report_user">举报%1$s的回复：</string>
+    <!--举报 end-->
+
+
 </resources>
