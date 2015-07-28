@@ -5,7 +5,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
     >
-
+    <include
+        layout="@layout/layout_empty"/>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -21,32 +22,75 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
 
-                android:text="dfdfd"/>
+                android:text="组合名称"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="dfdfd"/>
+                android:text="创建时间"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="dfdfd"/>
+                android:text="累积涨幅"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:gravity="center_vertical"
             >
 
             <TextView
                 style="@style/gray_title_text"
                 android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/combination_name1"
+                android:gravity="left"
+                android:singleLine="true"
+                android:text="@string/creat_combination_name"/>
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:id="@+id/combination_create_date1"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="创建时间"/>
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:id="@+id/combination_value1"
+                android:singleLine="true"
+                android:text="@string/add_up_value"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:id="@+id/combination_name2"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
@@ -59,6 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:id="@+id/combination_create_date2"
                 android:singleLine="true"
                 android:text="创建时间"/>
 
@@ -67,6 +112,7 @@
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/combination_value2"
                 android:gravity="right"
                 android:singleLine="true"
                 android:text="@string/add_up_value"/>
@@ -77,14 +123,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             >
 
             <TextView
-                android:id="@+id/tv_combination_name"
                 style="@style/gray_title_text"
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/combination_name3"
                 android:gravity="left"
                 android:singleLine="true"
                 android:text="@string/creat_combination_name"/>
@@ -95,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:id="@+id/combination_create_date3"
                 android:singleLine="true"
                 android:text="创建时间"/>
 
@@ -104,6 +153,47 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:singleLine="true"
+                android:id="@+id/combination_value3"
+                android:text="@string/add_up_value"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            >
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:id="@+id/combination_name4"
+                android:singleLine="true"
+                android:text="@string/creat_combination_name"/>
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:id="@+id/combination_create_date4"
+                android:text="创建时间"/>
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:id="@+id/combination_value4"
                 android:singleLine="true"
                 android:text="@string/add_up_value"/>
 
@@ -113,6 +203,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             >
 
             <TextView
@@ -121,6 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
+                android:id="@+id/combination_name5"
                 android:singleLine="true"
                 android:text="@string/creat_combination_name"/>
 
@@ -130,6 +223,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:id="@+id/combination_create_date5"
                 android:singleLine="true"
                 android:text="创建时间"/>
 
@@ -139,81 +233,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:singleLine="true"
-                android:text="@string/add_up_value"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            >
-
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:singleLine="true"
-                android:text="@string/creat_combination_name"/>
-
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="创建时间"/>
-
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:singleLine="true"
-                android:text="@string/add_up_value"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            >
-
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:singleLine="true"
-                android:text="@string/creat_combination_name"/>
-
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="创建时间"/>
-
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
+                android:id="@+id/combination_value5"
                 android:singleLine="true"
                 android:text="@string/add_up_value"/>
 
         </LinearLayout>
     </LinearLayout>
+
 
 
 </RelativeLayout>
