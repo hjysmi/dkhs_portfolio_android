@@ -70,14 +70,11 @@ public final class AppConfig {
         }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
-
-
         //启动定时更新数据库的服务类
         Intent demand = new Intent(context, ReLoadDataService.class);
         context.startService(demand);
-
         //消息中心模块的初始化
-        MessageManager.getInstance();
+        MessageManager.getInstance().connect();
 
     }
 

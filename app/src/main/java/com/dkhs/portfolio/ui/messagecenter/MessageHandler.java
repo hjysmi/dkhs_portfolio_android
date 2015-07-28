@@ -110,6 +110,10 @@ public class MessageHandler {
 
 
     public boolean handleURL(String url) {
+        if(TextUtils.isEmpty(url)){
+            return true;
+        }
+
         Uri uri = Uri.parse(url);
         boolean hasHandle = true;
         List<String> segments = uri.getPathSegments();

@@ -13,6 +13,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
+import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -20,6 +21,8 @@ import com.dkhs.portfolio.utils.TimeUtils;
 
 import org.parceler.Parcel;
 import org.parceler.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
 
 /**
  * @author zwm
@@ -54,13 +57,8 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 //    @ViewInject(R.id.fl_layout)
 //    FrameLayout mFllayout;
 
-
-
     private Context mContext;
-
-
     public TopicsHandler(Context context) {
-
         mContext=context;
     }
 
@@ -86,8 +84,15 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         }
         ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(),vh.getImageView(R.id.iv_avatar));
         vh.setTextView(R.id.content,data.text);
-        vh.get(R.id.iv).setVisibility(View.GONE);
 
+        if(data.medias != null && data.medias.size() > 0) {
+            vh.get(R.id.iv).setVisibility(View.VISIBLE);
+            ImageLoaderUtils.setImage(data.medias.get(0).image_sm,vh.getImageView(R.id.iv));
+
+        }else{
+            vh.get(R.id.iv).setVisibility(View.GONE);
+
+        }
         if(data.favorites_count>0){
             vh.setTextView(R.id.tv_star, StringFromatUtils.handleNumber(data.favorites_count));
         }else{
@@ -97,7 +102,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         if(data.comments_count>0){
             vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
         }else{
-            vh.setTextView(R.id.tv_commend,vh.getConvertView().getContext().getString(R.string.commend));
+            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.commend));
         }
 
     }
@@ -197,10 +202,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
     }
     class  ImageViewClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 
-
         private TopicsBean topicsBean;
-
-
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -210,6 +212,9 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         @Override
         public void onClick(View v) {
 
+            ArrayList<String> arrayList=new ArrayList<>();
+            arrayList.add(topicsBean.medias.get(0).image_lg);
+            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,0);
         }
     }
     class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {

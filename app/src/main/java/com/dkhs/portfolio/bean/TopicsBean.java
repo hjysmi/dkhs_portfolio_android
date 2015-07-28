@@ -56,10 +56,7 @@ public class TopicsBean {
     public String replied_comment;
     public int favorites_count;
     public String title;
-    public List<String> symbols;
-    public String source;
     public int status_type;
-
     public String created_at;
     public String replied_status;
     public int content_type;
@@ -72,6 +69,10 @@ public class TopicsBean {
      * medias : [{"image_sm":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.360x360.jpg","image_xs":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.180x180.jpg","id":689076,"media_type":null,"image_md":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.720x19999.jpg","image_lg":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.1080x29999.jpg","full_path":null,"size":0}]
      */
     public List<MediasBean> medias;
+    /**
+     * symbols : [{"id":101000910,"symbol":"SH600651","abbr_name":"飞乐音响"}]
+     */
+    public List<SymbolsBean> symbols;
 
     @Parcel
     public static class MediasBean {
@@ -93,5 +94,17 @@ public class TopicsBean {
         public String image_lg;
         public String full_path;
         public int size;
+    }
+
+    @Parcel
+    public static class SymbolsBean {
+        /**
+         * id : 101000910
+         * symbol : SH600651
+         * abbr_name : 飞乐音响
+         */
+        public int id;
+        public String symbol;
+        public String abbr_name;
     }
 }
