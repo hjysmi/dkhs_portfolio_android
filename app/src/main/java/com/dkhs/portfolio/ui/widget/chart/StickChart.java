@@ -582,7 +582,7 @@ public class StickChart extends GridChart {
                                     - super.getAxisMarginTop() + mTitleHeight;
                         }
                         if (i != num) {
-                            paint.setColor(getResources().getColor(R.color.ma5_color));
+                            paint.setColor(getResources().getColor(R.color.text_content_color));
                             canvas.drawLine((float) (dragValue + stickX - 3 - stickWidth / 2), stickY, (float) (stickX
                                     + stickWidth / 2 + dragValue), diff, paint);
                             paint.setColor(getResources().getColor(R.color.ma10_color));
@@ -622,7 +622,7 @@ public class StickChart extends GridChart {
             if ((StickData.size() - selectIndext - 1) >= 0 && (StickData.size() - selectIndext - 1) < StickData.size()) {
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
-                paint.setColor(getResources().getColor(R.color.ma5_color));
+                paint.setColor(getResources().getColor(R.color.text_content_color));
                 paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                 Paint p = new Paint();
                 p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
@@ -659,7 +659,7 @@ public class StickChart extends GridChart {
         } else {
             Paint paint = new Paint();
             paint.setAntiAlias(true);
-            paint.setColor(getResources().getColor(R.color.ma5_color));
+            paint.setColor(getResources().getColor(R.color.text_content_color));
             paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
             Paint p = new Paint();
             p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
@@ -714,7 +714,7 @@ public class StickChart extends GridChart {
             Rect rect = new Rect();
             p.getTextBounds(text, 0, text.length(), rect);
             wid = 2;
-            paint.setColor(getResources().getColor(R.color.ma5_color));
+            paint.setColor(getResources().getColor(R.color.text_content_color));
             canvas.drawText(text, wid + PADDING_LEFT, getResources().getDimensionPixelOffset(R.dimen.title_text_font),
                     paint);
             wid = wid + 32 + rect.width();
@@ -767,7 +767,7 @@ public class StickChart extends GridChart {
                 paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                 if (j != nums) {
                     if (StickData.get(j).getVol5() > 0 && draw5) {
-                        paint.setColor(getResources().getColor(R.color.ma5_color));
+                        paint.setColor(getResources().getColor(R.color.text_content_color));
                         canvas.drawLine(
                                 (float) (startX + dragValue),
                                 startY5,

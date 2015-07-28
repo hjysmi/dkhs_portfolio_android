@@ -13,8 +13,8 @@
         <TextView
             android:id="@+id/tv_report_user"
             style="@style/white_grayborder_layout"
+            android:layout_marginTop="10dp"
             android:padding="14dp"
-            android:text="举报@王亚伟的回复:"
             android:textSize="17sp" />
 
         <TextView
@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_report_user"
             android:padding="14dp"
-            android:text="我师傅适当防护哦是独立房间"
             android:textSize="17sp" />
 
 
@@ -31,9 +30,8 @@
             android:id="@+id/rl_report_choice"
             style="@style/white_grayborder_layout"
             android:layout_below="@+id/tv_report_content"
-            android:paddingBottom="14dp"
-            android:paddingLeft="14dp"
-            android:paddingRight="14dp">
+
+            android:padding="14dp">
 
             <View
                 android:id="@+id/div_center"
@@ -44,6 +42,7 @@
             <RadioButton
                 android:id="@+id/cb_report1"
                 style="@style/cb_choice_report_left"
+                android:layout_marginTop="0dp"
                 android:text="@string/report_rubbish" />
 
             <RadioButton
