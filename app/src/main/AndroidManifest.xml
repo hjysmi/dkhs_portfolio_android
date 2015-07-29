@@ -406,6 +406,10 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             >
         </activity>
+        <activity
+            android:name=".ui.ReplyActivity"
+            >
+        </activity>
     </application>
 
 </manifest>

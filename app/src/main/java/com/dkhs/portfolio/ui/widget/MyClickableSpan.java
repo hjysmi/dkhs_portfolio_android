@@ -1,7 +1,7 @@
 package com.dkhs.portfolio.ui.widget;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
@@ -42,7 +42,9 @@ public class MyClickableSpan extends ClickableSpan {
 	 * Performs the click action associated with this span.
 	 */
 	public void onClick(View widget){
-        new MessageHandler(context).handleURL(url);
+        if(!TextUtils.isEmpty(url)){
+            new MessageHandler(context).handleURL(url);
+        }
 	};
 
 	/**

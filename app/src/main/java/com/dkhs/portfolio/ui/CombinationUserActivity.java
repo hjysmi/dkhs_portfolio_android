@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -123,8 +122,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void startSettingActivity() {
-        startActivity(new Intent(this, PostTopicActivity.class));
-//        startActivity(SettingActivity.getEditUserInfoIntent(this));
+        startActivity(SettingActivity.getEditUserInfoIntent(this));
         // UIUtils.startAnimationActivity(getActivity(), intent);
     }
 

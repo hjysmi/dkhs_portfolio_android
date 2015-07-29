@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@color/person_setting_backgroud"
+              android:layout_height="match_parent">
+
+    <com.dkhs.portfolio.ui.widget.PullToRefreshListView
+        android:layout_width="match_parent"
+        android:divider="@color/transparent"
+        android:id="@+id/lv_reply"
+        android:background="@color/person_setting_backgroud"
+        android:dividerHeight="@dimen/divider_height"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
