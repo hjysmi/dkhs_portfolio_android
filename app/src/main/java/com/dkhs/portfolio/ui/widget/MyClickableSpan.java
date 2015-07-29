@@ -42,6 +42,7 @@ public class MyClickableSpan extends ClickableSpan {
 	 * Performs the click action associated with this span.
 	 */
 	public void onClick(View widget){
+        System.out.println(url.isEmpty());
         if(!TextUtils.isEmpty(url)){
             new MessageHandler(context).handleURL(url);
         }

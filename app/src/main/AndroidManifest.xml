@@ -406,8 +406,11 @@
             >
         </activity>
         <activity
-            android:name=".ui.ReplyActivity"
-            >
+            android:name=".ui.MyDraftActivity"
+            android:label="@string/title_my_draft" />
+        <activity
+            android:name=".ui.TopicsDetailActivity"
+            android:label="@string/title_activity_topics_detail" >
         </activity>
         <activity
             android:name=".ui.InfoActivity"

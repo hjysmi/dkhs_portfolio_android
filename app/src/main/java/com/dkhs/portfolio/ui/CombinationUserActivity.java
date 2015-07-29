@@ -125,7 +125,9 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void startSettingActivity() {
-        startActivity(new Intent(this, PostTopicActivity.class));
+//        startActivity(new Intent(this, PostTopicActivity.class));
+        startActivity(new Intent(this, ReplyActivity.class));
+        //        startActivity(SettingActivity.getEditUserInfoIntent(this));
     }
 
 

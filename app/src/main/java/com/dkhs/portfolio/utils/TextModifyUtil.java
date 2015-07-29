@@ -1,11 +1,9 @@
 package com.dkhs.portfolio.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -14,8 +12,6 @@ import android.text.style.URLSpan;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.widget.MyClickableSpan;
 
 import java.util.ArrayList;
@@ -69,7 +65,7 @@ public class TextModifyUtil {
         }
     }
 
-    public static void setStockText(SpannableString builder, String patternStr,Context context) {
+    public static void setStockText(Spannable builder, String patternStr,Context context) {
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(builder.toString());
         String temptStr = builder.toString();

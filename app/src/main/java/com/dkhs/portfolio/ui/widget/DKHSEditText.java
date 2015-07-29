@@ -2,14 +2,16 @@ package com.dkhs.portfolio.ui.widget;
 
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.widget.EditText;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.rockerhieu.emojicon.EmojiconEditText;
 
@@ -40,10 +42,28 @@ public class DKHSEditText extends EmojiconEditText {
 	@Override
 	public void setText(CharSequence text, BufferType type) {
 		if (!TextUtils.isEmpty(text)) {
-			SpannableString span = new SpannableString(text);
-			TextModifyUtil.setImgText(span, FACE_IMG_PATTERN, getContext());
-            TextModifyUtil.setStockText(span, STOCK_PATTERN, getContext());
-			super.setText(span, type);
+            text = Html.fromHtml(text.toString());
+            if(text instanceof Spannable){
+                int end = text.length();
+                Spannable sp = (Spannable) text;
+                URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
+//                SpannableStringBuilder builder = new SpannableStringBuilder(text);
+                SpannableString span = new SpannableString(text);
+//                builder.clearSpans();
+                for(URLSpan url : urls){
+                    MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext());
+                    mySpan.url = url.getURL();
+                    Log.i("DKHSTEXT", mySpan.url);
+                    span.setSpan(mySpan,sp.getSpanStart(url),sp.getSpanEnd(url),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                TextModifyUtil.setImgText(span, FACE_IMG_PATTERN, getContext());
+                TextModifyUtil.setStockText(span, STOCK_PATTERN, getContext());
+                //加上下面方法会导致崩溃，所以去掉，并不影响，因为edittext不需要点击
+//                setMovementMethod(LinkMovementMethod.getInstance());
+                super.setText(span,type);
+            }else{
+                super.setText(text, type);
+            }
 		} else {
 			super.setText(text, type);
 		}
@@ -69,7 +89,7 @@ public class DKHSEditText extends EmojiconEditText {
                 if(tIndex >= 0 && eIndex >= 0){
                     try {
                         String inTempt = tempt.substring(tIndex,tempt.length() - tIndex) + end.substring(0,eIndex+1);
-                        Log.i("TextView", inTempt);
+//                        Log.i("TextView", inTempt);
                         Matcher matcher = pattern.matcher(inTempt);
                         while(matcher.find()){
                             String group = matcher.group();

@@ -95,14 +95,20 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
     private void initData(){
         Bundle bundle = getIntent().getExtras();
-        statusType = bundle.getInt(STATUS_TYPE);
-        if(statusType == TYPE_MINE){
-            setTitle(R.string.mine_reply);
-        }else if(statusType == TYPE_OTHERS){
-            setTitle(R.string.others_reply);
-        }
-        statusId = bundle.getString(STATUS_ID);
-        if(!TextUtils.isEmpty(statusId)){
+        if(bundle != null){
+            statusType = bundle.getInt(STATUS_TYPE);
+            if(statusType == TYPE_MINE){
+                setTitle(R.string.mine_reply);
+            }else if(statusType == TYPE_OTHERS){
+                setTitle(R.string.others_reply);
+            }
+            statusId = bundle.getString(STATUS_ID);
+            if(!TextUtils.isEmpty(statusId)){
+                StatusEngineImpl.getComments(statusId, "earliest", current_page,0,listener);
+            }
+
+        }else{
+            statusId = "1846645";
             StatusEngineImpl.getComments(statusId, "earliest", current_page,0,listener);
         }
     }
@@ -232,7 +238,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
         @Override
         protected void afterParseData(MoreDataBean<CommentBean> moreDataBean) {
-            if(moreDataBean.getResults() != null && moreDataBean.getResults().size() >0){
+            if(moreDataBean != null && moreDataBean.getResults() != null && moreDataBean.getResults().size() >0){
                 current_page = moreDataBean.getCurrentPage();
                 total_count = moreDataBean.getTotalCount();
                 total_page = moreDataBean.getTotalPage();
