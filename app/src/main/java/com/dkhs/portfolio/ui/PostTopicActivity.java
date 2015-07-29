@@ -128,7 +128,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private DKHSEditText curEt;
     private ImageView ivPhoto;
     private View ibImg;
-    private TextView btnCancle;
+    private TextView btnSend;
 
     private void initViews() {
         setTitle(R.string.post_topic);
@@ -141,10 +141,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         TextView backBtn = (TextView) getBtnBack();
         backBtn.setCompoundDrawables(null, null, null, null);
         backBtn.setText(R.string.cancel);
-        btnCancle = (TextView) getRightButton();
-        btnCancle.setCompoundDrawables(null, null, null, null);
-        btnCancle.setText(R.string.send);
-        btnCancle.setEnabled(false);
+        btnSend = (TextView) getRightButton();
+        btnSend.setCompoundDrawables(null, null, null, null);
+        btnSend.setText(R.string.send);
+        btnSend.setEnabled(false);
+        btnSend.setOnClickListener(this);
         setBackButtonListener(this);
         ibStock.setOnClickListener(this);
         ibEmoji.setOnClickListener(this);
@@ -259,11 +260,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         @Override
         public void afterTextChanged(Editable editable) {
             if (!TextUtils.isEmpty(editable)) {
-                btnCancle.setEnabled(true);
-                btnCancle.setClickable(true);
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
             } else {
-                btnCancle.setEnabled(false);
-                btnCancle.setClickable(false);
+                btnSend.setEnabled(false);
+                btnSend.setClickable(false);
             }
         }
     }

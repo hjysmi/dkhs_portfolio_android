@@ -52,9 +52,6 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
         this.topicsId = topicsId;
     }
 
-    public TopicsCommendEngineImpl(ILoadDataBackListener loadListener) {
-        super(loadListener);
-    }
 
 
     /**
@@ -83,7 +80,7 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
         params.addQueryStringParameter("sort",  sort);
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getLatestTopic, params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getCommend, topicsId), params, this);
 
     }
 
