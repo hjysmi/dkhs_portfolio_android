@@ -210,7 +210,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
         public void onClick(View v) {
             ArrayList<String> arrayList=new ArrayList<>();
             arrayList.add(topicsBean.medias.get(0).image_lg);
-            PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, 0);
+            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v, 0);
 
         }
     }
