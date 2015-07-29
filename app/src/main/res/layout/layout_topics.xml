@@ -111,6 +111,7 @@
                     android:drawableLeft="@drawable/ic_coment"
                     android:gravity="center"
                     android:text="@string/commend"
+                    android:textColor="@color/tag_gray"
                     android:textSize="12sp"/>
             </FrameLayout>
 
@@ -146,6 +147,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="@string/star"
+                        android:textColor="@color/tag_gray"
                         android:textSize="12sp"/>
 
 

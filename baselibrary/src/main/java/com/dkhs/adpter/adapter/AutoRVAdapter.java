@@ -21,9 +21,6 @@ public abstract class AutoRVAdapter extends RecyclerView.Adapter {
 
     protected abstract void initHandlers(HashMap<Integer,ItemHandler> itemHandlerHashMap);
 
-
-
-
     protected AutoRVAdapter(Context context,List<?> data) {
         mData = data;
         mContext = context;
@@ -46,13 +43,13 @@ public abstract class AutoRVAdapter extends RecyclerView.Adapter {
 
     protected abstract int getViewType(int position);
 
+
+    protected ItemHandler getItemHandler(int index) {
+        return mItemHandlerHashMap.get(index);
+    }
     @Override
     public RcvAdapterItem onCreateViewHolder(ViewGroup parent, int viewType) {
         return new  RcvAdapterItem(parent.getContext(), getItemHandler(viewType));
-    }
-
-    protected ItemHandler getItemHandler(int position) {
-        return mItemHandlerHashMap.get(getItemViewType(position));
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
@@ -28,7 +28,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
 
 import io.rong.imlib.model.Message;
@@ -141,7 +140,7 @@ public class MessageHandler {
     }
 
     public void gotoCombinationUserActivity(String userId){
-        context.startActivity(CombinationUserActivity.getIntent(context,null,userId));
+        context.startActivity(UserHomePageActivity.getIntent(context, null, userId));
     }
 
     /**

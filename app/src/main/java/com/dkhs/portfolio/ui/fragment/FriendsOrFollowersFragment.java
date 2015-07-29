@@ -1,34 +1,25 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PeopleBean;
-import com.dkhs.portfolio.bean.User;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.PeopleEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
-import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.adapter.FriendsOrFollowerAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
-import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -166,7 +157,7 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
 
 
-                startActivity(CombinationUserActivity.getIntent(getActivity(), dataList.get(position).getUsername(),
+                startActivity(UserHomePageActivity.getIntent(getActivity(), dataList.get(position).getUsername(),
                         dataList.get(position).getId() + ""));
             }
         };

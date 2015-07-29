@@ -28,7 +28,6 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
@@ -100,7 +99,7 @@
         <activity
             android:name=".ui.FeedBackActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".ui.CombinationUserActivity" />
+        <activity android:name=".ui.UserHomePageActivity" />
         <activity android:name=".ui.ModifyUserSignActivity" />
         <activity android:name=".ui.EditTabStockActivity" />
         <activity
@@ -419,6 +418,10 @@
         <activity
             android:name=".ui.UserTopicsActivity"
             android:label="@string/title_activity_my_topics" >
+        </activity>
+        <activity
+            android:name=".ui.CombinationListActivity"
+            >
         </activity>
         <activity
             android:name=".ui.StatusReportActivity"

@@ -31,7 +31,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
@@ -225,7 +225,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void startUserInfoActivity() {
-        Intent intent = CombinationUserActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(),
+        Intent intent = UserHomePageActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(),
                 UserEngineImpl.getUserEntity().getId() + "");
         startActivity(intent);
     }
