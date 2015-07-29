@@ -60,12 +60,17 @@ public class StatusReportActivity extends ModelAcitivity implements OnClickListe
             @Override
             public void onClick(View v) {
                 if (null != cbSelectChoice && cbSelectChoice.isChecked()) {
+                    subReport();
 
-                    //您的举报信息已提交，感谢您的支持！
-                    PromptManager.showSuccessToast(R.string.report_success);
                 }
             }
         });
+    }
+
+    private void subReport() {
+        //您的举报信息已提交，感谢您的支持！
+        PromptManager.showSuccessToast(R.string.report_success);
+        finish();
     }
 
 
