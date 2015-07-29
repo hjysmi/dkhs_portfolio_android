@@ -269,5 +269,19 @@ public class DKHSUrl {
 
     };
 
+    public interface Status {
+        /**
+         * 上传图片
+         */
+        String uploadImage = "/api/v1/media/upload/";
+        /**
+         * 获取话题列表
+         */
+        String statuses = "/api/v1/statuses/";
+        /**
+         * 获取评论列表
+         */
+        String get_comments = "/api/v1/statuses/{0}/comments/";
+    }
 
 }
