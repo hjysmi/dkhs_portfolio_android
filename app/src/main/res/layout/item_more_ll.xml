@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+
+        android:background="@color/activity_bg_color"
+
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/leftTv"
+            android:gravity="left"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/tag_gray"
+            android:text="TA的组合"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/moreBtn"
+            android:text="更多"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/tag_gray"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>

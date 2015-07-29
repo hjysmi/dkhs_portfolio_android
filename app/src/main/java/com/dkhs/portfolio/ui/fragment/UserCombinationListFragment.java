@@ -10,15 +10,10 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -27,15 +22,12 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.CombinationUserActivity;
-import com.dkhs.portfolio.ui.FloatingActionMenu;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.lidroid.xutils.http.HttpHandler;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,17 +75,12 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
             mUserId = bundle.getString("userId");
         }
     }
-
-
     public ListView getListView() {
         return mListView;
     }
 
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        int headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
         headerView = new View(getActivity());
         footView = new View(getActivity());
         super.onViewCreated(view, savedInstanceState);
@@ -115,10 +102,9 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
 
         if (null != object.getResults()) {
 
-            // mDataList = object.getResults();
+            if(object.getCurrentPage()==1)
             mDataList.clear();
             mDataList.addAll(object.getResults());
-            // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
         }
 
@@ -148,7 +134,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
         loadData();
     }
@@ -165,11 +150,11 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
                     return;
                 }
 
-                if (((CombinationUserActivity) getActivity()).mUserName != null) {
+                if (((UserHomePageActivity) getActivity()).mUserName != null) {
                     CombinationBean cBean = mDataList.get(position - 1);
                     UserEntity user = new UserEntity();
                     user.setId(Integer.parseInt(mUserId));
-                    user.setUsername(((CombinationUserActivity) getActivity()).mUserName);
+                    user.setUsername(((UserHomePageActivity) getActivity()).mUserName);
                     cBean.setUser(user);
                     startActivity(CombinationDetailActivity.newIntent(getActivity(), cBean));
 //                getActivity().startActivity(NewCombinationDetailActivity.newIntent(getActivity(), cBean, false, null));
@@ -178,9 +163,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
 
         };
     }
-
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_user_combination_list);
-
 
 
     @Override
@@ -199,22 +181,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    private OnFragmentInteractionListener mListener;
-
-    @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     public void onLoadMore() {
@@ -227,10 +195,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
     }
 
 
-    public interface OnFragmentInteractionListener {
-        public void onScrollChanged(float percent);
-
-    }
 
     public HttpHandler getHttpHandler() {
         return mHttpHandler;
@@ -243,5 +207,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
         this.mHttpHandler = mHttpHandler;
     }
 
-
+    @Override
+    public String getEmptyText() {
+        return"暂无组合";
+    }
 }

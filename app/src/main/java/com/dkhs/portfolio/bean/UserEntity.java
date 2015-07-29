@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
@@ -232,5 +233,11 @@ public class UserEntity {
 
     public void setDate_joined(String date_joined) {
         this.date_joined = date_joined;
+    }
+
+
+
+    public static  boolean currentUser(String userId){
+        return null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(userId);
     }
 }

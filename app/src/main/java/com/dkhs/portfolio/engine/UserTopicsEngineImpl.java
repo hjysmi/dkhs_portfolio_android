@@ -2,7 +2,6 @@ package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -21,20 +20,24 @@ import com.lidroid.xutils.http.client.HttpRequest;
  * @date 2015/4/23.13:39
  * @Description
  */
-public class TopicsEngineImpl extends LoadMoreDataEngine {
+public class UserTopicsEngineImpl extends LoadMoreDataEngine {
 
 
     /**
      * 默认显示一页20条数据
      */
     private static final int pageSize = 20;
+    private String userName;
 
+    private String userId;
+    private String statusType;
 
-    public TopicsEngineImpl(ILoadDataBackListener loadListener) {
+    public UserTopicsEngineImpl(ILoadDataBackListener loadListener, String userName, String userId, String statusType) {
         super(loadListener);
+        this.userName = userName;
+        this.userId = userId;
+        this.statusType = statusType;
     }
-
-
 
     public HttpHandler loadDate( ) {
         return loadData();
@@ -46,8 +49,11 @@ public class TopicsEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        params.addQueryStringParameter("user_id", userId );
+        params.addQueryStringParameter("username", userName );
+        params.addQueryStringParameter("status_type", statusType );
         params.addQueryStringParameter("page_size", pageSize + "");
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getLatestTopic, params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
     }
 
     @Override
@@ -55,7 +61,10 @@ public class TopicsEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getLatestTopic, params, this);
+        params.addQueryStringParameter("user_id", userId );
+        params.addQueryStringParameter("username", userName );
+        params.addQueryStringParameter("status_type", statusType );
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
 
     }
 

@@ -214,7 +214,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
             ArrayList<String> arrayList=new ArrayList<>();
             arrayList.add(topicsBean.medias.get(0).image_lg);
-            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,0);
+            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v,0);
         }
     }
     class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
