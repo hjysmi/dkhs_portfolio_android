@@ -2,12 +2,15 @@ package com.dkhs.portfolio.bean;
 
 import com.lidroid.xutils.db.annotation.Column;
 
+import org.parceler.Parcel;
+
 /**
  * Created by zjz on 2015/7/23.
  */
+@Parcel
 public class DraftBean {
 
-    private int id;
+    int id;
 
     public static final String COLUM_UTCTIME = "utctime";
     public static final String COLUM_IMAGEURI = "imageUri";
@@ -18,7 +21,21 @@ public class DraftBean {
 
 
     @Column(column = COLUM_UTCTIME)
-    private String utcTime;
+    String utcTime;
+    //保存图片的绝对路径
+    @Column(column = COLUM_IMAGEURI)
+    String imageUri;
+
+    @Column(column = COLUM_TITLE)
+    String title;
+    @Column(column = COLUM_CONTENTE)
+    String content;
+    @Column(column = COLUM_AUTHORID)
+    String authorId;
+
+    @Column(column = COLUM_LABEL)
+    int label;
+
 
     public String getUtcTime() {
         return utcTime;
@@ -60,16 +77,6 @@ public class DraftBean {
         this.authorId = authorId;
     }
 
-    //保存图片的绝对路径
-    @Column(column = COLUM_IMAGEURI)
-    private String imageUri;
-
-    @Column(column = COLUM_TITLE)
-    private String title;
-    @Column(column = COLUM_CONTENTE)
-    private String content;
-    @Column(column = COLUM_AUTHORID)
-    private String authorId;
 
     public int getLabel() {
         return label;
@@ -78,9 +85,6 @@ public class DraftBean {
     public void setLabel(int label) {
         this.label = label;
     }
-
-    @Column(column = COLUM_LABEL)
-    private int label;
 
 
     public int getId() {
