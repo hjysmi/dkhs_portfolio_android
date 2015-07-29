@@ -658,11 +658,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
     private void saveDraft() {
-        DraftBean draftBean = new DraftBean();
-        draftBean.setTitle(etTitle.getText().toString());
-        draftBean.setContent(etContent.getText().toString());
-        draftBean.setLabel(1);
-        new DraftEngine(null).saveDraft(draftBean);
+        if (null == mDraftBean) {
+            mDraftBean = new DraftBean();
+        }
+
+        mDraftBean.setTitle(etTitle.getText().toString());
+        mDraftBean.setContent(etContent.getText().toString());
+        mDraftBean.setLabel(1);
+        new DraftEngine(null).saveDraft(mDraftBean);
 
     }
 

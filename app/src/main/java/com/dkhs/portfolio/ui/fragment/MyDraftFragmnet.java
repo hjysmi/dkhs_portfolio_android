@@ -227,7 +227,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 holder.tvTitle.setVisibility(View.VISIBLE);
                 holder.tvTitle.setText(title);
             }
-            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getUtcTime()));
+//            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getUtcTime()));
+            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getEdittime()));
             String strLabel = item.getLabel() == 1 ? "主贴" : "回复";
             holder.tvLabel.setText(strLabel);
 

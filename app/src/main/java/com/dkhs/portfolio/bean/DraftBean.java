@@ -13,6 +13,7 @@ public class DraftBean {
     int id;
 
     public static final String COLUM_UTCTIME = "utctime";
+    public static final String COLUM_EDITTIME = "edittime";
     public static final String COLUM_IMAGEURI = "imageUri";
     public static final String COLUM_TITLE = "title";
     public static final String COLUM_CONTENTE = "content";
@@ -35,6 +36,16 @@ public class DraftBean {
 
     @Column(column = COLUM_LABEL)
     int label;
+    @Column(column = COLUM_EDITTIME)
+    long edittime;
+
+    public long getEdittime() {
+        return edittime;
+    }
+
+    public void setEdittime(long edittime) {
+        this.edittime = edittime;
+    }
 
 
     public String getUtcTime() {
