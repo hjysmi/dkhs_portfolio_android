@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_status_title" />
 
     <TextView
         android:id="@+id/tv_draft_content"
@@ -20,7 +20,7 @@
         android:layout_below="@+id/tv_draft_title"
         android:layout_marginTop="6dp"
         android:textColor="@color/text_content_color"
-        android:textSize="16sp" />
+        android:textSize="@dimen/text_status_content" />
 
     <TextView
         android:id="@+id/tv_label"
@@ -34,7 +34,7 @@
         android:paddingRight="8dp"
         android:paddingTop="2dp"
         android:textColor="@color/tag_gray"
-        android:textSize="13sp" />
+        android:textSize="@dimen/text_status_label" />
 
     <TextView
         android:id="@+id/tv_edit_time"
@@ -43,6 +43,6 @@
         android:layout_alignBottom="@+id/tv_label"
         android:layout_alignParentLeft="true"
         android:textColor="@color/tag_gray"
-        android:textSize="12sp" />
+        android:textSize="@dimen/text_status_time" />
 
 </RelativeLayout>

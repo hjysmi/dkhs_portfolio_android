@@ -92,6 +92,8 @@ public class DKHSTextView extends EmojiconTextView {
 		}
 	}
 
+
+
 //	@Override
 //	public void setText(CharSequence text, BufferType type) {
 //		if (!TextUtils.isEmpty(text)) {

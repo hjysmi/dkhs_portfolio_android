@@ -34,7 +34,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/item_reply_textsize_normal"
+                    android:textSize="@dimen/text_status_content"
                     android:text="用户名"
                     android:id="@+id/tv_username"
                     android:layout_height="wrap_content"/>
@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:text="这些都是评论@某某某"
         android:id="@+id/tv_text"
-        android:textSize="@dimen/item_reply_textsize_normal"
+        android:textSize="@dimen/text_status_content"
         android:textColor="@color/gray_textcolor"
         android:layout_marginTop="@dimen/widget_margin_medium"
         android:layout_height="wrap_content"/>
