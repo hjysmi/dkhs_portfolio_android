@@ -39,6 +39,10 @@ public class StockQuotesBean extends QuotesBean {
 
     // 换手率
     private float turnover_rate;
+
+
+    // 振幅
+    private float amplitude;
     // 流通市值 单位：元
     private float market_capital;
     // 总市值 单位：元
@@ -226,6 +230,15 @@ public class StockQuotesBean extends QuotesBean {
 
     public void setSellList(List<FiveRangeItem> sellList) {
         this.sellList = sellList;
+    }
+
+
+    public float getAmplitude() {
+        return amplitude;
+    }
+
+    public void setAmplitude(float amplitude) {
+        this.amplitude = amplitude;
     }
 
     public String getTradetile() {

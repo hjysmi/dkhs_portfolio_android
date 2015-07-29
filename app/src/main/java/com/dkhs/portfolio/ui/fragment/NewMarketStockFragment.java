@@ -143,7 +143,6 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         });
 
 
-
 //        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
 //                .sizeProvider(mAdapter)
 //                .color(Color.TRANSPARENT)
@@ -209,19 +208,19 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
 
             dataList.add(new MarkTitleViewBean(R.string.market_title_up));
             for (StockQuotesBean selectStockBean : mAllMarketBean.getRise_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean, false));
+                dataList.add(new MarkStockViewBean(selectStockBean));
             }
             dataList.add(new MarkTitleViewBean(R.string.market_title_down));
             for (StockQuotesBean selectStockBean : mAllMarketBean.getDrop_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean, false));
+                dataList.add(new MarkStockViewBean(selectStockBean));
             }
             dataList.add(new MarkTitleViewBean(R.string.market_title_turnover));
             for (StockQuotesBean selectStockBean : mAllMarketBean.getTurnover_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean, true));
+                dataList.add(new MarkStockViewBean(selectStockBean, MarkStockViewBean.SUB_TYPE_TURNOVER));
             }
             dataList.add(new MarkTitleViewBean(R.string.market_title_ampli));
             for (StockQuotesBean selectStockBean : mAllMarketBean.getAmplitude_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean, true));
+                dataList.add(new MarkStockViewBean(selectStockBean, MarkStockViewBean.SUB_TYPE_AMPLITUDE));
             }
 
 

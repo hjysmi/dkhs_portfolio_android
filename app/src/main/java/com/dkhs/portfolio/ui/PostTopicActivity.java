@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,26 +18,32 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
+import com.dkhs.portfolio.bean.DraftBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UploadImageBean;
+import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
+import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.widget.DKHSEditText;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.rockerhieu.emojicon.emoji.Emojicon;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,6 +64,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private InputMethodManager imm;
     private boolean isShowingEmotionView;
     private ImageButton ibEmoji;
+    private ImageButton ibStock;
 
     /**
      * 发表
@@ -66,9 +74,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * 回复
      */
     public static final int TYPE_RETWEET = 2;
+    public static final String ARGUMENT_DRAFT = "argument_draft";
 
     private static final String TYPE = "type";
     private int curType;
+    private DraftBean mDraftBean;
 
     /**
      * @param context
@@ -85,8 +95,20 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_post_topic);
+        getSwipeBackLayout().setEnableGesture(false);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
         initViews();
         initEmoji();
+        setupViewData();
+    }
+
+    private void handleExtras(Bundle extras) {
+        curType = extras.getInt(TYPE);
+        mDraftBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_DRAFT));
+
     }
 
     private void initEmoji() {
@@ -103,26 +125,28 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private DKHSEditText etContent;
     private DKHSEditText etTitle;
-    private EditText curEt;
+    private DKHSEditText curEt;
     private ImageView ivPhoto;
     private View ibImg;
-    private TextView rightBtn;
+    private TextView btnCancle;
 
     private void initViews() {
         setTitle(R.string.post_topic);
         etTitle = (DKHSEditText) findViewById(R.id.et_title);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
+        ibStock = (ImageButton) findViewById(R.id.ib_dollar);
         ivPhoto = (ImageView) findViewById(R.id.iv_photo);
         ibImg = findViewById(R.id.ib_img);
         TextView backBtn = (TextView) getBtnBack();
         backBtn.setCompoundDrawables(null, null, null, null);
         backBtn.setText(R.string.cancel);
-        rightBtn = (TextView) getRightButton();
-        rightBtn.setCompoundDrawables(null, null, null, null);
-        rightBtn.setText(R.string.send);
-        rightBtn.setEnabled(false);
-        rightBtn.setOnClickListener(this);
+        btnCancle = (TextView) getRightButton();
+        btnCancle.setCompoundDrawables(null, null, null, null);
+        btnCancle.setText(R.string.send);
+        btnCancle.setEnabled(false);
+        setBackButtonListener(this);
+        ibStock.setOnClickListener(this);
         ibEmoji.setOnClickListener(this);
         ibImg.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
@@ -199,6 +223,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
+
+    private void setupViewData() {
+        if (null != mDraftBean) {
+            etContent.setText(mDraftBean.getContent());
+            etTitle.setText(mDraftBean.getTitle());
+        }
+    }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
@@ -227,27 +259,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         @Override
         public void afterTextChanged(Editable editable) {
             if (!TextUtils.isEmpty(editable)) {
-                rightBtn.setEnabled(true);
-                rightBtn.setClickable(true);
+                btnCancle.setEnabled(true);
+                btnCancle.setClickable(true);
             } else {
-                rightBtn.setEnabled(false);
-                rightBtn.setClickable(false);
+                btnCancle.setEnabled(false);
+                btnCancle.setClickable(false);
             }
-//            if(!TextUtils.isEmpty(editable)){
-//                if(isBeforeNull){
-//                    etCount ++;
-//                }
-//                if(etCount == 2){
-//                    rightBtn.setEnabled(true);
-//                    rightBtn.setClickable(true);
-//                }
-//            }else{
-//                if(!isBeforeNull){
-//                    etCount--;
-//                }
-//                rightBtn.setEnabled(false);
-//                rightBtn.setClickable(false);
-//            }
         }
     }
 
@@ -293,7 +310,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 }
                 break;
             case BACKBUTTON_ID:
-                // TODO 返回的时候判断是否有草稿
+                showAlertDialog();
                 break;
             case R.id.ib_emoji:
                 if (isShowingEmotionView) {
@@ -317,7 +334,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 items.add(new SheetItem(getString(R.string.local_image), MyActionSheetDialog.SheetItemColor.Black));
                 showPicDialog();
                 break;
+            case R.id.ib_dollar:
+                pickStock();
+                break;
         }
+    }
+
+
+    private void pickStock() {
+        Intent intent = new Intent(this,
+                SelectStatusStockActivity.class);
+        startActivityForResult(intent, 0x7);
     }
 
     private boolean isShowDeletePic = false;
@@ -471,7 +498,19 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             }).start();
 
         }
+
+        if (requestCode == 0x7 && resultCode == RESULT_OK) {
+            SelectStockBean stockBean = Parcels.unwrap(data.getExtras().getParcelable(FragmentSearchStockFund.EXTRA_STOCK));
+            if (null != stockBean) {
+                selectStockBack(stockBean);
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private void selectStockBack(SelectStockBean stockBean) {
+        curEt.insesrStockText(String.format("%s(%s)", stockBean.getName(), stockBean.getSymbol()));
     }
 
     private void saveBitmap(final String path, final Bitmap bitmap) {
@@ -577,4 +616,58 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             PromptManager.closeProgressDialog();
         }
     };
+
+
+    @Override
+    public void onBackPressed() {
+
+
+        showAlertDialog();
+
+    }
+
+    private void showAlertDialog() {
+
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+
+        builder.setMessage(R.string.dialog_msg_save_draft)
+                .setNegativeButton(R.string.notsave, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+
+                    }
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                saveDraft();
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+
+
+        builder.show();
+
+    }
+
+
+    private void saveDraft() {
+        if (null == mDraftBean) {
+            mDraftBean = new DraftBean();
+        }
+
+        mDraftBean.setTitle(etTitle.getText().toString());
+        mDraftBean.setContent(etContent.getText().toString());
+        mDraftBean.setLabel(1);
+        new DraftEngine(null).saveDraft(mDraftBean);
+
+    }
+
+
 }

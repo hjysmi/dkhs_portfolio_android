@@ -2,30 +2,45 @@ package com.dkhs.portfolio.bean;
 
 import com.lidroid.xutils.db.annotation.Column;
 
+import org.parceler.Parcel;
+
 /**
  * Created by zjz on 2015/7/23.
  */
+@Parcel
 public class DraftBean {
 
-    private int id;
+    int id;
 
-    public static final String COLUM_UTCTIME = "utctime";
+    public static final String COLUM_EDITTIME = "edittime";
     public static final String COLUM_IMAGEURI = "imageUri";
     public static final String COLUM_TITLE = "title";
     public static final String COLUM_CONTENTE = "content";
     public static final String COLUM_AUTHORID = "authorId";
-    public static final String COLUM_LABEL = "label";
+    public static final String COLUM_LABEL = "label";  //1是正文，2 是回复
 
+    //保存图片的绝对路径
+    @Column(column = COLUM_IMAGEURI)
+    String imageUri;
 
-    @Column(column = COLUM_UTCTIME)
-    private String utcTime;
+    @Column(column = COLUM_TITLE)
+    String title;
+    @Column(column = COLUM_CONTENTE)
+    String content;
+    @Column(column = COLUM_AUTHORID)
+    String authorId;
 
-    public String getUtcTime() {
-        return utcTime;
+    @Column(column = COLUM_LABEL)
+    int label;
+    @Column(column = COLUM_EDITTIME)
+    long edittime;
+
+    public long getEdittime() {
+        return edittime;
     }
 
-    public void setUtcTime(String utcTime) {
-        this.utcTime = utcTime;
+    public void setEdittime(long edittime) {
+        this.edittime = edittime;
     }
 
     public String getImageUri() {
@@ -60,16 +75,6 @@ public class DraftBean {
         this.authorId = authorId;
     }
 
-    //保存图片的绝对路径
-    @Column(column = COLUM_IMAGEURI)
-    private String imageUri;
-
-    @Column(column = COLUM_TITLE)
-    private String title;
-    @Column(column = COLUM_CONTENTE)
-    private String content;
-    @Column(column = COLUM_AUTHORID)
-    private String authorId;
 
     public int getLabel() {
         return label;
@@ -78,9 +83,6 @@ public class DraftBean {
     public void setLabel(int label) {
         this.label = label;
     }
-
-    @Column(column = COLUM_LABEL)
-    private int label;
 
 
     public int getId() {

@@ -25,6 +25,9 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class MarkStockViewBean extends ViewBean {
     private static final int TYPE = 3;
 
+    public static final int SUB_TYPE_TURNOVER = 10;
+    public static final int SUB_TYPE_AMPLITUDE = 20;
+
     public MarkStockViewBean() {
     }
 
@@ -33,11 +36,16 @@ public class MarkStockViewBean extends ViewBean {
     }
 
     private StockQuotesBean mStockQuotesBean;
-    private boolean isDefColor = false;
+    private int mSubViewType = -1;
 
-    public MarkStockViewBean(StockQuotesBean stockQuotesBean, boolean isDefColor) {
+    public MarkStockViewBean(StockQuotesBean stockQuotesBean, int subType) {
         this.mStockQuotesBean = stockQuotesBean;
-        this.isDefColor = isDefColor;
+        this.mSubViewType = subType;
+    }
+
+    public MarkStockViewBean(StockQuotesBean stockQuotesBean) {
+        this.mStockQuotesBean = stockQuotesBean;
+
     }
 
     public void setStockQuotesBean(StockQuotesBean stockQuotesBean) {
@@ -51,7 +59,7 @@ public class MarkStockViewBean extends ViewBean {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
-        ((ViewHolder) itemHolder).bindView(mStockQuotesBean, isDefColor);
+        ((ViewHolder) itemHolder).bindView(mStockQuotesBean, mSubViewType);
         ViewUitls.fullSpanView(itemHolder);
     }
 
@@ -59,45 +67,52 @@ public class MarkStockViewBean extends ViewBean {
     private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
         LinearLayout tvLayoutTitle;
-        TextView tvTextName;
-        TextView tvTextNameNum;
-        TextView tvTextItemIndex;
+        TextView tvStockName;
+        TextView tvStockCode;
+        TextView tvCurrent;
         TextView tvTextPercent;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
 
-            tvTextName = (TextView) itemView.findViewById(R.id.market_text_name);
-            tvTextNameNum = (TextView) itemView.findViewById(R.id.market_text_name_num);
-            tvTextItemIndex = (TextView) itemView.findViewById(R.id.market_list_item_index);
+            tvStockName = (TextView) itemView.findViewById(R.id.market_text_name);
+            tvStockCode = (TextView) itemView.findViewById(R.id.market_text_name_num);
+            tvCurrent = (TextView) itemView.findViewById(R.id.market_list_item_index);
             tvTextPercent = (TextView) itemView.findViewById(R.id.market_list_item_percent);
-//            tvLayoutTitle = (LinearLayout) itemView.findViewById(R.id.market_layout_item);
 
         }
 
-        public void bindView(final StockQuotesBean mStockQuotesBean, boolean isDefColor) {
+        public void bindView(final StockQuotesBean mStockQuotesBean, int subType) {
 
-            tvTextName.setText(mStockQuotesBean.getAbbrName());
-//            Log.e("MarkStockViewBean","StockQuotesBean.name:"+ mStockQuotesBean.name);
-            tvTextNameNum.setText(mStockQuotesBean.getSymbol());
+            tvStockName.setText(mStockQuotesBean.getAbbrName());
+            tvStockCode.setText(mStockQuotesBean.getSymbol());
 
-            float change = mStockQuotesBean.getPercentage();
+            float change;
+            if (subType == SUB_TYPE_TURNOVER) {
+                change = mStockQuotesBean.getTurnover_rate();//换手率
+            } else if (subType == SUB_TYPE_AMPLITUDE) {
+                change = mStockQuotesBean.getAmplitude(); //振幅
+            } else {
+                change = mStockQuotesBean.getPercentage();//涨跌幅
+            }
+//            change = mStockQuotesBean.getTurnover_rate();  //换手率
             ColorStateList textCsl = null;
-            if (isDefColor) {
+            if (subType > 0) {
                 textCsl = ColorTemplate.getTextColor(R.color.theme_color);
             } else if (mStockQuotesBean.getIs_stop() == 1 || StockUitls.isDelistStock(mStockQuotesBean.getList_status() + "")) {
                 textCsl = ColorTemplate.getTextColor(R.color.theme_color);
             } else {
                 textCsl = ColorTemplate.getUpOrDrownCSL(change);
             }
-            tvTextItemIndex.setTextColor(textCsl);
+            tvCurrent.setTextColor(textCsl);
+
             if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
-                tvTextItemIndex.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
+                tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
             } else {
-                tvTextItemIndex.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
+                tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
             }
-            //  tvTextPercent.setText(StringFromatUtils.get2PointPercent(change));
+
 
             if (StockUitls.isDelistStock(mStockQuotesBean.getList_status() + "")) {
                 tvTextPercent.setText(R.string.exit_stock);

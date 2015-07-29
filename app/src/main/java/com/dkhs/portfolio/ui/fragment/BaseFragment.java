@@ -50,7 +50,6 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(setContentLayoutId(), null);
         View view = (ViewGroup) inflater.inflate(setContentLayoutId(), container, false);
         ViewUtils.inject(this, view); // 注入view和事件
         return view;

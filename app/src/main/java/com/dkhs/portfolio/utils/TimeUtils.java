@@ -63,8 +63,15 @@ public class TimeUtils {
 
 
     public static String getBriefTimeString(String time) {
+        return getBriefTimeString(new DateTime(time));
+    }
 
-        DateTime dateTime = new DateTime(time);
+
+    public static String getBriefTimeString(long second) {
+        return getBriefTimeString(new DateTime(second * 1000));
+    }
+
+    public static String getBriefTimeString(DateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         LocalDate currentDate = LocalDate.now();
         if (date == currentDate) {
@@ -113,7 +120,6 @@ public class TimeUtils {
 
 
     public static String getHourString(String iso8601Time) {
-
         return new DateTime(iso8601Time).toString("HH:mm:ss", Locale.CHINA);
 
     }
@@ -151,14 +157,6 @@ public class TimeUtils {
         }
         dateString += weekString;
         return dateString;
-    }
-
-    public static java.util.Date float2Date(float second) {
-        java.util.Date date_origine = new Date((long) (second * 1000));
-        java.util.Calendar date = java.util.Calendar.getInstance();
-        date.setTime(date_origine);
-        date.add(java.util.Calendar.HOUR, -8);
-        return date.getTime();
     }
 
 

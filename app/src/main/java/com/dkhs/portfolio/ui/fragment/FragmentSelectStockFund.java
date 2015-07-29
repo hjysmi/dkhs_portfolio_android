@@ -88,6 +88,7 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
     protected static final String ARGUMENT_LOAD_TYPE = "load_type";
     protected static final String ARGUMENT_SECTOR_ID = "sector_id";
     protected static final String ARGUMENT_USER_ID = "user_id";
+    public static final String ARGUMENT_SELECT = "argument_select";
 
     protected PullToRefreshListView mListView;
     protected BaseAdatperSelectStockFund mAdapterConbinStock;
@@ -757,7 +758,6 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
 
     }
 
-    public static final String ARGUMENT = "ARGUMENT";
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_select);
 
