@@ -74,9 +74,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * 回复
      */
     public static final int TYPE_RETWEET = 2;
+    public static final String ARGUMENT_DRAFT = "argument_draft";
 
     private static final String TYPE = "type";
     private int curType;
+    private DraftBean mDraftBean;
 
     /**
      * @param context
@@ -94,8 +96,19 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         super.onCreate(arg0);
         setContentView(R.layout.activity_post_topic);
         getSwipeBackLayout().setEnableGesture(false);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
         initViews();
         initEmoji();
+        setupViewData();
+    }
+
+    private void handleExtras(Bundle extras) {
+        curType = extras.getInt(TYPE);
+        mDraftBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_DRAFT));
+
     }
 
     private void initEmoji() {
@@ -208,6 +221,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         if (ll.getVisibility() == View.GONE)
             ll.setVisibility(View.VISIBLE);
 
+    }
+
+
+    private void setupViewData() {
+        if (null != mDraftBean) {
+            etContent.setText(mDraftBean.getContent());
+            etTitle.setText(mDraftBean.getTitle());
+        }
     }
 
     @Override
@@ -637,11 +658,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
     private void saveDraft() {
-        DraftBean draftBean = new DraftBean();
-        draftBean.setTitle(etTitle.getText().toString());
-        draftBean.setContent(etContent.getText().toString());
-        draftBean.setLabel(1);
-        new DraftEngine(null).saveDraft(draftBean);
+        if (null == mDraftBean) {
+            mDraftBean = new DraftBean();
+        }
+
+        mDraftBean.setTitle(etTitle.getText().toString());
+        mDraftBean.setContent(etContent.getText().toString());
+        mDraftBean.setLabel(1);
+        new DraftEngine(null).saveDraft(mDraftBean);
 
     }
 

@@ -38,8 +38,11 @@ public class MAlertDialog {
     private final Button button2;
     private final Button button3;
     private final RelativeLayout main;
+    private final View topPanel;
+    private final View bottomPanel;
     protected Context context;
     private int mDuration = 500;
+
 
     private Dialog dialog;
 
@@ -52,7 +55,8 @@ public class MAlertDialog {
         alertTitle = (TextView) root.findViewById(R.id.alertTitle);
         RelativeLayout title_template = (RelativeLayout) root.findViewById(R.id.title_template);
 //        View titleDivider = (View) root.findViewById(R.id.titleDivider);
-        LinearLayout topPanel = (LinearLayout) root.findViewById(R.id.topPanel);
+        topPanel = (LinearLayout) root.findViewById(R.id.topPanel);
+        bottomPanel = (LinearLayout) root.findViewById(R.id.bottomPanel);
         message = (TextView) root.findViewById(R.id.message);
         LinearLayout contentPanel = (LinearLayout) root.findViewById(R.id.contentPanel);
         customPanel = (FrameLayout) root.findViewById(R.id.customPanel);
@@ -142,11 +146,11 @@ public class MAlertDialog {
 
 
         final ListView listView = (ListView)
-                LayoutInflater.from(context).inflate(R.layout.layout_list, null);
+                LayoutInflater.from(context).inflate(R.layout.layout_dialog_list, null);
 
 
         ArrayAdapter adapter = new ArrayAdapter<CharSequence>(
-                context, R.layout.dialog_select_singlechoice, R.id.text1, items) {
+                context, R.layout.dialog_single_choice, R.id.text1, items) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -165,10 +169,12 @@ public class MAlertDialog {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 listener.onClick(
                         dialog, position);
+                dismiss();
             }
         });
         setCustomView(listView);
-
+        topPanel.setVisibility(View.GONE);
+        bottomPanel.setVisibility(View.GONE);
         return this;
 
     }
@@ -213,8 +219,7 @@ public class MAlertDialog {
 
     public void show() {
 
-        if(!((Activity) context).isFinishing())
-        {
+        if (!((Activity) context).isFinishing()) {
             dialog.show();
         }
 

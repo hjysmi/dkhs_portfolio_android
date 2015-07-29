@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,16 +31,15 @@ import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.DraftEngine;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
 import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.squareup.otto.Subscribe;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,37 +73,6 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
         eventBus = new MainThreadBus();
         dataEngine = new DraftEngine(eventBus);
 
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    creatTestDraftData();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }.start();
-    }
-
-    private void creatTestDraftData() throws DbException {
-        List<DraftBean> list = new ArrayList<>();
-        String authorId = String.valueOf(GlobalParams.LOGIN_USER.getId());
-        Log.d(TAG, "authorId:" + authorId);
-        for (int i = 0; i < 30; i++) {
-            DraftBean bean = new DraftBean();
-            bean.setAuthorId(authorId);
-            bean.setContent(i + " 的法律上的家乐福事件的佛上的浪费jam率魔法攻击的交流伺服啊上的飞机上的飞机的方式金克拉大煞风景");
-            if (i % 3 == 0) {
-                bean.setTitle(i + "标题很厉害的粉红色的活佛是");
-            }
-            bean.setLabel(1);
-            if (i % 4 == 0) {
-                bean.setLabel(2);
-            }
-            bean.setUtcTime(TimeUtils.getUTCdatetimeAsString());
-            list.add(bean);
-        }
-        DbUtils.create(getActivity()).saveAll(list);
     }
 
 
@@ -182,9 +151,12 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DraftBean draftBean = mDataList.get(position);
+                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel());
+                intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
+                startActivity(intent);
+                getActivity().finish();
 
-                PromptManager.showToast("查看草稿详情");
-//                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
         });
@@ -255,7 +227,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 holder.tvTitle.setVisibility(View.VISIBLE);
                 holder.tvTitle.setText(title);
             }
-            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getUtcTime()));
+//            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getUtcTime()));
+            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getEdittime()));
             String strLabel = item.getLabel() == 1 ? "主贴" : "回复";
             holder.tvLabel.setText(strLabel);
 
