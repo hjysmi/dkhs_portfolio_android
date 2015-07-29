@@ -44,7 +44,6 @@ import java.util.List;
 public class MainInfoFragment extends BaseTitleFragment {
 
 
-
     @Override
     public int setContentLayoutId() {
         return R.layout.fragment_main_info;

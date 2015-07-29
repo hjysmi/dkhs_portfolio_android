@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 
+import android.text.TextUtils;
+
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
@@ -20,6 +22,8 @@ public class NoDataHandler implements ItemHandler<NoDataBean> {
 
     @Override
     public void onBindView(ViewHolder vh, NoDataBean data, int position) {
+
+        if(data != null && !TextUtils.isEmpty(data.noData))
 
         vh.setTextView(R.id.tv_empty,data.noData);
 

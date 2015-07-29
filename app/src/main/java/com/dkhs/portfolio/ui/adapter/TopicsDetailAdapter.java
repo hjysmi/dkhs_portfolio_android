@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.dkhs.adpter.adapter.AutoAdapter;
 import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,7 @@ public class TopicsDetailAdapter extends AutoAdapter{
     @Override
     protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
         addHandler(0,new TopicsDetailHandler(mContext));
+        addHandler(1,new CommentHandler());
     }
 
     @Override
@@ -35,11 +38,10 @@ public class TopicsDetailAdapter extends AutoAdapter{
 
         if(mData.get(position) instanceof TopicsBean){
             return 0;
-//        }else{
-//            return 1;
+        }else if(mData.get(position) instanceof CommentBean){
+            return 1;
         }
-        return 0;
-
+        return 1;
     }
 
 

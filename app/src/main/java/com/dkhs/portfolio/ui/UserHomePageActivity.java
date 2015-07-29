@@ -21,7 +21,7 @@ import com.dkhs.adpter.adapter.AutoRVAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.CombinationsBean;
-import com.dkhs.portfolio.bean.CommendBean;
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -32,7 +32,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.engine.UserTopicsEngineImpl;
+import com.dkhs.portfolio.engine.UserTopicsCommentEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationUserAdapter;
@@ -55,7 +55,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-11-6 下午4:40:09
  */
-public class UserHomePageActivity extends ModelAcitivity  {
+public class UserHomePageActivity extends ModelAcitivity {
 
     private final int MENU_FOLLOW_OR_UNFOLLOWE = 0;
     private String mUserId;
@@ -64,14 +64,14 @@ public class UserHomePageActivity extends ModelAcitivity  {
     private UserEntity mUserEntity;
     public List<CombinationBean> mCombinationBeans;
     public List<TopicsBean> mTopicsBeans;
-    private List<CommendBean> mCommendBeans;
+    private List<CommentBean> mCommentBeans;
 
 
     private RecyclerView mRV;
 
 
     private AutoRVAdapter mAutoRVAdapter;
-    private List mData=new ArrayList();
+    private List mData = new ArrayList();
 
     public FloatingActionMenu localFloatingActionMenu;
     private UserEngineImpl userEngine;
@@ -82,6 +82,7 @@ public class UserHomePageActivity extends ModelAcitivity  {
         intent.putExtra("username", username);
         return intent;
     }
+
     private void handleExtras(Bundle extras) {
         mUserId = extras.getString("user_id");
         mUserName = extras.getString("username");
@@ -92,13 +93,13 @@ public class UserHomePageActivity extends ModelAcitivity  {
         super.onCreate(arg0);
         hadFragment();
         setContentView(R.layout.activity_user_combination);
-        mRV= (RecyclerView) findViewById(R.id.rv);
+        mRV = (RecyclerView) findViewById(R.id.rv);
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
         userEngine = new UserEngineImpl();
         if (extras != null) {
             handleExtras(extras);
-                isMyInfo = UserEntity.currentUser(mUserId);
+            isMyInfo = UserEntity.currentUser(mUserId);
             if (isMyInfo) {
                 TextView rightBtn = getRightButton();
                 rightBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_edit_selector), null,
@@ -111,16 +112,17 @@ public class UserHomePageActivity extends ModelAcitivity  {
                 });
             }
         }
-        mRV.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
-        mAutoRVAdapter=new CombinationUserAdapter(mContext,mData);
+        mRV.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        mAutoRVAdapter = new CombinationUserAdapter(mContext, mData);
         mRV.setAdapter(mAutoRVAdapter);
         initViews();
         initData();
     }
 
     private void startSettingActivity() {
-                startActivity(SettingActivity.getEditUserInfoIntent(this));
+        startActivity(SettingActivity.getEditUserInfoIntent(this));
     }
+
     private void initViews() {
         localFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
         if (isMyInfo) {
@@ -151,94 +153,150 @@ public class UserHomePageActivity extends ModelAcitivity  {
             }
         });
 
-//        replaceCombinationListView();
+        new UserCombinationEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener() {
 
-          new UserCombinationEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener(){
-
-              @Override
-              public void loadFinish(MoreDataBean object) {
-                  mCombinationBeans=object.getResults();
-              }
-
-              @Override
-              public void loadFail() {
-
-              }
-          }, mUserId).loadData();
-
-
-
-    }
-
-    public void getTopcisList(UserEntity userEntity){
-        new UserTopicsEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener() {
             @Override
             public void loadFinish(MoreDataBean object) {
-                mTopicsBeans =object.getResults();
+
+                mCombinationBeans=object.getResults();
+
+
                 updateUI();
             }
+
             @Override
             public void loadFail() {
 
             }
-        },userEntity.getUsername()+"",userEntity.getId()+"","2").loadData();
+        }, mUserId).loadData();
+
+    }
+
+    public void getTopicsList(UserEntity userEntity) {
+        new UserTopicsCommentEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener() {
+            @Override
+            public void loadFinish(MoreDataBean object) {
+
+
+                mTopicsBeans=new ArrayList<>();
+
+                if(object.getResults().size()>0){
+                    mTopicsBeans.add((TopicsBean) object.getResults().get(0));
+                }
+                if(object.getResults().size()>1){
+                    mTopicsBeans.add((TopicsBean) object.getResults().get(1));
+                }
+
+                updateUI();
+            }
+
+            @Override
+            public void loadFail() {
+
+            }
+        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Topics).loadData();
+        new UserTopicsCommentEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener() {
+            @Override
+            public void loadFinish(MoreDataBean object) {
+
+                mCommentBeans=new ArrayList<>();
+
+                if(object.getResults().size()>0){
+                    mCommentBeans.add((CommentBean) object.getResults().get(0));
+                }
+                if(object.getResults().size()>1){
+                    mCommentBeans.add((CommentBean) object.getResults().get(1));
+                }
+                updateUI();
+            }
+
+            @Override
+            public void loadFail() {
+
+            }
+        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Comment).loadData();
     }
 
     private void updateUI() {
 
+        if(mUserEntity == null){
+            return;
+        }
         mData.clear();
         mData.add(mUserEntity);
-        MoreBean moreBean=new MoreBean();
-        if(isMyInfo){
-            moreBean.title = "我的組合";
-        }else {
-            moreBean.title = "TA的組合";
+        MoreBean moreBean = new MoreBean();
+        if (isMyInfo) {
+
+            moreBean.title =getString(R.string.my_combination);
+        } else {
+            moreBean.title = getString(R.string.ta_combination);
         }
-        moreBean.index=0;
-        moreBean.userEntity=mUserEntity;
+        moreBean.index = 0;
+        moreBean.userEntity = mUserEntity;
 
         mData.add(moreBean);
-        if(mCombinationBeans != null){
-
-            if(mCombinationBeans.size()>0) {
-                CombinationsBean combinationsBean=new CombinationsBean();
-                combinationsBean.userId=mUserEntity.getId()+"";
-                combinationsBean.userName=mUserEntity.getUsername()+"";
-                combinationsBean.combinationBeanList=mCombinationBeans;
-
+        if (mCombinationBeans != null) {
+            if (mCombinationBeans.size() > 0) {
+                CombinationsBean combinationsBean = new CombinationsBean();
+                combinationsBean.userId = mUserEntity.getId() + "";
+                combinationsBean.userName = mUserEntity.getUsername() + "";
+                combinationsBean.combinationBeanList = mCombinationBeans;
                 mData.add(combinationsBean);
-            }else{
-                NoDataBean noDataBean=new NoDataBean();
-                noDataBean.noData="暫無組合";
+            } else {
+                NoDataBean noDataBean = new NoDataBean();
+                noDataBean.noData = getString(R.string.no_combination);
 
                 mData.add(noDataBean);
 
             }
 
-        }else{
+        } else {
             mData.add(new LoadingBean());
         }
-        MoreBean moreBean2=new MoreBean();
-        if(isMyInfo) {
-            moreBean2.title = "我的主貼";
-        }else {
-            moreBean2.title = "TA的主貼";
+        MoreBean moreBean2 = new MoreBean();
+        if (isMyInfo) {
+            moreBean2.title = getString(R.string.my_bbs_topic);
+        } else {
+            moreBean2.title = getString(R.string.ta_bbs_topic);
         }
-        moreBean2.index=1;
-        moreBean2.userEntity=mUserEntity;
+        moreBean2.index = 1;
+        moreBean2.userEntity = mUserEntity;
         mData.add(moreBean2);
 
-        if(mTopicsBeans!= null){
-            if(mTopicsBeans.size()>0) {
-
+        if (mTopicsBeans != null) {
+            if (mTopicsBeans.size() > 0) {
                 mData.addAll(mTopicsBeans);
-                MoreFootBean moreFootBean=new MoreFootBean();
+                MoreFootBean moreFootBean = new MoreFootBean();
+                moreFootBean.index=1;
+                moreFootBean.userEntity=mUserEntity;
                 mData.add(moreFootBean);
-            }else{
-                NoDataBean noDataBean=new NoDataBean();
-                noDataBean.noData="暫無主貼";
+            } else {
+                NoDataBean noDataBean = new NoDataBean();
+                noDataBean.noData = getString(R.string.no_bbs_topic);
                 mData.add(noDataBean);
+            }
+        }
+        MoreBean moreBean3 = new MoreBean();
+        if (isMyInfo) {
+            moreBean3.title = getString(R.string.my_comment);
+        } else {
+            moreBean3.title = getString(R.string.ta_comment);
+        }
+        moreBean3.index = 2;
+        moreBean3.userEntity = mUserEntity;
+        mData.add(moreBean3);
 
+        if (mCommentBeans != null) {
+            if (mCommentBeans.size() > 0) {
+                mData.addAll(mCommentBeans);
+                MoreFootBean moreFootBean = new MoreFootBean();
+                moreFootBean.index=2;
+                moreFootBean.userEntity=mUserEntity;
+                mData.add(moreFootBean);
+            } else {
+                NoDataBean noDataBean = new NoDataBean();
+                noDataBean.noData =  getString(R.string.no_comment);
+                mData.add(noDataBean);
             }
         }
         mAutoRVAdapter.notifyDataSetChanged();
@@ -253,16 +311,13 @@ public class UserHomePageActivity extends ModelAcitivity  {
         }
     }
 
-
-
-
-
     private void initData() {
-
         if (!isMyInfo) {
             userInfoListener.setLoadingDialog(mContext);
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
+
+
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
@@ -275,11 +330,8 @@ public class UserHomePageActivity extends ModelAcitivity  {
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
-//                updateUserView(object);
-
-                mUserEntity =object;
-
-                getTopcisList(mUserEntity);
+                mUserEntity = object;
+                getTopicsList(mUserEntity);
             }
         }
     };
@@ -303,7 +355,6 @@ public class UserHomePageActivity extends ModelAcitivity  {
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
-
             try {
                 JSONArray json = new JSONArray(jsonData);
                 return DataParse.parseObjectJson(UserEntity.class, json.get(0).toString());
@@ -326,8 +377,6 @@ public class UserHomePageActivity extends ModelAcitivity  {
         }
     };
 
-
-
     private void updateUserFolllowInfo(UserEntity object) {
 
         mUserEntity = object;
@@ -341,6 +390,7 @@ public class UserHomePageActivity extends ModelAcitivity  {
 
         }
     }
+
     private void unFollowAction() {
         PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(getResources().getString(R.string.unfollow_alert_content))
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -352,6 +402,7 @@ public class UserHomePageActivity extends ModelAcitivity  {
                     }
                 }).setNegativeButton(R.string.cancel, null).create().show();
     }
+
     private void followAction() {
         if (!UIUtils.iStartLoginActivity(this)) {
             followListener.setLoadingDialog(mContext);
@@ -368,8 +419,6 @@ public class UserHomePageActivity extends ModelAcitivity  {
         }
         super.finish();
     }
-
-
 
 
 }

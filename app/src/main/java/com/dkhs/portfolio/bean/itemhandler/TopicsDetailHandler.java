@@ -4,15 +4,20 @@ package com.dkhs.portfolio.bean.itemhandler;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -26,30 +31,7 @@ import java.util.ArrayList;
  * @date 2015/7/16.
  */
 
-public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
-
-
-
-//    @ViewInject(R.id.iv_avatar)
-//    ImageView mIvavatar;
-//    @ViewInject(R.id.name)
-//    TextView mName;
-//    @ViewInject(R.id.tv_time)
-//    TextView mTvtime;
-//    @ViewInject(R.id.titleTV)
-//    TextView mTitleTV;
-//    @ViewInject(R.id.content)
-//    TextView mContent;
-//    @ViewInject(R.id.iv)
-//    ImageView mIv;
-//    @ViewInject(R.id.tv_commend)
-//    TextView mTvcommend;
-//    @ViewInject(R.id.fl_commend)
-//    FrameLayout mFlcommend;
-//    @ViewInject(R.id.tv_star)
-//    TextView mTvstar;
-//    @ViewInject(R.id.fl_layout)
-//    FrameLayout mFllayout;
+public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView.OnItemSelectedListener {
 
 
 
@@ -76,7 +58,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
-        ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+
+        if(data.user != null  &&TextUtils.isEmpty(data.user.getAvatar_md())) {
+            ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+        }
         vh.setTextView(R.id.content,data.text);
         vh.get(R.id.iv).setVisibility(View.GONE);
 
@@ -88,6 +73,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
 
+        vh.setTextView(R.id.star,mContext.getString(R.string.star)+" "+data.favorites_count);
+        vh.setTextView(R.id.comment,mContext.getString(R.string.comment)+" "+data.comments_count);
+
+
         if(false){
             vh.setTextView(R.id.tv_empty,"此贴已删除");
             vh.get(R.id.main_ll).setVisibility(View.GONE);
@@ -97,6 +86,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
             vh.get(R.id.emptyRl).setVisibility(View.GONE);
 
         }
+
+        Spinner spinner=vh.get(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
 
 
     }
@@ -131,18 +123,39 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
         }
 
         itemHandlerClickListener.setDate(data);
-
-
     }
 
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+        TopicsDetailRefreshEvent topicsDetailRefreshEvent=new TopicsDetailRefreshEvent();
+
+        switch (position){
+            case 0:
+
+                topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.latest;
+                break;
+            case 1:
+                topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.best;
+                break;
+            case 2:
+                topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.earliest;
+                break;
+        }
+
+        BusProvider.getInstance().post(topicsDetailRefreshEvent);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     class  StarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
-
-
         private TopicsBean topicsBean;
-
-
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -195,11 +208,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
         }
     }
     class  ImageViewClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
-
-
         private TopicsBean topicsBean;
-
-
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -216,10 +225,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
     }
     class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 
-
         private TopicsBean topicsBean;
-
-
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
