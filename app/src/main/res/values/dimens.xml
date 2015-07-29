@@ -110,6 +110,9 @@
     <dimen name="widget_margin_xxlarge">40dp</dimen>
 
     <dimen name="actionsheet_seperated_height">5dp</dimen>
+    <dimen name="item_reply_textsize_normal">20sp</dimen>
+    <dimen name="item_reply_textsize_small">15sp</dimen>
+    <dimen name="divider_height">10dp</dimen>
 
 
 

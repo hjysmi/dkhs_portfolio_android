@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.Spannable;
@@ -13,8 +12,6 @@ import android.text.style.URLSpan;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.widget.MyClickableSpan;
 
 import java.util.ArrayList;
@@ -68,7 +65,7 @@ public class TextModifyUtil {
         }
     }
 
-    public static void setStockText(SpannableStringBuilder builder, String patternStr,Context context) {
+    public static void setStockText(Spannable builder, String patternStr,Context context) {
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(builder.toString());
         String temptStr = builder.toString();
@@ -81,8 +78,8 @@ public class TextModifyUtil {
             //TODO 输入股票之后跳转
 //			Intent intent = new Intent(context, WriteStatusActivity.class);
 //			intent.putExtra("dollar", s);
-//			builder.setSpan(getClickableSpan(context, intent),
-//					tempt - s.length(), tempt, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+			builder.setSpan(getMyClickableSpan(context, null),
+					tempt - s.length(), tempt, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         }
 
@@ -213,10 +210,11 @@ public class TextModifyUtil {
 //    }
 
     private static MyClickableSpan getMyClickableSpan(Context context, URLSpan urlSpan) {
-        String url = urlSpan.getURL();
         MyClickableSpan mySpan = new MyClickableSpan(context.getResources().getColor(R.color.blue), context);
-        mySpan.url = url;
+        if(urlSpan != null){
+            String url = urlSpan.getURL();
+            mySpan.url = url;
+        }
         return mySpan;
     }
-
 }

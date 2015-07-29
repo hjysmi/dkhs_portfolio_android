@@ -118,7 +118,7 @@ public class UserHomePageActivity extends ModelAcitivity  {
     }
 
     private void startSettingActivity() {
-        startActivity(new Intent(this, PostTopicActivity.class));
+                startActivity(SettingActivity.getEditUserInfoIntent(this));
     }
     private void initViews() {
         localFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
