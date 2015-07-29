@@ -167,6 +167,7 @@ public class DKHSUrl {
 
     public interface BBS {
         String getLatestTopic = "/api/v1/statuses/public_timeline/";
+        String getUserTopics = "/api/v1/statuses/user_timeline/";
         String getHotTopic = "/api/v1/statuses/public_timeline/";
         String getStickTopic = "/api/v1/statuses/public_timeline/";
         String getCommend = "/api/v1/statuses/public_timeline/";

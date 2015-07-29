@@ -11,9 +11,12 @@ import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+
+import java.util.ArrayList;
 
 /**
  * @author zwm
@@ -88,10 +91,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
         if(false){
             vh.setTextView(R.id.tv_empty,"此贴已删除");
             vh.get(R.id.main_ll).setVisibility(View.GONE);
-            vh.get(R.id.tv_empty).setVisibility(View.VISIBLE);
+            vh.get(R.id.emptyRl).setVisibility(View.VISIBLE);
         }else{
             vh.get(R.id.main_ll).setVisibility(View.VISIBLE);
-            vh.get(R.id.tv_empty).setVisibility(View.GONE);
+            vh.get(R.id.emptyRl).setVisibility(View.GONE);
 
         }
 
@@ -205,6 +208,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean> {
 
         @Override
         public void onClick(View v) {
+            ArrayList<String> arrayList=new ArrayList<>();
+            arrayList.add(topicsBean.medias.get(0).image_lg);
+            PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, 0);
 
         }
     }

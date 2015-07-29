@@ -45,7 +45,7 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
@@ -619,7 +619,7 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     public void onClick(View v) {
 
         if (v.getId() == R.id.rl_create_user) {
-            startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
+            startActivity(UserHomePageActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
                     mCombinationBean.getUser().getId() + ""));
         }
     }

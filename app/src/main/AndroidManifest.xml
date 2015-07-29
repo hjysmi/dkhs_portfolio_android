@@ -99,7 +99,7 @@
         <activity
             android:name=".ui.FeedBackActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".ui.CombinationUserActivity" />
+        <activity android:name=".ui.UserHomePageActivity" />
         <activity android:name=".ui.ModifyUserSignActivity" />
         <activity android:name=".ui.EditTabStockActivity" />
         <activity
@@ -412,6 +412,10 @@
         <activity
             android:name=".ui.UserTopicsActivity"
             android:label="@string/title_activity_my_topics" >
+        </activity>
+        <activity
+            android:name=".ui.CombinationListActivity"
+            >
         </activity>
     </application>
 

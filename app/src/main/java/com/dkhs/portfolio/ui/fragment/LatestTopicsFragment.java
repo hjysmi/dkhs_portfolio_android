@@ -5,26 +5,14 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.portfolio.engine.FundManagerRankingsEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.TopicsEngineImpl;
-import com.dkhs.portfolio.ui.FundManagerActivity;
-import com.dkhs.portfolio.ui.adapter.FundManagerRankingAdapter;
+import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
 import com.dkhs.portfolio.ui.adapter.LatestTopicsAdapter;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
-import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +28,7 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     }
 
     private List<TopicsBean> mDataList = new ArrayList<>();
-    private TopicsEngineImpl mTopicsEngine= null;
+    private LatestTopicsEngineImpl mTopicsEngine= null;
 
 
     private BaseAdapter mAdapter;
@@ -95,10 +83,10 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     }
 
     @Override
-    TopicsEngineImpl getLoadEngine() {
+    LatestTopicsEngineImpl getLoadEngine() {
 
         if (null == mTopicsEngine) {
-            mTopicsEngine = new TopicsEngineImpl(this);
+            mTopicsEngine = new LatestTopicsEngineImpl(this);
         }
         return mTopicsEngine;
     }

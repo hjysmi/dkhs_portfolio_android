@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -113,7 +115,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
 
             case 2://我的话题
 
-                mContext.startActivity(new Intent(mContext, UserTopicsActivity.class));
+                UserEntity userEntity= UserEngineImpl.getUserEntity();
+                UserTopicsActivity.starActivity(mContext,userEntity.getId()+"",userEntity.getUsername());
                 break;
             case 3://我的回复
                 break;

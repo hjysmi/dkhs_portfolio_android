@@ -267,6 +267,7 @@
 
     <style name="gray_title_text">
         <item name="android:textSize">@dimen/title_tab_text_size</item>
+        <item name="android:textColor">@color/tag_gray</item>
     </style>
 
     <style name="bottom_tab_text">

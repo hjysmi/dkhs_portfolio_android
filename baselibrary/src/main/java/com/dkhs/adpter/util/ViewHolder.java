@@ -1,5 +1,6 @@
 package com.dkhs.adpter.util;
 
+import android.content.Context;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -58,5 +59,9 @@ public class ViewHolder {
     public void setTextView(int  id,CharSequence charSequence){
 
         getTextView(id).setText(charSequence);
+    }
+
+    public Context getContext(){
+      return  getConvertView().getContext();
     }
 }
