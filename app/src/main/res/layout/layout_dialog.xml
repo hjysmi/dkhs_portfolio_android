@@ -22,8 +22,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
-    >
+    android:padding="20dp">
 
     <LinearLayout
         android:id="@+id/parentPanel"
@@ -32,7 +31,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
         android:layout_centerInParent="true"
         android:background="@drawable/bg_dialog"
         android:clickable="false"
-
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -48,7 +46,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                 android:layout_height="48dp"
                 android:paddingLeft="16dip"
                 android:paddingRight="16dip"
-
                 android:paddingTop="4dp">
 
 
@@ -59,10 +56,10 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="12dp"
                     android:singleLine="true"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-
-
                     android:text="@string/tips"
+
+
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/md_grey_800" />
             </RelativeLayout>
 
@@ -97,9 +94,9 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_marginTop="4dp"
                     android:background="@color/white"
                     android:paddingBottom="8dip"
-                    android:textColor="@color/md_grey_800"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
+                    android:textColor="@color/md_grey_800"
                     android:textIsSelectable="true"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -111,20 +108,23 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
-                android:background="@color/white"/>
+                android:background="@color/white" />
 
 
             <LinearLayout
+                android:id="@+id/bottomPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="8dp"
                 android:paddingTop="10dp">
+
                 <View
                     style="@style/dialog_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:textColor="#1E88E5" />
+
                 <Button
                     android:id="@+id/button3"
                     style="@style/dialog_btn_cancel"
@@ -133,6 +133,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:visibility="gone" />
+
                 <Button
                     android:id="@+id/button2"
                     style="@style/dialog_btn"
@@ -150,7 +151,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:paddingRight="10dp"
                     android:textColor="#1E88E5"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>

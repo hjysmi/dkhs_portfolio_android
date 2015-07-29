@@ -31,15 +31,12 @@ import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
 import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
@@ -76,37 +73,6 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
         eventBus = new MainThreadBus();
         dataEngine = new DraftEngine(eventBus);
 
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    creatTestDraftData();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }.start();
-    }
-
-    private void creatTestDraftData() throws DbException {
-        List<DraftBean> list = new ArrayList<>();
-        String authorId = String.valueOf(GlobalParams.LOGIN_USER.getId());
-        Log.d(TAG, "authorId:" + authorId);
-        for (int i = 0; i < 30; i++) {
-            DraftBean bean = new DraftBean();
-            bean.setAuthorId(authorId);
-            bean.setContent(i + " 的法律上的家乐福事件的佛上的浪费jam率魔法攻击的交流伺服啊上的飞机上的飞机的方式金克拉大煞风景");
-            if (i % 3 == 0) {
-                bean.setTitle(i + "标题很厉害的粉红色的活佛是");
-            }
-            bean.setLabel(1);
-            if (i % 4 == 0) {
-                bean.setLabel(2);
-            }
-            bean.setUtcTime(TimeUtils.getUTCdatetimeAsString());
-            list.add(bean);
-        }
-        DbUtils.create(getActivity()).saveAll(list);
     }
 
 
