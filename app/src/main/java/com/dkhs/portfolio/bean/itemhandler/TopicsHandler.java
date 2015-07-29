@@ -4,10 +4,8 @@ package com.dkhs.portfolio.bean.itemhandler;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 
-import com.dkhs.adpter.handler.ItemHandlerClickListener;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -18,9 +16,6 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
-
-import org.parceler.Parcel;
-import org.parceler.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 
@@ -58,8 +53,16 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 //    FrameLayout mFllayout;
 
     private Context mContext;
+
+    private  boolean compact;
     public TopicsHandler(Context context) {
         mContext=context;
+    }
+
+
+    public TopicsHandler(Context context, boolean compact) {
+        mContext = context;
+        this.compact = compact;
     }
 
     @Override
@@ -84,6 +87,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         }
         ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(),vh.getImageView(R.id.iv_avatar));
         vh.setTextView(R.id.content,data.text);
+        vh.setTextView(R.id.name,data.user.getUsername());
 
         if(data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
@@ -102,7 +106,13 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         if(data.comments_count>0){
             vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
         }else{
-            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.commend));
+            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.comment));
+        }
+
+        if(compact){
+            vh.get(R.id.bottom).setVisibility(View.GONE);
+        }else{
+            vh.get(R.id.bottom).setVisibility(View.VISIBLE);
         }
 
     }

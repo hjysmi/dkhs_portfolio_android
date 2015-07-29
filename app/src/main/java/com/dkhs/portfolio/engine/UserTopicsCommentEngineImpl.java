@@ -2,6 +2,7 @@ package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -13,6 +14,8 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import org.w3c.dom.Comment;
+
 /**
  * @author zwm
  * @version 1.0
@@ -20,7 +23,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
  * @date 2015/4/23.13:39
  * @Description
  */
-public class CommendEngineImpl extends LoadMoreDataEngine {
+public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
 
 
     /**
@@ -28,12 +31,27 @@ public class CommendEngineImpl extends LoadMoreDataEngine {
      */
     private static final int pageSize = 20;
 
+    private String userId;
+    private StatusType statusType;
 
-    public CommendEngineImpl(ILoadDataBackListener loadListener) {
-        super(loadListener);
+
+    public  enum  StatusType{
+        Comment(1),Topics(0);
+        private  int value;
+        StatusType(int value){
+            this.value=value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
-
+    public UserTopicsCommentEngineImpl(ILoadDataBackListener loadListener, String userId, StatusType statusType) {
+        super(loadListener);
+        this.userId = userId;
+        this.statusType = statusType;
+    }
 
     public HttpHandler loadDate( ) {
         return loadData();
@@ -45,8 +63,11 @@ public class CommendEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        params.addQueryStringParameter("user_id", userId );
+//        params.addQueryStringParameter("username", userName );
+        params.addQueryStringParameter("status_type", statusType.getValue()+"" );
         params.addQueryStringParameter("page_size", pageSize + "");
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getCommend, params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
     }
 
     @Override
@@ -54,7 +75,10 @@ public class CommendEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getCommend, params, this);
+        params.addQueryStringParameter("user_id", userId );
+//        params.addQueryStringParameter("username", userName );
+        params.addQueryStringParameter("status_type", statusType.getValue()+"" );
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
 
     }
 
@@ -70,8 +94,17 @@ public class CommendEngineImpl extends LoadMoreDataEngine {
 
             try {
                 Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
-                }.getType());
+                switch (statusType){
+                    case  Comment:
+                        moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CommentBean>>() {
+                        }.getType());
+                        break;
+                    case  Topics:
+                        moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
+                        }.getType());
+                        break;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

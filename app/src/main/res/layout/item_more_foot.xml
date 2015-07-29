@@ -5,16 +5,15 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:orientation="vertical"
-
         android:background="@color/activity_bg_color"
         android:layout_height="wrap_content">
 
         <TextView
             style="@style/gray_title_text"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/leftTv"
-            android:padding="4dp"
+            android:id="@+id/moreBtn"
+            android:padding="12dp"
             android:gravity="center"
             android:layout_gravity="center"
             android:textColor="@color/tag_gray"

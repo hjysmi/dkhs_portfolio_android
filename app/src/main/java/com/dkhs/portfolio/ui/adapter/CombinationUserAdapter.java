@@ -1,18 +1,18 @@
 package com.dkhs.portfolio.ui.adapter;
-
 import android.content.Context;
-
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.bean.CombinationsBean;
-import com.dkhs.portfolio.bean.CommendBean;
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreBean;
 import com.dkhs.portfolio.bean.MoreFootBean;
 import com.dkhs.portfolio.bean.NoDataBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CombinationHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CombinationHeaderHandler;
-import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommendHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.MoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.MoreFootHandler;
@@ -41,10 +41,11 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
         addHandler(0, new NoDataHandler());
         addHandler(1, new CombinationHandler());
         addHandler(2, new CombinationHeaderHandler());
-        addHandler(3, new CommendHandler());
+        addHandler(3, new CommentHandler());
         addHandler(4, new LoadingHandler());
         addHandler(5, new MoreHandler());
         addHandler(6, new MoreFootHandler());
+        addHandler(7, new TopicsHandler(mContext,true));
     }
 
     @Override
@@ -57,7 +58,7 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
 
             return 2;
         }
-        if (mData.get(position) instanceof CommendBean) {
+        if (mData.get(position) instanceof CommentBean) {
 
             return 3;
         }
@@ -76,6 +77,10 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
         if (mData.get(position) instanceof NoDataBean) {
 
             return 0;
+        }
+        if (mData.get(position) instanceof TopicsBean) {
+
+            return 7;
         }
 
 
