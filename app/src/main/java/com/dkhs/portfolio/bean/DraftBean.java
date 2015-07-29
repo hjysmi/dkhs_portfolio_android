@@ -12,7 +12,6 @@ public class DraftBean {
 
     int id;
 
-    public static final String COLUM_UTCTIME = "utctime";
     public static final String COLUM_EDITTIME = "edittime";
     public static final String COLUM_IMAGEURI = "imageUri";
     public static final String COLUM_TITLE = "title";
@@ -20,9 +19,6 @@ public class DraftBean {
     public static final String COLUM_AUTHORID = "authorId";
     public static final String COLUM_LABEL = "label";  //1是正文，2 是回复
 
-
-    @Column(column = COLUM_UTCTIME)
-    String utcTime;
     //保存图片的绝对路径
     @Column(column = COLUM_IMAGEURI)
     String imageUri;
@@ -45,15 +41,6 @@ public class DraftBean {
 
     public void setEdittime(long edittime) {
         this.edittime = edittime;
-    }
-
-
-    public String getUtcTime() {
-        return utcTime;
-    }
-
-    public void setUtcTime(String utcTime) {
-        this.utcTime = utcTime;
     }
 
     public String getImageUri() {
