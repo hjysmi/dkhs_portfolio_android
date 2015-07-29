@@ -8,31 +8,13 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.AdBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.engine.AdEngineImpl;
-import com.dkhs.portfolio.engine.NewsforModel;
-import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.AdActivity;
-import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.lidroid.xutils.util.LogUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 
 /**
  * @author zjz
@@ -42,7 +24,6 @@ import java.util.List;
  * @date 2015-2-26 下午3:31:46
  */
 public class MainInfoFragment extends BaseTitleFragment {
-
 
 
     @Override
@@ -70,15 +51,13 @@ public class MainInfoFragment extends BaseTitleFragment {
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), PostTopicActivity.class);
+                getActivity().startActivity(intent);
             }
         });
-        getChildFragmentManager().beginTransaction().replace(R.id.container,new BBSFragment()).commitAllowingStateLoss();
+        getChildFragmentManager().beginTransaction().replace(R.id.container, new BBSFragment()).commitAllowingStateLoss();
 
     }
-
-
-
 
 
 }

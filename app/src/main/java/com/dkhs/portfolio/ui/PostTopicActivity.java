@@ -57,6 +57,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private InputMethodManager imm;
     private boolean isShowingEmotionView;
     private ImageButton ibEmoji;
+    private ImageButton ibStock;
 
     /**
      * 发表
@@ -113,6 +114,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         etTitle = (DKHSEditText) findViewById(R.id.et_title);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
+        ibStock = (ImageButton) findViewById(R.id.ib_dollar);
         ivPhoto = (ImageView) findViewById(R.id.iv_photo);
         ibImg = findViewById(R.id.ib_img);
         TextView backBtn = (TextView) getBtnBack();
@@ -123,6 +125,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         rightBtn.setText(R.string.send);
         rightBtn.setEnabled(false);
         rightBtn.setOnClickListener(this);
+        ibStock.setOnClickListener(this);
         ibEmoji.setOnClickListener(this);
         ibImg.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
@@ -317,7 +320,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 items.add(new SheetItem(getString(R.string.local_image), MyActionSheetDialog.SheetItemColor.Black));
                 showPicDialog();
                 break;
+            case R.id.ib_dollar:
+                pickStock();
+                break;
         }
+    }
+
+
+    private void pickStock() {
+        Intent intent = new Intent(this,
+                SelectStatusStockActivity.class);
+        startActivityForResult(intent, 0x7);
     }
 
     private boolean isShowDeletePic = false;
