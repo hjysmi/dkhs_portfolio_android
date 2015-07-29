@@ -13,6 +13,7 @@
         android:divider="@drawable/linear_layout_divider"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:showDividers="middle"
         android:orientation="vertical">
 
         <LinearLayout
