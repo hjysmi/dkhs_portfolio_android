@@ -2,8 +2,6 @@ package com.dkhs.portfolio.app;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
@@ -70,27 +68,15 @@ public final class AppConfig {
         }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
-
-
         //启动定时更新数据库的服务类
         Intent demand = new Intent(context, ReLoadDataService.class);
         context.startService(demand);
-
         //消息中心模块的初始化
-        MessageManager.getInstance();
+        MessageManager.getInstance().connect();
 
     }
 
 
-    private void setRongYunMetaData() {
-        ApplicationInfo appi;
-        try {
-            appi = mContext.getPackageManager().getApplicationInfo(mContext.getPackageName(), PackageManager.GET_META_DATA);
-            appi.metaData.putString("RONG_CLOUD_APP_KEY", "tdrvipksrgsu5");
-        } catch (PackageManager.NameNotFoundException e1) {
-            e1.printStackTrace();
-        }
-    }
 
 
     private void copyDataBaseToPhone() {
@@ -114,7 +100,6 @@ public final class AppConfig {
                     }
                 }
 
-                ;
             }.start();
 
         }

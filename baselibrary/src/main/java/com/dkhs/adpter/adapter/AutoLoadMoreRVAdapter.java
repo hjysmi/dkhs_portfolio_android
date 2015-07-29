@@ -4,10 +4,10 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.dkhs.adpter.itemhandler.LoadMoreHandler;
-import com.dkhs.adpter.listener.ItemHandler;
-import com.dkhs.adpter.util.ClassMap;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,65 +17,67 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/17.
  */
-public class AutoLoadMoreRVAdapter extends  AutoRVAdapter {
+public class AutoLoadMoreRVAdapter extends AutoRVAdapter {
 
     private AutoRVAdapter mAutoRVAdapter;
-    private boolean showLoadFootView =true;
+    private boolean showLoadFootView = true;
 
     private AutoLoadMoreRVAdapter(Context context, List<?> data, AutoRVAdapter adapter) {
         super(context, data);
-        mAutoRVAdapter=adapter;
-        mAutoRVAdapter.initHandlers(mClassMap);
+        mAutoRVAdapter = adapter;
+        mAutoRVAdapter.initHandlers(mItemHandlerHashMap);
 
     }
 
 
-    public  static AutoLoadMoreRVAdapter  warp (AutoRVAdapter adapter){
-        if(adapter instanceof  AutoLoadMoreRVAdapter){
-            return (AutoLoadMoreRVAdapter)adapter;
+    public static AutoLoadMoreRVAdapter warp(AutoRVAdapter adapter) {
+        if (adapter instanceof AutoLoadMoreRVAdapter) {
+            return (AutoLoadMoreRVAdapter) adapter;
         }
 
-        return new AutoLoadMoreRVAdapter(adapter.mContext,adapter.mData,adapter);
+        return new AutoLoadMoreRVAdapter(adapter.mContext, adapter.mData, adapter);
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public int getViewType(int position) {
 
-        String type=null;
-        if(position == mData.size()) {
-            type = "default";
-        }else{
-            type= mData.get(position).getClass().toString();
+        int type;
+        if (position == mData.size()) {
+            type = -1;
+        } else {
+            type = mAutoRVAdapter.getViewType(position);
         }
-            return mClassMap.getViewType(type);
+        return type;
+
     }
 
-    @Override
-    protected void initHandlers(ClassMap mAdapterItemMap) {
-        mAdapterItemMap.add("default", new  LoadMoreHandler());
-    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
 
         ItemHandler itemHandler;
-        if(position == mData.size()){
-             itemHandler = getItemHandler("default");
+        if (position == mData.size()) {
+            itemHandler = getItemHandler(-1);
             itemHandler.onBindView((ViewHolder) holder.itemView.getTag(), null, position);
-        }else {
-             itemHandler = getItemHandler(mData.get(position).getClass());
+        } else {
+            itemHandler = getItemHandler(getViewType(position));
             itemHandler.onBindView((ViewHolder) holder.itemView.getTag(), mData.get(position), position);
         }
 
     }
 
     @Override
+    protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
+        addHandler(-1, new LoadMoreHandler());
+    }
+
+    @Override
     public int getItemCount() {
 
-        if(showLoadFootView){
+        if (showLoadFootView) {
             return super.getItemCount() + 1;
-        }else{
+        } else {
             return super.getItemCount();
         }
     }

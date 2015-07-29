@@ -413,10 +413,11 @@
     <string name="tab_1">自选</string>
     <string name="tab_2">行情</string>
     <string name="tab_5">摇一摇</string>
-    <string name="tab_3">资讯</string>
+    <string name="tab_3">社区</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
+    <string name="title_bbs">社区</string>
     <string name="title_edit_optional_combina">编辑自选组合</string>
     <string name="title_edit_optional_stock">编辑自选股</string>
     <string name="title_edit_optional_fund">编辑自选基金</string>
@@ -529,6 +530,7 @@
     <string name="search_stock">股票简称/代码/拼音</string>
 
     <string name="edit">编辑</string>
+    <string name="delete">删除</string>
 
     <string name="def_not_value">—</string>
     <!--基金详情页-->
@@ -685,5 +687,28 @@
     <string name="mine_reply">我的回复</string>
     <string name="others_reply">TA的回复</string>
     <!--帖子回复-->
+
+
+    <!--我的草稿 start -->
+    <string name="title_my_draft">我的草稿</string>
+    <string name="title_activity_topics_detail">话题正文</string>
+    <string name="title_activity_info">资讯</string>
+    <string name="title_activity_my_topics">我的主贴</string>
+    <!--我的草稿 end-->
+
+    <!--举报 start -->
+
+    <string name="title_status_report">举报</string>
+    <string name="report_rubbish">垃圾营销</string>
+    <string name="report_pornographic">淫秽色情</string>
+    <string name="report_no_truly">不实信息</string>
+    <string name="report_sensity">敏感信息</string>
+    <string name="report_plagiarist">抄袭内容</string>
+    <string name="report_harass">骚扰我</string>
+    <string name="report_fake">虚假中奖</string>
+    <string name="report_user">举报%1$s的回复：</string>
+    <string name="report_success">您的举报信息已提交，感谢您的支持</string>
+    <!--举报 end-->
+
 
 </resources>

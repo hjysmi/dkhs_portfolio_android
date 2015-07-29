@@ -8,14 +8,11 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -25,25 +22,16 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
-import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
-import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -68,21 +56,15 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
     private UserCombinationEngineImpl dataEngine;
 
     // public SwipeRefreshLayout mSwipeLayout;
+    private static final String TAG = MyCombinationFragmnet.class.getSimpleName();
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.layout_mycombination_listview;
+        return R.layout.fragment_mycombination;
     }
 
-    /**
-     * @param savedInstanceState
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         dataEngine = new UserCombinationEngineImpl(this, "");
 
@@ -92,7 +74,6 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         tvEmptyText = (TextView) view.findViewById(R.id.add_data);
         tvEmptyText.setText(R.string.click_creat_combina);
@@ -104,70 +85,11 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
             }
         });
-        SwipeMenuListView mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
+        ListView mListView = (ListView) view.findViewById(R.id.swipemenu_listView);
         mAdapter = new CombinationAdapter();
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(tvEmptyText);
 
-        // step 1. create a MenuCreator
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-
-            @Override
-            public void create(SwipeMenu menu) {
-
-                SwipeMenuItem deleteItem = new SwipeMenuItem(MyCombinationFragmnet.this.getActivity());
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.red_delete)));
-                // set item width
-                deleteItem.setWidth(dp2px(90));
-                deleteItem.setTitle("删除");
-                // set item title fontsize
-                deleteItem.setTitleSize(18);
-                // set item title font color
-                deleteItem.setTitleColor(Color.WHITE);
-                // add to menu
-                menu.addMenuItem(deleteItem);
-            }
-        };
-        // set creator
-//        mListView.setMenuCreator(creator);
-
-        // step 2. listener item click event
-        mListView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                // ApplicationInfo item = mAppList.get(position);
-                switch (index) {
-                    case 0:
-                        // open
-                        // open(item);
-                        delCombination(position);
-                        // PromptManager.showToast("删除");
-                        break;
-                    case 1:
-                        // delete
-                        // delete(item);
-                        // mAppList.remove(position);
-                        mAdapter.notifyDataSetChanged();
-                        break;
-                }
-                return false;
-            }
-        });
-
-        // set SwipeListener
-        mListView.setOnSwipeListener(new OnSwipeListener() {
-
-            @Override
-            public void onSwipeStart(int position) {
-                // swipe start
-            }
-
-            @Override
-            public void onSwipeEnd(int position) {
-                // swipe end
-            }
-        });
 
         // other setting
         // listView.setCloseInterpolator(new BounceInterpolator());
@@ -195,101 +117,9 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
     @Override
     public void requestData() {
-refresh();
+        refresh();
     }
 
-    private void delCombination(int position) {
-        final CombinationBean item = mDataList.get(position);
-        // CombinationBean mCombination = (CombinationBean) item.data;
-        if (PortfolioApplication.hasUserLogin()) {
-
-            showDelDialog(item);
-        }
-    }
-
-    public void showDelDialog(final CombinationBean mCombination) {
-
-        MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
-        builder.setMessage(R.string.dialog_message_delete_combination);
-        // builder.setTitle(R.string.tips);
-        // final CombinationBean mCombination = (CombinationBean) item.data;
-        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        // mCombinationAdapter.getDelPosition().clear();
-                        super.onSuccess(result);
-                        mDataList.remove(mCombination);
-                        mAdapter.notifyDataSetChanged();
-                        // rvConbinationAdatper.notifyDataSetChanged();
-                        // rvConbinationAdatper.notifyItemRemoved(position)
-                        // mAdapter.notifyDataSetChanged();
-                        // combinationActivity.setButtonFinish();
-                        // upateDelViewStatus();
-                    }
-
-                    @Override
-                    public void onFailure(int errCode, String errMsg) {
-                        super.onFailure(errCode, errMsg);
-                        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void beforeRequest() {
-                        // TODO Auto-generated method stub
-                        super.beforeRequest();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void requestCallBack() {
-                        // TODO Auto-generated method stub
-                        super.requestCallBack();
-                        // refreshData();
-                        // refresh();
-                    }
-
-                    @Override
-                    protected Object parseDateTask(String jsonData) {
-                        // TODO Auto-generated method stub
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(Object object) {
-                        // TODO Auto-generated method stub
-
-                    }
-
-                }.setLoadingDialog(getActivity(), "", false));
-                dialog.dismiss();
-            }
-
-        });
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-
-    }
 
     class CombinationAdapter extends BaseAdapter {
 
@@ -347,9 +177,6 @@ refresh();
         }
     }
 
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
-    }
 
     private static final long mCombinationRequestTime = 1000 * 30;
     private Timer mCombinationTimer;
@@ -389,6 +216,8 @@ refresh();
 
         @Override
         public void run() {
+
+            Log.e(TAG, "RequestCombinationTask run");
             refresh();
 
         }
@@ -412,7 +241,10 @@ refresh();
         }
     });
 
+
     public void refresh() {
+
+        Log.e(TAG, "refresh");
         uiHandler.sendEmptyMessage(777);
         isRefresh = true;
 

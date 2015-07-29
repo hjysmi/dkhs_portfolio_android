@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                tools:context="com.dkhs.portfolio.ui.TopicsDetailActivity">
+
+
+    <FrameLayout
+        android:id="@+id/contentFL"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+    <com.dkhs.portfolio.ui.FloatingActionMenu
+        android:id="@+id/floating_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom" />
+</RelativeLayout>

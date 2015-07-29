@@ -22,7 +22,6 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.umeng.analytics.MobclickAgent;
 
 public class SetPasswordActivity extends ModelAcitivity implements OnClickListener {
 
@@ -87,7 +86,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setpassword_layout);
+        setContentView(R.layout.activity_setpassword);
         engine = new UserEngineImpl();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

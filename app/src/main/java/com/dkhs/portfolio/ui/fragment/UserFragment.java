@@ -230,7 +230,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         startActivity(intent);
     }
 
-    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout,})
+    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout})
     public void onClick(View v) {
         int id = v.getId();
 

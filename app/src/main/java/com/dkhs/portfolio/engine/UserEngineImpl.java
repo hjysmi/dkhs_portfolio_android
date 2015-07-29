@@ -13,8 +13,8 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.security.SecurityUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -138,8 +138,8 @@ public class UserEngineImpl {
 
         TreeMap<String, String> paramsMap = new TreeMap<String, String>();
 
-        paramsMap.put("mobile", username);
-        paramsMap.put("captcha", password);
+        paramsMap.put("mobile", mobile);
+        paramsMap.put("captcha", captha);
         paramsMap.put("password", password);
         paramsMap.put("username", username);
 
@@ -221,7 +221,7 @@ public class UserEngineImpl {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                UserEntity entity = UserEntityDesUtil.encrypt(user);
+                UserEntity entity = SecurityUtils.encrypt(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {
@@ -336,7 +336,7 @@ public class UserEngineImpl {
             if (null != dbUtils) {
                 UserEntity user = dbUtils.findFirst(UserEntity.class);
                 if (null != user) {
-                    GlobalParams.LOGIN_USER = UserEntityDesUtil.decrypt(user);
+                    GlobalParams.LOGIN_USER = SecurityUtils.decrypt(user);
                 }
 
             }

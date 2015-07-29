@@ -93,7 +93,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         Bundle args = new Bundle();
         args.putString(FragmentSelectStockFund.ARGUMENT_USER_ID, userId);
         fragment.setArguments(args);
-        LogUtils.e("----------------------");
         return fragment;
     }
 

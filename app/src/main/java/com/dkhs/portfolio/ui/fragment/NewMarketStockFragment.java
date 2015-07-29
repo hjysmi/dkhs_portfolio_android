@@ -90,7 +90,6 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         loadingAllData();
         updateHandler.postDelayed(updateRunnable, mPollRequestTime);
 
-
         if (isLoading) {
             startAnimaRefresh();
         } else {
@@ -142,6 +141,18 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
 
             }
         });
+
+
+
+//        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+//                .sizeProvider(mAdapter)
+//                .color(Color.TRANSPARENT)
+//                .build());
+//        mRecyclerView.addItemDecoration(new VerticalDividerItemDecoration.Builder(getActivity())
+//                .sizeProvider(mAdapter)
+//                .color(Color.TRANSPARENT)
+//                .build());
+
 
     }
 

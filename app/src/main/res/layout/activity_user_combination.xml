@@ -4,18 +4,15 @@
     android:layout_height="match_parent"
 
     android:orientation="vertical">
+    <android.support.v4.widget.NestedScrollView
 
-    <RelativeLayout
-        android:id="@+id/rl_combination_list"
+        android:id="@+id/sv"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
-
-
     <RelativeLayout
         android:id="@+id/rl_user_info"
         android:layout_width="match_parent"
         android:layout_height="@dimen/header_height">
-
         <View
             android:id="@+id/v_bg"
             android:layout_width="fill_parent"
@@ -129,41 +126,113 @@
 
         </LinearLayout>
 
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/rl_user_info"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/ll_combination_title"
             style="@style/gray_text_tabline"
-            android:layout_width="fill_parent"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingRight="15dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
+                <TextView
+                    style="@style/gray_title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textColor="@color/tag_gray"
+                    android:text="TA的组合"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/moreBtn"
+                    android:text="更多"
 
-                android:text="@string/creat_combination_name" />
+                    android:textColor="@color/tag_gray"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/combinationLL"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/combination_create_time" />
+                <TextView
+                    style="@style/gray_title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textColor="@color/tag_gray"
+                    android:text="TA的主贴"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/more2Btn"
+                    android:text="更多"
 
-            <TextView
-                style="@style/gray_title_text"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="@string/add_up_value" />
+                    android:textColor="@color/tag_gray"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/topicsLL"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>       <LinearLayout
+                android:layout_width="fill_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/gray_title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textColor="@color/tag_gray"
+                    android:text="TA的回复"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/more3Btn"
+                    android:text="更多"
+
+                    android:textColor="@color/tag_gray"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/commendLL"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
-    </RelativeLayout>
+
+    </LinearLayout>
+<!--</android.support.v4.widget.NestedScrollView>    -->
 
 
     <com.dkhs.portfolio.ui.FloatingActionMenu

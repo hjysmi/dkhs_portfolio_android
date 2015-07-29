@@ -8,20 +8,18 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
-import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.ViewUtils;
+import com.umeng.analytics.MobclickAgent;
+
+import java.lang.reflect.Field;
 
 /**
  * @author zjz
@@ -30,10 +28,10 @@ import android.view.ViewGroup;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-11-21 下午12:38:27
  */
-public abstract class BaseFragment extends Fragment implements InstanceVisibilityStateI {
+public abstract class BaseFragment extends Fragment {
 
 
-    private boolean mVisibleToUser = false;
+//    private boolean mVisibleToUser = false;
 
     @Override
     public void onDetach() {
@@ -52,7 +50,8 @@ public abstract class BaseFragment extends Fragment implements InstanceVisibilit
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(setContentLayoutId(), null);
+//        View view = inflater.inflate(setContentLayoutId(), null);
+        View view = (ViewGroup) inflater.inflate(setContentLayoutId(), container, false);
         ViewUtils.inject(this, view); // 注入view和事件
         return view;
 
@@ -61,19 +60,18 @@ public abstract class BaseFragment extends Fragment implements InstanceVisibilit
     @Override
     public void onResume() {
         super.onResume();
-        if (iStrictVisible()) {
-            onVisibleHintChanged(true);
-        }
+//        if (iStrictVisible()) {
+//            onVisibleHintChanged(true);
+//        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        onVisibleHintChanged(false);
+//        onVisibleHintChanged(false);
     }
 
     public abstract int setContentLayoutId();
-
 
 
     @Override
@@ -94,82 +92,106 @@ public abstract class BaseFragment extends Fragment implements InstanceVisibilit
         super.startActivityForResult(intent, requestCode);
     }
 
+    /**
+     * fix me
+     */
+//    public void onVisibleHintChanged(boolean isVisibleToUser) {
+//
+//        if (mVisibleToUser != isVisibleToUser) {
+//            if (isVisibleToUser) {
+//                if (getView() != null) {
+//                    onViewShow();
+//                    mVisibleToUser = isVisibleToUser;
+//                    MobclickAgent.onPageStart(this.getClass().getSimpleName());
+//                }
+//            } else {
+//                if (getView() != null) {
+//                    MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+//                    onViewHide();
+//                    mVisibleToUser = isVisibleToUser;
+//                }
+//            }
+//
+//        }
+//    }
+//
+//
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        onVisibleHintChanged(isVisibleToUser);
+//    }
+//
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        onVisibleHintChanged(!hidden);
+//    }
 
-    public void onVisibleHintChanged(boolean isVisibleToUser) {
+    /**
+     * fix me
+     */
+//    public void onViewShow() {
+//        List<Fragment> fragments = getChildFragmentManager().getFragments();
+//        if (fragments != null) {
+//            for (Fragment fragment : fragments) {
+//                if (fragment != null && fragment instanceof InstanceVisibilityStateI) {
+//                    InstanceVisibilityStateI instanceVisibilityStateI = (InstanceVisibilityStateI) fragment;
+//                    instanceVisibilityStateI.restoreStats();
+//                }
+//            }
+//        }
+//    }
 
-        if (mVisibleToUser != isVisibleToUser) {
-            if (isVisibleToUser) {
-                if (getView() != null) {
-                    onViewShow();
-                    mVisibleToUser = isVisibleToUser;
-                    MobclickAgent.onPageStart(this.getClass().getSimpleName());
-                }
-            } else {
-                if (getView() != null) {
-                    MobclickAgent.onPageEnd(this.getClass().getSimpleName());
-                    onViewHide();
-                    mVisibleToUser = isVisibleToUser;
-                }
-            }
-
-        }
-    }
-
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        onVisibleHintChanged(isVisibleToUser);
-    }
-
+    /**
+     * fix me
+     */
+//    public void onViewHide() {
+//        List<Fragment> fragments = getChildFragmentManager().getFragments();
+//        if (fragments != null) {
+//            for (Fragment fragment : fragments) {
+//                if (fragment != null && fragment instanceof InstanceVisibilityStateI) {
+//                    InstanceVisibilityStateI instanceVisibilityStateI = (InstanceVisibilityStateI) fragment;
+//                    instanceVisibilityStateI.saveStats();
+//
+//                }
+//            }
+//        }
+//    }
+//
+//    protected boolean iStrictVisible() {
+//        if (getParentFragment() != null) {
+//            return getUserVisibleHint() && isVisible() && getParentFragment().isVisible();
+//        } else {
+//            return getUserVisibleHint() && isVisible();
+//        }
+//    }
+//
+//    public boolean mSaveVisibleToUser = false;
+//
+//    public void saveStats() {
+//        mSaveVisibleToUser = mVisibleToUser;
+//        onVisibleHintChanged(false);
+//    }
+//
+//    public void restoreStats() {
+//        onVisibleHintChanged(mSaveVisibleToUser);
+//    }
+//
     @Override
     public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        onVisibleHintChanged(!hidden);
-    }
 
-    public void onViewShow() {
-        List<Fragment> fragments = getChildFragmentManager().getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                if (fragment != null && fragment instanceof InstanceVisibilityStateI) {
-                    InstanceVisibilityStateI instanceVisibilityStateI = (InstanceVisibilityStateI) fragment;
-                    instanceVisibilityStateI.restoreStats();
-                }
+        if (hidden) {
+            if (getView() != null) {
+                MobclickAgent.onPageEnd(this.getClass().getSimpleName());
             }
-        }
-    }
-
-    public void onViewHide() {
-        List<Fragment> fragments = getChildFragmentManager().getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                if (fragment != null && fragment instanceof InstanceVisibilityStateI) {
-                    InstanceVisibilityStateI instanceVisibilityStateI = (InstanceVisibilityStateI) fragment;
-                    instanceVisibilityStateI.saveStats();
-                }
-            }
-        }
-    }
-
-    protected boolean iStrictVisible() {
-        if (getParentFragment() != null) {
-            return getUserVisibleHint() && isVisible() && getParentFragment().isVisible();
         } else {
-            return getUserVisibleHint() && isVisible();
+            if (getView() != null) {
+                MobclickAgent.onPageStart(this.getClass().getSimpleName());
+
+            }
         }
+        super.onHiddenChanged(hidden);
     }
-
-    public boolean mSaveVisibleToUser = false;
-
-    public void saveStats() {
-        mSaveVisibleToUser = mVisibleToUser;
-        onVisibleHintChanged(false);
-    }
-
-    public void restoreStats() {
-        onVisibleHintChanged(mSaveVisibleToUser);
-    }
-
 
 }

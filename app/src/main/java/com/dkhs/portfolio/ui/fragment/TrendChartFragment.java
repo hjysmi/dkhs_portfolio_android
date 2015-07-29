@@ -41,7 +41,6 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
 
@@ -128,7 +127,7 @@ public class TrendChartFragment extends BaseFragment {
             handleExtras(extras);
         }
 
-        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        mCreateCalender = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
 
     }
 
@@ -596,7 +595,7 @@ public class TrendChartFragment extends BaseFragment {
 
             String lasttime = mTodayLineData.endDay;
 
-            Calendar calender = TimeUtils.toCalendar(lasttime);
+            Calendar calender = TimeUtils.getCalendar(lasttime);
             tvTimeLeft.setText(calender.get(Calendar.YEAR) + "-" + (calender.get(Calendar.MONTH) + 1) + "-"
                     + calender.get(Calendar.DAY_OF_MONTH));
             String timeStr = TimeUtils.getTimeString(lasttime);
@@ -653,8 +652,8 @@ public class TrendChartFragment extends BaseFragment {
             pointEntity.setValue(bean.getNetvalue());
             pointEntity.setIncreaseRange(((bean.getNetvalue() - baseNum) / baseNum) * 100);
 
-            if (dashLineSize == 0 && TimeUtils.toCalendar(bean.getTimestamp()) != null) {
-                if (TimeUtils.toCalendar(bean.getTimestamp()).after(mCreateCalender)) {
+            if (dashLineSize == 0 && TimeUtils.getCalendar(bean.getTimestamp()) != null) {
+                if (TimeUtils.getCalendar(bean.getTimestamp()).after(mCreateCalender)) {
                     dashLineSize = i;
                 }
             }
@@ -803,8 +802,8 @@ public class TrendChartFragment extends BaseFragment {
                 pointEntity.setIncreaseRange(todayBean.getPercentage());
                 // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
 
-                if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                    if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                if (dashLineSize == 0 && TimeUtils.getCalendar(todayBean.getDate()) != null) {
+                    if (TimeUtils.getCalendar(todayBean.getDate()).after(mCreateCalender)) {
                         dashLineSize = i;
                     }
                 }

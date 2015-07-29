@@ -145,9 +145,8 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.dkhs.portfolio.ui.SelectStatusStockActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:name=".ui.SelectStatusStockActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
@@ -410,6 +409,17 @@
             android:name=".ui.ReplyActivity"
             >
         </activity>
+        <activity
+            android:name=".ui.InfoActivity"
+            android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name=".ui.UserTopicsActivity"
+            android:label="@string/title_activity_my_topics" >
+        </activity>
+        <activity
+            android:name=".ui.StatusReportActivity"
+            android:label="@string/title_status_report"></activity>
     </application>
 
 </manifest>

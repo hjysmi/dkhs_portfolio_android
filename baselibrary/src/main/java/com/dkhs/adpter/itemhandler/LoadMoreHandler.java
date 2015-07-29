@@ -1,7 +1,7 @@
 package com.dkhs.adpter.itemhandler;
 
 import com.dkhs.R;
-import com.dkhs.adpter.listener.ItemHandler;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 
 /**
@@ -22,8 +22,5 @@ public class LoadMoreHandler implements ItemHandler {
 
     }
 
-    @Override
-    public Class<?> getDataClass() {
-        return null;
-    }
+
 }

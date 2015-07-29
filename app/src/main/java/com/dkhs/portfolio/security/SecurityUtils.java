@@ -1,10 +1,18 @@
 package com.dkhs.portfolio.security;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.bean.EncryptData;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.security.AES;
+import com.dkhs.security.CheckUtils;
+import com.dkhs.security.DES;
+import com.dkhs.security.EncryUtil;
+import com.dkhs.security.RSA;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -110,6 +118,36 @@ public class SecurityUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+
+    /**
+     * @param entity 加密的用户实体
+     * @return
+     */
+    public static UserEntity encrypt(UserEntity entity) {
+
+        if (null == entity || TextUtils.isEmpty(entity.getAccess_token())) {
+            return entity;
+        }
+
+        String authcode = new DES().encrypt(entity.getAccess_token(), ConstantValue.DES_PASSWORD);
+        entity.setAccess_token(authcode);
+        return entity;
+    }
+
+    /**
+     * @param entity 解密的用户实体
+     * @return
+     */
+    public static UserEntity decrypt(UserEntity entity) {
+        if (null == entity || TextUtils.isEmpty(entity.getAccess_token())) {
+            return entity;
+        }
+
+        String authcode = new DES().decrypt(entity.getAccess_token(), ConstantValue.DES_PASSWORD);
+        entity.setAccess_token(authcode);
+        return entity;
     }
 
 

@@ -18,6 +18,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -47,7 +48,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午4:03:33
  */
-public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment implements OnScrollListener {
+public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  {
 
     private String mOrderType;
     private UserCombinationAdapter mAdapter;
@@ -58,6 +59,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     private View headerView;
 
     private View footView;
+
     private float animPercent;
 
 
@@ -88,19 +90,12 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     }
 
 
-    private FloatingActionMenu localFloatingActionMenu;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         int headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
         headerView = new View(getActivity());
         footView = new View(getActivity());
-        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, headerHeight));
-
-        getListView().setSmoothScrollbarEnabled(true);
-        getListView().addHeaderView(headerView);
-        localFloatingActionMenu = ((CombinationUserActivity) getActivity()).localFloatingActionMenu;
-        localFloatingActionMenu.attachToListViewTop(getListView(), null, this);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -127,35 +122,11 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
             mAdapter.notifyDataSetChanged();
         }
 
-        if (object.getCurrentPage() == 1) {
-            addListViewFootView();
-        }
-
-    }
-
-    public void addListViewFootView() {
-
-
-        if (null != footView.getParent()) {
-            getListView().removeFooterView(footView);
-        }
-        int totalHeight = 0;
-        if (getActivity() != null) {
-            totalHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height) * (getListAdapter().getCount()) +
-                    getResources().getDimensionPixelOffset(R.dimen.header_height);
-            int footHeight;
-
-            if (totalHeight < (getListView().getHeight() + getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance))) {
-                footHeight = (getListView().getHeight() + getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)) - totalHeight;
-            } else {
-                footHeight = getResources().getDimensionPixelOffset(R.dimen.foot_height);
-            }
-            footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
-            getListView().addFooterView(footView);
-        }
 
 
     }
+
+
 
 
     LoadMoreDataEngine getLoadEngine() {
@@ -226,66 +197,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     public void loadFail() {
 
     }
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-        if (scrollState == SCROLL_STATE_IDLE) {
-
-            if (animPercent != 1 && animPercent != 0) {
-
-                if (animPercent > 0.4f) {
-                    handler.sendEmptyMessage(0);
-                } else {
-                    handler.sendEmptyMessage(1);
-                }
-            } else {
-                localFloatingActionMenu.show(true);
-            }
-        }
-    }
-
-
-    private WeakHandler handler = new WeakHandler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-
-                case 0:
-                    getListView().smoothScrollBy(16, 2);
-                    break;
-                case 1:
-                    getListView().smoothScrollBy(-16, 2);
-                    break;
-            }
-
-            if (animPercent < 1 && animPercent > 0) {
-                handler.sendEmptyMessage(msg.what);
-            }
-            return false;
-        }
-    });
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-
-        animPercent = getValues(-headerView.getTop());
-
-
-        if (mListener != null) {
-            mListener.onScrollChanged(animPercent);
-        }
-
-    }
-
-    public float getValues(int l) {
-        float value = l * 1.0f / getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance);
-        value = Math.max(value, 0);
-        value = Math.min(value, 1);
-        return value;
-    }
-
 
     @Override
     public void onAttach(Activity activity) {

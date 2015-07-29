@@ -18,6 +18,7 @@ import android.media.ExifInterface;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -454,6 +455,9 @@ public class UIUtils {
         return 0.5F + paramFloat * paramContext.getResources().getDisplayMetrics().density;
     }
 
+    public static int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, PortfolioApplication.getInstance().getResources().getDisplayMetrics());
+    }
 
     public static float px2dip(Context paramContext, float paramFloat) {
         return 0.5F + paramFloat / paramContext.getResources().getDisplayMetrics().density;

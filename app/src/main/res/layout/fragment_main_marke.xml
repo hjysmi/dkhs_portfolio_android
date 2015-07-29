@@ -15,6 +15,15 @@
             android:layout_marginTop="@dimen/tool_bar_top_padding"
             android:layout_height="48dp">
 
+            <TextView
+                android:id="@+id/left_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:drawableLeft="@drawable/ic_info"
+                android:textColor="@color/white_textselector" />
 
 
         <include

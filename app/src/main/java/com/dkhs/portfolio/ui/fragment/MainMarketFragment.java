@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.InfoActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
@@ -49,6 +51,8 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     TextView mBtnrefresh;
     @ViewInject(R.id.btn_search)
     TextView mBtnsearch;
+    @ViewInject(R.id.left_btn)
+    TextView mLeftBtn;
 
     BasePagerFragmentAdapter mAdapter;
     private TabWidget tabWidget;
@@ -98,6 +102,12 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         vp.setOffscreenPageLimit(3);
+        mLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.startActivity(new Intent(mActivity, InfoActivity.class));
+            }
+        });
 
     }
 

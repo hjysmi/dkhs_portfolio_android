@@ -267,6 +267,11 @@
         <item>"最热话题"</item>
         <item>"最新话题"</item>
     </string-array>
+    <string-array name="topics_commend_sort">
+        <item>最新评论</item>
+        <item>最热评论</item>
+        <item>最早评论</item>
+    </string-array>
 
 
     <string-array name="user_info_title">

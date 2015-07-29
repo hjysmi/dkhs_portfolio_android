@@ -47,7 +47,7 @@
                     android:layout_height="315dp"
                     android:paddingTop="5dp" />
 
-                <Button
+                <TextView
                     android:id="@+id/klin_virtul_check"
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
