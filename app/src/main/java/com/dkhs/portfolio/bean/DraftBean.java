@@ -14,7 +14,7 @@ public class DraftBean {
     public static final String COLUM_TITLE = "title";
     public static final String COLUM_CONTENTE = "content";
     public static final String COLUM_AUTHORID = "authorId";
-    public static final String COLUM_LABEL = "label";
+    public static final String COLUM_LABEL = "label";  //1是正文，2 是回复
 
 
     @Column(column = COLUM_UTCTIME)

@@ -554,7 +554,6 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
     }
 
-    public static final String ARGUMENT = "ARGUMENT";
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_select);
 

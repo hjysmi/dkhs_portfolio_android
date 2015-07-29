@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,26 +18,32 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
+import com.dkhs.portfolio.bean.DraftBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UploadImageBean;
+import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
+import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.widget.DKHSEditText;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.rockerhieu.emojicon.emoji.Emojicon;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -86,6 +93,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_post_topic);
+        getSwipeBackLayout().setEnableGesture(false);
         initViews();
         initEmoji();
     }
@@ -104,10 +112,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private DKHSEditText etContent;
     private DKHSEditText etTitle;
-    private EditText curEt;
+    private DKHSEditText curEt;
     private ImageView ivPhoto;
     private View ibImg;
-    private TextView rightBtn;
+    private TextView btnCancle;
 
     private void initViews() {
         setTitle(R.string.post_topic);
@@ -120,11 +128,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         TextView backBtn = (TextView) getBtnBack();
         backBtn.setCompoundDrawables(null, null, null, null);
         backBtn.setText(R.string.cancel);
-        rightBtn = (TextView) getRightButton();
-        rightBtn.setCompoundDrawables(null, null, null, null);
-        rightBtn.setText(R.string.send);
-        rightBtn.setEnabled(false);
-        rightBtn.setOnClickListener(this);
+        btnCancle = (TextView) getRightButton();
+        btnCancle.setCompoundDrawables(null, null, null, null);
+        btnCancle.setText(R.string.send);
+        btnCancle.setEnabled(false);
+        setBackButtonListener(this);
         ibStock.setOnClickListener(this);
         ibEmoji.setOnClickListener(this);
         ibImg.setOnClickListener(this);
@@ -230,27 +238,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         @Override
         public void afterTextChanged(Editable editable) {
             if (!TextUtils.isEmpty(editable)) {
-                rightBtn.setEnabled(true);
-                rightBtn.setClickable(true);
+                btnCancle.setEnabled(true);
+                btnCancle.setClickable(true);
             } else {
-                rightBtn.setEnabled(false);
-                rightBtn.setClickable(false);
+                btnCancle.setEnabled(false);
+                btnCancle.setClickable(false);
             }
-//            if(!TextUtils.isEmpty(editable)){
-//                if(isBeforeNull){
-//                    etCount ++;
-//                }
-//                if(etCount == 2){
-//                    rightBtn.setEnabled(true);
-//                    rightBtn.setClickable(true);
-//                }
-//            }else{
-//                if(!isBeforeNull){
-//                    etCount--;
-//                }
-//                rightBtn.setEnabled(false);
-//                rightBtn.setClickable(false);
-//            }
         }
     }
 
@@ -296,7 +289,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 }
                 break;
             case BACKBUTTON_ID:
-                // TODO 返回的时候判断是否有草稿
+                showAlertDialog();
                 break;
             case R.id.ib_emoji:
                 if (isShowingEmotionView) {
@@ -484,7 +477,19 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             }).start();
 
         }
+
+        if (requestCode == 0x7 && resultCode == RESULT_OK) {
+            SelectStockBean stockBean = Parcels.unwrap(data.getExtras().getParcelable(FragmentSearchStockFund.EXTRA_STOCK));
+            if (null != stockBean) {
+                selectStockBack(stockBean);
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private void selectStockBack(SelectStockBean stockBean) {
+        curEt.insesrStockText(String.format("%s(%s)", stockBean.getName(), stockBean.getSymbol()));
     }
 
     private void saveBitmap(final String path, final Bitmap bitmap) {
@@ -590,4 +595,55 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             PromptManager.closeProgressDialog();
         }
     };
+
+
+    @Override
+    public void onBackPressed() {
+
+
+        showAlertDialog();
+
+    }
+
+    private void showAlertDialog() {
+
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+
+        builder.setMessage(R.string.dialog_msg_save_draft)
+                .setNegativeButton(R.string.notsave, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+
+                    }
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                saveDraft();
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+
+
+        builder.show();
+
+    }
+
+
+    private void saveDraft() {
+        DraftBean draftBean = new DraftBean();
+        draftBean.setTitle(etTitle.getText().toString());
+        draftBean.setContent(etContent.getText().toString());
+        draftBean.setLabel(1);
+        new DraftEngine(null).saveDraft(draftBean);
+
+    }
+
+
 }

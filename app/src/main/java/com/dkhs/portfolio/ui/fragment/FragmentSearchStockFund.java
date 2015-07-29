@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -67,7 +68,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     private static final String SEARCH_TYPE_STOCKANDINDEX = "search_type_stockandindex";
 
     private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
-    public static final String ARGUMENT = "ARGUMENT";
+    public static final String EXTRA_STOCK = "argument_select_stock";
 
 
     private boolean isItemClickBack;
@@ -227,7 +228,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
             VisitorDataEngine.saveHistory(itemStock.parseHistoryBean());
             if (isStatus) {
-                PromptManager.showToast("选择添加话题股票：" + itemStock.getName());
+//                PromptManager.showToast("选择添加话题股票：" + itemStock.getName());
                 setSelectBack(itemStock);
             } else if (StockUitls.isFundType(itemStock.symbol_type)) {
                 startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
@@ -244,8 +245,8 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
     private void setSelectBack(SelectStockBean type) {
         Intent intent = new Intent();
-        intent.putExtra(ARGUMENT, Parcels.wrap(type));
-        getActivity().setResult(777, intent);
+        intent.putExtra(EXTRA_STOCK, Parcels.wrap(type));
+        getActivity().setResult(Activity.RESULT_OK, intent);
 
         getActivity().finish();
     }
