@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui.adapter;
 import android.content.Context;
 
 import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.portfolio.bean.CombinationsBean;
 import com.dkhs.portfolio.bean.CommendBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreBean;
@@ -28,6 +29,7 @@ import java.util.List;
  * @date 2015/7/28.
  */
 public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapter {
+
     public CombinationUserAdapter(Context context, List<?> data) {
         super(context, data);
     }
@@ -47,7 +49,7 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
 
     @Override
     protected int getViewType(int position) {
-        if (mData.get(position) instanceof List) {
+        if (mData.get(position) instanceof CombinationsBean) {
 
             return 1;
         }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.dkhs.adpter.adapter.AutoRVAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.CombinationsBean;
 import com.dkhs.portfolio.bean.CommendBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreBean;
@@ -200,8 +201,12 @@ public class UserHomePageActivity extends ModelAcitivity  {
         if(mCombinationBeans != null){
 
             if(mCombinationBeans.size()>0) {
+                CombinationsBean combinationsBean=new CombinationsBean();
+                combinationsBean.userId=mUserEntity.getId()+"";
+                combinationsBean.userName=mUserEntity.getUsername()+"";
+                combinationsBean.combinationBeanList=mCombinationBeans;
 
-                mData.add(mCombinationBeans);
+                mData.add(combinationsBean);
             }else{
                 NoDataBean noDataBean=new NoDataBean();
                 noDataBean.noData="暫無組合";
@@ -224,7 +229,7 @@ public class UserHomePageActivity extends ModelAcitivity  {
         mData.add(moreBean2);
 
         if(mTopicsBeans!= null){
-            if(mCombinationBeans.size()>0) {
+            if(mTopicsBeans.size()>0) {
 
                 mData.addAll(mTopicsBeans);
                 MoreFootBean moreFootBean=new MoreFootBean();

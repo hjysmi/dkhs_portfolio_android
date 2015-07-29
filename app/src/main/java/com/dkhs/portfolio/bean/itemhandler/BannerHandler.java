@@ -12,10 +12,12 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 
 /**
  * @author zwm
@@ -24,7 +26,7 @@ import com.dkhs.adpter.util.ViewHolder;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/16.
  */
-public class BannerHandler implements ItemHandler<BannerTopicsBean> {
+public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClickListener {
 
 
     public Context mContext;
@@ -81,34 +83,45 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean> {
                     vh.get(R.id.stick_ll5).setVisibility(View.VISIBLE);
                     vh.get(R.id.line4).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics5, data.hotTopicsBeans.get(4).title);
-
+                    vh.get(R.id.stick_ll5).setTag( data.hotTopicsBeans.get(4));
                 case 4:
-
                     vh.get(R.id.stick_ll4).setVisibility(View.VISIBLE);
                     vh.get(R.id.line3).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics4, data.hotTopicsBeans.get(3).title);
+                    vh.get(R.id.stick_ll4).setTag( data.hotTopicsBeans.get(3));
                 case 3:
                     vh.get(R.id.stick_ll3).setVisibility(View.VISIBLE);
                     vh.get(R.id.line2).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics3, data.hotTopicsBeans.get(2).title);
+                    vh.get(R.id.stick_ll3).setTag( data.hotTopicsBeans.get(2));
                 case 2:
                     vh.get(R.id.stick_ll2).setVisibility(View.VISIBLE);
                     vh.get(R.id.line1).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics2, data.hotTopicsBeans.get(1).title);
+                    vh.get(R.id.stick_ll2).setTag( data.hotTopicsBeans.get(1));
                 case 1:
 
                     vh.get(R.id.stick_ll1).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics1, data.hotTopicsBeans.get(0).title);
+                    vh.get(R.id.stick_ll1).setTag( data.hotTopicsBeans.get(0));
             }
         }
-
-
-
+        vh.get(R.id.stick_ll1).setOnClickListener(this);
+        vh.get(R.id.stick_ll2).setOnClickListener(this);
+        vh.get(R.id.stick_ll3).setOnClickListener(this);
+        vh.get(R.id.stick_ll4).setOnClickListener(this);
+        vh.get(R.id.stick_ll5).setOnClickListener(this);
 
 
     }
 
-
+    @Override
+    public void onClick(View v) {
+        TopicsBean topicsBean= (TopicsBean) v.getTag();
+        if(topicsBean != null){
+            TopicsDetailActivity.startActivity(mContext, topicsBean);
+        }
+    }
 
 
     class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickListener{
