@@ -142,6 +142,18 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
             }
         });
 
+
+
+//        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+//                .sizeProvider(mAdapter)
+//                .color(Color.TRANSPARENT)
+//                .build());
+//        mRecyclerView.addItemDecoration(new VerticalDividerItemDecoration.Builder(getActivity())
+//                .sizeProvider(mAdapter)
+//                .color(Color.TRANSPARENT)
+//                .build());
+
+
     }
 
 

@@ -30,10 +30,8 @@ import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
-import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.DraftEngine;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
 import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -53,13 +51,14 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-3-30 上午9:00:48
  */
-public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBackListener {
+public class MyDraftFragmnet extends VisiableLoadFragment {
 
     private MyDraftAdapter mAdapter;
     private List<DraftBean> mDataList = new ArrayList<DraftBean>();
     private DraftEngine dataEngine;
     private static final String TAG = "MyDraftFragmnet";
     public TextView tvEmptyText;
+    public View loadingView;
 
     private MainThreadBus eventBus;
 
@@ -112,10 +111,11 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+
+        loadingView = view.findViewById(android.R.id.progress);
         SwipeMenuListView mListView = (SwipeMenuListView) view.findViewById(R.id.swipemenu_listView);
         mAdapter = new MyDraftAdapter();
         mListView.setAdapter(mAdapter);
-        mListView.setEmptyView(tvEmptyText);
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
@@ -205,11 +205,20 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
     @Subscribe
     public void onEventMainThread(LoadDraftEvent event) {
         Log.d(TAG, "onEventMainThread LoadDraftEvent");
-        if (null != event && null != event.dataList) {
+        loadingView.setVisibility(View.GONE);
+        if (null != event) {
             this.mDataList.clear();
-            this.mDataList.addAll(event.dataList);
+            if (null != event.dataList) {
+                this.mDataList.addAll(event.dataList);
+            }
+            if (this.mDataList.isEmpty()) {
+                tvEmptyText.setVisibility(View.VISIBLE);
+            } else {
+                tvEmptyText.setVisibility(View.GONE);
+            }
             mAdapter.notifyDataSetChanged();
         }
+
     }
 
 
@@ -291,6 +300,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
         eventBus.register(this);
 
         dataEngine.getDraftByUserId();
+        loadingView.setVisibility(View.VISIBLE);
 
     }
 
@@ -307,36 +317,4 @@ public class MyDraftFragmnet extends VisiableLoadFragment implements ILoadDataBa
     }
 
 
-    /**
-     * @param object
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void loadFinish(MoreDataBean object) {
-        if (null != object.getResults()) {
-            mDataList.clear();
-            mDataList.addAll(object.getResults());
-
-            mAdapter.notifyDataSetChanged();
-        }
-
-    }
-
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void loadFail() {
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
 }

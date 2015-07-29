@@ -85,10 +85,11 @@
     </style>
 
     <style name="divider_line">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">0.5px</item>
-    <item name="android:background">@color/drivi_line</item>
-</style>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5px</item>
+        <item name="android:background">@color/drivi_line</item>
+    </style>
+
     <style name="inset_divider_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5px</item>
@@ -447,6 +448,7 @@
         <item name="android:textColor">@color/white_textselector</item>
         <item name="android:layout_gravity">center</item>
     </style>
+
     <style name="recommend_topics_title">
         <item name="android:paddingBottom">8dp</item>
         <item name="android:paddingTop">8dp</item>
@@ -457,6 +459,7 @@
         <item name="android:textColor">@color/tag_red</item>
         <item name="android:layout_gravity">center</item>
     </style>
+
     <style name="recommend_stick_topics_title">
         <item name="android:layout_marginLeft">26dp</item>
         <item name="android:layout_marginRight">10dp</item>
@@ -497,6 +500,22 @@
     <style name="ActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
         <item name="android:windowEnterAnimation">@anim/actionsheet_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/actionsheet_dialog_out</item>
+    </style>
+
+
+    <style name="cb_choice_report">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:button">@drawable/cb_report_choice_selector</item>
+        <item name="android:textColor">@color/text_content_color</item>
+    </style>
+
+    <style name="cb_choice_report_left" parent="cb_choice_report">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
     </style>
 
 
