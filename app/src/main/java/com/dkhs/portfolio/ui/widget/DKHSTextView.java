@@ -2,7 +2,6 @@ package com.dkhs.portfolio.ui.widget;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
@@ -17,8 +16,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.PostTopicActivity;
-import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.rockerhieu.emojicon.EmojiconTextView;
 
 /**
@@ -81,6 +78,7 @@ public class DKHSTextView extends EmojiconTextView {
                 builder.clearSpans();
                 for(URLSpan url : urls){
                     MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext());
+                    mySpan.url = url.getURL();
                     builder.setSpan(mySpan,sp.getSpanStart(url),sp.getSpanEnd(url),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 setMovementMethod(LinkMovementMethod.getInstance());

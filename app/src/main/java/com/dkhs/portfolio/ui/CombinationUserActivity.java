@@ -14,8 +14,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,12 +29,10 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
-import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
-import com.nineoldandroids.view.ViewHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,7 +125,9 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void startSettingActivity() {
-        startActivity(new Intent(this, PostTopicActivity.class));
+//        startActivity(new Intent(this, PostTopicActivity.class));
+        startActivity(new Intent(this, ReplyActivity.class));
+        //        startActivity(SettingActivity.getEditUserInfoIntent(this));
     }
 
 
@@ -185,7 +183,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
 //        replaceCombinationListView();
 
-          new UserCombinationEngineImpl(this, mUserId).loadData();
+        new UserCombinationEngineImpl(this, mUserId).loadData();
     }
 
     @Override

@@ -19,10 +19,15 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
+import com.dkhs.portfolio.bean.UploadImageBean;
+import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
@@ -31,8 +36,6 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.rockerhieu.emojicon.EmojiconGridFragment;
-import com.rockerhieu.emojicon.EmojiconsFragment;
 import com.rockerhieu.emojicon.emoji.Emojicon;
 
 import java.io.File;
@@ -45,7 +48,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/7/16.
  */
-public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragment.OnEmojiconBackspaceClickedListener, DKHSEmojiFragment.OnEmojiconClickedListener, View.OnClickListener {
+public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragment.OnEmojiconBackspaceClickedListener, DKHSEmojiFragment.OnEmojiconClickedListener, View.OnClickListener, ViewPager.OnPageChangeListener {
 
     public static final String MY_CAMERA = "/my_camera";
     public static final String UPLOAD_JPG = "/upload.jpg";
@@ -54,6 +57,29 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private InputMethodManager imm;
     private boolean isShowingEmotionView;
     private ImageButton ibEmoji;
+
+    /**
+     * 发表
+     */
+    public static final int TYPE_POST = 1;
+    /**
+     * 回复
+     */
+    public static final int TYPE_RETWEET = 2;
+
+    private static final String TYPE = "type";
+    private int curType;
+
+    /**
+     * @param context
+     * @param type    TYPE_POST:发表话题，TYPE_RETWEET:评论话题
+     * @return
+     */
+    public static Intent getIntent(Context context, int type) {
+        Intent intent = new Intent(context, PostTopicActivity.class);
+        intent.putExtra(TYPE, type);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -65,12 +91,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private void initEmoji() {
         ViewPager vpEmoji = (ViewPager) findViewById(R.id.vp_emoji);
-        List<DKHSEmojiFragment> fragments =new ArrayList<DKHSEmojiFragment>();
-        fragments.add(DKHSEmojiFragment.newInstance(EmojiData.getData(0)));
-        fragments.add(DKHSEmojiFragment.newInstance(EmojiData.getData(1)));
-        fragments.add(DKHSEmojiFragment.newInstance(EmojiData.getData(2)));
-        fragments.add(DKHSEmojiFragment.newInstance(EmojiData.getData(3)));
-        vpEmoji.setAdapter(new DKHSEmojisPagerAdapter( getSupportFragmentManager(), fragments));
+        views = new ArrayList<DKHSEmojiFragment>();
+        views.add(DKHSEmojiFragment.newInstance(EmojiData.getData(0)));
+        views.add(DKHSEmojiFragment.newInstance(EmojiData.getData(1)));
+        views.add(DKHSEmojiFragment.newInstance(EmojiData.getData(2)));
+        views.add(DKHSEmojiFragment.newInstance(EmojiData.getData(3)));
+        vpEmoji.setAdapter(new DKHSEmojisPagerAdapter(getSupportFragmentManager(), views));
+        vpEmoji.setOnPageChangeListener(this);
+        initDots();
     }
 
     private DKHSEditText etContent;
@@ -118,7 +146,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             public boolean onTouch(View v, MotionEvent event) {
                 //隐藏表情
                 if (isShowingEmotionView) {
-                    hideEmotionView();
                     isShowingEmotionView = !isShowingEmotionView;
                 }
                 if (curEt != etTitle)
@@ -130,14 +157,64 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         MyTextWatcher watcher = new MyTextWatcher();
         etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
+        etContent.setText("$这是一只股票(SH662424)$hah$这是股票(SH62424)$");
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
+    private List<DKHSEmojiFragment> views;
     private int etCount;
 
-    private class MyTextWatcher implements TextWatcher{
-        private  boolean isBeforeNull;
+    // 底部小点图片
+    private ImageView[] dots;
+
+    // 记录当前选中位置
+    private int currentIndex;
+
+    private void initDots() {
+        LinearLayout ll = (LinearLayout) findViewById(R.id.ll_image);
+        dots = new ImageView[views.size()];
+        // 循环取得小点图片
+        for (int i = 0; i < views.size(); i++) {
+            dots[i] = (ImageView) ll.getChildAt(i);
+            dots[i].setEnabled(true);// 都设为灰色
+        }
+
+        currentIndex = 0;
+        dots[currentIndex].setEnabled(false);// 设置为白色，即选中状态
+    }
+
+    private void setCurrentDot(int position) {
+        if (position < 0 || position > views.size() - 1
+                || currentIndex == position) {
+            return;
+        }
+        dots[position].setEnabled(false);
+        dots[currentIndex].setEnabled(true);
+
+        currentIndex = position;
+        View ll = findViewById(R.id.ll_image);
+        if (ll.getVisibility() == View.GONE)
+            ll.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        setCurrentDot(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+        private boolean isBeforeNull;
+
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
             isBeforeNull = TextUtils.isEmpty(charSequence);
@@ -149,21 +226,28 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if(!TextUtils.isEmpty(editable)){
-                if(isBeforeNull){
-                    etCount ++;
-                }
-                if(etCount == 2){
-                    rightBtn.setEnabled(true);
-                    rightBtn.setClickable(true);
-                }
-            }else{
-                if(!isBeforeNull){
-                    etCount--;
-                }
+            if (!TextUtils.isEmpty(editable)) {
+                rightBtn.setEnabled(true);
+                rightBtn.setClickable(true);
+            } else {
                 rightBtn.setEnabled(false);
                 rightBtn.setClickable(false);
             }
+//            if(!TextUtils.isEmpty(editable)){
+//                if(isBeforeNull){
+//                    etCount ++;
+//                }
+//                if(etCount == 2){
+//                    rightBtn.setEnabled(true);
+//                    rightBtn.setClickable(true);
+//                }
+//            }else{
+//                if(!isBeforeNull){
+//                    etCount--;
+//                }
+//                rightBtn.setEnabled(false);
+//                rightBtn.setClickable(false);
+//            }
         }
     }
 
@@ -200,6 +284,13 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
                 // TODO 发表帖子
+                if (TextUtils.isEmpty(jpg_path)) {
+                    //直接发表帖子或评论
+                    StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+                } else {
+                    String file_str = Environment.getExternalStorageDirectory().getPath();
+                    StatusEngineImpl.uploadImage(new File(file_str + jpg_path), uploadListener.setLoadingDialog(this, false));
+                }
                 break;
             case BACKBUTTON_ID:
                 // TODO 返回的时候判断是否有草稿
@@ -305,33 +396,36 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0x5 && resultCode == RESULT_OK) {
             // 相册选择
-            try {
-                String file_str = Environment.getExternalStorageDirectory().getPath();
-                Uri uri = data.getData();
+            final Uri uri = data.getData();
+            ivPhoto.setVisibility(View.VISIBLE);
+            ivPhoto.setImageURI(uri);
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        String file_str = Environment.getExternalStorageDirectory().getPath();
+                        String[] proj = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = managedQuery(uri, proj, null, null, null);
+                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                        cursor.moveToFirst();
 
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = managedQuery(uri, proj, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-
-                String path = cursor.getString(column_index);
-                Bitmap imageBitmap = UIUtils.getLocaleimage(path);
-                jpg_path = MY_CAMERA + UPLOAD_JPG;
-                File f = new File(file_str + jpg_path);
-                if (f.exists()) {
-                    f.delete();
+                        String path = cursor.getString(column_index);
+                        Bitmap imageBitmap = UIUtils.getLocaleimage(path);
+                        jpg_path = MY_CAMERA + UPLOAD_JPG;
+                        File f = new File(file_str + jpg_path);
+                        if (f.exists()) {
+                            f.delete();
+                        }
+                        FileOutputStream out = new FileOutputStream(f);
+                        imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
+                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        // setImageView(imageBitmap);
+                        //                setImageView(UIUtils.cropBitmap(imageBitmap));
+                        saveBitmap(f.getAbsolutePath(), imageBitmap);
+                    } catch (Exception e) {
+                        Log.e("Exception", e.getMessage(), e);
+                    }
                 }
-                FileOutputStream out = new FileOutputStream(f);
-                imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                // setImageView(imageBitmap);
-                ivPhoto.setVisibility(View.VISIBLE);
-                ivPhoto.setImageURI(uri);
-//                setImageView(UIUtils.cropBitmap(imageBitmap));
-                saveBitmap(f.getAbsolutePath(), imageBitmap);
-            } catch (Exception e) {
-                Log.e("Exception", e.getMessage(), e);
-            }
+            }).start();
         }
         if (requestCode == 0x1 && resultCode == RESULT_OK) {
             // 拍照
@@ -412,4 +506,75 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onEmojiconClicked(Emojicon emojicon) {
         DKHSEmojiFragment.input(curEt, emojicon);
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            onUserInteraction();
+        }
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
+    }
+
+    private ParseHttpListener<UploadImageBean> uploadListener = new ParseHttpListener<UploadImageBean>() {
+        @Override
+        protected UploadImageBean parseDateTask(String jsonData) {
+            if (TextUtils.isEmpty(jsonData)) {
+                return null;
+            }
+            try {
+                UploadImageBean entity = DataParse.parseObjectJson(UploadImageBean.class, jsonData);
+                return entity;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(UploadImageBean entity) {
+            if (null != entity) {
+                // 图片上传完毕继续发表主题
+                PromptManager.showToast("图片上传成功，发表话题");
+                StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, entity.getId(), statusListener.setLoadingDialog(PostTopicActivity.this, false));
+
+            }
+        }
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            PromptManager.closeProgressDialog();
+        }
+    };
+    private ParseHttpListener<UploadImageBean> statusListener = new ParseHttpListener<UploadImageBean>() {
+        @Override
+        protected UploadImageBean parseDateTask(String jsonData) {
+            if (TextUtils.isEmpty(jsonData)) {
+                return null;
+            }
+            try {
+                UploadImageBean entity = DataParse.parseObjectJson(UploadImageBean.class, jsonData);
+                return entity;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(UploadImageBean entity) {
+            PromptManager.closeProgressDialog();
+            if (null != entity) {
+                // 图片上传完毕继续发表主题
+                PromptManager.showToast("发表主题成功");
+            }
+        }
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            PromptManager.closeProgressDialog();
+        }
+    };
 }

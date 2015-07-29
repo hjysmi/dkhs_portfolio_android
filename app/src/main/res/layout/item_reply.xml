@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="@dimen/widget_margin_medium"
+              android:background="@color/white"
+              android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/default_head"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/iv_head"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/widget_margin_normal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/item_reply_textsize_normal"
+                    android:text="用户名"
+                    android:id="@+id/tv_username"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/item_reply_textsize_small"
+                    android:text="07-27 17:24"
+                    android:id="@+id/tv_time"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:textColor="@color/gray_textcolor"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/praise"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/iv_praise"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12"
+                    android:id="@+id/tv_praise_count"
+                    android:layout_marginLeft="@dimen/widget_margin_small"
+                    android:textColor="@color/gray_textcolor"
+                    android:layout_gravity="center_vertical"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.dkhs.portfolio.ui.widget.DKHSTextView
+        android:layout_width="match_parent"
+        android:text="这些都是评论@某某某"
+        android:id="@+id/tv_text"
+        android:textSize="@dimen/item_reply_textsize_normal"
+        android:textColor="@color/gray_textcolor"
+        android:layout_marginTop="@dimen/widget_margin_medium"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

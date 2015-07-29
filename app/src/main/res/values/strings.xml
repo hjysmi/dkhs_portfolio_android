@@ -683,6 +683,10 @@
     <string name="retake_picture">重新选择照片</string>
     <string name="delete_picture">删除照片</string>
     <!--发表帖子-->
+    <!--帖子回复-->
+    <string name="mine_reply">我的回复</string>
+    <string name="others_reply">TA的回复</string>
+    <!--帖子回复-->
 
 
     <!--我的草稿 start -->
