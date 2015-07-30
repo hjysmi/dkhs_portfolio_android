@@ -23,8 +23,8 @@ import java.util.regex.Pattern;
 public class TextModifyUtil {
     private static Map<String, String> faceMap;
 
-    public static void setFaceMap(Context context){
-        if(faceMap==null){
+    public static void setFaceMap(Context context) {
+        if (faceMap == null) {
             // TODO 表情集合初始化
 //    		String[] face_img_names=context.getString(R.string.face_img_names).split(",");
 //    		String[] face_texts=context.getString(R.string.face_texts).split(",");
@@ -36,10 +36,12 @@ public class TextModifyUtil {
 //    		}
         }
     }
-    public static Map<String, String> getFaceMap(){
+
+    public static Map<String, String> getFaceMap() {
         return faceMap;
     }
-    public static void setImgText(Spannable builder, String patternStr,Context context) {
+
+    public static void setImgText(Spannable builder, String patternStr, Context context) {
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(builder.toString());
         String temptStr = builder.toString();
@@ -65,7 +67,7 @@ public class TextModifyUtil {
         }
     }
 
-    public static void setStockText(Spannable builder, String patternStr,Context context) {
+    public static void setStockText(Spannable builder, String patternStr, Context context) {
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(builder.toString());
         String temptStr = builder.toString();
@@ -78,8 +80,8 @@ public class TextModifyUtil {
             //TODO 输入股票之后跳转
 //			Intent intent = new Intent(context, WriteStatusActivity.class);
 //			intent.putExtra("dollar", s);
-			builder.setSpan(getMyClickableSpan(context, null),
-					tempt - s.length(), tempt, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(getMyClickableSpan(context, null),
+                    tempt - s.length(), tempt, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         }
 
@@ -87,7 +89,7 @@ public class TextModifyUtil {
 
     private static List<MyClickableSpan> spans = new ArrayList<MyClickableSpan>();
 
-    public static void setAtText(SpannableStringBuilder builder, String patternStr,Context context) {
+    public static void setAtText(SpannableStringBuilder builder, String patternStr, Context context) {
 //        Pattern pattern = Pattern.compile(patternStr);
 //        Matcher matcher = pattern.matcher(builder.toString());
 //        String temptStr = builder.toString();
@@ -105,14 +107,15 @@ public class TextModifyUtil {
 ////					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //
 //        }
-        spans.clear();;
+        spans.clear();
+        ;
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(builder.toString());
         String temptStr = builder.toString();
         String start = "<a\\shref='http.+'>";
         String end = "</a>";
-        Pattern startP =Pattern.compile(start);
-        Pattern endP =Pattern.compile(end);
+        Pattern startP = Pattern.compile(start);
+        Pattern endP = Pattern.compile(end);
         int tempt = 0;
         SpannableStringBuilder tempBuilder = new SpannableStringBuilder();
         while (matcher.find()) {
@@ -127,10 +130,10 @@ public class TextModifyUtil {
             Matcher matcherE = endP.matcher(s);
             String startA = "";
             String endA = "";
-            if(matcherS.find()){
+            if (matcherS.find()) {
                 startA = matcherS.group();
             }
-            if(matcherE.find()){
+            if (matcherE.find()) {
                 endA = matcherE.group();
             }
 //            Log.i("MATTERN", startA +"...starA.length..." +startA.length()+"..."+endA +"...endA.length..." +endA.length());
@@ -145,29 +148,30 @@ public class TextModifyUtil {
 //					tempt - s.length(), tempt - 1,
 //					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        for(MyClickableSpan span : spans){
-            tempBuilder.setSpan(span, span.startIndex, span.startIndex+span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        for (MyClickableSpan span : spans) {
+            tempBuilder.setSpan(span, span.startIndex, span.startIndex + span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         builder = tempBuilder;
         builder.clear();
-        Log.i("MATTERN" ,tempBuilder.toString());
-        Log.i("MATTERN" ,builder.toString());
+        Log.i("MATTERN", tempBuilder.toString());
+        Log.i("MATTERN", builder.toString());
     }
 
-    public static SpannableStringBuilder getAtBuilder(SpannableStringBuilder builder, String patternStr,Context context) {
-        spans.clear();;
+    public static SpannableStringBuilder getAtBuilder(SpannableStringBuilder builder, String patternStr, Context context) {
+        spans.clear();
+        ;
         Pattern pattern = Pattern.compile(patternStr);
         Matcher matcher = pattern.matcher(builder.toString());
         String temptStr = builder.toString();
         String start = "<a\\shref='http.+'>";
         String end = "</a>";
-        Pattern startP =Pattern.compile(start);
-        Pattern endP =Pattern.compile(end);
+        Pattern startP = Pattern.compile(start);
+        Pattern endP = Pattern.compile(end);
         int tempt = 0;
         SpannableStringBuilder tempBuilder = new SpannableStringBuilder();
         while (matcher.find()) {
             String s = matcher.group();
-            Log.i("MATTERN" , s);
+            Log.i("MATTERN", s);
             int index = temptStr.indexOf(s);
             temptStr = temptStr.substring(index + s.length());
             tempBuilder.append(builder.subSequence(tempt, builder.length() - temptStr.length() - s.length()));
@@ -178,10 +182,10 @@ public class TextModifyUtil {
             Matcher matcherE = endP.matcher(s);
             String startA = "";
             String endA = "";
-            if(matcherS.find()){
+            if (matcherS.find()) {
                 startA = matcherS.group();
             }
-            if(matcherE.find()){
+            if (matcherE.find()) {
                 endA = matcherE.group();
             }
 //            Log.i("MATTERN", startA +"...starA.length..." +startA.length()+"..."+endA +"...endA.length..." +endA.length());
@@ -196,8 +200,8 @@ public class TextModifyUtil {
 //					tempt - s.length(), tempt - 1,
 //					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        for(MyClickableSpan span : spans){
-            tempBuilder.setSpan(span, span.startIndex, span.startIndex+span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        for (MyClickableSpan span : spans) {
+            tempBuilder.setSpan(span, span.startIndex, span.startIndex + span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return tempBuilder;
     }
@@ -211,10 +215,23 @@ public class TextModifyUtil {
 
     private static MyClickableSpan getMyClickableSpan(Context context, URLSpan urlSpan) {
         MyClickableSpan mySpan = new MyClickableSpan(context.getResources().getColor(R.color.blue), context);
-        if(urlSpan != null){
+        if (urlSpan != null) {
             String url = urlSpan.getURL();
             mySpan.url = url;
         }
         return mySpan;
     }
+
+
+    public static void copyToClipboard(String text, Context context) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(text);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+            clipboard.setPrimaryClip(clip);
+        }
+    }
+
 }
