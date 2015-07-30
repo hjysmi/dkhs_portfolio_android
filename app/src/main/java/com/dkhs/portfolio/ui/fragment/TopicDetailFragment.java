@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.NoDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
@@ -111,7 +112,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     @Override
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
-            mTopicsCommendEngine = new TopicsCommendEngineImpl(this);
+            mTopicsCommendEngine = new TopicsCommendEngineImpl(this,mTopicsBean.id+"");
         }
         return mTopicsCommendEngine;
     }
@@ -156,14 +157,45 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
     @Override
     public void loadFinish(MoreDataBean object) {
-        super.loadFinish(object);
+        if (isAdded()) {
+            mListView.onLoadMoreComplete();
+            if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
+                mListView.setCanLoadMore(false);
+                mListView.setAutoLoadMore(false);
+            } else {
+                mListView.setCanLoadMore(true);
+                mListView.setAutoLoadMore(true);
+                if (getLoadEngine().getCurrentpage() == 1)
+                    mListView.setOnLoadListener(this);
+            }
+        }
+
+
+
         mSwipeLayout.setRefreshing(false);
         if (mTopicsCommendEngine.getCurrentpage() == 1) {
             mDataList.clear();
             mDataList.add(mTopicsBean);
         }
-        mDataList.addAll(object.getResults());
+
+        if (object.getCurrentPage()==1&& object.getResults().size()==0){
+
+            //setEmptyText(getEmptyText());//
+
+            //// FIXME: 2015/7/29  为空判断
+            NoDataBean noDataBean=new NoDataBean();
+            noDataBean.noData="暂无评论";
+            mDataList.add(noDataBean);
+
+
+        }
+            mDataList.addAll(object.getResults());
+
+
         mAdapter.notifyDataSetChanged();
     }
+
+
+
 
 }
