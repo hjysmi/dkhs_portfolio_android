@@ -2,7 +2,6 @@ package com.dkhs.portfolio.ui.widget.ViewBean;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,15 +71,7 @@ public class MarkGridViewBean extends ViewBean {
         }
 
 
-        public void bindView(final StockQuotesBean markStockBean, int position) {
-
-            int defPadding = itemView.getResources().getDimensionPixelOffset(R.dimen.widget_margin_small);
-//            if (position == 2) {
-//                contentView.setPadding(0, defPadding, 0, defPadding);
-//            } else {
-//                contentView.setPadding(defPadding, defPadding, defPadding, defPadding);
-//            }
-            contentView.setPadding(defPadding, defPadding, defPadding, defPadding);
+        public void bindView(final StockQuotesBean markStockBean) {
 
             tvStockName.setVisibility(View.GONE);
 
@@ -119,9 +110,8 @@ public class MarkGridViewBean extends ViewBean {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
         int position = itemHolder.getAdapterPosition();
-        Log.d("MarkGridViewBean", "getAdapterPosition:" + position);
         //position ==2 no left and right padding
-        ((ViewHolder) itemHolder).bindView(mMarkStockBean, position);
+        ((ViewHolder) itemHolder).bindView(mMarkStockBean);
 
 
     }

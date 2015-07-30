@@ -2,7 +2,6 @@ package com.dkhs.portfolio.ui.widget.ViewBean;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +93,6 @@ public class MarkPlateGridViewBean extends ViewBean {
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
 
         int position = itemHolder.getAdapterPosition();
-        Log.d("MarkPlateGridViewBean", "getAdapterPosition:" + position);
         //position =6 and 9,no right left padding
         //position > 7 no top padding
         ((ViewHolder) itemHolder).bindView(mMarkSectorBean);
