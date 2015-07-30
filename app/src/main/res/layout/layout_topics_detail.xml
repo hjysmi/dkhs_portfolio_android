@@ -40,11 +40,9 @@
                     android:id="@+id/name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-
                     android:layout_toRightOf="@+id/iv_avatar"
                     android:paddingTop="4dp"
-                    android:text="Fenng"
-                    android:textSize="13sp"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -53,7 +51,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/iv_avatar"
                     android:layout_toRightOf="@+id/iv_avatar"
-                    android:text="@string/add_text"
                     android:textSize="12sp"/>
 
             </RelativeLayout>
@@ -66,7 +63,6 @@
                 android:layout_marginTop="8dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="Fenng"
                 android:textSize="16sp"/>
 
             <com.dkhs.portfolio.ui.widget.DKHSTextView
@@ -76,8 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="天天动听是刘春宁一手操办收购的，这次阿里宣布高晓松宋柯加盟，新闻稿可都是虾米在前面然后才是天天动听。 要知道天天动听号称日活比虾米高很多啊 这是不是意味着收购的天天动听就是一垃圾呢? 日活跌没了吧?"/>
+                android:paddingRight="16dp"/>
 
             <ImageView
                 android:id="@+id/iv"
@@ -88,11 +83,13 @@
                 android:maxWidth="238px"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:src="@drawable/ic_launcher"/>
+                />
 
         </LinearLayout>
 
-        <include layout="@layout/layout_empty"/>
+        <include
+
+            layout="@layout/layout_empty"/>
     </RelativeLayout>
 
 
@@ -109,9 +106,11 @@
         <TextView
             style="@style/gray_title_text"
             android:layout_width="wrap_content"
+            android:textColor="@color/theme_color"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/commend"/>
+            android:id="@+id/comment"
+            android:text="@string/comment"/>
 
         <TextView
             style="@style/gray_title_text"
@@ -119,6 +118,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
+            android:textColor="@color/theme_color"
+            android:id="@+id/star"
             android:text="@string/star"/>
 
         <View
@@ -127,6 +128,7 @@
             android:layout_weight="1"/>
 
         <Spinner
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

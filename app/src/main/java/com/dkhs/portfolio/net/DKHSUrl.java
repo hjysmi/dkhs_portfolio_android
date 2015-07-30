@@ -170,7 +170,8 @@ public class DKHSUrl {
         String getUserTopics = "/api/v1/statuses/user_timeline/";
         String getHotTopic = "/api/v1/statuses/public_timeline/";
         String getStickTopic = "/api/v1/statuses/public_timeline/";
-        String getCommend = "/api/v1/statuses/public_timeline/";
+        String getCommend = "/api/v1/statuses/{0}/comments/";
+        String getHotTopicDetil = "/api/v1/statuses/{0}/";
 
 
     }

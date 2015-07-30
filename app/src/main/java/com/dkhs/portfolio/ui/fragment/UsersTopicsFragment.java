@@ -13,8 +13,7 @@ import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
-import com.dkhs.portfolio.engine.UserTopicsEngineImpl;
+import com.dkhs.portfolio.engine.UserTopicsCommentEngineImpl;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import java.util.List;
 public class UsersTopicsFragment extends  LoadMoreListFragment {
 
     private List<Object> mDataList = new ArrayList<>();
-    private UserTopicsEngineImpl mTopicsEngine= null;
+    private UserTopicsCommentEngineImpl mTopicsEngine= null;
     private BaseAdapter mAdapter;
 
 
@@ -76,7 +75,7 @@ public class UsersTopicsFragment extends  LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if(mTopicsEngine ==null){
-            mTopicsEngine=  new UserTopicsEngineImpl(this,getArguments().getString(UserTopicsActivity.USER_NAME),getArguments().getString(UserTopicsActivity.USER_ID),"2");
+            mTopicsEngine=  new UserTopicsCommentEngineImpl(this,getArguments().getString(UserTopicsActivity.USER_ID), UserTopicsCommentEngineImpl.StatusType.Topics);
         }
         return mTopicsEngine;
     }

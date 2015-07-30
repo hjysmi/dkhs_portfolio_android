@@ -443,6 +443,7 @@
     <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
     <string name="msg_follow_success">关注成功</string>
+    <string name="msg_post_topic_success">发表主题成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
 
     <!-- 提醒设置 -->
@@ -662,7 +663,7 @@
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
-    <string name="commend">评论</string>
+    <string name="comment">评论</string>
     <string name="star">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
@@ -712,6 +713,14 @@
     <string name="report_fake">虚假中奖</string>
     <string name="report_user">举报%1$s的回复：</string>
     <string name="report_success">您的举报信息已提交，感谢您的支持</string>
+    <string name="no_bbs_topic">暂无主贴</string>
+    <string name="my_comment">我的回复</string>
+    <string name="ta_comment">TA的回复</string>
+    <string name="ta_bbs_topic">TA的主贴</string>
+    <string name="my_bbs_topic">我的主贴</string>
+    <string name="no_combination">暂无组合</string>
+    <string name="ta_combination">TA的组合</string>
+    <string name="no_comment">暂无回复</string>
     <!--举报 end-->
 
 

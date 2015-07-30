@@ -92,7 +92,9 @@ public class MarkPlateGridViewBean extends ViewBean {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
 
-
+        int position = itemHolder.getAdapterPosition();
+        //position =6 and 9,no right left padding
+        //position > 7 no top padding
         ((ViewHolder) itemHolder).bindView(mMarkSectorBean);
 
     }

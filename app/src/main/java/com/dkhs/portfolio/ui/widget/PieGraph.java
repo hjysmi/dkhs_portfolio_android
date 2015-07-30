@@ -284,6 +284,13 @@ public class PieGraph extends View {
 //        postInvalidate();
 //    }
 
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        removeCallbacks(updateRunnable);
+    }
+
     public static interface OnSliceClickedListener {
         public abstract void onClick(int index);
     }

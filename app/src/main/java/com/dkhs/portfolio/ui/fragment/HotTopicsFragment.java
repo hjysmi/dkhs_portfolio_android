@@ -15,9 +15,12 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.adapter.HotTopicsAdapter;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.imid.swipebacklayout.lib.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +33,9 @@ public class HotTopicsFragment extends LoadMoreListFragment {
 
     public HotTopicsFragment() {
     }
+
+
+
     @Override
     ListAdapter getListAdapter() {
 
