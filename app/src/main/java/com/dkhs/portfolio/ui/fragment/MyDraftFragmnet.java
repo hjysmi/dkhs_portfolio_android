@@ -8,7 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,15 +31,12 @@ import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.engine.DraftEngine;
-import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
 import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,10 +149,10 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DraftBean draftBean = mDataList.get(position);
-                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), "");
-                intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
-                startActivity(intent);
-                getActivity().finish();
+//                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), "");
+//                intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
+//                startActivity(intent);
+//                getActivity().finish();
 
 
             }

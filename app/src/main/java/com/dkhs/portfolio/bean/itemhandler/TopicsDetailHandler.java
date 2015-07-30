@@ -185,7 +185,8 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + ""));
+            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername()));
+//            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + ""));
         }
     }
 

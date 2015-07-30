@@ -16,6 +16,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -40,22 +41,23 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
     private static final String USER_ID = "user_id";
     private String userId;
-    private static final String REPLY_TYPE = "reply_type";
-    public static final int TYPE_MINE = 1;
-    public static final int TYPE_OTHERS = 2;
+    private boolean isCurrentUser;
+    //    private static final String REPLY_TYPE = "reply_type";
+//    public static final int TYPE_MINE = 1;
+//    public static final int TYPE_OTHERS = 2;
     private int statusType;
 
 
     /**
      * @param context
-     * @param userId 帖子id
+     * @param userId    帖子id
      * @param replyType TYPE_MINE, TYPE_OTHERS
      * @return
      */
-    public static Intent getIntent(Context context, String userId, int replyType){
+    public static Intent getIntent(Context context, String userId) {
         Intent intent = new Intent(context, ReplyActivity.class);
         intent.putExtra(USER_ID, userId);
-        intent.putExtra(REPLY_TYPE, replyType);
+//        intent.putExtra(REPLY_TYPE, replyType);
         return intent;
     }
 
@@ -73,14 +75,14 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     private ImageView ivPraise;
     private BitmapUtils bitmapUtils;
 
-    private void initView(){
+    private void initView() {
         lvReply = (PullToRefreshListView) findViewById(R.id.lv_reply);
         lvReply.setCanRefresh(false);
         lvReply.setOnLoadListener(new PullToRefreshListView.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 CUR_TYPE = TYPE_LODAMORE;
-                if(current_page < total_page && current_page != 0 && total_page != 0){
+                if (current_page < total_page && current_page != 0 && total_page != 0) {
                     StatusEngineImpl.getReplys(userId, current_page + 1, 0, listener);
                 }
             }
@@ -93,21 +95,30 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 //        ivPraise.setOnClickListener(this);
     }
 
-    private void initData(){
+    private void initData() {
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
-            statusType = bundle.getInt(REPLY_TYPE);
-            if(statusType == TYPE_MINE){
+        if (bundle != null) {
+//            statusType = bundle.getInt(REPLY_TYPE);
+//            if (statusType == TYPE_MINE) {
+//                setTitle(R.string.mine_reply);
+//            } else if (statusType == TYPE_OTHERS) {
+//                setTitle(R.string.others_reply);
+//            }
+
+            userId = bundle.getString(USER_ID);
+            if (null != GlobalParams.LOGIN_USER) {
+                isCurrentUser = String.valueOf(GlobalParams.LOGIN_USER.getId()).equals(userId);
+            }
+            if (isCurrentUser) {
                 setTitle(R.string.mine_reply);
-            }else if(statusType == TYPE_OTHERS){
+            } else {
                 setTitle(R.string.others_reply);
             }
-            userId = bundle.getString(USER_ID);
-            if(!TextUtils.isEmpty(userId)){
+            if (!TextUtils.isEmpty(userId)) {
                 StatusEngineImpl.getReplys(userId, current_page, 0, listener);
             }
 
-        }else{
+        } else {
             userId = "1";
             StatusEngineImpl.getReplys(userId, current_page, 0, listener);
         }
@@ -115,7 +126,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_praise:
                 ivPraise.setBackgroundResource(R.drawable.praised);
                 ScaleAnimation animation = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
@@ -144,11 +155,11 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         }
     }
 
-    private class MyReplyAdapter extends BaseAdapter{
+    private class MyReplyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            if(results != null){
+            if (results != null) {
                 return results.size();
             }
             return 0;
@@ -167,7 +178,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
-            if(convertView == null){
+            if (convertView == null) {
                 convertView = View.inflate(getApplicationContext(), R.layout.item_reply, null);
                 holder = new ViewHolder();
                 holder.ivHead = (ImageView) convertView.findViewById(R.id.iv_head);
@@ -179,7 +190,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             CommentBean comment = results.get(position);
             holder = (ViewHolder) convertView.getTag();
             UserEntity user = comment.getUser();
-            if(!TextUtils.isEmpty(user.getAvatar_sm())){
+            if (!TextUtils.isEmpty(user.getAvatar_sm())) {
                 bitmapUtils.display(holder.ivHead, comment.getUser().getAvatar_sm());
             }
             holder.tvUserName.setText(user.getUsername());
@@ -218,7 +229,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             return convertView;
         }
 
-        private class ViewHolder{
+        private class ViewHolder {
             ImageView ivPraise;
             ImageView ivHead;
             TextView tvUserName;
@@ -232,34 +243,34 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         @Override
         protected MoreDataBean<CommentBean> parseDateTask(String jsonData) {
             MoreDataBean<CommentBean> moreDataBean = (MoreDataBean<CommentBean>) DataParse.parseObjectJson(new TypeToken<MoreDataBean<CommentBean>>() {
-            }.getType(),jsonData);
+            }.getType(), jsonData);
             return moreDataBean;
         }
 
         @Override
         protected void afterParseData(MoreDataBean<CommentBean> moreDataBean) {
-            if(moreDataBean != null && moreDataBean.getResults() != null && moreDataBean.getResults().size() >0){
+            if (moreDataBean != null && moreDataBean.getResults() != null && moreDataBean.getResults().size() > 0) {
                 current_page = moreDataBean.getCurrentPage();
                 total_count = moreDataBean.getTotalCount();
                 total_page = moreDataBean.getTotalPage();
-                if(CUR_TYPE == TYPE_LODAMORE){
+                if (CUR_TYPE == TYPE_LODAMORE) {
                     lvReply.onLoadMoreComplete();
                 }
-                if(current_page != 0 &&current_page == total_page){
+                if (current_page != 0 && current_page == total_page) {
                     lvReply.setCanLoadMore(false);
-                }else if(current_page < total_page){
+                } else if (current_page < total_page) {
                     lvReply.setCanLoadMore(true);
                 }
-                if(total_count > 0){
-                    if(current_page == 1){
+                if (total_count > 0) {
+                    if (current_page == 1) {
                         results = moreDataBean.getResults();
-                    }else{
+                    } else {
                         results.addAll(moreDataBean.getResults());
                     }
-                    if(adapter == null){
+                    if (adapter == null) {
                         adapter = new MyReplyAdapter();
                         lvReply.setAdapter(adapter);
-                    }else{
+                    } else {
                         adapter.notifyDataSetChanged();
                     }
                 }
