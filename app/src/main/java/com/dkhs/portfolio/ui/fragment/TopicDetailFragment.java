@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -41,6 +43,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     private List<Object> mDataList = new ArrayList<>();
     private TopicsCommendEngineImpl mTopicsCommendEngine = null;
     private BaseAdapter mAdapter;
+    private OnFragmentInteractionListener mListener;
 
 
     @Override
@@ -49,6 +52,27 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
 
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+         void onFragmentInteraction(TopicsBean topicsBean);
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -72,7 +96,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
             protected void afterParseData(Object object) {
                 mTopicsBean = (TopicsBean) object;
 
-
+                mListener.onFragmentInteraction(mTopicsBean);
                 if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
                     mDataList.remove(0);
                     mDataList.add(0, mTopicsBean);
@@ -196,6 +220,25 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     }
 
 
+
+    public void like(){
+
+        if(mTopicsBean != null){
+            mTopicsBean.favorites_count+=1;
+            mAdapter.notifyDataSetChanged();
+
+        }
+
+    }
+
+    public  void unLike(){
+        if(mTopicsBean != null){
+            mTopicsBean.favorites_count-=1;
+            mAdapter.notifyDataSetChanged();
+
+
+        }
+    }
 
 
 }

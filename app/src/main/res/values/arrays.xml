@@ -267,6 +267,10 @@
         <item>"最热话题"</item>
         <item>"最新话题"</item>
     </string-array>
+    <string-array name="topics_menu_overflow">
+        <item>"回到首页"</item>
+        <item>"举报"</item>
+    </string-array>
     <string-array name="topics_commend_sort">
         <item>最新评论</item>
         <item>最热评论</item>

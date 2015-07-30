@@ -5,7 +5,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
@@ -15,12 +17,12 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.adapter.HotTopicsAdapter;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.imid.swipebacklayout.lib.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,27 +30,61 @@ import me.imid.swipebacklayout.lib.Utils;
 public class HotTopicsFragment extends LoadMoreListFragment {
 
     private List<TopicsBean> mDataList = new ArrayList<>();
-    private HotTopicEngineImpl mTopicsEngine= null;
+    private HotTopicEngineImpl mTopicsEngine = null;
     private BaseAdapter mAdapter;
 
     public HotTopicsFragment() {
     }
 
 
-
     @Override
     ListAdapter getListAdapter() {
 
-        if(mAdapter == null){
-            mAdapter=  new HotTopicsAdapter(mActivity,mDataList);
+        if (mAdapter == null) {
+            mAdapter = new HotTopicsAdapter(mActivity, mDataList);
         }
         return mAdapter;
     }
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        BusProvider.getInstance().register(this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe
+    public void updateList(UpdateTopicsListEvent updateTopicsListEvent) {
+
+        TopicsBean topicsBean = updateTopicsListEvent.topicsBean;
+
+        for (Object object : mDataList) {
+
+            if (object instanceof TopicsBean) {
+                TopicsBean topicsBean1 = (TopicsBean) object;
+
+                if (topicsBean.id == topicsBean1.id) {
+                    topicsBean1.favorites_count = topicsBean.favorites_count;
+                    topicsBean1.like = topicsBean.like;
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
+
+    }
+
     @Override
     LoadMoreDataEngine getLoadEngine() {
-        if(mTopicsEngine ==null){
-            mTopicsEngine=  new HotTopicEngineImpl(this);
+        if (mTopicsEngine == null) {
+            mTopicsEngine = new HotTopicEngineImpl(this);
         }
         return mTopicsEngine;
     }
@@ -76,9 +112,10 @@ public class HotTopicsFragment extends LoadMoreListFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-         super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(view, savedInstanceState);
         mListView.setDivider(null);
-        loadData();
+        postDelayedeData();
+
     }
 
     @Override

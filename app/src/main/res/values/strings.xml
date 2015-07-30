@@ -665,7 +665,7 @@
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
     <string name="comment">评论</string>
-    <string name="star">赞</string>
+    <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
 
