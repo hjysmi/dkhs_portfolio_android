@@ -36,11 +36,10 @@ import java.util.ArrayList;
 public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView.OnItemSelectedListener {
 
 
-
     private Context mContext;
 
     public TopicsDetailHandler(Context context) {
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -50,77 +49,77 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     @Override
     public void onBindView(ViewHolder vh, final TopicsBean data, int position) {
-        setClickListener( vh.get(R.id.iv_avatar),data);
-        setClickListener( vh.get(R.id.iv),data);
+        setClickListener(vh.get(R.id.iv_avatar), data);
+        setClickListener(vh.get(R.id.iv), data);
 
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
-        if(TextUtils.isEmpty(data.title)){
+        if (TextUtils.isEmpty(data.title)) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
-        }else {
+        } else {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
-        vh.setTextView(R.id.name,data.user.getUsername());
+        vh.setTextView(R.id.name, data.user.getUsername());
 
-        if(data.user != null  &&TextUtils.isEmpty(data.user.getAvatar_md())) {
+        if (data.user != null && TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         }
-        vh.setTextView(R.id.content,data.text);
+        vh.setTextView(R.id.content, data.text);
         vh.get(R.id.iv).setVisibility(View.GONE);
 
-        if(data.medias != null && data.medias.size() > 0) {
+        if (data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
             ImageLoaderUtils.setImagDefault(data.medias.get(0).image_sm, vh.getImageView(R.id.iv));
 
-        }else{
+        } else {
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
 
-        vh.setTextView(R.id.star,mContext.getString(R.string.star)+" "+data.favorites_count);
-        vh.setTextView(R.id.comment,mContext.getString(R.string.comment)+" "+data.comments_count);
+        vh.setTextView(R.id.star, mContext.getString(R.string.star) + " " + data.favorites_count);
+        vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 
 
-        if(false){
-            vh.setTextView(R.id.tv_empty,"此贴已删除");
+        if (false) {
+            vh.setTextView(R.id.tv_empty, "此贴已删除");
             vh.get(R.id.main_ll).setVisibility(View.GONE);
             vh.get(R.id.emptyRl).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             vh.get(R.id.main_ll).setVisibility(View.VISIBLE);
             vh.get(R.id.emptyRl).setVisibility(View.GONE);
 
         }
 
-        Spinner spinner=vh.get(R.id.spinner);
+        Spinner spinner = vh.get(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
 
     }
 
-    public void setClickListener(View  view, TopicsBean data){
-        ItemHandlerClickListenerImp<TopicsBean> itemHandlerClickListener=null;
-        if(null !=  view.getTag() && view.getTag() instanceof  ItemHandlerClickListenerImp){
-            itemHandlerClickListener= (ItemHandlerClickListenerImp<TopicsBean>) view.getTag();
-        }else{
-           switch (view.getId()){
-               case  R.id.fl_star:
-                   itemHandlerClickListener=new StarClickListenerImp();
-                   break;
-               case  R.id.fl_commend:
-                   itemHandlerClickListener=new CommendClickListenerImp();
-                   break;
-               case  R.id.iv_avatar:
-                   itemHandlerClickListener=new AvatarClickListenerImp();
-                   break;
-               case  R.id.iv:
-                   itemHandlerClickListener=new ImageViewClickListenerImp();
-                   break;
-               case  R.id.main_ll:
-                   itemHandlerClickListener=new ItemClickListenerImp();
-                   break;
-               default:
-                   itemHandlerClickListener=new ItemHandlerClickListenerImp<TopicsBean>();
-                   break;
-           }
+    public void setClickListener(View view, TopicsBean data) {
+        ItemHandlerClickListenerImp<TopicsBean> itemHandlerClickListener = null;
+        if (null != view.getTag() && view.getTag() instanceof ItemHandlerClickListenerImp) {
+            itemHandlerClickListener = (ItemHandlerClickListenerImp<TopicsBean>) view.getTag();
+        } else {
+            switch (view.getId()) {
+                case R.id.fl_star:
+                    itemHandlerClickListener = new StarClickListenerImp();
+                    break;
+                case R.id.fl_commend:
+                    itemHandlerClickListener = new CommendClickListenerImp();
+                    break;
+                case R.id.iv_avatar:
+                    itemHandlerClickListener = new AvatarClickListenerImp();
+                    break;
+                case R.id.iv:
+                    itemHandlerClickListener = new ImageViewClickListenerImp();
+                    break;
+                case R.id.main_ll:
+                    itemHandlerClickListener = new ItemClickListenerImp();
+                    break;
+                default:
+                    itemHandlerClickListener = new ItemHandlerClickListenerImp<TopicsBean>();
+                    break;
+            }
             view.setOnClickListener(itemHandlerClickListener);
             view.setTag(itemHandlerClickListener);
         }
@@ -131,16 +130,16 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        TopicsDetailRefreshEvent topicsDetailRefreshEvent=new TopicsDetailRefreshEvent();
-        switch (position){
+        TopicsDetailRefreshEvent topicsDetailRefreshEvent = new TopicsDetailRefreshEvent();
+        switch (position) {
             case 0:
-                topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.latest;
+                topicsDetailRefreshEvent.sortType = TopicsCommendEngineImpl.SortType.latest;
                 break;
             case 1:
-                topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.best;
+                topicsDetailRefreshEvent.sortType = TopicsCommendEngineImpl.SortType.best;
                 break;
             case 2:
-                topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.earliest;
+                topicsDetailRefreshEvent.sortType = TopicsCommendEngineImpl.SortType.earliest;
                 break;
         }
         BusProvider.getInstance().post(topicsDetailRefreshEvent);
@@ -151,8 +150,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     }
 
-    class  StarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+    class StarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
         private TopicsBean topicsBean;
+
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -161,16 +161,17 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            ImageView imageView= (ImageView) v.findViewById(R.id.iv_star);
-            if(topicsBean.star){
+            ImageView imageView = (ImageView) v.findViewById(R.id.iv_star);
+            if (topicsBean.star) {
                 imageView.setImageResource(R.drawable.ic_stared);
-            }else{
+            } else {
                 imageView.setImageResource(R.drawable.ic_star);
             }
-            topicsBean.star=!topicsBean.star;
+            topicsBean.star = !topicsBean.star;
         }
     }
-    class  CommendClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+    class CommendClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 
 
         private TopicsBean topicsBean;
@@ -184,11 +185,13 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "");
+            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + ""));
         }
     }
-    class  AvatarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+    class AvatarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
         private TopicsBean topicsBean;
+
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -200,8 +203,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         }
     }
-    class  ImageViewClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+    class ImageViewClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
         private TopicsBean topicsBean;
+
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -210,31 +215,31 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            ArrayList<PhotoBean> arrayList=new ArrayList<>();
-            PhotoBean photoBean=new PhotoBean();
-            photoBean.title=topicsBean.id+"";
-            photoBean.loadingURl=topicsBean.medias.get(0).image_sm;
-            photoBean.imgUrl=topicsBean.medias.get(0).image_lg;
+            ArrayList<PhotoBean> arrayList = new ArrayList<>();
+            PhotoBean photoBean = new PhotoBean();
+            photoBean.title = topicsBean.id + "";
+            photoBean.loadingURl = topicsBean.medias.get(0).image_sm;
+            photoBean.imgUrl = topicsBean.medias.get(0).image_lg;
             arrayList.add(photoBean);
-            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v, 0);
+            PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }
     }
-    class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+
+    class ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 
         private TopicsBean topicsBean;
+
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
             return this;
         }
+
         @Override
         public void onClick(View v) {
             TopicsDetailActivity.startActivity(mContext, topicsBean);
         }
     }
-
-
-
 
 
 }
