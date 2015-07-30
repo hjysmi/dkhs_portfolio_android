@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui.widget.ViewBean;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class MarkGridViewBean extends ViewBean {
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
+        private View contentView;
         public ImageView mImageView;
         public TextView tvStockName;
         public TextView tvTitleName;
@@ -60,6 +62,7 @@ public class MarkGridViewBean extends ViewBean {
         public ViewHolder(final View itemView) {
             super(itemView);
             this.itemView = itemView;
+            contentView = itemView.findViewById(R.id.item_content_view);
             tvStockName = (TextView) itemView.findViewById(R.id.tv_stock_name);
             tvTitleName = (TextView) itemView.findViewById(R.id.tv_title_name);
             tvCurrentValue = (TextView) itemView.findViewById(R.id.tv_main_value);
@@ -69,7 +72,15 @@ public class MarkGridViewBean extends ViewBean {
         }
 
 
-        public void bindView(final StockQuotesBean markStockBean) {
+        public void bindView(final StockQuotesBean markStockBean, int position) {
+
+            int defPadding = itemView.getResources().getDimensionPixelOffset(R.dimen.widget_margin_small);
+//            if (position == 2) {
+//                contentView.setPadding(0, defPadding, 0, defPadding);
+//            } else {
+//                contentView.setPadding(defPadding, defPadding, defPadding, defPadding);
+//            }
+            contentView.setPadding(defPadding, defPadding, defPadding, defPadding);
 
             tvStockName.setVisibility(View.GONE);
 
@@ -107,7 +118,10 @@ public class MarkGridViewBean extends ViewBean {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
-        ((ViewHolder) itemHolder).bindView(mMarkStockBean);
+        int position = itemHolder.getAdapterPosition();
+        Log.d("MarkGridViewBean", "getAdapterPosition:" + position);
+        //position ==2 no left and right padding
+        ((ViewHolder) itemHolder).bindView(mMarkStockBean, position);
 
 
     }
