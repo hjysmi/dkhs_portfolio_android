@@ -16,6 +16,7 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -227,6 +228,10 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
         @Override
         public void onClick(View v) {
+
+            UIUtils.startAnimationActivity((Activity) mContext,
+                    UserHomePageActivity.getIntent(mContext, topicsBean.user.getUsername(), topicsBean.user.getId() + ""));
+
 
         }
     }
