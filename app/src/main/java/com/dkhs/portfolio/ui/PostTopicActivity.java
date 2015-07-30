@@ -455,6 +455,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             // 相册选择
             try {
                 final Uri uri = data.getData();
+                filePath = uri.toString();
                 ivPhoto.setVisibility(View.VISIBLE);
                 final String file_str = Environment.getExternalStorageDirectory().getPath();
                 String[] proj = {MediaStore.Images.Media.DATA};
@@ -501,6 +502,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 return;
             }
             final Uri finalUri = uri;
+            filePath = uri.toString();
             String[] proj = {MediaStore.Images.Media.DATA};
             Cursor cursor = managedQuery(finalUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
