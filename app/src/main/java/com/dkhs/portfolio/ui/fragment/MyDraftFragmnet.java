@@ -35,6 +35,7 @@ import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
 import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
+import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
@@ -250,15 +251,15 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
         }
 
         class ViewHolder {
-            public TextView tvTitle;
-            public TextView tvContent;
+            public DKHSTextView tvTitle;
+            public DKHSTextView tvContent;
             public TextView tvEditTime;
             public TextView tvLabel;
 
 
             public ViewHolder(View row) {
-                tvTitle = (TextView) row.findViewById(R.id.tv_draft_title);
-                tvContent = (TextView) row.findViewById(R.id.tv_draft_content);
+                tvTitle = (DKHSTextView) row.findViewById(R.id.tv_draft_title);
+                tvContent = (DKHSTextView) row.findViewById(R.id.tv_draft_content);
                 tvEditTime = (TextView) row.findViewById(R.id.tv_edit_time);
                 tvLabel = (TextView) row.findViewById(R.id.tv_label);
                 row.setTag(this);

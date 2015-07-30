@@ -3,6 +3,7 @@
     style="@style/white_grayborder_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:padding="12dp">
 
@@ -10,6 +11,7 @@
         android:id="@+id/tv_draft_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:textColor="@color/black"
         android:textSize="@dimen/text_status_title" />
 
@@ -19,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_draft_title"
         android:layout_marginTop="6dp"
+        android:enabled="false"
         android:textColor="@color/text_content_color"
         android:textSize="@dimen/text_status_content" />
 
