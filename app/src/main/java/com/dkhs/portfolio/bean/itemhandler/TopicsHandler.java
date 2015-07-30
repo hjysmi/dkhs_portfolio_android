@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
@@ -169,7 +171,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         @Override
         public void onClick(View v) {
 
-            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername()));
+            UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername()));
 
         }
     }

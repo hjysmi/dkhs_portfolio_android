@@ -107,28 +107,21 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         setContentView(R.layout.activity_post_topic);
         getSwipeBackLayout().setEnableGesture(false);
         Bundle extras = getIntent().getExtras();
-        initViews();
-        initEmoji();
-        setupViewData();
         if (extras != null) {
             handleExtras(extras);
         }
+        initViews();
+        initEmoji();
+        setupViewData();
+
     }
 
     private void handleExtras(Bundle extras) {
         curType = extras.getInt(TYPE);
+        userName = extras.getString(USER_NAME);
         mDraftBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_DRAFT));
-        if (curType == TYPE_RETWEET) {
-            repliedStatus = extras.getString(REPLIED_STATUS);
-            userName = extras.getString(USER_NAME);
-            setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
-            ibImg.setVisibility(View.GONE);
-            etTitle.setVisibility(View.GONE);
-        } else if (curType == TYPE_POST) {
-            setTitle(R.string.post_topic);
-            ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.VISIBLE);
-        }
+        repliedStatus = extras.getString(REPLIED_STATUS);
+
     }
 
     private void initEmoji() {
@@ -244,6 +237,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
     private void setupViewData() {
+        if (curType == TYPE_RETWEET) {
+
+            setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
+            ibImg.setVisibility(View.GONE);
+            etTitle.setVisibility(View.GONE);
+        } else if (curType == TYPE_POST) {
+            setTitle(R.string.post_topic);
+            ibImg.setVisibility(View.VISIBLE);
+            etTitle.setVisibility(View.VISIBLE);
+        }
         if (null != mDraftBean) {
             etContent.setText(mDraftBean.getContent());
             etTitle.setText(mDraftBean.getTitle());
@@ -720,7 +723,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
         mDraftBean.setTitle(etTitle.getText().toString());
         mDraftBean.setContent(etContent.getText().toString());
-        mDraftBean.setLabel(1);
         new DraftEngine(null).saveDraft(mDraftBean);
 
     }
