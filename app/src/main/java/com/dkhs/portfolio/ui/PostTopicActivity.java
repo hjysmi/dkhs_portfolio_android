@@ -85,9 +85,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     /**
      * @param context
      * @param type    TYPE_POST:发表话题，TYPE_RETWEET:评论话题
+     * @param s
      * @return
      */
-    public static Intent getIntent(Context context, int type) {
+    public static Intent getIntent(Context context, int type, String s) {
         Intent intent = new Intent(context, PostTopicActivity.class);
         intent.putExtra(TYPE, type);
         return intent;

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.utils.FileUtils;
+import com.mingle.bean.PhotoBean;
 import com.mingle.library.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -28,19 +29,20 @@ import java.util.List;
 
 public class PhotoViewListFragment extends Fragment implements View.OnClickListener {
 
+
     private ViewPager mVp;
     private TextView mIndexTV;
     private TextView mSaveTV;
     /**
      * url 地址列表
      */
-    public static String URL_LIST = "url_list";
+    public static String PHOTO_BEAN_LIST = "photoBean_list";
     /**
      * url 的标题.
      */
     public static String INDEX = "index";
 
-    private ArrayList<String> imageUrls;
+    private ArrayList<PhotoBean> mPhotoBeanList;
 
     private Context mContext;
 
@@ -54,24 +56,23 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
         mIndexTV = (TextView) view.findViewById(R.id.indexTV);
         mSaveTV = (TextView) view.findViewById(R.id.saveTV);
         Intent intent = getActivity().getIntent();
-        imageUrls = intent.getStringArrayListExtra(URL_LIST);
-        if (imageUrls != null && imageUrls.size() > 0) {
+        mPhotoBeanList = intent.getParcelableArrayListExtra(PHOTO_BEAN_LIST);
+        if (mPhotoBeanList != null && mPhotoBeanList.size() > 0) {
             initView();
         }
-
         return view;
     }
 
     private void initView() {
         List<Fragment> list = new ArrayList<>();
-        for (int i = 0; i < imageUrls.size(); i++) {
-            list.add(PhotoViewFragment.newInstance(imageUrls.get(i)));
+        for (int i = 0; i < mPhotoBeanList.size(); i++) {
+            list.add(PhotoViewFragment.newInstance(mPhotoBeanList.get(i)));
         }
         ViewpagerAdapter vpAdapter = new ViewpagerAdapter(getChildFragmentManager(), list, null);
         int index = getActivity().getIntent().getIntExtra(INDEX, 0);
         mVp.setAdapter(vpAdapter);
         mVp.setCurrentItem(index);
-        if (imageUrls.size() == 1) {
+        if (mPhotoBeanList.size() == 1) {
             mIndexTV.setVisibility(View.GONE);
         }
         updateStatus(index);
@@ -93,20 +94,34 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
     }
 
     public void updateStatus(int position) {
-        this.mIndexTV.setText(position + 1 + "/" + imageUrls.size());
+        this.mIndexTV.setText(position + 1 + "/" + mPhotoBeanList.size());
+        PhotoBean photoBean=mPhotoBeanList.get(position);
+        if (!FileUtils.isExternalStorageEnable()) {
+            mSaveTV.setVisibility(View.GONE);
+        }else {
+            String filePath = getSaveFileName(photoBean);
+
+            if(new File(filePath).exists()){
+                mSaveTV.setText("已保存");
+                mSaveTV.setEnabled(false);
+            }else{
+                mSaveTV.setText("保存");
+                mSaveTV.setEnabled(true);
+            }
+
+        }
+
+
     }
 
     @Override
     public void onClick(View v) {
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        String url = imageLoader.getDiskCache().get(imageUrls.get(mVp.getCurrentItem())).getAbsolutePath();
-        new SaveBitMapTask().execute(url);
+        new SaveBitMapTask().execute(mPhotoBeanList.get(mVp.getCurrentItem()));
     }
 
-    class SaveBitMapTask extends AsyncTask<String, Void, Boolean> {
+    class SaveBitMapTask extends AsyncTask<PhotoBean, Void, Boolean> {
 
         String TAG = "SaveBitMapTask";
-
 
         @Override
         protected void onPreExecute() {
@@ -115,15 +130,17 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Boolean doInBackground(PhotoBean... params) {
 
+            PhotoBean photoBean=params[0];
+            String url =  ImageLoader.getInstance().getDiskCache().get(photoBean.imgUrl).getAbsolutePath();
 
             boolean result = false;
             if (!FileUtils.isExternalStorageEnable()) {
                 Toast.makeText(getActivity(), R.string.no_sd, Toast.LENGTH_SHORT).show();
 
             } else {
-                result = FileUtils.copyFile(params[0], getSaveFileName(), true);
+                result = FileUtils.copyFile(url, getSaveFileName(photoBean), true);
             }
 
             return result;
@@ -132,7 +149,7 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            mSaveTV.setEnabled(true);
+
             if (aBoolean) {
 
                 if (mListener != null) {
@@ -140,6 +157,8 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
                 } else {
                     Toast.makeText(mContext, "图片已保存(手机 > dkhs)", Toast.LENGTH_SHORT).show();
                 }
+                mSaveTV.setText("已保存");
+
                 Log.e("Tag", "onPostExecute success");
             } else {
                 Log.e("Tag", "onPostExecute failure");
@@ -148,13 +167,12 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
                 } else {
                     Toast.makeText(mContext, "图片保存失败", Toast.LENGTH_SHORT).show();
                 }
+                mSaveTV.setEnabled(true);
             }
             super.onPostExecute(aBoolean);
         }
 
-        public String getSaveFileName() {
-            return FileUtils.getExternalStoragePath() + File.separator + "dkhs" + File.separator + "img_" + new DateTime().toString("yyyyMMddHHssDDSSSS") + ".png";
-        }
+
     }
 
     @Override
@@ -175,11 +193,13 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
     OnSaveImageAction mListener;
 
     public interface OnSaveImageAction {
-        // TODO: Update argument type and name
-        public void onSuccess();
+         void onSuccess();
 
-        public void onFailure();
+         void onFailure();
     }
-
+    public String getSaveFileName(PhotoBean photoBean ){
+        return FileUtils.getExternalStoragePath() + File.separator + "dkhs"
+                + File.separator + "img_" + photoBean.title+ ".png";
+    }
 
 }

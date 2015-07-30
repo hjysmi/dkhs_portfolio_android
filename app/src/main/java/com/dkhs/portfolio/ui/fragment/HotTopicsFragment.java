@@ -77,6 +77,7 @@ public class HotTopicsFragment extends LoadMoreListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
          super.onViewCreated(view, savedInstanceState);
+        mListView.setDivider(null);
         loadData();
     }
 
@@ -103,4 +104,9 @@ public class HotTopicsFragment extends LoadMoreListFragment {
         mAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public String getEmptyText() {
+        return "暂无话题";
+    }
 }

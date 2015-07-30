@@ -38,6 +38,7 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mListView.setDivider(null);
         loadData();
     }
 
@@ -117,4 +118,10 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     public void loadFail() {
         mSwipeLayout.setRefreshing(false);
     }
+    @Override
+    public String getEmptyText() {
+        return "暂无话题";
+    }
+
+
 }

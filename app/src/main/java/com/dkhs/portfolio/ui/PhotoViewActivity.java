@@ -12,6 +12,7 @@ import android.view.View;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
+import com.mingle.bean.PhotoBean;
 import com.mingle.ui.PhotoViewListFragment;
 //import com.mingle.ui.PhotoViewListFragment;
 
@@ -21,14 +22,14 @@ import java.util.List;
 public class PhotoViewActivity extends ModelAcitivity  {
 
 
-    public static void startPhotoViewActivity(Context context,ArrayList<String> urls,View view,int  defaultIndex){
+    public static void startPhotoViewActivity(Context context,ArrayList<PhotoBean> photoBeanList,View view,int  defaultIndex){
         Intent intent=new Intent(context,PhotoViewActivity.class);
-        intent.putExtra(PhotoViewListFragment.INDEX,0);
-        intent.putStringArrayListExtra(PhotoViewListFragment.URL_LIST,urls);
+        intent.putExtra(PhotoViewListFragment.INDEX,defaultIndex);
+        intent.putParcelableArrayListExtra(PhotoViewListFragment.PHOTO_BEAN_LIST, photoBeanList);
         ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeScaleUpAnimation(view, //The View that the new activity is animating from
-                        (int)view.getWidth()/2, (int)view.getHeight()/2, //拉伸开始的坐标
-                        0, 0);//拉伸开始的区域大小，这里用（0，0）表示从无到全屏
+                ActivityOptionsCompat.makeScaleUpAnimation(view,
+                        (int)view.getWidth()/2, (int)view.getHeight()/2,
+                        0, 0);
         ActivityCompat.startActivity((Activity) context, intent, options.toBundle());
     }
 

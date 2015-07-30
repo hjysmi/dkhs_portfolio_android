@@ -65,7 +65,6 @@ public class FileUtils {
 
     public  static boolean copyFile(String srcFileName, String destFileName, boolean reWrite)
     {
-        Log.d(TAG, "copyFile, begin");
         File srcFile = new File(srcFileName);
         File destFile = new File(destFileName);
         if(!srcFile.exists()) {

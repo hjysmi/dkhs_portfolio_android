@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.mingle.bean.PhotoBean;
 import com.mingle.library.R;
 import com.mingle.widget.CircularProgressBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import uk.co.senab.photoviewi.PhotoView;
@@ -24,58 +27,80 @@ import uk.co.senab.photoviewi.PhotoViewAttacher;
 public class PhotoViewFragment extends Fragment {
 
 
-
-    private String url;
-    private CircularProgressBar progressBar;
+    public PhotoBean mPhotoBean;
+    public CircularProgressBar mProgressBar;
+    private ImageView mPreviewImage;
+    private ImageLoader mLoader;
 
     public PhotoViewFragment() {
     }
 
 
-
-    public static PhotoViewFragment newInstance(String param1) {
+    public static PhotoViewFragment newInstance(PhotoBean photoBean) {
         PhotoViewFragment fragment = new PhotoViewFragment();
         Bundle args = new Bundle();
-        args.putString("url", param1);
+        args.putParcelable("photoBean", photoBean);
         fragment.setArguments(args);
         return fragment;
     }
 
 
-    private PhotoView imageView;
+    private PhotoView mPhotoView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        url=getArguments().getString("url");
-        View view =inflater.inflate(R.layout.fragment_photo_view, container, false);
-        imageView = (PhotoView) view.findViewById(R.id.photoIm);
-        progressBar= (CircularProgressBar) view.findViewById(R.id.progressBar);
+        mPhotoBean = getArguments().getParcelable("photoBean");
+         mLoader = ImageLoader.getInstance();
+        View view = inflater.inflate(R.layout.fragment_photo_view, container, false);
+        mPhotoView = (PhotoView) view.findViewById(R.id.photoIm);
+        mPreviewImage= (ImageView) view.findViewById(R.id.previewImage);
+        mProgressBar = (CircularProgressBar) view.findViewById(R.id.progressBar);
 
-        ImageLoader loader = ImageLoader.getInstance();
+        if (mLoader.getDiskCache().get(mPhotoBean.loadingURl).exists()) {
+            mLoader.displayImage(mPhotoBean.loadingURl, mPreviewImage);
+        } else {
+            mPreviewImage.setImageResource(R.drawable.ic_img_thumbnail_large);
+        }
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
-                .build();
+                .showImageOnFail(R.drawable.ic_img_failure)
 
-        imageView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+                .build();
+        mPhotoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
             public void onViewTap(View view, float x, float y) {
                 getActivity().finish();
             }
         });
 
-        loader.displayImage(url, imageView, options, new SimpleImageLoadingListener() {
+        mLoader.displayImage(mPhotoBean.imgUrl, mPhotoView, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                if (imageUri.equals(url)) {
-                    progressBar.setVisibility(View.GONE);
+                if (imageUri.equals(mPhotoBean.imgUrl)) {
+                    mProgressBar.setVisibility(View.GONE);
+                    mPreviewImage.setVisibility(View.GONE);
                 }
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                if (mLoader.getDiskCache().get(mPhotoBean.loadingURl).exists()) {
+                    mLoader.displayImage(mPhotoBean.loadingURl, mPhotoView);
+                    mProgressBar.setVisibility(View.GONE);
+                    mPreviewImage.setVisibility(View.GONE);
+                } else {
+
+                    mPhotoView.setImageResource(R.drawable.ic_img_thumbnail_large);
+                }
+                mProgressBar.setVisibility(View.GONE);
+                mPreviewImage.setVisibility(View.GONE);
+
+                super.onLoadingFailed(imageUri, view, failReason);
             }
         });
         return view;
     }
-
-
-
-
 
 
 }
