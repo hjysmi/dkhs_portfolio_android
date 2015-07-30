@@ -18,6 +18,8 @@ public class DraftBean {
     public static final String COLUM_CONTENTE = "content";
     public static final String COLUM_AUTHORID = "authorId";
     public static final String COLUM_LABEL = "label";  //1是正文，2 是回复
+    public static final String COLUM_REPLY_USERNAME = "reply_username";  //评论用户名
+    public static final String COLUM_REPLY_STATUS_ID = "reply_status_id";  //评论用户名
 
     //保存图片的绝对路径
     @Column(column = COLUM_IMAGEURI)
@@ -34,6 +36,12 @@ public class DraftBean {
     int label;
     @Column(column = COLUM_EDITTIME)
     long edittime;
+
+    @Column(column = COLUM_REPLY_USERNAME)
+    long statusId;
+
+    @Column(column = COLUM_REPLY_STATUS_ID)
+    String replyUserName;
 
     public long getEdittime() {
         return edittime;
