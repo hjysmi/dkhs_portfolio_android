@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,10 +21,9 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -51,6 +49,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 //    public static final int TYPE_OTHERS = 2;
     private int statusType;
 
+    private CommentItemClick mCommentClick;
 
     /**
      * @param context
@@ -72,6 +71,11 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
         initView();
         initData();
+        if (null != GlobalParams.LOGIN_USER) {
+            mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", this);
+        } else {
+            mCommentClick = new CommentItemClick("", this);
+        }
     }
 
 
@@ -155,67 +159,14 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         }
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CommentBean commentBean = results.get(position + 1);
-        if (isCurrentUser) {//当前用户
-            showMineReplyDialog(commentBean);
-        } else { // TA的回复
-            showOtherReplyDialog(commentBean);
-        }
+        mCommentClick.click(commentBean);
+
     }
 
-    private MAlertDialog mDialog;
-
-    private void showOtherReplyDialog(final CommentBean commentBean) {
-        if (null == mDialog) {
-
-            MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
-            String[] choice = getResources().getStringArray(R.array.choices_other_reply);
-            mDialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0://回复评论
-                            //
-                            break;
-                        case 1://查看主贴
-                            break;
-                        case 2://复制
-                            break;
-                        case 3://举报
-                            ReplyActivity.this.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId(), commentBean.getUser().getUsername(), commentBean.getText()));
-                            break;
-                    }
-                    dialog.dismiss();
-                }
-            });
-        }
-        mDialog.show();
-    }
-
-    private void showMineReplyDialog(final CommentBean commentBean) {
-        if (null == mDialog) {
-            MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
-            String[] choice = getResources().getStringArray(R.array.choices_mine_reply);
-            mDialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0://查看主贴
-                            //
-                            break;
-                        case 1://复制内容
-                            break;
-                        case 2://删除回复
-                            break;
-                    }
-                    dialog.dismiss();
-                }
-            });
-        }
-        mDialog.show();
-    }
 
     private class MyReplyAdapter extends BaseAdapter {
 
