@@ -62,7 +62,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         }
         vh.setTextView(R.id.name,data.user.getUsername());
 
-        if(data.user != null  &&TextUtils.isEmpty(data.user.getAvatar_md())) {
+        if(data.user != null  && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         }
         vh.setTextView(R.id.content,data.text);
@@ -76,7 +76,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
 
-        vh.setTextView(R.id.star,mContext.getString(R.string.star)+" "+data.favorites_count);
+        vh.setTextView(R.id.tv_like,mContext.getString(R.string.like)+" "+data.favorites_count);
         vh.setTextView(R.id.comment,mContext.getString(R.string.comment)+" "+data.comments_count);
 
 
@@ -161,13 +161,13 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            ImageView imageView= (ImageView) v.findViewById(R.id.iv_star);
-            if(topicsBean.star){
-                imageView.setImageResource(R.drawable.ic_stared);
+            ImageView imageView= (ImageView) v.findViewById(R.id.iv_like);
+            if(topicsBean.like){
+                imageView.setImageResource(R.drawable.ic_liked);
             }else{
-                imageView.setImageResource(R.drawable.ic_star);
+                imageView.setImageResource(R.drawable.ic_unlike);
             }
-            topicsBean.star=!topicsBean.star;
+            topicsBean.like =!topicsBean.like;
         }
     }
     class  CommendClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {

@@ -12,13 +12,12 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/default_head"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/iv_head"/>
 
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_gravity="center_vertical"
+            style="@style/lv_avatar_style"
+            />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"

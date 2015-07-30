@@ -153,7 +153,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DraftBean draftBean = mDataList.get(position);
-                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), topicsBean.id + "");
+                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(),"");
                 intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
                 startActivity(intent);
                 getActivity().finish();

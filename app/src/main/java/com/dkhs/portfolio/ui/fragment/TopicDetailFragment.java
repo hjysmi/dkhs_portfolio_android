@@ -197,5 +197,24 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
 
 
+    public void like(){
+
+        if(mTopicsBean != null){
+            mTopicsBean.favorites_count+=1;
+            mAdapter.notifyDataSetChanged();
+
+        }
+
+    }
+
+    public  void unLike(){
+        if(mTopicsBean != null){
+            mTopicsBean.favorites_count-=1;
+            mAdapter.notifyDataSetChanged();
+
+
+        }
+    }
+
 
 }

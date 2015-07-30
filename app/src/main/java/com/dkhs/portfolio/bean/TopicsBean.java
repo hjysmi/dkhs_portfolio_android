@@ -15,7 +15,7 @@ import java.util.List;
 public class TopicsBean {
 
 
-    public boolean star;
+    public boolean like;
     /**
      * lon : null
      * text : 测试一下哦

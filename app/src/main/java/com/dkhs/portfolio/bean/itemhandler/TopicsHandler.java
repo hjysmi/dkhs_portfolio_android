@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.portfolio.R;
@@ -14,6 +15,7 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -65,7 +67,9 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
-        ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+        if(data.user != null  && !TextUtils.isEmpty(data.user.getAvatar_md())) {
+            ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+        }
         vh.setTextView(R.id.content,data.text);
         vh.setTextView(R.id.name,data.user.getUsername());
 
@@ -78,9 +82,9 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
         }
         if(data.favorites_count>0){
-            vh.setTextView(R.id.tv_star, StringFromatUtils.handleNumber(data.favorites_count));
+            vh.setTextView(R.id.tv_like, StringFromatUtils.handleNumber(data.favorites_count));
         }else{
-            vh.setTextView(R.id.tv_star,vh.getConvertView().getContext().getString(R.string.star));
+            vh.setTextView(R.id.tv_like,vh.getConvertView().getContext().getString(R.string.like));
         }
 
         if(data.comments_count>0){
@@ -104,7 +108,8 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         }else{
            switch (view.getId()){
                case  R.id.fl_star:
-                   itemHandlerClickListener=new StarClickListenerImp();
+                   itemHandlerClickListener=new LikeClickListenerImp();
+
                    break;
                case  R.id.fl_commend:
                    itemHandlerClickListener=new CommendClickListenerImp();
@@ -126,6 +131,8 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             view.setTag(itemHandlerClickListener);
         }
 
+
+
         itemHandlerClickListener.setDate(data);
 
 
@@ -133,23 +140,55 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
 
 
-    class  StarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
+    class LikeClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> implements SwitchLikeStateHandler.StatusChangeI {
+
+
+
+        private SwitchLikeStateHandler mSwitchLikeStateHandler;
+        private View mView;
+
 
         private TopicsBean topicsBean;
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
+            mSwitchLikeStateHandler =new SwitchLikeStateHandler(topicsBean);
             return this;
         }
+
+
         @Override
         public void onClick(View v) {
-            ImageView imageView= (ImageView) v.findViewById(R.id.iv_star);
-            if(topicsBean.star){
-                imageView.setImageResource(R.drawable.ic_stared);
+            mView=v;
+            ImageView imageView= (ImageView) v.findViewById(R.id.iv_like);
+            mSwitchLikeStateHandler.setStatusChangeI(this);
+            mSwitchLikeStateHandler.attachLikeImage(imageView);
+            mSwitchLikeStateHandler.toggleLikeState();
+        }
+
+        @Override
+        public void likePre() {
+            topicsBean.favorites_count+=1;
+            TextView likeTV= (TextView) mView.findViewById(R.id.tv_like);
+            if(topicsBean.favorites_count>0){
+
+                likeTV.setText(StringFromatUtils.handleNumber(topicsBean.favorites_count));
             }else{
-                imageView.setImageResource(R.drawable.ic_star);
+                likeTV.setText(mView.getContext().getString(R.string.like));
             }
-            topicsBean.star=!topicsBean.star;
+        }
+
+        @Override
+        public void unLikePre() {
+            topicsBean.favorites_count-=1;
+            TextView likeTV= (TextView) mView.findViewById(R.id.tv_like);
+            if(topicsBean.favorites_count>0){
+
+                likeTV.setText(StringFromatUtils.handleNumber(topicsBean.favorites_count));
+            }else{
+                likeTV.setText(mView.getContext().getString(R.string.like));
+            }
+
         }
     }
     class  CommendClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
