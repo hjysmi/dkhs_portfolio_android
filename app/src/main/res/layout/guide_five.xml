@@ -45,7 +45,7 @@
             android:background="@drawable/btn_tiyan_selector"
             android:gravity="center"
             android:text="随便看看"
-            android:textColor="@color/red"
+            android:textColor="@color/tag_red"
             android:textSize="18sp" />
     </LinearLayout>
 

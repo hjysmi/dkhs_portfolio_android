@@ -50,6 +50,7 @@ public class MarkGridViewBean extends ViewBean {
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
+        private View contentView;
         public ImageView mImageView;
         public TextView tvStockName;
         public TextView tvTitleName;
@@ -60,6 +61,7 @@ public class MarkGridViewBean extends ViewBean {
         public ViewHolder(final View itemView) {
             super(itemView);
             this.itemView = itemView;
+            contentView = itemView.findViewById(R.id.item_content_view);
             tvStockName = (TextView) itemView.findViewById(R.id.tv_stock_name);
             tvTitleName = (TextView) itemView.findViewById(R.id.tv_title_name);
             tvCurrentValue = (TextView) itemView.findViewById(R.id.tv_main_value);
@@ -107,6 +109,8 @@ public class MarkGridViewBean extends ViewBean {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
+        int position = itemHolder.getAdapterPosition();
+        //position ==2 no left and right padding
         ((ViewHolder) itemHolder).bindView(mMarkStockBean);
 
 
