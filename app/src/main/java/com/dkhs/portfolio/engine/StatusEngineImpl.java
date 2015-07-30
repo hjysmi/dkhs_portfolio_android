@@ -85,4 +85,22 @@ public class StatusEngineImpl {
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.Status.get_comments, statusId), null, params,
                 listener);
     }
+    /**
+     * @param userId 用户id
+     * @param page
+     * @param page_size
+     * @param listener
+     */
+    public static void getReplys(String userId, int page, int page_size, ParseHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("user_id", userId);
+        params.addQueryStringParameter("status_type", "1");
+        if(page != 0){
+            params.addQueryStringParameter("page", page + "");
+        }
+        if(page_size != 0){
+            params.addQueryStringParameter("page_size", page_size + "");
+        }
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.get_replys,params,listener);
+    }
 }

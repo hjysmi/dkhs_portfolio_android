@@ -87,8 +87,10 @@ public class DKHSEditText extends EmojiconEditText {
                 int eIndex = end.indexOf("$");
                 if (tIndex >= 0 && eIndex >= 0) {
                     try {
-                        String inTempt = tempt.substring(tIndex, tempt.length() - tIndex) + end.substring(0, eIndex + 1);
 //                        Log.i("TextView", inTempt);
+                        Log.i("TextView", tempt.substring(tIndex, tempt.length()));
+                        Log.i("TextView", end.substring(0, eIndex + 1));
+                        String inTempt = tempt.substring(tIndex, tempt.length()) + end.substring(0, eIndex + 1);
                         Matcher matcher = pattern.matcher(inTempt);
                         while (matcher.find()) {
                             String group = matcher.group();
