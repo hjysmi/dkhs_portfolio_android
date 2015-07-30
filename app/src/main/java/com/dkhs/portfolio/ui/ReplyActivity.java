@@ -25,6 +25,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.PhoneInfo;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
@@ -182,6 +183,8 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                         case 1://查看主贴
                             break;
                         case 2://复制
+                            PhoneInfo.copyToClipboard(commentBean.getText(), mContext);
+                            PromptManager.showToast(R.string.msg_copy_content_success);
                             break;
                         case 3://举报
                             ReplyActivity.this.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId(), commentBean.getUser().getUsername(), commentBean.getText()));
@@ -206,6 +209,8 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                             //
                             break;
                         case 1://复制内容
+                            PhoneInfo.copyToClipboard(commentBean.getText(), mContext);
+                            PromptManager.showToast(R.string.msg_copy_content_success);
                             break;
                         case 2://删除回复
                             break;
