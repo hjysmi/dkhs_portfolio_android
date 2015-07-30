@@ -77,6 +77,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public static final String ARGUMENT_DRAFT = "argument_draft";
 
     private static final String TYPE = "type";
+    private static final String TAG = "PostTopicActivity";
     private int curType;
     private DraftBean mDraftBean;
 
@@ -228,6 +229,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         if (null != mDraftBean) {
             etContent.setText(mDraftBean.getContent());
             etTitle.setText(mDraftBean.getTitle());
+            if (null != mDraftBean.getImageUri()) {
+                Log.d(TAG, "mDraftBean.getImageUri():" + mDraftBean.getImageUri());
+//                ImageLoaderUtils.setImage(mDraftBean.getImageUri(), ivPhoto);
+                ivPhoto.setImageURI(Uri.parse(mDraftBean.getImageUri()));
+                ivPhoto.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -296,6 +303,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         imm.hideSoftInputFromWindow(curEt.getWindowToken(), 0);
     }
 
+    private String filePath = "";
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -306,7 +315,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
                 } else {
                     String file_str = Environment.getExternalStorageDirectory().getPath();
-                    StatusEngineImpl.uploadImage(new File(file_str + jpg_path), uploadListener.setLoadingDialog(this, false));
+                    filePath = file_str + jpg_path;
+                    StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
                 }
                 break;
             case BACKBUTTON_ID:
@@ -426,6 +436,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             final Uri uri = data.getData();
             ivPhoto.setVisibility(View.VISIBLE);
             ivPhoto.setImageURI(uri);
+            filePath = uri.toString();
             new Thread(new Runnable() {
                 public void run() {
                     try {
@@ -469,6 +480,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             }
             ivPhoto.setVisibility(View.VISIBLE);
             ivPhoto.setImageURI(uri);
+            filePath = uri.toString();
             final Uri finalUri = uri;
             new Thread(new Runnable() {
                 @Override
@@ -608,6 +620,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             if (null != entity) {
                 // 图片上传完毕继续发表主题
                 PromptManager.showToast("发表主题成功");
+                if (null != mDraftBean) {
+                    new DraftEngine(null).delDraft(mDraftBean);
+                }
+                finish();
             }
         }
 
@@ -628,6 +644,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private void showAlertDialog() {
 
+        if (TextUtils.isEmpty(etTitle.getText()) && TextUtils.isEmpty(etContent.getText()) && TextUtils.isEmpty(jpg_path)) {
+            finish();
+            return;
+        }
         MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.dialog_msg_save_draft)
@@ -660,6 +680,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private void saveDraft() {
         if (null == mDraftBean) {
             mDraftBean = new DraftBean();
+            mDraftBean.setLabel(curType);
+        }
+
+        if (!TextUtils.isEmpty(filePath)) {
+
+//            String file_str = Environment.getExternalStorageDirectory().getPath();
+//            filePath = file_str + jpg_path;
+//
+//            Log.d(TAG, "save imageuri:" + filePath);
+            mDraftBean.setImageUri(filePath);
         }
 
         mDraftBean.setTitle(etTitle.getText().toString());
