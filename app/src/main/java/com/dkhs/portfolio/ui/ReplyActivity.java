@@ -38,9 +38,9 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     private int TYPE_LODAMORE = 1;
     private List<CommentBean> results;
 
-    private static final String STATUS_ID = "status_id";
-    private String statusId;
-    private static final String STATUS_TYPE = "status_type";
+    private static final String USER_ID = "user_id";
+    private String userId;
+    private static final String REPLY_TYPE = "reply_type";
     public static final int TYPE_MINE = 1;
     public static final int TYPE_OTHERS = 2;
     private int statusType;
@@ -48,14 +48,14 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
     /**
      * @param context
-     * @param statusId 帖子id
-     * @param statusType TYPE_MINE, TYPE_OTHERS
+     * @param userId 帖子id
+     * @param replyType TYPE_MINE, TYPE_OTHERS
      * @return
      */
-    public static Intent getIntent(Context context, String statusId, int statusType){
+    public static Intent getIntent(Context context, String userId, int replyType){
         Intent intent = new Intent(context, ReplyActivity.class);
-        intent.putExtra(STATUS_ID, statusId);
-        intent.putExtra(STATUS_TYPE, statusType);
+        intent.putExtra(USER_ID, userId);
+        intent.putExtra(REPLY_TYPE, replyType);
         return intent;
     }
 
@@ -81,7 +81,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             public void onLoadMore() {
                 CUR_TYPE = TYPE_LODAMORE;
                 if(current_page < total_page && current_page != 0 && total_page != 0){
-                    StatusEngineImpl.getComments(statusId, "earliest", current_page + 1, 0, listener);
+                    StatusEngineImpl.getReplys(userId, current_page + 1, 0, listener);
                 }
             }
         });
@@ -96,20 +96,20 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     private void initData(){
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
-            statusType = bundle.getInt(STATUS_TYPE);
+            statusType = bundle.getInt(REPLY_TYPE);
             if(statusType == TYPE_MINE){
                 setTitle(R.string.mine_reply);
             }else if(statusType == TYPE_OTHERS){
                 setTitle(R.string.others_reply);
             }
-            statusId = bundle.getString(STATUS_ID);
-            if(!TextUtils.isEmpty(statusId)){
-                StatusEngineImpl.getComments(statusId, "earliest", current_page,0,listener);
+            userId = bundle.getString(USER_ID);
+            if(!TextUtils.isEmpty(userId)){
+                StatusEngineImpl.getReplys(userId, current_page, 0, listener);
             }
 
         }else{
-            statusId = "1846645";
-            StatusEngineImpl.getComments(statusId, "earliest", current_page,0,listener);
+            userId = "1";
+            StatusEngineImpl.getReplys(userId, current_page, 0, listener);
         }
     }
 
