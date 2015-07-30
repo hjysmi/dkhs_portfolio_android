@@ -444,6 +444,7 @@
     <!-- toast message text -->
     <string name="msg_follow_success">关注成功</string>
     <string name="msg_post_topic_success">发表主题成功</string>
+    <string name="msg_post_reply_success">评论成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
 
     <!-- 提醒设置 -->
@@ -690,6 +691,11 @@
     <!--帖子回复-->
     <string name="mine_reply">我的回复</string>
     <string name="others_reply">TA的回复</string>
+    <string name="reply_content">回复评论</string>
+    <string name="show_original">查看主贴</string>
+    <string name="copy_content">复制</string>
+
+
     <!--帖子回复-->
 
 
@@ -703,7 +709,6 @@
     <!--我的草稿 end-->
 
     <!--举报 start -->
-
     <string name="title_status_report">举报</string>
     <string name="report_rubbish">垃圾营销</string>
     <string name="report_pornographic">淫秽色情</string>
@@ -712,7 +717,7 @@
     <string name="report_plagiarist">抄袭内容</string>
     <string name="report_harass">骚扰我</string>
     <string name="report_fake">虚假中奖</string>
-    <string name="report_user">举报%1$s的回复：</string>
+    <string name="report_user">的回复：</string>
     <string name="report_success">您的举报信息已提交，感谢您的支持</string>
     <string name="no_bbs_topic">暂无主贴</string>
     <string name="my_comment">我的回复</string>

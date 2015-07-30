@@ -288,6 +288,10 @@ public class DKHSUrl {
          * 获取个人回复
          */
         String get_replys = "/api/v1/statuses/user_timeline/";
+        /**
+         * 举报
+         */
+        String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
     }
 
 }
