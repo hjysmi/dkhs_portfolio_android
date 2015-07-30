@@ -26,6 +26,7 @@ import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -75,6 +76,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * 回复
      */
     public static final int TYPE_RETWEET = 2;
+    public static final String REPLIED_STATUS = "replied_status";
+    public static final String USER_NAME = "user_name";
+    private String repliedStatus;
+    private String userName;
     public static final String ARGUMENT_DRAFT = "argument_draft";
 
     private static final String TYPE = "type";
@@ -88,9 +93,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * @param s
      * @return
      */
-    public static Intent getIntent(Context context, int type, String s) {
+    public static Intent getIntent(Context context, int type, String repliedStatus,String userName) {
         Intent intent = new Intent(context, PostTopicActivity.class);
         intent.putExtra(TYPE, type);
+        intent.putExtra(REPLIED_STATUS, repliedStatus);
+        intent.putExtra(USER_NAME, userName);
         return intent;
     }
 
@@ -100,18 +107,28 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         setContentView(R.layout.activity_post_topic);
         getSwipeBackLayout().setEnableGesture(false);
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            handleExtras(extras);
-        }
         initViews();
         initEmoji();
         setupViewData();
+        if (extras != null) {
+            handleExtras(extras);
+        }
     }
 
     private void handleExtras(Bundle extras) {
         curType = extras.getInt(TYPE);
         mDraftBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_DRAFT));
-
+        if(curType == TYPE_RETWEET){
+            repliedStatus = extras.getString(REPLIED_STATUS);
+            userName = extras.getString(USER_NAME);
+            setTitle(String.format(getResources().getString(R.string.blank_reply),userName));
+            ibImg.setVisibility(View.GONE);
+            etTitle.setVisibility(View.GONE);
+        }else if(curType == TYPE_POST){
+            setTitle(R.string.post_topic);
+            ibImg.setVisibility(View.VISIBLE);
+            etTitle.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initEmoji() {
@@ -134,7 +151,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private TextView btnSend;
 
     private void initViews() {
-        setTitle(R.string.post_topic);
         etTitle = (DKHSEditText) findViewById(R.id.et_title);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
@@ -310,14 +326,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-                // TODO 发表帖子
-                if (TextUtils.isEmpty(jpg_path)) {
-                    //直接发表帖子或评论
-                    StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-                } else {
-                    String file_str = Environment.getExternalStorageDirectory().getPath();
-                    filePath = file_str + jpg_path;
-                    StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
+                if(curType == TYPE_RETWEET){
+                    StatusEngineImpl.postStatus(null,etContent.getText().toString(),repliedStatus,null,0,0,null,statusListener.setLoadingDialog(this, false));
+                }else if(curType == TYPE_POST){
+                    if (TextUtils.isEmpty(jpg_path)) {
+                        //直接发表帖子或评论
+                        StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+                    } else {
+                        String file_str = Environment.getExternalStorageDirectory().getPath();
+                        filePath = file_str + jpg_path;
+                        StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
+                    }
                 }
                 break;
             case BACKBUTTON_ID:
@@ -601,14 +620,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             PromptManager.closeProgressDialog();
         }
     };
-    private ParseHttpListener<UploadImageBean> statusListener = new ParseHttpListener<UploadImageBean>() {
+    private ParseHttpListener<TopicsBean> statusListener = new ParseHttpListener<TopicsBean>() {
         @Override
-        protected UploadImageBean parseDateTask(String jsonData) {
+        protected TopicsBean parseDateTask(String jsonData) {
             if (TextUtils.isEmpty(jsonData)) {
                 return null;
             }
             try {
-                UploadImageBean entity = DataParse.parseObjectJson(UploadImageBean.class, jsonData);
+                TopicsBean entity = DataParse.parseObjectJson(TopicsBean.class, jsonData);
                 return entity;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -617,7 +636,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         }
 
         @Override
-        protected void afterParseData(UploadImageBean entity) {
+        protected void afterParseData(TopicsBean entity) {
             PromptManager.closeProgressDialog();
             if (null != entity) {
                 // 图片上传完毕继续发表主题

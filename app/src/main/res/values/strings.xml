@@ -676,6 +676,7 @@
 
     <!--发表帖子-->
     <string name="post_topic">发表帖子</string>
+    <string name="blank_reply">评论%1$s</string>
     <string name="send">发送</string>
     <string name="hint_topic_title">标题(可不填)</string>
     <string name="hint_content">写点观点...</string>
