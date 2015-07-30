@@ -37,8 +37,24 @@ public class DraftBean {
     @Column(column = COLUM_EDITTIME)
     long edittime;
 
+    public String getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(String statusId) {
+        this.statusId = statusId;
+    }
+
+    public String getReplyUserName() {
+        return replyUserName;
+    }
+
+    public void setReplyUserName(String replyUserName) {
+        this.replyUserName = replyUserName;
+    }
+
     @Column(column = COLUM_REPLY_USERNAME)
-    long statusId;
+    String statusId;
 
     @Column(column = COLUM_REPLY_STATUS_ID)
     String replyUserName;
