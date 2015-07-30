@@ -16,7 +16,6 @@
             style="@style/white_grayborder_layout"
             android:layout_marginTop="10dp"
             android:padding="14dp"
-            android:text="举报@王亚伟 的回复："
             android:textSize="17sp" />
 
         <com.dkhs.portfolio.ui.widget.DKHSTextView
@@ -25,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_report_user"
             android:padding="14dp"
-            android:text=" @王亚伟：黑话费理解会维空间"
             android:textSize="17sp" />
 
 
