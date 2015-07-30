@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         }
         vh.setTextView(R.id.name,data.user.getUsername());
 
-        if(data.user != null  &&TextUtils.isEmpty(data.user.getAvatar_md())) {
+        if(data.user != null  && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         }
         vh.setTextView(R.id.content,data.text);
@@ -76,7 +78,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
 
-        vh.setTextView(R.id.star,mContext.getString(R.string.star)+" "+data.favorites_count);
+        vh.setTextView(R.id.tv_like,mContext.getString(R.string.like)+" "+data.favorites_count);
         vh.setTextView(R.id.comment,mContext.getString(R.string.comment)+" "+data.comments_count);
 
 
@@ -101,26 +103,26 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         if(null !=  view.getTag() && view.getTag() instanceof  ItemHandlerClickListenerImp){
             itemHandlerClickListener= (ItemHandlerClickListenerImp<TopicsBean>) view.getTag();
         }else{
-           switch (view.getId()){
-               case  R.id.fl_star:
-                   itemHandlerClickListener=new StarClickListenerImp();
-                   break;
-               case  R.id.fl_commend:
-                   itemHandlerClickListener=new CommendClickListenerImp();
-                   break;
-               case  R.id.iv_avatar:
-                   itemHandlerClickListener=new AvatarClickListenerImp();
-                   break;
-               case  R.id.iv:
-                   itemHandlerClickListener=new ImageViewClickListenerImp();
-                   break;
-               case  R.id.main_ll:
-                   itemHandlerClickListener=new ItemClickListenerImp();
-                   break;
-               default:
-                   itemHandlerClickListener=new ItemHandlerClickListenerImp<TopicsBean>();
-                   break;
-           }
+            switch (view.getId()){
+                case  R.id.fl_star:
+                    itemHandlerClickListener=new StarClickListenerImp();
+                    break;
+                case  R.id.fl_commend:
+                    itemHandlerClickListener=new CommendClickListenerImp();
+                    break;
+                case  R.id.iv_avatar:
+                    itemHandlerClickListener=new AvatarClickListenerImp();
+                    break;
+                case  R.id.iv:
+                    itemHandlerClickListener=new ImageViewClickListenerImp();
+                    break;
+                case  R.id.main_ll:
+                    itemHandlerClickListener=new ItemClickListenerImp();
+                    break;
+                default:
+                    itemHandlerClickListener=new ItemHandlerClickListenerImp<TopicsBean>();
+                    break;
+            }
             view.setOnClickListener(itemHandlerClickListener);
             view.setTag(itemHandlerClickListener);
         }
@@ -161,13 +163,13 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            ImageView imageView= (ImageView) v.findViewById(R.id.iv_star);
-            if(topicsBean.star){
-                imageView.setImageResource(R.drawable.ic_stared);
+            ImageView imageView= (ImageView) v.findViewById(R.id.iv_like);
+            if(topicsBean.like){
+                imageView.setImageResource(R.drawable.ic_like);
             }else{
-                imageView.setImageResource(R.drawable.ic_star);
+                imageView.setImageResource(R.drawable.ic_unlike);
             }
-            topicsBean.star=!topicsBean.star;
+            topicsBean.like =!topicsBean.like;
         }
     }
     class  CommendClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
@@ -184,7 +186,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "");
+            UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername())));
         }
     }
     class  AvatarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {

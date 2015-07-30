@@ -175,6 +175,12 @@ public class MAlertDialog {
         setCustomView(listView);
         topPanel.setVisibility(View.GONE);
         bottomPanel.setVisibility(View.GONE);
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                start(Effectstype.Fadein);
+            }
+        });
         return this;
 
     }

@@ -171,7 +171,9 @@ public class DKHSUrl {
         String getHotTopic = "/api/v1/statuses/public_timeline/";
         String getStickTopic = "/api/v1/statuses/public_timeline/";
         String getCommend = "/api/v1/statuses/{0}/comments/";
-        String getHotTopicDetil = "/api/v1/statuses/{0}/";
+        String getHotTopicDetail = "/api/v1/statuses/{0}/";
+        String star = "/api/v1/statuses/likes/like/";
+        String unstar = "/api/v1/statuses/likes/unlike/";
 
 
     }
@@ -288,6 +290,10 @@ public class DKHSUrl {
          * 获取个人回复
          */
         String get_replys = "/api/v1/statuses/user_timeline/";
+        /**
+         * 举报
+         */
+        String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
     }
 
 }

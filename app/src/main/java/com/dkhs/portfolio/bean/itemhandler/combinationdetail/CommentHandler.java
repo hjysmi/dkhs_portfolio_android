@@ -4,11 +4,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 
 
@@ -22,47 +25,60 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 public class CommentHandler implements ItemHandler<CommentBean> {
     @Override
     public int getLayoutResId() {
-        return  R.layout.item_reply;
+        return R.layout.item_reply;
     }
 
     @Override
-    public void onBindView(ViewHolder vh, CommentBean comment, int position) {
+    public void onBindView(ViewHolder vh, final CommentBean comment, int position) {
 
         UserEntity user = comment.getUser();
-        if(!TextUtils.isEmpty(user.getAvatar_sm())){
-            ImageLoaderUtils.setHeanderImage(comment.getUser().getAvatar_sm(),vh.getImageView(R.id.iv_head));
+        if (!TextUtils.isEmpty(user.getAvatar_sm())) {
+            ImageLoaderUtils.setHeanderImage(comment.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_head));
         }
         vh.getTextView(R.id.tv_username).setText(user.getUsername());
         vh.getTextView(R.id.tv_text).setText(comment.getText());
         vh.get(R.id.iv_praise).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(final View v) {
-                  //TODO 点赞处理
-                  v.setBackgroundResource(R.drawable.praised);
-                  ScaleAnimation animation = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
-                          Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                  animation.setDuration(500);//设置动画持续时间
-                  animation.setRepeatMode(Animation.REVERSE);
-                  animation.setRepeatCount(1);
-                  animation.setFillAfter(false);
-                  v.startAnimation(animation);
-                  animation.setAnimationListener(new Animation.AnimationListener() {
-                      @Override
-                      public void onAnimationStart(Animation animation) {
-                      }
+            @Override
+            public void onClick(final View v) {
+                //TODO 点赞处理
+                v.setBackgroundResource(R.drawable.praised);
+                ScaleAnimation animation = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                animation.setDuration(500);//设置动画持续时间
+                animation.setRepeatMode(Animation.REVERSE);
+                animation.setRepeatCount(1);
+                animation.setFillAfter(false);
+                v.startAnimation(animation);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
 
-                      @Override
-                      public void onAnimationEnd(Animation animation) {
-                          v.setBackgroundResource(R.drawable.praise);
-                      }
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        v.setBackgroundResource(R.drawable.praise);
+                    }
 
-                      @Override
-                      public void onAnimationRepeat(Animation animation) {
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
 
-                      }
-                  });
-              }
-          });
+                    }
+                });
+            }
+        });
+        vh.getConvertView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                PromptManager.showToast("click comtent view");
+                CommentItemClick mCommentClick;
+                if (null != GlobalParams.LOGIN_USER) {
+                    mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
+                } else {
+                    mCommentClick = new CommentItemClick("", v.getContext());
+                }
+                mCommentClick.click(comment);
+            }
+        });
 
     }
 }

@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
@@ -109,7 +111,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
                 break;
             case 1: //我的组合
 
-                mContext.startActivity(new Intent(mContext, MyCombinationActivity.class));
+                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyCombinationActivity.class));
 
 
                 break;
@@ -120,18 +122,18 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
                 UserTopicsActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
                 break;
             case 3://我的回复
-                mContext.startActivity(new Intent(mContext, ReplyActivity.class));
+                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
 
                 break;
             case 4://我的草稿
-                mContext.startActivity(new Intent(mContext, MyDraftActivity.class));
+                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyDraftActivity.class));
 
                 break;
 
 
             case 5://邀请好友
 
-                mContext.startActivity(new Intent(mContext, InviteFriendsActivity.class));
+                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, InviteFriendsActivity.class));
 
 
                 break;
@@ -139,8 +141,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
 
             case 6://流量兑换
 
-                Intent intent = new Intent(mContext, FlowPackageActivity.class);
-                mContext.startActivity(intent);
+                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
                 break;
         }

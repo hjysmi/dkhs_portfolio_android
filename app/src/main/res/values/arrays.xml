@@ -267,6 +267,10 @@
         <item>"最热话题"</item>
         <item>"最新话题"</item>
     </string-array>
+    <string-array name="topics_menu_overflow">
+        <item>"回到首页"</item>
+        <item>"举报"</item>
+    </string-array>
     <string-array name="topics_commend_sort">
         <item>最新评论</item>
         <item>最热评论</item>
@@ -292,5 +296,18 @@
         <item>@drawable/ic_info_invite</item>
         <item>@drawable/ic_info_flowpack</item>
     </integer-array>
+
+
+    <string-array name="choices_other_reply">
+        <item>@string/reply_content</item>
+        <item>@string/show_original</item>
+        <item>@string/copy_content</item>
+        <item>@string/title_status_report</item>
+    </string-array>
+    <string-array name="choices_mine_reply">
+        <item>@string/show_original</item>
+        <item>@string/copy_content</item>
+        <item>@string/delete</item>
+    </string-array>
 
 </resources>

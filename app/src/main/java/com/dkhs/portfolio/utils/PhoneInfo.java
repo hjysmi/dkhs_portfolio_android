@@ -8,19 +8,19 @@
  */
 package com.dkhs.portfolio.utils;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName PhoneInfo
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-11-25 下午3:32:10
- * @version 1.0
  */
 public class PhoneInfo {
     //
@@ -44,5 +44,7 @@ public class PhoneInfo {
     public static boolean hasInstallWechat() {
         return hasInstallApp(PortfolioApplication.getInstance(), WECHAT_PACKNAME);
     }
+
+
 
 }

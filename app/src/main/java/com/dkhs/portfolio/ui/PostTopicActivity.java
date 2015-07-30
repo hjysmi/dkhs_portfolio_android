@@ -89,11 +89,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     /**
      * @param context
-     * @param type    TYPE_POST:发表话题，TYPE_RETWEET:评论话题
-     * @param s
+     * @param type          TYPE_POST:发表话题，TYPE_RETWEET:评论话题
+     * @param repliedStatus
      * @return
      */
-    public static Intent getIntent(Context context, int type, String repliedStatus,String userName) {
+    public static Intent getIntent(Context context, int type, String repliedStatus, String userName) {
         Intent intent = new Intent(context, PostTopicActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(REPLIED_STATUS, repliedStatus);
@@ -107,28 +107,21 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         setContentView(R.layout.activity_post_topic);
         getSwipeBackLayout().setEnableGesture(false);
         Bundle extras = getIntent().getExtras();
-        initViews();
-        initEmoji();
-        setupViewData();
         if (extras != null) {
             handleExtras(extras);
         }
+        initViews();
+        initEmoji();
+        setupViewData();
+
     }
 
     private void handleExtras(Bundle extras) {
         curType = extras.getInt(TYPE);
+        userName = extras.getString(USER_NAME);
         mDraftBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_DRAFT));
-        if(curType == TYPE_RETWEET){
-            repliedStatus = extras.getString(REPLIED_STATUS);
-            userName = extras.getString(USER_NAME);
-            setTitle(String.format(getResources().getString(R.string.blank_reply),userName));
-            ibImg.setVisibility(View.GONE);
-            etTitle.setVisibility(View.GONE);
-        }else if(curType == TYPE_POST){
-            setTitle(R.string.post_topic);
-            ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.VISIBLE);
-        }
+        repliedStatus = extras.getString(REPLIED_STATUS);
+
     }
 
     private void initEmoji() {
@@ -244,12 +237,21 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
     private void setupViewData() {
+        if (curType == TYPE_RETWEET) {
+
+            setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
+            ibImg.setVisibility(View.GONE);
+            etTitle.setVisibility(View.GONE);
+        } else if (curType == TYPE_POST) {
+            setTitle(R.string.post_topic);
+            ibImg.setVisibility(View.VISIBLE);
+            etTitle.setVisibility(View.VISIBLE);
+        }
         if (null != mDraftBean) {
             etContent.setText(mDraftBean.getContent());
             etTitle.setText(mDraftBean.getTitle());
             if (null != mDraftBean.getImageUri()) {
                 ImageLoaderUtils.setImage(mDraftBean.getImageUri(), ivPhoto);
-//                ivPhoto.setImageURI(Uri.parse(mDraftBean.getImageUri()));
                 ivPhoto.setVisibility(View.VISIBLE);
             }
         }
@@ -326,9 +328,9 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-                if(curType == TYPE_RETWEET){
-                    StatusEngineImpl.postStatus(null,etContent.getText().toString(),repliedStatus,null,0,0,null,statusListener.setLoadingDialog(this, false));
-                }else if(curType == TYPE_POST){
+                if (curType == TYPE_RETWEET) {
+                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+                } else if (curType == TYPE_POST) {
                     if (TextUtils.isEmpty(jpg_path)) {
                         //直接发表帖子或评论
                         StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
@@ -642,7 +644,13 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             PromptManager.closeProgressDialog();
             if (null != entity) {
                 // 图片上传完毕继续发表主题
-                PromptManager.showSuccessToast(R.string.msg_post_topic_success);
+                if (curType == TYPE_POST) {
+
+                    PromptManager.showSuccessToast(R.string.msg_post_topic_success);
+                } else {
+                    PromptManager.showSuccessToast(R.string.msg_post_reply_success);
+
+                }
                 if (null != mDraftBean) {
                     new DraftEngine(null).delDraft(mDraftBean);
                 }
@@ -704,15 +712,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         if (null == mDraftBean) {
             mDraftBean = new DraftBean();
             mDraftBean.setLabel(curType);
+            mDraftBean.setReplyUserName(userName);
+            mDraftBean.setStatusId(repliedStatus);
         }
 
         if (!TextUtils.isEmpty(filePath)) {
             mDraftBean.setImageUri(filePath);
         }
 
+
         mDraftBean.setTitle(etTitle.getText().toString());
         mDraftBean.setContent(etContent.getText().toString());
-        mDraftBean.setLabel(1);
         new DraftEngine(null).saveDraft(mDraftBean);
 
     }

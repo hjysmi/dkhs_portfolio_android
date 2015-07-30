@@ -85,22 +85,50 @@ public class StatusEngineImpl {
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.Status.get_comments, statusId), null, params,
                 listener);
     }
+
     /**
-     * @param userId 用户id
+     * @param userId    用户id
      * @param page
      * @param page_size
      * @param listener
      */
-    public static void getReplys(String userId, int page, int page_size, ParseHttpListener listener){
+    public static void getReplys(String userId, int page, int page_size, ParseHttpListener listener) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("user_id", userId);
         params.addQueryStringParameter("status_type", "1");
-        if(page != 0){
+        if (page != 0) {
             params.addQueryStringParameter("page", page + "");
         }
-        if(page_size != 0){
+        if (page_size != 0) {
             params.addQueryStringParameter("page_size", page_size + "");
         }
-        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.get_replys,params,listener);
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.get_replys, params, listener);
+    }
+
+
+    /**
+     * @param status     举报内容
+     * @param abuse_type 举报类型
+     * @param listener
+     */
+    public static void reports(String status, int abuse_type, ParseHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("status", status);
+        params.addBodyParameter("abuse_type", abuse_type + "");
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.abuse_reports, params, listener);
+    }
+
+    public static void starTopic(String status, ParseHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("status", status);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.BBS.star, params, listener);
+    }
+
+    public static void unstarTopic(String status, ParseHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("status", status);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.BBS.unstar, params, listener);
     }
 }
