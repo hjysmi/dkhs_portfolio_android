@@ -88,6 +88,12 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         }else{
             vh.setTextView(R.id.tv_like,vh.getConvertView().getContext().getString(R.string.like));
         }
+        if(data.like){
+            vh.getImageView(R.id.iv_like).setImageResource(R.drawable.ic_like);
+        }else{
+            vh.getImageView(R.id.iv_like).setImageResource(R.drawable.ic_unlike);
+
+        }
 
         if(data.comments_count>0){
             vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
@@ -132,12 +138,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             view.setOnClickListener(itemHandlerClickListener);
             view.setTag(itemHandlerClickListener);
         }
-
-
-
         itemHandlerClickListener.setDate(data);
-
-
     }
 
 

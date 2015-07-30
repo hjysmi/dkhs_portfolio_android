@@ -30,19 +30,18 @@ import java.util.List;
 public class HotTopicsFragment extends LoadMoreListFragment {
 
     private List<TopicsBean> mDataList = new ArrayList<>();
-    private HotTopicEngineImpl mTopicsEngine= null;
+    private HotTopicEngineImpl mTopicsEngine = null;
     private BaseAdapter mAdapter;
 
     public HotTopicsFragment() {
     }
 
 
-
     @Override
     ListAdapter getListAdapter() {
 
-        if(mAdapter == null){
-            mAdapter=  new HotTopicsAdapter(mActivity,mDataList);
+        if (mAdapter == null) {
+            mAdapter = new HotTopicsAdapter(mActivity, mDataList);
         }
         return mAdapter;
     }
@@ -62,25 +61,30 @@ public class HotTopicsFragment extends LoadMoreListFragment {
     }
 
     @Subscribe
-    public void updateList(UpdateTopicsListEvent updateTopicsListEvent){
+    public void updateList(UpdateTopicsListEvent updateTopicsListEvent) {
 
-        TopicsBean topicsBean=updateTopicsListEvent.topicsBean;
+        TopicsBean topicsBean = updateTopicsListEvent.topicsBean;
 
-        for(TopicsBean topicsBean1: mDataList){
-           if( topicsBean.id ==topicsBean1.id){
-               topicsBean1.favorites_count=topicsBean.favorites_count;
-               topicsBean1.like=topicsBean.like;
-               mAdapter.notifyDataSetChanged();
-               break;
-           }
+        for (Object object : mDataList) {
+
+            if (object instanceof TopicsBean) {
+                TopicsBean topicsBean1 = (TopicsBean) object;
+
+                if (topicsBean.id == topicsBean1.id) {
+                    topicsBean1.favorites_count = topicsBean.favorites_count;
+                    topicsBean1.like = topicsBean.like;
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
         }
 
     }
 
     @Override
     LoadMoreDataEngine getLoadEngine() {
-        if(mTopicsEngine ==null){
-            mTopicsEngine=  new HotTopicEngineImpl(this);
+        if (mTopicsEngine == null) {
+            mTopicsEngine = new HotTopicEngineImpl(this);
         }
         return mTopicsEngine;
     }
@@ -108,7 +112,7 @@ public class HotTopicsFragment extends LoadMoreListFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-         super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(view, savedInstanceState);
         mListView.setDivider(null);
         postDelayedeData();
 

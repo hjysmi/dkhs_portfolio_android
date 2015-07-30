@@ -63,16 +63,24 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     public void updateList(UpdateTopicsListEvent updateTopicsListEvent){
 
         TopicsBean topicsBean=updateTopicsListEvent.topicsBean;
-
-        for(TopicsBean topicsBean1: mDataList){
-            if( topicsBean.id ==topicsBean1.id){
-                topicsBean1.favorites_count=topicsBean.favorites_count;
-                topicsBean1.like=topicsBean.like;
-                mAdapter.notifyDataSetChanged();
-                break;
-            }
+        if(topicsBean == null){
+            return;
         }
 
+        for (Object object : mDataList) {
+
+            if (object instanceof TopicsBean) {
+                TopicsBean topicsBean1 = (TopicsBean) object;
+
+                if (topicsBean.id == topicsBean1.id) {
+                    topicsBean1.favorites_count = topicsBean.favorites_count;
+                    topicsBean1.like = topicsBean.like;
+                    // FIXME: 2015/7/30 后期是用recycleView 进行单个Item的更新,不更新全部
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
     }
 
 
