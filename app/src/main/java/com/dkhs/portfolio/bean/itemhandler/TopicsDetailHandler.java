@@ -15,11 +15,13 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
 
@@ -68,7 +70,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         if(data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImage(data.medias.get(0).image_sm,vh.getImageView(R.id.iv));
+            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_sm, vh.getImageView(R.id.iv));
 
         }else{
             vh.get(R.id.iv).setVisibility(View.GONE);
@@ -127,16 +129,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
     }
 
 
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
         TopicsDetailRefreshEvent topicsDetailRefreshEvent=new TopicsDetailRefreshEvent();
-
         switch (position){
             case 0:
-
                 topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.latest;
                 break;
             case 1:
@@ -146,7 +143,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                 topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.earliest;
                 break;
         }
-
         BusProvider.getInstance().post(topicsDetailRefreshEvent);
     }
 
@@ -188,15 +184,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-
+            PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "");
         }
     }
     class  AvatarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
-
-
         private TopicsBean topicsBean;
-
-
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
@@ -218,10 +210,13 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            ArrayList<String> arrayList=new ArrayList<>();
-            arrayList.add(topicsBean.medias.get(0).image_lg);
+            ArrayList<PhotoBean> arrayList=new ArrayList<>();
+            PhotoBean photoBean=new PhotoBean();
+            photoBean.title=topicsBean.id+"";
+            photoBean.loadingURl=topicsBean.medias.get(0).image_sm;
+            photoBean.imgUrl=topicsBean.medias.get(0).image_lg;
+            arrayList.add(photoBean);
             PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v, 0);
-
         }
     }
     class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
@@ -232,13 +227,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             this.topicsBean = o;
             return this;
         }
-
         @Override
         public void onClick(View v) {
             TopicsDetailActivity.startActivity(mContext, topicsBean);
         }
-
-
     }
 
 

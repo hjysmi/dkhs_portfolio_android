@@ -50,6 +50,7 @@ public class UsersTopicsFragment extends  LoadMoreListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mListView.setDivider(null);
         loadData();
     }
 

@@ -50,12 +50,11 @@ public class TopicsDetailActivity extends ModelAcitivity {
     public void initData() {
         mFloatingActionMenu.addItem(MENU_COMMEND, R.string.comment, R.drawable.ic_coment);
         mFloatingActionMenu.addItem(MENU_STAR, R.string.star, R.drawable.ic_star);
-        mFloatingActionMenu.addItem(MENU_SHARE, R.string.comment, R.drawable.ic_coment);
-        mFloatingActionMenu.addItem(MENU_MORE, R.string.comment, R.drawable.ic_coment);
+        mFloatingActionMenu.addItem(MENU_SHARE, R.string.share, R.drawable.ic_coment);
+        mFloatingActionMenu.addItem(MENU_MORE, R.string.more, R.drawable.ic_coment);
         mFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
             @Override
             public boolean onMenuItemSelected(int paramInt) {
-
                 switch (paramInt) {
                     case MENU_COMMEND:
                         break;

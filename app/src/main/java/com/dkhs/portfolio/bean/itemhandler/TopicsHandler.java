@@ -12,10 +12,12 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
 
@@ -29,32 +31,10 @@ import java.util.ArrayList;
 
 public class TopicsHandler implements ItemHandler<TopicsBean> {
 
-
-
-//    @ViewInject(R.id.iv_avatar)
-//    ImageView mIvavatar;
-//    @ViewInject(R.id.name)
-//    TextView mName;
-//    @ViewInject(R.id.tv_time)
-//    TextView mTvtime;
-//    @ViewInject(R.id.titleTV)
-//    TextView mTitleTV;
-//    @ViewInject(R.id.content)
-//    TextView mContent;
-//    @ViewInject(R.id.iv)
-//    ImageView mIv;
-//    @ViewInject(R.id.tv_commend)
-//    TextView mTvcommend;
-//    @ViewInject(R.id.fl_commend)
-//    FrameLayout mFlcommend;
-//    @ViewInject(R.id.tv_star)
-//    TextView mTvstar;
-//    @ViewInject(R.id.fl_layout)
-//    FrameLayout mFllayout;
-
     private Context mContext;
+    private  boolean mCompact;
 
-    private  boolean compact;
+
     public TopicsHandler(Context context) {
         mContext=context;
     }
@@ -62,7 +42,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
     public TopicsHandler(Context context, boolean compact) {
         mContext = context;
-        this.compact = compact;
+        this.mCompact = compact;
     }
 
     @Override
@@ -85,13 +65,13 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
-        ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(),vh.getImageView(R.id.iv_avatar));
+        ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         vh.setTextView(R.id.content,data.text);
         vh.setTextView(R.id.name,data.user.getUsername());
 
         if(data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImage(data.medias.get(0).image_sm,vh.getImageView(R.id.iv));
+            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_sm, vh.getImageView(R.id.iv));
 
         }else{
             vh.get(R.id.iv).setVisibility(View.GONE);
@@ -109,7 +89,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.comment));
         }
 
-        if(compact){
+        if(mCompact){
             vh.get(R.id.bottom).setVisibility(View.GONE);
         }else{
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
@@ -155,16 +135,12 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
     class  StarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
 
-
         private TopicsBean topicsBean;
-
-
         @Override
         public View.OnClickListener setDate(TopicsBean o) {
             this.topicsBean = o;
             return this;
         }
-
         @Override
         public void onClick(View v) {
             ImageView imageView= (ImageView) v.findViewById(R.id.iv_star);
@@ -190,6 +166,8 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
         @Override
         public void onClick(View v) {
+
+            PostTopicActivity.getIntent(mContext,PostTopicActivity.TYPE_RETWEET,topicsBean.id+"");
 
         }
     }
@@ -222,9 +200,15 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         @Override
         public void onClick(View v) {
 
-            ArrayList<String> arrayList=new ArrayList<>();
-            arrayList.add(topicsBean.medias.get(0).image_lg);
-            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v,0);
+            ArrayList<PhotoBean> arrayList=new ArrayList<>();
+
+
+            PhotoBean photoBean=new PhotoBean();
+            photoBean.title=topicsBean.id+"";
+            photoBean.loadingURl=topicsBean.medias.get(0).image_sm;
+            photoBean.imgUrl=topicsBean.medias.get(0).image_lg;
+            arrayList.add(photoBean);
+            PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v, 0);
         }
     }
     class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
