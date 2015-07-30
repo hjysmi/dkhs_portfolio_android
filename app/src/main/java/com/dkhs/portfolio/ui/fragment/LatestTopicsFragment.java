@@ -5,7 +5,9 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
@@ -13,6 +15,9 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
 import com.dkhs.portfolio.ui.adapter.LatestTopicsAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +44,37 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListView.setDivider(null);
-        loadData();
+        postDelayedeData();
     }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        BusProvider.getInstance().register(this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe
+    public void updateList(UpdateTopicsListEvent updateTopicsListEvent){
+
+        TopicsBean topicsBean=updateTopicsListEvent.topicsBean;
+
+        for(TopicsBean topicsBean1: mDataList){
+            if( topicsBean.id ==topicsBean1.id){
+                topicsBean1.favorites_count=topicsBean.favorites_count;
+                topicsBean1.like=topicsBean.like;
+                mAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
+
+    }
+
 
 
     @Override

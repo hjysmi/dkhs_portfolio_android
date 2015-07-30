@@ -163,7 +163,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         public void onClick(View v) {
             ImageView imageView= (ImageView) v.findViewById(R.id.iv_like);
             if(topicsBean.like){
-                imageView.setImageResource(R.drawable.ic_liked);
+                imageView.setImageResource(R.drawable.ic_like);
             }else{
                 imageView.setImageResource(R.drawable.ic_unlike);
             }

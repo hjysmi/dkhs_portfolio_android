@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;

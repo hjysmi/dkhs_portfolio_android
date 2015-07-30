@@ -78,7 +78,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             public boolean onMenuItemSelected(int paramInt) {
                 switch (paramInt) {
                     case MENU_COMMEND:
-                        startActivity(PostTopicActivity.getIntent(mContext,PostTopicActivity.TYPE_RETWEET,mTopicsBean.id+""));
+                        startActivity(PostTopicActivity.getIntent(mContext,PostTopicActivity.TYPE_RETWEET,mTopicsBean.id+"",mTopicsBean.user.getUsername()));
                         break;
                     case MENU_LIKE:
                         mSwitchLikeStateHandler.toggleLikeState();

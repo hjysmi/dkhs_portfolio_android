@@ -47,8 +47,8 @@ public class SwitchLikeStateHandler {
     }
 
     public void toggleLikeState() {
-
-        if (mTopicsBean.like) {
+        mTopicsBean.like =!mTopicsBean.like;
+        if (!mTopicsBean.like) {
             //取消点赞
             if(mLikeIm != null){
                 unLikeImage();
@@ -88,7 +88,7 @@ public class SwitchLikeStateHandler {
             });
 
         }
-        mTopicsBean.like =!mTopicsBean.like;
+
     }
 
     private void unLikeImage() {
@@ -96,7 +96,7 @@ public class SwitchLikeStateHandler {
     }
 
     private void likeImage() {
-        mLikeIm.setImageResource(R.drawable.ic_liked);
+        mLikeIm.setImageResource(R.drawable.ic_like);
     }
 
 
