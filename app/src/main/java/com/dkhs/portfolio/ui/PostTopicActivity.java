@@ -26,6 +26,7 @@ import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -75,6 +76,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * 回复
      */
     public static final int TYPE_RETWEET = 2;
+    public static final String REPLIED_STATUS = "replied_status";
+    public static final String USER_NAME = "user_name";
+    private String repliedStatus;
+    private String userName;
     public static final String ARGUMENT_DRAFT = "argument_draft";
 
     private static final String TYPE = "type";
@@ -84,13 +89,15 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     /**
      * @param context
-     * @param type    TYPE_POST:发表话题，TYPE_RETWEET:评论话题
-     * @param s
+     * @param type          TYPE_POST:发表话题，TYPE_RETWEET:评论话题
+     * @param repliedStatus
      * @return
      */
-    public static Intent getIntent(Context context, int type, String s) {
+    public static Intent getIntent(Context context, int type, String repliedStatus, String userName) {
         Intent intent = new Intent(context, PostTopicActivity.class);
         intent.putExtra(TYPE, type);
+        intent.putExtra(REPLIED_STATUS, repliedStatus);
+        intent.putExtra(USER_NAME, userName);
         return intent;
     }
 
@@ -106,11 +113,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         initViews();
         initEmoji();
         setupViewData();
+
     }
 
     private void handleExtras(Bundle extras) {
         curType = extras.getInt(TYPE);
+        userName = extras.getString(USER_NAME);
         mDraftBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_DRAFT));
+        repliedStatus = extras.getString(REPLIED_STATUS);
 
     }
 
@@ -134,7 +144,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private TextView btnSend;
 
     private void initViews() {
-        setTitle(R.string.post_topic);
         etTitle = (DKHSEditText) findViewById(R.id.et_title);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
@@ -228,12 +237,21 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
     private void setupViewData() {
+        if (curType == TYPE_RETWEET) {
+
+            setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
+            ibImg.setVisibility(View.GONE);
+            etTitle.setVisibility(View.GONE);
+        } else if (curType == TYPE_POST) {
+            setTitle(R.string.post_topic);
+            ibImg.setVisibility(View.VISIBLE);
+            etTitle.setVisibility(View.VISIBLE);
+        }
         if (null != mDraftBean) {
             etContent.setText(mDraftBean.getContent());
             etTitle.setText(mDraftBean.getTitle());
             if (null != mDraftBean.getImageUri()) {
                 ImageLoaderUtils.setImage(mDraftBean.getImageUri(), ivPhoto);
-//                ivPhoto.setImageURI(Uri.parse(mDraftBean.getImageUri()));
                 ivPhoto.setVisibility(View.VISIBLE);
             }
         }
@@ -310,14 +328,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-                // TODO 发表帖子
-                if (TextUtils.isEmpty(jpg_path)) {
-                    //直接发表帖子或评论
-                    StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-                } else {
-                    String file_str = Environment.getExternalStorageDirectory().getPath();
-                    filePath = file_str + jpg_path;
-                    StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
+                if (curType == TYPE_RETWEET) {
+                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+                } else if (curType == TYPE_POST) {
+                    if (TextUtils.isEmpty(jpg_path)) {
+                        //直接发表帖子或评论
+                        StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+                    } else {
+                        String file_str = Environment.getExternalStorageDirectory().getPath();
+                        filePath = file_str + jpg_path;
+                        StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
+                    }
                 }
                 break;
             case BACKBUTTON_ID:
@@ -434,37 +455,40 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0x5 && resultCode == RESULT_OK) {
             // 相册选择
-            final Uri uri = data.getData();
-            ivPhoto.setVisibility(View.VISIBLE);
-            ivPhoto.setImageURI(uri);
-            filePath = uri.toString();
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        String file_str = Environment.getExternalStorageDirectory().getPath();
-                        String[] proj = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = managedQuery(uri, proj, null, null, null);
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        cursor.moveToFirst();
-
-                        String path = cursor.getString(column_index);
-                        Bitmap imageBitmap = UIUtils.getLocaleimage(path);
-                        jpg_path = MY_CAMERA + UPLOAD_JPG;
-                        File f = new File(file_str + jpg_path);
-                        if (f.exists()) {
-                            f.delete();
+            try {
+                final Uri uri = data.getData();
+                filePath = uri.toString();
+                ivPhoto.setVisibility(View.VISIBLE);
+                final String file_str = Environment.getExternalStorageDirectory().getPath();
+                String[] proj = {MediaStore.Images.Media.DATA};
+                Cursor cursor = managedQuery(uri, proj, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                final String path = cursor.getString(column_index);
+                final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
+                ivPhoto.setImageBitmap(imageBitmap);
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            jpg_path = MY_CAMERA + UPLOAD_JPG;
+                            File f = new File(file_str + jpg_path);
+                            if (f.exists()) {
+                                f.delete();
+                            }
+                            FileOutputStream out = new FileOutputStream(f);
+                            Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, path);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                            // setImageView(imageBitmap);
+                            //                setImageView(UIUtils.cropBitmap(imageBitmap));
+                            saveBitmap(f.getAbsolutePath(), bitmap);
+                        } catch (Exception e) {
+                            Log.e("Exception", e.getMessage(), e);
                         }
-                        FileOutputStream out = new FileOutputStream(f);
-                        imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
-                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                        // setImageView(imageBitmap);
-                        //                setImageView(UIUtils.cropBitmap(imageBitmap));
-                        saveBitmap(f.getAbsolutePath(), imageBitmap);
-                    } catch (Exception e) {
-                        Log.e("Exception", e.getMessage(), e);
                     }
-                }
-            }).start();
+                }).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (requestCode == 0x1 && resultCode == RESULT_OK) {
             // 拍照
@@ -479,31 +503,31 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             if (uri == null) {
                 return;
             }
-            ivPhoto.setVisibility(View.VISIBLE);
-            ivPhoto.setImageURI(uri);
-            filePath = uri.toString();
             final Uri finalUri = uri;
+            filePath = uri.toString();
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = managedQuery(finalUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            jpg_path = MY_CAMERA + UPLOAD_JPG;
+            final String path = cursor.getString(column_index);
+            final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
+            ivPhoto.setVisibility(View.VISIBLE);
+            ivPhoto.setImageBitmap(imageBitmap);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        String[] proj = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = managedQuery(finalUri, proj, null, null, null);
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        cursor.moveToFirst();
-                        jpg_path = MY_CAMERA + UPLOAD_JPG;
-                        String path = cursor.getString(column_index);
-                        Bitmap imageBitmap = UIUtils.getLocaleimage(path);
                         File f = new File(file_str + jpg_path);
                         if (f.exists()) {
                             f.delete();
                         }
                         FileOutputStream out = new FileOutputStream(f);
-                        imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
-                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, path);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 //                        setImageView(UIUtils.cropBitmap(imageBitmap));
 //                        ivPhoto.setImageBitmap(imageBitmap);
-                        saveBitmap(f.getAbsolutePath(), imageBitmap);
+                        saveBitmap(f.getAbsolutePath(), bitmap);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -600,14 +624,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             PromptManager.closeProgressDialog();
         }
     };
-    private ParseHttpListener<UploadImageBean> statusListener = new ParseHttpListener<UploadImageBean>() {
+    private ParseHttpListener<TopicsBean> statusListener = new ParseHttpListener<TopicsBean>() {
         @Override
-        protected UploadImageBean parseDateTask(String jsonData) {
+        protected TopicsBean parseDateTask(String jsonData) {
             if (TextUtils.isEmpty(jsonData)) {
                 return null;
             }
             try {
-                UploadImageBean entity = DataParse.parseObjectJson(UploadImageBean.class, jsonData);
+                TopicsBean entity = DataParse.parseObjectJson(TopicsBean.class, jsonData);
                 return entity;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -616,11 +640,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         }
 
         @Override
-        protected void afterParseData(UploadImageBean entity) {
+        protected void afterParseData(TopicsBean entity) {
             PromptManager.closeProgressDialog();
             if (null != entity) {
                 // 图片上传完毕继续发表主题
-                PromptManager.showSuccessToast(R.string.msg_post_topic_success);
+                if (curType == TYPE_POST) {
+
+                    PromptManager.showSuccessToast(R.string.msg_post_topic_success);
+                } else {
+                    PromptManager.showSuccessToast(R.string.msg_post_reply_success);
+
+                }
                 if (null != mDraftBean) {
                     new DraftEngine(null).delDraft(mDraftBean);
                 }
@@ -682,15 +712,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         if (null == mDraftBean) {
             mDraftBean = new DraftBean();
             mDraftBean.setLabel(curType);
+            mDraftBean.setReplyUserName(userName);
+            mDraftBean.setStatusId(repliedStatus);
         }
 
         if (!TextUtils.isEmpty(filePath)) {
             mDraftBean.setImageUri(filePath);
         }
 
+
         mDraftBean.setTitle(etTitle.getText().toString());
         mDraftBean.setContent(etContent.getText().toString());
-        mDraftBean.setLabel(1);
         new DraftEngine(null).saveDraft(mDraftBean);
 
     }

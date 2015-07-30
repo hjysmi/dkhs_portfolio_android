@@ -12,12 +12,12 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
-
         <ImageView
             android:id="@+id/iv_head"
             android:layout_gravity="center_vertical"
             style="@style/lv_avatar_style"
             />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_gravity="center_vertical"

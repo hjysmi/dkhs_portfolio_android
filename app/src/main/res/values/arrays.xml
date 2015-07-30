@@ -297,4 +297,17 @@
         <item>@drawable/ic_info_flowpack</item>
     </integer-array>
 
+
+    <string-array name="choices_other_reply">
+        <item>@string/reply_content</item>
+        <item>@string/show_original</item>
+        <item>@string/copy_content</item>
+        <item>@string/title_status_report</item>
+    </string-array>
+    <string-array name="choices_mine_reply">
+        <item>@string/show_original</item>
+        <item>@string/copy_content</item>
+        <item>@string/delete</item>
+    </string-array>
+
 </resources>

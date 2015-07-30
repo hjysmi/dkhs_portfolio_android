@@ -101,26 +101,26 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         if(null !=  view.getTag() && view.getTag() instanceof  ItemHandlerClickListenerImp){
             itemHandlerClickListener= (ItemHandlerClickListenerImp<TopicsBean>) view.getTag();
         }else{
-           switch (view.getId()){
-               case  R.id.fl_star:
-                   itemHandlerClickListener=new StarClickListenerImp();
-                   break;
-               case  R.id.fl_commend:
-                   itemHandlerClickListener=new CommendClickListenerImp();
-                   break;
-               case  R.id.iv_avatar:
-                   itemHandlerClickListener=new AvatarClickListenerImp();
-                   break;
-               case  R.id.iv:
-                   itemHandlerClickListener=new ImageViewClickListenerImp();
-                   break;
-               case  R.id.main_ll:
-                   itemHandlerClickListener=new ItemClickListenerImp();
-                   break;
-               default:
-                   itemHandlerClickListener=new ItemHandlerClickListenerImp<TopicsBean>();
-                   break;
-           }
+            switch (view.getId()){
+                case  R.id.fl_star:
+                    itemHandlerClickListener=new StarClickListenerImp();
+                    break;
+                case  R.id.fl_commend:
+                    itemHandlerClickListener=new CommendClickListenerImp();
+                    break;
+                case  R.id.iv_avatar:
+                    itemHandlerClickListener=new AvatarClickListenerImp();
+                    break;
+                case  R.id.iv:
+                    itemHandlerClickListener=new ImageViewClickListenerImp();
+                    break;
+                case  R.id.main_ll:
+                    itemHandlerClickListener=new ItemClickListenerImp();
+                    break;
+                default:
+                    itemHandlerClickListener=new ItemHandlerClickListenerImp<TopicsBean>();
+                    break;
+            }
             view.setOnClickListener(itemHandlerClickListener);
             view.setTag(itemHandlerClickListener);
         }
@@ -184,7 +184,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "");
+            UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername())));
         }
     }
     class  AvatarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {

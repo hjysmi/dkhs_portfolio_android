@@ -13,7 +13,7 @@
         android:paddingBottom="@dimen/widget_padding_medium"
         android:paddingLeft="@dimen/widget_padding_medium"
         android:paddingTop="@dimen/widget_padding_medium"
-        android:textSize="@dimen/title_text_size"/>
+        android:textSize="@dimen/text_status_title"/>
 
     <LinearLayout
         android:id="@+id/ll_bottom"
@@ -178,7 +178,7 @@
                 android:paddingBottom="@dimen/widget_padding_medium"
                 android:paddingLeft="@dimen/widget_padding_medium"
                 android:paddingTop="@dimen/widget_padding_medium"
-                android:textSize="20sp"
+                android:textSize="@dimen/text_status_title"
                 android:hint="@string/hint_content"
                 android:imeOptions="actionSend|flagNoEnterAction"
                 android:lineSpacingExtra="3.0dip"/>

@@ -1,16 +1,17 @@
 package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 
+import android.app.Activity;
 import android.view.View;
-import com.dkhs.adpter.handler.ItemHandler;
+
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreBean;
 import com.dkhs.portfolio.ui.CombinationListActivity;
-import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.ReplyActivity;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
-import com.dkhs.portfolio.ui.adapter.CombinationUserAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @author zwm
@@ -28,7 +29,7 @@ public class MoreHandler extends SimpleItemHandler<MoreBean> implements View.OnC
     @Override
     public void onBindView(ViewHolder vh, final MoreBean data, int position) {
         super.onBindView(vh, data, position);
-        vh.setTextView(R.id.leftTv,data.title);
+        vh.setTextView(R.id.leftTv, data.title);
         vh.get(R.id.moreBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,24 +43,27 @@ public class MoreHandler extends SimpleItemHandler<MoreBean> implements View.OnC
 
     @Override
     public void onClick(View v) {
-        MoreBean moreBean= (MoreBean) v.getTag();
+        MoreBean moreBean = (MoreBean) v.getTag();
 
-        if(moreBean.userEntity==null){
+        if (moreBean.userEntity == null) {
             return;
         }
-        switch (moreBean.index){
+        switch (moreBean.index) {
             case 0:
 
                 //他的组合界面
-                CombinationListActivity.startActivity(mContext,moreBean.userEntity.getId()+"");
+                CombinationListActivity.startActivity(mContext, moreBean.userEntity.getId() + "");
                 break;
             case 1:
                 //他的主贴界面
-                UserTopicsActivity.starActivity(mContext,moreBean.userEntity.getId()+"",moreBean.userEntity.getUsername());
+                UserTopicsActivity.starActivity(mContext, moreBean.userEntity.getId() + "", moreBean.userEntity.getUsername());
 
                 break;
             case 2:
                 //他的回复
+
+                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, moreBean.userEntity.getId() + ""));
+
 
                 break;
         }
