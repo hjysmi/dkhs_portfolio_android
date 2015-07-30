@@ -31,53 +31,53 @@ public class StatusEngineImpl {
      * lat (float, optional, 发帖的经度坐标),
      * replied_status (field, optional, 当前话题要回复的话题)
      */
-    public static void postStatus(String title, String text, String replied_status, String retweeted_status, double lat, double lon, String media_ids, ParseHttpListener listener) {
+    public static void postStatus(String title, String text,String replied_status, String retweeted_status,double lat, double lon, String media_ids, ParseHttpListener listener) {
         RequestParams params = new RequestParams();
-        if (!TextUtils.isEmpty(title)) {
-            params.addBodyParameter("title", title);
+        if(!TextUtils.isEmpty(title)){
+            params.addBodyParameter("title",title);
         }
-        if (!TextUtils.isEmpty(text)) {
-            params.addBodyParameter("text", text);
+        if(!TextUtils.isEmpty(text)){
+            params.addBodyParameter("text",text);
         }
-        if (!TextUtils.isEmpty(replied_status)) {
-            params.addBodyParameter("replied_status", replied_status);
+        if(!TextUtils.isEmpty(replied_status)){
+            params.addBodyParameter("replied_status",replied_status);
         }
-        if (!TextUtils.isEmpty(retweeted_status)) {
-            params.addBodyParameter("retweeted_status", retweeted_status);
+        if(!TextUtils.isEmpty(retweeted_status)){
+            params.addBodyParameter("retweeted_status",retweeted_status);
         }
-        if (lat != 0) {
+        if(lat != 0){
             params.addBodyParameter("lat", String.valueOf(lat));
         }
-        if (lon != 0) {
+        if(lon != 0){
             params.addBodyParameter("lon", String.valueOf(lon));
         }
-        if (!TextUtils.isEmpty(media_ids)) {
-            params.addBodyParameter("media_ids", media_ids);
+        if(!TextUtils.isEmpty(media_ids)){
+            params.addBodyParameter("media_ids",media_ids);
         }
-        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses, params, listener);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses,params,listener);
     }
 
 
     public static void uploadImage(File image, ParseHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("image", image);
-        DKHSClient.requestLong(HttpRequest.HttpMethod.POST, DKHSUrl.Status.uploadImage, params, listener);
+        params.addBodyParameter("image",image);
+        DKHSClient.requestLong(HttpRequest.HttpMethod.POST, DKHSUrl.Status.uploadImage,params,listener);
     }
 
     /**
-     * @param statusId  话题id
-     * @param sort      排序
+     * @param statusId 话题id
+     * @param sort 排序
      * @param page
      * @param page_size
      * @param listener
      */
-    public static void getComments(String statusId, String sort, int page, int page_size, ParseHttpListener listener) {
+    public static void getComments(String statusId, String sort,int page, int page_size,ParseHttpListener listener){
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        if (page != 0) {
+        if(page != 0){
             NameValuePair valuePair = new BasicNameValuePair("page_size", "" + page_size);
             params.add(valuePair);
         }
-        if (page_size != 0) {
+        if(page_size != 0){
             NameValuePair valuePair2 = new BasicNameValuePair("page", "" + page);
             params.add(valuePair2);
         }
@@ -116,5 +116,19 @@ public class StatusEngineImpl {
         params.addBodyParameter("status", status);
         params.addBodyParameter("abuse_type", abuse_type + "");
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.abuse_reports, params, listener);
+    }
+
+    public static void starTopic(String status, ParseHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("status", status);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.BBS.star, params, listener);
+    }
+
+    public static void unstarTopic(String status, ParseHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("status", status);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.BBS.unstar, params, listener);
     }
 }

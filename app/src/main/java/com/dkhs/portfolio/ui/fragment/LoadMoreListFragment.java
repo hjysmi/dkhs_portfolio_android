@@ -125,6 +125,17 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
 
     }
 
+    public void postDelayedeData(){
+        mListView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                loadData();
+
+            }
+        },500);
+    }
+
     /**
      * @param object
      * @return

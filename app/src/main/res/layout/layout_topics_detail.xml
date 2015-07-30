@@ -30,11 +30,8 @@
 
                 <ImageView
                     android:id="@+id/iv_avatar"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="8dp"
-                    android:padding="2sp"
-                    android:src="@drawable/ic_user_head"/>
+                    style="@style/lv_avatar_style"
+                    />
 
                 <TextView
                     android:id="@+id/name"
@@ -119,8 +116,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:textColor="@color/theme_color"
-            android:id="@+id/star"
-            android:text="@string/star"/>
+            android:id="@+id/tv_like"
+            android:text="@string/like"/>
 
         <View
             android:layout_width="0dp"

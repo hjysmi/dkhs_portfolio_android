@@ -20,13 +20,11 @@
             android:paddingRight="16dp"
             android:paddingTop="16dp">
 
+
             <ImageView
                 android:id="@+id/iv_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="8dp"
-                android:padding="2sp"
-                android:src="@drawable/ic_user_head"/>
+                style="@style/lv_avatar_style"
+                />
 
             <TextView
                 android:id="@+id/name"
@@ -108,7 +106,7 @@
                     android:gravity="center"
                     android:text="@string/comment"
                     android:textColor="@color/tag_gray"
-                    android:textSize="12sp"/>
+                    android:textSize="14sp"/>
             </FrameLayout>
 
             <View
@@ -133,18 +131,18 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/iv_star"
-                        android:src="@drawable/ic_star"/>
+                        android:id="@+id/iv_like"
+                        android:src="@drawable/ic_unlike"/>
 
                     <TextView
-                        android:id="@+id/tv_star"
+                        android:id="@+id/tv_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="@string/star"
+                        android:text="@string/like"
                         android:textColor="@color/tag_gray"
-                        android:textSize="12sp"/>
+                        android:textSize="14sp"/>
 
 
                 </LinearLayout>
