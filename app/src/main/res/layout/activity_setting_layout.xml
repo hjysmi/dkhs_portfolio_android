@@ -389,7 +389,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/white_black_selector"
+                    android:background="@drawable/btn_red_selector"
                     android:text="@string/setting_string_exit"
                     android:textColor="@color/white"
                     android:textSize="@dimen/setting_text_name" />
@@ -400,7 +400,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dip"
-                android:background="@drawable/white_black_selector"
+                android:background="@drawable/btn_red_selector"
                 android:text="设置密码"
                 android:textColor="@color/white"
                 android:visibility="gone" />
