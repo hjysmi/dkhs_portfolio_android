@@ -63,7 +63,7 @@ public abstract class LoadMoreNoRefreshListFragment extends Fragment implements 
     // add by zcm -----2014.12.15
 
     public void setEmptyText(String text) {
-        mListView.setVisibility(View.GONE);
+        mListView.setVisibility(View.INVISIBLE);
         tvEmptyText.setText(text);
         tvEmptyText.setVisibility(View.VISIBLE);
     }
@@ -134,10 +134,18 @@ public abstract class LoadMoreNoRefreshListFragment extends Fragment implements 
                     mListView.setOnLoadListener(LoadMoreNoRefreshListFragment.this);
             }
             // loadFinishUpdateView();
+            if (object.getCurrentPage()==1&& object.getResults().size()==0){
+                setEmptyText(getEmptyText());
+            }
+            // loadFinishUpdateView();
+
         }
 
     }
 
+    public String getEmptyText(){
+        return "暂无数据";
+    }
     public void setListItemClick(OnItemClickListener listener) {
         if (null != listener && null != mListView) {
             mListView.setOnItemClickListener(listener);

@@ -12,31 +12,39 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dkhs.adpter.adapter.AutoRVAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.CombinationsBean;
+import com.dkhs.portfolio.bean.CommendBean;
+import com.dkhs.portfolio.bean.LoadingBean;
+import com.dkhs.portfolio.bean.MoreBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.MoreFootBean;
+import com.dkhs.portfolio.bean.NoDataBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.engine.UserTopicsEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.adapter.CombinationUserAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.BitmapUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,39 +55,29 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-11-6 下午4:40:09
  */
-public class CombinationUserActivity extends ModelAcitivity implements View.OnClickListener,LoadMoreDataEngine.ILoadDataBackListener {
+public class UserHomePageActivity extends ModelAcitivity  {
 
     private final int MENU_FOLLOW_OR_UNFOLLOWE = 0;
     private String mUserId;
     public String mUserName;
     private boolean isMyInfo;
-
-    private ImageView ivHeader;
-    private TextView tvUName;
-
-    private TextView tvUserDesc;
-    private TextView tvFollowers;
-    private TextView tvFollowing;
-    private TextView tvSymbols;
-    private Context context;
+    private UserEntity mUserEntity;
+    public List<CombinationBean> mCombinationBeans;
+    public List<TopicsBean> mTopicsBeans;
+    private List<CommendBean> mCommendBeans;
 
 
-    private UserEntity userEntity;
+    private RecyclerView mRV;
 
-    private View llTool;
 
-    private View bgV;
-    private View combinationTitleLL;
-    private LinearLayout combinationLL;
-
+    private AutoRVAdapter mAutoRVAdapter;
+    private List mData=new ArrayList();
 
     public FloatingActionMenu localFloatingActionMenu;
-
     private UserEngineImpl userEngine;
 
-
     public static Intent getIntent(Context context, String username, String userId) {
-        Intent intent = new Intent(context, CombinationUserActivity.class);
+        Intent intent = new Intent(context, UserHomePageActivity.class);
         intent.putExtra("user_id", userId);
         intent.putExtra("username", username);
         return intent;
@@ -89,23 +87,18 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         mUserName = extras.getString("username");
     }
 
-
-
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         hadFragment();
         setContentView(R.layout.activity_user_combination);
-        context = this;
+        mRV= (RecyclerView) findViewById(R.id.rv);
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
         userEngine = new UserEngineImpl();
         if (extras != null) {
             handleExtras(extras);
-
-            if (null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(mUserId)) {
-                isMyInfo = true;
-            }
+                isMyInfo = UserEntity.currentUser(mUserId);
             if (isMyInfo) {
                 TextView rightBtn = getRightButton();
                 rightBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_edit_selector), null,
@@ -118,32 +111,17 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 });
             }
         }
-
+        mRV.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        mAutoRVAdapter=new CombinationUserAdapter(mContext,mData);
+        mRV.setAdapter(mAutoRVAdapter);
         initViews();
         initData();
-
     }
 
     private void startSettingActivity() {
-//        startActivity(new Intent(this, PostTopicActivity.class));
-        startActivity(new Intent(this, ReplyActivity.class));
-        //        startActivity(SettingActivity.getEditUserInfoIntent(this));
+                startActivity(SettingActivity.getEditUserInfoIntent(this));
     }
-
-
-
     private void initViews() {
-        ivHeader = (ImageView) findViewById(R.id.iv_uheader);
-        tvUName = (TextView) findViewById(R.id.tv_user_name);
-        tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
-        tvFollowers = (TextView) findViewById(R.id.tv_followers);
-        combinationLL = (LinearLayout) findViewById(R.id.combinationLL);
-
-        tvFollowing = (TextView) findViewById(R.id.tv_following);
-        tvSymbols = (TextView) findViewById(R.id.tv_symbols);
-        llTool = findViewById(R.id.ll_tool);
-        bgV = findViewById(R.id.v_bg);
-        combinationTitleLL = findViewById(R.id.ll_combination_title);
         localFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
         if (isMyInfo) {
             setTitle("我的主页");
@@ -152,30 +130,22 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         } else {
             setTitle("Ta的主页");
             localFloatingActionMenu.setVisibility(View.VISIBLE);
-
         }
-
-        findViewById(R.id.ll_followers).setOnClickListener(this);
-        findViewById(R.id.ll_following).setOnClickListener(this);
-        findViewById(R.id.ll_symbols).setOnClickListener(this);
         localFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
             @Override
             public boolean onMenuItemSelected(int paramInt) {
 
                 switch (paramInt) {
                     case MENU_FOLLOW_OR_UNFOLLOWE:
-
-                        if (null == userEntity) {
+                        if (null == mUserEntity) {
                             return false;
                         }
-                        if (userEntity.isMe_follow()) {
+                        if (mUserEntity.isMe_follow()) {
                             unFollowAction();
                         } else {
                             followAction();
                         }
                         break;
-
-
                 }
                 return false;
             }
@@ -183,26 +153,114 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
 //        replaceCombinationListView();
 
-        new UserCombinationEngineImpl(this, mUserId).loadData();
+          new UserCombinationEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener(){
+
+              @Override
+              public void loadFinish(MoreDataBean object) {
+                  mCombinationBeans=object.getResults();
+              }
+
+              @Override
+              public void loadFail() {
+
+              }
+          }, mUserId).loadData();
+
+
+
+    }
+
+    public void getTopcisList(UserEntity userEntity){
+        new UserTopicsEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener() {
+            @Override
+            public void loadFinish(MoreDataBean object) {
+                mTopicsBeans =object.getResults();
+                updateUI();
+            }
+            @Override
+            public void loadFail() {
+
+            }
+        },userEntity.getUsername()+"",userEntity.getId()+"","2").loadData();
+    }
+
+    private void updateUI() {
+
+        mData.clear();
+        mData.add(mUserEntity);
+        MoreBean moreBean=new MoreBean();
+        if(isMyInfo){
+            moreBean.title = "我的組合";
+        }else {
+            moreBean.title = "TA的組合";
+        }
+        moreBean.index=0;
+        moreBean.userEntity=mUserEntity;
+
+        mData.add(moreBean);
+        if(mCombinationBeans != null){
+
+            if(mCombinationBeans.size()>0) {
+                CombinationsBean combinationsBean=new CombinationsBean();
+                combinationsBean.userId=mUserEntity.getId()+"";
+                combinationsBean.userName=mUserEntity.getUsername()+"";
+                combinationsBean.combinationBeanList=mCombinationBeans;
+
+                mData.add(combinationsBean);
+            }else{
+                NoDataBean noDataBean=new NoDataBean();
+                noDataBean.noData="暫無組合";
+
+                mData.add(noDataBean);
+
+            }
+
+        }else{
+            mData.add(new LoadingBean());
+        }
+        MoreBean moreBean2=new MoreBean();
+        if(isMyInfo) {
+            moreBean2.title = "我的主貼";
+        }else {
+            moreBean2.title = "TA的主貼";
+        }
+        moreBean2.index=1;
+        moreBean2.userEntity=mUserEntity;
+        mData.add(moreBean2);
+
+        if(mTopicsBeans!= null){
+            if(mTopicsBeans.size()>0) {
+
+                mData.addAll(mTopicsBeans);
+                MoreFootBean moreFootBean=new MoreFootBean();
+                mData.add(moreFootBean);
+            }else{
+                NoDataBean noDataBean=new NoDataBean();
+                noDataBean.noData="暫無主貼";
+                mData.add(noDataBean);
+
+            }
+        }
+        mAutoRVAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         if (isMyInfo) {
-            userInfoListener.setLoadingDialog(context);
+            userInfoListener.setLoadingDialog(mContext);
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
-
     }
+
+
 
 
 
     private void initData() {
 
         if (!isMyInfo) {
-            userInfoListener.setLoadingDialog(context);
+            userInfoListener.setLoadingDialog(mContext);
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
     }
@@ -217,12 +275,14 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
-                updateUserView(object);
+//                updateUserView(object);
+
+                mUserEntity =object;
+
+                getTopcisList(mUserEntity);
             }
         }
     };
-
-
     ParseHttpListener unfollowListener = new ParseHttpListener<UserEntity>() {
 
         @Override
@@ -257,43 +317,20 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         @Override
         protected void afterParseData(UserEntity object) {
             if (null != object) {
-
                 //todo api 返回无me_follow 字段,所以这边手动设置为true
                 object.setMe_follow(true);
                 updateUserFolllowInfo(object);
                 PromptManager.showFollowToast();
-
             }
 
         }
     };
 
 
-    protected void updateUserView(UserEntity object) {
-
-        BitmapUtils bitmapUtils = new BitmapUtils(this);
-        bitmapUtils.configDefaultLoadingImage(R.drawable.ic_user_head);
-        bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
-        if (null != object.getAvatar_md() && object.getAvatar_md().length() > 35) {
-            bitmapUtils.display(ivHeader, object.getAvatar_md());
-        }
-        tvUName.setText(object.getUsername());
-        mUserName=object.getUsername();
-        if (TextUtils.isEmpty(object.getDescription())) {
-            tvUserDesc.setText(getResources().getString(R.string.nodata_user_description));
-        } else {
-
-            tvUserDesc.setText(object.getDescription());
-        }
-
-        updateUserFolllowInfo(object);
-
-
-    }
 
     private void updateUserFolllowInfo(UserEntity object) {
 
-        userEntity = object;
+        mUserEntity = object;
         localFloatingActionMenu.removeAllItems();
         if (object.isMe_follow()) {
 
@@ -303,130 +340,36 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             localFloatingActionMenu.addItem(0, R.string.following, R.drawable.ic_add);
 
         }
-
-        handleNumber(tvFollowers, object.getFollowed_by_count());
-        handleNumber(tvFollowing, object.getFriends_count());
-        handleNumber(tvSymbols, object.getSymbols_count() + object.getPortfolios_following_count());
     }
-
-    private void handleNumber(TextView tv, int count) {
-        tv.setText(StringFromatUtils.handleNumber(count));
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.ll_followers:
-
-                if (null == userEntity) {
-                    return;
-                }
-                Intent intent1 = new Intent(this, FriendsOrFollowersActivity.class);
-                intent1.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FOLLOWER);
-                intent1.putExtra(FriendsOrFollowersActivity.USER_ID, userEntity.getId() + "");
-                startActivity(intent1);
-                break;
-            case R.id.ll_following:
-
-                if (null == userEntity) {
-                    return;
-                }
-                Intent intent = new Intent(this, FriendsOrFollowersActivity.class);
-                intent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
-                intent.putExtra(FriendsOrFollowersActivity.USER_ID, userEntity.getId() + "");
-                startActivity(intent);
-                break;
-
-
-            case R.id.ll_symbols: {
-                startActivity(OptionalTabActivity.newIntent(this, mUserId));
-            }
-            break;
-            default:
-                break;
-        }
-    }
-
-
     private void unFollowAction() {
-
         PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(getResources().getString(R.string.unfollow_alert_content))
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        unfollowListener.setLoadingDialog(context);
-                        new UserEngineImpl().unfollow(userEntity.getId() + "", unfollowListener);
+                        unfollowListener.setLoadingDialog(mContext);
+                        new UserEngineImpl().unfollow(mUserEntity.getId() + "", unfollowListener);
                         dialog.dismiss();
                     }
                 }).setNegativeButton(R.string.cancel, null).create().show();
-
-
     }
-
     private void followAction() {
-
         if (!UIUtils.iStartLoginActivity(this)) {
-            followListener.setLoadingDialog(context);
-            new UserEngineImpl().follow(userEntity.getId() + "", followListener);
+            followListener.setLoadingDialog(mContext);
+            new UserEngineImpl().follow(mUserEntity.getId() + "", followListener);
         }
     }
-
-
-
-
-
 
     @Override
     public void finish() {
-
-
-        if (null != userEntity && !userEntity.isMe_follow() && UserEngineImpl.getUserEntity() != null && userEntity.getId() != UserEngineImpl.getUserEntity().getId()) {
+        if (null != mUserEntity && !mUserEntity.isMe_follow() && UserEngineImpl.getUserEntity() != null && mUserEntity.getId() != UserEngineImpl.getUserEntity().getId()) {
             UnFollowEvent unFollowEvent = new UnFollowEvent();
-            unFollowEvent.setId(userEntity.getId());
+            unFollowEvent.setId(mUserEntity.getId());
             BusProvider.getInstance().post(unFollowEvent);
         }
-
         super.finish();
-
     }
 
 
 
-    @Override
-    public void loadFinish(MoreDataBean object) {
 
-        List<CombinationBean>  list=object.getResults();
-        combinationLL.removeAllViews();
-
-        if(list.size()==0){
-
-            combinationLL.addView(getEmpty("暂无组合"));
-        }else {
-
-        }
-
-    }
-
-    public View getEmpty(String emptyStr){
-        View view= getLayoutInflater().inflate(R.layout.layout_empty,null);
-        TextView textView= (TextView) view.findViewById(R.id.tv_empty);
-        textView.setText(emptyStr);
-        return view;
-    }
-//    public View getCombinationView( List<CombinationBean>  list){
-//
-//        if(list.size() > 0){
-//
-//        }
-//
-//    }
-
-    @Override
-    public void loadFail() {
-
-
-
-
-    }
 }

@@ -11,15 +11,11 @@ import android.widget.ListAdapter;
 import com.dkhs.adpter.adapter.AutoAdapter;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
-import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.TopicsEngineImpl;
-import com.dkhs.portfolio.ui.FloatingActionMenu;
-import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
-
-import org.parceler.Parcels;
+import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
+import com.dkhs.portfolio.engine.UserTopicsEngineImpl;
+import com.dkhs.portfolio.ui.UserTopicsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,14 +28,25 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/27.
  */
-public class UsersTopicsFrament extends  LoadMoreListFragment {
+public class UsersTopicsFragment extends  LoadMoreListFragment {
 
     private List<Object> mDataList = new ArrayList<>();
-    private TopicsEngineImpl mTopicsEngine= null;
+    private UserTopicsEngineImpl mTopicsEngine= null;
     private BaseAdapter mAdapter;
 
 
 
+
+
+    public static UsersTopicsFragment  newIntent(String userId,String userName){
+        UsersTopicsFragment usersTopicsFragment=new UsersTopicsFragment();
+
+        Bundle bundle=new Bundle();
+        bundle.putString(UserTopicsActivity.USER_NAME,userId);
+        bundle.putString(UserTopicsActivity.USER_ID,userName);
+        usersTopicsFragment.setArguments(bundle);
+        return usersTopicsFragment;
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -69,7 +76,7 @@ public class UsersTopicsFrament extends  LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if(mTopicsEngine ==null){
-            mTopicsEngine=  new TopicsEngineImpl(this);
+            mTopicsEngine=  new UserTopicsEngineImpl(this,getArguments().getString(UserTopicsActivity.USER_NAME),getArguments().getString(UserTopicsActivity.USER_ID),"2");
         }
         return mTopicsEngine;
     }
@@ -115,9 +122,16 @@ public class UsersTopicsFrament extends  LoadMoreListFragment {
         mSwipeLayout.setRefreshing(false);
         if (mTopicsEngine.getCurrentpage() == 1) {
             mDataList.clear();
-            mDataList.add(mAdapter);
+
         }
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
+
+    }
+
+
+    @Override
+    public String getEmptyText() {
+        return "没有主贴";
     }
 }

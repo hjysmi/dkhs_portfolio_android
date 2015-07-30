@@ -1,10 +1,8 @@
 package com.dkhs.adpter.adapter;
 
 import android.content.Context;
-
 import java.util.HashMap;
 import java.util.List;
-
 import com.dkhs.adpter.handler.ItemHandler;
 
 

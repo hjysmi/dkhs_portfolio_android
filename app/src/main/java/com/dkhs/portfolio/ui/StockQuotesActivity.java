@@ -853,7 +853,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
                     SelectStockBean selectBean = Parcels.unwrap(data
-                            .getParcelableExtra(FragmentSelectStockFund.ARGUMENT));
+                            .getParcelableExtra(FragmentSelectStockFund.ARGUMENT_SELECT));
                     if (null != selectBean) {
                         mStockBean = selectBean;
                         setTitleDate();

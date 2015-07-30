@@ -268,6 +268,7 @@
 
     <style name="gray_title_text">
         <item name="android:textSize">@dimen/title_tab_text_size</item>
+        <item name="android:textColor">@color/tag_gray</item>
     </style>
 
     <style name="bottom_tab_text">
@@ -455,7 +456,7 @@
         <item name="android:paddingRight">16dp</item>
         <item name="android:background">@null</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/tag_red</item>
+        <item name="android:textColor">@color/theme_color</item>
         <item name="android:layout_gravity">center</item>
     </style>
 

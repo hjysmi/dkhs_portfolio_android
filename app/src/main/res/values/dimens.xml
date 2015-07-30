@@ -80,7 +80,7 @@
     <dimen name="dialog_padding">5dp</dimen>
     <dimen name="btn_margin">4dp</dimen>
     <dimen name="btn_radius">3dp</dimen>
-    <dimen name="header_height">280dp</dimen>
+    <dimen name="header_height">250dp</dimen>
     <dimen name="combination_item_height">50dp</dimen>
     <dimen name="foot_height">100dp</dimen>
     <dimen name="header_can_scroll_distance">146dp</dimen>
@@ -110,10 +110,12 @@
     <dimen name="widget_margin_xxlarge">40dp</dimen>
 
     <dimen name="actionsheet_seperated_height">5dp</dimen>
-    <dimen name="item_reply_textsize_normal">20sp</dimen>
+    <dimen name="text_status_content">16sp</dimen>
+    <dimen name="text_status_title">18sp</dimen>
+    <dimen name="text_status_time">12sp</dimen>
+    <dimen name="text_status_label">13sp</dimen>
     <dimen name="item_reply_textsize_small">15sp</dimen>
     <dimen name="divider_height">10dp</dimen>
-
 
 
 </resources>

@@ -4,7 +4,8 @@
 
     <solid android:color="@color/tag_gray"/>
     <size android:width="20dp"
-        android:height="20dp"
+        android:height="0.5px"
         />
+    <stroke android:color="@color/tag_gray"/>
 
 </shape>

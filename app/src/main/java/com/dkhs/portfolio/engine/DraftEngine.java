@@ -8,7 +8,6 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
-import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
@@ -66,8 +65,8 @@ public class DraftEngine {
                 DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
 
                 try {
+                    draftBean.setAuthorId(mAuthorID);
                     dbUtils.delete(draftBean);
-                    LogUtils.d(TAG, "delDraft by id:" + draftBean.getId());
 
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
@@ -78,16 +77,16 @@ public class DraftEngine {
 
     }
 
-    public void saveDraftfinal(final DraftBean draftBean) {
+    public void saveDraft(final DraftBean draftBean) {
         new Thread() {
             @Override
             public void run() {
                 DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
 
                 try {
+                    draftBean.setAuthorId(mAuthorID);
                     draftBean.setUtcTime(TimeUtils.getUTCdatetimeAsString());
                     dbUtils.saveOrUpdate(draftBean);
-                    LogUtils.d(TAG, "saveDraft by id:" + draftBean.getId());
 
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
