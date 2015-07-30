@@ -20,6 +20,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
 
@@ -68,7 +69,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         if(data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImage(data.medias.get(0).image_sm,vh.getImageView(R.id.iv));
+            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_sm,vh.getImageView(R.id.iv));
 
         }else{
             vh.get(R.id.iv).setVisibility(View.GONE);
@@ -136,7 +137,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         switch (position){
             case 0:
-
                 topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.latest;
                 break;
             case 1:
@@ -218,8 +218,14 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            ArrayList<String> arrayList=new ArrayList<>();
-            arrayList.add(topicsBean.medias.get(0).image_lg);
+            ArrayList<PhotoBean> arrayList=new ArrayList<>();
+
+
+            PhotoBean photoBean=new PhotoBean();
+            photoBean.title=topicsBean.id+"";
+            photoBean.loadingURl=topicsBean.medias.get(0).image_sm;
+            photoBean.imgUrl=topicsBean.medias.get(0).image_lg;
+            arrayList.add(photoBean);
             PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v, 0);
 
         }

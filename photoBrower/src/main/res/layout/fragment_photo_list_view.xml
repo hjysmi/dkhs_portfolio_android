@@ -28,7 +28,7 @@
         android:padding="8dp"
         android:layout_margin="8dp"
         android:text="@string/save"
-        android:textColor="@color/white"
+        android:textColor="@color/color_white_gray"
         android:background="@drawable/bg_save_btn"
         android:layout_height="wrap_content"/>
 

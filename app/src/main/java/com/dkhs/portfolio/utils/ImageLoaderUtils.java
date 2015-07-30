@@ -53,7 +53,19 @@ public class ImageLoaderUtils {
                 .build();
         loader.displayImage(url, new_phone1, options);
 
-    }    public static void setImage(String url, ImageView new_phone1,ImageLoadingListener loadingListener) {
+    }
+    public static void setImagDefault(String url, ImageView new_phone1) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true).cacheOnDisk(true)
+                .showImageOnFail(R.drawable.ic_img_failure)
+                .showImageOnLoading(R.drawable.ic_img_thumbnail)
+                .displayer(new SimpleBitmapDisplayer())
+                .build();
+        loader.displayImage(url, new_phone1, options);
+
+    }
+    public static void setImage(String url, ImageView new_phone1,ImageLoadingListener loadingListener) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true)
