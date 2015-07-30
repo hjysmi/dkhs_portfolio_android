@@ -443,6 +443,7 @@
     <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
     <string name="msg_follow_success">关注成功</string>
+    <string name="msg_post_topic_success">发表主题成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
 
     <!-- 提醒设置 -->
