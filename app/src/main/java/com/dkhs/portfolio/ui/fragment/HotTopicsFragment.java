@@ -104,4 +104,9 @@ public class HotTopicsFragment extends LoadMoreListFragment {
         mAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public String getEmptyText() {
+        return "暂无话题";
+    }
 }

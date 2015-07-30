@@ -118,4 +118,10 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     public void loadFail() {
         mSwipeLayout.setRefreshing(false);
     }
+    @Override
+    public String getEmptyText() {
+        return "暂无话题";
+    }
+
+
 }
