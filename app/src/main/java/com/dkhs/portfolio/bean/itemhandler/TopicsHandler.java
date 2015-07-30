@@ -31,32 +31,10 @@ import java.util.ArrayList;
 
 public class TopicsHandler implements ItemHandler<TopicsBean> {
 
-
-
-//    @ViewInject(R.id.iv_avatar)
-//    ImageView mIvavatar;
-//    @ViewInject(R.id.name)
-//    TextView mName;
-//    @ViewInject(R.id.tv_time)
-//    TextView mTvtime;
-//    @ViewInject(R.id.titleTV)
-//    TextView mTitleTV;
-//    @ViewInject(R.id.content)
-//    TextView mContent;
-//    @ViewInject(R.id.iv)
-//    ImageView mIv;
-//    @ViewInject(R.id.tv_commend)
-//    TextView mTvcommend;
-//    @ViewInject(R.id.fl_commend)
-//    FrameLayout mFlcommend;
-//    @ViewInject(R.id.tv_star)
-//    TextView mTvstar;
-//    @ViewInject(R.id.fl_layout)
-//    FrameLayout mFllayout;
-
     private Context mContext;
+    private  boolean mCompact;
 
-    private  boolean compact;
+
     public TopicsHandler(Context context) {
         mContext=context;
     }
@@ -64,7 +42,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
     public TopicsHandler(Context context, boolean compact) {
         mContext = context;
-        this.compact = compact;
+        this.mCompact = compact;
     }
 
     @Override
@@ -111,7 +89,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.comment));
         }
 
-        if(compact){
+        if(mCompact){
             vh.get(R.id.bottom).setVisibility(View.GONE);
         }else{
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
@@ -163,7 +141,6 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             this.topicsBean = o;
             return this;
         }
-
         @Override
         public void onClick(View v) {
             ImageView imageView= (ImageView) v.findViewById(R.id.iv_star);

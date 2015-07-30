@@ -129,13 +129,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
     }
 
 
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
         TopicsDetailRefreshEvent topicsDetailRefreshEvent=new TopicsDetailRefreshEvent();
-
         switch (position){
             case 0:
                 topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.latest;
@@ -147,7 +143,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                 topicsDetailRefreshEvent.sortType= TopicsCommendEngineImpl.SortType.earliest;
                 break;
         }
-
         BusProvider.getInstance().post(topicsDetailRefreshEvent);
     }
 
@@ -216,15 +211,12 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         @Override
         public void onClick(View v) {
             ArrayList<PhotoBean> arrayList=new ArrayList<>();
-
-
             PhotoBean photoBean=new PhotoBean();
             photoBean.title=topicsBean.id+"";
             photoBean.loadingURl=topicsBean.medias.get(0).image_sm;
             photoBean.imgUrl=topicsBean.medias.get(0).image_lg;
             arrayList.add(photoBean);
             PhotoViewActivity.startPhotoViewActivity(mContext,arrayList,v, 0);
-
         }
     }
     class  ItemClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
@@ -235,13 +227,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             this.topicsBean = o;
             return this;
         }
-
         @Override
         public void onClick(View v) {
             TopicsDetailActivity.startActivity(mContext, topicsBean);
         }
-
-
     }
 
 

@@ -37,14 +37,10 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
     public BannerHandler(Context mContext) {
         this.mContext = mContext;
     }
-
-
-
     @Override
     public int getLayoutResId() {
         return R.layout.layout_banner_topics;
     }
-
     @Override
     public void onBindView(ViewHolder vh, BannerTopicsBean data, int position) {
         AdBean adBean= data.adBean;
@@ -111,8 +107,6 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
         vh.get(R.id.stick_ll3).setOnClickListener(this);
         vh.get(R.id.stick_ll4).setOnClickListener(this);
         vh.get(R.id.stick_ll5).setOnClickListener(this);
-
-
     }
 
     @Override
@@ -122,7 +116,6 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
             TopicsDetailActivity.startActivity(mContext, topicsBean);
         }
     }
-
 
     class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickListener{
 
