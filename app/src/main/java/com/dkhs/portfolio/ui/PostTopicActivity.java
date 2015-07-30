@@ -115,7 +115,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private DKHSEditText curEt;
     private ImageView ivPhoto;
     private View ibImg;
-    private TextView btnCancle;
+    private TextView btnSend;
 
     private void initViews() {
         setTitle(R.string.post_topic);
@@ -128,10 +128,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         TextView backBtn = (TextView) getBtnBack();
         backBtn.setCompoundDrawables(null, null, null, null);
         backBtn.setText(R.string.cancel);
-        btnCancle = (TextView) getRightButton();
-        btnCancle.setCompoundDrawables(null, null, null, null);
-        btnCancle.setText(R.string.send);
-        btnCancle.setEnabled(false);
+        btnSend = (TextView) getRightButton();
+        btnSend.setCompoundDrawables(null, null, null, null);
+        btnSend.setText(R.string.send);
+        btnSend.setEnabled(false);
+        btnSend.setOnClickListener(this);
         setBackButtonListener(this);
         ibStock.setOnClickListener(this);
         ibEmoji.setOnClickListener(this);
@@ -238,11 +239,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         @Override
         public void afterTextChanged(Editable editable) {
             if (!TextUtils.isEmpty(editable)) {
-                btnCancle.setEnabled(true);
-                btnCancle.setClickable(true);
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
             } else {
-                btnCancle.setEnabled(false);
-                btnCancle.setClickable(false);
+                btnSend.setEnabled(false);
+                btnSend.setClickable(false);
             }
         }
     }
@@ -402,36 +403,39 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0x5 && resultCode == RESULT_OK) {
             // 相册选择
-            final Uri uri = data.getData();
-            ivPhoto.setVisibility(View.VISIBLE);
-            ivPhoto.setImageURI(uri);
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        String file_str = Environment.getExternalStorageDirectory().getPath();
-                        String[] proj = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = managedQuery(uri, proj, null, null, null);
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        cursor.moveToFirst();
-
-                        String path = cursor.getString(column_index);
-                        Bitmap imageBitmap = UIUtils.getLocaleimage(path);
-                        jpg_path = MY_CAMERA + UPLOAD_JPG;
-                        File f = new File(file_str + jpg_path);
-                        if (f.exists()) {
-                            f.delete();
+            try {
+                final Uri uri = data.getData();
+                ivPhoto.setVisibility(View.VISIBLE);
+                final String file_str = Environment.getExternalStorageDirectory().getPath();
+                String[] proj = {MediaStore.Images.Media.DATA};
+                Cursor cursor = managedQuery(uri, proj, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                final String path = cursor.getString(column_index);
+                final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
+                ivPhoto.setImageBitmap(imageBitmap);
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            jpg_path = MY_CAMERA + UPLOAD_JPG;
+                            File f = new File(file_str + jpg_path);
+                            if (f.exists()) {
+                                f.delete();
+                            }
+                            FileOutputStream out = new FileOutputStream(f);
+                            Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, path);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                            // setImageView(imageBitmap);
+                            //                setImageView(UIUtils.cropBitmap(imageBitmap));
+                            saveBitmap(f.getAbsolutePath(), bitmap);
+                        } catch (Exception e) {
+                            Log.e("Exception", e.getMessage(), e);
                         }
-                        FileOutputStream out = new FileOutputStream(f);
-                        imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
-                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                        // setImageView(imageBitmap);
-                        //                setImageView(UIUtils.cropBitmap(imageBitmap));
-                        saveBitmap(f.getAbsolutePath(), imageBitmap);
-                    } catch (Exception e) {
-                        Log.e("Exception", e.getMessage(), e);
                     }
-                }
-            }).start();
+                }).start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (requestCode == 0x1 && resultCode == RESULT_OK) {
             // 拍照
@@ -446,30 +450,30 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             if (uri == null) {
                 return;
             }
-            ivPhoto.setVisibility(View.VISIBLE);
-            ivPhoto.setImageURI(uri);
             final Uri finalUri = uri;
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = managedQuery(finalUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            jpg_path = MY_CAMERA + UPLOAD_JPG;
+            final String path = cursor.getString(column_index);
+            final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
+            ivPhoto.setVisibility(View.VISIBLE);
+            ivPhoto.setImageBitmap(imageBitmap);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        String[] proj = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = managedQuery(finalUri, proj, null, null, null);
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                        cursor.moveToFirst();
-                        jpg_path = MY_CAMERA + UPLOAD_JPG;
-                        String path = cursor.getString(column_index);
-                        Bitmap imageBitmap = UIUtils.getLocaleimage(path);
                         File f = new File(file_str + jpg_path);
                         if (f.exists()) {
                             f.delete();
                         }
                         FileOutputStream out = new FileOutputStream(f);
-                        imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
-                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, path);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 //                        setImageView(UIUtils.cropBitmap(imageBitmap));
 //                        ivPhoto.setImageBitmap(imageBitmap);
-                        saveBitmap(f.getAbsolutePath(), imageBitmap);
+                        saveBitmap(f.getAbsolutePath(), bitmap);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

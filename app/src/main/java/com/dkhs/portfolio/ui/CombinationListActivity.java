@@ -2,17 +2,11 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.ui.fragment.CombinationRankFragment;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
-
-import java.security.Key;
 
 public class CombinationListActivity extends ModelAcitivity {
 

@@ -12,7 +12,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -139,6 +138,13 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
     public void setCanRefresh(boolean pCanRefresh) {
         mCanRefresh = pCanRefresh;
+        // modify by zcm --- 2015.07.29
+        if (!pCanRefresh && mHeadRootView != null) {
+            removeHeaderView(mHeadRootView);
+        }else if(pCanRefresh && mHeadRootView == null){
+            addHeadView();
+        }
+        // modify by zcm --- 2015.07.29
     }
 
     public boolean isAutoLoadMore() {

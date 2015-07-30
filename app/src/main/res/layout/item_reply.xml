@@ -13,8 +13,8 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_width="40dp"
             android:src="@drawable/default_head"
             android:layout_gravity="center_vertical"
             android:id="@+id/iv_head"/>
@@ -34,18 +34,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_status_content"
+                    android:textSize="@dimen/text_status_label"
                     android:text="用户名"
                     android:id="@+id/tv_username"
                     android:layout_height="wrap_content"/>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:textSize="@dimen/item_reply_textsize_small"
+                    android:textSize="@dimen/text_status_time"
                     android:text="07-27 17:24"
                     android:id="@+id/tv_time"
                     android:layout_marginTop="@dimen/widget_margin_small"
-                    android:textColor="@color/gray_textcolor"
+                    android:textColor="@color/tag_gray"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
@@ -68,9 +68,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    android:textSize="@dimen/text_status_time"
                     android:id="@+id/tv_praise_count"
                     android:layout_marginLeft="@dimen/widget_margin_small"
-                    android:textColor="@color/gray_textcolor"
+                    android:textColor="@color/tag_gray"
                     android:layout_gravity="center_vertical"
                     />
             </LinearLayout>
@@ -82,7 +83,7 @@
         android:text="这些都是评论@某某某"
         android:id="@+id/tv_text"
         android:textSize="@dimen/text_status_content"
-        android:textColor="@color/gray_textcolor"
+        android:textColor="@color/tag_gray"
         android:layout_marginTop="@dimen/widget_margin_medium"
         android:layout_height="wrap_content"/>
 

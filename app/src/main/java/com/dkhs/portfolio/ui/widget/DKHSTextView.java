@@ -47,7 +47,7 @@ public class DKHSTextView extends EmojiconTextView {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		CharSequence charSequence = getText();
-		if(charSequence instanceof Spanned){
+		if(event.getAction() == MotionEvent.ACTION_UP && charSequence instanceof Spanned){
 			Spanned span=(Spanned) charSequence;
 			if(event.getAction()==MotionEvent.ACTION_UP||event.getAction()==MotionEvent.ACTION_DOWN){
 				int i=(int) event.getX();
@@ -61,10 +61,11 @@ public class DKHSTextView extends EmojiconTextView {
 				spans = span.getSpans(g, g, ClickableSpan.class);
 				if(spans.length!=0){
 					spans[0].onClick(this);
+                    return false;
 				}
 			}
 		}
-		return false;
+		return super.onTouchEvent(event);
 	}
 	@Override
 	public void setText(CharSequence text, BufferType type) {
