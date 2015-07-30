@@ -181,7 +181,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         MyTextWatcher watcher = new MyTextWatcher();
         etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
-        etContent.setText("$这是一只股票(SH662424)$hah$这是股票(SH62424)$");
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
