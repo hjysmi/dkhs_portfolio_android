@@ -2,11 +2,17 @@ package com.dkhs.portfolio.ui.listener;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
@@ -16,6 +22,7 @@ import com.dkhs.portfolio.utils.TextModifyUtil;
  */
 public class CommentItemClick {
 
+    public static final String TAG = "CommentItemClick";
     private String mClickUserId;
     private Context mContext;
 //    private boolean isCurrentUser;
@@ -53,8 +60,6 @@ public class CommentItemClick {
     }
 
 
-//    private MAlertDialog mDialog;
-
     private void showTopicOtherReplyDialog(final CommentBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
@@ -64,14 +69,13 @@ public class CommentItemClick {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0://回复评论
-                        //
+                        replyComment(commentBean);
                         break;
                     case 1://复制
-                        TextModifyUtil.copyToClipboard(commentBean.getText(), mContext);
-                        PromptManager.showToast(R.string.msg_copy_content_success);
+                        copyComment(commentBean.getText());
                         break;
                     case 2://举报
-                        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId(), commentBean.getUser().getUsername(), commentBean.getText()));
+                        reportComment(commentBean);
                         break;
                 }
                 dialog.dismiss();
@@ -89,13 +93,13 @@ public class CommentItemClick {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0://回复评论
-                        //
+                        replyComment(commentBean);
                         break;
                     case 1://复制
-                        TextModifyUtil.copyToClipboard(commentBean.getText(), mContext);
-                        PromptManager.showToast(R.string.msg_copy_content_success);
+                        copyComment(commentBean.getText());
                         break;
                     case 2://删除
+                        deleteComment(commentBean.getId());
                         break;
                 }
                 dialog.dismiss();
@@ -113,16 +117,16 @@ public class CommentItemClick {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0://回复评论
-                        //
+                        replyComment(commentBean);
                         break;
                     case 1://查看主贴
+                        showMainTopic(commentBean.getReplied_status());
                         break;
                     case 2://复制
-                        TextModifyUtil.copyToClipboard(commentBean.getText(), mContext);
-                        PromptManager.showToast(R.string.msg_copy_content_success);
+                        copyComment(commentBean.getText());
                         break;
                     case 3://举报
-                        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId(), commentBean.getUser().getUsername(), commentBean.getText()));
+                        reportComment(commentBean);
                         break;
                 }
                 dialog.dismiss();
@@ -139,13 +143,13 @@ public class CommentItemClick {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0://查看主贴
-                        //
+                        showMainTopic(commentBean.getReplied_status());
                         break;
                     case 1://复制内容
-                        TextModifyUtil.copyToClipboard(commentBean.getText(), mContext);
-                        PromptManager.showToast(R.string.msg_copy_content_success);
+                        copyComment(commentBean.getText());
                         break;
                     case 2://删除回复
+                        deleteComment(commentBean.getId());
                         break;
                 }
                 dialog.dismiss();
@@ -156,7 +160,62 @@ public class CommentItemClick {
     }
 
 
-//    private void
+    /**
+     * 回复评论
+     */
+    private void replyComment(CommentBean commentBean) {
+        if (null != commentBean.getUser()) {
+            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, commentBean.getId(), commentBean.getUser().getUsername()));
+        } else {
+            Log.e(TAG, "comment user is null;");
+        }
+
+    }
+
+    /**
+     * 复制内容
+     */
+    private void copyComment(String commentText) {
+        TextModifyUtil.copyToClipboard(commentText, mContext);
+        PromptManager.showToast(R.string.msg_copy_content_success);
+    }
+
+    /**
+     * 查看主贴
+     */
+    private void showMainTopic(String topicId) {
+        TopicsBean topicsBean = new TopicsBean();
+        topicsBean.id = Integer.valueOf(topicId);
+        TopicsDetailActivity.startActivity(mContext, topicsBean);
+
+    }
+
+    /**
+     * 删除回复
+     */
+    private void deleteComment(String commentId) {
+
+//        PromptManager.showToast("删除回复");
+        StatusEngineImpl.delete(commentId, new ParseHttpListener() {
+            @Override
+            protected Object parseDateTask(String jsonData) {
+                return null;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+                PromptManager.showCancelToast(R.string.msg_del_contetn_success);
+            }
+        });
+    }
+
+
+    /**
+     * 举报回复
+     */
+    private void reportComment(CommentBean commentBean) {
+        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId(), commentBean.getUser().getUsername(), commentBean.getText()));
+    }
 
 
 }

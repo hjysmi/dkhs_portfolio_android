@@ -11,7 +11,6 @@ import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.github.anrwatchdog.ANRWatchDog;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -52,7 +51,7 @@ public final class AppConfig {
 
         if (isDebug) {
 //            LeakCanary.install((Application) context);
-//            CrashHandler.getInstance(context);
+            CrashHandler.getInstance(context);
 //            ANRWatchDog anrWatchDog = new ANRWatchDog();
 //            anrWatchDog.start();
 
@@ -75,8 +74,6 @@ public final class AppConfig {
         MessageManager.getInstance().connect();
 
     }
-
-
 
 
     private void copyDataBaseToPhone() {
