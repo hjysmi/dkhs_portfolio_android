@@ -8,6 +8,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -97,7 +99,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除
-                        deleteComment();
+                        deleteComment(commentBean.getId());
                         break;
                 }
                 dialog.dismiss();
@@ -147,6 +149,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除回复
+                        deleteComment(commentBean.getId());
                         break;
                 }
                 dialog.dismiss();
@@ -190,11 +193,22 @@ public class CommentItemClick {
     /**
      * 删除回复
      */
-    private void deleteComment() {
+    private void deleteComment(String commentId) {
 
-        PromptManager.showToast("删除回复");
+//        PromptManager.showToast("删除回复");
+        StatusEngineImpl.delete(commentId, new ParseHttpListener() {
+            @Override
+            protected Object parseDateTask(String jsonData) {
+                return null;
+            }
 
+            @Override
+            protected void afterParseData(Object object) {
+                PromptManager.showCancelToast(R.string.msg_del_contetn_success);
+            }
+        });
     }
+
 
     /**
      * 举报回复

@@ -695,6 +695,7 @@
     <string name="show_original">查看主贴</string>
     <string name="copy_content">复制</string>
     <string name="msg_copy_content_success">内容已复制</string>
+    <string name="msg_del_contetn_success">回复删除成功</string>
 
 
     <!--帖子回复-->
