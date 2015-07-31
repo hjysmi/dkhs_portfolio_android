@@ -63,13 +63,14 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
+        vh.setTextView(R.id.name, data.user.getUsername());
 
         PeopleBean user = data.user;
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());
         }
 
-        if (user!= null && !TextUtils.isEmpty(user.getAvatar_md())) {
+        if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
@@ -89,8 +90,8 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 
 
-        if (false) {
-            vh.setTextView(R.id.tv_empty, "此贴已删除");
+        if (data.state == -1) {
+            vh.setTextView(R.id.tv_empty, mContext.getString(R.string.topics_already_delete));
             vh.get(R.id.main_ll).setVisibility(View.GONE);
             vh.get(R.id.emptyRl).setVisibility(View.VISIBLE);
         } else {

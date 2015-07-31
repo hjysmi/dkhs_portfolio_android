@@ -23,6 +23,17 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
  * @date 2015/7/28.
  */
 public class CommentHandler implements ItemHandler<CommentBean> {
+
+    private boolean mAvatarImResponse = true;
+
+    public CommentHandler(boolean avatarImResponse) {
+        mAvatarImResponse = avatarImResponse;
+    }
+
+    public CommentHandler() {
+        this(true);
+    }
+
     @Override
     public int getLayoutResId() {
         return R.layout.item_reply;
@@ -79,11 +90,11 @@ public class CommentHandler implements ItemHandler<CommentBean> {
             }
         });
 
-       if( comment.compact){
-           vh.get(R.id.bottom).setVisibility(View.GONE);
-       }else{
-           vh.get(R.id.bottom).setVisibility(View.VISIBLE);
-       }
+        if (comment.compact) {
+            vh.get(R.id.bottom).setVisibility(View.GONE);
+        } else {
+            vh.get(R.id.bottom).setVisibility(View.VISIBLE);
+        }
 
 
     }

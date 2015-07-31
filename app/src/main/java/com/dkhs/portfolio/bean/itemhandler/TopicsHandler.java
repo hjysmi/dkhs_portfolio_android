@@ -37,14 +37,18 @@ import java.util.ArrayList;
 public class TopicsHandler implements ItemHandler<TopicsBean> {
 
     private Context mContext;
+    private boolean mAvatarImResponse = true;
 
 
     public TopicsHandler(Context context) {
-        mContext=context;
+
+        this(context,true);
     }
 
-
-
+    public TopicsHandler(Context context, boolean avatarImResponse) {
+        mContext = context;
+        mAvatarImResponse = avatarImResponse;
+    }
 
     @Override
     public int getLayoutResId() {
@@ -54,7 +58,10 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
     @Override
     public void onBindView(ViewHolder vh, final TopicsBean data, int position) {
         setClickListener( vh.get(R.id.fl_commend),data);
-        setClickListener( vh.get(R.id.iv_avatar),data);
+
+        if(mAvatarImResponse) {
+            setClickListener(vh.get(R.id.iv_avatar), data);
+        }
         setClickListener( vh.get(R.id.iv),data);
         setClickListener( vh.get(R.id.main_ll),data);
         setClickListener( vh.get(R.id.fl_star),data);
