@@ -12,7 +12,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.dkhs.portfolio.R;
@@ -20,7 +19,6 @@ import com.rockerhieu.emojicon.EmojiconTextView;
 
 /**
  * @author zhangcm
- *
  */
 public class DKHSTextView extends EmojiconTextView {
 
@@ -47,19 +45,19 @@ public class DKHSTextView extends EmojiconTextView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         CharSequence charSequence = getText();
-        if(event.getAction() == MotionEvent.ACTION_UP && charSequence instanceof Spanned){
-            Spanned span=(Spanned) charSequence;
-            if(event.getAction()==MotionEvent.ACTION_UP||event.getAction()==MotionEvent.ACTION_DOWN){
-                int i=(int) event.getX();
-                int j=(int) event.getY();
-                int k=i-getTotalPaddingLeft();
-                int l=j-getTotalPaddingTop();
-                int m=k+getScrollX();
-                int n=l+getScrollY();
+        if (event.getAction() == MotionEvent.ACTION_UP && charSequence instanceof Spanned) {
+            Spanned span = (Spanned) charSequence;
+            if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN) {
+                int i = (int) event.getX();
+                int j = (int) event.getY();
+                int k = i - getTotalPaddingLeft();
+                int l = j - getTotalPaddingTop();
+                int m = k + getScrollX();
+                int n = l + getScrollY();
                 Layout layout = getLayout();
-                int g=layout.getOffsetForHorizontal(layout.getLineForVertical(n), m);
+                int g = layout.getOffsetForHorizontal(layout.getLineForVertical(n), m);
                 spans = span.getSpans(g, g, ClickableSpan.class);
-                if(spans.length!=0){
+                if (spans.length != 0) {
                     spans[0].onClick(this);
                     return false;
                 }
@@ -67,32 +65,31 @@ public class DKHSTextView extends EmojiconTextView {
         }
         return super.onTouchEvent(event);
     }
+
     @Override
     public void setText(CharSequence text, BufferType type) {
         if (!TextUtils.isEmpty(text)) {
             text = Html.fromHtml(text.toString());
-            if(text instanceof Spannable){
+            if (text instanceof Spannable) {
                 int end = text.length();
                 Spannable sp = (Spannable) text;
                 URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
                 SpannableStringBuilder builder = new SpannableStringBuilder(text);
                 builder.clearSpans();
-                for(URLSpan url : urls){
+                for (URLSpan url : urls) {
                     MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext());
                     mySpan.url = url.getURL();
-                    builder.setSpan(mySpan,sp.getSpanStart(url),sp.getSpanEnd(url),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    builder.setSpan(mySpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 setMovementMethod(LinkMovementMethod.getInstance());
-                super.setText(builder,type);
-            }else{
+                super.setText(builder, type);
+            } else {
                 super.setText(text, type);
             }
-            Log.i("DKHSTextView", text.toString());
         } else {
             super.setText(text, type);
         }
     }
-
 
 
 //	@Override

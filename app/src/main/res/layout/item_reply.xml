@@ -34,7 +34,6 @@
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="用户名"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_status_content" />
 
@@ -43,7 +42,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/widget_margin_small"
-                    android:text="07-27 17:24"
                     android:textColor="@color/gray_textcolor"
                     android:textSize="@dimen/item_reply_textsize_small" />
             </LinearLayout>
@@ -67,7 +65,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/widget_margin_small"
-                    android:text="12"
                     android:textColor="@color/text_content_color" />
             </LinearLayout>
         </RelativeLayout>
@@ -78,7 +75,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/widget_margin_medium"
-        android:text="这些都是评论@某某某"
         android:textColor="@color/text_content_color"
         android:textSize="@dimen/text_status_content" />
 
