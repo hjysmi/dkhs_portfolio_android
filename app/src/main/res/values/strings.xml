@@ -728,6 +728,8 @@
     <string name="no_combination">暂无组合</string>
     <string name="ta_combination">TA的组合</string>
     <string name="no_comment">暂无回复</string>
+    <string name="title_my_home_page">我的主页</string>
+    <string name="title_ta_home_page">Ta的主页</string>
     <!--举报 end-->
 
 

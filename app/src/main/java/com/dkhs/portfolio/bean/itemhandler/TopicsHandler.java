@@ -16,6 +16,7 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -36,7 +37,6 @@ import java.util.ArrayList;
 public class TopicsHandler implements ItemHandler<TopicsBean> {
 
     private Context mContext;
-    private  boolean mCompact;
 
 
     public TopicsHandler(Context context) {
@@ -44,10 +44,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
     }
 
 
-    public TopicsHandler(Context context, boolean compact) {
-        mContext = context;
-        this.mCompact = compact;
-    }
+
 
     @Override
     public int getLayoutResId() {
@@ -71,6 +68,8 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         }
         if(data.user != null  && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+        }else{
+            vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
         vh.setTextView(R.id.content,data.text);
         vh.setTextView(R.id.name,data.user.getUsername());
@@ -101,7 +100,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.comment));
         }
 
-        if(mCompact){
+        if(data.compact){
             vh.get(R.id.bottom).setVisibility(View.GONE);
         }else{
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
@@ -227,6 +226,10 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
         @Override
         public void onClick(View v) {
+
+            UIUtils.startAnimationActivity((Activity) mContext,
+                    UserHomePageActivity.getIntent(mContext, topicsBean.user.getUsername(), topicsBean.user.getId() + ""));
+
 
         }
     }
