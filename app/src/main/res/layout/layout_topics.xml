@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:background="@color/activity_bg_color">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main_ll"
         style="@style/white_grayborder_layout"
         android:layout_width="match_parent"
@@ -28,9 +29,11 @@
                 android:id="@+id/name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_toRightOf="@+id/iv_avatar"
-                android:paddingTop="4dp"
-                android:textSize="16sp" />
+                android:gravity="top"
+                android:textSize="17sp" />
+
 
             <TextView
                 android:id="@+id/tv_time"
@@ -39,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_avatar"
                 android:layout_toRightOf="@+id/iv_avatar"
+
                 android:textSize="12sp" />
 
         </RelativeLayout>
@@ -89,6 +93,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/transparency_gray_selector"
                 android:paddingBottom="8dp"
+
                 android:paddingTop="8dp">
 
                 <TextView
@@ -96,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+
                     android:drawableLeft="@drawable/ic_coment"
                     android:gravity="center"
                     android:text="@string/comment"

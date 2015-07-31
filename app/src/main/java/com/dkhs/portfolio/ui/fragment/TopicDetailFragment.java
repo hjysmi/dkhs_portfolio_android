@@ -21,6 +21,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FloatingActionMenu;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
@@ -107,6 +108,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
             }
         });
+        ((TopicsDetailActivity)getActivity()).mFloatingActionMenu.attachToListView(mListView);
         loadData(TopicsCommendEngineImpl.SortType.latest);
     }
 
