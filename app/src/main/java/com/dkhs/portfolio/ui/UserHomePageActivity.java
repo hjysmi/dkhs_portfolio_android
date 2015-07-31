@@ -197,9 +197,9 @@ public class UserHomePageActivity extends ModelAcitivity {
                         TopicsBean topicsBean = (TopicsBean) object.getResults().get(i);
 
                         if (addAmount - 1 == i) {
-                            topicsBean.compact = false;
-                        } else {
                             topicsBean.compact = true;
+                        } else {
+                            topicsBean.compact = false;
                         }
                         mTopicsBeans.add(topicsBean);
                     }
@@ -229,9 +229,9 @@ public class UserHomePageActivity extends ModelAcitivity {
                     CommentBean commentBean = (CommentBean) object.getResults().get(i);
 
                     if (addAmount - 1 == i) {
-                        commentBean.compact = false;
-                    } else {
                         commentBean.compact = true;
+                    } else {
+                        commentBean.compact = false;
                     }
                     mCommentBeans.add(commentBean);
                 }
