@@ -61,6 +61,8 @@ public class TopicsBean {
     public String replied_status;
     public int content_type;
 
+    public boolean compact;
+
     public PeopleBean user;
     public String lat;
 

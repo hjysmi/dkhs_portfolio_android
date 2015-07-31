@@ -67,6 +67,8 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         if(data.user != null  && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+        }else{
+            vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
         vh.setTextView(R.id.content,data.text);
         vh.get(R.id.iv).setVisibility(View.GONE);

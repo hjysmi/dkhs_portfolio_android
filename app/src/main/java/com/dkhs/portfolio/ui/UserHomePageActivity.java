@@ -183,10 +183,19 @@ public class UserHomePageActivity extends ModelAcitivity {
                 mTopicsBeans=new ArrayList<>();
 
                 if(object.getResults().size()>0){
-                    mTopicsBeans.add((TopicsBean) object.getResults().get(0));
+                    TopicsBean topicsBean=    (TopicsBean) object.getResults().get(0);
+
+                    if(object.getResults().size()>1){
+                        topicsBean.compact=false;
+                    }else{
+                        topicsBean.compact=true;
+                    }
+                    mTopicsBeans.add(topicsBean);
                 }
                 if(object.getResults().size()>1){
-                    mTopicsBeans.add((TopicsBean) object.getResults().get(1));
+                    TopicsBean topicsBean1=    (TopicsBean) object.getResults().get(1);
+                    topicsBean1.compact=true;
+                    mTopicsBeans.add(topicsBean1);
                 }
 
                 updateUI();
