@@ -1,16 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/activity_bg_color"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context="com.dkhs.portfolio.ui.TopicsDetailActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    tools:context="com.dkhs.portfolio.ui.TopicsDetailActivity">
 
 
     <FrameLayout
         android:id="@+id/contentFL"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent" />
 
     <com.dkhs.portfolio.ui.FloatingActionMenu
         android:id="@+id/floating_action_view"

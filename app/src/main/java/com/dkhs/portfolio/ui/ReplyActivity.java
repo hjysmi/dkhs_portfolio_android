@@ -164,7 +164,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         CommentBean commentBean = results.get(position + 1);
-        mCommentClick.click(commentBean);
+        mCommentClick.clickFromMyReply(commentBean);
 
     }
 

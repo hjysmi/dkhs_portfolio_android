@@ -21,6 +21,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FloatingActionMenu;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
@@ -44,6 +45,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     private TopicsCommendEngineImpl mTopicsCommendEngine = null;
     private BaseAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
+    private boolean mScrollToComment;
 
 
     @Override
@@ -95,7 +97,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
             @Override
             protected void afterParseData(Object object) {
                 mTopicsBean = (TopicsBean) object;
-
                 mListener.onFragmentInteraction(mTopicsBean);
                 if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
                     mDataList.remove(0);
@@ -107,7 +108,16 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
             }
         });
-        loadData(TopicsCommendEngineImpl.SortType.latest);
+        ((TopicsDetailActivity)getActivity()).mFloatingActionMenu.attachToListView(mListView);
+//        loadData(TopicsCommendEngineImpl.SortType.latest);
+
+
+        if(mScrollToComment) {
+            
+            //// FIXME: 2015/7/31  滑动到帖子位置
+//            mListView.smoothScrollToPosition(1);
+//            mListView.scrollBy(0,-50);
+        }
     }
 
 
@@ -121,6 +131,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
+            mScrollToComment =getActivity(). getIntent().getBooleanExtra("scrollToComment", false);
         }
     }
 
@@ -204,9 +215,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
         if (object.getCurrentPage()==1&& object.getResults().size()==0){
 
-            //setEmptyText(getEmptyText());//
 
-            //// FIXME: 2015/7/29  为空判断
             NoDataBean noDataBean=new NoDataBean();
             noDataBean.noData="暂无评论";
             mDataList.add(noDataBean);

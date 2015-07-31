@@ -45,7 +45,7 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
         addHandler(4, new LoadingHandler());
         addHandler(5, new MoreHandler());
         addHandler(6, new MoreFootHandler());
-        addHandler(7, new TopicsHandler(mContext,true));
+        addHandler(7, new TopicsHandler(mContext));
     }
 
     @Override
