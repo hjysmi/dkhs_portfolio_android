@@ -37,9 +37,9 @@
                     android:id="@+id/name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="top"
                     android:layout_toRightOf="@+id/iv_avatar"
-                    android:paddingTop="4dp"
-                    android:textSize="16sp"/>
+                    android:textSize="17sp"/>
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/iv_avatar"
                     android:layout_toRightOf="@+id/iv_avatar"
-                    android:textSize="12sp"/>
+                    android:textSize="13sp"/>
 
             </RelativeLayout>
 
@@ -85,7 +85,6 @@
         </LinearLayout>
 
         <include
-
             layout="@layout/layout_empty"/>
     </RelativeLayout>
 
