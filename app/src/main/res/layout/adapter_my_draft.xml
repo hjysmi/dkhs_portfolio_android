@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:enabled="false"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_status_title" />
+        android:textSize="@dimen/text_status_content" />
 
     <com.dkhs.portfolio.ui.widget.DKHSTextView
         android:id="@+id/tv_draft_content"
@@ -36,7 +36,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="2dp"
-        android:textColor="@color/tag_gray"
+        android:textColor="@color/gray_textcolor"
         android:textSize="@dimen/text_status_label" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_label"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/tag_gray"
+        android:textColor="@color/gray_textcolor"
         android:textSize="@dimen/text_status_time" />
 
 </RelativeLayout>

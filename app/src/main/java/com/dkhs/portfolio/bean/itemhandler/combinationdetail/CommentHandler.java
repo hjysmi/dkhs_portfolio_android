@@ -69,14 +69,13 @@ public class CommentHandler implements ItemHandler<CommentBean> {
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PromptManager.showToast("click comtent view");
                 CommentItemClick mCommentClick;
                 if (null != GlobalParams.LOGIN_USER) {
                     mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
                 } else {
                     mCommentClick = new CommentItemClick("", v.getContext());
                 }
-                mCommentClick.click(comment);
+                mCommentClick.clickFromMyTopic(comment);
             }
         });
 

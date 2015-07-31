@@ -94,12 +94,10 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
         // other setting
         // listView.setCloseInterpolator(new BounceInterpolator());
 
-        // test item long click
         mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // Toast.makeText(getApplicationContext(), position + " long click", 0).show();
                 return false;
             }
         });

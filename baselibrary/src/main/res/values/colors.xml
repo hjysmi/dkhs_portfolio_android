@@ -12,13 +12,13 @@
     <color name="md_grey_800">#424242</color>
     <color name="drivi_line">#d0d0d0</color>
     <color name="edit_textcolor">#d0d0d0</color>
-    <color name="gray_textcolor">#979797</color>
+    <color name="gray_textcolor">#969696</color>
     <color name="unable_blue_textcolor">#4fcfff</color>
     <color name="compare_select_gray">#969696</color>
     <color name="green">#62b133</color>
     <color name="pink">#FF4444</color>
     <color name="orange">#F86f0b</color>
-    <color name="black">#000000</color>
+    <color name="black">#262932</color>
     <color name="red">#ff0000</color>
     <color name="red_bg">#ffd8d8</color>
     <color name="red_delete">#E63435</color>

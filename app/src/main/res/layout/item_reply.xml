@@ -68,7 +68,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/widget_margin_small"
                     android:text="12"
-                    android:textColor="@color/gray_textcolor" />
+                    android:textColor="@color/text_content_color" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/widget_margin_medium"
         android:text="这些都是评论@某某某"
-        android:textColor="@color/gray_textcolor"
+        android:textColor="@color/text_content_color"
         android:textSize="@dimen/text_status_content" />
 
 </LinearLayout>
