@@ -75,7 +75,7 @@ public class TimeUtils {
         LocalDate date = dateTime.toLocalDate();
         LocalDate currentDate = LocalDate.now();
         if (date == currentDate) {
-            return dateTime.toString("HH:mm");
+            return dateTime.toString("今天 HH:mm");
         } else if (date.getYear() == currentDate.getYear()) {
             return dateTime.toString("MM-dd HH:mm");
         } else {
