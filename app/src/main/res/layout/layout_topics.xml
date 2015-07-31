@@ -74,6 +74,7 @@
             android:layout_marginTop="8dp"
             android:maxHeight="600px"
             android:maxWidth="238px"
+            android:src="@drawable/ic_img_thumbnail"
             android:paddingLeft="16dp"
             android:paddingRight="16dp" />
 

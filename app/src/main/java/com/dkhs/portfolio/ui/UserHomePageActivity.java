@@ -179,7 +179,6 @@ public class UserHomePageActivity extends ModelAcitivity {
             @Override
             public void loadFinish(MoreDataBean object) {
 
-
                 mTopicsBeans=new ArrayList<>();
 
                 if(object.getResults().size()>0){
@@ -271,18 +270,22 @@ public class UserHomePageActivity extends ModelAcitivity {
         } else {
             moreBean2.title = getString(R.string.ta_bbs_topic);
         }
-        moreBean2.index = 1;
+
         moreBean2.userEntity = mUserEntity;
-        mData.add(moreBean2);
+
 
         if (mTopicsBeans != null) {
             if (mTopicsBeans.size() > 0) {
+                moreBean2.index = 1;
+                mData.add(moreBean2);
                 mData.addAll(mTopicsBeans);
                 MoreFootBean moreFootBean = new MoreFootBean();
                 moreFootBean.index=1;
                 moreFootBean.userEntity=mUserEntity;
                 mData.add(moreFootBean);
             } else {
+                moreBean2.index = 0;
+                mData.add(moreBean2);
                 NoDataBean noDataBean = new NoDataBean();
                 noDataBean.noData = getString(R.string.no_bbs_topic);
                 mData.add(noDataBean);
@@ -294,18 +297,22 @@ public class UserHomePageActivity extends ModelAcitivity {
         } else {
             moreBean3.title = getString(R.string.ta_comment);
         }
-        moreBean3.index = 2;
+
         moreBean3.userEntity = mUserEntity;
-        mData.add(moreBean3);
+
 
         if (mCommentBeans != null) {
             if (mCommentBeans.size() > 0) {
+                moreBean3.index = 2;
+                mData.add(moreBean3);
                 mData.addAll(mCommentBeans);
                 MoreFootBean moreFootBean = new MoreFootBean();
                 moreFootBean.index=2;
                 moreFootBean.userEntity=mUserEntity;
                 mData.add(moreFootBean);
             } else {
+                moreBean3.index = 0;
+                mData.add(moreBean3);
                 NoDataBean noDataBean = new NoDataBean();
                 noDataBean.noData =  getString(R.string.no_comment);
                 mData.add(noDataBean);
