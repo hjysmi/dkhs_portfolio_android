@@ -40,7 +40,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     }
 
     @ViewInject(R.id.floating_action_view)
-    private FloatingActionMenu mFloatingActionMenu;
+    public FloatingActionMenu mFloatingActionMenu;
     private TopicsBean mTopicsBean;
     private SwitchLikeStateHandler mSwitchLikeStateHandler;
 

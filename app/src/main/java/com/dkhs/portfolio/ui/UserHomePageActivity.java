@@ -73,7 +73,7 @@ public class UserHomePageActivity extends ModelAcitivity {
     private AutoRVAdapter mAutoRVAdapter;
     private List mData = new ArrayList();
 
-    public FloatingActionMenu localFloatingActionMenu;
+    public FloatingActionMenu mLocalFloatingActionMenu;
     private UserEngineImpl userEngine;
 
     public static Intent getIntent(Context context, String username, String userId) {
@@ -94,6 +94,7 @@ public class UserHomePageActivity extends ModelAcitivity {
         hadFragment();
         setContentView(R.layout.activity_user_combination);
         mRV = (RecyclerView) findViewById(R.id.rv);
+        mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
         userEngine = new UserEngineImpl();
@@ -115,6 +116,7 @@ public class UserHomePageActivity extends ModelAcitivity {
         mRV.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mAutoRVAdapter = new CombinationUserAdapter(mContext, mData);
         mRV.setAdapter(mAutoRVAdapter);
+        mLocalFloatingActionMenu.attachToRecyclerView(mRV);
         initViews();
         initData();
     }
@@ -124,16 +126,16 @@ public class UserHomePageActivity extends ModelAcitivity {
     }
 
     private void initViews() {
-        localFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
+        mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
         if (isMyInfo) {
-            setTitle("我的主页");
-            localFloatingActionMenu.setVisibility(View.GONE);
+            setTitle(getString(R.string.title_my_home_page));
+            mLocalFloatingActionMenu.setVisibility(View.GONE);
 
         } else {
-            setTitle("Ta的主页");
-            localFloatingActionMenu.setVisibility(View.VISIBLE);
+            setTitle(getString(R.string.title_ta_home_page));
+            mLocalFloatingActionMenu.setVisibility(View.VISIBLE);
         }
-        localFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
+        mLocalFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
             @Override
             public boolean onMenuItemSelected(int paramInt) {
 
@@ -218,15 +220,16 @@ public class UserHomePageActivity extends ModelAcitivity {
     }
 
     private void updateUI() {
-
         if(mUserEntity == null){
             return;
         }
         mData.clear();
         mData.add(mUserEntity);
+        if(!isMyInfo) {
+            updateUserFolllowInfo(mUserEntity);
+        }
         MoreBean moreBean = new MoreBean();
         if (isMyInfo) {
-
             moreBean.title =getString(R.string.my_combination);
         } else {
             moreBean.title = getString(R.string.ta_combination);
@@ -316,8 +319,6 @@ public class UserHomePageActivity extends ModelAcitivity {
             userInfoListener.setLoadingDialog(mContext);
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
-
-
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
@@ -380,13 +381,13 @@ public class UserHomePageActivity extends ModelAcitivity {
     private void updateUserFolllowInfo(UserEntity object) {
 
         mUserEntity = object;
-        localFloatingActionMenu.removeAllItems();
+        mLocalFloatingActionMenu.removeAllItems();
         if (object.isMe_follow()) {
 
-            localFloatingActionMenu.addItem(0, R.string.unfollowing, R.drawable.btn_del_item_selector);
+            mLocalFloatingActionMenu.addItem(0, R.string.unfollowing, R.drawable.btn_del_item_selector);
 
         } else {
-            localFloatingActionMenu.addItem(0, R.string.following, R.drawable.ic_add);
+            mLocalFloatingActionMenu.addItem(0, R.string.following, R.drawable.ic_add);
 
         }
     }
