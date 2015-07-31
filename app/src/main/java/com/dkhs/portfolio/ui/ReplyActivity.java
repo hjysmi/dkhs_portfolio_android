@@ -25,6 +25,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -217,6 +218,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 holder.ivPraise = (ImageView) convertView.findViewById(R.id.iv_praise);
                 holder.tvText = (DKHSTextView) convertView.findViewById(R.id.tv_text);
                 holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
+                holder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
                 holder.tvPraiseCount = (TextView) convertView.findViewById(R.id.tv_praise_count);
                 convertView.setTag(holder);
             }
@@ -228,8 +230,9 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             }
             holder.tvUserName.setText(user.getUsername());
             holder.ivPraise.setTag(position);
-            holder.tvPraiseCount.setText(comment.getFavorites_count() + "");
             holder.tvText.setText(comment.getText());
+            holder.tvTime.setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
+            holder.tvPraiseCount.setText(String.valueOf(comment.getFavorites_count()));
             holder.ivPraise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -304,6 +307,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 }
                 if (current_page != 0 && current_page == total_page) {
                     lvReply.setCanLoadMore(false);
+                    lvReply.setAutoLoadMore(false);
                 } else if (current_page < total_page) {
                     lvReply.setCanLoadMore(true);
                 }

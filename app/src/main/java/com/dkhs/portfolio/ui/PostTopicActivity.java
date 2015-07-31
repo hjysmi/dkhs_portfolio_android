@@ -190,7 +190,21 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 return onTouchEvent(event);
             }
         });
-        curEt = etTitle;
+        etTitle.clearFocus();
+        curEt = etContent;
+        etTitle.setFocusable(false);
+        etTitle.setFocusableInTouchMode(false);
+        etContent.requestFocus();
+        etTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!etTitle.isFocusable()){
+                    etTitle.setFocusable(true);
+                    etTitle.setFocusableInTouchMode(true);
+                    etTitle.requestFocus();
+                }
+            }
+        });
         MyTextWatcher watcher = new MyTextWatcher();
         etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);

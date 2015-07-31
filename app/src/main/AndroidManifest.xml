@@ -394,7 +394,7 @@
             android:label="@string/title_activity_photo_view"></activity>
         <activity
             android:name=".ui.PostTopicActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".ui.StatusActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
