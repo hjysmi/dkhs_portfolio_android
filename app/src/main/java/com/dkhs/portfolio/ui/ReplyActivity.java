@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -83,8 +85,17 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     private MyReplyAdapter adapter;
     private ImageView ivPraise;
     private BitmapUtils bitmapUtils;
+    private SwipeRefreshLayout mSwipeLayout;
 
     private void initView() {
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
         lvReply = (PullToRefreshListView) findViewById(R.id.lv_reply);
         lvReply.setCanRefresh(false);
         lvReply.setOnLoadListener(new PullToRefreshListView.OnLoadMoreListener() {
@@ -92,7 +103,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             public void onLoadMore() {
                 CUR_TYPE = TYPE_LODAMORE;
                 if (current_page < total_page && current_page != 0 && total_page != 0) {
-                    StatusEngineImpl.getReplys(userId, current_page + 1, 0, listener);
+                    StatusEngineImpl.getReplys(userId, current_page + 1, 0, replyListener);
                 }
             }
         });
@@ -118,15 +129,24 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             } else {
                 setTitle(R.string.others_reply);
             }
-            if (!TextUtils.isEmpty(userId)) {
-                StatusEngineImpl.getReplys(userId, current_page, 0, listener);
-            }
 
+
+        }
+
+        refreshData();
+    }
+
+
+    private void refreshData() {
+        current_page = 0;
+        if (!TextUtils.isEmpty(userId)) {
+            StatusEngineImpl.getReplys(userId, current_page, 0, replyListener);
         } else {
             userId = "1";
-            StatusEngineImpl.getReplys(userId, current_page, 0, listener);
+            StatusEngineImpl.getReplys(userId, current_page, 0, replyListener);
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -198,6 +218,8 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 holder.ivPraise = (ImageView) convertView.findViewById(R.id.iv_praise);
                 holder.tvText = (DKHSTextView) convertView.findViewById(R.id.tv_text);
                 holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
+                holder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
+                holder.tvPraiseCount = (TextView) convertView.findViewById(R.id.tv_praise_count);
                 convertView.setTag(holder);
             }
             CommentBean comment = results.get(position);
@@ -209,6 +231,8 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             holder.tvUserName.setText(user.getUsername());
             holder.ivPraise.setTag(position);
             holder.tvText.setText(comment.getText());
+            holder.tvTime.setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
+            holder.tvPraiseCount.setText(String.valueOf(comment.getFavorites_count()));
             holder.ivPraise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -257,7 +281,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         }
     }
 
-    private ParseHttpListener<MoreDataBean<CommentBean>> listener = new ParseHttpListener<MoreDataBean<CommentBean>>() {
+    private ParseHttpListener<MoreDataBean<CommentBean>> replyListener = new ParseHttpListener<MoreDataBean<CommentBean>>() {
         @Override
         protected MoreDataBean<CommentBean> parseDateTask(String jsonData) {
             MoreDataBean<CommentBean> moreDataBean = (MoreDataBean<CommentBean>) DataParse.parseObjectJson(new TypeToken<MoreDataBean<CommentBean>>() {
@@ -266,7 +290,14 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         }
 
         @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            mSwipeLayout.setRefreshing(false);
+        }
+
+        @Override
         protected void afterParseData(MoreDataBean<CommentBean> moreDataBean) {
+            mSwipeLayout.setRefreshing(false);
             if (moreDataBean != null && moreDataBean.getResults() != null && moreDataBean.getResults().size() > 0) {
                 current_page = moreDataBean.getCurrentPage();
                 total_count = moreDataBean.getTotalCount();
@@ -276,6 +307,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 }
                 if (current_page != 0 && current_page == total_page) {
                     lvReply.setCanLoadMore(false);
+                    lvReply.setAutoLoadMore(false);
                 } else if (current_page < total_page) {
                     lvReply.setCanLoadMore(true);
                 }

@@ -11,7 +11,6 @@ package com.dkhs.portfolio.utils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import java.text.SimpleDateFormat;
@@ -75,8 +74,7 @@ public class TimeUtils {
     public static String getBriefTimeString(DateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         LocalDate currentDate = LocalDate.now();
-
-        if ( Days.daysBetween(date, currentDate).getDays()==0) {
+        if (Days.daysBetween(date, currentDate).getDays() == 0) {
             return dateTime.toString("今天 HH:mm");
         } else if (date.getYear() == currentDate.getYear()) {
             return dateTime.toString("MM-dd HH:mm");

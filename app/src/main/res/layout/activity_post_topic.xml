@@ -181,7 +181,9 @@
                 android:textSize="@dimen/text_status_title"
                 android:hint="@string/hint_content"
                 android:imeOptions="actionSend|flagNoEnterAction"
-                android:lineSpacingExtra="3.0dip"/>
+                android:lineSpacingExtra="3.0dip">
+                <requestFocus />
+            </com.dkhs.portfolio.ui.widget.DKHSEditText>
         </RelativeLayout>
 
     </LinearLayout>

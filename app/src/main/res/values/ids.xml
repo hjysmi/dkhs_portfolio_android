@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="write_status_root" type="id"/>
+    <item name="write_status_root" type="id" />
     <item name="write_view" type="id" />
     <item name="upload_img_content" type="id" />
     <item name="status_edit" type="id" />
@@ -20,7 +20,7 @@
     <item name="divider" type="id" />
     <item name="auto_complete_list" type="id" />
     <item name="status_item_detail" type="id" />
-    <item name="profile_item" type="id"/>
+    <item name="profile_item" type="id" />
     <item name="profile_image" type="id" />
     <item name="item_icon" type="id" />
     <item name="item_name" type="id" />
@@ -46,4 +46,5 @@
     <item name="content_view" type="id" />
     <item name="recyclerView" type="id" />
     <item name="floatingMenu" type="id" />
+    <item name="swipeRefreshLayout" type="id" />
 </resources>
