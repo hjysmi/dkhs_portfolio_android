@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical"
-    android:padding="@dimen/widget_margin_medium">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:descendantFocusability="blocksDescendants"
+              android:orientation="vertical"
+    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:descendantFocusability="blocksDescendants"
+              android:orientation="vertical"
+              android:padding="@dimen/widget_margin_medium">
 
 
     <LinearLayout
@@ -79,3 +85,10 @@
         android:textSize="@dimen/text_status_content" />
 
 </LinearLayout>
+<View
+android:id="@+id/bottom"
+android:layout_width="fill_parent"
+android:layout_height="16dp"
+android:layout_alignParentBottom="true"
+android:layout_below="@+id/main_ll"/>
+    </LinearLayout>

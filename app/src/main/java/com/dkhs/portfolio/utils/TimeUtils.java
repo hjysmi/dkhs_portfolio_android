@@ -11,7 +11,6 @@ package com.dkhs.portfolio.utils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
 import java.text.SimpleDateFormat;

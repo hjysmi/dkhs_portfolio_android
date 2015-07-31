@@ -69,6 +69,10 @@ public class UserHomePageActivity extends ModelAcitivity {
 
     private RecyclerView mRV;
 
+    private int mCommentAmount = -1;
+    private int mCombinationAmount = -1;
+    private int mTopicsAmount = -1;
+
 
     private AutoRVAdapter mAutoRVAdapter;
     private List mData = new ArrayList();
@@ -160,8 +164,9 @@ public class UserHomePageActivity extends ModelAcitivity {
             @Override
             public void loadFinish(MoreDataBean object) {
 
-                mCombinationBeans=object.getResults();
+                mCombinationBeans = object.getResults();
 
+                mCombinationAmount = object.getTotalCount();
 
                 updateUI();
             }
@@ -179,25 +184,26 @@ public class UserHomePageActivity extends ModelAcitivity {
             @Override
             public void loadFinish(MoreDataBean object) {
 
-
-                mTopicsBeans=new ArrayList<>();
-
-                if(object.getResults().size()>0){
-                    TopicsBean topicsBean=    (TopicsBean) object.getResults().get(0);
-
-                    if(object.getResults().size()>1){
-                        topicsBean.compact=false;
-                    }else{
-                        topicsBean.compact=true;
+                mTopicsBeans = new ArrayList<>();
+                mTopicsAmount = object.getTotalCount();
+                if (object.getResults() != null) {
+                    int addAmount;
+                    if (object.getResults().size() > 5) {
+                        addAmount = 5;
+                    } else {
+                        addAmount = object.getResults().size();
                     }
-                    mTopicsBeans.add(topicsBean);
-                }
-                if(object.getResults().size()>1){
-                    TopicsBean topicsBean1=    (TopicsBean) object.getResults().get(1);
-                    topicsBean1.compact=true;
-                    mTopicsBeans.add(topicsBean1);
-                }
+                    for (int i = 0; i < addAmount; i++) {
+                        TopicsBean topicsBean = (TopicsBean) object.getResults().get(i);
 
+                        if (addAmount - 1 == i) {
+                            topicsBean.compact = false;
+                        } else {
+                            topicsBean.compact = true;
+                        }
+                        mTopicsBeans.add(topicsBean);
+                    }
+                }
                 updateUI();
             }
 
@@ -210,13 +216,24 @@ public class UserHomePageActivity extends ModelAcitivity {
             @Override
             public void loadFinish(MoreDataBean object) {
 
-                mCommentBeans=new ArrayList<>();
+                mCommentBeans = new ArrayList<>();
+                mCommentAmount = object.getTotalCount();
 
-                if(object.getResults().size()>0){
-                    mCommentBeans.add((CommentBean) object.getResults().get(0));
+                int addAmount;
+                if (object.getResults().size() > 5) {
+                    addAmount = 5;
+                } else {
+                    addAmount = object.getResults().size();
                 }
-                if(object.getResults().size()>1){
-                    mCommentBeans.add((CommentBean) object.getResults().get(1));
+                for (int i = 0; i < addAmount; i++) {
+                    CommentBean commentBean = (CommentBean) object.getResults().get(i);
+
+                    if (addAmount - 1 == i) {
+                        commentBean.compact = false;
+                    } else {
+                        commentBean.compact = true;
+                    }
+                    mCommentBeans.add(commentBean);
                 }
                 updateUI();
             }
@@ -229,19 +246,30 @@ public class UserHomePageActivity extends ModelAcitivity {
     }
 
     private void updateUI() {
-        if(mUserEntity == null){
+        if (mUserEntity == null) {
             return;
         }
         mData.clear();
         mData.add(mUserEntity);
-        if(!isMyInfo) {
+        if (!isMyInfo) {
             updateUserFolllowInfo(mUserEntity);
         }
         MoreBean moreBean = new MoreBean();
         if (isMyInfo) {
-            moreBean.title =getString(R.string.my_combination);
+
+            if (mCombinationAmount != -1) {
+                moreBean.title = getString(R.string.my_combination) + "(" + mCombinationAmount + ")";
+            } else {
+                moreBean.title = getString(R.string.my_combination);
+            }
+
+
         } else {
-            moreBean.title = getString(R.string.ta_combination);
+            if (mCombinationAmount != -1) {
+                moreBean.title = getString(R.string.ta_combination) + "(" + mCombinationAmount + ")";
+            } else {
+                moreBean.title = getString(R.string.ta_combination);
+            }
         }
         moreBean.index = 0;
         moreBean.userEntity = mUserEntity;
@@ -267,22 +295,40 @@ public class UserHomePageActivity extends ModelAcitivity {
         }
         MoreBean moreBean2 = new MoreBean();
         if (isMyInfo) {
-            moreBean2.title = getString(R.string.my_bbs_topic);
+            if (mTopicsAmount != -1) {
+                moreBean2.title = getString(R.string.my_bbs_topic) + "(" + mTopicsAmount + ")";
+            } else {
+                moreBean2.title = getString(R.string.my_bbs_topic);
+            }
+
         } else {
-            moreBean2.title = getString(R.string.ta_bbs_topic);
+            if (mTopicsAmount != -1) {
+                moreBean2.title = getString(R.string.ta_bbs_topic) + "(" + mTopicsAmount + ")";
+            } else {
+                moreBean2.title = getString(R.string.ta_bbs_topic);
+            }
         }
-        moreBean2.index = 1;
+
         moreBean2.userEntity = mUserEntity;
-        mData.add(moreBean2);
+
 
         if (mTopicsBeans != null) {
             if (mTopicsBeans.size() > 0) {
+
+                if (mTopicsAmount == 5) {
+                    moreBean2.index = 1;
+                } else {
+                    moreBean2.index = 0;
+                }
+                mData.add(moreBean2);
                 mData.addAll(mTopicsBeans);
                 MoreFootBean moreFootBean = new MoreFootBean();
-                moreFootBean.index=1;
-                moreFootBean.userEntity=mUserEntity;
+                moreFootBean.index = 1;
+                moreFootBean.userEntity = mUserEntity;
                 mData.add(moreFootBean);
             } else {
+                moreBean2.index = 0;
+                mData.add(moreBean2);
                 NoDataBean noDataBean = new NoDataBean();
                 noDataBean.noData = getString(R.string.no_bbs_topic);
                 mData.add(noDataBean);
@@ -290,24 +336,40 @@ public class UserHomePageActivity extends ModelAcitivity {
         }
         MoreBean moreBean3 = new MoreBean();
         if (isMyInfo) {
-            moreBean3.title = getString(R.string.my_comment);
+            if (mCommentAmount != -1) {
+                moreBean3.title = getString(R.string.my_comment) + "(" + mCommentAmount + ")";
+            } else {
+                moreBean3.title = getString(R.string.my_comment);
+            }
         } else {
-            moreBean3.title = getString(R.string.ta_comment);
+            if (mCommentAmount != -1) {
+                moreBean3.title = getString(R.string.ta_comment) + "(" + mCommentAmount + ")";
+            } else {
+                moreBean3.title = getString(R.string.ta_comment);
+            }
         }
-        moreBean3.index = 2;
+
         moreBean3.userEntity = mUserEntity;
-        mData.add(moreBean3);
+
 
         if (mCommentBeans != null) {
             if (mCommentBeans.size() > 0) {
+                if (mCommentAmount == 5) {
+                    moreBean3.index = 2;
+                } else {
+                    moreBean3.index = 0;
+                }
+                mData.add(moreBean3);
                 mData.addAll(mCommentBeans);
                 MoreFootBean moreFootBean = new MoreFootBean();
-                moreFootBean.index=2;
-                moreFootBean.userEntity=mUserEntity;
+                moreFootBean.index = 2;
+                moreFootBean.userEntity = mUserEntity;
                 mData.add(moreFootBean);
             } else {
+                moreBean3.index = 0;
+                mData.add(moreBean3);
                 NoDataBean noDataBean = new NoDataBean();
-                noDataBean.noData =  getString(R.string.no_comment);
+                noDataBean.noData = getString(R.string.no_comment);
                 mData.add(noDataBean);
             }
         }

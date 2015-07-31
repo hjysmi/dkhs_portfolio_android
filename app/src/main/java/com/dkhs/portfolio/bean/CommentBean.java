@@ -26,6 +26,8 @@ public class CommentBean {
     private String modified_at;
     private double lat;
     private double lon;
+
+    public boolean compact=true;
     private List<UploadImageBean> medias;
     private List<OptionNewsBean.Symbols> symbol;
     private String recomment_level;
