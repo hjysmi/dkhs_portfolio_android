@@ -141,7 +141,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         mFloatingActionMenu.addItem(MENU_SHARE, R.string.share, R.drawable.ic_fm_share);
         String[] choices = getResources().getStringArray(R.array.topics_menu_overflow);
 
-        if (isMyTopics) {
+        if (!isMyTopics) {
             mFloatingActionMenu.addMoreItem(MENU_MORE, getString(R.string.more), R.drawable.ic_fm_more)
                     .addItem(MENU_MORE_GO_HOME, "回到首页").
                     addItem(MENU_MORE_STATUS_REPORT, "举报");
