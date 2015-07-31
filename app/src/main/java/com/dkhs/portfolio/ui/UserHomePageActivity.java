@@ -212,10 +212,22 @@ public class UserHomePageActivity extends ModelAcitivity {
                 mCommentBeans=new ArrayList<>();
 
                 if(object.getResults().size()>0){
-                    mCommentBeans.add((CommentBean) object.getResults().get(0));
+
+                    CommentBean commentBean=   (CommentBean) object.getResults().get(0);
+
+                    if(object.getResults().size()>1){
+                        commentBean.compact=false;
+                    }else{
+                        commentBean.compact=true;
+                    }
+
+                    mCommentBeans.add(commentBean);
                 }
                 if(object.getResults().size()>1){
-                    mCommentBeans.add((CommentBean) object.getResults().get(1));
+                    CommentBean commentBean=   (CommentBean) object.getResults().get(1);
+                        commentBean.compact=true;
+
+                    mCommentBeans.add(commentBean);
                 }
                 updateUI();
             }

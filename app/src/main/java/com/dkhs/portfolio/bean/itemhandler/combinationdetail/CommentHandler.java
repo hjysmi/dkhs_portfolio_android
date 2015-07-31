@@ -79,5 +79,12 @@ public class CommentHandler implements ItemHandler<CommentBean> {
             }
         });
 
+       if( comment.compact){
+           vh.get(R.id.bottom).setVisibility(View.GONE);
+       }else{
+           vh.get(R.id.bottom).setVisibility(View.VISIBLE);
+       }
+
+
     }
 }
