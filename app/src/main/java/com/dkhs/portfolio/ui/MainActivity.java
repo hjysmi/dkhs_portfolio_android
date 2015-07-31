@@ -24,7 +24,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
+import com.dkhs.portfolio.ui.fragment.MainBBSFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
         if (null == fragmentD) {
-            fragmentD = new MainInfoFragment();
+            fragmentD = new MainBBSFragment();
         }
         hideAllFragment();
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container

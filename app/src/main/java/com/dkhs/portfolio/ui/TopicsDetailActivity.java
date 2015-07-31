@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,12 +29,17 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public static final int MENU_MORE_GO_HOME = 4;
     public static final int MENU_MORE_STATUS_REPORT = 5;
     private TopicDetailFragment mTopicDetailFragment;
-
+    private Boolean mScrollToComment;
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
+        startActivity(context,topicsBean,false);
+    }
+    public static void startActivity(Context context, TopicsBean topicsBean,boolean scrollToComment) {
 
         Intent intent = new Intent(context, TopicsDetailActivity.class);
         intent.putExtra("topicsBean", Parcels.wrap(topicsBean));
+        //在子类的fragment中有使用到
+        intent.putExtra("scrollToComment", scrollToComment);
         context.startActivity(intent);
     }
 
@@ -55,6 +59,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
+            mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
             withLikeState=mTopicsBean.like;
             setContentView(R.layout.activity_topics_detail);
             setTitle(R.string.title_activity_topics_detail);

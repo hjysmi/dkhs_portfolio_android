@@ -22,7 +22,7 @@ import com.dkhs.portfolio.ui.PostTopicActivity;
  * @Description 主界面资讯tab页
  * @date 2015-2-26 下午3:31:46
  */
-public class MainInfoFragment extends BaseTitleFragment {
+public class MainBBSFragment extends BaseTitleFragment {
 
 
     @Override
