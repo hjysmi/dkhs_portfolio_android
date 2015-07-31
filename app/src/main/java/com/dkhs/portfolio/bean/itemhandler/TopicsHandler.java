@@ -208,8 +208,13 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         @Override
         public void onClick(View v) {
 
-            UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername()));
+            if(topicsBean.comments_count ==0) {
 
+                UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername()));
+
+            }else{
+                TopicsDetailActivity.startActivity(mContext, topicsBean,true);
+            }
         }
     }
     class  AvatarClickListenerImp extends ItemHandlerClickListenerImp<TopicsBean> {
@@ -246,8 +251,6 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         public void onClick(View v) {
 
             ArrayList<PhotoBean> arrayList=new ArrayList<>();
-
-
             PhotoBean photoBean=new PhotoBean();
             photoBean.title=topicsBean.id+"";
             photoBean.loadingURl=topicsBean.medias.get(0).image_sm;
