@@ -198,6 +198,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 holder.ivPraise = (ImageView) convertView.findViewById(R.id.iv_praise);
                 holder.tvText = (DKHSTextView) convertView.findViewById(R.id.tv_text);
                 holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
+                holder.tvPraiseCount = (TextView) convertView.findViewById(R.id.tv_praise_count);
                 convertView.setTag(holder);
             }
             CommentBean comment = results.get(position);
@@ -208,6 +209,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             }
             holder.tvUserName.setText(user.getUsername());
             holder.ivPraise.setTag(position);
+            holder.tvPraiseCount.setText(comment.getFavorites_count() + "");
             holder.tvText.setText(comment.getText());
             holder.ivPraise.setOnClickListener(new View.OnClickListener() {
                 @Override
