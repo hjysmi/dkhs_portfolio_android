@@ -134,9 +134,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_unlike" />
+                    <TextSwitcher
+                        android:id="@+id/tv_like"
+                        android:layout_gravity="center"
+                        android:inAnimation="@anim/switch_bottom_in"
+                        android:outAnimation="@anim/switch_top_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/tv_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -144,6 +150,15 @@
                         android:text="@string/like"
                         android:textColor="@color/tag_gray"
                         android:textSize="14sp" />
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/like"
+                        android:textColor="@color/tag_gray"
+                        android:textSize="14sp" />
+                    </TextSwitcher>
 
 
                 </LinearLayout>

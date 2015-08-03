@@ -172,7 +172,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @Override
     public void onFragmentInteraction(TopicsBean topicsBean) {
         mTopicsBean = topicsBean;
-        mSwitchLikeStateHandler.setTopicsBean(mTopicsBean);
+        mSwitchLikeStateHandler.setLikeBean(mTopicsBean);
 
         initFloatMenu();
     }

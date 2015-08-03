@@ -33,13 +33,11 @@ public class MessageNotificationClickReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(MESSAGE_NOTIFICATION_CLICK)) {
-
             Message message=intent.getParcelableExtra(MessageReceive.KEY_MESSAGE);
             Intent intent1 = new Intent(context, MainActivity.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent1.putExtra(MessageReceive.KEY_MESSAGE, message);
             context.startActivity(intent1);
-
         }
 
     }

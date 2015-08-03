@@ -361,6 +361,8 @@ public class FloatingActionView extends LinearLayout {
         if(listView.getLayoutParams() instanceof  MarginLayoutParams) {
             ViewGroup.MarginLayoutParams mLP = (MarginLayoutParams) listView.getLayoutParams();
             listView.setPadding(mLP.leftMargin, mLP.topMargin, mLP.rightMargin, mLP.bottomMargin + getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
+        }else {
+            listView.setPadding(0,0,0,getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
         }
         scrollDetector.setScrollThreshold(mScrollThreshold);
         listView.setOnScrollListener(scrollDetector);

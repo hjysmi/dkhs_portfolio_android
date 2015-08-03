@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.dkhs.R;
@@ -45,6 +46,10 @@ public class ViewHolder {
     }
 
     public TextView getTextView(int id) {
+
+        return get(id);
+    }
+    public TextSwitcher getTextSwitcher(int id) {
 
         return get(id);
     }

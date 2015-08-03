@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
@@ -89,10 +90,13 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
             vh.get(R.id.iv).setVisibility(View.GONE);
 
         }
+
+        TextSwitcher textSwitcher=vh.get(R.id.tv_like);
         if(data.favorites_count>0){
-            vh.setTextView(R.id.tv_like, StringFromatUtils.handleNumber(data.favorites_count));
+
+            textSwitcher.setCurrentText(StringFromatUtils.handleNumber(data.favorites_count));
         }else{
-            vh.setTextView(R.id.tv_like,vh.getConvertView().getContext().getString(R.string.like));
+            textSwitcher.setCurrentText( vh.getConvertView().getContext().getString(R.string.like));
         }
         if(data.like){
             vh.getImageView(R.id.iv_like).setImageResource(R.drawable.ic_like);
@@ -178,7 +182,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         @Override
         public void likePre() {
             topicsBean.favorites_count+=1;
-            TextView likeTV= (TextView) mView.findViewById(R.id.tv_like);
+            TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
             if(topicsBean.favorites_count>0){
 
                 likeTV.setText(StringFromatUtils.handleNumber(topicsBean.favorites_count));
@@ -190,7 +194,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         @Override
         public void unLikePre() {
             topicsBean.favorites_count-=1;
-            TextView likeTV= (TextView) mView.findViewById(R.id.tv_like);
+            TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
             if(topicsBean.favorites_count>0){
 
                 likeTV.setText(StringFromatUtils.handleNumber(topicsBean.favorites_count));

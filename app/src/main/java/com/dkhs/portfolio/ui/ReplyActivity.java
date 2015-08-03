@@ -14,10 +14,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dkhs.adpter.adapter.AutoAdapter;
+import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -29,6 +32,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -188,96 +192,22 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     }
 
 
-    private class MyReplyAdapter extends BaseAdapter {
+    private class MyReplyAdapter extends AutoAdapter {
+
+
+        protected MyReplyAdapter(Context context, List<?> data) {
+            super(context, data);
+        }
 
         @Override
-        public int getCount() {
-            if (results != null) {
-                return results.size();
-            }
+        protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
+
+            addHandler(0,new CommentHandler(true));
+        }
+
+        @Override
+        protected int getViewType(int position) {
             return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = View.inflate(getApplicationContext(), R.layout.item_reply, null);
-                holder = new ViewHolder();
-                holder.ivHead = (ImageView) convertView.findViewById(R.id.iv_head);
-                holder.ivPraise = (ImageView) convertView.findViewById(R.id.iv_praise);
-                holder.tvText = (DKHSTextView) convertView.findViewById(R.id.tv_text);
-                holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
-                holder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
-                holder.tvPraiseCount = (TextView) convertView.findViewById(R.id.tv_praise_count);
-                convertView.setTag(holder);
-            }
-            CommentBean comment = results.get(position);
-            holder = (ViewHolder) convertView.getTag();
-            UserEntity user = comment.getUser();
-            if (!TextUtils.isEmpty(user.getAvatar_sm())) {
-                bitmapUtils.display(holder.ivHead, comment.getUser().getAvatar_sm());
-            }
-            holder.tvUserName.setText(user.getUsername());
-            holder.ivPraise.setTag(position);
-            holder.tvText.setText(comment.getText());
-            holder.tvTime.setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
-            holder.tvPraiseCount.setText(String.valueOf(comment.getFavorites_count()));
-            holder.ivPraise.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    //TODO 点赞处理
-                    int position = (int) v.getTag();
-                    v.setBackgroundResource(R.drawable.praised);
-                    ScaleAnimation animation = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
-                            Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                    animation.setDuration(500);//设置动画持续时间
-                    animation.setRepeatMode(Animation.REVERSE);
-                    animation.setRepeatCount(1);
-                    animation.setFillAfter(false);
-                    v.startAnimation(animation);
-                    animation.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            v.setBackgroundResource(R.drawable.praise);
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-
-
-                    //todo 提交点赞
-
-
-                }
-            });
-            return convertView;
-        }
-
-        private class ViewHolder {
-            ImageView ivPraise;
-            ImageView ivHead;
-            TextView tvUserName;
-            TextView tvTime;
-            TextView tvPraiseCount;
-            DKHSTextView tvText;
         }
     }
 
@@ -318,7 +248,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                         results.addAll(moreDataBean.getResults());
                     }
                     if (adapter == null) {
-                        adapter = new MyReplyAdapter();
+                        adapter = new MyReplyAdapter(ReplyActivity.this,results);
                         lvReply.setAdapter(adapter);
                     } else {
                         adapter.notifyDataSetChanged();

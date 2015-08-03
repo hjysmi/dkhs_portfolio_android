@@ -91,27 +91,4 @@ public class DKHSTextView extends EmojiconTextView {
         }
     }
 
-
-//	@Override
-//	public void setText(CharSequence text, BufferType type) {
-//		if (!TextUtils.isEmpty(text)) {
-//			String str = text.toString();
-//			SpannableStringBuilder builder = new SpannableStringBuilder();
-//			builder.append(str);
-//			TextModifyUtil.setImgText(builder, FACE_IMG_PATTERN,getContext());
-////			TextModifyUtil.setAtText(builder, AT_PATTERN1,getContext());
-////			TextModifyUtil.setAtText(builder, AT_HREF_PATTERN,getContext());
-//            builder = TextModifyUtil.getAtBuilder(builder, AT_HREF_PATTERN,getContext());
-////			TextModifyUtil.setAtText(builder, AT_PATTERN2,getContext());
-//			TextModifyUtil.setStockText(builder, STOCK_PATTERN, getContext());
-////			setFocusable(true);
-//			setMovementMethod(LinkMovementMethod.getInstance());
-//            Log.i("DKHSTextView", builder.toString());
-//			super.setText(builder, type);
-//		} else {
-//			super.setText(text, type);
-//		}
-//	}
-
-
 }

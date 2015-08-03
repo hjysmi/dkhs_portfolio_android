@@ -3,6 +3,7 @@ package com.dkhs.portfolio.utils;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.StatusBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -18,16 +19,16 @@ import com.dkhs.portfolio.net.SimpleParseHttpListener;
 public class SwitchLikeStateHandler {
 
 
-    private TopicsBean mTopicsBean ;
+    private LikeBean mLikeBean;
 
     private ImageView mLikeIm;
 
-    public SwitchLikeStateHandler(TopicsBean topicsBean) {
-        mTopicsBean = topicsBean;
+    public SwitchLikeStateHandler(LikeBean likeBean) {
+        mLikeBean = likeBean;
     }
 
-    public void setTopicsBean(TopicsBean topicsBean) {
-        mTopicsBean = topicsBean;
+    public void setLikeBean(LikeBean likeBean) {
+        mLikeBean = likeBean;
     }
 
     public void attachLikeImage(ImageView likeIm){
@@ -47,8 +48,8 @@ public class SwitchLikeStateHandler {
     }
 
     public void toggleLikeState() {
-        mTopicsBean.like =!mTopicsBean.like;
-        if (!mTopicsBean.like) {
+        mLikeBean.setLike(!mLikeBean.isLike());
+        if (!mLikeBean.isLike()) {
             //取消点赞
             if(mLikeIm != null){
                 unLikeImage();
@@ -56,7 +57,7 @@ public class SwitchLikeStateHandler {
             if(mStatusChangeI != null ){
                 mStatusChangeI.unLikePre();
             }
-            StatusEngineImpl.unstarTopic(mTopicsBean.id + "", new SimpleParseHttpListener() {
+            StatusEngineImpl.unstarTopic(mLikeBean.getId() + "", new SimpleParseHttpListener() {
                 @Override
                 public Class getClassType() {
                     return StatusBean.class;
@@ -75,7 +76,7 @@ public class SwitchLikeStateHandler {
             if(mStatusChangeI != null ){
                 mStatusChangeI.likePre();
             }
-            StatusEngineImpl.starTopic(mTopicsBean.id + "", new SimpleParseHttpListener() {
+            StatusEngineImpl.starTopic(mLikeBean.getId() + "", new SimpleParseHttpListener() {
                 @Override
                 public Class getClassType() {
                     return StatusBean.class;
