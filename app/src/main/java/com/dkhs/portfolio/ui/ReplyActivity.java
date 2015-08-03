@@ -25,12 +25,15 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -196,7 +199,6 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         super.onResume();
         BusProvider.getInstance().register(this);
 
-    private class MyReplyAdapter extends AutoAdapter {
     }
 
     @Override
@@ -212,7 +214,10 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         }
     }
 
-    private class MyReplyAdapter extends BaseAdapter {
+
+
+
+    private class MyReplyAdapter extends AutoAdapter {
 
 
         protected MyReplyAdapter(Context context, List<?> data) {

@@ -26,6 +26,7 @@ import com.dkhs.portfolio.ui.FloatingActionMenu;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.squareup.otto.Subscribe;
@@ -70,7 +71,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(TopicsBean topicsBean);
     }
 
@@ -94,25 +94,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         mDataList.add(mTopicsBean);
         mDataList.add(new LoadingBean());
         mSwipeLayout.setRefreshing(false);
-        BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
-            @Override
-            public Class getClassType() {
-                return TopicsBean.class;
-            }
 
-            @Override
-            protected void afterParseData(Object object) {
-                mTopicsBean = (TopicsBean) object;
-                mListener.onFragmentInteraction(mTopicsBean);
-                if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
-                    mDataList.remove(0);
-                    mDataList.add(0, mTopicsBean);
-                }
-                mAdapter.notifyDataSetChanged();
-                mSwipeLayout.setRefreshing(true);
-
-            }
-        });
         mListView.setDivider(null);
         View v = new View(mActivity);
         v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
@@ -129,10 +111,19 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        loadData();
+        super.onResume();
+    }
 
     @Subscribe
     public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
+    }
+    @Subscribe
+    public void refresh(DeleteCommentEvent deleteCommentEvent) {
+        loadData();
     }
 
     private void handExtraIntent() {
@@ -190,6 +181,33 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
     @Override
     public void loadData() {
+        BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return TopicsBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+                mSwipeLayout.setRefreshing(false);
+                mTopicsBean = (TopicsBean) object;
+                if(mListener != null)
+                mListener.onFragmentInteraction(mTopicsBean);
+                if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
+                    mDataList.remove(0);
+                    mDataList.add(0, mTopicsBean);
+                }
+                mAdapter.notifyDataSetChanged();
+                mSwipeLayout.setRefreshing(true);
+
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                mSwipeLayout.setRefreshing(false);
+            }
+        });
         mSwipeLayout.setRefreshing(true);
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
@@ -199,6 +217,9 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         mSwipeLayout.setRefreshing(true);
         getLoadEngine().loadData(sortType);
     }
+
+
+
 
     @Override
     public void loadFinish(MoreDataBean object) {
@@ -238,7 +259,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     public void like() {
 
         if (mTopicsBean != null) {
-            mTopicsBean.favorites_count += 1;
+            mTopicsBean.attitudes_count += 1;
             mAdapter.notifyDataSetChanged();
 
         }
@@ -247,10 +268,8 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
     public void unLike() {
         if (mTopicsBean != null) {
-            mTopicsBean.favorites_count -= 1;
+            mTopicsBean.attitudes_count -= 1;
             mAdapter.notifyDataSetChanged();
-
-
         }
     }
 

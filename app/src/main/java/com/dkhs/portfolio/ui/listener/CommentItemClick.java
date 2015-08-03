@@ -212,6 +212,8 @@ public class CommentItemClick {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
                     BusProvider.getInstance().post(new DeleteCommentEvent());
+
+
                 }
 
             }

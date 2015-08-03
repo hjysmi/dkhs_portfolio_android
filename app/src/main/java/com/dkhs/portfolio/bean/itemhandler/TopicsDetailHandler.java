@@ -80,15 +80,13 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         if (data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_sm, vh.getImageView(R.id.iv));
-
+            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_md, vh.getImageView(R.id.iv));
         } else {
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
 
-        vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.favorites_count);
+        vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
-
 
         if (data.state == -1) {
             vh.setTextView(R.id.tv_empty, mContext.getString(R.string.topics_already_delete));
@@ -97,12 +95,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         } else {
             vh.get(R.id.main_ll).setVisibility(View.VISIBLE);
             vh.get(R.id.emptyRl).setVisibility(View.GONE);
-
         }
-
         Spinner spinner = vh.get(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
-
 
     }
 

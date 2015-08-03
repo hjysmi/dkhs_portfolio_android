@@ -92,9 +92,9 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         }
 
         TextSwitcher textSwitcher=vh.get(R.id.tv_like);
-        if(data.favorites_count>0){
+        if(data.attitudes_count>0){
 
-            textSwitcher.setCurrentText(StringFromatUtils.handleNumber(data.favorites_count));
+            textSwitcher.setCurrentText(StringFromatUtils.handleNumber(data.attitudes_count));
         }else{
             textSwitcher.setCurrentText( vh.getConvertView().getContext().getString(R.string.like));
         }
@@ -181,11 +181,11 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
         @Override
         public void likePre() {
-            topicsBean.favorites_count+=1;
+            topicsBean.attitudes_count+=1;
             TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if(topicsBean.favorites_count>0){
+            if(topicsBean.attitudes_count>0){
 
-                likeTV.setText(StringFromatUtils.handleNumber(topicsBean.favorites_count));
+                likeTV.setText(StringFromatUtils.handleNumber(topicsBean.attitudes_count));
             }else{
                 likeTV.setText(mView.getContext().getString(R.string.like));
             }
@@ -193,11 +193,11 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
         @Override
         public void unLikePre() {
-            topicsBean.favorites_count-=1;
+            topicsBean.attitudes_count-=1;
             TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if(topicsBean.favorites_count>0){
+            if(topicsBean.attitudes_count>0){
 
-                likeTV.setText(StringFromatUtils.handleNumber(topicsBean.favorites_count));
+                likeTV.setText(StringFromatUtils.handleNumber(topicsBean.attitudes_count));
             }else{
                 likeTV.setText(mView.getContext().getString(R.string.like));
             }
@@ -208,7 +208,6 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
 
         private TopicsBean topicsBean;
-
 
         @Override
         public View.OnClickListener setDate(TopicsBean o) {

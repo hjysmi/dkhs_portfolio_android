@@ -55,10 +55,15 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         }
         vh.getTextView(R.id.tv_username).setText(user.getUsername());
         vh.getTextView(R.id.tv_text).setText(comment.getText());
-        ((TextSwitcher)vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.getFavorites_count()));
+        ((TextSwitcher)vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.getAttitudes_count()));
         vh.getTextView(R.id.tv_time).setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
         setClickListener( vh.get(R.id.like_ll),comment);
+        if(comment.getAttitudes_count()>0){
 
+            ((TextSwitcher)vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
+        }else{
+            ((TextSwitcher)vh.get(R.id.tv_like)).setCurrentText(vh.getContext().getString(R.string.like));
+        }
         if(mAvatarImResponse) {
             setClickListener(vh.get(R.id.iv_head), comment);
         }
@@ -157,11 +162,11 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
         @Override
         public void likePre() {
-            mCommentBean.setFavorites_count(mCommentBean.getFavorites_count()+1);
+            mCommentBean.setAttitudes_count(mCommentBean.getAttitudes_count() + 1);
             TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if(mCommentBean.getFavorites_count()>0){
+            if(mCommentBean.getAttitudes_count()>0){
 
-                likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getFavorites_count()));
+                likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
             }else{
                 likeTV.setText(mView.getContext().getString(R.string.like));
             }
@@ -169,11 +174,11 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
         @Override
         public void unLikePre() {
-            mCommentBean.setFavorites_count(mCommentBean.getFavorites_count()-1);
+            mCommentBean.setAttitudes_count(mCommentBean.getAttitudes_count() - 1);
             TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if(mCommentBean.getFavorites_count()>0){
+            if(mCommentBean.getAttitudes_count()>0){
 
-                likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getFavorites_count()));
+                likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
             }else{
                 likeTV.setText(mView.getContext().getString(R.string.like));
             }
