@@ -129,8 +129,8 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         @Override
         public void onClick(View v) {
 
-//            UIUtils.startAnimationActivity((Activity) mContext,
-//                    UserHomePageActivity.getIntent(mContext, mCommentBean.user.getUsername(), mCommentBean.user.getId() + ""));
+            UIUtils.startAnimationActivity((Activity) mContext,
+                    UserHomePageActivity.getIntent(mContext, mCommentBean.getUser().getUsername(), mCommentBean.getUser().getId() + ""));
 
 
         }
