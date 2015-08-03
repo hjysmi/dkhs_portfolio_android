@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
@@ -97,7 +98,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
         mListView.setDivider(null);
         View v = new View(mActivity);
-        v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
+        v.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
         mListView.addFooterView(v);
         ((TopicsDetailActivity) getActivity()).mFloatingActionMenu.attachToListViewTop(mListView, null, null);
 //        loadData(TopicsCommendEngineImpl.SortType.latest);
@@ -200,6 +201,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                     mDataList.add(0, mTopicsBean);
                 }
                 mAdapter.notifyDataSetChanged();
+                mSwipeLayout.setRefreshing(true);
 
             }
 
@@ -209,6 +211,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                 mSwipeLayout.setRefreshing(false);
             }
         });
+        mSwipeLayout.setRefreshing(true);
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }

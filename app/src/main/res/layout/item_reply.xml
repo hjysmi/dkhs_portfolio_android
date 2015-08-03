@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:descendantFocusability="blocksDescendants"
-              android:orientation="vertical"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:background="@color/white"
-                  android:descendantFocusability="blocksDescendants"
-                  android:orientation="vertical"
-                  android:padding="@dimen/widget_margin_medium">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical"
+        android:padding="@dimen/widget_margin_medium">
 
 
         <LinearLayout
@@ -23,7 +22,7 @@
             <ImageView
                 android:id="@+id/iv_head"
                 style="@style/lv_avatar_style"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -42,15 +41,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_status_content"/>
+                        android:textSize="@dimen/text_status_username" />
 
                     <TextView
                         android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/widget_margin_small"
                         android:textColor="@color/gray_textcolor"
-                        android:textSize="@dimen/item_reply_textsize_small"/>
+                        android:textSize="@dimen/text_status_time" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -65,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/praise"/>
+                        android:background="@drawable/praise" />
 
 
                     <TextSwitcher
@@ -84,7 +82,7 @@
                             android:gravity="center"
                             android:text="@string/like"
                             android:textColor="@color/tag_gray"
-                            android:textSize="14sp"/>
+                            android:textSize="@dimen/text_status_like" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -93,7 +91,7 @@
                             android:gravity="center"
                             android:text="@string/like"
                             android:textColor="@color/tag_gray"
-                            android:textSize="14sp"/>
+                            android:textSize="@dimen/text_status_like" />
                     </TextSwitcher>
 
                 </LinearLayout>
@@ -104,9 +102,9 @@
             android:id="@+id/tv_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/widget_margin_medium"
+            android:layout_marginTop="@dimen/widget_margin_normal"
             android:textColor="@color/text_content_color"
-            android:textSize="@dimen/text_status_content"/>
+            android:textSize="@dimen/text_status_content" />
 
     </LinearLayout>
 
@@ -115,9 +113,7 @@
         android:layout_width="fill_parent"
         android:layout_height="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/main_ll"/>
+        android:layout_below="@+id/main_ll" />
 
-    <View
-        style="@style/divider_line"
-        />
+    <View style="@style/divider_line" />
 </LinearLayout>
