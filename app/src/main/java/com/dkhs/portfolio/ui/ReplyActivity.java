@@ -191,8 +191,28 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
 
     private class MyReplyAdapter extends AutoAdapter {
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void deleteSuccessUpdate(DeleteCommentEvent event) {
+        if (null != event) {
+            refreshData();
+        }
+    }
+
+    private class MyReplyAdapter extends BaseAdapter {
 
 
         protected MyReplyAdapter(Context context, List<?> data) {

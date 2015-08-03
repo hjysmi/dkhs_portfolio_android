@@ -138,6 +138,6 @@ public class StatusEngineImpl {
     public static void delete(String status, ParseHttpListener listener) {
 //        RequestParams params = new RequestParams();
 //        params.addBodyParameter("pk", status);
-        DKHSClient.request(HttpRequest.HttpMethod.DELETE, DKHSUrl.Status.statuses + "/" + status, null, listener);
+        DKHSClient.request(HttpRequest.HttpMethod.DELETE, DKHSUrl.Status.statuses + status + "/", null, listener);
     }
 }

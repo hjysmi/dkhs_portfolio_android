@@ -179,12 +179,14 @@ public class UIUtils {
             Matrix m = new Matrix();
             m.postRotate(digree);
             Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
-            if (null != bms) {
-                bm = bms;
-                bms = null;
-            }
+//            if (null != bms) {
+//                bm = bms;
+//                bms = null;
+//            }
+            return bms;
         }
-        return bm;
+//        return bm;
+        return null;
     }
 
     public static Bitmap toRoundBitmap(Bitmap bitmap) {
