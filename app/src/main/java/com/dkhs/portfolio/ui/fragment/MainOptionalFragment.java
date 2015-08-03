@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
@@ -164,8 +165,14 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
     @Override
     public void onResume() {
         super.onResume();
+        StatService.onResume(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        StatService.onPause(this);
+    }
 
     private static final String TAG = MainOptionalFragment.class.getSimpleName();
 

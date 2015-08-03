@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AppBean;
@@ -98,12 +99,14 @@ public class MainActivity extends BaseActivity {
         MessageManager.getInstance().connect();
         super.onResume();
         MobclickAgent.onResume(this);
+        StatService.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         MobclickAgent.onResume(this);
+        StatService.onPause(this);
     }
 
     @Override
@@ -297,8 +300,6 @@ public class MainActivity extends BaseActivity {
 
         return super.onKeyDown(keyCode, event);
     }
-
-
 
 
     ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {

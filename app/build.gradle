@@ -132,4 +132,5 @@ dependencies {
     compile project(':photoBrower')
     compile project(':emoji')
     compile project(':security')
+    compile files('libs/android_api_3.7.0.jar')
 }

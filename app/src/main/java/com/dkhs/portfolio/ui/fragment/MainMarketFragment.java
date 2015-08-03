@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.InfoActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
@@ -147,12 +148,14 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     public void onResume() {
         super.onResume();
         BusProvider.getInstance().register(this);
+        StatService.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
+        StatService.onPause(this);
     }
 
     private static final String TAG = MainMarketFragment.class.getSimpleName();
