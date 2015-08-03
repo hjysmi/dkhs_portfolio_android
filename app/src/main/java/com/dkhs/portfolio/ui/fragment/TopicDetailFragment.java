@@ -181,6 +181,8 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
     @Override
     public void loadData() {
+
+        mSwipeLayout.setRefreshing(true);
         BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
@@ -192,13 +194,12 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                 mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
                 if(mListener != null)
-                mListener.onFragmentInteraction(mTopicsBean);
+                    mListener.onFragmentInteraction(mTopicsBean);
                 if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
                     mDataList.remove(0);
                     mDataList.add(0, mTopicsBean);
                 }
                 mAdapter.notifyDataSetChanged();
-                mSwipeLayout.setRefreshing(true);
 
             }
 
@@ -208,7 +209,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                 mSwipeLayout.setRefreshing(false);
             }
         });
-        mSwipeLayout.setRefreshing(true);
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }
