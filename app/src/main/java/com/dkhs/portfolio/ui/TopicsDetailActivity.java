@@ -18,7 +18,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
-import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
+import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;

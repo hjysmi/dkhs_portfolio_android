@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.utils;
+package com.dkhs.portfolio.ui.widget;
 
 import android.widget.ImageView;
 
@@ -12,7 +12,7 @@ import com.dkhs.portfolio.net.SimpleParseHttpListener;
 /**
  * @author zwm
  * @version 2.0
- * @ClassName SwitchStarStateListener
+ * @ClassName SwitchLikeStateHandler
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/30.
  */

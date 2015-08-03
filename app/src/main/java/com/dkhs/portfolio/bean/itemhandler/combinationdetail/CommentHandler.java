@@ -17,7 +17,7 @@ import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
+import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 

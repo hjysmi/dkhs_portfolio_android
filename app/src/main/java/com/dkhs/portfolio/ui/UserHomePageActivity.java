@@ -315,17 +315,21 @@ public class UserHomePageActivity extends ModelAcitivity {
         if (mTopicsBeans != null) {
             if (mTopicsBeans.size() > 0) {
 
-                if (mTopicsAmount == 5) {
+                if (mTopicsAmount >= 5) {
                     moreBean2.index = 1;
+
                 } else {
                     moreBean2.index = 0;
                 }
                 mData.add(moreBean2);
                 mData.addAll(mTopicsBeans);
-                MoreFootBean moreFootBean = new MoreFootBean();
-                moreFootBean.index = 1;
-                moreFootBean.userEntity = mUserEntity;
-                mData.add(moreFootBean);
+
+                if (mTopicsAmount >= 5) {
+                    MoreFootBean moreFootBean = new MoreFootBean();
+                    moreFootBean.index = 1;
+                    moreFootBean.userEntity = mUserEntity;
+                    mData.add(moreFootBean);
+                }
             } else {
                 moreBean2.index = 0;
                 mData.add(moreBean2);
@@ -354,17 +358,22 @@ public class UserHomePageActivity extends ModelAcitivity {
 
         if (mCommentBeans != null) {
             if (mCommentBeans.size() > 0) {
-                if (mCommentAmount == 5) {
+
+                if (mCommentAmount >= 5) {
                     moreBean3.index = 2;
                 } else {
                     moreBean3.index = 0;
                 }
                 mData.add(moreBean3);
                 mData.addAll(mCommentBeans);
-                MoreFootBean moreFootBean = new MoreFootBean();
-                moreFootBean.index = 2;
-                moreFootBean.userEntity = mUserEntity;
-                mData.add(moreFootBean);
+
+                if (mCommentAmount >= 5) {
+                    MoreFootBean moreFootBean = new MoreFootBean();
+                    moreFootBean.index = 2;
+                    moreFootBean.userEntity = mUserEntity;
+                    mData.add(moreFootBean);
+                }
+
             } else {
                 moreBean3.index = 0;
                 mData.add(moreBean3);

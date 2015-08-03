@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
-import android.widget.TextView;
 
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.portfolio.R;
@@ -18,7 +17,7 @@ import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
+import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
