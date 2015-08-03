@@ -76,12 +76,15 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
 
     @Override
     public HttpHandler loadData() {
-        RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", "1");
-        params.addQueryStringParameter("pageSize", pageSize + "");
-        params.addQueryStringParameter("sort",  sort);
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getCommend, topicsId), params, this);
 
+        if(sort !=null ){
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            params.addQueryStringParameter("pageSize", pageSize + "");
+            params.addQueryStringParameter("sort", sort);
+            return DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getCommend, topicsId), params, this);
+        }
+        return null;
     }
 
     @Override

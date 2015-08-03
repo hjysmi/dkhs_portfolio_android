@@ -6,4 +6,5 @@ package com.dkhs.portfolio.ui.eventbus;
  */
 public class DeleteCommentEvent {
 
+
 }

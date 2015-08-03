@@ -15,7 +15,7 @@ import com.dkhs.portfolio.bean.LoadingBean;
 public class LoadingHandler  implements ItemHandler<LoadingBean>{
     @Override
     public int getLayoutResId() {
-        return R.layout.layout_loading;
+        return R.layout.item_loading;
     }
 
     @Override

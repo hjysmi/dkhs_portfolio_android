@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity {
         }
 
         UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-        mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+        mUserEngineImpl.getAppVersion("portfolio_android", updateAppVersionListener);
 
 
     }
@@ -299,7 +299,9 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
+
+
+    ParseHttpListener updateAppVersionListener = new ParseHttpListener<AppBean>() {
 
         @Override
         protected AppBean parseDateTask(String jsonData) {

@@ -3,21 +3,31 @@ package com.dkhs.portfolio.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
-import com.dkhs.portfolio.utils.SwitchLikeStateHandler;
+import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.parceler.Parcels;
+
+import java.io.File;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
  * 主贴详情
@@ -95,6 +105,39 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         mSwitchLikeStateHandler.toggleLikeState();
                         break;
                     case MENU_SHARE:
+                        if (mTopicsBean == null) {
+                            break;
+                        }
+                        ShareBean shareBean = new ShareBean();
+                        if (mTopicsBean.text != null) {
+
+                            if (mTopicsBean.text.length() > 30) {
+                                shareBean.setContent(mTopicsBean.text.substring(0, 30) + "...");
+                            } else {
+                                shareBean.setContent(mTopicsBean.text);
+                            }
+                        }
+                        shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/statuses_info/" + mTopicsBean.getId());
+                        shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
+                        String img=null;
+                        shareBean.setResId(R.drawable.default_head);
+                        if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
+
+                            String imaUrl = mTopicsBean.medias.get(0).image_md;
+                            String imgPath = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
+
+                            if (new File(imgPath).exists()) {
+                                img = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
+                                shareBean.setImg(imaUrl);
+                            }
+                        }else if (mTopicsBean.user != null && !TextUtils.isEmpty(mTopicsBean.user.getAvatar_md())) {
+                            ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
+                            if (new File(ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath()).exists()) {
+                                img=ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
+                                shareBean.setImg(mTopicsBean.user.getAvatar_md());
+                            }
+                        }
+                        shareAction(shareBean,img);
 
                         break;
                     case MENU_MORE_STATUS_REPORT:
@@ -114,6 +157,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                             @Override
                             protected void afterParseData(Object object) {
+
+
+                                if(mTopicsBean != null){
+                                    RemoveTopicsEvent removeTopicsListEvent=new RemoveTopicsEvent(mTopicsBean);
+                                    BusProvider.getInstance().post(removeTopicsListEvent);
+                                }
                                 ((Activity) mContext).finish();
                             }
                         });
@@ -155,10 +204,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     public void likePre() {
-
         initFloatMenu();
         mTopicDetailFragment.like();
-
     }
 
     @Override
@@ -172,7 +219,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @Override
     public void onFragmentInteraction(TopicsBean topicsBean) {
         mTopicsBean = topicsBean;
-        mSwitchLikeStateHandler.setTopicsBean(mTopicsBean);
+        mSwitchLikeStateHandler.setLikeBean(mTopicsBean);
 
         initFloatMenu();
     }
@@ -187,5 +234,31 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             }
         }
         super.finish();
+    }
+
+    private void shareAction(ShareBean shareBean, String path) {
+
+        if (shareBean == null) {
+            return;
+        }
+        Context context = this;
+        final OnekeyShare oks = new OnekeyShare();
+//          oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        oks.setTitleUrl(shareBean.getUrl());
+        oks.setUrl(shareBean.getUrl());
+        oks.setTitle(shareBean.getTitle());
+        oks.setText(shareBean.getContent());
+        if (path != null) {
+            oks.setImagePath(path);
+        } else if(!TextUtils.isEmpty(shareBean.getImg())){
+            oks.setImageUrl(shareBean.getImg());
+        }else if(shareBean.getResId()!= 0){
+            oks.setBitMap(BitmapFactory.decodeResource(getResources(),shareBean.getResId()));
+        }
+        oks.setSilent(false);
+        oks.setShareFromQQAuthSupport(false);
+        oks.setDialogMode();
+        oks.show(context);
+
     }
 }

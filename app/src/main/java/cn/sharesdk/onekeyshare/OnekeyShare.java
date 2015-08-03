@@ -191,6 +191,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
             shareParamsMap.put("imageUrl", imageUrl);
     }
 
+
     /**
      * url在微信（包括好友、朋友圈收藏）和易信（包括好友和朋友圈）中使用，否则可以不提供
      */
@@ -361,6 +362,9 @@ public class OnekeyShare implements PlatformActionListener, Callback {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+    }
+    public void setBitMap(Bitmap bm) {
+            shareParamsMap.put("viewToShare", bm);
     }
 
     /**

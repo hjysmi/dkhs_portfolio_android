@@ -34,6 +34,8 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
+import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.widget.DKHSEditText;
@@ -661,6 +663,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 if (curType == TYPE_POST) {
 
                     PromptManager.showSuccessToast(R.string.msg_post_topic_success);
+                    AddTopicsEvent addTopicsEvent =new AddTopicsEvent(entity);
+                    BusProvider.getInstance().post(addTopicsEvent);
                 } else {
                     PromptManager.showSuccessToast(R.string.msg_post_reply_success);
 

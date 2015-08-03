@@ -103,7 +103,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除
-                        deleteComment(commentBean.getId());
+                        deleteComment(commentBean.getId()+"");
                         break;
                 }
                 dialog.dismiss();
@@ -153,7 +153,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除回复
-                        deleteComment(commentBean.getId());
+                        deleteComment(commentBean.getId()+"");
                         break;
                 }
                 dialog.dismiss();
@@ -169,7 +169,7 @@ public class CommentItemClick {
      */
     private void replyComment(CommentBean commentBean) {
         if (null != commentBean.getUser()) {
-            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, commentBean.getId(), commentBean.getUser().getUsername()));
+            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, commentBean.getId()+"", commentBean.getUser().getUsername()));
         } else {
             Log.e(TAG, "comment user is null;");
         }
@@ -212,6 +212,8 @@ public class CommentItemClick {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
                     BusProvider.getInstance().post(new DeleteCommentEvent());
+
+
                 }
 
             }
@@ -223,7 +225,7 @@ public class CommentItemClick {
      * 举报回复
      */
     private void reportComment(CommentBean commentBean) {
-        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId(), commentBean.getUser().getUsername(), commentBean.getText()));
+        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId()+"", commentBean.getUser().getUsername(), commentBean.getText()));
     }
 
 
