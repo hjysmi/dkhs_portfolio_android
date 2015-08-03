@@ -55,16 +55,16 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         }
         vh.getTextView(R.id.tv_username).setText(user.getUsername());
         vh.getTextView(R.id.tv_text).setText(comment.getText());
-        ((TextSwitcher)vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.getAttitudes_count()));
+        ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.getAttitudes_count()));
         vh.getTextView(R.id.tv_time).setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
-        setClickListener( vh.get(R.id.like_ll),comment);
-        if(comment.getAttitudes_count()>0){
+        setClickListener(vh.get(R.id.like_ll), comment);
+        if (comment.getAttitudes_count() > 0) {
 
-            ((TextSwitcher)vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
-        }else{
-            ((TextSwitcher)vh.get(R.id.tv_like)).setCurrentText(vh.getContext().getString(R.string.like));
+            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
+        } else {
+            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(vh.getContext().getString(R.string.like));
         }
-        if(mAvatarImResponse) {
+        if (mAvatarImResponse) {
             setClickListener(vh.get(R.id.iv_head), comment);
         }
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,6 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         });
 
 
-
         if (comment.compact) {
             vh.get(R.id.bottom).setVisibility(View.GONE);
         } else {
@@ -91,21 +90,21 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
     }
 
-    public void setClickListener(View  view, CommentBean data){
-        ItemHandlerClickListenerImp<CommentBean> itemHandlerClickListener=null;
-        if(null !=  view.getTag() && view.getTag() instanceof  ItemHandlerClickListenerImp){
-            itemHandlerClickListener= (ItemHandlerClickListenerImp<CommentBean>) view.getTag();
-        }else{
+    public void setClickListener(View view, CommentBean data) {
+        ItemHandlerClickListenerImp<CommentBean> itemHandlerClickListener = null;
+        if (null != view.getTag() && view.getTag() instanceof ItemHandlerClickListenerImp) {
+            itemHandlerClickListener = (ItemHandlerClickListenerImp<CommentBean>) view.getTag();
+        } else {
 
-            switch (view.getId()){
-                case  R.id.like_ll:
-                    itemHandlerClickListener=new LikeClickListenerImp();
+            switch (view.getId()) {
+                case R.id.like_ll:
+                    itemHandlerClickListener = new LikeClickListenerImp();
                     break;
-                case  R.id.iv_head:
-                    itemHandlerClickListener=new AvatarClickListenerImp();
+                case R.id.iv_head:
+                    itemHandlerClickListener = new AvatarClickListenerImp();
                     break;
                 default:
-                    itemHandlerClickListener=new LikeClickListenerImp();
+                    itemHandlerClickListener = new LikeClickListenerImp();
                     break;
             }
             view.setOnClickListener(itemHandlerClickListener);
@@ -114,7 +113,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         itemHandlerClickListener.setDate(data);
     }
 
-    class  AvatarClickListenerImp extends ItemHandlerClickListenerImp<CommentBean> {
+    class AvatarClickListenerImp extends ItemHandlerClickListenerImp<CommentBean> {
 
 
         private CommentBean mCommentBean;
@@ -128,10 +127,10 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
         @Override
         public void onClick(View v) {
-
-            UIUtils.startAnimationActivity((Activity) mContext,
-                    UserHomePageActivity.getIntent(mContext, mCommentBean.getUser().getUsername(), mCommentBean.getUser().getId() + ""));
-
+            if (mCommentBean.getUser() != null) {
+                UIUtils.startAnimationActivity((Activity) mContext,
+                        UserHomePageActivity.getIntent(mContext, mCommentBean.getUser().getUsername(), mCommentBean.getUser().getId() + ""));
+            }
 
         }
     }
@@ -143,18 +142,19 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         private View mView;
 
         private CommentBean mCommentBean;
+
         @Override
         public View.OnClickListener setDate(CommentBean o) {
             this.mCommentBean = o;
-            mSwitchLikeStateHandler =new SwitchLikeStateHandler(mCommentBean);
+            mSwitchLikeStateHandler = new SwitchLikeStateHandler(mCommentBean);
             return this;
         }
 
 
         @Override
         public void onClick(View v) {
-            mView=v;
-            ImageView imageView= (ImageView) v.findViewById(R.id.iv_praise);
+            mView = v;
+            ImageView imageView = (ImageView) v.findViewById(R.id.iv_praise);
             mSwitchLikeStateHandler.setStatusChangeI(this);
             mSwitchLikeStateHandler.attachLikeImage(imageView);
             mSwitchLikeStateHandler.toggleLikeState();
@@ -163,11 +163,11 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         @Override
         public void likePre() {
             mCommentBean.setAttitudes_count(mCommentBean.getAttitudes_count() + 1);
-            TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if(mCommentBean.getAttitudes_count()>0){
+            TextSwitcher likeTV = (TextSwitcher) mView.findViewById(R.id.tv_like);
+            if (mCommentBean.getAttitudes_count() > 0) {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
-            }else{
+            } else {
                 likeTV.setText(mView.getContext().getString(R.string.like));
             }
         }
@@ -175,11 +175,11 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         @Override
         public void unLikePre() {
             mCommentBean.setAttitudes_count(mCommentBean.getAttitudes_count() - 1);
-            TextSwitcher likeTV= (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if(mCommentBean.getAttitudes_count()>0){
+            TextSwitcher likeTV = (TextSwitcher) mView.findViewById(R.id.tv_like);
+            if (mCommentBean.getAttitudes_count() > 0) {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
-            }else{
+            } else {
                 likeTV.setText(mView.getContext().getString(R.string.like));
             }
 

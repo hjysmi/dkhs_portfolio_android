@@ -206,9 +206,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            UIUtils.startAnimationActivity((Activity) mContext,
-                    UserHomePageActivity.getIntent(mContext, topicsBean.user.getUsername(), topicsBean.user.getId() + ""));
+            if (topicsBean.user != null) {
+                UIUtils.startAnimationActivity((Activity) mContext,
+                        UserHomePageActivity.getIntent(mContext, topicsBean.user.getUsername(), topicsBean.user.getId() + ""));
 
+            }
         }
     }
 
