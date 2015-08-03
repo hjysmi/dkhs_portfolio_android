@@ -6,13 +6,17 @@ import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.DeleteResponeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
@@ -196,15 +200,20 @@ public class CommentItemClick {
     private void deleteComment(String commentId) {
 
 //        PromptManager.showToast("删除回复");
-        StatusEngineImpl.delete(commentId, new ParseHttpListener() {
+        StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
             @Override
-            protected Object parseDateTask(String jsonData) {
-                return null;
+            protected Boolean parseDateTask(String jsonData) {
+                DeleteResponeBean reponseBean = DataParse.parseObjectJson(DeleteResponeBean.class, jsonData);
+                return reponseBean.isStatus();
             }
 
             @Override
-            protected void afterParseData(Object object) {
-                PromptManager.showCancelToast(R.string.msg_del_contetn_success);
+            protected void afterParseData(Boolean object) {
+                if (object) {
+                    PromptManager.showCancelToast(R.string.msg_del_contetn_success);
+                    BusProvider.getInstance().post(new DeleteCommentEvent());
+                }
+
             }
         });
     }

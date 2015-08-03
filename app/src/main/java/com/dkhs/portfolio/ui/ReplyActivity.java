@@ -22,12 +22,15 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -187,6 +190,25 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void deleteSuccessUpdate(DeleteCommentEvent event) {
+        if (null != event) {
+            refreshData();
+        }
+    }
 
     private class MyReplyAdapter extends BaseAdapter {
 
@@ -220,6 +242,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 holder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
                 holder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
                 holder.tvPraiseCount = (TextView) convertView.findViewById(R.id.tv_praise_count);
+                holder.bottomView = convertView.findViewById(R.id.bottom);
                 convertView.setTag(holder);
             }
             CommentBean comment = results.get(position);
@@ -228,6 +251,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             if (!TextUtils.isEmpty(user.getAvatar_sm())) {
                 bitmapUtils.display(holder.ivHead, comment.getUser().getAvatar_sm());
             }
+            holder.bottomView.setVisibility(View.GONE);
             holder.tvUserName.setText(user.getUsername());
             holder.ivPraise.setTag(position);
             holder.tvText.setText(comment.getText());
@@ -277,6 +301,8 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             TextView tvUserName;
             TextView tvTime;
             TextView tvPraiseCount;
+
+            View bottomView;
             DKHSTextView tvText;
         }
     }
