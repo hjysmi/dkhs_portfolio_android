@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -104,14 +105,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         mSwitchLikeStateHandler.toggleLikeState();
                         break;
                     case MENU_SHARE:
-
-
                         if (mTopicsBean == null) {
                             break;
                         }
                         ShareBean shareBean = new ShareBean();
-
-
                         if (mTopicsBean.text != null) {
 
                             if (mTopicsBean.text.length() > 30) {
@@ -120,15 +117,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                                 shareBean.setContent(mTopicsBean.text);
                             }
                         }
-
-
                         shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/statuses_info/" + mTopicsBean.getId());
-
                         shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
-
-
                         String img=null;
-//                        shareBean.setImg(getResources().getDrawable(R.drawable.default_head));
+                        shareBean.setResId(R.drawable.default_head);
                         if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
 
                             String imaUrl = mTopicsBean.medias.get(0).image_md;
@@ -171,7 +163,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                                     RemoveTopicsEvent removeTopicsListEvent=new RemoveTopicsEvent(mTopicsBean);
                                     BusProvider.getInstance().post(removeTopicsListEvent);
                                 }
-
                                 ((Activity) mContext).finish();
                             }
                         });
@@ -259,8 +250,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         oks.setText(shareBean.getContent());
         if (path != null) {
             oks.setImagePath(path);
-        } else {
+        } else if(!TextUtils.isEmpty(shareBean.getImg())){
             oks.setImageUrl(shareBean.getImg());
+        }else if(shareBean.getResId()!= 0){
+            oks.setBitMap(BitmapFactory.decodeResource(getResources(),shareBean.getResId()));
         }
         oks.setSilent(false);
         oks.setShareFromQQAuthSupport(false);

@@ -426,13 +426,14 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
                 }
 
                 @Override
-                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                public void onLoadingComplete(String s, View view, final Bitmap bitmap) {
                     shareImage = true;
                     UIHandler.sendEmptyMessage(1, new Callback() {
                         public boolean handleMessage(Message msg) {
                             rlThumb.setVisibility(View.VISIBLE);
 //                            ivPin.setVisibility(View.VISIBLE);
 //                            shareImage = true;
+                            image = bitmap;
                             return false;
                         }
                     });
@@ -443,6 +444,9 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
                 }
             });
+
+        }else if(reqData.containsKey("imageRes")){
+
 
         }
     }
