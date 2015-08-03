@@ -162,18 +162,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
-
     private static final String TAG = MainOptionalFragment.class.getSimpleName();
 
     @Override
@@ -182,6 +170,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         if (fragment instanceof VisiableLoadFragment) {
             ((VisiableLoadFragment) fragment).onViewHide();
         }
+        StatService.onResume(this);
     }
 
     @Override
@@ -192,6 +181,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         } else {
             fragment.onResume();
         }
+        StatService.onPause(this);
     }
 
     private void setCombinationBar() {

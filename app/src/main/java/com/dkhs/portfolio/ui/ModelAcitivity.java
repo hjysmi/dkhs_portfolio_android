@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -65,7 +64,6 @@ public class ModelAcitivity extends SwipeBackActivity {
             MobclickAgent.onPageStart(this.getClass().getSimpleName());
         }
         MobclickAgent.onResume(this);
-        StatService.onResume(this);
         //统计时长
     }
 
@@ -76,7 +74,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         }
 
         MobclickAgent.onPause(this);
-        StatService.onPause(this);
     }
 
     protected void onCreate(Bundle arg0, int titleLayout) {

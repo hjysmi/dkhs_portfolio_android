@@ -127,6 +127,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 ((VisiableLoadFragment) fragment).onViewHide();
             }
         }
+        StatService.onResume(this);
     }
 
     @Override
@@ -141,6 +142,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 fragment.onResume();
             }
         }
+        StatService.onPause(this);
     }
 
 
@@ -148,14 +150,14 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     public void onResume() {
         super.onResume();
         BusProvider.getInstance().register(this);
-        StatService.onResume(this);
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
         BusProvider.getInstance().unregister(this);
-        StatService.onPause(this);
+
     }
 
     private static final String TAG = MainMarketFragment.class.getSimpleName();
