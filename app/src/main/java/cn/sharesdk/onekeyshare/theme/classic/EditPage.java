@@ -445,9 +445,6 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
                 }
             });
 
-        }else if(reqData.containsKey("imageRes")){
-
-
         }
     }
 
