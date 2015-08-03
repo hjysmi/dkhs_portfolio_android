@@ -299,8 +299,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
     ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
 
         @Override

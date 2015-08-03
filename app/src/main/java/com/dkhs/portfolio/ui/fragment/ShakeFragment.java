@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.WeakHandler;
@@ -94,7 +95,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
                     break;
                 case 3:
                     if (msg.obj != null) {
-                        mSuccessObject =  msg.obj;
+                        mSuccessObject = msg.obj;
                         if (!animationDrawable.isRunning()) {
                             mLoadingRibbonAD.stop();
                             gotoShakeActivity(mSuccessObject);
@@ -296,6 +297,17 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        StatService.onPause(this);
+    }
 
     @Override
     public void hearShake() {
