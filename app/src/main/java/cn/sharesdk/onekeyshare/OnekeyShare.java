@@ -362,9 +362,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-    }    /**
-     * 设置一个将被截图分享的View , surfaceView是截不了图片的
-     */
+    }
     public void setBitMap(Bitmap bm) {
             shareParamsMap.put("viewToShare", bm);
     }
