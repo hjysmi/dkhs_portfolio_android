@@ -45,14 +45,13 @@
 
         </RelativeLayout>
 
-        <TextView
+        <com.dkhs.portfolio.ui.widget.DKHSTextView
             android:id="@+id/titleTV"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="dfdfd"
             android:textColor="@color/black"
             android:textSize="@dimen/text_status_title" />
 
