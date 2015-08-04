@@ -280,6 +280,16 @@
             android:name=".service.ReLoadDataService"
             android:exported="false" />
 
+
+        <service
+            android:name="com.dkhs.portfolio.service.PostTopicService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.dkhs.posttopic.service.action.upload" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="${RONG_CLOUD_KEY}" />

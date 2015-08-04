@@ -26,16 +26,10 @@ import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.engine.DraftEngine;
-import com.dkhs.portfolio.engine.StatusEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.service.PostTopicService;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
-import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.widget.DKHSEditText;
@@ -62,7 +56,7 @@ import java.util.List;
 public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragment.OnEmojiconBackspaceClickedListener, DKHSEmojiFragment.OnEmojiconClickedListener, View.OnClickListener, ViewPager.OnPageChangeListener {
 
     public static final String MY_CAMERA = "/my_camera";
-    public static final String UPLOAD_JPG = "/upload.jpg";
+    //    public static final String UPLOAD_JPG = "/upload.jpg";
     private Uri photoUri;
     private String jpg_path;
     private InputMethodManager imm;
@@ -200,7 +194,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         etTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!etTitle.isFocusable()){
+                if (!etTitle.isFocusable()) {
                     etTitle.setFocusable(true);
                     etTitle.setFocusableInTouchMode(true);
                     etTitle.requestFocus();
@@ -267,6 +261,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             etContent.setText(mDraftBean.getContent());
             etTitle.setText(mDraftBean.getTitle());
             if (null != mDraftBean.getImageUri()) {
+//                jpg_path = mDraftBean.getImageUri();
                 ImageLoaderUtils.setImage(mDraftBean.getImageUri(), ivPhoto);
                 ivPhoto.setVisibility(View.VISIBLE);
             }
@@ -338,24 +333,28 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         imm.hideSoftInputFromWindow(curEt.getWindowToken(), 0);
     }
 
-    private String filePath = "";
+//    private String filePath = "";
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-                if (curType == TYPE_RETWEET) {
-                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-                } else if (curType == TYPE_POST) {
-                    if (TextUtils.isEmpty(jpg_path)) {
-                        //直接发表帖子或评论
-                        StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-                    } else {
-                        String file_str = Environment.getExternalStorageDirectory().getPath();
-                        filePath = file_str + jpg_path;
-                        StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
-                    }
-                }
+
+                PostTopicService.startPost(this, buildDrafteBean());
+                finish();
+
+//                if (curType == TYPE_RETWEET) {
+//
+//                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+//                } else if (curType == TYPE_POST) {
+//                    if (TextUtils.isEmpty(jpg_path)) {
+//                        //直接发表帖子或评论
+//                        StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+//                    } else {
+//                        String file_str = Environment.getExternalStorageDirectory().getPath();
+//                        StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
+//                    }
+//                }
                 break;
             case BACKBUTTON_ID:
                 showAlertDialog();
@@ -450,7 +449,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     case 1:
                         if (isShowDeletePic) {
                             ivPhoto.setVisibility(View.GONE);
-                            jpg_path = null;
+                            jpg_path = "";
+                            imageUri = "";
                         } else {
                         /* 取得相片后返回本画面 */
                             Intent intent = new Intent(Intent.ACTION_PICK,
@@ -473,7 +473,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             // 相册选择
             try {
                 final Uri uri = data.getData();
-                filePath = uri.toString();
+                imageUri = uri.toString();
                 ivPhoto.setVisibility(View.VISIBLE);
                 final String file_str = Environment.getExternalStorageDirectory().getPath();
                 String[] proj = {MediaStore.Images.Media.DATA};
@@ -486,14 +486,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                            jpg_path = MY_CAMERA + UPLOAD_JPG;
+                            jpg_path = MY_CAMERA + getTimestampFileName();
                             File f = new File(file_str + jpg_path);
                             if (f.exists()) {
                                 f.delete();
                             }
                             FileOutputStream out = new FileOutputStream(f);
                             Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, path);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 80, out);
                             // setImageView(imageBitmap);
                             //                setImageView(UIUtils.cropBitmap(imageBitmap));
                             saveBitmap(f.getAbsolutePath(), bitmap);
@@ -520,12 +520,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 return;
             }
             final Uri finalUri = uri;
-            filePath = uri.toString();
+            imageUri = uri.toString();
             String[] proj = {MediaStore.Images.Media.DATA};
             Cursor cursor = managedQuery(finalUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            jpg_path = MY_CAMERA + UPLOAD_JPG;
+            jpg_path = MY_CAMERA + getTimestampFileName();
             final String path = cursor.getString(column_index);
             final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
             ivPhoto.setVisibility(View.VISIBLE);
@@ -561,6 +561,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    private String getTimestampFileName() {
+//        return "/upload.jpg";
+        return "/" + System.currentTimeMillis() / 1000 + ".jpg";
+    }
 
     private void selectStockBack(SelectStockBean stockBean) {
         curEt.insesrStockText(String.format("%s(%s)", stockBean.getName(), stockBean.getSymbol()));
@@ -610,78 +615,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         return onTouchEvent(ev);
     }
 
-    private ParseHttpListener<UploadImageBean> uploadListener = new ParseHttpListener<UploadImageBean>() {
-        @Override
-        protected UploadImageBean parseDateTask(String jsonData) {
-            if (TextUtils.isEmpty(jsonData)) {
-                return null;
-            }
-            try {
-                UploadImageBean entity = DataParse.parseObjectJson(UploadImageBean.class, jsonData);
-                return entity;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void afterParseData(UploadImageBean entity) {
-            if (null != entity) {
-                // 图片上传完毕继续发表主题
-//                PromptManager.showToast("图片上传成功，发表话题");
-                StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, entity.getId(), statusListener.setLoadingDialog(PostTopicActivity.this, false));
-
-            }
-        }
-
-        public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
-            PromptManager.closeProgressDialog();
-        }
-    };
-    private ParseHttpListener<TopicsBean> statusListener = new ParseHttpListener<TopicsBean>() {
-        @Override
-        protected TopicsBean parseDateTask(String jsonData) {
-            if (TextUtils.isEmpty(jsonData)) {
-                return null;
-            }
-            try {
-                TopicsBean entity = DataParse.parseObjectJson(TopicsBean.class, jsonData);
-                return entity;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void afterParseData(TopicsBean entity) {
-            PromptManager.closeProgressDialog();
-            if (null != entity) {
-                // 图片上传完毕继续发表主题
-                if (curType == TYPE_POST) {
-
-                    PromptManager.showSuccessToast(R.string.msg_post_topic_success);
-                    AddTopicsEvent addTopicsEvent =new AddTopicsEvent(entity);
-                    BusProvider.getInstance().post(addTopicsEvent);
-                } else {
-                    PromptManager.showSuccessToast(R.string.msg_post_reply_success);
-
-                }
-                if (null != mDraftBean) {
-                    new DraftEngine(null).delDraft(mDraftBean);
-                }
-                finish();
-            }
-        }
-
-        public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
-            PromptManager.closeProgressDialog();
-        }
-    };
-
 
     @Override
     public void onBackPressed() {
@@ -725,23 +658,42 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
+    private String imageUri;
 
-    private void saveDraft() {
+    private DraftBean buildDrafteBean() {
         if (null == mDraftBean) {
             mDraftBean = new DraftBean();
             mDraftBean.setLabel(curType);
             mDraftBean.setReplyUserName(userName);
-            mDraftBean.setStatusId(repliedStatus);
+            if (!TextUtils.isEmpty(repliedStatus)) {
+                mDraftBean.setStatusId(repliedStatus);
+            }
         }
 
-        if (!TextUtils.isEmpty(filePath)) {
-            mDraftBean.setImageUri(filePath);
-        }
+        if (ivPhoto.getVisibility() == View.VISIBLE) {
 
+            if (!TextUtils.isEmpty(jpg_path)) {
+
+                String file_str = Environment.getExternalStorageDirectory().getPath();
+                file_str = file_str + jpg_path;
+                mDraftBean.setImageFilepath(file_str);
+            }
+            if (!TextUtils.isEmpty(jpg_path)) {
+                mDraftBean.setImageUri(imageUri);
+            }
+        } else {
+            mDraftBean.setImageUri("");
+            mDraftBean.setImageFilepath("");
+        }
 
         mDraftBean.setTitle(etTitle.getText().toString());
         mDraftBean.setContent(etContent.getText().toString());
-        new DraftEngine(null).saveDraft(mDraftBean);
+        return mDraftBean;
+
+    }
+
+    private void saveDraft() {
+        new DraftEngine(null).saveDraft(buildDrafteBean());
 
     }
 
