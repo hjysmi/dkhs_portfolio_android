@@ -434,6 +434,8 @@ public class TrendChart extends TrendGridChart {
 
         fillPaint.reset();
         Path linePath = new Path();
+        boolean isLinePoint = true;
+//        Path effectlinePath = new Path();
         if (null == lineData) {
             return;
         }
@@ -491,27 +493,49 @@ public class TrendChart extends TrendGridChart {
                         if (isFromCompare) {
                             if (j < dashLinePointSize && i == 0) {
                                 mLinePaint.setPathEffect(dashEffect);
+                                // 绘制线条
+                                if (j > 0) {
+                                    // 画线路图
+                                    canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
+                                }
+                                isLinePoint = false;
                             } else {
                                 mLinePaint.setPathEffect(null);
+                                isLinePoint = true;
                             }
                         } else {
 
                             if (j < dashLinePointSize) {
                                 mLinePaint.setPathEffect(dashEffect);
+                                if (j > 0) {
+                                    // 画线路图
+                                    canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
+                                }
+                                isLinePoint = false;
                             } else {
                                 mLinePaint.setPathEffect(null);
+                                isLinePoint = true;
                             }
                         }
 
 
-                        // 绘制线条
-                        if (j > 0) {
-                            // 画线路图
+                        // 绘制线条.
+                        if (isLinePoint) {
 
-//                            canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
-                            linePath.lineTo(startX, valueY);
-                        } else {
-                            linePath.moveTo(startX, valueY);
+
+                            if (j == dashLinePointSize) {
+                                if (j > 0) {
+                                    linePath.moveTo(ptFirst.x, ptFirst.y);
+                                } else {
+                                    linePath.moveTo(startX, valueY);
+
+                                }
+
+
+                            } else if (j > dashLineLenght) {
+                                linePath.lineTo(startX, valueY);
+                            }
+
                         }
 
                         if (pointEntity instanceof FundLinePointEntity && !TextUtils.isEmpty(((FundLinePointEntity) pointEntity).getInfo())) {

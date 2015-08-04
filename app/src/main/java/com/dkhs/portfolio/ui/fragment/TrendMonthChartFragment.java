@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -398,8 +399,12 @@ public class TrendMonthChartFragment extends VisiableLoadFragment {
                 pointEntity.setValue(value);
                 pointEntity.setTime("日期: " + todayBean.getDate());
                 pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
-                if (dashLineSize == 0 && TimeUtils.getCalendar(todayBean.getDate()) != null) {
-                    if (TimeUtils.getCalendar(todayBean.getDate()).after(mCreateCalender)) {
+
+                Calendar beanDate = TimeUtils.getCalendar(todayBean.getDate());
+                Log.d("getMaxOffetValue", "beanDate:" + TimeUtils.getTimeString(beanDate));
+                Log.d("getMaxOffetValue", "mCreateCalender:" + TimeUtils.getTimeString(mCreateCalender));
+                if (dashLineSize == 0 && beanDate != null) {
+                    if (beanDate.after(mCreateCalender)) {
                         dashLineSize = i;
                     }
                 }
