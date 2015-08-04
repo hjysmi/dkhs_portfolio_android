@@ -20,6 +20,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.SendTopicEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 
 import org.parceler.Parcels;
@@ -34,15 +35,15 @@ public class PostTopicService extends IntentService {
     private static final String SERVICE_NAME = PostTopicService.class.getName();
     private static final String TAG = "PostTopicService";
 
+    public static boolean hasFailSend;
+
     private NotificationManager notificationManager;
     private Builder notification;
     private PowerManager.WakeLock wakeLock;
-    //    private UploadNotificationConfig notificationConfig;
-    private int lastPublishedProgress;
 
 
     private static final int UPLOAD_NOTIFICATION_ID = 1722;
-    private static final int UPLOAD_NOTIFICATION_ID_DONE = 1822; 
+    private static final int UPLOAD_NOTIFICATION_ID_DONE = 1822;
     public static String NAMESPACE = "com.dkhs";
     private static final String ACTION_UPLOAD_SUFFIX = ".posttopicservice.action.upload";
     protected static final String PARAM_TOPICBEAN = "topic_bean";
@@ -54,11 +55,7 @@ public class PostTopicService extends IntentService {
         return NAMESPACE + ACTION_UPLOAD_SUFFIX;
     }
 
-//    public static String getActionBroadcast() {
-//        return NAMESPACE + BROADCAST_ACTION_SUFFIX;
-//    }
-
-    public static void startUpload(Context context, final DraftBean postStatusBean) {
+    public static void startPost(Context context, final DraftBean postStatusBean) {
 
 
         final Intent intent = new Intent(context, PostTopicService.class);
@@ -91,24 +88,15 @@ public class PostTopicService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
-//
             if (getActionUpload().equals(action)) {
                 DraftBean statusBean = Parcels.unwrap(intent.getExtras().getParcelable(PARAM_TOPICBEAN));
-//                notificationConfig = intent.getParcelableExtra(PARAM_NOTIFICATION_CONFIG);
-//                final String uploadId = intent.getStringExtra(PARAM_ID);
-//                final String url = intent.getStringExtra(PARAM_URL);
-//                final String method = intent.getStringExtra(PARAM_METHOD);
-//                final ArrayList<FileToUpload> files = intent.getParcelableArrayListExtra(PARAM_FILES);
-//                final ArrayList<NameValue> headers = intent.getParcelableArrayListExtra(PARAM_REQUEST_HEADERS);
-//                final ArrayList<NameValue> parameters = intent.getParcelableArrayListExtra(PARAM_REQUEST_PARAMETERS);
-//
-//                lastPublishedProgress = 0;
+
                 wakeLock.acquire();
                 try {
                     createNotification();
                     postTopic(statusBean);
                 } catch (Exception exception) {
-                    broadcastError(statusBean.getId() + "", exception);
+                    updateNotificationError(statusBean);
                 } finally {
                     wakeLock.release();
                 }
@@ -119,23 +107,9 @@ public class PostTopicService extends IntentService {
 
     private void postTopic(DraftBean statusBean) {
 
-
-//            uploadFiles(uploadId, requestStream, filesToUpload, boundaryBytes);
-//
-//            final byte[] trailer = getTrailerBytes(boundary);
-//            requestStream.write(trailer, 0, trailer.length);
-//            final int serverResponseCode = conn.getResponseCode();
-//
-//            if (serverResponseCode / 100 == 2) {
-//                responseStream = conn.getInputStream();
-//            } else { // getErrorStream if the response code is not 2xx
-//                responseStream = conn.getErrorStream();
-//            }
-//            final String serverResponseMessage = getResponseBodyAsString(responseStream);
-
-        if (statusBean.getLabel() == 1 && !TextUtils.isEmpty(statusBean.getImageUri())) {
+        if (statusBean.getLabel() == 1 && !TextUtils.isEmpty(statusBean.getImageFilepath())) {
             //上传图片
-            StatusEngineImpl.uploadImage(new File(statusBean.getImageUri()), new UploadListener(statusBean));
+            StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
         } else {
             StatusEngineImpl.postStatus(statusBean.getTitle(), statusBean.getContent(), statusBean.getStatusId(), null, 0, 0, "", new PostTopicListener(statusBean));
 
@@ -176,11 +150,13 @@ public class PostTopicService extends IntentService {
             }
         }
 
+
+        @Override
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-//            PromptManager.closeProgressDialog();
-            PostTopicService.this.updateNotificationError();
+            PostTopicService.this.updateNotificationError(mStatusBean);
         }
+
     }
 
 
@@ -227,56 +203,21 @@ public class PostTopicService extends IntentService {
             }
         }
 
+
+        @Override
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-//            PromptManager.closeProgressDialog();
-            PostTopicService.this.updateNotificationError();
-        }
-    }
-
-
-    private void broadcastCompleted(final String uploadId, final int responseCode, final String responseMessage) {
-
-        final String filteredMessage;
-        if (responseMessage == null) {
-            filteredMessage = "";
-        } else {
-            filteredMessage = responseMessage;
+            PostTopicService.this.updateNotificationError(mStatusBean);
         }
 
-        if (responseCode >= 200 && responseCode <= 299)
-            updateNotificationCompleted();
-        else
-            updateNotificationError();
 
-//        final Intent intent = new Intent(getActionBroadcast());
-//        intent.putExtra(UPLOAD_ID, uploadId);
-//        intent.putExtra(STATUS, STATUS_COMPLETED);
-//        intent.putExtra(SERVER_RESPONSE_CODE, responseCode);
-//        intent.putExtra(SERVER_RESPONSE_MESSAGE, filteredMessage);
-//        sendBroadcast(intent);
     }
 
-
-    /**
-     * 是否区分提交话题的ID
-     */
-    private void broadcastError(final String uploadId, final Exception exception) {
-
-        updateNotificationError();
-
-//        final Intent intent = new Intent(getActionBroadcast());
-//        intent.setAction(getActionBroadcast());
-//        intent.putExtra(UPLOAD_ID, uploadId);
-//        intent.putExtra(STATUS, STATUS_ERROR);
-//        intent.putExtra(ERROR_EXCEPTION, exception);
-//        sendBroadcast(intent);
-    }
 
     private void createNotification() {
-        notification.setContentTitle(getString(R.string.app_name)).setTicker("正在上传...")
+        notification.setTicker("发送中……")
                 .setContentIntent(PendingIntent.getBroadcast(this, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT))
-                .setSmallIcon(R.drawable.ic_launcher).setProgress(100, 0, true).setOngoing(true);
+                .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
         startForeground(UPLOAD_NOTIFICATION_ID, notification.build());
     }
@@ -285,22 +226,26 @@ public class PostTopicService extends IntentService {
     private void updateNotificationCompleted() {
         stopForeground(false);
 
-        notification.setContentTitle(getString(R.string.app_name))
-                .setTicker("内容发送成功")
-                .setSmallIcon(R.drawable.ic_launcher).setProgress(0, 0, false).setOngoing(false);
+        notification
+                .setTicker("√ 内容发送成功")
+                .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
         notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());
 
     }
 
 
-    private void updateNotificationError() {
+    private void updateNotificationError(DraftBean draftBean) {
+        new DraftEngine(null).saveDraft(draftBean);
         stopForeground(false);
 
-        notification.setContentTitle(getString(R.string.app_name)).setTicker("内容发送失败")
-                .setSmallIcon(R.drawable.ic_launcher).setProgress(0, 0, false).setOngoing(false);
+        notification.setTicker("内容发送失败")
+                .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
         notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());
+
+        BusProvider.getInstance().post(new SendTopicEvent());
+
     }
 
 }
