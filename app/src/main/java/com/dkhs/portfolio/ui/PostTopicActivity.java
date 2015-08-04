@@ -32,6 +32,7 @@ import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.service.PostTopicService;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
@@ -200,7 +201,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         etTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!etTitle.isFocusable()){
+                if (!etTitle.isFocusable()) {
                     etTitle.setFocusable(true);
                     etTitle.setFocusableInTouchMode(true);
                     etTitle.requestFocus();
@@ -344,18 +345,22 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-                if (curType == TYPE_RETWEET) {
-                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-                } else if (curType == TYPE_POST) {
-                    if (TextUtils.isEmpty(jpg_path)) {
-                        //直接发表帖子或评论
-                        StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-                    } else {
-                        String file_str = Environment.getExternalStorageDirectory().getPath();
-                        filePath = file_str + jpg_path;
-                        StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
-                    }
-                }
+
+                PostTopicService.startUpload(this, buildDrafteBean());
+
+//                if (curType == TYPE_RETWEET) {
+//
+//                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+//                } else if (curType == TYPE_POST) {
+//                    if (TextUtils.isEmpty(jpg_path)) {
+//                        //直接发表帖子或评论
+//                        StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
+//                    } else {
+//                        String file_str = Environment.getExternalStorageDirectory().getPath();
+//                        filePath = file_str + jpg_path;
+//                        StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
+//                    }
+//                }
                 break;
             case BACKBUTTON_ID:
                 showAlertDialog();
@@ -663,7 +668,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 if (curType == TYPE_POST) {
 
                     PromptManager.showSuccessToast(R.string.msg_post_topic_success);
-                    AddTopicsEvent addTopicsEvent =new AddTopicsEvent(entity);
+                    AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);
                     BusProvider.getInstance().post(addTopicsEvent);
                 } else {
                     PromptManager.showSuccessToast(R.string.msg_post_reply_success);
@@ -726,12 +731,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
 
-    private void saveDraft() {
+    private DraftBean buildDrafteBean() {
         if (null == mDraftBean) {
             mDraftBean = new DraftBean();
             mDraftBean.setLabel(curType);
             mDraftBean.setReplyUserName(userName);
-            mDraftBean.setStatusId(repliedStatus);
+            if (!TextUtils.isEmpty(repliedStatus)) {
+                mDraftBean.setStatusId(repliedStatus);
+            }
         }
 
         if (!TextUtils.isEmpty(filePath)) {
@@ -741,7 +748,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
         mDraftBean.setTitle(etTitle.getText().toString());
         mDraftBean.setContent(etContent.getText().toString());
-        new DraftEngine(null).saveDraft(mDraftBean);
+        return mDraftBean;
+
+    }
+
+    private void saveDraft() {
+        new DraftEngine(null).saveDraft(buildDrafteBean());
 
     }
 
