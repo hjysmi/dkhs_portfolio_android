@@ -154,6 +154,8 @@ public class UserHomePageActivity extends ModelAcitivity {
                             followAction();
                         }
                         break;
+                    default:
+                        break;
                 }
                 return false;
             }

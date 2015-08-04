@@ -201,7 +201,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                     mDataList.add(0, mTopicsBean);
                 }
                 mAdapter.notifyDataSetChanged();
-                mSwipeLayout.setRefreshing(true);
 
             }
 
@@ -238,8 +237,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                     mListView.setOnLoadListener(this);
             }
         }
-
-
         mSwipeLayout.setRefreshing(false);
         if (mTopicsCommendEngine.getCurrentpage() == 1) {
             mDataList.clear();
@@ -250,11 +247,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                 mDataList.add(noDataBean);
             }
         }
-
-
         mDataList.addAll(object.getResults());
-
-
         mAdapter.notifyDataSetChanged();
     }
 
