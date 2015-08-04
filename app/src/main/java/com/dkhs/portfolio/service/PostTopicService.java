@@ -231,7 +231,7 @@ public class PostTopicService extends IntentService {
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
         notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());
-
+        notificationManager.cancel(UPLOAD_NOTIFICATION_ID_DONE);
     }
 
 
@@ -243,6 +243,7 @@ public class PostTopicService extends IntentService {
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
         notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());
+        notificationManager.cancel(UPLOAD_NOTIFICATION_ID_DONE);
 
         BusProvider.getInstance().post(new SendTopicEvent());
 
