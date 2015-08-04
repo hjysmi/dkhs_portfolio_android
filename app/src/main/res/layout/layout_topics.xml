@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rootView"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/activity_bg_color">
+<RelativeLayout android:id="@+id/rootView"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/activity_bg_color">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/main_ll"
-        style="@style/white_grayborder_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <LinearLayout android:id="@+id/main_ll"
+                  style="@style/white_grayborder_layout"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:descendantFocusability="blocksDescendants"
+                  android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -22,7 +23,7 @@
 
             <ImageView
                 android:id="@+id/iv_avatar"
-                style="@style/lv_avatar_style" />
+                style="@style/lv_avatar_style"/>
 
             <TextView
                 android:id="@+id/name"
@@ -31,7 +32,7 @@
                 android:layout_toRightOf="@+id/iv_avatar"
                 android:gravity="top"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_status_username" />
+                android:textSize="@dimen/text_status_username"/>
 
 
             <TextView
@@ -41,7 +42,7 @@
                 android:layout_alignBottom="@+id/iv_avatar"
                 android:layout_toRightOf="@+id/iv_avatar"
                 android:textColor="@color/gray_textcolor"
-                android:textSize="@dimen/text_status_time" />
+                android:textSize="@dimen/text_status_time"/>
 
         </RelativeLayout>
 
@@ -53,7 +54,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_status_title" />
+            android:textSize="@dimen/text_status_title"/>
 
         <com.dkhs.portfolio.ui.widget.DKHSTextView
             android:id="@+id/content"
@@ -63,7 +64,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@color/text_content_color"
-            android:textSize="@dimen/text_status_content" />
+            android:textSize="@dimen/text_status_content"/>
 
         <ImageView
             android:id="@+id/iv"
@@ -74,12 +75,12 @@
             android:maxWidth="238px"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:src="@drawable/ic_img_thumbnail" />
+            android:src="@drawable/ic_img_thumbnail"/>
 
         <View
             style="@style/divider_line"
 
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -103,13 +104,13 @@
                     android:gravity="center"
                     android:text="@string/comment"
                     android:textColor="@color/tag_gray"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
             </FrameLayout>
 
             <View
                 style="@style/vertical_divider_line"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"/>
 
             <FrameLayout
                 android:id="@+id/fl_star"
@@ -129,7 +130,7 @@
                         android:id="@+id/iv_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_unlike" />
+                        android:src="@drawable/ic_unlike"/>
 
                     <TextSwitcher
                         android:id="@+id/tv_like"
@@ -146,7 +147,7 @@
                             android:gravity="center"
                             android:text="@string/like"
                             android:textColor="@color/tag_gray"
-                            android:textSize="@dimen/text_status_like" />
+                            android:textSize="@dimen/text_status_like"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -155,7 +156,7 @@
                             android:gravity="center"
                             android:text="@string/like"
                             android:textColor="@color/tag_gray"
-                            android:textSize="@dimen/text_status_like" />
+                            android:textSize="@dimen/text_status_like"/>
                     </TextSwitcher>
 
 
@@ -173,5 +174,5 @@
         android:layout_width="fill_parent"
         android:layout_height="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/main_ll" />
+        android:layout_below="@+id/main_ll"/>
 </RelativeLayout>
