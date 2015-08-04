@@ -215,7 +215,7 @@ public class PostTopicService extends IntentService {
 
 
     private void createNotification() {
-        notification.setTicker("发送中……")
+        notification.setTicker(getString(R.string.msg_topic_sending))
                 .setContentIntent(PendingIntent.getBroadcast(this, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
@@ -227,7 +227,7 @@ public class PostTopicService extends IntentService {
         stopForeground(false);
 
         notification
-                .setTicker("√ 内容发送成功")
+                .setTicker(getString(R.string.msg_topic_send_success))
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
         notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());
@@ -239,7 +239,7 @@ public class PostTopicService extends IntentService {
         new DraftEngine(null).saveDraft(draftBean);
         stopForeground(false);
 
-        notification.setTicker("内容发送失败")
+        notification.setTicker(getString(R.string.msg_topic_send_fail))
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
         notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());

@@ -698,6 +698,9 @@
     <string name="copy_content">复制</string>
     <string name="msg_copy_content_success">内容已复制</string>
     <string name="msg_del_contetn_success">回复删除成功</string>
+    <string name="msg_topic_sending">发送中……</string>
+    <string name="msg_topic_send_success">√ 内容发送成功</string>
+    <string name="msg_topic_send_fail">内容发送失败</string>
 
 
     <!--帖子回复-->
