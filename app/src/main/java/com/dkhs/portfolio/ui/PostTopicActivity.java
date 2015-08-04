@@ -26,17 +26,10 @@ import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.engine.DraftEngine;
-import com.dkhs.portfolio.engine.StatusEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.PostTopicService;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
-import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.widget.DKHSEditText;
@@ -621,78 +614,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         }
         return onTouchEvent(ev);
     }
-
-    private ParseHttpListener<UploadImageBean> uploadListener = new ParseHttpListener<UploadImageBean>() {
-        @Override
-        protected UploadImageBean parseDateTask(String jsonData) {
-            if (TextUtils.isEmpty(jsonData)) {
-                return null;
-            }
-            try {
-                UploadImageBean entity = DataParse.parseObjectJson(UploadImageBean.class, jsonData);
-                return entity;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void afterParseData(UploadImageBean entity) {
-            if (null != entity) {
-                // 图片上传完毕继续发表主题
-//                PromptManager.showToast("图片上传成功，发表话题");
-                StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, entity.getId(), statusListener.setLoadingDialog(PostTopicActivity.this, false));
-
-            }
-        }
-
-        public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
-            PromptManager.closeProgressDialog();
-        }
-    };
-    private ParseHttpListener<TopicsBean> statusListener = new ParseHttpListener<TopicsBean>() {
-        @Override
-        protected TopicsBean parseDateTask(String jsonData) {
-            if (TextUtils.isEmpty(jsonData)) {
-                return null;
-            }
-            try {
-                TopicsBean entity = DataParse.parseObjectJson(TopicsBean.class, jsonData);
-                return entity;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void afterParseData(TopicsBean entity) {
-            PromptManager.closeProgressDialog();
-            if (null != entity) {
-                // 图片上传完毕继续发表主题
-                if (curType == TYPE_POST) {
-
-                    PromptManager.showSuccessToast(R.string.msg_post_topic_success);
-                    AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);
-                    BusProvider.getInstance().post(addTopicsEvent);
-                } else {
-                    PromptManager.showSuccessToast(R.string.msg_post_reply_success);
-
-                }
-                if (null != mDraftBean) {
-                    new DraftEngine(null).delDraft(mDraftBean);
-                }
-                finish();
-            }
-        }
-
-        public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
-            PromptManager.closeProgressDialog();
-        }
-    };
 
 
     @Override
