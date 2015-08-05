@@ -10,6 +10,7 @@ import android.widget.TextSwitcher;
 
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
@@ -219,6 +220,9 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
 
             if (topicsBean.comments_count == 0) {
 
+                if (UIUtils.iStartLoginActivity(mContext)) {
+                    return;
+                }
                 UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername()));
 
             } else {

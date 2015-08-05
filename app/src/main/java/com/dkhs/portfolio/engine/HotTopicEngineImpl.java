@@ -106,11 +106,42 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
             }
         });
+
+        AdEngineImpl.getNewsBannerAds( new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return AdBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+
+                if (object != null) {
+                    AdBean adBean = (AdBean) object;
+//                    updateAdBanner(adBean);
+                    mBannerTopicsBean.adBean = adBean;
+                }
+                onFinish();
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                onFinish();
+            }
+
+            public void onFinish() {
+                HotTopicEngineImpl.this.responseStatus = responseStatus | 2;
+                mWeakHandler.sendEmptyMessage(responseStatus);
+
+            }
+        });
+
         RequestParams params2 = new RequestParams();
         params2.addQueryStringParameter("page", "1");
         params2.addQueryStringParameter("pageSize", pageSize + "");
         params2.addQueryStringParameter("recommend_level", "2");
-        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getStickTopic, params2, new ParseHttpListener<MoreDataBean>() {
+        return    DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getStickTopic, params2, new ParseHttpListener<MoreDataBean>() {
             @Override
             protected MoreDataBean parseDateTask(String jsonData) {
                 MoreDataBean<TopicsBean> moreBean = null;
@@ -148,35 +179,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
             }
         });
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Ads.getNewsBannerAds, null, new SimpleParseHttpListener() {
-            @Override
-            public Class getClassType() {
-                return AdBean.class;
-            }
 
-            @Override
-            protected void afterParseData(Object object) {
-
-                if (object != null) {
-                    AdBean adBean = (AdBean) object;
-//                    updateAdBanner(adBean);
-                    mBannerTopicsBean.adBean = adBean;
-                }
-                onFinish();
-            }
-
-            @Override
-            public void onFailure(int errCode, String errMsg) {
-                super.onFailure(errCode, errMsg);
-                onFinish();
-            }
-
-            public void onFinish() {
-                HotTopicEngineImpl.this.responseStatus = responseStatus | 2;
-                mWeakHandler.sendEmptyMessage(responseStatus);
-
-            }
-        });
 
     }
 

@@ -7,14 +7,23 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.FlowPackageBean;
+import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.FlowExchangeEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FlowExPackAdatper;
+import com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp;
 import com.dkhs.portfolio.ui.widget.HorizontalListView;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.ui.widget.ScaleLayout;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -41,19 +50,47 @@ public class ExchangeActivity extends ModelAcitivity {
     @ViewInject(R.id.exchange)
     private Button btnExchange;
 
+
+    @ViewInject(R.id.slider)
+    private   SliderLayout mSlider;
+    @ViewInject(R.id.sliderSL)
+    private ScaleLayout mSliderSL;
+
+    private OnSliderClickListenerImp mOnSliderClickListenerImp;
+
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle(R.string.title_flow_exchange);
         setContentView(R.layout.activity_flow_exchange);
         ViewUtils.inject(this);
-
+        mOnSliderClickListenerImp=new OnSliderClickListenerImp(this);
         tvMaxtip.setText(getString(R.string.max_flow_tip, 0));
         FlowExchangeEngine.packages(overViewListener);
         btnExchange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showExchangeDialog();
+            }
+        });
+        getHeadBanner();
+    }
+
+    private void getHeadBanner() {
+        AdEngineImpl.getRechargeBanner(new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return AdBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+
+                if (object != null) {
+                    AdBean adBean = (AdBean) object;
+                    updateBanner(adBean);
+                }
             }
         });
     }
@@ -70,12 +107,41 @@ public class ExchangeActivity extends ModelAcitivity {
             if (null != object) {
                 packageBean = object;
                 updateUI(object);
-
             }
 
         }
     };
 
+    private void updateBanner( AdBean adBean) {
+        int duration=6;
+        if (adBean != null) {
+            if(adBean.getAds().size()>=0){
+                mSliderSL.setVisibility(View.VISIBLE);
+                mSlider.removeAllSliders();
+                for (AdBean.AdsEntity item : adBean.getAds()) {
+                    TextSliderView textSliderView = new TextSliderView(this);
+                    textSliderView
+                            .description(item.getTitle())
+                            .image(item.getImage())
+                            .setScaleType(BaseSliderView.ScaleType.Fit);
+                    duration = item.getDisplay_time();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("redirect_url", item.getRedirect_url());
+                    textSliderView.bundle(bundle);
+                    textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                    mSlider.addSlider(textSliderView);
+                }
+                mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+                mSlider.setCustomAnimation(new DescriptionAnimation());
+                mSlider.setDuration(duration * 1000);
+                mSlider.startAutoCycle();
+            }else{
+                mSliderSL.setVisibility(View.GONE);
+            }
+
+        }
+    }
 
     private void updateUI(final FlowPackageBean packBean) {
         packAdapter = new FlowExPackAdatper(this, packBean.getOppackages());

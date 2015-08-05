@@ -18,6 +18,7 @@ import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp;
 
 /**
  * @author zwm
@@ -32,10 +33,11 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
     public Context mContext;
 
 
-    private  OnSliderClickListenerImp mOnSliderClickListenerImp=new OnSliderClickListenerImp();
+    private OnSliderClickListenerImp mOnSliderClickListenerImp;
 
     public BannerHandler(Context mContext) {
         this.mContext = mContext;
+        mOnSliderClickListenerImp=new OnSliderClickListenerImp(mContext);
     }
     @Override
     public int getLayoutResId() {
@@ -123,14 +125,5 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
         }
     }
 
-    class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickListener{
 
-        @Override
-        public void onSliderClick(BaseSliderView slider) {
-
-            Bundle bundle=slider.getBundle();
-            String    redirectUrl=  bundle.getString("redirect_url");
-            mContext.startActivity(AdActivity.getIntent(mContext, redirectUrl));
-        }
-    }
 }
