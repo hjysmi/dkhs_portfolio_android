@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -105,73 +107,80 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         mSwitchLikeStateHandler.toggleLikeState();
                         break;
                     case MENU_SHARE:
-                        if (mTopicsBean == null) {
-                            break;
+                        if (mTopicsBean != null) {
+                            share();
                         }
-                        ShareBean shareBean = new ShareBean();
-                        if (mTopicsBean.text != null) {
-
-                            if (mTopicsBean.text.length() > 30) {
-                                shareBean.setContent(mTopicsBean.text.substring(0, 30) + "...");
-                            } else {
-                                shareBean.setContent(mTopicsBean.text);
-                            }
-                        }
-                        shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/statuses_info/" + mTopicsBean.getId());
-                        shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
-                        String img=null;
-                        shareBean.setResId(R.drawable.default_head);
-                        if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
-
-                            String imaUrl = mTopicsBean.medias.get(0).image_md;
-                            String imgPath = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
-
-                            if (new File(imgPath).exists()) {
-                                img = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
-                                shareBean.setImg(imaUrl);
-                            }
-                        }else if (mTopicsBean.user != null && !TextUtils.isEmpty(mTopicsBean.user.getAvatar_md())) {
-                            ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
-                            if (new File(ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath()).exists()) {
-                                img=ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
-                                shareBean.setImg(mTopicsBean.user.getAvatar_md());
-                            }
-                        }
-                        shareAction(shareBean,img);
-
                         break;
                     case MENU_MORE_STATUS_REPORT:
                         mContext.startActivity(StatusReportActivity.getIntent(mContext, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
                         break;
                     case MENU_MORE_GO_HOME:
-
                         ((Activity) mContext).finish();
                         break;
                     case MENU_MORE_STATUS_DELETE:
-                        StatusEngineImpl.delete(mTopicsBean.id + "", new ParseHttpListener() {
+
+                        PromptManager.getAlertDialog(mContext).setMessage(getString(R.string.delete_topics)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                             @Override
-                            protected Object parseDateTask(String jsonData) {
+                            public void onClick(DialogInterface dialog, int which) {
+                                StatusEngineImpl.delete(mTopicsBean.id + "", new ParseHttpListener() {
+                                    @Override
+                                    protected Object parseDateTask(String jsonData) {
 
-                                return null;
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void afterParseData(Object object) {
+
+
+                                        if (mTopicsBean != null) {
+                                            RemoveTopicsEvent removeTopicsListEvent = new RemoveTopicsEvent(mTopicsBean);
+                                            BusProvider.getInstance().post(removeTopicsListEvent);
+                                        }
+                                        ((Activity) mContext).finish();
+                                    }
+                                });
                             }
-
-                            @Override
-                            protected void afterParseData(Object object) {
-
-
-                                if(mTopicsBean != null){
-                                    RemoveTopicsEvent removeTopicsListEvent=new RemoveTopicsEvent(mTopicsBean);
-                                    BusProvider.getInstance().post(removeTopicsListEvent);
-                                }
-                                ((Activity) mContext).finish();
-                            }
-                        });
+                        }).setNegativeButton(R.string.cancel,null).show();
 
                         break;
                 }
                 return false;
             }
         });
+    }
+
+    private void share() {
+        ShareBean shareBean = new ShareBean();
+        if (mTopicsBean.text != null) {
+
+            if (mTopicsBean.text.length() > 30) {
+                shareBean.setContent(mTopicsBean.text.substring(0, 30) + "...");
+            } else {
+                shareBean.setContent(mTopicsBean.text);
+            }
+        }
+        shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/statuses_info/" + mTopicsBean.getId());
+        shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
+        String img=null;
+        shareBean.setResId(R.drawable.default_head);
+        if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
+
+            String imaUrl = mTopicsBean.medias.get(0).image_md;
+            String imgPath = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
+
+            if (new File(imgPath).exists()) {
+                img = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
+                shareBean.setImg(imaUrl);
+            }
+        }else if (mTopicsBean.user != null && !TextUtils.isEmpty(mTopicsBean.user.getAvatar_md())) {
+            ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
+            if (new File(ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath()).exists()) {
+                img=ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
+                shareBean.setImg(mTopicsBean.user.getAvatar_md());
+            }
+        }
+        shareAction(shareBean,img);
     }
 
     private void initFloatMenu() {

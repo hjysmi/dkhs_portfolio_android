@@ -28,7 +28,7 @@ public class DKHSTextView extends EmojiconTextView {
     private static String AT_HREF_PATTERN = "<a\\shref='http.{20,30}'>@.{4,20}</a>";
     private static String STOCK_HREF_PATTERN = "@{1}\\S+:";
     private static String STOCK_PATTERN = "\\$\\S+\\([A-Z]+\\)\\$";
-    private ClickableSpan[] spans;
+
 
     public DKHSTextView(Context context) {
         super(context);
@@ -46,25 +46,38 @@ public class DKHSTextView extends EmojiconTextView {
     public boolean onTouchEvent(MotionEvent event) {
         CharSequence charSequence = getText();
         if (event.getAction() == MotionEvent.ACTION_UP && charSequence instanceof Spanned) {
-            Spanned span = (Spanned) charSequence;
+
             if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN) {
-                int i = (int) event.getX();
-                int j = (int) event.getY();
-                int k = i - getTotalPaddingLeft();
-                int l = j - getTotalPaddingTop();
-                int m = k + getScrollX();
-                int n = l + getScrollY();
-                Layout layout = getLayout();
-                int g = layout.getOffsetForHorizontal(layout.getLineForVertical(n), m);
-                spans = span.getSpans(g, g, ClickableSpan.class);
+                ClickableSpan[] spans= getClickSpans(event, (Spanned) charSequence);
                 if (spans.length != 0) {
                     spans[0].onClick(this);
                     return false;
                 }
             }
+        }else if(event.getAction() == MotionEvent.ACTION_DOWN && charSequence instanceof Spanned){
+
+            ClickableSpan[] spans= getClickSpans(event, (Spanned) charSequence);
+            if (spans.length == 0) {
+                return false;
+            }
         }
+
         return super.onTouchEvent(event);
     }
+
+    private ClickableSpan[] getClickSpans(MotionEvent event, Spanned charSequence) {
+        Spanned span = charSequence;
+        int i = (int) event.getX();
+        int j = (int) event.getY();
+        int k = i - getTotalPaddingLeft();
+        int l = j - getTotalPaddingTop();
+        int m = k + getScrollX();
+        int n = l + getScrollY();
+        Layout layout = getLayout();
+        int g = layout.getOffsetForHorizontal(layout.getLineForVertical(n), m);
+         return  span.getSpans(g, g, ClickableSpan.class);
+    }
+
 
     @Override
     public void setText(CharSequence text, BufferType type) {

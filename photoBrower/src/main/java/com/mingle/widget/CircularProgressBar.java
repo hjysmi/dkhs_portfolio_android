@@ -27,7 +27,7 @@ public class CircularProgressBar extends CustomView {
 		super(context, attrs);
 		setAttributes(attrs);
 
-        determinateProgressDrawable=new DeterminateProgressDrawable(getResources().getColor(R.color.circular_progress_color), Utils.dpToPx(ringWidth+1, getResources()),1);
+        determinateProgressDrawable=new DeterminateProgressDrawable(getResources().getColor(R.color.tag_red_60), Utils.dpToPx(ringWidth+1, getResources()),1);
 
 	}
 
@@ -38,7 +38,7 @@ public class CircularProgressBar extends CustomView {
 	protected void onInitDefaultValues() {
 		minWidth = 32;
 		minHeight = 32;
-		backgroundColor = Color.parseColor("#1E88E5");
+		backgroundColor =getResources().getColor(R.color.tag_red_60);
 	}
 
     boolean isDissmiss=false;

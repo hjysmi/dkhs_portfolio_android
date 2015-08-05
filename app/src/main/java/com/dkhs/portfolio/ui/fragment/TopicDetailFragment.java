@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,13 +19,17 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
+import com.dkhs.portfolio.engine.HotTopicEngineImpl;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.ui.FloatingActionMenu;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
@@ -117,7 +122,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
     }
-
     @Subscribe
     public void refresh(DeleteCommentEvent deleteCommentEvent) {
         loadData();
@@ -178,6 +182,8 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
     @Override
     public void loadData() {
+
+        mSwipeLayout.setRefreshing(true);
         BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
@@ -188,14 +194,13 @@ public class TopicDetailFragment extends LoadMoreListFragment {
             protected void afterParseData(Object object) {
                 mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
-                if (mListener != null)
+                if(mListener != null)
                     mListener.onFragmentInteraction(mTopicsBean);
                 if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
                     mDataList.remove(0);
                     mDataList.add(0, mTopicsBean);
                 }
                 mAdapter.notifyDataSetChanged();
-                mSwipeLayout.setRefreshing(true);
 
             }
 
@@ -216,6 +221,8 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     }
 
 
+
+
     @Override
     public void loadFinish(MoreDataBean object) {
         if (isAdded()) {
@@ -230,8 +237,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                     mListView.setOnLoadListener(this);
             }
         }
-
-
         mSwipeLayout.setRefreshing(false);
         if (mTopicsCommendEngine.getCurrentpage() == 1) {
             mDataList.clear();
@@ -242,11 +247,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                 mDataList.add(noDataBean);
             }
         }
-
-
         mDataList.addAll(object.getResults());
-
-
         mAdapter.notifyDataSetChanged();
     }
 

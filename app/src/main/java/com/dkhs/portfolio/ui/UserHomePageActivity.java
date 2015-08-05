@@ -154,6 +154,8 @@ public class UserHomePageActivity extends ModelAcitivity {
                             followAction();
                         }
                         break;
+                    default:
+                        break;
                 }
                 return false;
             }
@@ -271,7 +273,12 @@ public class UserHomePageActivity extends ModelAcitivity {
                 moreBean.title = getString(R.string.ta_combination);
             }
         }
-        moreBean.index = 0;
+        if(mCombinationAmount > 5){
+            moreBean.index = 0;
+        }else{
+            moreBean.index = -1;
+        }
+
         moreBean.userEntity = mUserEntity;
 
         mData.add(moreBean);
@@ -319,7 +326,7 @@ public class UserHomePageActivity extends ModelAcitivity {
                     moreBean2.index = 1;
 
                 } else {
-                    moreBean2.index = 0;
+                    moreBean2.index = -1;
                 }
                 mData.add(moreBean2);
                 mData.addAll(mTopicsBeans);
@@ -331,7 +338,7 @@ public class UserHomePageActivity extends ModelAcitivity {
                     mData.add(moreFootBean);
                 }
             } else {
-                moreBean2.index = 0;
+                moreBean2.index = -1;
                 mData.add(moreBean2);
                 NoDataBean noDataBean = new NoDataBean();
                 noDataBean.noData = getString(R.string.no_bbs_topic);
@@ -362,7 +369,7 @@ public class UserHomePageActivity extends ModelAcitivity {
                 if (mCommentAmount >= 5) {
                     moreBean3.index = 2;
                 } else {
-                    moreBean3.index = 0;
+                    moreBean3.index = -1;
                 }
                 mData.add(moreBean3);
                 mData.addAll(mCommentBeans);
@@ -375,7 +382,7 @@ public class UserHomePageActivity extends ModelAcitivity {
                 }
 
             } else {
-                moreBean3.index = 0;
+                moreBean3.index = -1;
                 mData.add(moreBean3);
                 NoDataBean noDataBean = new NoDataBean();
                 noDataBean.noData = getString(R.string.no_comment);

@@ -51,7 +51,7 @@
 
             </RelativeLayout>
 
-            <TextView
+            <com.dkhs.portfolio.ui.widget.DKHSTextView
                 android:id="@+id/titleTV"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
