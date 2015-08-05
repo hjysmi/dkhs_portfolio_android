@@ -174,9 +174,9 @@ public class UIUtils {
                     break;
             }
         }
+        Matrix m = new Matrix();
         if (digree != 0) {
             // 旋转图片
-            Matrix m = new Matrix();
             m.postRotate(digree);
             Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
 //            if (null != bms) {
@@ -185,8 +185,8 @@ public class UIUtils {
 //            }
             return bms;
         }
-//        return bm;
-        return null;
+        return  Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
+//        return null;
     }
 
     public static Bitmap toRoundBitmap(Bitmap bitmap) {
