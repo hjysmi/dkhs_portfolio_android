@@ -488,40 +488,24 @@ public class TrendChart extends TrendGridChart {
                         }
                         float valueY = (float) (hightPrecent * (lineHeight));
                         valueY += mStartLineYpoint;
-                        // valueY += mStartLineYpoint;
-                        // if (dashLongitude) {
-                        if (isFromCompare) {
-                            if (j < dashLinePointSize && i == 0) {
-                                mLinePaint.setPathEffect(dashEffect);
-                                // 绘制线条
-                                if (j > 0) {
-                                    // 画线路图
-                                    canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
-                                }
-                                isLinePoint = false;
-                            } else {
-                                mLinePaint.setPathEffect(null);
-                                isLinePoint = true;
-                            }
-                        } else {
 
-                            if (j < dashLinePointSize) {
-                                mLinePaint.setPathEffect(dashEffect);
-                                if (j > 0) {
-                                    // 画线路图
-                                    canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
-                                }
-                                isLinePoint = false;
-                            } else {
-                                mLinePaint.setPathEffect(null);
-                                isLinePoint = true;
+                        if ((isFromCompare && j < dashLinePointSize && i == 0) || (!isFromCompare && j < dashLinePointSize)) {
+                            mLinePaint.setPathEffect(dashEffect);
+                            // 绘制线条
+                            if (j > 0) {
+                                // 画线路图
+                                canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
                             }
+                            isLinePoint = false;
+                        } else {
+                            mLinePaint.setPathEffect(null);
+                            isLinePoint = true;
+
                         }
 
 
                         // 绘制线条.
                         if (isLinePoint) {
-
 
                             if (j == dashLinePointSize) {
                                 if (j > 0) {
@@ -531,12 +515,60 @@ public class TrendChart extends TrendGridChart {
 
                                 }
 
-
                             } else if (j > dashLineLenght) {
                                 linePath.lineTo(startX, valueY);
                             }
 
                         }
+
+
+//                        if (isFromCompare) {
+//                            if (j < dashLinePointSize && i == 0) {
+//                                mLinePaint.setPathEffect(dashEffect);
+//                                // 绘制线条
+//                                if (j > 0) {
+//                                    // 画线路图
+//                                    canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
+//                                }
+//                                isLinePoint = false;
+//                            } else {
+//                                mLinePaint.setPathEffect(null);
+//                                isLinePoint = true;
+//                            }
+//                        } else {
+//
+//                            if (j < dashLinePointSize) {
+//                                mLinePaint.setPathEffect(dashEffect);
+//                                if (j > 0) {
+//                                    // 画线路图
+//                                    canvas.drawLine(ptFirst.x, ptFirst.y, startX, valueY, mLinePaint);
+//                                }
+//                                isLinePoint = false;
+//                            } else {
+//                                mLinePaint.setPathEffect(null);
+//                                isLinePoint = true;
+//                            }
+//                        }
+//
+//
+//                        // 绘制线条.
+//                        if (isLinePoint) {
+//
+//
+//                            if (j == dashLinePointSize) {
+//                                if (j > 0) {
+//                                    linePath.moveTo(ptFirst.x, ptFirst.y);
+//                                } else {
+//                                    linePath.moveTo(startX, valueY);
+//
+//                                }
+//
+//
+//                            } else if (j > dashLineLenght) {
+//                                linePath.lineTo(startX, valueY);
+//                            }
+//
+//                        }
 
                         if (pointEntity instanceof FundLinePointEntity && !TextUtils.isEmpty(((FundLinePointEntity) pointEntity).getInfo())) {
                             // Paint p = new Paint();
