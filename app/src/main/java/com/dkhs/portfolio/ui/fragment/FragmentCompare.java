@@ -302,7 +302,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
             oks.setUrl(shareUrl);
 
             String customText = "这是我的组合「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
-                    + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。" ;
+                    + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。";
 
             oks.setText(customText);
             oks.setImagePath(SHARE_IMAGE);
@@ -1076,7 +1076,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
         // compareListener.stopRequest(true);
         // historyNetValueListener.stopRequest(true);
     }
-
 
 
     /**

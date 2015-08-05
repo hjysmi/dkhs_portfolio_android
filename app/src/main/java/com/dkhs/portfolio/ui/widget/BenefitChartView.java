@@ -35,12 +35,12 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,7 +59,8 @@ public class BenefitChartView {
     @ViewInject(R.id.tv_combination_name)
     private TextView tvCombinationName;
     private CompareEngine mCompareEngine;
-    Calendar cStart, cEnd;
+    //    Calendar cStart, cEnd;
+    DateTime dateStart, dateEnd;
     @ViewInject(R.id.machart)
     private TrendChart maChartView;
 
@@ -111,11 +112,14 @@ public class BenefitChartView {
         this.achivementsEntity = achivementsEntity;
         contentView.setVisibility(View.GONE);
         if (null != achivementsEntity.getEnd_date()) {
-            cEnd = TimeUtils.getCalendar(achivementsEntity.getEnd_date());
+//            cEnd = TimeUtils.getCalendar(achivementsEntity.getEnd_date());
+            dateEnd = new DateTime(achivementsEntity.getEnd_date());
         } else {
-            cEnd = Calendar.getInstance();
+//            cEnd = Calendar.getInstance();
+            dateEnd = new DateTime();
         }
-        cStart = TimeUtils.getCalendar(achivementsEntity.getStart_date());
+        dateStart = new DateTime(achivementsEntity.getStart_date());
+//        cStart = TimeUtils.getCalendar(achivementsEntity.getStart_date());
         symbol_stype = achivementsEntity.getFund().getSymbol_stype();
         fundId = achivementsEntity.getFund().getId() + "";
         abbrName = achivementsEntity.getFund().getAbbr_name();
@@ -186,11 +190,11 @@ public class BenefitChartView {
         loadView.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
 
-        cEnd = Calendar.getInstance();
-
+//        cEnd = Calendar.getInstance();
+        dateEnd = new DateTime();
         // FIXME: 2015/6/10 多个基金经理的时候 开始时间怎么算
-        cStart = TimeUtils.getCalendar(fundQuoteBean.getManagers().get(0).getStart_date());
-
+//        cStart = TimeUtils.getCalendar(fundQuoteBean.getManagers().get(0).getStart_date());
+        dateStart = new DateTime(fundQuoteBean.getManagers().get(0).getStart_date());
         this.symbol_stype = fundQuoteBean.getSymbol_stype();
         fundId = fundQuoteBean.getId() + "";
         abbrName = fundQuoteBean.getAbbrName();
@@ -217,11 +221,11 @@ public class BenefitChartView {
         lineEntityList.clear();
         maxOffsetValue = 0f;
         if (trendType == FundTrendType.Default) {
-            mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
-                    TimeUtils.getTimeString(cEnd));
+            mCompareEngine.compare(sepFundHttpListener, fundId, dateStart.toString(TimeUtils.FORMAT_TEMPLATE_DAY),
+                    dateEnd.toString(TimeUtils.FORMAT_TEMPLATE_DAY));
         } else if (trendType == FundTrendType.OfficeDay) {
-            mCompareEngine.compare(sepFundHttpListener, fundId, TimeUtils.getTimeString(cStart),
-                    TimeUtils.getTimeString(cEnd));
+            mCompareEngine.compare(sepFundHttpListener, fundId, dateStart.toString(TimeUtils.FORMAT_TEMPLATE_DAY),
+                    dateEnd.toString(TimeUtils.FORMAT_TEMPLATE_DAY));
         } else {
             mCompareEngine.compareByPeriod(sepFundHttpListener, fundId, trendType.getValue());
 
@@ -233,11 +237,11 @@ public class BenefitChartView {
         lineEntityList.clear();
         maxOffsetValue = 0f;
         if (trendType == FundTrendType.Default) {
-            mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
-                    TimeUtils.getTimeString(cEnd));
+            mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), dateStart.toString(TimeUtils.FORMAT_TEMPLATE_DAY),
+                    dateEnd.toString(TimeUtils.FORMAT_TEMPLATE_DAY));
         } else if (trendType == FundTrendType.OfficeDay) {
-            mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), TimeUtils.getTimeString(cStart),
-                    TimeUtils.getTimeString(cEnd));
+            mCompareEngine.compare(compareListener, (fundId + "," + mCompareIds), dateStart.toString(TimeUtils.FORMAT_TEMPLATE_DAY),
+                    dateEnd.toString(TimeUtils.FORMAT_TEMPLATE_DAY));
         } else {
             mCompareEngine.compareByPeriod(compareListener, (fundId + "," + mCompareIds), trendType.getValue());
 
@@ -488,11 +492,16 @@ public class BenefitChartView {
             Iterator<ManagersEntity> it = inertManagerList.iterator();
             while (it.hasNext()) {
                 ManagersEntity managerEntity = it.next();
-                Calendar firstCal = TimeUtils.getCalendar(firstDay);
-                Calendar managerCal = TimeUtils.getCalendar(managerEntity.getStart_date());
-                if (!managerCal.before(firstCal)) {
-                    Calendar currentCal = TimeUtils.getCalendar(day);
-                    if (managerCal.equals(currentCal) || currentCal.after(managerCal)) {
+//                Calendar firstCal = TimeUtils.getCalendar(firstDay);
+//                Calendar managerCal = TimeUtils.getCalendar(managerEntity.getStart_date());
+                DateTime firstCal = new DateTime(firstDay);
+                DateTime managerCal = new DateTime(managerEntity.getStart_date());
+//                if (!managerCal.before(firstCal)) {
+                if (!(TimeUtils.compareDateTime(managerCal, firstCal) < 0)) {
+//                    Calendar currentCal = TimeUtils.getCalendar(day);
+                    DateTime currentCal = new DateTime(day);
+//                    if (managerCal.equals(currentCal) || currentCal.after(managerCal)) {
+                    if (TimeUtils.compareDateTime(managerCal, currentCal) == 0 || TimeUtils.compareDateTime(currentCal, managerCal) > 0) {
                         sbMangerText.append(managerEntity.getName()).append("  ");
                         it.remove();
                         Log.d("InsertManagerData", " manager:" + managerEntity.getName() + " is  insert to" + day);

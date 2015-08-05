@@ -58,7 +58,7 @@ public class MoreHandler extends SimpleItemHandler<MoreBean> implements View.OnC
             case 0:
 
                 //他的组合界面
-                CombinationListActivity.startActivity(mContext, moreBean.userEntity.getId() + "");
+                CombinationListActivity.startActivity(mContext, moreBean.userEntity);
                 break;
             case 1:
                 //他的主贴界面

@@ -120,7 +120,7 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     public void replaceContentFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layoutContent, fragment).commit();
+                .replace(R.id.layoutContent, fragment).commitAllowingStateLoss();
     }
 
     /**
