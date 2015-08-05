@@ -8,7 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -17,17 +16,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.CombinationListActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.lidroid.xutils.http.HttpHandler;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午4:03:33
  */
-public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  {
+public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment {
 
     private String mOrderType;
     private UserCombinationAdapter mAdapter;
@@ -48,6 +47,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
     private UserCombinationEngineImpl dataEngine;
     private String mUserName;
     private String mUserId;
+    private UserEntity mUserBean;
     private View headerView;
 
     private View footView;
@@ -58,11 +58,11 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
     private HttpHandler mHttpHandler;
 
 
-    public static UserCombinationListFragment getFragment( String userId) {
+    public static UserCombinationListFragment getFragment() {
 
         UserCombinationListFragment fragment = new UserCombinationListFragment();
         Bundle args = new Bundle();
-        args.putString("userId", userId);
+//        args.putString("userId", userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,11 +70,19 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        Bundle bundle = getArguments();
-        if (null != bundle) {
-            mUserId = bundle.getString("userId");
+
+
+//        Bundle bundle = getArguments();
+//        if (null != bundle) {
+//            mUserId = bundle.getString("userId");
+//        }
+
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            mUserBean = Parcels.unwrap(extras.getParcelable(CombinationListActivity.PARAM_USER_BEAN));
         }
     }
+
     public ListView getListView() {
         return mListView;
     }
@@ -102,17 +110,14 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
 
         if (null != object.getResults()) {
 
-            if(object.getCurrentPage()==1)
-            mDataList.clear();
+            if (object.getCurrentPage() == 1)
+                mDataList.clear();
             mDataList.addAll(object.getResults());
             mAdapter.notifyDataSetChanged();
         }
 
 
-
     }
-
-
 
 
     LoadMoreDataEngine getLoadEngine() {
@@ -146,16 +151,16 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (position == 0 || position > mDataList.size()) {
+                if ( position > mDataList.size()) {
                     return;
                 }
 
-                if (((UserHomePageActivity) getActivity()).mUserName != null) {
-                    CombinationBean cBean = mDataList.get(position - 1);
-                    UserEntity user = new UserEntity();
-                    user.setId(Integer.parseInt(mUserId));
-                    user.setUsername(((UserHomePageActivity) getActivity()).mUserName);
-                    cBean.setUser(user);
+                if (mUserBean != null) {
+                    CombinationBean cBean = mDataList.get(position);
+//                    UserEntity user = new UserEntity();
+//                    user.setId(Integer.parseInt(mUserId));
+//                    user.setUsername(((UserHomePageActivity) getActivity()).mUserName);
+                    cBean.setUser(mUserBean);
                     startActivity(CombinationDetailActivity.newIntent(getActivity(), cBean));
 //                getActivity().startActivity(NewCombinationDetailActivity.newIntent(getActivity(), cBean, false, null));
                 }
@@ -195,7 +200,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
     }
 
 
-
     public HttpHandler getHttpHandler() {
         return mHttpHandler;
     }
@@ -209,6 +213,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment  
 
     @Override
     public String getEmptyText() {
-        return"暂无组合";
+        return "暂无组合";
     }
 }
