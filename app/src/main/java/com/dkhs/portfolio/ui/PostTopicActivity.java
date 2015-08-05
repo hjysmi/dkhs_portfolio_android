@@ -588,7 +588,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     out.flush();
                     out.close();
                     // 回收内存中的bitmap
-                    bitmap.recycle();
+//                    bitmap.recycle();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
