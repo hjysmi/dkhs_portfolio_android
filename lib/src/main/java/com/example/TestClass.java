@@ -6,8 +6,9 @@ package com.example;
 public class TestClass {
 
     public static void main(String[] args) {
-        String textF = String.format("%2d:%2d", 1, 20);
-        System.out.println(textF);
+
+        String s="_dfdfd";
+        System.out.println(s.split("_")[1]);
 
     }
 }
