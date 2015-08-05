@@ -146,6 +146,7 @@
     <color name="point_white">#b2ffffff</color>
     <color name="stock_gray_bg">#A0A0A0</color>
     <color name="tag_red">#FF6363</color>
+    <color name="tag_red_60">#99FF6363</color>
     <color name="tag_green">#62BE33</color>
     <color name="tab_normal_black">#262932</color>
     <color name="tag_gray">#969696</color>

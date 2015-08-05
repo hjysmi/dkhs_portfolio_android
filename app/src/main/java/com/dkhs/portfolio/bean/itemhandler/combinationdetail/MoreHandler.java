@@ -39,9 +39,9 @@ public class MoreHandler extends SimpleItemHandler<MoreBean> implements View.OnC
         vh.get(R.id.moreBtn).setOnClickListener(this);
         vh.get(R.id.moreBtn).setTag(data);
 
-        if(data.index==0){
+        if (data.index < 0) {
             vh.get(R.id.moreBtn).setVisibility(View.GONE);
-        }else{
+        } else {
             vh.get(R.id.moreBtn).setVisibility(View.VISIBLE);
         }
     }
