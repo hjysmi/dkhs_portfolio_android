@@ -12,6 +12,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.ListView;
+import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -24,7 +27,9 @@ import com.dkhs.portfolio.ui.FloatingActionMenu;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
@@ -65,10 +70,11 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-         void onFragmentInteraction(TopicsBean topicsBean);
+        void onFragmentInteraction(TopicsBean topicsBean);
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -87,43 +93,38 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         super.onViewCreated(view, savedInstanceState);
         handExtraIntent();
         mDataList.add(mTopicsBean);
+        mDataList.add(new LoadingBean());
         mSwipeLayout.setRefreshing(false);
-        BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
-            @Override
-            public Class getClassType() {
-                return TopicsBean.class;
-            }
 
-            @Override
-            protected void afterParseData(Object object) {
-                mTopicsBean = (TopicsBean) object;
-                mListener.onFragmentInteraction(mTopicsBean);
-                if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
-                    mDataList.remove(0);
-                    mDataList.add(0, mTopicsBean);
-                }
-
-                mAdapter.notifyDataSetChanged();
-                mSwipeLayout.setRefreshing(true);
-
-            }
-        });
-        ((TopicsDetailActivity)getActivity()).mFloatingActionMenu.attachToListView(mListView);
+        mListView.setDivider(null);
+        View v = new View(mActivity);
+        v.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
+        mListView.addFooterView(v);
+        ((TopicsDetailActivity) getActivity()).mFloatingActionMenu.attachToListViewTop(mListView, null, null);
 //        loadData(TopicsCommendEngineImpl.SortType.latest);
 
 
-        if(mScrollToComment) {
-            
+        if (mScrollToComment) {
+
             //// FIXME: 2015/7/31  滑动到帖子位置
 //            mListView.smoothScrollToPosition(1);
 //            mListView.scrollBy(0,-50);
         }
     }
 
+    @Override
+    public void onResume() {
+        loadData();
+        super.onResume();
+    }
 
     @Subscribe
-    public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent){
+    public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
+    }
+    @Subscribe
+    public void refresh(DeleteCommentEvent deleteCommentEvent) {
+        loadData();
     }
 
     private void handExtraIntent() {
@@ -131,7 +132,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
-            mScrollToComment =getActivity(). getIntent().getBooleanExtra("scrollToComment", false);
+            mScrollToComment = getActivity().getIntent().getBooleanExtra("scrollToComment", false);
         }
     }
 
@@ -147,7 +148,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     @Override
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
-            mTopicsCommendEngine = new TopicsCommendEngineImpl(this,mTopicsBean.id+"");
+            mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
         }
         return mTopicsCommendEngine;
     }
@@ -181,14 +182,46 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
     @Override
     public void loadData() {
+
+        mSwipeLayout.setRefreshing(true);
+        BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return TopicsBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+                mSwipeLayout.setRefreshing(false);
+                mTopicsBean = (TopicsBean) object;
+                if(mListener != null)
+                    mListener.onFragmentInteraction(mTopicsBean);
+                if (mDataList.size() > 0 && mDataList.get(0) instanceof TopicsBean) {
+                    mDataList.remove(0);
+                    mDataList.add(0, mTopicsBean);
+                }
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                mSwipeLayout.setRefreshing(false);
+            }
+        });
         mSwipeLayout.setRefreshing(true);
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }
+
     public void loadData(TopicsCommendEngineImpl.SortType sortType) {
         mSwipeLayout.setRefreshing(true);
         getLoadEngine().loadData(sortType);
     }
+
+
+
 
     @Override
     public void loadFinish(MoreDataBean object) {
@@ -204,48 +237,35 @@ public class TopicDetailFragment extends LoadMoreListFragment {
                     mListView.setOnLoadListener(this);
             }
         }
-
-
-
         mSwipeLayout.setRefreshing(false);
         if (mTopicsCommendEngine.getCurrentpage() == 1) {
             mDataList.clear();
             mDataList.add(mTopicsBean);
+            if (object.getResults().size() == 0) {
+                NoDataBean noDataBean = new NoDataBean();
+                noDataBean.noData = "暂无评论";
+                mDataList.add(noDataBean);
+            }
         }
-
-        if (object.getCurrentPage()==1&& object.getResults().size()==0){
-
-
-            NoDataBean noDataBean=new NoDataBean();
-            noDataBean.noData="暂无评论";
-            mDataList.add(noDataBean);
-
-
-        }
-            mDataList.addAll(object.getResults());
-
-
+        mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
     }
 
 
+    public void like() {
 
-    public void like(){
-
-        if(mTopicsBean != null){
-            mTopicsBean.favorites_count+=1;
+        if (mTopicsBean != null) {
+            mTopicsBean.attitudes_count += 1;
             mAdapter.notifyDataSetChanged();
 
         }
 
     }
 
-    public  void unLike(){
-        if(mTopicsBean != null){
-            mTopicsBean.favorites_count-=1;
+    public void unLike() {
+        if (mTopicsBean != null) {
+            mTopicsBean.attitudes_count -= 1;
             mAdapter.notifyDataSetChanged();
-
-
         }
     }
 

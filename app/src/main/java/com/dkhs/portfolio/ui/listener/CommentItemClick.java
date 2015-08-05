@@ -6,13 +6,17 @@ import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.DeleteResponeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
@@ -99,7 +103,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除
-                        deleteComment(commentBean.getId());
+                        deleteComment(commentBean.getId()+"");
                         break;
                 }
                 dialog.dismiss();
@@ -149,7 +153,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除回复
-                        deleteComment(commentBean.getId());
+                        deleteComment(commentBean.getId()+"");
                         break;
                 }
                 dialog.dismiss();
@@ -165,7 +169,7 @@ public class CommentItemClick {
      */
     private void replyComment(CommentBean commentBean) {
         if (null != commentBean.getUser()) {
-            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, commentBean.getId(), commentBean.getUser().getUsername()));
+            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, commentBean.getId()+"", commentBean.getUser().getUsername()));
         } else {
             Log.e(TAG, "comment user is null;");
         }
@@ -196,15 +200,22 @@ public class CommentItemClick {
     private void deleteComment(String commentId) {
 
 //        PromptManager.showToast("删除回复");
-        StatusEngineImpl.delete(commentId, new ParseHttpListener() {
+        StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
             @Override
-            protected Object parseDateTask(String jsonData) {
-                return null;
+            protected Boolean parseDateTask(String jsonData) {
+                DeleteResponeBean reponseBean = DataParse.parseObjectJson(DeleteResponeBean.class, jsonData);
+                return reponseBean.isStatus();
             }
 
             @Override
-            protected void afterParseData(Object object) {
-                PromptManager.showCancelToast(R.string.msg_del_contetn_success);
+            protected void afterParseData(Boolean object) {
+                if (object) {
+                    PromptManager.showCancelToast(R.string.msg_del_contetn_success);
+                    BusProvider.getInstance().post(new DeleteCommentEvent());
+
+
+                }
+
             }
         });
     }
@@ -214,7 +225,7 @@ public class CommentItemClick {
      * 举报回复
      */
     private void reportComment(CommentBean commentBean) {
-        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId(), commentBean.getUser().getUsername(), commentBean.getText()));
+        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId()+"", commentBean.getUser().getUsername(), commentBean.getText()));
     }
 
 

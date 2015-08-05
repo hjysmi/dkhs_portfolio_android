@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.net;
 
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.EncryptData;
@@ -352,27 +353,26 @@ public class DKHSClient {
         if (relativeUrl.contains("http://") || relativeUrl.contains("https://")) {
             return relativeUrl;
         } else {
-            switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
-                case 0:
-                    return DKHSUrl.BASE_DEV_URL + relativeUrl;
-                case 1:
-                    return DKHSUrl.BASE_TEST_URL + relativeUrl;
-                case 2:
-                    return DKHSUrl.BASE_DEV_MAIN + relativeUrl;
-                case 3:
-                    return DKHSUrl.BASE_DEV_TAG + relativeUrl;
-                default:
-                    break;
-            }
-            /*
-             * if (PortfolioPreferenceManager.isRequestByTestServer()) {
-             * 
-             * } else {
-             * return DKHSUrl.BASE_DEV_URL + relativeUrl;
-             * 
-             * }
-             */
+            String x = getHeadUrl()+relativeUrl;
+            if (x != null) return x;
+
             return null;
+        }
+    }
+
+    @Nullable
+    public static String getHeadUrl() {
+        switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
+            case 0:
+                return DKHSUrl.BASE_DEV_URL ;
+            case 1:
+                return DKHSUrl.BASE_TEST_URL ;
+            case 2:
+                return DKHSUrl.BASE_DEV_MAIN ;
+            case 3:
+                return DKHSUrl.BASE_DEV_TAG ;
+            default:
+                return DKHSUrl.BASE_DEV_URL ;
         }
     }
 }

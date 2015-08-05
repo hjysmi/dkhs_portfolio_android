@@ -117,7 +117,7 @@ public class MessageHandler {
         boolean hasHandle = true;
         List<String> segments = uri.getPathSegments();
         if (segments.size() > 0) {
-            if (segments.get(0).equals("s") && segments.size() >= 3) {
+            if (segments.get(0).equals("s") && segments.size() >= 2) {
                 gotoStockQuotesActivity(segments);
                 hasHandle = true;
             } else if (segments.get(0).equals("p") && segments.size() >= 2) {
@@ -235,7 +235,7 @@ public class MessageHandler {
      */
     private void gotoStockQuotesActivity(final List<String> segments) {
         final SelectStockBean itemStock = new SelectStockBean();
-        itemStock.setId(Long.parseLong(segments.get(2)));
+//        itemStock.setId(Long.parseLong(segments.get(2)));
         itemStock.setSymbol(segments.get(1));
         itemStock.setSymbol_type("1");
         itemStock.setName("- -");
@@ -261,6 +261,7 @@ public class MessageHandler {
                     } else {
                         itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
                         itemStock.setName(stockQuotesBean.getAbbrName());
+                        itemStock.setId(stockQuotesBean.getId());
                         context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
                     }
                 } catch (Exception e) {

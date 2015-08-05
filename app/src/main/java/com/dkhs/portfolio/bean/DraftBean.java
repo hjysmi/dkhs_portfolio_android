@@ -14,6 +14,7 @@ public class DraftBean {
 
     public static final String COLUM_EDITTIME = "edittime";
     public static final String COLUM_IMAGEURI = "imageUri";
+    public static final String COLUM_IMAGE_FILEPATH = "image_filepath";
     public static final String COLUM_TITLE = "title";
     public static final String COLUM_CONTENTE = "content";
     public static final String COLUM_AUTHORID = "authorId";
@@ -24,6 +25,10 @@ public class DraftBean {
     //保存图片的绝对路径
     @Column(column = COLUM_IMAGEURI)
     String imageUri;
+
+
+    @Column(column = COLUM_IMAGE_FILEPATH)
+    String imageFilepath;
 
     @Column(column = COLUM_TITLE)
     String title;
@@ -115,6 +120,15 @@ public class DraftBean {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public String getImageFilepath() {
+        return imageFilepath;
+    }
+
+    public void setImageFilepath(String imageFilepath) {
+        this.imageFilepath = imageFilepath;
     }
 
 

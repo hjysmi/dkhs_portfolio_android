@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <com.dkhs.portfolio.ui.widget.DKHSEditText
         android:id="@+id/et_title"
@@ -13,7 +13,7 @@
         android:paddingBottom="@dimen/widget_padding_medium"
         android:paddingLeft="@dimen/widget_padding_medium"
         android:paddingTop="@dimen/widget_padding_medium"
-        android:textSize="@dimen/text_status_title"/>
+        android:textSize="@dimen/text_status_title" />
 
     <LinearLayout
         android:id="@+id/ll_bottom"
@@ -35,8 +35,8 @@
                 android:background="@drawable/bottom_menu_selector"
                 android:paddingLeft="10.0dip"
                 android:paddingRight="10.0dip"
-                android:visibility="invisible"
-                android:src="@drawable/kb_icon_camera"/>
+                android:src="@drawable/kb_icon_camera"
+                android:visibility="invisible" />
 
             <ImageButton
                 android:id="@+id/ib_img"
@@ -46,7 +46,7 @@
                 android:background="@drawable/bottom_menu_selector"
                 android:paddingLeft="10.0dip"
                 android:paddingRight="10.0dip"
-                android:src="@drawable/kb_icon_camera"/>
+                android:src="@drawable/kb_icon_camera" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:background="@drawable/bottom_menu_selector"
-                    android:src="@drawable/kb_icon_emoji"/>
+                    android:src="@drawable/kb_icon_emoji" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -73,7 +73,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:background="@drawable/bottom_menu_selector"
-                    android:src="@drawable/kb_icon_dollar"/>
+                    android:src="@drawable/kb_icon_dollar" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -91,14 +91,13 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/vp_emoji"
                 android:layout_width="match_parent"
-                android:layout_height="160dp">
-            </android.support.v4.view.ViewPager>
+                android:layout_height="160dp"></android.support.v4.view.ViewPager>
 
             <LinearLayout
-                android:layout_below="@id/vp_emoji"
                 android:id="@+id/ll_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/vp_emoji"
                 android:layout_marginBottom="6dip"
                 android:gravity="center"
                 android:orientation="horizontal">
@@ -109,7 +108,7 @@
                     android:layout_gravity="center_vertical"
                     android:clickable="true"
                     android:padding="5.0dip"
-                    android:src="@drawable/dot"/>
+                    android:src="@drawable/dot" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -117,7 +116,7 @@
                     android:layout_gravity="center_vertical"
                     android:clickable="true"
                     android:padding="5.0dip"
-                    android:src="@drawable/dot"/>
+                    android:src="@drawable/dot" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -125,7 +124,7 @@
                     android:layout_gravity="center_vertical"
                     android:clickable="true"
                     android:padding="5.0dip"
-                    android:src="@drawable/dot"/>
+                    android:src="@drawable/dot" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -133,7 +132,7 @@
                     android:layout_gravity="center_vertical"
                     android:clickable="true"
                     android:padding="5.0dip"
-                    android:src="@drawable/dot"/>
+                    android:src="@drawable/dot" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -148,7 +147,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dip"
-            android:background="@color/subscribe_seperate_line"/>
+            android:background="@color/subscribe_seperate_line" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -157,33 +156,40 @@
             <ImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="80dip"
-                android:clickable="true"
                 android:layout_height="80dip"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/widget_margin_xlarge"
                 android:layout_marginRight="@dimen/widget_margin_xlarge"
-                android:layout_marginTop="@dimen/widget_margin_xlarge"
+                android:clickable="true"
                 android:src="@drawable/ic_launcher"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
-            <com.dkhs.portfolio.ui.widget.DKHSEditText
-                android:id="@+id/et_content"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/iv_photo"
-                android:background="@null"
-                android:fadingEdge="none"
-                android:gravity="top"
-                android:paddingBottom="@dimen/widget_padding_medium"
-                android:paddingLeft="@dimen/widget_padding_medium"
-                android:paddingTop="@dimen/widget_padding_medium"
-                android:textSize="@dimen/text_status_title"
-                android:hint="@string/hint_content"
-                android:imeOptions="actionSend|flagNoEnterAction"
-                android:lineSpacingExtra="3.0dip">
-                <requestFocus />
-            </com.dkhs.portfolio.ui.widget.DKHSEditText>
+                android:layout_marginTop="5dp"
+                android:layout_above="@id/iv_photo">
+
+                <com.dkhs.portfolio.ui.widget.DKHSEditText
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:fadingEdge="none"
+                    android:gravity="top"
+                    android:hint="@string/hint_content"
+                    android:imeOptions="actionSend|flagNoEnterAction"
+                    android:lineSpacingExtra="3.0dip"
+                    android:paddingBottom="@dimen/widget_padding_medium"
+                    android:paddingLeft="@dimen/widget_padding_medium"
+                    android:paddingTop="@dimen/widget_padding_normal"
+                    android:textSize="@dimen/text_status_title">
+
+                    <requestFocus />
+                </com.dkhs.portfolio.ui.widget.DKHSEditText>
+
+            </ScrollView>
         </RelativeLayout>
 
     </LinearLayout>

@@ -14,6 +14,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_centerInParent="true"
+        android:alpha="0.5"
         app:circular_progress_color="@color/tag_red" />
     <LinearLayout
         android:id="@+id/description_layout"

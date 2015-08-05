@@ -683,6 +683,7 @@
     <string name="hint_content">写点观点...</string>
     <string name="pls_instore_sdcard">请先安装好sd卡</string>
     <string name="dialog_msg_save_draft">是否保存草稿</string>
+    <string name="msg_send_topic_fail">内容发送失败，已存入草稿箱</string>
     <string name="notsave">不保存</string>
     <string name="save">保存</string>
     <string name="retake_picture">重新选择照片</string>
@@ -696,6 +697,9 @@
     <string name="copy_content">复制</string>
     <string name="msg_copy_content_success">内容已复制</string>
     <string name="msg_del_contetn_success">回复删除成功</string>
+    <string name="msg_topic_sending">发送中……</string>
+    <string name="msg_topic_send_success">√ 内容发送成功</string>
+    <string name="msg_topic_send_fail">内容发送失败</string>
 
 
     <!--帖子回复-->
@@ -731,6 +735,8 @@
     <string name="no_comment">暂无回复</string>
     <string name="title_my_home_page">我的主页</string>
     <string name="title_ta_home_page">Ta的主页</string>
+    <string name="topics_already_delete">此贴已删除</string>
+    <string name="delete_topics">删除帖子</string>
     <!--举报 end-->
 
 

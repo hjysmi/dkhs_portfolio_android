@@ -72,6 +72,8 @@ public class HotTopicsFragment extends LoadMoreListFragment {
 
                 if (topicsBean.id == topicsBean1.id) {
                     topicsBean1.favorites_count = topicsBean.favorites_count;
+                    topicsBean1.attitudes_count = topicsBean.attitudes_count;
+                    topicsBean1.comments_count = topicsBean.comments_count;
                     topicsBean1.like = topicsBean.like;
                     mAdapter.notifyDataSetChanged();
                     break;
@@ -140,6 +142,7 @@ public class HotTopicsFragment extends LoadMoreListFragment {
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
     }
+
 
 
     @Override

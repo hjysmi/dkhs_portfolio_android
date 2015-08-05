@@ -9,18 +9,20 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.base.MAppActivity;
 
 public class BaseActivity extends MAppActivity {
 
-    protected  Context mContext;
+    protected Context mContext;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // this.getWindow().getDecorView().setOnTouchListener(this);
         getWindow().setBackgroundDrawable(null);
-        mContext=this;
+        mContext = this;
     }
 
     @Override
@@ -33,14 +35,17 @@ public class BaseActivity extends MAppActivity {
         super.onRestart();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
+        StatService.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        StatService.onPause(this);
     }
 
     @Override
@@ -77,7 +82,7 @@ public class BaseActivity extends MAppActivity {
      */
     private boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
-            int[] l = { 0, 0 };
+            int[] l = {0, 0};
             v.getLocationInWindow(l);
             int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
                     + v.getWidth();
@@ -106,4 +111,6 @@ public class BaseActivity extends MAppActivity {
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
+
 }

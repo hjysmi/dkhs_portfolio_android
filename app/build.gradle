@@ -13,8 +13,8 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 20
-        versionCode 200010731
-        versionName "2.0.1.0731"
+        versionCode 200010804
+        versionName "2.0.1.0804"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
@@ -46,7 +46,7 @@ android {
             buildConfigField 'boolean', 'isSandbox', 'true'
             signingConfig signingConfigs.release
             minifyEnabled false
-            debuggable true
+            debuggable false
             zipAlignEnabled true
             // 移除无用的resource文件
             shrinkResources true
@@ -132,4 +132,5 @@ dependencies {
     compile project(':photoBrower')
     compile project(':emoji')
     compile project(':security')
+    compile files('libs/android_api_3.7.0.jar')
 }

@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -37,7 +38,37 @@
         android:label="@string/app_name"
         android:theme="@style/AppTranslucentTheme">
 
-        <!-- 友盟账号 -->
+
+        <!-- 百度统计  start -->
+        <!-- 您从百度网站获取的APP KEY -->
+        <meta-data
+            android:name="BaiduMobAd_STAT_ID"
+            android:value="d1bcd33a6e" />
+
+        <!-- 渠道商编号 -->
+        <meta-data
+            android:name="BaiduMobAd_CHANNEL"
+            android:value="DKHS" />
+
+        <!-- 是否开启错误日志统计，默认为false -->
+        <meta-data
+            android:name="BaiduMobAd_EXCEPTION_LOG"
+            android:value="true" />
+        <!-- 日志发送策略，可选值：APP_START、ONCE_A_DAY、SET_TIME_INTERVAL，默认为APP_START -->
+        <meta-data
+            android:name="BaiduMobAd_SEND_STRATEGY"
+            android:value="APP_START" />
+        <!-- 日志发送策略 为SET_TIME_INTERVAL时，需设定时间间隔(取消下行注释)。取值为1-24的整数，默认为1 -->
+        <!-- <meta-data android:name="BaiduMobAd_TIME_INTERVAL" android:value="2" /> -->
+        <!-- 日志仅在wifi网络下发送，默认为false -->
+        <meta-data
+            android:name="BaiduMobAd_ONLY_WIFI"
+            android:value="false" />
+
+        <!-- 百度统计  end -->
+
+
+        <!-- 友盟统计  start -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="54850a5cfd98c5755f000e12" />
@@ -46,6 +77,7 @@
             android:value="DKHS_test" />
         <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
 
+        <!-- 友盟统计 end -->
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
@@ -247,6 +279,16 @@
         <service
             android:name=".service.ReLoadDataService"
             android:exported="false" />
+
+
+        <service
+            android:name="com.dkhs.portfolio.service.PostTopicService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.dkhs.posttopic.service.action.upload" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"

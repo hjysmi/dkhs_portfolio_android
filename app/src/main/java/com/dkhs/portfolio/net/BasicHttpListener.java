@@ -101,6 +101,8 @@ public abstract class BasicHttpListener implements IHttpListener {
         } else if (errCode == 429) {
             PromptManager.showToast(R.string.message_server_error429);
 
+        } else if (errCode == 123) {
+            PromptManager.showToast(R.string.no_net_connect);
         } else if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
             onFailure(ErrorBundle.parseToErrorBundle(errMsg));
         }

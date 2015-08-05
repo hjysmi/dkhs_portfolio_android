@@ -80,26 +80,31 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
                     vh.get(R.id.line4).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics5, data.hotTopicsBeans.get(4).title);
                     vh.get(R.id.stick_ll5).setTag( data.hotTopicsBeans.get(4));
+                    vh.get(R.id.recommend_topics5).setTag( data.hotTopicsBeans.get(4));
                 case 4:
                     vh.get(R.id.stick_ll4).setVisibility(View.VISIBLE);
                     vh.get(R.id.line3).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics4, data.hotTopicsBeans.get(3).title);
                     vh.get(R.id.stick_ll4).setTag( data.hotTopicsBeans.get(3));
+                    vh.get(R.id.recommend_topics4).setTag( data.hotTopicsBeans.get(3));
                 case 3:
                     vh.get(R.id.stick_ll3).setVisibility(View.VISIBLE);
                     vh.get(R.id.line2).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics3, data.hotTopicsBeans.get(2).title);
                     vh.get(R.id.stick_ll3).setTag( data.hotTopicsBeans.get(2));
+                    vh.get(R.id.recommend_topics3).setTag( data.hotTopicsBeans.get(2));
                 case 2:
                     vh.get(R.id.stick_ll2).setVisibility(View.VISIBLE);
                     vh.get(R.id.line1).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics2, data.hotTopicsBeans.get(1).title);
                     vh.get(R.id.stick_ll2).setTag( data.hotTopicsBeans.get(1));
+                    vh.get(R.id.recommend_topics2).setTag( data.hotTopicsBeans.get(1));
                 case 1:
 
                     vh.get(R.id.stick_ll1).setVisibility(View.VISIBLE);
                     vh.setTextView(R.id.recommend_topics1, data.hotTopicsBeans.get(0).title);
                     vh.get(R.id.stick_ll1).setTag( data.hotTopicsBeans.get(0));
+                    vh.get(R.id.recommend_topics1).setTag( data.hotTopicsBeans.get(0));
             }
         }
         vh.get(R.id.stick_ll1).setOnClickListener(this);
@@ -107,6 +112,7 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
         vh.get(R.id.stick_ll3).setOnClickListener(this);
         vh.get(R.id.stick_ll4).setOnClickListener(this);
         vh.get(R.id.stick_ll5).setOnClickListener(this);
+
     }
 
     @Override

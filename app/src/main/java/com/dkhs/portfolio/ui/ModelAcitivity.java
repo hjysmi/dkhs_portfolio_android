@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -51,6 +52,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
         //方便定位类
+        LogUtils.d("start Activity ", this.getClass().getSimpleName());
         PortfolioApplication.getInstance().addActivity(this);
 //        mActivity = this;
         onCreate(arg0, R.layout.layout_model_default);

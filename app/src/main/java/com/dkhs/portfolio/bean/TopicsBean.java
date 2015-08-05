@@ -12,10 +12,9 @@ import java.util.List;
  * date 2015/7/16.
  */
 @Parcel
-public class TopicsBean {
+public class TopicsBean extends  LikeBean {
 
 
-    public boolean like;
     /**
      * lon : null
      * text : 测试一下哦
@@ -52,7 +51,6 @@ public class TopicsBean {
     public int retweets_count;
     public boolean truncated;
     public String publish_at;
-    public int id;
     public String replied_comment;
     public int favorites_count;
     public String title;

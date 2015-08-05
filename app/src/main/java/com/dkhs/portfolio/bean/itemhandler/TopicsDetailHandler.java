@@ -63,13 +63,14 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
+        vh.setTextView(R.id.name, data.user.getUsername());
 
         PeopleBean user = data.user;
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());
         }
 
-        if (user!= null && !TextUtils.isEmpty(user.getAvatar_md())) {
+        if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
@@ -79,29 +80,24 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         if (data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_sm, vh.getImageView(R.id.iv));
-
+            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_md, vh.getImageView(R.id.iv));
         } else {
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
 
-        vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.favorites_count);
+        vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 
-
-        if (false) {
-            vh.setTextView(R.id.tv_empty, "此贴已删除");
+        if (data.state == -1) {
+            vh.setTextView(R.id.tv_empty, mContext.getString(R.string.topics_already_delete));
             vh.get(R.id.main_ll).setVisibility(View.GONE);
             vh.get(R.id.emptyRl).setVisibility(View.VISIBLE);
         } else {
             vh.get(R.id.main_ll).setVisibility(View.VISIBLE);
             vh.get(R.id.emptyRl).setVisibility(View.GONE);
-
         }
-
         Spinner spinner = vh.get(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
-
 
     }
 
@@ -210,9 +206,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
-            UIUtils.startAnimationActivity((Activity) mContext,
-                    UserHomePageActivity.getIntent(mContext, topicsBean.user.getUsername(), topicsBean.user.getId() + ""));
+            if (topicsBean.user != null) {
+                UIUtils.startAnimationActivity((Activity) mContext,
+                        UserHomePageActivity.getIntent(mContext, topicsBean.user.getUsername(), topicsBean.user.getId() + ""));
 
+            }
         }
     }
 

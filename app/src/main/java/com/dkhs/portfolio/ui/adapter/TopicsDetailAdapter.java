@@ -5,11 +5,13 @@ import android.content.Context;
 import com.dkhs.adpter.adapter.AutoAdapter;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.NoDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
 
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class TopicsDetailAdapter extends AutoAdapter{
         addHandler(0,new TopicsDetailHandler(mContext));
         addHandler(1,new CommentHandler());
         addHandler(2,new NoDataHandler());
+        addHandler(3,new LoadingHandler());
     }
 
     @Override
@@ -45,6 +48,8 @@ public class TopicsDetailAdapter extends AutoAdapter{
             return 1;
         } else  if(mData.get(position)instanceof NoDataBean){
             return 2;
+        } else  if(mData.get(position)instanceof LoadingBean){
+            return 3;
         }
         return 1;
     }

@@ -5,8 +5,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/7/28.17:18
  */
-public class CommentBean {
-    private String id;
+public class CommentBean extends LikeBean {
     private String title;
     private String text;
     private boolean truncated;
@@ -26,17 +25,14 @@ public class CommentBean {
     private String modified_at;
     private double lat;
     private double lon;
+
+    public boolean compact=true;
     private List<UploadImageBean> medias;
     private List<OptionNewsBean.Symbols> symbol;
     private String recomment_level;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+
 
     public int getAttitudes_count() {
         return attitudes_count;

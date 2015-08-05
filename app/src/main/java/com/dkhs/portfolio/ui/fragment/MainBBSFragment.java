@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 
@@ -42,6 +43,19 @@ public class MainBBSFragment extends BaseTitleFragment {
     @Override
     public void requestData() {
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        StatService.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        StatService.onPause(this);
     }
 
     private void initView(View view) {
