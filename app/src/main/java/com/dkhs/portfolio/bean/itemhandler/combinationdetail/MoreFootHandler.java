@@ -3,7 +3,6 @@ package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 import android.app.Activity;
 import android.view.View;
 
-import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
@@ -20,7 +19,7 @@ import com.dkhs.portfolio.utils.UIUtils;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/28.
  */
-public class MoreFootHandler  extends SimpleItemHandler<MoreFootBean> implements View.OnClickListener {
+public class MoreFootHandler extends SimpleItemHandler<MoreFootBean> implements View.OnClickListener {
     @Override
     public int getLayoutResId() {
         return R.layout.item_more_foot;
@@ -38,18 +37,18 @@ public class MoreFootHandler  extends SimpleItemHandler<MoreFootBean> implements
     @Override
     public void onClick(View v) {
 
-        MoreFootBean moreFootBean= (MoreFootBean) v.getTag();
+        MoreFootBean moreFootBean = (MoreFootBean) v.getTag();
 
-        if(moreFootBean.userEntity ==null ){
+        if (moreFootBean.userEntity == null) {
             return;
         }
 
-        if(moreFootBean!= null){
-            switch (moreFootBean.index){
+        if (moreFootBean != null) {
+            switch (moreFootBean.index) {
                 case 0:
 
                     //他的组合界面
-                    CombinationListActivity.startActivity(mContext, moreFootBean.userEntity.getId() + "");
+                    CombinationListActivity.startActivity(mContext, moreFootBean.userEntity);
                     break;
                 case 1:
                     //他的主贴界面
@@ -63,7 +62,6 @@ public class MoreFootHandler  extends SimpleItemHandler<MoreFootBean> implements
                     break;
             }
         }
-
 
 
     }
