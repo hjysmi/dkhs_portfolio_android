@@ -1,6 +1,6 @@
 package com.dkhs.portfolio.engine;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
@@ -36,7 +36,7 @@ public class DraftEngine {
         new Thread() {
             @Override
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 List<DraftBean> draftBeanList = new ArrayList<DraftBean>();
                 try {
 
@@ -61,8 +61,7 @@ public class DraftEngine {
         new Thread() {
             @Override
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 try {
                     draftBean.setAuthorId(mAuthorID);
                     dbUtils.delete(draftBean);
@@ -80,8 +79,7 @@ public class DraftEngine {
         new Thread() {
             @Override
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 try {
                     draftBean.setAuthorId(mAuthorID);
                     draftBean.setEdittime(System.currentTimeMillis() / 1000);

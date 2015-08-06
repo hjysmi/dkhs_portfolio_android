@@ -168,7 +168,7 @@
     <string name="query_before_month">起始时间不能早于创建前1个月</string>
     <string name="hint_account">手机号/邮箱地址</string>
     <string name="logining">登录中...</string>
-    <string name="no_net">网络连接不可用，请稍后重试</string>
+    <string name="no_net">网络不给力，请稍后再试</string>
     <string name="no_net_connect">网络连接失败，请检查网络</string>
     <string name="mobile">手机号</string>
     <string name="hint_mobile">请输入手机号</string>
@@ -622,6 +622,7 @@
     <string name="post_success_tip">提交成功</string>
     <string name="post_failure_tip">提交失败</string>
     <string name="invite_history">邀请历史</string>
+    <string name="dialog_button_invite">立即邀请</string>
     <string name="nick_name">昵称</string>
     <string name="register_date">注册时间</string>
     <string name="no_invitations_tips">你还没有邀请。</string>
@@ -671,6 +672,7 @@
 
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
+    <string name="dialog_msg_invitecode_success">邀请码提交成功，赠送流量已入库，您也可以发出好友邀请，邀请好友越多，流量送越多!</string>
     <string name="title_activity_photo_view">PhotoViewActivity</string>
 
     <string name="hello_world">Hello world!</string>

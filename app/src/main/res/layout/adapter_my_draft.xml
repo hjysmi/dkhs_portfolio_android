@@ -48,4 +48,14 @@
         android:textColor="@color/gray_textcolor"
         android:textSize="@dimen/text_status_time" />
 
+    <TextView
+        android:id="@+id/tv_fail_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv_edit_time"
+        android:layout_marginTop="@dimen/widget_margin_small"
+        android:textColor="@color/draft_error"
+        android:textSize="16sp" />
+
 </RelativeLayout>

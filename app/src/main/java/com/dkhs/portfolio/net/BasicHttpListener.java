@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.net;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -64,6 +65,15 @@ public abstract class BasicHttpListener implements IHttpListener {
 
     @Override
     public void onHttpFailure(int errCode, String errMsg) {
+        if (errCode == 0) {
+            errMsg = PortfolioApplication.getInstance().getString(R.string.message_timeout);
+        } else if (errCode == 500 || errCode == 404) { // 服务器内部错误
+            errMsg = PortfolioApplication.getInstance().getString(R.string.message_server_error);
+        } else if (errCode == 429) {
+            errMsg = PortfolioApplication.getInstance().getString(R.string.message_server_error429);
+        } else if (errCode == 123) {
+            errMsg = PortfolioApplication.getInstance().getString(R.string.no_net_connect);
+        }
         onFailure(errCode, errMsg);
     }
 
@@ -89,22 +99,15 @@ public abstract class BasicHttpListener implements IHttpListener {
      * @Description: 网络错误处理，
      */
     public void onFailure(int errCode, String errMsg) {
-        // if(showDialogIfIsTokenCode(errCode)){
-        // GTGUtils.showTip(HttpCode.getCodeResId(errCode));
-        // }
-        // Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
-        if (errCode == 0) {
-            PromptManager.showToast(R.string.message_timeout);
-        } else if (errCode == 500 || errCode == 404) { // 服务器内部错误
-            PromptManager.showToast(R.string.message_server_error);
-        } else if (errCode == 429) {
-            PromptManager.showToast(R.string.message_server_error429);
-
-        } else if (errCode == 123) {
-            PromptManager.showToast(R.string.no_net_connect);
-        } else if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
-            onFailure(ErrorBundle.parseToErrorBundle(errMsg));
+        if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
+            ErrorBundle errorBundle = ErrorBundle.parseToErrorBundle(errMsg);
+            if (null != errorBundle) {
+                errorBundle.setErrorCode(777);
+                onFailure(errorBundle);
+            }
+        } else {
+            PromptManager.showToast(errMsg);
         }
 
     }
