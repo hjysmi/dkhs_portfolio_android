@@ -21,6 +21,7 @@ public class DraftBean {
     public static final String COLUM_LABEL = "label";  //1是正文，2 是回复
     public static final String COLUM_REPLY_USERNAME = "reply_username";  //评论用户名
     public static final String COLUM_REPLY_STATUS_ID = "reply_status_id";  //评论用户名
+    public static final String COLUM_FAIL_REASON = "fail_reason";  //失败原因
 
     //保存图片的绝对路径
     @Column(column = COLUM_IMAGEURI)
@@ -36,6 +37,10 @@ public class DraftBean {
     String content;
     @Column(column = COLUM_AUTHORID)
     String authorId;
+
+
+    @Column(column = COLUM_FAIL_REASON)
+    String failReason;
 
     @Column(column = COLUM_LABEL)
     int label;
@@ -132,4 +137,11 @@ public class DraftBean {
     }
 
 
+    public String getFailReason() {
+        return failReason;
+    }
+
+    public void setFailReason(String failReason) {
+        this.failReason = failReason;
+    }
 }

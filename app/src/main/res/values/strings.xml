@@ -168,7 +168,7 @@
     <string name="query_before_month">起始时间不能早于创建前1个月</string>
     <string name="hint_account">手机号/邮箱地址</string>
     <string name="logining">登录中...</string>
-    <string name="no_net">网络连接不可用，请稍后重试</string>
+    <string name="no_net">网络不给力，请稍后再试</string>
     <string name="no_net_connect">网络连接失败，请检查网络</string>
     <string name="mobile">手机号</string>
     <string name="hint_mobile">请输入手机号</string>

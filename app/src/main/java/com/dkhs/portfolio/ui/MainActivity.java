@@ -299,8 +299,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
     ParseHttpListener updateAppVersionListener = new ParseHttpListener<AppBean>() {
 
         @Override

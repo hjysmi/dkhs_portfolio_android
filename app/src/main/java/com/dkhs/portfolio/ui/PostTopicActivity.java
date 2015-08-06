@@ -22,7 +22,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
@@ -688,6 +687,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             mDraftBean.setImageFilepath("");
         }
 
+        mDraftBean.setFailReason("");
         mDraftBean.setTitle(etTitle.getText().toString());
         mDraftBean.setContent(etContent.getText().toString());
         return mDraftBean;

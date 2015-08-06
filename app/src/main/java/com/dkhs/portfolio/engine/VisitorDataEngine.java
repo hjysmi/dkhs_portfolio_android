@@ -8,7 +8,7 @@
  */
 package com.dkhs.portfolio.engine;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SearchHistoryBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -35,7 +35,7 @@ public class VisitorDataEngine {
     public static void saveHistory(final SearchHistoryBean stockbean) {
         new Thread() {
             public void run() {
-                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils db = AppConfig.getDBUtils();
                 try {
 
                     stockbean.setSaveTime(System.currentTimeMillis() / 1000);
@@ -51,7 +51,7 @@ public class VisitorDataEngine {
     public static void clearHistoryStock() {
         new Thread() {
             public void run() {
-                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils db = AppConfig.getDBUtils();
                 try {
                     db.deleteAll(SearchHistoryBean.class);
                 } catch (DbException e) {
@@ -72,7 +72,7 @@ public class VisitorDataEngine {
     public void saveOptionalStock(final SelectStockBean stockbean) {
         new Thread() {
             public void run() {
-                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils db = AppConfig.getDBUtils();
                 try {
                     db.saveOrUpdate(stockbean);
 //                    db.saveOrUpdate(historyBean);
@@ -91,7 +91,7 @@ public class VisitorDataEngine {
     public void saveCombination(final CombinationBean combean) {
         new Thread() {
             public void run() {
-                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils db = AppConfig.getDBUtils();
                 try {
                     db.saveOrUpdate(combean);
                 } catch (DbException e) {
@@ -111,7 +111,7 @@ public class VisitorDataEngine {
      * 修改股票列表数据
      */
     public void replaceOptionStock(List<SelectStockBean> stockList) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         try {
             db.replaceAll(stockList);
         } catch (DbException e) {
@@ -123,7 +123,7 @@ public class VisitorDataEngine {
      * 修改组合列表数据
      */
     public void replaceCombination(List<CombinationBean> comList) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         try {
             db.replaceAll(comList);
         } catch (DbException e) {
@@ -135,7 +135,7 @@ public class VisitorDataEngine {
      * 查询股票列表数据
      */
     public List<SelectStockBean> getOptionalStockList() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             list = db.findAll(SelectStockBean.class);
@@ -151,7 +151,7 @@ public class VisitorDataEngine {
      * 查询自选基金列表数据
      */
     public List<SelectStockBean> getOptionalFundList() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             list = db
@@ -169,7 +169,7 @@ public class VisitorDataEngine {
      * 查询排序的股票列表数据
      */
     public List<SelectStockBean> getOptionalStockListBySort() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
@@ -184,7 +184,7 @@ public class VisitorDataEngine {
     }
 
     public List<SelectStockBean> getOptionalStockAndFundBySort() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1", "3,", "5"}));
@@ -201,7 +201,7 @@ public class VisitorDataEngine {
      * 查询排序的基金列表数据
      */
     public List<SelectStockBean> getOptionalFundsSort() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
@@ -219,7 +219,7 @@ public class VisitorDataEngine {
      * 删除组合数据
      */
     public void delCombinationBean(CombinationBean comBean) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         try {
             db.delete(comBean);
         } catch (DbException e) {
@@ -232,7 +232,7 @@ public class VisitorDataEngine {
      * 删除股票数据
      */
     public void delOptionalStock(SelectStockBean stockbean) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         try {
             System.out.println("delOptionalStock :" + stockbean.getName());
             db.delete(stockbean);
@@ -243,7 +243,7 @@ public class VisitorDataEngine {
     }
 
     public void delAllOptionalStock() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         try {
             db.deleteAll(SelectStockBean.class);
         } catch (DbException e) {
@@ -253,7 +253,7 @@ public class VisitorDataEngine {
     }
 
     public void delAllCombinationBean() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         try {
             db.deleteAll(CombinationBean.class);
         } catch (DbException e) {
@@ -263,7 +263,7 @@ public class VisitorDataEngine {
     }
 
     public CombinationBean queryCombination(String comId) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         CombinationBean comBean = null;
         try {
             // db.findDbModelAll(selector)
@@ -279,7 +279,7 @@ public class VisitorDataEngine {
      * 查询排序的组合列表数据
      */
     public List<CombinationBean> getCombinationBySort() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         List<CombinationBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
@@ -293,7 +293,7 @@ public class VisitorDataEngine {
     }
 
     public String getStockSymbols() {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        DbUtils db = AppConfig.getDBUtils();
         StringBuilder sbSymbols = new StringBuilder();
         try {
             // db.findDbModelAll(selector)

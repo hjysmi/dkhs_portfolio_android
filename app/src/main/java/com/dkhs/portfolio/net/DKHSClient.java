@@ -12,6 +12,8 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.EncryptData;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -206,14 +208,9 @@ public class DKHSClient {
 
             if (null != listener) {
                 listener.requestCallBack();
-                listener.onHttpFailure(123, "网络未连接");
+                listener.onHttpFailure(123, PortfolioApplication.getInstance().getString(R.string.no_net_connect));
             }
-            if (Looper.getMainLooper().getThread() == Thread.currentThread() && isShowTip) {
-                // On UI thread.
-                PromptManager.showNoNetWork();
-            } else {
-                // Not on UI thread.
-            }
+
             return null;
         }
     }
@@ -284,14 +281,9 @@ public class DKHSClient {
 
             if (null != listener) {
                 listener.requestCallBack();
-                listener.onHttpFailure(123, "网络未连接");
+                listener.onHttpFailure(123, PortfolioApplication.getInstance().getString(R.string.no_net_connect));
             }
-            if (Looper.getMainLooper().getThread() == Thread.currentThread() && isShowTip) {
-                // On UI thread.
-                PromptManager.showNoNetWork();
-            } else {
-                // Not on UI thread.
-            }
+           
 
         }
     }
@@ -353,7 +345,7 @@ public class DKHSClient {
         if (relativeUrl.contains("http://") || relativeUrl.contains("https://")) {
             return relativeUrl;
         } else {
-            String x = getHeadUrl()+relativeUrl;
+            String x = getHeadUrl() + relativeUrl;
             if (x != null) return x;
 
             return null;
@@ -364,15 +356,15 @@ public class DKHSClient {
     public static String getHeadUrl() {
         switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
             case 0:
-                return DKHSUrl.BASE_DEV_URL ;
+                return DKHSUrl.BASE_DEV_URL;
             case 1:
-                return DKHSUrl.BASE_TEST_URL ;
+                return DKHSUrl.BASE_TEST_URL;
             case 2:
-                return DKHSUrl.BASE_DEV_MAIN ;
+                return DKHSUrl.BASE_DEV_MAIN;
             case 3:
-                return DKHSUrl.BASE_DEV_TAG ;
+                return DKHSUrl.BASE_DEV_TAG;
             default:
-                return DKHSUrl.BASE_DEV_URL ;
+                return DKHSUrl.BASE_DEV_URL;
         }
     }
 }
