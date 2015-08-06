@@ -254,7 +254,7 @@ public class PostTopicService extends IntentService {
     private void createNotification() {
         notification.setTicker(getString(R.string.msg_topic_sending))
                 .setContentIntent(PendingIntent.getBroadcast(this, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT))
-                .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
+                .setSmallIcon(R.drawable.ic_launcher).setOngoing(true);
 
         startForeground(UPLOAD_NOTIFICATION_ID, notification.build());
     }
