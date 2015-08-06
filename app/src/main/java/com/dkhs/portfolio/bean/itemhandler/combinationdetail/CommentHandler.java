@@ -11,6 +11,7 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
@@ -49,7 +50,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
     @Override
     public void onBindView(ViewHolder vh, final CommentBean comment, int position) {
         super.onBindView(vh, comment, position);
-        UserEntity user = comment.getUser();
+        PeopleBean user = comment.getUser();
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_head));
         }
