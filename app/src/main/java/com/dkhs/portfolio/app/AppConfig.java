@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
@@ -54,7 +53,7 @@ public final class AppConfig {
         if (isDebug) {
 //            LeakCanary.install((Application) context);
             CrashHandler.getInstance(context);
-            StatService.setDebugOn(true);
+//            StatService.setDebugOn(true);
 //            ANRWatchDog anrWatchDog = new ANRWatchDog();
 //            anrWatchDog.start();
 

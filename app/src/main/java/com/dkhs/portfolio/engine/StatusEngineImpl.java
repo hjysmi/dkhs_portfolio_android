@@ -94,7 +94,7 @@ public class StatusEngineImpl {
      */
     public static void getReplys(String userId, int page, int page_size, ParseHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("user_id", userId);
+        params.addQueryStringParameter("user_pk", userId);
         params.addQueryStringParameter("status_type", "1");
         if (page != 0) {
             params.addQueryStringParameter("page", page + "");
