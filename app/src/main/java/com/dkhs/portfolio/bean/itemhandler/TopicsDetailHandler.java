@@ -13,7 +13,6 @@ import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
@@ -82,6 +81,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         if (data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
             ImageLoaderUtils.setImagDefault(data.medias.get(0).image_md, vh.getImageView(R.id.iv));
+
         } else {
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
