@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -37,6 +41,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
 
     private LayoutInflater mLayoutInflater;
     private Context mContext;
+    private String mInviteCode;
 
     public UserInfoAdapter(Context context) {
         super();
@@ -51,6 +56,26 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
         iconRes = new int[len];
         for (int i = 0; i < len; i++) iconRes[i] = ar.getResourceId(i, 0);
         ar.recycle();
+        getInviteCode();
+
+    }
+
+
+    private void getInviteCode() {
+        AdEngineImpl.getInvitingInfo(new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return ShareBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+                if (object != null) {
+                    mInviteCode = ((ShareBean) object).getCode();
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
@@ -70,8 +95,14 @@ public class UserInfoAdapter extends RecyclerView.Adapter<UserInfoAdapter.ViewHo
                 clickPosition(position);
             }
         });
-        if (position == titleTexts.length - 1) {
+        if (position >= titleTexts.length - 2) {
             holder.tvTip.setVisibility(View.VISIBLE);
+            if (position == titleTexts.length - 1) {
+
+                holder.tvTip.setText(R.string.tip_flowpackage);
+            } else if (position == titleTexts.length - 2 && !TextUtils.isEmpty(mInviteCode)) {
+                holder.tvTip.setText(mContext.getString(R.string.tip_invite_code, mInviteCode));
+            }
         } else {
             holder.tvTip.setVisibility(View.GONE);
         }

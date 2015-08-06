@@ -141,54 +141,6 @@ public class UIUtils {
         return false;
     }
 
-    /**
-     * 从给定的路径加载图片，并指定是否自动旋转方向
-     */
-    public static Bitmap loadBitmap(Bitmap bm, String imgpath) {
-        int digree = 0;
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(imgpath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            exif = null;
-        }
-        if (exif != null) {
-            // 读取图片中相机方向信息
-            int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            double oris = exif.getAttributeDouble(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            String oriss = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-            // 计算旋转角度
-            switch (ori) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    digree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    digree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    digree = 270;
-                    break;
-                default:
-                    digree = 0;
-                    break;
-            }
-        }
-        Matrix m = new Matrix();
-        if (digree != 0) {
-            // 旋转图片
-            m.postRotate(digree);
-            Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
-//            if (null != bms) {
-//                bm = bms;
-//                bms = null;
-//            }
-            return bms;
-        }
-        return  Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
-//        return null;
-    }
-
     public static Bitmap toRoundBitmap(Bitmap bitmap) {
         try {
             int width = bitmap.getWidth();
@@ -245,6 +197,54 @@ public class UIUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 从给定的路径加载图片，并指定是否自动旋转方向
+     */
+    public static Bitmap loadBitmap(Bitmap bm, String imgpath) {
+        int digree = 0;
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(imgpath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            exif = null;
+        }
+        if (exif != null) {
+            // 读取图片中相机方向信息
+            int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            double oris = exif.getAttributeDouble(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            String oriss = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+            // 计算旋转角度
+            switch (ori) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    digree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    digree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    digree = 270;
+                    break;
+                default:
+                    digree = 0;
+                    break;
+            }
+        }
+        Matrix m = new Matrix();
+        if (digree != 0) {
+            // 旋转图片
+            m.postRotate(digree);
+            Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
+//            if (null != bms) {
+//                bm = bms;
+//                bms = null;
+//            }
+            return bms;
+        }
+        return  Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
+//        return null;
     }
 
     @SuppressLint("ResourceAsColor")
