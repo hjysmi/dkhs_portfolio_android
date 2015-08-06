@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 
-import com.dkhs.portfolio.engine.AppUpdateCheckEngine;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.lidroid.xutils.util.LogUtils;

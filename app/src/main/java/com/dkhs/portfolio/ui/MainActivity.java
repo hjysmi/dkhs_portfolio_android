@@ -9,8 +9,6 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,12 +17,8 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.engine.AppUpdateCheckEngine;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.ui.fragment.MainBBSFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
@@ -35,8 +29,6 @@ import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
-import com.dkhs.portfolio.ui.widget.UpdateDialog;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -87,7 +79,7 @@ public class MainActivity extends BaseActivity {
 //            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         }
-        new AppUpdateCheckEngine(mContext).checkVersion();
+        new AppUpdateEngine(mContext).checkVersion();
 
     }
 
