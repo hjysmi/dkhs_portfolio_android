@@ -9,6 +9,7 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
@@ -17,6 +18,7 @@ import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -154,7 +156,21 @@ public class PostTopicService extends IntentService {
         @Override
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-            PostTopicService.this.updateNotificationError(mStatusBean);
+            if (errCode != 777) {
+                Log.e(TAG, "UploadListener onFailure msg :" + errMsg);
+                mStatusBean.setFailReason(errMsg);
+                requestError(mStatusBean);
+            }
+        }
+
+
+        @Override
+        public void onFailure(ErrorBundle errorBundle) {
+            super.onFailure(errorBundle);
+
+            mStatusBean.setFailReason(errorBundle.getErrorMessage());
+            requestError(mStatusBean);
+            Log.e(TAG, "UploadListener ErrorBundle msg :" + errorBundle.getErrorMessage());
         }
 
     }
@@ -207,10 +223,27 @@ public class PostTopicService extends IntentService {
         @Override
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-            PostTopicService.this.updateNotificationError(mStatusBean);
+            if (errCode != 777) {
+                Log.e(TAG, "PostTopicListener onFailure msg :" + errMsg);
+
+                mStatusBean.setFailReason(errMsg);
+                requestError(mStatusBean);
+            }
         }
 
 
+        @Override
+        public void onFailure(ErrorBundle errorBundle) {
+            super.onFailure(errorBundle);
+
+            mStatusBean.setFailReason(errorBundle.getErrorMessage());
+            requestError(mStatusBean);
+            Log.e(TAG, "PostTopicListener ErrorBundle msg :" + errorBundle.getErrorMessage());
+        }
+    }
+
+    private void requestError(DraftBean statusBean) {
+        PostTopicService.this.updateNotificationError(statusBean);
     }
 
 
@@ -230,8 +263,8 @@ public class PostTopicService extends IntentService {
                 .setTicker(getString(R.string.msg_topic_send_success))
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
-        notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());
-        notificationManager.cancel(UPLOAD_NOTIFICATION_ID_DONE);
+        notificationManager.notify(UPLOAD_NOTIFICATION_ID, notification.build());
+        notificationManager.cancel(UPLOAD_NOTIFICATION_ID);
     }
 
 
@@ -242,8 +275,8 @@ public class PostTopicService extends IntentService {
         notification.setTicker(getString(R.string.msg_topic_send_fail))
                 .setSmallIcon(R.drawable.ic_launcher).setOngoing(false);
 
-        notificationManager.notify(UPLOAD_NOTIFICATION_ID_DONE, notification.build());
-        notificationManager.cancel(UPLOAD_NOTIFICATION_ID_DONE);
+        notificationManager.notify(UPLOAD_NOTIFICATION_ID, notification.build());
+        notificationManager.cancel(UPLOAD_NOTIFICATION_ID);
 
         BusProvider.getInstance().post(new SendTopicEvent());
 

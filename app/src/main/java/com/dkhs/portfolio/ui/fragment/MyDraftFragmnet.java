@@ -30,7 +30,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.ui.PostTopicActivity;
@@ -250,6 +249,13 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 }
             }
 
+            String strFailReason = item.getFailReason();
+            if (TextUtils.isEmpty(strFailReason)) {
+                holder.tvFailReason.setVisibility(View.GONE);
+            } else {
+                holder.tvFailReason.setVisibility(View.VISIBLE);
+                holder.tvFailReason.setText(strFailReason);
+            }
 
             return convertView;
         }
@@ -259,6 +265,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             public DKHSTextView tvContent;
             public TextView tvEditTime;
             public TextView tvLabel;
+            public TextView tvFailReason;
 
 
             public ViewHolder(View row) {
@@ -266,6 +273,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 tvContent = (DKHSTextView) row.findViewById(R.id.tv_draft_content);
                 tvEditTime = (TextView) row.findViewById(R.id.tv_edit_time);
                 tvLabel = (TextView) row.findViewById(R.id.tv_label);
+                tvFailReason = (TextView) row.findViewById(R.id.tv_fail_reason);
                 row.setTag(this);
             }
         }

@@ -107,7 +107,7 @@ public final class AppConfig {
 
     public static DbUtils getDBUtils() {
         DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
-        dbConfig.setDbVersion(2);
+        dbConfig.setDbVersion(1);
         dbConfig.setDbUpgradeListener(new DbUtils.DbUpgradeListener() {
             @Override
             public void onUpgrade(DbUtils db, int oldVersion, int newVersion) {

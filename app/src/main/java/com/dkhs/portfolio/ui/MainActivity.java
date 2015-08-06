@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity {
         }
 
         UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-        mUserEngineImpl.getAppVersion("portfolio_android", updateAppVersionListener);
+//        mUserEngineImpl.getAppVersion("portfolio_android", updateAppVersionListener);
 
 
     }
