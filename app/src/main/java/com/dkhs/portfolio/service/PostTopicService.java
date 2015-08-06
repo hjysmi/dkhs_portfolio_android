@@ -155,18 +155,21 @@ public class PostTopicService extends IntentService {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
-            if (errCode != 777) {
+
+            if (errCode == 777) {
+                super.onFailure(errCode, errMsg);
+            } else {
                 Log.e(TAG, "UploadListener onFailure msg :" + errMsg);
                 mStatusBean.setFailReason(errMsg);
                 requestError(mStatusBean);
+
             }
         }
 
 
         @Override
         public void onFailure(ErrorBundle errorBundle) {
-            super.onFailure(errorBundle);
+//            super.onFailure(errorBundle);
 
             mStatusBean.setFailReason(errorBundle.getErrorMessage());
             requestError(mStatusBean);
@@ -222,19 +225,20 @@ public class PostTopicService extends IntentService {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
-            if (errCode != 777) {
-                Log.e(TAG, "PostTopicListener onFailure msg :" + errMsg);
-
+            if (errCode == 777) {
+                super.onFailure(errCode, errMsg);
+            } else {
+                Log.e(TAG, "UploadListener onFailure msg :" + errMsg);
                 mStatusBean.setFailReason(errMsg);
                 requestError(mStatusBean);
+
             }
         }
 
 
         @Override
         public void onFailure(ErrorBundle errorBundle) {
-            super.onFailure(errorBundle);
+//            super.onFailure(errorBundle);
 
             mStatusBean.setFailReason(errorBundle.getErrorMessage());
             requestError(mStatusBean);
