@@ -10,7 +10,7 @@ package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SearchHistoryBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
@@ -85,7 +85,7 @@ public class SearchStockEngineImpl {
                 if (null != dataBean) {
 
                     List<SearchStockBean> dataList = dataBean.getResults();
-                    DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                    DbUtils dbUtils = AppConfig.getDBUtils();
                     // dbUtils.configAllowTransaction(true);
                     try {
                         dbUtils.saveOrUpdateAll(dataList);
@@ -118,7 +118,7 @@ public class SearchStockEngineImpl {
         new Thread() {
             public void run() {
 
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {
@@ -173,7 +173,7 @@ public class SearchStockEngineImpl {
     public void searchFunds(final String key) {
         new Thread() {
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {
@@ -270,7 +270,7 @@ public class SearchStockEngineImpl {
     public void searchStockIndexFunds(final String key) {
         new Thread() {
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {
@@ -307,7 +307,7 @@ public class SearchStockEngineImpl {
     public void searchHistoryStock() {
         new Thread() {
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {

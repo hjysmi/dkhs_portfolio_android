@@ -12,6 +12,7 @@ import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -103,4 +104,18 @@ public final class AppConfig {
 
         }
     }
+
+    public static DbUtils getDBUtils() {
+        DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
+        dbConfig.setDbVersion(2);
+        dbConfig.setDbUpgradeListener(new DbUtils.DbUpgradeListener() {
+            @Override
+            public void onUpgrade(DbUtils db, int oldVersion, int newVersion) {
+                Log.e("DBConfig", "oldVersion=" + oldVersion + " newVersion=" + newVersion);
+
+            }
+        });
+        return DbUtils.create(dbConfig);
+    }
+
 }
