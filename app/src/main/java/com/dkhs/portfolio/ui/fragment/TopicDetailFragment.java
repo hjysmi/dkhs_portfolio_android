@@ -126,13 +126,13 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     }
 
     @Subscribe
-    public void refresh(DeleteCommentEvent deleteCommentEvent) {
+    public void delete(DeleteCommentEvent deleteCommentEvent) {
         for (Object o : mDataList) {
             if (o instanceof CommentBean) {
                 if ((((CommentBean) o).getId() + "").equals(deleteCommentEvent.commentId)) {
                     mDataList.remove(o);
+                    mTopicsBean.comments_count-=1;
                     if(mDataList.size()==1){
-                        mTopicsBean.comments_count-=1;
                         NoDataBean noDataBean = new NoDataBean();
                         noDataBean.noData = "暂无评论";
                         mDataList.add(1,noDataBean);
