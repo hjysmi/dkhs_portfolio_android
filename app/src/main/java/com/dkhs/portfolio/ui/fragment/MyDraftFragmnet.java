@@ -30,6 +30,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.ui.PostTopicActivity;
@@ -153,6 +154,9 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DraftBean draftBean = mDataList.get(position);
+                if (UIUtils.iStartLoginActivity(getActivity())) {
+                    return;
+                }
                 Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getReplyUserName(), draftBean.getStatusId());
                 intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
                 startActivity(intent);

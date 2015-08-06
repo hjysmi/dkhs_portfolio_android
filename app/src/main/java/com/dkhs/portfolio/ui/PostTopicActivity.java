@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
@@ -90,6 +91,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * @return
      */
     public static Intent getIntent(Context context, int type, String repliedStatus, String userName) {
+
         Intent intent = new Intent(context, PostTopicActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(REPLIED_STATUS, repliedStatus);

@@ -13,6 +13,7 @@ import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
@@ -191,6 +192,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
+
+            if (UIUtils.iStartLoginActivity(mContext)) {
+                return;
+            }
             UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername())));
         }
     }

@@ -3,11 +3,13 @@ package com.dkhs.portfolio.ui.widget;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.StatusBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @author zwm
@@ -49,6 +51,9 @@ public class SwitchLikeStateHandler {
 
     public void toggleLikeState() {
         mLikeBean.setLike(!mLikeBean.isLike());
+//        if (UIUtils.iStartLoginActivity(PortfolioApplication.getInstance())) {
+//            return;
+//        }
         if (!mLikeBean.isLike()) {
             //取消点赞
             if(mLikeIm != null){
