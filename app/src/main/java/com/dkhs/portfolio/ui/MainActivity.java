@@ -21,6 +21,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.AppUpdateCheckEngine;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -86,10 +87,7 @@ public class MainActivity extends BaseActivity {
 //            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         }
-
-        UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-        mUserEngineImpl.getAppVersion("portfolio_android", updateAppVersionListener);
-
+        new AppUpdateCheckEngine(mContext).checkVersion();
 
     }
 
@@ -301,33 +299,5 @@ public class MainActivity extends BaseActivity {
 
 
 
-    ParseHttpListener updateAppVersionListener = new ParseHttpListener<AppBean>() {
 
-        @Override
-        protected AppBean parseDateTask(String jsonData) {
-
-            return DataParse.parseObjectJson(AppBean.class, jsonData);
-        }
-
-        @Override
-        protected void afterParseData(AppBean object) {
-            if (null != object) {
-                try {
-                    final AppBean bean = object;
-                    PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-                    String version = info.versionName;
-
-                    if (object.isNewVersion(version)) {
-
-                        if (!object.getVersion().equals(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_VERSIONY))) {
-                            UpdateDialog alert = new UpdateDialog(mContext);
-                            alert.showByAppBean(object);
-                        }
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
 }

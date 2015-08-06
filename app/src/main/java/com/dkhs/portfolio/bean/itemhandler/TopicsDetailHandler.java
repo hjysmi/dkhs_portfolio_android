@@ -234,7 +234,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             PhotoBean photoBean = new PhotoBean();
             photoBean.title = topicsBean.id + "";
             photoBean.loadingURl = topicsBean.medias.get(0).image_sm;
-            photoBean.imgUrl = topicsBean.medias.get(0).image_lg;
+            photoBean.imgUrl = topicsBean.medias.get(0).image_md;
             arrayList.add(photoBean);
             PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }
