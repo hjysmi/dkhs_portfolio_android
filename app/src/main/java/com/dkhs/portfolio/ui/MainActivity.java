@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity {
         }
 
         UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-//        mUserEngineImpl.getAppVersion("portfolio_android", updateAppVersionListener);
+        mUserEngineImpl.getAppVersion("portfolio_android", updateAppVersionListener);
 
 
     }
@@ -297,8 +297,6 @@ public class MainActivity extends BaseActivity {
 
         return super.onKeyDown(keyCode, event);
     }
-
-
 
 
     ParseHttpListener updateAppVersionListener = new ParseHttpListener<AppBean>() {
