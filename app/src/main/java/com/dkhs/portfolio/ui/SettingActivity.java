@@ -25,6 +25,7 @@ import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -332,8 +333,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
             break;
             case R.id.setting_layout_check_version:
-                UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-                mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+                AppUpdateEngine.getAppVersion("portfolio_android", userInfoListener);
                 userInfoListener.setLoadingDialog(context);
                 break;
             case R.id.setting_layout_sign:

@@ -225,7 +225,12 @@ public class MAlertDialog {
 
     public void show() {
 
-        if (!((Activity) context).isFinishing()) {
+
+        if (context instanceof Activity) {
+            if (!((Activity) context).isFinishing()) {
+                dialog.show();
+            }
+        } else {
             dialog.show();
         }
 

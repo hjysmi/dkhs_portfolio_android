@@ -205,7 +205,7 @@ public class CommentItemClick {
     /**
      * 删除回复
      */
-    private void deleteComment(String commentId) {
+    private void deleteComment(final String commentId) {
 
 //        PromptManager.showToast("删除回复");
         StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
@@ -219,7 +219,9 @@ public class CommentItemClick {
             protected void afterParseData(Boolean object) {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
-                    BusProvider.getInstance().post(new DeleteCommentEvent());
+                    DeleteCommentEvent deleteCommentEvent=   new DeleteCommentEvent();
+                    deleteCommentEvent.commentId=commentId;
+                    BusProvider.getInstance().post(deleteCommentEvent);
 
 
                 }

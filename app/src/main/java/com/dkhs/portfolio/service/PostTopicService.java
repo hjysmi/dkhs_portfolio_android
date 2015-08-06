@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UploadImageBean;
@@ -20,6 +21,7 @@ import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.AddCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.SendTopicEvent;
@@ -214,6 +216,8 @@ public class PostTopicService extends IntentService {
                 } else {
 //                    PromptManager.showSuccessToast(R.string.msg_post_reply_success);
 
+                    AddCommentEvent addCommentEvent = new AddCommentEvent(CommentBean.fromTopics(entity));
+                    BusProvider.getInstance().post(addCommentEvent);
                 }
                 if (null != mStatusBean) {
                     new DraftEngine(null).delDraft(mStatusBean);

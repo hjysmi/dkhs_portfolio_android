@@ -66,7 +66,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public FloatingActionMenu mFloatingActionMenu;
     private TopicsBean mTopicsBean;
     private SwitchLikeStateHandler mSwitchLikeStateHandler;
-    public boolean withLikeState = false;
 
     private boolean isMyTopics = false;
 
@@ -79,7 +78,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
             mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
-            withLikeState = mTopicsBean.like;
             setContentView(R.layout.activity_topics_detail);
             setTitle(R.string.title_activity_topics_detail);
             ViewUtils.inject(this);
@@ -236,18 +234,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void onFragmentInteraction(TopicsBean topicsBean) {
         mTopicsBean = topicsBean;
         mSwitchLikeStateHandler.setLikeBean(mTopicsBean);
-
         initFloatMenu();
     }
 
     @Override
     public void finish() {
         if (mTopicsBean != null) {
-            if (withLikeState != mTopicsBean.like) {
                 //更新列表状态
                 UpdateTopicsListEvent updateTopicsListEvent = new UpdateTopicsListEvent(mTopicsBean);
                 BusProvider.getInstance().post(updateTopicsListEvent);
-            }
         }
         super.finish();
     }
