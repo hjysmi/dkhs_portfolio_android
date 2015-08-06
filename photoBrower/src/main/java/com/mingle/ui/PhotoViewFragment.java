@@ -73,6 +73,7 @@ public class PhotoViewFragment extends Fragment {
             }
         });
 
+        mPhotoView.setMinimumScale(0.6f);
         mLoader.displayImage(mPhotoBean.imgUrl, mPhotoView, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

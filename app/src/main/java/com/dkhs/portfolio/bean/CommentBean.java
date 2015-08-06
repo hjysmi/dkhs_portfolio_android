@@ -9,7 +9,7 @@ public class CommentBean extends LikeBean {
     private String title;
     private String text;
     private boolean truncated;
-    private UserEntity user;
+    private PeopleBean user;
     private String replied_status;
     private String replied_comment;
     private String retweeted_status;
@@ -202,11 +202,25 @@ public class CommentBean extends LikeBean {
         this.truncated = truncated;
     }
 
-    public UserEntity getUser() {
+    public PeopleBean getUser() {
         return user;
     }
 
-    public void setUser(UserEntity user) {
+    public void setUser(PeopleBean user) {
         this.user = user;
+    }
+
+
+
+    public   static  CommentBean fromTopics(TopicsBean topicsBean){
+
+        CommentBean commentBean=new CommentBean();
+        commentBean.setId(topicsBean.getId());
+        commentBean.setUser(topicsBean.user);
+        commentBean.setText(topicsBean.text);
+        commentBean.setAttitudes_count(topicsBean.attitudes_count);
+        commentBean.setCreated_at(topicsBean.created_at);
+
+        return  commentBean;
     }
 }
