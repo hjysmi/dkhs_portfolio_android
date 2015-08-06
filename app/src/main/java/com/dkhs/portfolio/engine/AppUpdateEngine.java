@@ -21,35 +21,15 @@ public class AppUpdateEngine {
 
     public Context mContext;
 
-    private static  boolean isNeedCheck=true;
+    private static boolean isNeedCheck = true;
 
     public AppUpdateEngine(Context context) {
         mContext = context;
     }
 
     public void checkVersion() {
-        if(!isNeedCheck ){
-            return;
-        }
-        String appBeanStr = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_APP_UPDATE_INFO);
-        if (!TextUtils.isEmpty(appBeanStr)) {
-            AppBean appBean = DataParse.parseObjectJson(AppBean.class, appBeanStr);
-            PackageInfo info = null;
-            try {
-                info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-                String version = info.versionName;
 
-                if ( appBean.isUpgrade()  && appBean.isNewVersion(version) ) {
-                    showUpdateDialog(appBean);
-                }else{
-                    getAppVersion("portfolio_android", updateAppVersionListener);
-                }
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-        }else{
-            getAppVersion("portfolio_android", updateAppVersionListener);
-        }
+        getAppVersion("portfolio_android", updateAppVersionListener);
     }
 
     public static void getAppVersion(String appcode, ParseHttpListener<Object> listener) {
@@ -72,7 +52,7 @@ public class AppUpdateEngine {
 
             if (null != object) {
                 try {
-                    isNeedCheck=false;
+                    isNeedCheck = false;
                     final AppBean bean = object;
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_UPDATE_INFO, new Gson().toJson(object));
                     PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
@@ -93,10 +73,7 @@ public class AppUpdateEngine {
 
         //版本是否过滤
         if (!object.getVersion().equals(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_VERSIONY))) {
-
             UpdateDialog alert = new UpdateDialog(mContext);
-
-
             alert.showByAppBean(object);
         }
     }
