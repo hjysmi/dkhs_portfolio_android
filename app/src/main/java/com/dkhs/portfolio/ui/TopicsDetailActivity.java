@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -21,6 +22,7 @@ import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -100,10 +102,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             public boolean onMenuItemSelected(int paramInt) {
                 switch (paramInt) {
                     case MENU_COMMEND:
+
+                        if (UIUtils.iStartLoginActivity(mContext)) {
+                            break;
+                        }
                         startActivity(PostTopicActivity.getIntent(mContext,
                                 PostTopicActivity.TYPE_RETWEET, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
                         break;
                     case MENU_LIKE:
+
                         mSwitchLikeStateHandler.toggleLikeState();
                         break;
                     case MENU_SHARE:

@@ -622,6 +622,7 @@
     <string name="post_success_tip">提交成功</string>
     <string name="post_failure_tip">提交失败</string>
     <string name="invite_history">邀请历史</string>
+    <string name="dialog_button_invite">立即邀请</string>
     <string name="nick_name">昵称</string>
     <string name="register_date">注册时间</string>
     <string name="no_invitations_tips">你还没有邀请。</string>
@@ -671,6 +672,7 @@
 
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
+    <string name="dialog_msg_invitecode_success">邀请码提交成功，赠送流量已入库，您也可以发出好友邀请，邀请好友越多，流量送越多!</string>
     <string name="title_activity_photo_view">PhotoViewActivity</string>
 
     <string name="hello_world">Hello world!</string>
