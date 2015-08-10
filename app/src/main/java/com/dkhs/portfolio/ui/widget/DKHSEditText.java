@@ -122,7 +122,7 @@ public class DKHSEditText extends EmojiconEditText {
     public void insesrStockText(String stockname) {
         int start = getSelectionStart();
         int end = getSelectionEnd();
-        stockname = "$" + stockname + "$";
+        stockname = "$" + stockname + "$ ";
         if (start < 0) {
             append(stockname);
         } else {
@@ -130,5 +130,6 @@ public class DKHSEditText extends EmojiconEditText {
         }
 
         setText(getText().toString());
+        setSelection(getText().length());
     }
 }
