@@ -673,6 +673,7 @@
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
     <string name="dialog_msg_invitecode_success">邀请码提交成功，赠送流量已入库，您也可以发出好友邀请，邀请好友越多，流量送越多!</string>
+    <string name="dialog_msg_invitecode_limit">邀请码错误或已失效，您也可以发出好友邀请，邀请好友越多，流量送越多，上不封顶!</string>
     <string name="title_activity_photo_view">PhotoViewActivity</string>
 
     <string name="hello_world">Hello world!</string>
