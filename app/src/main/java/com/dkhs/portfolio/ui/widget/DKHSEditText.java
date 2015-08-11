@@ -1,8 +1,12 @@
 package com.dkhs.portfolio.ui.widget;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.text.Editable;
 import android.text.Html;
+import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -41,31 +45,39 @@ public class DKHSEditText extends EmojiconEditText {
     @Override
     public void setText(CharSequence text, BufferType type) {
         if (!TextUtils.isEmpty(text)) {
-            text = Html.fromHtml(text.toString());
-            if (text instanceof Spannable) {
-                int end = text.length();
-                Spannable sp = (Spannable) text;
-                URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
-//                SpannableStringBuilder builder = new SpannableStringBuilder(text);
-                SpannableString span = new SpannableString(text);
-//                builder.clearSpans();
-                for (URLSpan url : urls) {
-                    MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext());
-                    mySpan.url = url.getURL();
-                    Log.i("DKHSTEXT", mySpan.url);
-                    span.setSpan(mySpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-                TextModifyUtil.setImgText(span, FACE_IMG_PATTERN, getContext());
-                TextModifyUtil.setStockText(span, STOCK_PATTERN, getContext());
-                //加上下面方法会导致崩溃，所以去掉，并不影响，因为edittext不需要点击
-//                setMovementMethod(LinkMovementMethod.getInstance());
-                super.setText(span, type);
-            } else {
-                super.setText(text, type);
-            }
+//            CharSequence s = Html.toHtml((Editable) text);
+//            text = Html.fromHtml(s.toString());
+            text = getSpannable(text);
+            super.setText(text, type);
         } else {
             super.setText(text, type);
         }
+        mText = text;
+    }
+
+    private CharSequence getSpannable(CharSequence text) {
+        text = Html.fromHtml(text.toString());
+        if (text instanceof Spannable) {
+            int end = text.length();
+            Spannable sp = (Spannable) text;
+            URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
+//                SpannableStringBuilder builder = new SpannableStringBuilder(text);
+            SpannableString span = new SpannableString(text);
+//                builder.clearSpans();
+            for (URLSpan url : urls) {
+                MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext());
+                mySpan.url = url.getURL();
+                Log.i("DKHSTEXT", mySpan.url);
+                span.setSpan(mySpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            TextModifyUtil.setImgText(span, FACE_IMG_PATTERN, getContext());
+            TextModifyUtil.setStockText(span, STOCK_PATTERN, getContext());
+            //加上下面方法会导致崩溃，所以去掉，并不影响，因为edittext不需要点击
+//                setMovementMethod(LinkMovementMethod.getInstance());
+            return span;
+        } else {
+        }
+        return text;
     }
 
     @Override
@@ -128,8 +140,67 @@ public class DKHSEditText extends EmojiconEditText {
         } else {
             getText().replace(Math.min(start, end), Math.max(start, end), stockname, 0, stockname.length());
         }
-
         setText(getText().toString());
-        setSelection(getText().length());
+//        mText = getText();
+//        mText = Html.toHtml((Editable) mText);
+//        Editable.Factory mEditableFactory = Editable.Factory.getInstance();
+//        Editable mEditable = mEditableFactory.newEditable(mText);
+//        setText(mEditable);
+        setSelection(start + stockname.length());
+    }
+
+    CharSequence mText = "";
+
+    @Override
+    public boolean onTextContextMenuItem(int id) {
+        if(id == android.R.id.paste){
+            mText = getText();
+            int min = 0;
+            int max = mText.length();
+            if (isFocused()) {
+                final int selStart = getSelectionStart();
+                final int selEnd = getSelectionEnd();
+
+                min = Math.max(0, Math.min(selStart, selEnd));
+                max = Math.max(0, Math.max(selStart, selEnd));
+            }
+            paste(min,max);
+            return true;
+        }else{
+            return super.onTextContextMenuItem(id);
+        }
+    }
+
+    private void paste(int min, int max) {
+        int beforeLen = mText.length();
+        ClipboardManager clipboard =
+                (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = clipboard.getPrimaryClip();
+        if (clip != null) {
+            boolean didFirst = false;
+            for (int i=0; i<clip.getItemCount(); i++) {
+                CharSequence paste = clip.getItemAt(i).coerceToText(getContext());
+//                paste = getSpannable(paste);
+                paste=Html.fromHtml(paste.toString());
+                if (paste != null) {
+                    if (!didFirst) {
+                        Selection.setSelection((Spannable) mText, max);
+                        ((Editable) mText).replace(min, max, paste);
+                        didFirst = true;
+                    } else {
+                        ((Editable) mText).insert(getSelectionEnd(), "\n");
+                        ((Editable) mText).insert(getSelectionEnd(), paste);
+                    }
+                    //以下注释是为了让编辑框内超链接变蓝色，变态需求
+//                    mText = Html.toHtml((Editable) mText);
+//                    Editable.Factory mEditableFactory = Editable.Factory.getInstance();
+//                    Editable mEditable = mEditableFactory.newEditable(mText);
+//                    setText(mEditable);
+                    setText(mText);
+                    setSelection(min + mText.length() - beforeLen);
+
+                }
+            }
+        }
     }
 }
