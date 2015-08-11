@@ -106,37 +106,6 @@ public class UserFragment extends BaseTitleFragment {
 
     private void updateUserInfo() {
 
-//        if (PortfolioApplication.hasUserLogin()) {
-//            viewLogin.setVisibility(View.GONE);
-//            viewUserInfo.setVisibility(View.VISIBLE);
-//            String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
-//            if (!TextUtils.isEmpty(account)) {
-//                settingTextAccountText.setText(account);
-//            }
-//            settingTextNameText.setText(PortfolioPreferenceManager
-//                    .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
-//
-//            String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-//            if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-//                BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
-//                bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
-//                bitmapUtils.display(settingImageHead, url);
-//
-//            } else {
-//                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
-//                b = UIUtils.toRoundBitmap(b);
-//                settingImageHead.setImageBitmap(b);
-//
-//            }
-//
-//            UserEntity userEntity = UserEngineImpl.getUserEntity();
-//
-//            userImp.getBaseUserInfo(userEntity.getId() + "", userInfoListener);
-//        } else {
-//            viewLogin.setVisibility(View.VISIBLE);
-//            viewUserInfo.setVisibility(View.GONE);
-//        }
-
         updateMessageCenterState();
 
     }
@@ -159,47 +128,7 @@ public class UserFragment extends BaseTitleFragment {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
         startActivity(intent);
     }
-//
-//    private void startUserInfoActivity() {
-//        Intent intent = UserHomePageActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(),
-//                UserEngineImpl.getUserEntity().getId() + "");
-//        startActivity(intent);
-//    }
 
-//    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers})
-//    public void onClick(View v) {
-//        int id = v.getId();
-//
-//        switch (id) {
-//            case R.id.btn_login:
-//                UIUtils.iStartLoginActivity(getActivity());
-//                break;
-//            case R.id.setting_layout_icon:
-//                startUserInfoActivity();
-//                break;
-//            case R.id.user_myfunds_layout:
-//                if (!UIUtils.iStartLoginActivity(getActivity())) {
-//                    startActivity(new Intent(getActivity(), MyCombinationActivity.class));
-//                }
-//                break;
-//
-//            case R.id.ll_following:
-//                Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
-//                followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
-//                followIntent.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
-//                startActivity(followIntent);
-//                break;
-//            case R.id.ll_followers:
-//                Intent intent1 = new Intent(getActivity(), FriendsOrFollowersActivity.class);
-//                intent1.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FOLLOWER);
-//                intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
-//                startActivity(intent1);
-//                break;
-//
-//        }
-//
-//
-//    }
 
     @Override
     public void onDestroy() {
