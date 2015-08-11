@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_login_layout"
+        style="@style/white_grayborder_layout"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_blue_border"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:text="马上登录"
+            android:textColor="@color/blue"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_userinfo_layout"
+        style="@style/white_grayborder_layout"
+        android:layout_marginTop="@dimen/combin_horSpacing"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/setting_layout_icon"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-1dp"
+            android:layout_marginRight="-1dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/setting_image_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/setting_image_right" />
+
+            <ImageView
+                android:id="@+id/setting_image_head"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_user_head" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/setting_image_head"
+                android:paddingLeft="12dp">
+
+                <TextView
+                    android:id="@+id/setting_text_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户名"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_text_name" />
+
+                <TextView
+                    android:id="@+id/setting_text_account_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/setting_text_name_text"
+                    android:text=""
+                    android:textColor="@color/person_setting_phonecolor"
+                    android:textSize="@dimen/setting_text_phone" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5px"
+            android:background="@color/drivi_line" />
+
+        <LinearLayout
+            style="@style/white_grayborder_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_following"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_selector"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <TextView
+                    style="@style/CommonTextAppearance_Mini_Gray"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:gravity="center"
+                    android:text="@string/following" />
+
+                <TextView
+                    android:id="@+id/tv_following"
+                    style="@style/CommonTextAppearance_Big_Black"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/null_number" />
+            </LinearLayout>
+
+            <View
+                style="@style/vertical_divider_line"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="22dp"
+                android:alpha="0.6" />
+
+            <LinearLayout
+                android:id="@+id/ll_followers"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_selector"
+                android:orientation="vertical"
+                android:padding="6dp">
+
+                <TextView
+                    style="@style/CommonTextAppearance_Mini_Gray"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.6"
+                    android:gravity="center"
+                    android:text="@string/followers" />
+
+                <TextView
+                    android:id="@+id/tv_followers"
+                    style="@style/CommonTextAppearance_Big_Black"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/null_number" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View style="@style/divider_line" />
+    </LinearLayout>
+</LinearLayout>
