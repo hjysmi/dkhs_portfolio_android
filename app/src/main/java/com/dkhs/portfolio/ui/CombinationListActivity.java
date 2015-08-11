@@ -8,17 +8,19 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 
+import org.parceler.Parcels;
+
 public class CombinationListActivity extends ModelAcitivity {
 
 
-    public  static String KEY_USER_ID="KEY_USER_ID";
+    public static String PARAM_USER_BEAN = "key_userbean";
 
-    private String mUserId;
+    private UserEntity mUserBean;
 
 
-    public static  void startActivity(Context context,String user_id){
-        Intent intent =new Intent(context,CombinationListActivity.class);
-        intent.putExtra(KEY_USER_ID,user_id);
+    public static void startActivity(Context context, UserEntity userBean) {
+        Intent intent = new Intent(context, CombinationListActivity.class);
+        intent.putExtra(PARAM_USER_BEAN, Parcels.wrap(userBean));
         context.startActivity(intent);
     }
 
@@ -26,18 +28,26 @@ public class CombinationListActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combination_list);
 
-        if(UserEntity.currentUser(mUserId)){
-            setTitle(R.string.title_activity_my_combination_list);
-        }else{
-            setTitle(R.string.title_activity_ta_combination_list);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mUserBean = Parcels.unwrap(extras.getParcelable(PARAM_USER_BEAN));
+        }
+        if (null != mUserBean) {
+            if (UserEntity.currentUser(mUserBean.getId() + "")) {
+                setTitle(R.string.title_activity_my_combination_list);
+            } else {
+                setTitle(R.string.title_activity_ta_combination_list);
+            }
+            replaceContentFragment(UserCombinationListFragment.getFragment());
         }
 
-        if (getIntent().hasExtra(KEY_USER_ID)){
-            mUserId=   getIntent().getStringExtra(KEY_USER_ID);
-            getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, UserCombinationListFragment.getFragment(mUserId)).commitAllowingStateLoss();
-        }
+
+//            if (getIntent().hasExtra(KEY_USER_ID)) {
+//                mUserId = getIntent().getStringExtra(KEY_USER_ID);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, ).commitAllowingStateLoss();
+//            }
 
     }
 

@@ -6,20 +6,16 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dkhs.adpter.adapter.AutoAdapter;
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -28,9 +24,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
-import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
 import com.squareup.otto.Subscribe;
@@ -215,8 +209,6 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     }
 
 
-
-
     private class MyReplyAdapter extends AutoAdapter {
 
 
@@ -227,7 +219,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         @Override
         protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
 
-            addHandler(0,new CommentHandler(true));
+            addHandler(0, new CommentHandler(true));
         }
 
         @Override
@@ -273,7 +265,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                         results.addAll(moreDataBean.getResults());
                     }
                     if (adapter == null) {
-                        adapter = new MyReplyAdapter(ReplyActivity.this,results);
+                        adapter = new MyReplyAdapter(ReplyActivity.this, results);
                         lvReply.setAdapter(adapter);
                     } else {
                         adapter.notifyDataSetChanged();

@@ -90,6 +90,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * @return
      */
     public static Intent getIntent(Context context, int type, String repliedStatus, String userName) {
+
         Intent intent = new Intent(context, PostTopicActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(REPLIED_STATUS, repliedStatus);
@@ -586,7 +587,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     out.flush();
                     out.close();
                     // 回收内存中的bitmap
-                    bitmap.recycle();
+//                    bitmap.recycle();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -686,6 +687,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             mDraftBean.setImageFilepath("");
         }
 
+        mDraftBean.setFailReason("");
         mDraftBean.setTitle(etTitle.getText().toString());
         mDraftBean.setContent(etContent.getText().toString());
         return mDraftBean;

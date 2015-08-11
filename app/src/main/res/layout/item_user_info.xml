@@ -45,7 +45,6 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/tv_infotitle"
         android:paddingLeft="4dp"
-        android:text="@string/ad1"
         android:textColor="@color/orange"
         android:textSize="@dimen/setting_sub_text_name"
         android:visibility="gone" />

@@ -25,12 +25,20 @@
         android:textColor="@color/text_content_color"
         android:textSize="@dimen/text_status_content" />
 
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/tv_draft_content"
+        android:layout_marginTop="6dp" />
+
     <TextView
         android:id="@+id/tv_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_draft_content"
+        android:layout_below="@+id/iv_image"
         android:background="@drawable/bg_draft_lable"
         android:paddingBottom="2dp"
         android:paddingLeft="8dp"
@@ -47,5 +55,15 @@
         android:layout_alignParentLeft="true"
         android:textColor="@color/gray_textcolor"
         android:textSize="@dimen/text_status_time" />
+
+    <TextView
+        android:id="@+id/tv_fail_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv_edit_time"
+        android:layout_marginTop="@dimen/widget_margin_small"
+        android:textColor="@color/draft_error"
+        android:textSize="16sp" />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.DeleteResponeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -20,6 +21,7 @@ import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * Created by zjz on 2015/7/30.
@@ -168,7 +170,13 @@ public class CommentItemClick {
      * 回复评论
      */
     private void replyComment(CommentBean commentBean) {
-        if (null != commentBean.getUser()) {
+
+        if (UIUtils.iStartLoginActivity(mContext)) {
+            return;
+        }
+
+
+            if (null != commentBean.getUser()) {
             mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, commentBean.getId()+"", commentBean.getUser().getUsername()));
         } else {
             Log.e(TAG, "comment user is null;");
@@ -197,7 +205,7 @@ public class CommentItemClick {
     /**
      * 删除回复
      */
-    private void deleteComment(String commentId) {
+    private void deleteComment(final String commentId) {
 
 //        PromptManager.showToast("删除回复");
         StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
@@ -211,7 +219,9 @@ public class CommentItemClick {
             protected void afterParseData(Boolean object) {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
-                    BusProvider.getInstance().post(new DeleteCommentEvent());
+                    DeleteCommentEvent deleteCommentEvent=   new DeleteCommentEvent();
+                    deleteCommentEvent.commentId=commentId;
+                    BusProvider.getInstance().post(deleteCommentEvent);
 
 
                 }

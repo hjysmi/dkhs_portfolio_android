@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -21,6 +22,7 @@ import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -64,7 +66,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public FloatingActionMenu mFloatingActionMenu;
     private TopicsBean mTopicsBean;
     private SwitchLikeStateHandler mSwitchLikeStateHandler;
-    public boolean withLikeState = false;
 
     private boolean isMyTopics = false;
 
@@ -77,7 +78,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
             mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
-            withLikeState = mTopicsBean.like;
             setContentView(R.layout.activity_topics_detail);
             setTitle(R.string.title_activity_topics_detail);
             ViewUtils.inject(this);
@@ -100,10 +100,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             public boolean onMenuItemSelected(int paramInt) {
                 switch (paramInt) {
                     case MENU_COMMEND:
+
+                        if (UIUtils.iStartLoginActivity(mContext)) {
+                            break;
+                        }
                         startActivity(PostTopicActivity.getIntent(mContext,
                                 PostTopicActivity.TYPE_RETWEET, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
                         break;
                     case MENU_LIKE:
+
                         mSwitchLikeStateHandler.toggleLikeState();
                         break;
                     case MENU_SHARE:
@@ -229,18 +234,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void onFragmentInteraction(TopicsBean topicsBean) {
         mTopicsBean = topicsBean;
         mSwitchLikeStateHandler.setLikeBean(mTopicsBean);
-
         initFloatMenu();
     }
 
     @Override
     public void finish() {
         if (mTopicsBean != null) {
-            if (withLikeState != mTopicsBean.like) {
                 //更新列表状态
                 UpdateTopicsListEvent updateTopicsListEvent = new UpdateTopicsListEvent(mTopicsBean);
                 BusProvider.getInstance().post(updateTopicsListEvent);
-            }
         }
         super.finish();
     }

@@ -137,7 +137,8 @@ public class DKHSUrl {
         String getInvitingInfo = "/api/v1/accounts/invitations/code/";
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
         String getSignUp = "/api/v1/ads/area/signup/";
-        String getInvite = "/api/v1/ads/area/Invite//";
+        String getInvite = "/api/v1/ads/area/Invite/";
+        String getRechargeBanner= "/api/v1/ads/area/recharge_banner/";
 
     }
 

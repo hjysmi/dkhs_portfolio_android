@@ -14,8 +14,6 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-import org.w3c.dom.Comment;
-
 /**
  * @author zwm
  * @version 1.0
@@ -35,11 +33,12 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
     private StatusType statusType;
 
 
-    public  enum  StatusType{
-        Comment(1),Topics(0);
-        private  int value;
-        StatusType(int value){
-            this.value=value;
+    public enum StatusType {
+        Comment(1), Topics(0);
+        private int value;
+
+        StatusType(int value) {
+            this.value = value;
         }
 
         public int getValue() {
@@ -53,7 +52,7 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
         this.statusType = statusType;
     }
 
-    public HttpHandler loadDate( ) {
+    public HttpHandler loadDate() {
         return loadData();
     }
 
@@ -63,9 +62,9 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        params.addQueryStringParameter("user_id", userId );
+        params.addQueryStringParameter("user_pk", userId);
 //        params.addQueryStringParameter("username", userName );
-        params.addQueryStringParameter("status_type", statusType.getValue()+"" );
+        params.addQueryStringParameter("status_type", statusType.getValue() + "");
         params.addQueryStringParameter("page_size", pageSize + "");
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
     }
@@ -75,9 +74,9 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
-        params.addQueryStringParameter("user_id", userId );
+        params.addQueryStringParameter("user_pk", userId);
 //        params.addQueryStringParameter("username", userName );
-        params.addQueryStringParameter("status_type", statusType.getValue()+"" );
+        params.addQueryStringParameter("status_type", statusType.getValue() + "");
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
 
     }
@@ -94,12 +93,12 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
 
             try {
                 Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                switch (statusType){
-                    case  Comment:
+                switch (statusType) {
+                    case Comment:
                         moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CommentBean>>() {
                         }.getType());
                         break;
-                    case  Topics:
+                    case Topics:
                         moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
                         }.getType());
                         break;

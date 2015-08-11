@@ -158,5 +158,6 @@
     <color name="actionsheet_top_seperated">#E7E7E7</color>
     <color name="actionsheet_middle_seperated">#F4F4F4</color>
     <color name="actionsheet_bottom_seperated">#E6E6E6</color>
+    <color name="draft_error">#e9b700</color>
 
 </resources>

@@ -84,11 +84,11 @@ public class TimeUtils {
         }
     }
 
-    private static final String FORMAT_TEMPLATE_BASE = "yyyy-MM-dd HH:mm:ss";
-    private static final String FORMAT_TEMPLATE_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    private static final String FORMAT_TEMPLATE_DAY = "yyyy-MM-dd";
-    private static final String FORMAT_TEMPLATE_DAY_MM = "yyyy-MM-dd HH:mm";
-    private static final String TAG = "TimeUtils";
+    public static final String FORMAT_TEMPLATE_BASE = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_TEMPLATE_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final String FORMAT_TEMPLATE_DAY = "yyyy-MM-dd";
+    public static final String FORMAT_TEMPLATE_DAY_MM = "yyyy-MM-dd HH:mm";
+    public static final String TAG = "TimeUtils";
 
 
     private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(FORMAT_TEMPLATE_ISO8601,
@@ -127,8 +127,14 @@ public class TimeUtils {
 
     //比较是否是同一天的时间
     public static boolean isSameDay(String iso8601Time) {
-        return DateTimeComparator.getDateOnlyInstance().compare(new DateTime(iso8601Time).toDate(), new DateTime().toDate()) == 0;
+        return compareDateTime(new DateTime(iso8601Time), new DateTime()) == 0;
+//        return DateTimeComparator.getDateOnlyInstance().compare(new DateTime(iso8601Time).toDate(), new DateTime().toDate()) == 0;
     }
+
+    public static int compareDateTime(DateTime date1, DateTime date2) {
+        return DateTimeComparator.getDateOnlyInstance().compare(date1.toDate(), date2.toDate());
+    }
+
 
     public static String getTimeString(Calendar calendar) {
         return new SimpleDateFormat(FORMAT_TEMPLATE_DAY).format(calendar.getTime());

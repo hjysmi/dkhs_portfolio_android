@@ -33,10 +33,10 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import org.joda.time.DateTime;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -65,7 +65,7 @@ public class TrendSevenDayChartFragment extends VisiableLoadFragment {
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
 
-    private Calendar mCreateCalender;
+    private DateTime mCreateDate;
 
     private DrawLineDataEntity sevendayNetvalue;
     private RelativeLayout pb;
@@ -100,7 +100,7 @@ public class TrendSevenDayChartFragment extends VisiableLoadFragment {
             handleExtras(extras);
         }
 
-        mCreateCalender = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
+        mCreateDate = new DateTime(mCombinationBean.getCreateTime());
 
     }
 
@@ -361,7 +361,7 @@ public class TrendSevenDayChartFragment extends VisiableLoadFragment {
         float maxNum = baseNum, minNum = baseNum;
         int dataLenght = 0;
         if (null != historyNetList) {
-
+            DateTime beanDate;
             dataLenght = historyNetList.size();
             for (int i = 0; i < dataLenght; i++) {
                 TrendLinePointEntity pointEntity = new TrendLinePointEntity();
@@ -370,8 +370,9 @@ public class TrendSevenDayChartFragment extends VisiableLoadFragment {
                 pointEntity.setValue(value);
                 pointEntity.setTime("日期: " + todayBean.getDate());
                 pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
-                if (dashLineSize == 0 && TimeUtils.getCalendar(todayBean.getDate()) != null) {
-                    if (TimeUtils.getCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                beanDate = new DateTime(todayBean.getDate());
+                if (dashLineSize == 0 && beanDate != null) {
+                    if (TimeUtils.compareDateTime(beanDate, mCreateDate) > 0) {
                         dashLineSize = i;
                     }
                 }

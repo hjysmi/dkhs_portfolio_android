@@ -81,6 +81,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         if (data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
             ImageLoaderUtils.setImagDefault(data.medias.get(0).image_md, vh.getImageView(R.id.iv));
+
         } else {
             vh.get(R.id.iv).setVisibility(View.GONE);
         }
@@ -191,6 +192,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View v) {
+
+            if (UIUtils.iStartLoginActivity(mContext)) {
+                return;
+            }
             UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername())));
         }
     }
@@ -229,7 +234,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             PhotoBean photoBean = new PhotoBean();
             photoBean.title = topicsBean.id + "";
             photoBean.loadingURl = topicsBean.medias.get(0).image_sm;
-            photoBean.imgUrl = topicsBean.medias.get(0).image_lg;
+            photoBean.imgUrl = topicsBean.medias.get(0).image_md;
             arrayList.add(photoBean);
             PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }

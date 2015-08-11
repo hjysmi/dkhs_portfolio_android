@@ -8,13 +8,18 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.app.Activity;
+import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @author zjz
@@ -64,6 +69,10 @@ public class MainBBSFragment extends BaseTitleFragment {
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (UIUtils.iStartLoginActivity(getActivity())) {
+                    return;
+                }
                 getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST, "", ""));
             }
         });

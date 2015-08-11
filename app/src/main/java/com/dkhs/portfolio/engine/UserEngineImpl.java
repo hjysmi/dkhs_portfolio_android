@@ -2,7 +2,7 @@ package com.dkhs.portfolio.engine;
 
 import android.os.AsyncTask;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.bean.FeedBackBean;
 import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -222,7 +222,7 @@ public class UserEngineImpl {
             @Override
             protected Boolean doInBackground(Void... params) {
                 UserEntity entity = SecurityUtils.encrypt(user);
-                DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbutil = AppConfig.getDBUtils();
                 UserEntity dbentity;
                 try {
                     dbentity = dbutil.findFirst(UserEntity.class);
@@ -279,12 +279,7 @@ public class UserEngineImpl {
 
     }
 
-    public void getAppVersion(String appcode, ParseHttpListener<Object> listener) {
-        RequestParams params = new RequestParams();
-        params.addQueryStringParameter("app_code", appcode);
-        // DKHSClient.requestByGet(DKHSUrl.News.newstext +id, null, this);
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_version + appcode, null, listener);
-    }
+
 
     public void setFeedBack(String app, String version, String content, String contact, File file,
                             ParseHttpListener<FeedBackBean> listener) {
@@ -332,7 +327,8 @@ public class UserEngineImpl {
             return GlobalParams.LOGIN_USER;
         }
         try {
-            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+//            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+            DbUtils dbUtils = AppConfig.getDBUtils();
             if (null != dbUtils) {
                 UserEntity user = dbUtils.findFirst(UserEntity.class);
                 if (null != user) {

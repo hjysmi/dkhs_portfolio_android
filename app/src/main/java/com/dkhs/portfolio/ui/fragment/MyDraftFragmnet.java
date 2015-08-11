@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -36,6 +37,7 @@ import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
 import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
@@ -153,6 +155,9 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DraftBean draftBean = mDataList.get(position);
+                if (UIUtils.iStartLoginActivity(getActivity())) {
+                    return;
+                }
                 Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getReplyUserName(), draftBean.getStatusId());
                 intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
                 startActivity(intent);
@@ -235,7 +240,17 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
 
             String strContent = item.getContent();
 
+
+            if (!TextUtils.isEmpty(item.getImageUri())) {
+                ImageLoaderUtils.setImage(item.getImageUri(), holder.ivImage);
+                holder.ivImage.setVisibility(View.VISIBLE);
+            } else {
+                holder.ivImage.setVisibility(View.GONE);
+
+            }
+
             if (TextUtils.isEmpty(strContent)) {
+
                 holder.tvContent.setVisibility(View.GONE);
             } else {
                 holder.tvContent.setVisibility(View.VISIBLE);
@@ -246,6 +261,13 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 }
             }
 
+            String strFailReason = item.getFailReason();
+            if (TextUtils.isEmpty(strFailReason)) {
+                holder.tvFailReason.setVisibility(View.GONE);
+            } else {
+                holder.tvFailReason.setVisibility(View.VISIBLE);
+                holder.tvFailReason.setText(strFailReason);
+            }
 
             return convertView;
         }
@@ -255,6 +277,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             public DKHSTextView tvContent;
             public TextView tvEditTime;
             public TextView tvLabel;
+            public TextView tvFailReason;
+            public ImageView ivImage;
 
 
             public ViewHolder(View row) {
@@ -262,6 +286,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 tvContent = (DKHSTextView) row.findViewById(R.id.tv_draft_content);
                 tvEditTime = (TextView) row.findViewById(R.id.tv_edit_time);
                 tvLabel = (TextView) row.findViewById(R.id.tv_label);
+                tvFailReason = (TextView) row.findViewById(R.id.tv_fail_reason);
+                ivImage = (ImageView) row.findViewById(R.id.iv_image);
                 row.setTag(this);
             }
         }
