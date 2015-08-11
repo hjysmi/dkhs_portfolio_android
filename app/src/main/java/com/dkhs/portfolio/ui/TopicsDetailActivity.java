@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -165,7 +164,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 shareBean.setContent(mTopicsBean.text);
             }
         }
-        shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/statuses_info/" + mTopicsBean.getId());
+        shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/" + mTopicsBean.getId());
         shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
         String img=null;
         shareBean.setResId(R.drawable.default_head);
