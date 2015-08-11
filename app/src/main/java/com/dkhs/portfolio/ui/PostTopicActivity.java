@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
@@ -329,9 +330,18 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      */
     private void showEmotionView() {
         curEt.requestFocus();
-        findViewById(R.id.ll_emotion).setVisibility(View.VISIBLE);
         ibEmoji.setImageResource(R.drawable.kb_icon_keyboard);
         imm.hideSoftInputFromWindow(curEt.getWindowToken(), 0);
+
+
+        new Handler().postDelayed(new Runnable() {
+
+            public void run() {
+                findViewById(R.id.ll_emotion).setVisibility(View.VISIBLE);
+
+            }
+
+        }, 120);
     }
 
 //    private String filePath = "";
