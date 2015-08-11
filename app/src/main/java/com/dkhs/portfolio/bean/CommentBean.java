@@ -207,7 +207,12 @@ public class CommentBean extends LikeBean {
     }
 
     public void setUser(PeopleBean user) {
+
+
+
         this.user = user;
+
+
     }
 
 
