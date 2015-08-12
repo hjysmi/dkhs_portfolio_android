@@ -46,7 +46,7 @@ public class MyClickableSpan extends ClickableSpan {
         if(!TextUtils.isEmpty(url)){
             new MessageHandler(context).handleURL(url);
         }
-	};
+	}
 
 	/**
 	 * Makes the text without underline.

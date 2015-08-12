@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -21,6 +22,7 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.OptionListAcitivity;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
@@ -239,31 +241,33 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                         try {
                             switch (viewType) {
                                 case 1:
-                                    name = "公告正文";
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
-                                        intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name,
-                                                optionNewsBean.getSymbols().get(0).getAbbrName(), optionNewsBean
-                                                        .getSymbols().get(0).getId());
-                                        UIUtils.startAnimationActivity(getActivity(), intent);
+
+                                        String idStr = optionNewsBean
+                                                .getSymbols().get(0).getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
+                                            );
                                     } else {
-                                        intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name, null,
-                                                null);
-                                        UIUtils.startAnimationActivity(getActivity(), intent);
+                                        String idStr = optionNewsBean.getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
+                                            );
                                     }
                                     break;
 
                                 default:
-                                    name = "研报正文";
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
-                                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(),
-                                                optionNewsBean.getSymbols().get(0).getSymbol(), optionNewsBean
-                                                        .getSymbols().get(0).getAbbrName(),
-                                                optionNewsBean.getContentType());
+                                        String idStr = optionNewsBean
+                                                .getSymbols().get(0).getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
+                                            );
                                     } else {
-                                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null,
-                                                null, null);
+                                        String idStr = optionNewsBean.getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr));
                                     }
-                                    UIUtils.startAnimationActivity(getActivity(), intent);
                                     break;
                             }
 

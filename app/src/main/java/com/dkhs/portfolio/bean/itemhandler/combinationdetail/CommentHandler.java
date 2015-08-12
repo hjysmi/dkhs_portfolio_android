@@ -59,6 +59,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.getAttitudes_count()));
         vh.getTextView(R.id.tv_time).setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
         setClickListener(vh.get(R.id.like_ll), comment);
+        setClickListener(vh.get(R.id.tv_username), comment);
         if (comment.getAttitudes_count() > 0) {
 
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
@@ -102,6 +103,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
                     itemHandlerClickListener = new LikeClickListenerImp();
                     break;
                 case R.id.iv_head:
+                case R.id.tv_username:
                     itemHandlerClickListener = new AvatarClickListenerImp();
                     break;
                 default:
