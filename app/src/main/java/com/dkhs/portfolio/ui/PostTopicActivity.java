@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
@@ -103,6 +104,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         super.onCreate(arg0);
         setContentView(R.layout.activity_post_topic);
         getSwipeBackLayout().setEnableGesture(false);
+        AndroidBugForSpecialPhone.assistActivity(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -180,6 +182,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             public boolean onTouch(View v, MotionEvent event) {
                 //隐藏表情
                 if (isShowingEmotionView) {
+                    hideEmotionView();
                     isShowingEmotionView = !isShowingEmotionView;
                 }
                 if (curEt != etTitle)
@@ -229,6 +232,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
         currentIndex = 0;
         dots[currentIndex].setEnabled(false);// 设置为白色，即选中状态
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        hideEmotionView();
     }
 
     private void setCurrentDot(int position) {
@@ -312,7 +321,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      */
     private void hideEmotionView() {
         curEt.requestFocus();
-        findViewById(R.id.ll_emotion).setVisibility(View.GONE);
+
         ibEmoji.setImageResource(R.drawable.kb_icon_emoji);
         if (curEt.getTag() == null) {
             imm.showSoftInput(curEt, 0);
@@ -320,6 +329,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             curEt.setTag(null);
             isShowingEmotionView = false;
         }
+
+        findViewById(R.id.ll_emotion).setVisibility(View.GONE);
 
 
     }
@@ -329,9 +340,18 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      */
     private void showEmotionView() {
         curEt.requestFocus();
-        findViewById(R.id.ll_emotion).setVisibility(View.VISIBLE);
         ibEmoji.setImageResource(R.drawable.kb_icon_keyboard);
         imm.hideSoftInputFromWindow(curEt.getWindowToken(), 0);
+
+
+        new Handler().postDelayed(new Runnable() {
+
+            public void run() {
+                findViewById(R.id.ll_emotion).setVisibility(View.VISIBLE);
+
+            }
+
+        }, 120);
     }
 
 //    private String filePath = "";
