@@ -15,8 +15,11 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
+import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -71,12 +74,14 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     protected void onPause() {
         super.onPause();
+
         if (!hadFragment) {
             MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         }
 
         MobclickAgent.onPause(this);
     }
+
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);

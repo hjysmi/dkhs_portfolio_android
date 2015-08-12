@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.utils;
 
+import android.text.TextUtils;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeZone;
@@ -64,6 +66,9 @@ public class TimeUtils {
 
 
     public static String getBriefTimeString(String time) {
+        if(TextUtils.isEmpty(time)){
+            return "";
+        }
         return getBriefTimeString(new DateTime(time));
     }
 
