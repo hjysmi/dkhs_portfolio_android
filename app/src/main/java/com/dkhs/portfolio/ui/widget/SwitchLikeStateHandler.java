@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.widget;
 
+import android.content.Intent;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
@@ -9,6 +10,7 @@ import com.dkhs.portfolio.bean.StatusBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.ui.LoginActivity;
 import com.dkhs.portfolio.utils.UIUtils;
 
 /**
@@ -33,14 +35,15 @@ public class SwitchLikeStateHandler {
         mLikeBean = likeBean;
     }
 
-    public void attachLikeImage(ImageView likeIm){
-        mLikeIm =likeIm;
+    public void attachLikeImage(ImageView likeIm) {
+        mLikeIm = likeIm;
     }
 
-    public interface  StatusChangeI{
+    public interface StatusChangeI {
 
-       void likePre();
-       void unLikePre();
+        void likePre();
+
+        void unLikePre();
     }
 
     private StatusChangeI mStatusChangeI;
@@ -51,15 +54,21 @@ public class SwitchLikeStateHandler {
 
     public void toggleLikeState() {
         mLikeBean.setLike(!mLikeBean.isLike());
-//        if (UIUtils.iStartLoginActivity(PortfolioApplication.getInstance())) {
-//            return;
-//        }
+
+        if (!PortfolioApplication.hasUserLogin()) {
+
+            Intent intent = LoginActivity.loginActivityByAnnoy(PortfolioApplication.getInstance());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PortfolioApplication.getInstance().startActivity(
+                    intent);
+            return;
+        }
         if (!mLikeBean.isLike()) {
             //取消点赞
-            if(mLikeIm != null){
+            if (mLikeIm != null) {
                 unLikeImage();
             }
-            if(mStatusChangeI != null ){
+            if (mStatusChangeI != null) {
                 mStatusChangeI.unLikePre();
             }
             StatusEngineImpl.unstarTopic(mLikeBean.getId() + "", new SimpleParseHttpListener() {
@@ -75,10 +84,10 @@ public class SwitchLikeStateHandler {
             });
         } else {
             //点赞
-            if(mLikeIm != null){
+            if (mLikeIm != null) {
                 likeImage();
             }
-            if(mStatusChangeI != null ){
+            if (mStatusChangeI != null) {
                 mStatusChangeI.likePre();
             }
             StatusEngineImpl.starTopic(mLikeBean.getId() + "", new SimpleParseHttpListener() {
