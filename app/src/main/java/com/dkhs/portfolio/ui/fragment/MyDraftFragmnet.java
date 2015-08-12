@@ -161,8 +161,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getReplyUserName(), draftBean.getStatusId());
                 intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
                 startActivity(intent);
-                getActivity().finish();
-
+//                getActivity().finish();
 
             }
         });
