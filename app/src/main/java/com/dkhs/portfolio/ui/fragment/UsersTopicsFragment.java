@@ -27,22 +27,19 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/27.
  */
-public class UsersTopicsFragment extends  LoadMoreListFragment {
+public class UsersTopicsFragment extends LoadMoreListFragment {
 
     private List<Object> mDataList = new ArrayList<>();
-    private UserTopicsCommentEngineImpl mTopicsEngine= null;
+    private UserTopicsCommentEngineImpl mTopicsEngine = null;
     private BaseAdapter mAdapter;
 
 
+    public static UsersTopicsFragment newIntent(String userId, String userName) {
+        UsersTopicsFragment usersTopicsFragment = new UsersTopicsFragment();
 
-
-
-    public static UsersTopicsFragment  newIntent(String userId,String userName){
-        UsersTopicsFragment usersTopicsFragment=new UsersTopicsFragment();
-
-        Bundle bundle=new Bundle();
-        bundle.putString(UserTopicsActivity.USER_NAME,userId);
-        bundle.putString(UserTopicsActivity.USER_ID,userName);
+        Bundle bundle = new Bundle();
+        bundle.putString(UserTopicsActivity.USER_NAME, userId);
+        bundle.putString(UserTopicsActivity.USER_ID, userName);
         usersTopicsFragment.setArguments(bundle);
         return usersTopicsFragment;
     }
@@ -57,11 +54,11 @@ public class UsersTopicsFragment extends  LoadMoreListFragment {
     @Override
     ListAdapter getListAdapter() {
 
-        if(mAdapter == null){
-            mAdapter=  new AutoAdapter(mActivity,mDataList) {
+        if (mAdapter == null) {
+            mAdapter = new AutoAdapter(mActivity, mDataList) {
                 @Override
                 protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-                    addHandler(0,new TopicsHandler(mActivity));
+                    addHandler(0, new TopicsHandler(mActivity));
                 }
 
                 @Override
@@ -75,8 +72,8 @@ public class UsersTopicsFragment extends  LoadMoreListFragment {
 
     @Override
     LoadMoreDataEngine getLoadEngine() {
-        if(mTopicsEngine ==null){
-            mTopicsEngine=  new UserTopicsCommentEngineImpl(this,getArguments().getString(UserTopicsActivity.USER_ID), UserTopicsCommentEngineImpl.StatusType.Topics);
+        if (mTopicsEngine == null) {
+            mTopicsEngine = new UserTopicsCommentEngineImpl(this, getArguments().getString(UserTopicsActivity.USER_ID), UserTopicsCommentEngineImpl.StatusType.Topics);
         }
         return mTopicsEngine;
     }
@@ -102,7 +99,11 @@ public class UsersTopicsFragment extends  LoadMoreListFragment {
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
 
     @Override
     public void loadFail() {
