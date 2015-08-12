@@ -136,6 +136,8 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
                     break;
                 case 20:
+
+                    // FIXME: 2015/8/12 新闻图标暂缺
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
                     break;
                 case 30:
