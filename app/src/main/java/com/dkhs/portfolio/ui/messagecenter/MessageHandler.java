@@ -175,7 +175,7 @@ public class MessageHandler {
             else{
                 mContext.startActivity(AdActivity.getIntent(mContext, url));
             }
-        }else{
+        }else if(!TextUtils.isEmpty(url)){
             mContext.startActivity(AdActivity.getIntent(mContext, url));
         }
 

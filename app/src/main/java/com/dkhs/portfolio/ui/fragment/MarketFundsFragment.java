@@ -22,6 +22,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerSortMenuBean;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
@@ -87,19 +88,10 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         BusProvider.getInstance().unregister(this);
         super.onDestroyView();
     }
-    private void handIntent() {
-        if (mActivity.getIntent().hasExtra("fund_manager_ranking")) {
-            boolean fundManagerRanking = mActivity.getIntent().getBooleanExtra("fund_manager_ranking",true);
-            if(fundManagerRanking){
-                fundTypeMenuChooserL.setFundManagerRanking();
-            }else{
-                fundTypeMenuChooserL.setFundsRanking();
-            }
-        }
-    }
+
     private void handIntent(Bundle bundle) {
         if (bundle.containsKey("fund_manager_ranking")) {
-            boolean fundManagerRanking = bundle.getBoolean("fund_manager_ranking",true);
+            boolean fundManagerRanking = bundle.getBoolean("fund_manager_ranking", true);
             if(fundManagerRanking){
                 fundTypeMenuChooserL.setFundManagerRanking();
             }else{
@@ -119,8 +111,20 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initView(getView());
-        handIntent();
+
         super.onViewCreated(view, savedInstanceState);
+        if(getActivity() instanceof MainActivity){
+            final Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null) {
+                mRootView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        handIntent(bundle);
+
+                    }
+                },1200);
+            }
+            }
     }
 
     @Override

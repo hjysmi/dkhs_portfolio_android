@@ -24,6 +24,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -117,7 +118,11 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             }
         });
         BusProvider.getInstance().register(this);
-        handIntent(getActivity().getIntent());
+        if(getActivity() instanceof MainActivity){
+            Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null)
+                handIntent(bundle);
+        }
 
     }
 
@@ -127,13 +132,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         super.onDestroyView();
     }
 
-    private void handIntent(Intent intent) {
-        if (intent.hasExtra("option_index")) {
-            int index = intent.getIntExtra("option_index", 0);
-            mVp.setCurrentItem(index);
-        }
-
-    }
     private void handIntent(Bundle bundle) {
         if (bundle.containsKey("option_index")) {
             int index = bundle.getInt("option_index", 0);

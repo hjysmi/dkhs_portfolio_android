@@ -95,6 +95,9 @@ public class SplashActivity extends FragmentActivity {
             adIm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(TextUtils.isEmpty(adsEntity.getRedirect_url())){
+                        return;
+                    }
                     mHandler.removeMessages(GO_GUIDE);
                     mHandler.removeMessages(GO_NOACCOUNT_MAIN);
                     mHandler.removeMessages(GO_ACCOUNT_MAIN);

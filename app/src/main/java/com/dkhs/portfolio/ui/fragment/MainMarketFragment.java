@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.InfoActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
@@ -109,7 +110,14 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
             }
         });
         BusProvider.getInstance().register(this);
-        handIntent(getActivity().getIntent());
+
+
+        if(getActivity() instanceof MainActivity){
+            Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null)
+            handIntent(bundle);
+        }
+
 
     }
 
@@ -123,13 +131,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         handIntent(newIntent.bundle);
     }
 
-    private void handIntent(Intent intent) {
 
-        if (intent.hasExtra("fund_index")) {
-            int index =intent.getIntExtra("fund_index", 0);
-            vp.setCurrentItem(index);
-        }
-    }
     private void handIntent(Bundle bundle) {
 
         if (bundle.containsKey("fund_index")) {

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -86,17 +87,14 @@ public class BBSFragment extends VisiableLoadFragment {
                 UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), MyDraftActivity.class));
             }
         });
-        handIntent(getActivity().getIntent());
-    }
-
-
-    private void handIntent(Intent intent) {
-
-        if (intent.hasExtra("bbs_index")) {
-            int index = intent.getIntExtra("bbs_index", 0);
-            mAdpter.setCurrentItem(index);
+        if(getActivity() instanceof MainActivity){
+            Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null)
+                handIntent(bundle);
         }
     }
+
+
 
     @Subscribe
     public void newIntent(NewIntent newIntent){

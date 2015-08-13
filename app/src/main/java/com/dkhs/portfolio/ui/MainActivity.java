@@ -55,6 +55,8 @@ public class MainActivity extends BaseActivity {
     private MessageHandler handler;
     private MenuItemFragment mMenuFragment;
 
+    public Bundle mBundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +110,8 @@ public class MainActivity extends BaseActivity {
             handler.handleMessage(message);
         }
        int index =intent.getIntExtra("index",0);
+
+        mBundle=intent.getBundleExtra("arg");
         mMenuFragment.clickTabIndex(index);
 
 
@@ -299,10 +303,12 @@ public class MainActivity extends BaseActivity {
     public static void gotoOptionSymbols(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",0);
-        intent.putExtra("option_index",0);
-        context.startActivity(intent);
+
+
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("option_index",0);
+        intent.putExtra("arg",newIntent.bundle);
+        context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
 
     }
@@ -310,47 +316,51 @@ public class MainActivity extends BaseActivity {
     public static void gotoHostTopicsActivity(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",3);
-        intent.putExtra("bbs_index",0);
-        context.startActivity(intent);
+
+
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("bbs_index",0);
+        intent.putExtra("arg",newIntent.bundle);
+        context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
     }
 
     public static void gotoCombinationRankingActivity(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",1);
-        intent.putExtra("fund_index",2);
-        context.startActivity(intent);
+
+
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("fund_index",2);
+        intent.putExtra("arg",newIntent.bundle);
+        context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
     }
 
     public static void gotoFundManagerRanking(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",1);
-        intent.putExtra("fund_index",1);
-        intent.putExtra("fund_manager_ranking",true);
-        context.startActivity(intent);
+
+
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("fund_index",1);
         newIntent.bundle.putBoolean("fund_manager_ranking",true);
-
+        intent.putExtra("arg",newIntent.bundle);
+        context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
     }
 
     public static void gotoFundsRanking(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",1);
-        intent.putExtra("fund_index",1);
-        intent.putExtra("fund_manager_ranking",false);
-        context.startActivity(intent);
+
+
 
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("fund_index",1);
         newIntent.bundle.putBoolean("fund_manager_ranking",false);
-
+        intent.putExtra("arg",newIntent.bundle);
+        context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
 
     }
@@ -358,10 +368,12 @@ public class MainActivity extends BaseActivity {
     public static void gotoSHActivity(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",1);
-        intent.putExtra("fund_index",0);
-        context.startActivity(intent);
+
+
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("fund_index",0);
+        intent.putExtra("arg",newIntent.bundle);
+        context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
     }
 }
