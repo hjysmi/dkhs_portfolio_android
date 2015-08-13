@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -27,11 +28,9 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +43,7 @@ import java.util.List;
  * @date 2015-2-7 上午11:03:07
  */
 public class TabStockFragment extends VisiableLoadFragment implements OnClickListener, IDataUpdateListener {
+
 
     @Override
     public int setContentLayoutId() {
@@ -130,13 +130,14 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     public void onViewShow() {
         reloadData();
         updateHandler.postDelayed(updateRunnable, 5 * 1000);
+        StatService.onPageStart(getActivity(), TAG);
 
 
     }
 
     @Override
     public void onViewHide() {
-
+        StatService.onPageEnd(getActivity(), TAG);
         updateHandler.removeCallbacks(updateRunnable);
     }
 

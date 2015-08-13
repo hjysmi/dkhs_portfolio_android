@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -128,8 +129,13 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     @Override
     public void onViewShow() {
-        reloadData();
-        super.onViewShow();
+        StatService.onPageStart(getActivity(), TAG);
+
+    }
+
+    @Override
+    public void onViewHide() {
+        StatService.onPageEnd(getActivity(), TAG);
     }
 
     @Override
