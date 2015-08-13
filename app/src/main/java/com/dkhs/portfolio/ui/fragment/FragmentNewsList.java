@@ -29,6 +29,7 @@ import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
@@ -219,11 +220,13 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
                     Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),
                             mDataList.get(position).getSymbols().get(0).getAbbrName(), mDataList.get(position)
                                     .getSymbols().get(0).getId());
-                    startActivity(intent);
+//                    startActivity(intent);
+                    TopicsDetailActivity.startActivity(getActivity(),mDataList.get(position).getId());
                 } else {
                     Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),
                             null, null);
-                    startActivity(intent);
+                    TopicsDetailActivity.startActivity(getActivity(),mDataList.get(position).getId());
+//                    startActivity(intent);
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
