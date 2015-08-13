@@ -8,16 +8,12 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.app.Activity;
-import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -30,6 +26,8 @@ import com.dkhs.portfolio.utils.UIUtils;
  */
 public class MainBBSFragment extends BaseTitleFragment {
 
+
+    public static final String TAG = "MainBBSFragment";
 
     @Override
     public int setContentLayoutId() {
@@ -52,15 +50,16 @@ public class MainBBSFragment extends BaseTitleFragment {
 
 
     @Override
-    public void onResume() {
-        super.onResume();
-        StatService.onResume(this);
+    public void onViewShow() {
+        super.onViewShow();
+        StatService.onPageStart(getActivity(), TAG);
+
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        StatService.onPause(this);
+    public void onViewHide() {
+        super.onViewHide();
+        StatService.onPageEnd(getActivity(), TAG);
     }
 
     private void initView(View view) {

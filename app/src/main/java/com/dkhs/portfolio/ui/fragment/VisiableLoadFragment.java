@@ -12,6 +12,7 @@ public abstract class VisiableLoadFragment extends BaseFragment {
 
     private static final String TAG = VisiableLoadFragment.class.getSimpleName();
     protected Activity mActivity;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -77,9 +78,9 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     private boolean iStrictVisible() {
         if (getParentFragment() != null) {
 
-            return getUserVisibleHint() && !isHidden() && isVisible() && getParentFragment().isVisible();
+            return getUserVisibleHint() && isVisible() && getParentFragment().isVisible();
         } else {
-            return getUserVisibleHint() && !isHidden() && isVisible();
+            return getUserVisibleHint() && isVisible();
 
         }
     }

@@ -40,7 +40,7 @@ import com.squareup.otto.Subscribe;
  */
 public class UserFragment extends BaseTitleFragment {
 
-
+    public static final String TAG = "UserFragment";
     //    private UserEngineImpl userImp = new UserEngineImpl();
     private UserInfoAdapter mInfoAdatper;
 
@@ -146,13 +146,15 @@ public class UserFragment extends BaseTitleFragment {
     @Override
     public void onResume() {
         super.onResume();
-        StatService.onResume(this);
+        StatService.onPageStart(getActivity(), TAG);
     }
+
+
 
     @Override
     public void onPause() {
         super.onPause();
-        StatService.onPause(this);
+        StatService.onPageEnd(getActivity(), TAG);
     }
 
 

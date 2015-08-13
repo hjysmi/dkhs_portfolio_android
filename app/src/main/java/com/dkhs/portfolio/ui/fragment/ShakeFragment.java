@@ -42,6 +42,7 @@ import java.util.Iterator;
  */
 public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector.Listener {
 
+    public static final String TAG = "ShakeFragment";
 
     @ViewInject(R.id.tv_title)
     TextView mTvtitle;
@@ -261,6 +262,8 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         if (sd != null)
             sd.start(sensorManager);
         super.onViewShow();
+        StatService.onPageStart(getActivity(), TAG);
+
     }
 
     @Override
@@ -268,6 +271,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         if (sd != null)
             sd.stop();
         super.onViewHide();
+        StatService.onPageEnd(getActivity(), TAG);
     }
 
 
@@ -297,17 +301,6 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        StatService.onResume(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        StatService.onPause(this);
-    }
 
     @Override
     public void hearShake() {

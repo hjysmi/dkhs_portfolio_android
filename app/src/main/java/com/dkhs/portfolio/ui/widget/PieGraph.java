@@ -166,7 +166,7 @@ public class PieGraph extends View {
         }
     }
 
-    Handler handler = new Handler();
+   protected Handler handler = new Handler();
     Runnable updateRunnable = new Runnable() {
 
         @Override
