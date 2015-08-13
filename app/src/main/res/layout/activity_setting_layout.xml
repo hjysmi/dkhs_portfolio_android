@@ -21,9 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
-                android:orientation="vertical"
-
-                >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/ll_userinfo_layout"
@@ -99,8 +97,8 @@
                                 android:layout_centerVertical="true"
                                 android:paddingRight="30dp"
                                 android:text="18606511122"
-                                android:textColor="@color/person_setting_phonecolor"
-                                android:textSize="@dimen/setting_text_phone" />
+                                android:textColor="@color/position_text_lgray"
+                                android:textSize="@dimen/list_text_size" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -237,23 +235,51 @@
                         layout="@layout/layout_line" />
 
                     <RelativeLayout
-                        android:id="@+id/setting_layout_bound"
+                        android:id="@+id/setting_layout_boundphone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/btn_white_selector">
 
                         <TextView
-                            android:id="@+id/setting_image_bound"
+                            android:id="@+id/tv_boundphone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginBottom="5dp"
                             android:layout_marginRight="30dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/button_bound"
-                            android:text="去绑定"
-                            android:textColor="@color/white" />
+                            android:text="点击绑定"
+                            android:textColor="@drawable/bound_button"
+                            android:textSize="@dimen/list_text_size" />
+
+                        <TextView
+                            android:id="@+id/tv_boundphone_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="10dp"
+                            android:text="绑定手机"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/setting_text_name" />
+                    </RelativeLayout>
+
+                    <include
+                        android:id="@+id/line5"
+                        layout="@layout/layout_line" />
+
+                    <RelativeLayout
+                        android:id="@+id/setting_layout_bound"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_white_selector">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingRight="30dp"
+                            android:src="@drawable/setting_image_right" />
 
                         <TextView
                             android:id="@+id/setting_sign_bound"
@@ -262,7 +288,7 @@
                             android:paddingBottom="10dp"
                             android:paddingLeft="20dp"
                             android:paddingTop="10dp"
-                            android:text="绑定账号"
+                            android:text="绑定第三方账号"
                             android:textColor="@color/black"
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
