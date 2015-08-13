@@ -149,6 +149,7 @@ public class UserFragment extends BaseTitleFragment {
         super.onResume();
         StatService.onPageStart(getActivity(), TAG);
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
+        mInfoAdatper.notifyItemChanged(0);
     }
 
 
