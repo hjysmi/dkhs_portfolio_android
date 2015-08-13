@@ -94,6 +94,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         handExtraIntent();
+
         mDataList.add(mTopicsBean);
         mDataList.add(new LoadingBean());
         mSwipeLayout.setRefreshing(false);
@@ -183,6 +184,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
             mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
+
         }
         return mTopicsCommendEngine;
     }
@@ -219,6 +221,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
         mSwipeLayout.setRefreshing(true);
         BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
+//        BaseInfoEngine.getTopicsDetail(  "1756323", new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
                 return TopicsBean.class;

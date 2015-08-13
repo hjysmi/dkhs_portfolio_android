@@ -17,6 +17,7 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
@@ -166,15 +167,17 @@ public class MessageHandler {
 
                 OptionNewsBean optionNewsBean = DataParse.parseObjectJson(OptionNewsBean.class, result);
                 try {
-                    Intent intent;
+//                    Intent intent;
                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
-                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(),
-                                optionNewsBean.getSymbols().get(0).getSymbol(), optionNewsBean
-                                        .getSymbols().get(0).getAbbrName(), optionNewsBean.getContentType());
+//                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(),
+//                                optionNewsBean.getSymbols().get(0).getSymbol(), optionNewsBean
+//                                        .getSymbols().get(0).getAbbrName(), optionNewsBean.getContentType());
+                        TopicsDetailActivity.startActivity(context,  optionNewsBean.getId());
                     } else {
-                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null, null, null);
+//                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null, null, null);
+                        TopicsDetailActivity.startActivity(context, optionNewsBean.getId());
                     }
-                    context.startActivity(intent);
+//                    context.startActivity(intent);
                     // startActivity(intent);
 //                    UIUtils.startAnimationActivity(context, intent);
                 } catch (Exception e) {

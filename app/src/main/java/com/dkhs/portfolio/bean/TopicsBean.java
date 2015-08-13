@@ -62,7 +62,10 @@ public class TopicsBean extends  LikeBean {
     public boolean compact;
 
     public PeopleBean user;
+
     public String lat;
+
+
 
     public String modified_at;
     /**
@@ -73,6 +76,10 @@ public class TopicsBean extends  LikeBean {
      * symbols : [{"id":101000910,"symbol":"SH600651","abbr_name":"飞乐音响"}]
      */
     public List<SymbolsBean> symbols;
+    /**
+     * source : {"id":68,"title":"齐鲁证券"}
+     */
+    public SourceBean source;
 
     @Parcel
     public static class MediasBean {
@@ -106,5 +113,14 @@ public class TopicsBean extends  LikeBean {
         public int id;
         public String symbol;
         public String abbr_name;
+    }
+    @Parcel
+    public static class SourceBean {
+        /**
+         * id : 68
+         * title : 齐鲁证券
+         */
+        public int id;
+        public String title;
     }
 }

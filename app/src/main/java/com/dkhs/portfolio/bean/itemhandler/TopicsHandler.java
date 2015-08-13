@@ -65,6 +65,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
         setClickListener(vh.get(R.id.iv), data);
         setClickListener(vh.get(R.id.main_ll), data);
         setClickListener(vh.get(R.id.fl_star), data);
+        setClickListener(vh.get(R.id.name), data);
 
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
         if (TextUtils.isEmpty(data.title)) {
@@ -132,6 +133,7 @@ public class TopicsHandler implements ItemHandler<TopicsBean> {
                     itemHandlerClickListener = new CommendClickListenerImp();
                     break;
                 case R.id.iv_avatar:
+                case R.id.name:
                     itemHandlerClickListener = new AvatarClickListenerImp();
                     break;
                 case R.id.iv:

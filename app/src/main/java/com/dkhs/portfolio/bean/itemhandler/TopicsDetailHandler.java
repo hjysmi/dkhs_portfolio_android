@@ -2,22 +2,41 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.ReplacementSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.common.Spanny;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -27,7 +46,10 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.mingle.bean.PhotoBean;
 
+import org.parceler.transfuse.annotations.Resource;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zwm
@@ -55,26 +77,23 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
     public void onBindView(ViewHolder vh, final TopicsBean data, int position) {
         setClickListener(vh.get(R.id.iv_avatar), data);
         setClickListener(vh.get(R.id.iv), data);
+        setClickListener(vh.get(R.id.name), data);
 
-        vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
+
         if (TextUtils.isEmpty(data.title)) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
         } else {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
         }
-        vh.setTextView(R.id.name, data.user.getUsername());
+
 
         PeopleBean user = data.user;
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());
         }
 
-        if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
-            ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
-        } else {
-            vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
-        }
+
         vh.setTextView(R.id.content, data.text);
         vh.get(R.id.iv).setVisibility(View.GONE);
 
@@ -97,9 +116,79 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             vh.get(R.id.main_ll).setVisibility(View.VISIBLE);
             vh.get(R.id.emptyRl).setVisibility(View.GONE);
         }
+
+
+        /**
+         *  CONTENT_TYPE = (
+         (0, '话题'),
+         (10, '新闻'),
+         (20, '公告'),
+         (30, '研报'),
+         )
+         */
+
+        if(data.content_type != 0){
+            setRelatedSymbols(vh.getTextView(R.id.relatedSymbolsTV),data.symbols);
+            vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at)+getFromOrigin(data.source));
+
+            switch (data.content_type){
+                case 10:
+                    vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+                    break;
+                case 20:
+
+                    // FIXME: 2015/8/12 新闻图标暂缺
+                    vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+                    break;
+                case 30:
+                    vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_yanbao);
+                    break;
+            }
+        }else{
+            vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
+            vh.getTextView(R.id.relatedSymbolsTV).setVisibility(View.GONE);
+            if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+                ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+            } else {
+                vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
+            }
+        }
+
         Spinner spinner = vh.get(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
+    }
+
+    private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {
+
+        if(symbols != null){
+            Spanny  spany=new Spanny();
+            spany.append("相关股票: ",new ForegroundColorSpan(mContext.getResources().getColor(R.color.tag_gray)));
+
+            for (int i = 0; i < symbols.size(); i++) {
+                TopicsBean.SymbolsBean item = symbols.get(i);
+                int star=spany.length();
+                spany.append(" "+item.abbr_name+" ",new SymbolsClickSpan(item));
+//                spany.setSpan(new RoundSpan(mContext), star, spany.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+            textView.setText(spany);
+            textView.setVisibility(View.VISIBLE);
+        }else{
+            textView.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    private String getFromOrigin(TopicsBean.SourceBean source) {
+
+        String origin="";
+        if(source != null){
+            origin= origin.concat(" 来自:").concat(source.title);
+        }
+        return  origin;
     }
 
     public void setClickListener(View view, TopicsBean data) {
@@ -115,6 +204,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                     itemHandlerClickListener = new CommendClickListenerImp();
                     break;
                 case R.id.iv_avatar:
+                case R.id.name:
                     itemHandlerClickListener = new AvatarClickListenerImp();
                     break;
                 case R.id.iv:
@@ -255,6 +345,81 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             TopicsDetailActivity.startActivity(mContext, topicsBean);
         }
     }
+
+
+
+
+    class SymbolsClickSpan extends  ClickableSpan{
+
+        TopicsBean.SymbolsBean symbolsBean;
+
+        public SymbolsClickSpan(TopicsBean.SymbolsBean symbolsBean) {
+            this.symbolsBean = symbolsBean;
+        }
+
+        @Override
+        public void onClick(View widget) {
+            SelectStockBean selectStockBean=new SelectStockBean();
+            selectStockBean.setName(symbolsBean.abbr_name);
+            selectStockBean.setId(symbolsBean.id);
+            selectStockBean.setSymbol(symbolsBean.symbol);
+            //设置类型为股票
+            selectStockBean.setSymbol_type("1");
+            mContext.startActivity(StockQuotesActivity.newIntent(mContext,selectStockBean));
+
+        }
+        /**
+         * Makes the text without underline.
+         */
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            ds.setColor(mContext.getResources().getColor(R.color.blue));
+            ds.setUnderlineText(false);
+        }
+
+    }
+
+
+
+    public class RoundSpan extends ReplacementSpan{
+
+
+        private Context mContext;
+
+        public RoundSpan(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public int getSize(Paint paint,
+                           CharSequence text,
+                           int start, int end,
+                           Paint.FontMetricsInt fm) {
+            return (int) MeasureText(paint,text,start,end);
+        }
+        private float MeasureText(Paint paint, CharSequence text, int start, int end)
+        {
+            return paint.measureText(text, start, end);
+        }
+
+        @Override
+        public void draw(Canvas canvas,
+                         CharSequence text,
+                         int start, int end,
+                         float x, int top,
+                         int y, int bottom,
+                         Paint paint) {
+
+            RectF rect = new RectF(x, top, x + MeasureText(paint, text, start, end), bottom);
+            paint.setColor(mContext.getResources().getColor(R.color.activity_bg_color));
+            canvas.drawRoundRect(rect, mContext.getResources().getDimensionPixelOffset(R.dimen.radius)
+                    ,mContext.getResources().getDimensionPixelOffset(R.dimen.radius),
+                    paint);
+            paint.setColor(mContext.getResources().getColor(R.color.tag_gray));
+            canvas.drawText(text, start, end, x, y, paint);
+        }
+    }
+
 
 
 }

@@ -37,9 +37,11 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationUserAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -273,9 +275,9 @@ public class UserHomePageActivity extends ModelAcitivity {
                 moreBean.title = getString(R.string.ta_combination);
             }
         }
-        if(mCombinationAmount > 5){
+        if (mCombinationAmount > 5) {
             moreBean.index = 0;
-        }else{
+        } else {
             moreBean.index = -1;
         }
 
@@ -380,7 +382,6 @@ public class UserHomePageActivity extends ModelAcitivity {
                     moreFootBean.userEntity = mUserEntity;
                     mData.add(moreFootBean);
                 }
-
             } else {
                 moreBean3.index = -1;
                 mData.add(moreBean3);
@@ -395,11 +396,36 @@ public class UserHomePageActivity extends ModelAcitivity {
     @Override
     protected void onResume() {
         super.onResume();
+        BusProvider.getInstance().register(this);
         if (isMyInfo) {
             userInfoListener.setLoadingDialog(mContext);
             userEngine.getBaseUserInfo(mUserId, userInfoListener);
         }
     }
+
+    @Override
+    protected void onPause() {
+        BusProvider.getInstance().unregister(this);
+        super.onPause();
+    }
+
+
+    @Subscribe
+    public void deleteCommend(DeleteCommentEvent deleteCommentEvent) {
+
+        if (mCommentBeans == null) {
+            return;
+        }
+        for (CommentBean o : mCommentBeans) {
+            if ((o.getId() + "").equals(deleteCommentEvent.commentId)) {
+                mCommentBeans.remove(o);
+                break;
+            }
+        }
+        mCommentAmount=mCommentBeans.size();
+        updateUI();
+    }
+
 
     private void initData() {
         if (!isMyInfo) {

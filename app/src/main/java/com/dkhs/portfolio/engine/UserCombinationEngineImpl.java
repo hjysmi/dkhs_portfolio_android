@@ -53,7 +53,7 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
     public HttpHandler loadMore() {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
-            params.addQueryStringParameter("user_id", userId);
+            params.addQueryStringParameter("user_pk", userId);
         }
         if (!TextUtils.isEmpty(orderType)) {
             params.addQueryStringParameter("sort", orderType);
@@ -85,7 +85,7 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
     public HttpHandler loadData() {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
-            params.addQueryStringParameter("user_id", userId);
+            params.addQueryStringParameter("user_pk", userId);
         }
         if (!TextUtils.isEmpty(orderType)) {
             params.addQueryStringParameter("sort", orderType);
@@ -130,7 +130,7 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
 
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
-            params.addQueryStringParameter("user_id", userId);
+            params.addQueryStringParameter("user_pk", userId);
         }
         if (!TextUtils.isEmpty(orderType)) {
             params.addQueryStringParameter("sort", orderType);

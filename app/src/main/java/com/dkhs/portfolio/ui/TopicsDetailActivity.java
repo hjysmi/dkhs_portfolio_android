@@ -51,6 +51,16 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
     }
+   public static void startActivity(Context context, int id) {
+       TopicsBean topicsBean=new TopicsBean();
+        topicsBean.id=id;
+        startActivity(context, topicsBean, false);
+    }
+    public static void startActivity(Context context, String id) {
+
+        if (id.matches("\\d+"))
+            TopicsDetailActivity.startActivity(context, Integer.parseInt(id));
+    }
 
     public static void startActivity(Context context, TopicsBean topicsBean, boolean scrollToComment) {
 
@@ -78,13 +88,14 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
             mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
             setContentView(R.layout.activity_topics_detail);
-            setTitle(R.string.title_activity_topics_detail);
+//            setTitle(R.string.title_activity_topics_detail);
             ViewUtils.inject(this);
             mTopicDetailFragment = new TopicDetailFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, mTopicDetailFragment).commitAllowingStateLoss();
             initData();
             mSwitchLikeStateHandler = new SwitchLikeStateHandler(mTopicsBean);
             mSwitchLikeStateHandler.setStatusChangeI(this);
+
         }
 
     }
@@ -232,6 +243,34 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @Override
     public void onFragmentInteraction(TopicsBean topicsBean) {
         mTopicsBean = topicsBean;
+
+//        公告正文
+//                研报正文
+//        话题正文
+//                新闻正文
+//        CONTENT_TYPE = (
+//                (0, '话题'),
+//        (10, '新闻'),
+//        (20, '公告'),
+//        (30, '研报'),
+//        )
+        switch (topicsBean.content_type){
+            case 0:
+                setTitle("话题正文");
+                break;
+            case 10:
+                setTitle("新闻正文");
+                break;
+            case 20:
+                setTitle("公告正文");
+                break;
+            case 30:
+                setTitle("研报正文");
+                break;
+            default:
+                break;
+        }
+
         mSwitchLikeStateHandler.setLikeBean(mTopicsBean);
         initFloatMenu();
     }

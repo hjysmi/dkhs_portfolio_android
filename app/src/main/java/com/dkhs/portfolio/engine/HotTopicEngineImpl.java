@@ -89,9 +89,11 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
             @Override
             protected void afterParseData(MoreDataBean object) {
-                mFirstPageTopicsBeans = object.getResults();
-                setMoreDataBean(object);
-                onFinish();
+                if(object != null) {
+                    mFirstPageTopicsBeans = object.getResults();
+                    setMoreDataBean(object);
+                    onFinish();
+                }
             }
 
             @Override
@@ -155,6 +157,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                         e.printStackTrace();
                     }
                 }
+                if(moreBean!= null)
                 mBannerTopicsBean.hotTopicsBeans = moreBean.getResults();
                 onFinish();
                 return moreBean;
