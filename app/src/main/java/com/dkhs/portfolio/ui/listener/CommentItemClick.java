@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.DeleteResponeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -105,7 +104,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除
-                        deleteComment(commentBean.getId()+"");
+                        deleteComment(commentBean.getId() + "");
                         break;
                 }
                 dialog.dismiss();
@@ -155,7 +154,7 @@ public class CommentItemClick {
                         copyComment(commentBean.getText());
                         break;
                     case 2://删除回复
-                        deleteComment(commentBean.getId()+"");
+                        deleteComment(commentBean.getId() + "");
                         break;
                 }
                 dialog.dismiss();
@@ -176,8 +175,8 @@ public class CommentItemClick {
         }
 
 
-            if (null != commentBean.getUser()) {
-            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, commentBean.getId()+"", commentBean.getUser().getUsername()));
+        if (null != commentBean.getUser()) {
+            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY, commentBean.getId() + "", commentBean.getUser().getUsername()));
         } else {
             Log.e(TAG, "comment user is null;");
         }
@@ -219,8 +218,8 @@ public class CommentItemClick {
             protected void afterParseData(Boolean object) {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
-                    DeleteCommentEvent deleteCommentEvent=   new DeleteCommentEvent();
-                    deleteCommentEvent.commentId=commentId;
+                    DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
+                    deleteCommentEvent.commentId = commentId;
                     BusProvider.getInstance().post(deleteCommentEvent);
 
 
@@ -235,7 +234,7 @@ public class CommentItemClick {
      * 举报回复
      */
     private void reportComment(CommentBean commentBean) {
-        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId()+"", commentBean.getUser().getUsername(), commentBean.getText()));
+        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.getUser().getUsername(), commentBean.getText()));
     }
 
 

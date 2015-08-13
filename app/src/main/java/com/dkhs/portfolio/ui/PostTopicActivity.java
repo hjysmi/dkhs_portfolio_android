@@ -70,9 +70,13 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      */
     public static final int TYPE_POST = 1;
     /**
+     * 评论
+     */
+    public static final int TYPE_COMMENT = 2;
+    /**
      * 回复
      */
-    public static final int TYPE_RETWEET = 2;
+    public static final int TYPE_REPLY = 3;
     public static final String REPLIED_STATUS = "replied_status";
     public static final String USER_NAME = "user_name";
     private String repliedStatus;
@@ -86,7 +90,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     /**
      * @param context
-     * @param type          TYPE_POST:发表话题，TYPE_RETWEET:评论话题
+     * @param type          TYPE_POST:发表话题，TYPE_COMMENT:评论话题
      * @param repliedStatus
      * @return
      */
@@ -257,9 +261,13 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
     private void setupViewData() {
-        if (curType == TYPE_RETWEET) {
+        if (curType == TYPE_REPLY) {
 
             setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
+            ibImg.setVisibility(View.GONE);
+            etTitle.setVisibility(View.GONE);
+        } else if (curType == TYPE_COMMENT) {
+            setTitle(String.format(getResources().getString(R.string.blank_comment), userName));
             ibImg.setVisibility(View.GONE);
             etTitle.setVisibility(View.GONE);
         } else if (curType == TYPE_POST) {
@@ -364,7 +372,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 PostTopicService.startPost(this, buildDrafteBean());
                 finish();
 
-//                if (curType == TYPE_RETWEET) {
+//                if (curType == TYPE_COMMENT) {
 //
 //                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
 //                } else if (curType == TYPE_POST) {
