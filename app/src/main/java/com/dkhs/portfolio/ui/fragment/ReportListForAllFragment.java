@@ -81,6 +81,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initView(view);
+        initDate();
     }
 
     @Override
@@ -96,7 +97,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         super.onViewShow();
         LogUtils.e(viewType+"onViewShow");
         if (null == mLoadDataEngine) {
-            initDate();
+
         } else {
             refreshData();
         }
@@ -210,7 +211,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                             intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                                             .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
                                     vo.getContentSubType(), optionNewsBean.getContentType());
-                            // intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
+                            // intent = ReportForOneListActivity.newIntent(mContext, optionNewsBean.getSymbols().get(0)
                             // .getId(), optionNewsBean.getSymbols().get(0).getAbbrName(), vo.getContentSubType(),
                             // optionNewsBean.getContentType());
                         } else {
@@ -244,7 +245,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
 
                                         String idStr = optionNewsBean
-                                                .getSymbols().get(0).getId();
+                                                .getId();
                                         if (idStr.matches("\\d+"))
                                             TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
                                             );
@@ -259,7 +260,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                                 default:
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
                                         String idStr = optionNewsBean
-                                                .getSymbols().get(0).getId();
+                                                .getId();
                                         if (idStr.matches("\\d+"))
                                             TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
                                             );
@@ -287,7 +288,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     private void loadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
@@ -304,6 +305,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         public void loadFinish(List<OptionNewsBean> dataList) {
             pb.setVisibility(View.GONE);
             mSwipeLayout.setRefreshing(false);
+
             mListView.onLoadMoreComplete();
             try {
 
@@ -375,7 +377,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public void onLoadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
 

@@ -30,11 +30,11 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 /**
+ * @author zhoujunzhou
+ * @version 1.0
  * @ClassName: MenuItemFragment
  * @Description: TODO(这里用一句话描述这个类的作用)
- * @author zhoujunzhou
  * @date 2014-5-7 下午1:18:45
- * @version 1.0
  */
 public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
@@ -108,10 +108,9 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         if (savedInstanceState != null) {
             mIndex = savedInstanceState.getInt("curChoice");
         }
-        // if (arguments != null) {
-        // mIndex = arguments.getInt(KEY_TABINDEX);
-        // }
+
     }
+
 
     @Override
     public int setContentLayoutId() {
@@ -125,13 +124,51 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         setupView();
         BusProvider.getInstance().register(this);
-        // clickTab(mIndex);
+            clickTab(mIndex);
     }
 
-    public void clickTab(int index) {
-        mIndex = index;
+    public void clickTabIndex(int index) {
+
+        int id = MenuItemFragment.TABINDEX_1;
+
+        switch (index) {
+            case 0: {
+                id = MenuItemFragment.TABINDEX_1;
+
+            }
+            break;
+            case 1: {
+                id = MenuItemFragment.TABINDEX_2;
+            }
+            break;
+            case 2: {
+                id = MenuItemFragment.TABINDEX_3;
+
+            }
+            break;
+            case 3 :{
+                id = MenuItemFragment.TABINDEX_4;
+            }
+            break;
+            case 4: {
+                id = MenuItemFragment.TABINDEX_5;
+            }
+            break;
+
+            default:
+                break;
+        }
+        clickTab(id);
+    }
+
+    public void clickTab(int clickId) {
+        mIndex = clickId;
+        if (btnTab1 == null) {
+            return;
+        }
+
         setupView();
-        ((MainActivity) getActivity()).showContentIndex(index);
+        ((MainActivity) getActivity()).showContentIndex(clickId);
 
     }
 
@@ -154,8 +191,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectText(tvTab4);
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
-        }
-        else if (mIndex == TABINDEX_5) {
+        } else if (mIndex == TABINDEX_5) {
             setSelectText(tvTab5);
             setSelectView(btnTab5);
             setSelectView(tabLayout5);
@@ -196,8 +232,9 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         tabLayout4.setClickable(false);
         tabLayout5.setClickable(false);
     }
+
     @Subscribe
-    public void unLockMenu(UnLockMenuEvent unLockMenuEvent){
+    public void unLockMenu(UnLockMenuEvent unLockMenuEvent) {
         tabLayout1.setClickable(true);
         tabLayout2.setClickable(true);
         tabLayout3.setClickable(true);
@@ -219,7 +256,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         tvSelect.setTextColor(getResources().getColorStateList(R.color.title_color));
     }
 
-    @OnClick({ R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4 ,R.id.tab_5})
+    @OnClick({R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4, R.id.tab_5})
     public void onClick(View v) {
         int id = v.getId();
         clickTab(id);
@@ -255,10 +292,10 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param outState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onSaveInstanceState(Bundle outState) {

@@ -294,7 +294,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
             Context context = getActivity();
             final OnekeyShare oks = new OnekeyShare();
 
-//            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+//            oks.setNotification(R.drawable.ic_launcher, mContext.getString(R.string.app_name));
             oks.setTitle(mCombinationBean.getName() + "与公募基金PK业绩");
 
             String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();

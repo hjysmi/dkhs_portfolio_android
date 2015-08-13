@@ -55,6 +55,7 @@ public class SplashActivity extends FragmentActivity {
     private ImageView adIm;
     private ImageView splashIM;
 
+
     /**
      * Handler:跳转到不同界面
      */
@@ -82,6 +83,8 @@ public class SplashActivity extends FragmentActivity {
         }
     });
 
+
+
     private void showAD() {
         if (adsEntity != null) {
             AlphaAnimation alphaAnimation=new AlphaAnimation(0.2f,1);
@@ -92,6 +95,9 @@ public class SplashActivity extends FragmentActivity {
             adIm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(TextUtils.isEmpty(adsEntity.getRedirect_url())){
+                        return;
+                    }
                     mHandler.removeMessages(GO_GUIDE);
                     mHandler.removeMessages(GO_NOACCOUNT_MAIN);
                     mHandler.removeMessages(GO_ACCOUNT_MAIN);

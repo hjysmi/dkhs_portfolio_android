@@ -411,7 +411,7 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
             Context context = getActivity();
             final OnekeyShare oks = new OnekeyShare();
 
-//            oks.(R.drawable.ic_launcher, context.getString(R.string.app_name));
+//            oks.(R.drawable.ic_launcher, mContext.getString(R.string.app_name));
 
             String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();
             oks.setTitleUrl(shareUrl);

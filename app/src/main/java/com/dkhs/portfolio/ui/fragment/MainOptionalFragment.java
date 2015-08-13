@@ -23,12 +23,16 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.widget.TabWidget;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
@@ -112,7 +116,31 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
                 mVp.setCurrentItem(position);
             }
         });
+        BusProvider.getInstance().register(this);
+        if(getActivity() instanceof MainActivity){
+            Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null)
+                handIntent(bundle);
+        }
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
+
+    private void handIntent(Bundle bundle) {
+        if (bundle.containsKey("option_index")) {
+            int index = bundle.getInt("option_index", 0);
+            mVp.setCurrentItem(index);
+        }
+
+    }
+    @Subscribe
+    public void newIntent(NewIntent newIntent){
+        handIntent(newIntent.bundle);
     }
 
     @Override

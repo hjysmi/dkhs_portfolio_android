@@ -164,7 +164,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void setUnreadCount(int count) {
         this.mUnreadCount = count;
-        notifyItemChanged(0);
+        notifyItemChanged(1);
     }
 
     private void clickPosition(int position) {

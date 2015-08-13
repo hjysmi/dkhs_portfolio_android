@@ -396,8 +396,8 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 //			if (isGooglePlus && !plat.isValid()) {
 //				Message msg = new Message();
 //				msg.what = MSG_TOAST;
-//				int resId = getStringRes(context, "google_plus_client_inavailable");
-//				msg.obj = context.getString(resId);
+//				int resId = getStringRes(mContext, "google_plus_client_inavailable");
+//				msg.obj = mContext.getString(resId);
 //				UIHandler.sendMessage(msg, this);
 //				continue;
 //			}

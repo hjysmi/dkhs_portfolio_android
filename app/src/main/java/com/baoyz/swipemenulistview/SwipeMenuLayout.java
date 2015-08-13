@@ -59,9 +59,9 @@ public class SwipeMenuLayout extends FrameLayout {
         init();
     }
 
-    // private SwipeMenuLayout(Context context, AttributeSet attrs, int
+    // private SwipeMenuLayout(Context mContext, AttributeSet attrs, int
     // defStyle) {
-    // super(context, attrs, defStyle);
+    // super(mContext, attrs, defStyle);
     // }
 
     private SwipeMenuLayout(Context context, AttributeSet attrs) {

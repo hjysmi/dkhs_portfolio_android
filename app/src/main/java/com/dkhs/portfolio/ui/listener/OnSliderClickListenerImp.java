@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.dkhs.portfolio.ui.AdActivity;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 
 /**
  * @author zwm
@@ -17,16 +18,20 @@ public class OnSliderClickListenerImp implements  BaseSliderView.OnSliderClickLi
 
 
     private Context mContext;
+    private MessageHandler mMessageHandler;
 
     public OnSliderClickListenerImp(Context context) {
         mContext = context;
+        mMessageHandler=new MessageHandler(mContext);
     }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
 
+
         Bundle bundle=slider.getBundle();
         String    redirectUrl=  bundle.getString("redirect_url");
-        mContext.startActivity(AdActivity.getIntent(mContext, redirectUrl));
+        mMessageHandler.handleURL(redirectUrl);
+
     }
 }

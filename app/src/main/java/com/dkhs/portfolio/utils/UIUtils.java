@@ -391,9 +391,9 @@ public class UIUtils {
         // UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
         // if (user == null) {
         // // PortfolioApplication.getInstance().exitApp();
-        // // Intent intent = new Intent(context, LoginActivity.class);
+        // // Intent intent = new Intent(mContext, LoginActivity.class);
         //
-        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // mContext.startActivity(LoginActivity.loginActivityByAnnoy(mContext));
         // return true;
         // } else {
         // return false;
@@ -401,8 +401,8 @@ public class UIUtils {
         // } catch (DbException e) {
         // e.printStackTrace();
         // // PortfolioApplication.getInstance().exitApp();
-        // // Intent intent = new Intent(context, LoginActivity.class);
-        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // // Intent intent = new Intent(mContext, LoginActivity.class);
+        // mContext.startActivity(LoginActivity.loginActivityByAnnoy(mContext));
         // return true;
         // }
         if (!PortfolioApplication.hasUserLogin()) {
@@ -429,7 +429,7 @@ public class UIUtils {
 
     public static void startAnimationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
-        // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+        // mContext.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
         setOverridePendingAnin(context);
     }
 

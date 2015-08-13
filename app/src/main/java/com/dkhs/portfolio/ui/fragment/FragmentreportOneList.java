@@ -172,7 +172,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
     private void loadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);

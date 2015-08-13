@@ -105,6 +105,7 @@ public class UserFragment extends BaseTitleFragment {
 
     }
 
+
     private void updateUserInfo() {
 
         updateMessageCenterState();
@@ -151,7 +152,6 @@ public class UserFragment extends BaseTitleFragment {
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
         mInfoAdatper.notifyItemChanged(0);
     }
-
 
     @Override
     public void onPause() {

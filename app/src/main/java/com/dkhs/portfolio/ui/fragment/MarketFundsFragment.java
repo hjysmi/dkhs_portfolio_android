@@ -23,9 +23,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerSortMenuBean;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -64,7 +66,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private ViewGroup mRootView;
 
     private LinkedList<MenuBean> sorts;
-//    private SwitchThreeStateOnClickListener mSwitchThreeStateOnClickListener;
 
     @Override
     public int setContentLayoutId() {
@@ -87,20 +88,46 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     @Override
     public void onDestroyView() {
-
+        BusProvider.getInstance().unregister(this);
         super.onDestroyView();
     }
 
-    @Override
-    public void onDestroy() {
-        BusProvider.getInstance().unregister(this);
-        super.onDestroy();
+    private void handIntent(Bundle bundle) {
+        if (bundle.containsKey("fund_manager_ranking")) {
+            boolean fundManagerRanking = bundle.getBoolean("fund_manager_ranking", true);
+            if(fundManagerRanking){
+                fundTypeMenuChooserL.setFundManagerRanking();
+            }else{
+                fundTypeMenuChooserL.setFundsRanking();
+            }
+        }
     }
+
+
+    @Subscribe
+    public void newIntent(NewIntent newIntent){
+        handIntent(newIntent.bundle);
+    }
+
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initView(getView());
+
         super.onViewCreated(view, savedInstanceState);
+        if(getActivity() instanceof MainActivity){
+            final Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null) {
+                mRootView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        handIntent(bundle);
+
+                    }
+                },1200);
+            }
+            }
     }
 
     @Override

@@ -23,8 +23,10 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.InfoActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.TabWidget;
@@ -42,7 +44,6 @@ import java.util.ArrayList;
  */
 public class MainMarketFragment extends VisiableLoadFragment implements ViewPager.OnPageChangeListener {
 
-
     @ViewInject(R.id.rl_header_title)
     RelativeLayout mRlheadertitle;
     @ViewInject(R.id.vp)
@@ -53,10 +54,10 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     TextView mBtnsearch;
     @ViewInject(R.id.left_btn)
     TextView mLeftBtn;
-
     BasePagerFragmentAdapter mAdapter;
     private TabWidget tabWidget;
     private ArrayList<Fragment> fragmentList;
+
 
     @Override
     public int setContentLayoutId() {
@@ -70,7 +71,6 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -108,13 +108,42 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 mActivity.startActivity(new Intent(mActivity, InfoActivity.class));
             }
         });
+        BusProvider.getInstance().register(this);
 
+
+        if(getActivity() instanceof MainActivity){
+            Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null)
+            handIntent(bundle);
+        }
+
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
+    @Subscribe
+    public void newIntent(NewIntent newIntent){
+        handIntent(newIntent.bundle);
+    }
+
+
+    private void handIntent(Bundle bundle) {
+
+        if (bundle.containsKey("fund_index")) {
+            int index =bundle.getInt("fund_index", 0);
+            vp.setCurrentItem(index);
+        }
     }
 
     @Override
     public void requestData() {
 
     }
+
 
 
     @Override
@@ -143,19 +172,6 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        BusProvider.getInstance().register(this);
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        BusProvider.getInstance().unregister(this);
-
-    }
 
     private static final String TAG = MainMarketFragment.class.getSimpleName();
 

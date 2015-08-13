@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
-        targetSdkVersion 20
+        targetSdkVersion 22
         versionCode 200010813
         versionName "2.0.1.0813"
 

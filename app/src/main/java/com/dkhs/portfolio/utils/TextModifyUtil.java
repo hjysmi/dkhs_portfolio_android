@@ -78,7 +78,7 @@ public class TextModifyUtil {
             temptStr = temptStr.substring(index + s.length());
             tempt += index + s.length();
             //TODO 输入股票之后跳转
-//			Intent intent = new Intent(context, WriteStatusActivity.class);
+//			Intent intent = new Intent(mContext, WriteStatusActivity.class);
 //			intent.putExtra("dollar", s);
             builder.setSpan(getMyClickableSpan(context, null),
                     tempt - s.length(), tempt, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -100,9 +100,9 @@ public class TextModifyUtil {
 //            temptStr = temptStr.substring(index + s.length());
 //            tempt += index + s.length();
 //            //TODO 输入at之后跳转
-////			Intent intent = new Intent(context, WriteStatusActivity.class);
+////			Intent intent = new Intent(mContext, WriteStatusActivity.class);
 ////			intent.putExtra("at", s);
-////			builder.setSpan(getClickableSpan(context, intent),
+////			builder.setSpan(getClickableSpan(mContext, intent),
 ////					tempt - s.length(), tempt - 1,
 ////					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //
@@ -139,12 +139,12 @@ public class TextModifyUtil {
 //            Log.i("MATTERN", startA +"...starA.length..." +startA.length()+"..."+endA +"...endA.length..." +endA.length());
 //            Log.i("MATTERN", s +"...s.length..." +s.length()+"...");
             String target = s.substring(startA.length(), s.length() - endA.length());
-//            spans.add(getClickableSpan(context,new Intent(context, PostTopicActivity.class),tempBuilder.length(), target.length()));
+//            spans.add(getClickableSpan(mContext,new Intent(mContext, PostTopicActivity.class),tempBuilder.length(), target.length()));
             tempBuilder.append(target);
             //TODO 输入at之后跳转
-//			Intent intent = new Intent(context, WriteStatusActivity.class);
+//			Intent intent = new Intent(mContext, WriteStatusActivity.class);
 //			intent.putExtra("at", s);
-//			builder.setSpan(getClickableSpan(context, intent),
+//			builder.setSpan(getClickableSpan(mContext, intent),
 //					tempt - s.length(), tempt - 1,
 //					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -191,12 +191,12 @@ public class TextModifyUtil {
 //            Log.i("MATTERN", startA +"...starA.length..." +startA.length()+"..."+endA +"...endA.length..." +endA.length());
 //            Log.i("MATTERN", s +"...s.length..." +s.length()+"...");
             String target = s.substring(startA.length(), s.length() - endA.length());
-//            spans.add(getClickableSpan(context,new Intent(context, PostTopicActivity.class),tempBuilder.length(), target.length()));
+//            spans.add(getClickableSpan(mContext,new Intent(mContext, PostTopicActivity.class),tempBuilder.length(), target.length()));
             tempBuilder.append(target);
             //TODO 输入at之后跳转
-//			Intent intent = new Intent(context, WriteStatusActivity.class);
+//			Intent intent = new Intent(mContext, WriteStatusActivity.class);
 //			intent.putExtra("at", s);
-//			builder.setSpan(getClickableSpan(context, intent),
+//			builder.setSpan(getClickableSpan(mContext, intent),
 //					tempt - s.length(), tempt - 1,
 //					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -206,8 +206,8 @@ public class TextModifyUtil {
         return tempBuilder;
     }
 
-//    private static MyClickableSpan getClickableSpan(Context context, Intent intent, int startIndex, int sLen) {
-//        MyClickableSpan span = new MyClickableSpan(context);
+//    private static MyClickableSpan getClickableSpan(Context mContext, Intent intent, int startIndex, int sLen) {
+//        MyClickableSpan span = new MyClickableSpan(mContext);
 //        span.startIndex = startIndex;
 //        span.sLen = sLen;
 //        return span;

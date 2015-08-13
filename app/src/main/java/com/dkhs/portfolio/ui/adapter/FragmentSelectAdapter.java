@@ -158,6 +158,14 @@ public class FragmentSelectAdapter {
         titleLayout.addView(view);
 
     }
+    public void setCurrentItem(int index){
+        if(index> tvList.length-1){
+            return;
+        }
+
+        tvList[index].performClick();
+    }
+
 
     OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
