@@ -276,8 +276,9 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             etTitle.setVisibility(View.VISIBLE);
         }
         if (null != mDraftBean) {
-            etContent.setText(mDraftBean.getContent());
             etTitle.setText(mDraftBean.getTitle());
+            etContent.setText(mDraftBean.getContent());
+            etContent.setSelection(mDraftBean.getContent().length());
             if (null != mDraftBean.getImageUri()) {
 //                jpg_path = mDraftBean.getImageUri();
                 ImageLoaderUtils.setImage(mDraftBean.getImageUri(), ivPhoto);
@@ -654,6 +655,15 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
     private void showAlertDialog() {
+        String inputTitle = etTitle.getText().toString();
+        String inputContent = etContent.getText().toString();
+
+        if (null != mDraftBean) {
+            if (inputContent.equals(mDraftBean.getContent()) && inputTitle.equals(mDraftBean.getTitle())) {
+                finish();
+                return;
+            }
+        }
 
         if (TextUtils.isEmpty(etTitle.getText()) && TextUtils.isEmpty(etContent.getText()) && TextUtils.isEmpty(jpg_path)) {
             finish();
