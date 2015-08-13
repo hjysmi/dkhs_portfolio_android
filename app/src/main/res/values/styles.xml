@@ -194,6 +194,7 @@
         <item name="android:gravity">center</item>
     </style>
 
+
     <style name="MyDialogStyleBottom" parent="android:Theme.Dialog">
         <item name="android:windowAnimationStyle">@style/AnimBottom</item>
         <item name="android:windowFrame">@null</item>

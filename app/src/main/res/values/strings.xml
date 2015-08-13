@@ -600,16 +600,17 @@
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
     <string name="title_flow_exchange">流量兑换</string>
-    <string name="max_flow_tip">当前最高可兑换%1$dM流量</string>
+    <string name="max_flow_tip">本周可兑换 %1$sM 流量（VIP权限 %2$s 天）</string>
     <string name="prepaid_phone_num">充值手机号：</string>
     <string name="exchange">兑换</string>
     <string name="exchange_tip_title">流量及兑换说明</string>
 
     <string name="exchange_tip">1、用户获得的流量为全国流量，移动、联通、电信全国用户均可使用。
-\n2、流量包中流量长期有效，可随时兑换使用。
-\n3、兑换的全国流量，当月有效且优先使用。
-\n4、兑换的全国流量将在24小时内充值到绑定的手机号码中，请确保手机号码处于正常状态。
-\n5、用户欠费停机和虚拟运营商手机等情况可能造成充值失败。</string>
+\n2、流量长期有效，每周可兑换%1$s
+        \n3、用户积极参加谁牛互动活动，有机会获得流量自由兑换权限。
+\n4、兑换的全国流量，当月有效且优先使用。
+\n5、兑换的全国流量将在24小时内充值到绑定的手机号码中，请确保手机号码处于正常状态。
+\n6、用户欠费停机和虚拟运营商手机等情况可能造成充值失败。</string>
 
     <string name="dialog_exchange_message">确认用积分兑换%1$dM流量？</string>
     <string name="exchange_success">兑换成功</string>

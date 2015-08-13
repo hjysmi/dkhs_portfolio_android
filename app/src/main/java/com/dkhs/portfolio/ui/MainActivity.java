@@ -324,12 +324,15 @@ public class MainActivity extends BaseActivity {
         context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
     }
+    public static void gotoTopicsHome(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",3);
+        context.startActivity(intent);
+    }
 
     public static void gotoCombinationRankingActivity(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",1);
-
-
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("fund_index",2);
         intent.putExtra("arg",newIntent.bundle);
@@ -340,8 +343,6 @@ public class MainActivity extends BaseActivity {
     public static void gotoFundManagerRanking(Context context) {
         Intent intent=new Intent(context, MainActivity.class);
         intent.putExtra("index",1);
-
-
         NewIntent newIntent=new NewIntent();
         newIntent.bundle.putInt("fund_index",1);
         newIntent.bundle.putBoolean("fund_manager_ranking",true);
