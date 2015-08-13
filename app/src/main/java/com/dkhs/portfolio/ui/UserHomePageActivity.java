@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.UserTopicsCommentEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationUserAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -422,7 +424,7 @@ public class UserHomePageActivity extends ModelAcitivity {
                 break;
             }
         }
-        mCommentAmount=mCommentBeans.size();
+        mCommentAmount = mCommentBeans.size();
         updateUI();
     }
 
@@ -446,6 +448,24 @@ public class UserHomePageActivity extends ModelAcitivity {
             if (null != object) {
                 mUserEntity = object;
                 getTopicsList(mUserEntity);
+            }
+        }
+
+        @Override
+        public void onFailure(ErrorBundle errorBundle) {
+            super.onFailure(errorBundle);
+            if (null != errorBundle && ((errorBundle.getErrorKey().equals("user_invalid")) || (errorBundle.getErrorKey().equals("does_not_exist")))) {
+                new Handler().postDelayed(new Runnable() {
+
+                    public void run() {
+                        finish();
+                        UIUtils.outAnimationActivity(UserHomePageActivity.this);
+
+                    }
+
+                }, 1000);
+
+
             }
         }
     };
