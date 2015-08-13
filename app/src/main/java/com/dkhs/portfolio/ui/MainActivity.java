@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AppUpdateEngine;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.fragment.MainBBSFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
@@ -50,37 +53,29 @@ public class MainActivity extends BaseActivity {
     private static final String TAG_FRAGMENT_E = "E";
 
     private MessageHandler handler;
+    private MenuItemFragment mMenuFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 模拟堆栈管理activity
         PortfolioApplication.getInstance().addActivity(this);
-        // setTheme(android.R.style.Theme_Light_NoTitleBar);
-        // PortfolioApplication.getInstance().addActivity(this);
         handler = new MessageHandler(this);
-//        hideHead();
-//        setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
-        handIntent(getIntent());
+
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-            MenuItemFragment mMenuFragment = new MenuItemFragment();
+             mMenuFragment = new MenuItemFragment();
             Bundle bunlde = new Bundle();
-            // bunlde.putInt("content", mIndex);
             mMenuFragment.setArguments(bunlde);
             t.replace(R.id.bottom_layout, mMenuFragment);
 
-            t.commit();
+            t.commitAllowingStateLoss();
             displayFragmentA();
-
-        } else {
-//            mMenuFragment = (MenuItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.bottom_layout);
-//            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         }
         new AppUpdateEngine(mContext).checkVersion();
-
+        handIntent(getIntent());
     }
 
     @Override
@@ -108,12 +103,14 @@ public class MainActivity extends BaseActivity {
         if (intent == null) {
             return;
         }
-
-
         if (null != intent.getParcelableExtra(MessageReceive.KEY_MESSAGE)) {
             Message message = intent.getParcelableExtra(MessageReceive.KEY_MESSAGE);
             handler.handleMessage(message);
         }
+       int index =intent.getIntExtra("index",0);
+        mMenuFragment.clickTabIndex(index);
+
+
 
     }
 
@@ -164,7 +161,7 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentA, TAG_FRAGMENT_A);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
 
@@ -186,7 +183,7 @@ public class MainActivity extends BaseActivity {
             ((VisiableLoadFragment) fragmentB).onViewShow();
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     protected void displayFragmentC() {
@@ -202,7 +199,7 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentC, TAG_FRAGMENT_C);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     protected void displayFragmentD() {
@@ -218,7 +215,7 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentD, TAG_FRAGMENT_D);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     protected void displayFragmentE() {
@@ -234,7 +231,7 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentE, TAG_FRAGMENT_E);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
 
@@ -269,27 +266,102 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private long exitTime;
+    private long mExitTime;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
+                mExitTime = System.currentTimeMillis();
                 return true;
             } else {
                 GlobalParams.clearUserInfo();
             }
-
         }
-
-
         return super.onKeyDown(keyCode, event);
     }
 
 
+    public static void gotoUserActivity(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",4);
+        context.startActivity(intent);
+    }
 
 
-   
+    public static void gotoShakeActivity(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",2);
+        context.startActivity(intent);
+    }
+
+    public static void gotoOptionSymbols(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",0);
+        intent.putExtra("option_index",0);
+        context.startActivity(intent);
+        NewIntent newIntent=new NewIntent();
+        newIntent.bundle.putInt("option_index",0);
+        BusProvider.getInstance().post(newIntent);
+
+    }
+
+    public static void gotoHostTopicsActivity(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",3);
+        intent.putExtra("bbs_index",0);
+        context.startActivity(intent);
+        NewIntent newIntent=new NewIntent();
+        newIntent.bundle.putInt("bbs_index",0);
+        BusProvider.getInstance().post(newIntent);
+    }
+
+    public static void gotoCombinationRankingActivity(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",1);
+        intent.putExtra("fund_index",2);
+        context.startActivity(intent);
+        NewIntent newIntent=new NewIntent();
+        newIntent.bundle.putInt("fund_index",2);
+        BusProvider.getInstance().post(newIntent);
+    }
+
+    public static void gotoFundManagerRanking(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",1);
+        intent.putExtra("fund_index",1);
+        intent.putExtra("fund_manager_ranking",true);
+        context.startActivity(intent);
+        NewIntent newIntent=new NewIntent();
+        newIntent.bundle.putInt("fund_index",1);
+        newIntent.bundle.putBoolean("fund_manager_ranking",true);
+
+        BusProvider.getInstance().post(newIntent);
+    }
+
+    public static void gotoFundsRanking(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",1);
+        intent.putExtra("fund_index",1);
+        intent.putExtra("fund_manager_ranking",false);
+        context.startActivity(intent);
+
+        NewIntent newIntent=new NewIntent();
+        newIntent.bundle.putInt("fund_index",1);
+        newIntent.bundle.putBoolean("fund_manager_ranking",false);
+
+        BusProvider.getInstance().post(newIntent);
+
+    }
+
+    public static void gotoSHActivity(Context context) {
+        Intent intent=new Intent(context, MainActivity.class);
+        intent.putExtra("index",1);
+        intent.putExtra("fund_index",0);
+        context.startActivity(intent);
+        NewIntent newIntent=new NewIntent();
+        newIntent.bundle.putInt("fund_index",0);
+        BusProvider.getInstance().post(newIntent);
+    }
 }

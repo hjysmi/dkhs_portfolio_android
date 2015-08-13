@@ -43,7 +43,11 @@ public class MainBBSFragment extends BaseTitleFragment {
         initView(view);
         toolBar.setClickable(true);
         setTitle(R.string.title_bbs);
+
     }
+
+
+
 
     @Override
     public void requestData() {

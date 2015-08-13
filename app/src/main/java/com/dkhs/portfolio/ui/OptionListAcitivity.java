@@ -105,7 +105,7 @@ public class OptionListAcitivity extends ModelAcitivity {
     // vo.setContentType(type);
     // mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
     // OpitionNewsEngineImple.NEWSFOREACH, vo);
-    // // mLoadDataEngine.setLoadingDialog(context);
+    // // mLoadDataEngine.setLoadingDialog(mContext);
     // mLoadDataEngine.loadData();
     // mLoadDataEngine.setFromYanbao(false);
     // }
@@ -120,7 +120,7 @@ public class OptionListAcitivity extends ModelAcitivity {
     // mListView = (PullToRefreshListView) findViewById(android.R.id.list);
     //
     // mListView.setEmptyView(iv);
-    // mOptionMarketAdapter = new OptionForOnelistAdapter(context, mDataList);
+    // mOptionMarketAdapter = new OptionForOnelistAdapter(mContext, mDataList);
     // mListView.setAdapter(mOptionMarketAdapter);
     // mListView.setOnLoadListener(new OnLoadMoreListener() {
     //
@@ -205,13 +205,13 @@ public class OptionListAcitivity extends ModelAcitivity {
     // // TODO Auto-generated method stub
     // try {
     // if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-    // Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文", mDataList
+    // Intent intent = NewsActivity.newIntent(mContext, mDataList.get(position).getId(), "公告正文", mDataList
     // .get(position).getSymbols().get(0).getAbbrName(),
     // mDataList.get(position).getSymbols().get(0).getId());
     // startActivity(intent);
     // } else {
     // Intent intent = NewsActivity
-    // .newIntent(context, mDataList.get(position).getId(), "公告正文", null, null);
+    // .newIntent(mContext, mDataList.get(position).getId(), "公告正文", null, null);
     // startActivity(intent);
     // }
     // } catch (Exception e) {
@@ -224,12 +224,12 @@ public class OptionListAcitivity extends ModelAcitivity {
     // private void loadMore() {
     // if (null != mLoadDataEngine) {
     // if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-    // // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+    // // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
     // return;
     // }
     //
     // isLoadingMore = true;
-    // // mLoadDataEngine.setLoadingDialog(context);
+    // // mLoadDataEngine.setLoadingDialog(mContext);
     // mLoadDataEngine.loadMore();
     // }
     // }

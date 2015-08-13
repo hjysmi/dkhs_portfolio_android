@@ -55,6 +55,7 @@ public class SplashActivity extends FragmentActivity {
     private ImageView adIm;
     private ImageView splashIM;
 
+
     /**
      * Handler:跳转到不同界面
      */
@@ -81,6 +82,8 @@ public class SplashActivity extends FragmentActivity {
             return false;
         }
     });
+
+
 
     private void showAD() {
         if (adsEntity != null) {

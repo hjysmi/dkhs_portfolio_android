@@ -102,7 +102,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-//        if (null != context && context instanceof StockQuotesActivity && getadle) {
+//        if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 //        }
     }
@@ -258,7 +258,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
 //                mListView.getLayoutParams().height = height;
 //                }
             }
-//            if (null != context && context instanceof StockQuotesActivity && getadle) {
+//            if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 //            }
         } catch (Exception e) {
@@ -313,7 +313,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         if (isVisibleToUser) {
             if (isVisibleToUser) {
 //                if (null == mDataList || mDataList.size() < 2) {
-//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
 //                    }
 //                } else if (null != mDataList) {
@@ -324,7 +324,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
 //                        int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
 //                        height += list_child_item_height; // 统计所有子项的总高度
 //                    }
-//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                        ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 //                    }
 //                }

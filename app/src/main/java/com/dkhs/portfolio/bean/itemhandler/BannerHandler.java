@@ -19,6 +19,7 @@ import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 
 /**
  * @author zwm
@@ -35,9 +36,12 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
 
     private OnSliderClickListenerImp mOnSliderClickListenerImp;
 
+
+
     public BannerHandler(Context mContext) {
         this.mContext = mContext;
         mOnSliderClickListenerImp = new OnSliderClickListenerImp(mContext);
+
     }
 
     @Override

@@ -116,7 +116,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     // mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
     // OpitionNewsEngineImple.GROUP_FOR_ONE, vo);
     // }
-    // // mLoadDataEngine.setLoadingDialog(context);
+    // // mLoadDataEngine.setLoadingDialog(mContext);
     // mLoadDataEngine.loadData();
     // mLoadDataEngine.setFromYanbao(false);
     // } catch (Exception e) {
@@ -127,14 +127,14 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     // }
 
     // private void initView() {
-    // // mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+    // // mFootView = View.inflate(mContext, R.layout.layout_loading_more_footer, null);
     // mListView = (PullToRefreshListView) findViewById(android.R.id.list);
     //
     // // mListView.setEmptyView(iv);
     // // mListView.addFooterView(mFootView);
-    // // mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
+    // // mOptionMarketAdapter = new OptionlistAdapter(mContext, mDataList);
     //
-    // // mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
+    // // mOptionMarketAdapter = new ReportNewsAdapter(mContext, mDataList);
     // // mListView.setAdapter(mOptionMarketAdapter);
     //
     // // mListView.removeFooterView(mFootView);
@@ -189,11 +189,11 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     // try {
     // Intent intent;
     // if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-    // intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
+    // intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(),
     // mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
     // .getSymbols().get(0).getAbbrName(), mDataList.get(position).getContentType());
     // } else {
-    // intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null, null);
+    // intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(), null, null, null);
     // }
     // startActivity(intent);
     // } catch (Exception e) {
@@ -206,13 +206,13 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     // private void loadMore() {
     // if (null != mLoadDataEngine) {
     // if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-    // // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+    // // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
     // return;
     // }
     // // mListView.addFooterView(mFootView);
     //
     // isLoadingMore = true;
-    // // mLoadDataEngine.setLoadingDialog(context);
+    // // mLoadDataEngine.setLoadingDialog(mContext);
     // mLoadDataEngine.loadMore();
     // }
     // }
@@ -272,7 +272,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     public void onLoadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
 

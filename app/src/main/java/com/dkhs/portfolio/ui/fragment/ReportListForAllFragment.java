@@ -211,7 +211,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                             intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                                             .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
                                     vo.getContentSubType(), optionNewsBean.getContentType());
-                            // intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
+                            // intent = ReportForOneListActivity.newIntent(mContext, optionNewsBean.getSymbols().get(0)
                             // .getId(), optionNewsBean.getSymbols().get(0).getAbbrName(), vo.getContentSubType(),
                             // optionNewsBean.getContentType());
                         } else {
@@ -288,7 +288,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     private void loadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
@@ -377,7 +377,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public void onLoadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
 

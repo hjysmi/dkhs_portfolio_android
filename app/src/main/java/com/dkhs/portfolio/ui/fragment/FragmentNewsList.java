@@ -142,8 +142,8 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(tv);
         mListView.addFooterView(mFootView);
-        // mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
-        // if(null != context && context instanceof StockQuotesActivity){
+        // mOptionMarketAdapter = new OptionMarketAdapter(mContext, mDataList);
+        // if(null != mContext && mContext instanceof StockQuotesActivity){
         mOptionlistAdapter = new OptionForOnelistAdapter(context, mDataList);
         mListView.setAdapter(mOptionlistAdapter);
 
@@ -238,7 +238,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
     public void loadMore() {
         if (null != mLoadDataEngine && !isLoadingMore && getadle) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
@@ -261,8 +261,8 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
                     }
                     mDataList.addAll(dataList);
                     /*
-                     * if (null != context
-                     * && context instanceof StockQuotesActivity && getadle) {
+                     * if (null != mContext
+                     * && mContext instanceof StockQuotesActivity && getadle) {
                      * ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
                      * }
                      */
@@ -328,7 +328,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
         }
         mContentView.getLayoutParams().height = height;
 //        ((StockQuotesActivity) getActivity()).setLayoutHeights(mListView.getLayoutParams().height);
-//        if (null != context && context instanceof StockQuotesActivity) {
+//        if (null != mContext && mContext instanceof StockQuotesActivity) {
 //        }
     }
 
@@ -354,18 +354,18 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
              * mLoadDataEngine.setLoadingDialog(getActivity());
              * mLoadDataEngine.loadData();
              * mLoadDataEngine.setFromYanbao(false);
-             * if (null != context && context instanceof StockQuotesActivity) {
+             * if (null != mContext && mContext instanceof StockQuotesActivity) {
              * ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
              * }
              */
 //            if (isVisibleToUser) {
 //                getadle = true;
 //                if (null == mDataList || mDataList.size() < 2) {
-//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
 //                    }
 //                } else if (null != mDataList) {
-//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                        int height = 0;
 //                        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
 //                            View listItem = mOptionlistAdapter.getView(i, null, mListView);

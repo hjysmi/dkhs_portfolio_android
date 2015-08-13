@@ -185,12 +185,12 @@ public class TrendChartFragment extends BaseFragment {
     private String SHARE_IMAGE;
 
     public void showShare() {
-        // Context context = getActivity();
+        // Context mContext = getActivity();
         // final OnekeyShare oks = new OnekeyShare();
         //
-        // oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        // oks.setNotification(R.drawable.ic_launcher, mContext.getString(R.string.app_name));
         // // oks.setAddress("12345678901");
-        // // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+        // // oks.setTitle(CustomShareFieldsPage.getString("title", mContext.getString(R.string.evenote_title)));
         // // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
         // // String customText = CustomShareFieldsPage.getString( "text", null);
         // oks.setTitle("谁牛");
@@ -222,7 +222,7 @@ public class TrendChartFragment extends BaseFragment {
         // // if (customText != null) {
         // // oks.setText(customText);
         // // } {
-        // // oks.setText(context.getString(R.string.share_content));
+        // // oks.setText(mContext.getString(R.string.share_content));
         // // }
         //
         // // if (captureView) {
@@ -235,7 +235,7 @@ public class TrendChartFragment extends BaseFragment {
         // // oks.setUrl("http://dev.dkhs.com");
         // oks.setFilePath(SHARE_IMAGE);
         // // oks.setComment("share");
-        // // oks.setSite(CustomShareFieldsPage.getString("site", context.getString(R.string.app_name)));
+        // // oks.setSite(CustomShareFieldsPage.getString("site", mContext.getString(R.string.app_name)));
         // // oks.setSiteUrl(CustomShareFieldsPage.getString("siteUrl", "http://mob.com"));
         // // oks.setVenueName(CustomShareFieldsPage.getString("venueName", "ShareSDK"));
         // // oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription",
@@ -259,7 +259,7 @@ public class TrendChartFragment extends BaseFragment {
         // // 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
         // // oks.setCallback(new OneKeyShareCallback());
         //
-        // oks.show(context);
+        // oks.show(mContext);
     }
 
     public Bitmap convertViewToBitmap(View view) {
