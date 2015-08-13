@@ -33,6 +33,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.LinkedList;
 
@@ -112,6 +113,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         super.onViewShow();
         StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -333,6 +335,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     public void onViewHide() {
         super.onViewHide();
         StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
 

@@ -30,6 +30,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.ShakeDetector;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -263,6 +264,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             sd.start(sensorManager);
         super.onViewShow();
         StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
 
     }
 
@@ -272,6 +274,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             sd.stop();
         super.onViewHide();
         StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
 

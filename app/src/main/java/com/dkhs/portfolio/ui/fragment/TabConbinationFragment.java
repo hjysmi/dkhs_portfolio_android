@@ -40,6 +40,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,6 +204,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
     @Override
     public void onViewShow() {
         StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
 
 
     }
@@ -210,6 +212,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
     @Override
     public void onViewHide() {
         StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     @Override

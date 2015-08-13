@@ -16,6 +16,7 @@ import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zjz
@@ -53,6 +54,7 @@ public class MainBBSFragment extends BaseTitleFragment {
     public void onViewShow() {
         super.onViewShow();
         StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
 
     }
 
@@ -60,6 +62,7 @@ public class MainBBSFragment extends BaseTitleFragment {
     public void onViewHide() {
         super.onViewHide();
         StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     private void initView(View view) {
