@@ -104,6 +104,7 @@ public class UserFragment extends BaseTitleFragment {
 
     }
 
+
     private void updateUserInfo() {
 
         updateMessageCenterState();
@@ -147,6 +148,7 @@ public class UserFragment extends BaseTitleFragment {
     public void onResume() {
         super.onResume();
         StatService.onResume(this);
+        updateUserInfo();
     }
 
     @Override
