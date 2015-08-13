@@ -280,11 +280,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
-        TextView addButton = getRightButton();
-        // addButton.setBackgroundResource(R.drawable.ic_search_title);
-        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
-                null, null, null);
-        addButton.setOnClickListener(mSearchClick);
+//        TextView addButton = getRightButton();
+//        // addButton.setBackgroundResource(R.drawable.ic_search_title);
+//        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+//                null, null, null);
+//        addButton.setOnClickListener(mSearchClick);
         btnRefresh = getSecondRightButton();
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),
                 null, null, null);
