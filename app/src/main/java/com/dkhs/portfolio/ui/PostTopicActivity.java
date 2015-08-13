@@ -210,7 +210,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             }
         });
         MyTextWatcher watcher = new MyTextWatcher();
-        etTitle.addTextChangedListener(watcher);
+//        etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -314,7 +314,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if (!TextUtils.isEmpty(editable)) {
+            if (!TextUtils.isEmpty(editable) || ivPhoto.getVisibility() == View.VISIBLE) {
                 btnSend.setEnabled(true);
                 btnSend.setClickable(true);
             } else {
@@ -479,6 +479,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     case 1:
                         if (isShowDeletePic) {
                             ivPhoto.setVisibility(View.GONE);
+                            isSendButtonEnable();
                             jpg_path = "";
                             imageUri = "";
                         } else {
@@ -497,6 +498,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
 
+    private void isSendButtonEnable() {
+        if (!TextUtils.isEmpty(etContent.getText()) || ivPhoto.getVisibility() == View.VISIBLE) {
+            btnSend.setEnabled(true);
+            btnSend.setClickable(true);
+        } else {
+            btnSend.setEnabled(false);
+            btnSend.setClickable(false);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0x5 && resultCode == RESULT_OK) {
@@ -505,6 +516,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 final Uri uri = data.getData();
                 imageUri = uri.toString();
                 ivPhoto.setVisibility(View.VISIBLE);
+                isSendButtonEnable();
                 final String file_str = Environment.getExternalStorageDirectory().getPath();
                 String[] proj = {MediaStore.Images.Media.DATA};
                 Cursor cursor = managedQuery(uri, proj, null, null, null);
@@ -559,6 +571,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             final String path = cursor.getString(column_index);
             final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
             ivPhoto.setVisibility(View.VISIBLE);
+            isSendButtonEnable();
             ivPhoto.setImageBitmap(imageBitmap);
             new Thread(new Runnable() {
                 @Override
