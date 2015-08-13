@@ -115,7 +115,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             break;
                         }
                         startActivity(PostTopicActivity.getIntent(mContext,
-                                PostTopicActivity.TYPE_RETWEET, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                                PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
                         break;
                     case MENU_LIKE:
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AllMarketBean;
 import com.dkhs.portfolio.bean.SectorBean;
@@ -29,6 +30,7 @@ import com.dkhs.portfolio.ui.widget.ViewBean.MarkStockViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkTitleViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.ViewBean;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,11 +97,16 @@ public class NewMarketStockFragment extends VisiableLoadFragment implements View
         } else {
             endAnimaRefresh();
         }
+
+        StatService.onPageStart(getActivity(), this.getClass().getSimpleName());
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 
     @Override
     public void onViewHide() {
         updateHandler.removeCallbacks(updateRunnable);
+        StatService.onPageEnd(getActivity(), this.getClass().getSimpleName());
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     @Override

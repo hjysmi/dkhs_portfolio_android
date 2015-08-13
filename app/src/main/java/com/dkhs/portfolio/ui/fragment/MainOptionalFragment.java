@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
@@ -198,7 +197,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         if (fragment instanceof VisiableLoadFragment) {
             ((VisiableLoadFragment) fragment).onViewHide();
         }
-        StatService.onResume(this);
     }
 
     @Override
@@ -209,7 +207,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         } else {
             fragment.onResume();
         }
-        StatService.onPause(this);
     }
 
     private void setCombinationBar() {

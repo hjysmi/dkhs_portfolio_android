@@ -158,10 +158,9 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 if (UIUtils.iStartLoginActivity(getActivity())) {
                     return;
                 }
-                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getReplyUserName(), draftBean.getStatusId());
+                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getStatusId(), draftBean.getReplyUserName());
                 intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
                 startActivity(intent);
-//                getActivity().finish();
 
             }
         });

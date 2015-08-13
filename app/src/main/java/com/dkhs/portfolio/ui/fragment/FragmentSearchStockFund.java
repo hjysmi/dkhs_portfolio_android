@@ -230,13 +230,13 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
             if (isStatus) {
 //                PromptManager.showToast("选择添加话题股票：" + itemStock.getName());
                 setSelectBack(itemStock);
+//                getActivity().finish();
             } else if (StockUitls.isFundType(itemStock.symbol_type)) {
                 startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
             } else {
 
                 startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
             }
-            getActivity().finish();
 
 
         }

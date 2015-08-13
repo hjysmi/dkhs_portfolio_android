@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -29,6 +30,7 @@ import com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Collections;
 import java.util.List;
@@ -128,8 +130,15 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     @Override
     public void onViewShow() {
-        reloadData();
-        super.onViewShow();
+        StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+
+    }
+
+    @Override
+    public void onViewHide() {
+        StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     @Override

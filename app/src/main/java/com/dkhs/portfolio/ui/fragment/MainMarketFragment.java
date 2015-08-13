@@ -21,7 +21,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.InfoActivity;
 import com.dkhs.portfolio.ui.MainActivity;
@@ -156,7 +155,6 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 ((VisiableLoadFragment) fragment).onViewHide();
             }
         }
-        StatService.onResume(this);
     }
 
     @Override
@@ -171,7 +169,6 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 fragment.onResume();
             }
         }
-        StatService.onPause(this);
     }
 
 

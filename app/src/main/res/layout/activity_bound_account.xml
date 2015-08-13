@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -20,7 +20,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/white"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/bound_image_phone"
@@ -58,7 +59,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/bound_image_email"
@@ -96,7 +97,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/bound_image_qq"
@@ -134,7 +135,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/bound_image_weibo"
@@ -172,7 +173,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/bound_image_wechat"
@@ -206,4 +207,5 @@
     </RelativeLayout>
 
     <include layout="@layout/layout_line" />
-</LinearLayout>
+
+</LinearLayout>

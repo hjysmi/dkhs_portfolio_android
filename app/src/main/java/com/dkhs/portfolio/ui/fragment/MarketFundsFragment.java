@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerSortMenuBean;
 import com.dkhs.portfolio.bean.FundTypeMenuBean;
@@ -34,6 +35,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.LinkedList;
 
@@ -46,6 +48,7 @@ import java.util.LinkedList;
  */
 public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
+    public static final String TAG = "MarketFundsFragment";
     @ViewInject(R.id.rl_menu)
     ViewGroup menuRL;
     private MultiChooserRelativeLayout fundTypeMenuChooserL;
@@ -135,8 +138,9 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     @Override
     public void onViewShow() {
 
-
         super.onViewShow();
+        StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -354,14 +358,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         }
     }
 
-
     @Override
-    public void onPause() {
-        super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        // MobclickAgent.onPause(this);
-
+    public void onViewHide() {
+        super.onViewHide();
+        StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
+
 
     @Override
     public void dataUpdate(boolean isEmptyData) {

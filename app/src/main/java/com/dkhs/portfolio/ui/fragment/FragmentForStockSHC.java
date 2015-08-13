@@ -24,7 +24,6 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;

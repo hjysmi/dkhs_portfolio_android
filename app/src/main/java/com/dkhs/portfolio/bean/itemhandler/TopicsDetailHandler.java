@@ -286,7 +286,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             if (UIUtils.iStartLoginActivity(mContext)) {
                 return;
             }
-            UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_RETWEET, topicsBean.id + "", topicsBean.user.getUsername())));
+            UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT, topicsBean.id + "", topicsBean.user.getUsername())));
         }
     }
 

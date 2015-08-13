@@ -30,6 +30,7 @@ import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.widget.HorizontalDividerItemDecoration;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zjz
@@ -40,7 +41,7 @@ import com.squareup.otto.Subscribe;
  */
 public class UserFragment extends BaseTitleFragment {
 
-
+    public static final String TAG = "UserFragment";
     //    private UserEngineImpl userImp = new UserEngineImpl();
     private UserInfoAdapter mInfoAdatper;
 
@@ -147,14 +148,16 @@ public class UserFragment extends BaseTitleFragment {
     @Override
     public void onResume() {
         super.onResume();
-        StatService.onResume(this);
-        updateUserInfo();
+        StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+        mInfoAdatper.notifyItemChanged(0);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        StatService.onPause(this);
+        StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
 

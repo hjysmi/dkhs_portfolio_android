@@ -28,7 +28,6 @@ import java.util.ArrayList;
  */
 public class BBSFragment extends VisiableLoadFragment {
 
-
     @ViewInject(R.id.ll)
     LinearLayout mll;
     @ViewInject(R.id.rl_send_fail_tip)
