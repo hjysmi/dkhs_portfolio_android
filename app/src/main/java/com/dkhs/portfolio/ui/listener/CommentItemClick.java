@@ -148,12 +148,15 @@ public class CommentItemClick {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0://查看主贴
+                        replyComment(commentBean);
+                        break;
+                    case 1://查看主贴
                         showMainTopic(commentBean.getReplied_status());
                         break;
-                    case 1://复制内容
+                    case 2://复制内容
                         copyComment(commentBean.getText());
                         break;
-                    case 2://删除回复
+                    case 3://删除回复
                         deleteComment(commentBean.getId() + "");
                         break;
                 }
@@ -206,7 +209,20 @@ public class CommentItemClick {
      */
     private void deleteComment(final String commentId) {
 
-//        PromptManager.showToast("删除回复");
+
+        PromptManager.getAlertDialog(mContext).setMessage(mContext.getString(R.string.delete_comment)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                postDeleteCommnent(commentId);
+            }
+        }).setNegativeButton(R.string.cancel, null).show();
+
+
+    }
+
+
+    private void postDeleteCommnent(final String commentId) {
         StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
             @Override
             protected Boolean parseDateTask(String jsonData) {

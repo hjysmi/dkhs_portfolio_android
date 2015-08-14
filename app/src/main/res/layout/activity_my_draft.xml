@@ -21,12 +21,11 @@
 
     <TextView
         android:id="@android:id/empty"
+        style="@style/gray_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/nodate_tip"
-        android:textColor="@color/text_content_color"
-        android:textSize="18sp"
+        android:text="@string/no_draft"
         android:visibility="gone" />
 
     <include
