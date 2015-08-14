@@ -230,6 +230,9 @@ public class OtherUtils {
     public static StackTraceElement getCallerStackTraceElement() {
         return Thread.currentThread().getStackTrace()[4];
     }
+    public static StackTraceElement getSuperCallerStackTraceElement() {
+        return Thread.currentThread().getStackTrace()[5];
+    }
 
     private static SSLSocketFactory sslSocketFactory;
 

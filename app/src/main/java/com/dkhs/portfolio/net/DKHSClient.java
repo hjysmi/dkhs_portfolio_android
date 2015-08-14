@@ -354,17 +354,23 @@ public class DKHSClient {
 
     @Nullable
     public static String getHeadUrl() {
+        String headUrl=DKHSUrl.BASE_DEV_URL;
         switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
             case 0:
-                return DKHSUrl.BASE_DEV_URL;
+                headUrl=   DKHSUrl.BASE_DEV_URL;
+                break;
             case 1:
-                return DKHSUrl.BASE_TEST_URL;
+                headUrl=   DKHSUrl.BASE_TEST_URL;
+                break;
             case 2:
-                return DKHSUrl.BASE_DEV_MAIN;
+                headUrl=   DKHSUrl.BASE_DEV_MAIN;
+                break;
             case 3:
-                return DKHSUrl.BASE_DEV_TAG;
+                headUrl=   DKHSUrl.BASE_DEV_TAG;
+                break;
             default:
-                return DKHSUrl.BASE_DEV_URL;
+
         }
+        return headUrl;
     }
 }

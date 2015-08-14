@@ -109,7 +109,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             }
         });
 
-        AdEngineImpl.getNewsBannerAds( new SimpleParseHttpListener() {
+        AdEngineImpl.getStatusesBanner( new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
                 return AdBean.class;

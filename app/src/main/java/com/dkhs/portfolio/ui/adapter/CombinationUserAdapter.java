@@ -41,7 +41,9 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
         addHandler(0, new NoDataHandler());
         addHandler(1, new CombinationHandler());
         addHandler(2, new CombinationHeaderHandler());
-        addHandler(3, new CommentHandler(false));
+        CommentHandler commentHandler=new CommentHandler(false);
+        commentHandler.setReplyComment(true);
+        addHandler(3, commentHandler);
         addHandler(4, new LoadingHandler());
         addHandler(5, new MoreHandler());
         addHandler(6, new MoreFootHandler());
