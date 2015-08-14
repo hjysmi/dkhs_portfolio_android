@@ -182,7 +182,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/" + mTopicsBean.getId());
         shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
         String img = null;
-        shareBean.setResId(R.drawable.default_head);
+        shareBean.setResId(R.drawable.ic_launcher);
         if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
 
             String imaUrl = mTopicsBean.medias.get(0).image_md;
@@ -191,12 +191,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             if (new File(imgPath).exists()) {
                 img = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
                 shareBean.setImg(imaUrl);
-            }
-        } else if (mTopicsBean.user != null && !TextUtils.isEmpty(mTopicsBean.user.getAvatar_md())) {
-            ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
-            if (new File(ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath()).exists()) {
-                img = ImageLoader.getInstance().getDiskCache().get(mTopicsBean.user.getAvatar_md()).getPath();
-                shareBean.setImg(mTopicsBean.user.getAvatar_md());
             }
         }
         shareAction(shareBean, img);

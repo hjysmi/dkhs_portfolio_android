@@ -59,6 +59,8 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         PeopleBean user = comment.getUser();
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_head));
+        }else{
+            vh.getImageView(R.id.iv_head).setImageResource(R.drawable.default_head);
         }
         vh.getTextView(R.id.tv_username).setText(user.getUsername());
         vh.getTextView(R.id.tv_text).setText(comment.getText());
@@ -67,11 +69,17 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         setClickListener(vh.get(R.id.like_ll), comment);
         setClickListener(vh.get(R.id.tv_username), comment);
         if (comment.getAttitudes_count() > 0) {
-
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
         } else {
-            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(vh.getContext().getString(R.string.like));
+            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText("");
         }
+
+        if(comment.like){
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_like);
+        }else{
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_unlike);
+        }
+
         if (mAvatarImResponse) {
             setClickListener(vh.get(R.id.iv_head), comment);
         }
@@ -182,7 +190,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
             } else {
-                likeTV.setText(mView.getContext().getString(R.string.like));
+                likeTV.setText("");
             }
         }
 
@@ -194,7 +202,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
             } else {
-                likeTV.setText(mView.getContext().getString(R.string.like));
+                likeTV.setText("");
             }
 
         }

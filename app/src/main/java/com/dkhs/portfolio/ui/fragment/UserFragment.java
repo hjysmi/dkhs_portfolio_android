@@ -54,6 +54,7 @@ public class UserFragment extends BaseTitleFragment {
 
     @Override
     public int setContentLayoutId() {
+
         return R.layout.fragment_user;
     }
 
