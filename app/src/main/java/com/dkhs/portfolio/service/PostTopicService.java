@@ -126,18 +126,18 @@ public class PostTopicService extends IntentService {
 
     }
 
-    private void saveBitmapAndUpload(final DraftBean statusBean){
+    private void saveBitmapAndUpload(final DraftBean statusBean) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Bitmap imageBitmap = UIUtils.getLocaleimage(statusBean.getImageLocalePath());
+                    Bitmap imageBitmap = UIUtils.getLocaleimage(statusBean.getImageFilepath());
                     File f = new File(statusBean.getImageFilepath());
                     if (f.exists()) {
                         f.delete();
                     }
                     FileOutputStream out = new FileOutputStream(f);
-                    Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, statusBean.getImageLocalePath());
+                    Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, statusBean.getImageFilepath());
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                     out.flush();
                     out.close();
