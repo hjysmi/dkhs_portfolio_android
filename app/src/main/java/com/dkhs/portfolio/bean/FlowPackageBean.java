@@ -24,6 +24,24 @@ public class FlowPackageBean {
     private String opname;
     private int opcode;
     private String mobile;
+    private String valid_days;
+    private String week_max_name;
+
+    public String getWeek_max_name() {
+        return week_max_name;
+    }
+
+    public void setWeek_max_name(String week_max_name) {
+        this.week_max_name = week_max_name;
+    }
+
+    public String getValid_days() {
+        return valid_days;
+    }
+
+    public void setValid_days(String valid_days) {
+        this.valid_days = valid_days;
+    }
 
     public void setBalance(int balance) {
         this.balance = balance;

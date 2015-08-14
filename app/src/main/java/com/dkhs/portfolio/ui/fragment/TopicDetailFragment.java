@@ -106,7 +106,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         ((TopicsDetailActivity) getActivity()).mFloatingActionMenu.attachToListViewTop(mListView, null, null);
         loadData();
 
-
         if (mScrollToComment) {
 
             //// FIXME: 2015/7/31  滑动到帖子位置

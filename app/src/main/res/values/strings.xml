@@ -600,16 +600,17 @@
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
     <string name="title_flow_exchange">流量兑换</string>
-    <string name="max_flow_tip">当前最高可兑换%1$dM流量</string>
+    <string name="max_flow_tip">本周可兑换 %1$sM 流量（VIP权限 %2$s 天）</string>
     <string name="prepaid_phone_num">充值手机号：</string>
     <string name="exchange">兑换</string>
     <string name="exchange_tip_title">流量及兑换说明</string>
 
     <string name="exchange_tip">1、用户获得的流量为全国流量，移动、联通、电信全国用户均可使用。
-\n2、流量包中流量长期有效，可随时兑换使用。
-\n3、兑换的全国流量，当月有效且优先使用。
-\n4、兑换的全国流量将在24小时内充值到绑定的手机号码中，请确保手机号码处于正常状态。
-\n5、用户欠费停机和虚拟运营商手机等情况可能造成充值失败。</string>
+\n2、流量长期有效，每周可兑换%1$s
+        \n3、用户积极参加谁牛互动活动，有机会获得流量自由兑换权限。
+\n4、兑换的全国流量，当月有效且优先使用。
+\n5、兑换的全国流量将在24小时内充值到绑定的手机号码中，请确保手机号码处于正常状态。
+\n6、用户欠费停机和虚拟运营商手机等情况可能造成充值失败。</string>
 
     <string name="dialog_exchange_message">确认用积分兑换%1$dM流量？</string>
     <string name="exchange_success">兑换成功</string>
@@ -714,7 +715,7 @@
     <string name="title_my_draft">我的草稿</string>
     <string name="title_activity_topics_detail">话题正文</string>
     <string name="title_activity_info">资讯</string>
-    <string name="title_activity_my_topics">我的主贴</string>
+    <string name="title_activity_my_topics">我的主帖</string>
     <string name="title_activity_my_combination_list">我的组合</string>
     <string name="title_activity_ta_combination_list">TA的组合</string>
     <!--我的草稿 end-->
@@ -730,18 +731,21 @@
     <string name="report_fake">虚假中奖</string>
     <string name="report_user">的回复：</string>
     <string name="report_success">您的举报信息已提交，感谢您的支持</string>
-    <string name="no_bbs_topic">暂无主贴</string>
+    <string name="no_bbs_topic">暂无主帖</string>
     <string name="my_comment">我的回复</string>
     <string name="ta_comment">TA的回复</string>
-    <string name="ta_bbs_topic">TA的主贴</string>
-    <string name="my_bbs_topic">我的主贴</string>
+    <string name="ta_bbs_topic">TA的主帖</string>
+    <string name="my_bbs_topic">我的主帖</string>
     <string name="no_combination">暂无组合</string>
     <string name="ta_combination">TA的组合</string>
     <string name="no_comment">暂无回复</string>
+    <string name="no_draft">暂无草稿</string>
     <string name="title_my_home_page">我的主页</string>
     <string name="title_ta_home_page">Ta的主页</string>
-    <string name="topics_already_delete">此贴已删除</string>
+    <string name="topics_already_delete">此帖已被删除</string>
     <string name="delete_topics">删除帖子</string>
+    <string name="delete_comment">删除回复</string>
+    <string name="null_stock">当前股票不存在</string>
     <!--举报 end-->
 
 

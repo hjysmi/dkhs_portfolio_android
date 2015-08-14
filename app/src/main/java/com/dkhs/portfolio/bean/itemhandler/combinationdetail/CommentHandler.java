@@ -12,13 +12,12 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.PeopleBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
+import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -33,13 +32,20 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
     private boolean mAvatarImResponse = true;
+    private boolean isReplyComment = false;
+
 
     public CommentHandler(boolean avatarImResponse) {
         mAvatarImResponse = avatarImResponse;
     }
 
+
     public CommentHandler() {
         this(true);
+    }
+
+    public void setReplyComment(boolean isReplyComment) {
+        this.isReplyComment = isReplyComment;
     }
 
     @Override
@@ -53,6 +59,8 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         PeopleBean user = comment.getUser();
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_head));
+        }else{
+            vh.getImageView(R.id.iv_head).setImageResource(R.drawable.default_head);
         }
         vh.getTextView(R.id.tv_username).setText(user.getUsername());
         vh.getTextView(R.id.tv_text).setText(comment.getText());
@@ -61,11 +69,17 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         setClickListener(vh.get(R.id.like_ll), comment);
         setClickListener(vh.get(R.id.tv_username), comment);
         if (comment.getAttitudes_count() > 0) {
-
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
         } else {
-            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(vh.getContext().getString(R.string.like));
+            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText("");
         }
+
+        if(comment.like){
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_like);
+        }else{
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_unlike);
+        }
+
         if (mAvatarImResponse) {
             setClickListener(vh.get(R.id.iv_head), comment);
         }
@@ -78,7 +92,12 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
                 } else {
                     mCommentClick = new CommentItemClick("", v.getContext());
                 }
-                mCommentClick.clickFromMyTopic(comment);
+                if (isReplyComment) {
+                    mCommentClick.clickFromMyReply(comment);
+                } else {
+
+                    mCommentClick.clickFromMyTopic(comment);
+                }
             }
         });
 
@@ -171,7 +190,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
             } else {
-                likeTV.setText(mView.getContext().getString(R.string.like));
+                likeTV.setText("");
             }
         }
 
@@ -183,7 +202,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
             } else {
-                likeTV.setText(mView.getContext().getString(R.string.like));
+                likeTV.setText("");
             }
 
         }

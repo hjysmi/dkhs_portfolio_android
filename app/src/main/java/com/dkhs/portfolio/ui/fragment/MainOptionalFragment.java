@@ -117,9 +117,9 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             }
         });
         BusProvider.getInstance().register(this);
-        if(getActivity() instanceof MainActivity){
-            Bundle bundle=((MainActivity)getActivity()).mBundle;
-            if(bundle !=null)
+        if (getActivity() instanceof MainActivity) {
+            Bundle bundle = ((MainActivity) getActivity()).mBundle;
+            if (bundle != null)
                 handIntent(bundle);
         }
 
@@ -138,8 +138,9 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         }
 
     }
+
     @Subscribe
-    public void newIntent(NewIntent newIntent){
+    public void newIntent(NewIntent newIntent) {
         handIntent(newIntent.bundle);
     }
 
@@ -193,19 +194,30 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     @Override
     public void onViewHide() {
-        Fragment fragment = adapter.getItem(mVp.getCurrentItem());
-        if (fragment instanceof VisiableLoadFragment) {
-            ((VisiableLoadFragment) fragment).onViewHide();
+        try {
+
+
+            Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+            if (fragment instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragment).onViewHide();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void onViewShow() {
-        Fragment fragment = adapter.getItem(mVp.getCurrentItem());
-        if (fragment instanceof VisiableLoadFragment) {
-            ((VisiableLoadFragment) fragment).onViewShow();
-        } else {
-            fragment.onResume();
+        try {
+
+            Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+            if (fragment instanceof VisiableLoadFragment) {
+                ((VisiableLoadFragment) fragment).onViewShow();
+            } else {
+                fragment.onResume();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

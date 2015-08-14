@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -55,6 +56,8 @@ public class ExchangeActivity extends ModelAcitivity {
     private   SliderLayout mSlider;
     @ViewInject(R.id.sliderSL)
     private ScaleLayout mSliderSL;
+    @ViewInject(R.id.tv_exchange_info)
+    private TextView exchangeInfoTV;
 
     private OnSliderClickListenerImp mOnSliderClickListenerImp;
 
@@ -64,9 +67,11 @@ public class ExchangeActivity extends ModelAcitivity {
         super.onCreate(arg0);
         setTitle(R.string.title_flow_exchange);
         setContentView(R.layout.activity_flow_exchange);
+
         ViewUtils.inject(this);
         mOnSliderClickListenerImp=new OnSliderClickListenerImp(this);
-        tvMaxtip.setText(getString(R.string.max_flow_tip, 0));
+        tvMaxtip.setText(getString(R.string.max_flow_tip, 0,0));
+        exchangeInfoTV.setText(getString(R.string.exchange_tip, "0M"));
         FlowExchangeEngine.packages(overViewListener);
         btnExchange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,8 +166,30 @@ public class ExchangeActivity extends ModelAcitivity {
             }
         });
 
-        tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount()));
+
+
         tvPaidPhone.setText(packBean.getMobile());
+
+        String days;
+        if(TextUtils.isEmpty(packBean.getValid_days())){
+            days="0";
+        }else{
+            days=packBean.getValid_days();
+        }
+
+        tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount(),days));
+        String weekMaxName;
+        if(TextUtils.isEmpty(packBean.getWeek_max_name())){
+            weekMaxName="0M";
+        }else{
+            weekMaxName=packBean.getWeek_max_name();
+        }
+
+        exchangeInfoTV.setText(getString(R.string.exchange_tip, weekMaxName));
+        if(packBean.getMax_amount()==0) {
+            btnExchange.setText("本周额度已用完，请下周再来！");
+            btnExchange.setEnabled(false);
+        }
     }
 
 
