@@ -277,7 +277,7 @@ public class UserHomePageActivity extends ModelAcitivity {
                 moreBean.title = getString(R.string.ta_combination);
             }
         }
-        if (mCombinationAmount > 5) {
+        if (mCombinationAmount > 0) {
             moreBean.index = 0;
         } else {
             moreBean.index = -1;
@@ -326,7 +326,7 @@ public class UserHomePageActivity extends ModelAcitivity {
         if (mTopicsBeans != null) {
             if (mTopicsBeans.size() > 0) {
 
-                if (mTopicsAmount >= 5) {
+                if (mTopicsAmount > 0) {
                     moreBean2.index = 1;
 
                 } else {
@@ -370,7 +370,7 @@ public class UserHomePageActivity extends ModelAcitivity {
         if (mCommentBeans != null) {
             if (mCommentBeans.size() > 0) {
 
-                if (mCommentAmount >= 5) {
+                if (mCommentAmount > 0) {
                     moreBean3.index = 2;
                 } else {
                     moreBean3.index = -1;

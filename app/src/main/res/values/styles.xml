@@ -93,7 +93,7 @@
     <style name="inset_divider_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5px</item>
-        <item name="android:layout_marginLeft">26dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
 
@@ -462,7 +462,7 @@
     </style>
 
     <style name="recommend_stick_topics_title">
-        <item name="android:layout_marginLeft">26dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
