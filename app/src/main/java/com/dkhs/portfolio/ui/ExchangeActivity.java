@@ -179,10 +179,10 @@ public class ExchangeActivity extends ModelAcitivity {
 
         tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount(),days));
         String weekMaxName;
-        if(TextUtils.isEmpty(packBean.getValid_days())){
+        if(TextUtils.isEmpty(packBean.getWeek_max_name())){
             weekMaxName="0M";
         }else{
-            weekMaxName=packBean.getValid_days();
+            weekMaxName=packBean.getWeek_max_name();
         }
 
         exchangeInfoTV.setText(getString(R.string.exchange_tip, weekMaxName));

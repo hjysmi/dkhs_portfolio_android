@@ -21,6 +21,7 @@ import android.text.style.ReplacementSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -87,6 +88,8 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             vh.setTextView(R.id.titleTV, data.title);
         }
 
+        vh.getTextView(R.id.titleTV).setTextIsSelectable(true);
+        vh.getTextView(R.id.content).setTextIsSelectable(true);
 
         PeopleBean user = data.user;
         if (null != user) {
@@ -155,8 +158,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         }
 
         Spinner spinner = vh.get(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
 
+        if(spinner.getAdapter() == null) {
+            spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.topics_commend_sort)));
+            spinner.setOnItemSelectedListener(this);
+        }
     }
 
     private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {

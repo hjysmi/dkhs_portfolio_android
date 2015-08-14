@@ -81,6 +81,8 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+
     }
 
 
