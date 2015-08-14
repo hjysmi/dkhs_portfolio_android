@@ -13,8 +13,10 @@
 
         <com.dkhs.portfolio.ui.widget.DKHSTextView
             android:id="@+id/tv_report_user"
-            style="@style/white_grayborder_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_border_gray"
             android:padding="14dp"
             android:textSize="17sp" />
 
