@@ -523,7 +523,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 imageLocalPath = cursor.getString(column_index);
                 jpg_path = MY_CAMERA + getTimestampFileName();
                 Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
-                imageBitmap =UIUtils.loadBitmap(imageBitmap, imageLocalPath);
+                imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
                 ivPhoto.setImageBitmap(imageBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -551,7 +551,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             jpg_path = MY_CAMERA + getTimestampFileName();
             imageLocalPath = cursor.getString(column_index);
             Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
-            imageBitmap = UIUtils.loadBitmap(imageBitmap,imageLocalPath);
+            imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
             ivPhoto.setVisibility(View.VISIBLE);
             isSendButtonEnable();
             ivPhoto.setImageBitmap(imageBitmap);
@@ -667,10 +667,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
             if (!TextUtils.isEmpty(jpg_path)) {
 
-                String file_str = Environment.getExternalStorageDirectory().getPath();
-                file_str = file_str + jpg_path;
-                mDraftBean.setImageFilepath(file_str);
-                mDraftBean.setImageLocalePath(imageLocalPath);
+//                String file_str = Environment.getExternalStorageDirectory().getPath();
+//                file_str = file_str + jpg_path;
+                mDraftBean.setImageFilepath(imageLocalPath);
+//                mDraftBean.setImageLocalePath(imageLocalPath);
             }
             if (!TextUtils.isEmpty(jpg_path)) {
                 mDraftBean.setImageUri(imageUri);
