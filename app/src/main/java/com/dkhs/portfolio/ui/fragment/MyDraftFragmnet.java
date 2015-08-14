@@ -176,6 +176,11 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
         mDataList.remove(item);
         mAdapter.notifyDataSetChanged();
         dataEngine.delDraft(item);
+        if (mDataList.isEmpty()) {
+            tvEmptyText.setVisibility(View.VISIBLE);
+        } else {
+            tvEmptyText.setVisibility(View.GONE);
+        }
     }
 
     @Subscribe
