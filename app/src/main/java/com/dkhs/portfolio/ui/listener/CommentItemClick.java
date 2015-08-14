@@ -148,12 +148,15 @@ public class CommentItemClick {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0://查看主贴
+                        replyComment(commentBean);
+                        break;
+                    case 1://查看主贴
                         showMainTopic(commentBean.getReplied_status());
                         break;
-                    case 1://复制内容
+                    case 2://复制内容
                         copyComment(commentBean.getText());
                         break;
-                    case 2://删除回复
+                    case 3://删除回复
                         deleteComment(commentBean.getId() + "");
                         break;
                 }

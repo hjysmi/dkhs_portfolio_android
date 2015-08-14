@@ -218,8 +218,9 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
         @Override
         protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-
-            addHandler(0, new CommentHandler(true));
+            CommentHandler itemHandler = new CommentHandler(true);
+            itemHandler.setReplyComment(true);
+            addHandler(0, itemHandler);
         }
 
         @Override
