@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,11 +18,9 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.OptionListAcitivity;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
-import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
@@ -90,12 +87,10 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     }
 
 
-
-
     @Override
     public void onViewShow() {
         super.onViewShow();
-        LogUtils.e(viewType+"onViewShow");
+        LogUtils.e(viewType + "onViewShow");
         if (null == mLoadDataEngine) {
 
         } else {
@@ -105,7 +100,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
 
     @Override
     public void onViewHide() {
-        LogUtils.e(viewType+"onViewHide");
+        LogUtils.e(viewType + "onViewHide");
         super.onViewHide();
     }
 
@@ -113,10 +108,9 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public void setUserVisibleHint(boolean isVisibleToUser) {
 
 
-
-        LogUtils.e("isVisible() "+isVisible());
-        if(getParentFragment() != null)
-        LogUtils.e("getParentFragment().isVisible()() "+getParentFragment().isVisible());
+        LogUtils.e("isVisible() " + isVisible());
+        if (getParentFragment() != null)
+            LogUtils.e("getParentFragment().isVisible()() " + getParentFragment().isVisible());
 
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -135,7 +129,9 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
 
     private void refreshData() {
         isRefresh = true;
-        mLoadDataEngine.loadData();
+        if (null != mLoadDataEngine) {
+            mLoadDataEngine.loadData();
+        }
     }
 
     private void initView(View view) {
@@ -187,8 +183,6 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         mListView.setOnItemClickListener(itemBackClick);
 
     }
-
-
 
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {

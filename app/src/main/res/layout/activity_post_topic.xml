@@ -163,6 +163,7 @@
                 android:layout_marginBottom="@dimen/widget_margin_normal"
                 android:layout_marginRight="@dimen/widget_margin_xlarge"
                 android:clickable="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher"
                 android:visibility="gone" />
 
