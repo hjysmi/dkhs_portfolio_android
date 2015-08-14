@@ -14,7 +14,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 200010814
-        versionName "2.0.1.0814"
+        versionName "2.0.1.08140３"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
