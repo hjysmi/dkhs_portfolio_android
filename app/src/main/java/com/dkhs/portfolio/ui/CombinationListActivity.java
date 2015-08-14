@@ -40,7 +40,7 @@ public class CombinationListActivity extends ModelAcitivity {
             } else {
                 setTitle(R.string.title_activity_ta_combination_list);
             }
-            replaceContentFragment(UserCombinationListFragment.getFragment());
+            replaceContentFragment(UserCombinationListFragment.getFragment(mUserBean.getId()+""));
         }
 
 

@@ -81,8 +81,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-
-
     }
 
 
@@ -107,7 +105,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         mListView.addFooterView(v);
         ((TopicsDetailActivity) getActivity()).mFloatingActionMenu.attachToListViewTop(mListView, null, null);
         loadData();
-
 
         if (mScrollToComment) {
 

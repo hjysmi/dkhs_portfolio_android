@@ -58,11 +58,11 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment {
     private HttpHandler mHttpHandler;
 
 
-    public static UserCombinationListFragment getFragment() {
+    public static UserCombinationListFragment getFragment(String userId) {
 
         UserCombinationListFragment fragment = new UserCombinationListFragment();
         Bundle args = new Bundle();
-//        args.putString("userId", userId);
+        args.putString("userId", userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,10 +72,10 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment {
         super.onCreate(arg0);
 
 
-//        Bundle bundle = getArguments();
-//        if (null != bundle) {
-//            mUserId = bundle.getString("userId");
-//        }
+        Bundle bundle = getArguments();
+        if (null != bundle) {
+            mUserId = bundle.getString("userId");
+        }
 
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
