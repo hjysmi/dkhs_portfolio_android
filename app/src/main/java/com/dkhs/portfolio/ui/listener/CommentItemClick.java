@@ -209,7 +209,19 @@ public class CommentItemClick {
      */
     private void deleteComment(final String commentId) {
 
-//        PromptManager.showToast("删除回复");
+
+        PromptManager.getAlertDialog(mContext).setMessage(mContext.getString(R.string.delete_comment)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                postDeleteCommnent(commentId);
+            }
+        }).setNegativeButton(R.string.cancel, null).show();
+
+
+    }
+
+
+    private void postDeleteCommnent(final String commentId) {
         StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
             @Override
             protected Boolean parseDateTask(String jsonData) {
