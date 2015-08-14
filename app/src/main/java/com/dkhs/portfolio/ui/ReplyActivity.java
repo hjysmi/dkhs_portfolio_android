@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dkhs.adpter.adapter.AutoAdapter;
 import com.dkhs.adpter.handler.ItemHandler;
@@ -29,6 +30,7 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     private int total_count;
     private int CUR_TYPE;
     private int TYPE_LODAMORE = 1;
-    private List<CommentBean> results;
+    private List<CommentBean> results = new ArrayList<CommentBean>();
 
     private static final String USER_ID = "user_id";
     private String userId;
@@ -87,8 +89,10 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     private ImageView ivPraise;
     private BitmapUtils bitmapUtils;
     private SwipeRefreshLayout mSwipeLayout;
+    private TextView tvEmpty;
 
     private void initView() {
+        tvEmpty = (TextView) findViewById(android.R.id.empty);
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -141,6 +145,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     private void refreshData() {
         current_page = 0;
         if (!TextUtils.isEmpty(userId)) {
+
             StatusEngineImpl.getReplys(userId, current_page, 0, replyListener);
         } else {
             userId = "1";
@@ -246,7 +251,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         @Override
         protected void afterParseData(MoreDataBean<CommentBean> moreDataBean) {
             mSwipeLayout.setRefreshing(false);
-            if (moreDataBean != null && moreDataBean.getResults() != null && moreDataBean.getResults().size() > 0) {
+            if (moreDataBean != null && moreDataBean.getResults() != null) {
                 current_page = moreDataBean.getCurrentPage();
                 total_count = moreDataBean.getTotalCount();
                 total_page = moreDataBean.getTotalPage();
@@ -259,21 +264,33 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 } else if (current_page < total_page) {
                     lvReply.setCanLoadMore(true);
                 }
-                if (total_count > 0) {
-                    if (current_page == 1) {
-                        results = moreDataBean.getResults();
-                    } else {
-                        results.addAll(moreDataBean.getResults());
-                    }
-                    if (adapter == null) {
-                        adapter = new MyReplyAdapter(ReplyActivity.this, results);
-                        lvReply.setAdapter(adapter);
-                    } else {
-                        adapter.notifyDataSetChanged();
-                    }
+//                if (total_count > 0) {
+                if (current_page == 1) {
+                    results.clear();
+                    results.addAll(moreDataBean.getResults());
+                } else {
+                    results.addAll(moreDataBean.getResults());
                 }
+                if (adapter == null) {
+                    adapter = new MyReplyAdapter(ReplyActivity.this, results);
+                    lvReply.setAdapter(adapter);
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+//                }
             }
+            updateEmptyView();
+
         }
     };
+
+
+    private void updateEmptyView() {
+        if (null == results || results.isEmpty()) {
+            tvEmpty.setVisibility(View.VISIBLE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+        }
+    }
 
 }

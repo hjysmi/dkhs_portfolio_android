@@ -213,6 +213,7 @@ public class CommentItemClick {
         PromptManager.getAlertDialog(mContext).setMessage(mContext.getString(R.string.delete_comment)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 postDeleteCommnent(commentId);
             }
         }).setNegativeButton(R.string.cancel, null).show();
