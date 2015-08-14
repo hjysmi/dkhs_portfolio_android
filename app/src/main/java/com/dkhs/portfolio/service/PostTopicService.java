@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
@@ -26,10 +27,12 @@ import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.SendTopicEvent;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -113,7 +116,8 @@ public class PostTopicService extends IntentService {
 
         if (statusBean.getLabel() == 1 && !TextUtils.isEmpty(statusBean.getImageFilepath())) {
             //上传图片
-            StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
+            saveBitmapAndUpload(statusBean);
+//            StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
         } else {
             StatusEngineImpl.postStatus(statusBean.getTitle(), statusBean.getContent(), statusBean.getStatusId(), null, 0, 0, "", new PostTopicListener(statusBean));
 
@@ -121,6 +125,30 @@ public class PostTopicService extends IntentService {
 
 
     }
+
+    private void saveBitmapAndUpload(final DraftBean statusBean){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Bitmap imageBitmap = UIUtils.getLocaleimage(statusBean.getImageLocalePath());
+                    File f = new File(statusBean.getImageFilepath());
+                    if (f.exists()) {
+                        f.delete();
+                    }
+                    FileOutputStream out = new FileOutputStream(f);
+                    Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, statusBean.getImageLocalePath());
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.flush();
+                    out.close();
+                    StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
 
     private class UploadListener extends ParseHttpListener<UploadImageBean> {
 
