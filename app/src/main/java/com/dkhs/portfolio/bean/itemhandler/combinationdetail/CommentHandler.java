@@ -12,13 +12,12 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.PeopleBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
+import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -33,13 +32,20 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
     private boolean mAvatarImResponse = true;
+    private boolean isReplyComment = false;
+
 
     public CommentHandler(boolean avatarImResponse) {
         mAvatarImResponse = avatarImResponse;
     }
 
+
     public CommentHandler() {
         this(true);
+    }
+
+    public void setReplyComment(boolean isReplyComment) {
+        this.isReplyComment = isReplyComment;
     }
 
     @Override
@@ -78,7 +84,12 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
                 } else {
                     mCommentClick = new CommentItemClick("", v.getContext());
                 }
-                mCommentClick.clickFromMyTopic(comment);
+                if (isReplyComment) {
+                    mCommentClick.clickFromMyReply(comment);
+                } else {
+
+                    mCommentClick.clickFromMyTopic(comment);
+                }
             }
         });
 

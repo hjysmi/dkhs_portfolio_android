@@ -715,7 +715,7 @@
     <string name="title_my_draft">我的草稿</string>
     <string name="title_activity_topics_detail">话题正文</string>
     <string name="title_activity_info">资讯</string>
-    <string name="title_activity_my_topics">我的主贴</string>
+    <string name="title_activity_my_topics">我的主帖</string>
     <string name="title_activity_my_combination_list">我的组合</string>
     <string name="title_activity_ta_combination_list">TA的组合</string>
     <!--我的草稿 end-->
@@ -731,18 +731,21 @@
     <string name="report_fake">虚假中奖</string>
     <string name="report_user">的回复：</string>
     <string name="report_success">您的举报信息已提交，感谢您的支持</string>
-    <string name="no_bbs_topic">暂无主贴</string>
+    <string name="no_bbs_topic">暂无主帖</string>
     <string name="my_comment">我的回复</string>
     <string name="ta_comment">TA的回复</string>
-    <string name="ta_bbs_topic">TA的主贴</string>
-    <string name="my_bbs_topic">我的主贴</string>
+    <string name="ta_bbs_topic">TA的主帖</string>
+    <string name="my_bbs_topic">我的主帖</string>
     <string name="no_combination">暂无组合</string>
     <string name="ta_combination">TA的组合</string>
     <string name="no_comment">暂无回复</string>
+    <string name="no_draft">暂无草稿</string>
     <string name="title_my_home_page">我的主页</string>
     <string name="title_ta_home_page">Ta的主页</string>
     <string name="topics_already_delete">此贴已删除</string>
     <string name="delete_topics">删除帖子</string>
+    <string name="delete_comment">删除回复</string>
+    <string name="null_stock">当前股票不存在</string>
     <!--举报 end-->
 
 

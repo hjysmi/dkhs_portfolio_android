@@ -231,7 +231,7 @@
                     </RelativeLayout>
 
                     <include
-                        android:id="@+id/line4"
+                        android:id="@+id/line9"
                         layout="@layout/layout_line" />
 
                     <RelativeLayout
@@ -264,7 +264,7 @@
                     </RelativeLayout>
 
                     <include
-                        android:id="@+id/line5"
+                        android:id="@+id/line10"
                         layout="@layout/layout_line" />
 
                     <RelativeLayout
@@ -306,7 +306,6 @@
                 android:orientation="vertical"></LinearLayout>
 
             <include
-
                 android:id="@+id/line5"
                 layout="@layout/layout_line_text" />
 

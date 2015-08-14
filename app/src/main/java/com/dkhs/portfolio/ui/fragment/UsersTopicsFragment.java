@@ -10,6 +10,7 @@ import android.widget.ListAdapter;
 
 import com.dkhs.adpter.adapter.AutoAdapter;
 import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
@@ -133,6 +134,6 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
 
     @Override
     public String getEmptyText() {
-        return "没有主贴";
+        return getResources().getString(R.string.no_bbs_topic);
     }
 }
