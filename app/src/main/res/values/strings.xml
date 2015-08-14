@@ -744,6 +744,7 @@
     <string name="topics_already_delete">此贴已删除</string>
     <string name="delete_topics">删除帖子</string>
     <string name="delete_comment">删除回复</string>
+    <string name="null_stock">当前股票不存在</string>
     <!--举报 end-->
 
 
