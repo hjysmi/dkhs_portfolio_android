@@ -15,7 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -45,7 +44,6 @@ import com.rockerhieu.emojicon.emoji.Emojicon;
 import org.parceler.Parcels;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -522,28 +520,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 Cursor cursor = managedQuery(uri, proj, null, null, null);
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
-                final String path = cursor.getString(column_index);
-                final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
+                imageLocalPath = cursor.getString(column_index);
+                jpg_path = MY_CAMERA + getTimestampFileName();
+                Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
+                imageBitmap =UIUtils.loadBitmap(imageBitmap, imageLocalPath);
                 ivPhoto.setImageBitmap(imageBitmap);
-                new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                            jpg_path = MY_CAMERA + getTimestampFileName();
-                            File f = new File(file_str + jpg_path);
-                            if (f.exists()) {
-                                f.delete();
-                            }
-                            FileOutputStream out = new FileOutputStream(f);
-                            Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, path);
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 80, out);
-                            // setImageView(imageBitmap);
-                            //                setImageView(UIUtils.cropBitmap(imageBitmap));
-                            saveBitmap(f.getAbsolutePath(), bitmap);
-                        } catch (Exception e) {
-                            Log.e("Exception", e.getMessage(), e);
-                        }
-                    }
-                }).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -568,30 +549,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             jpg_path = MY_CAMERA + getTimestampFileName();
-            final String path = cursor.getString(column_index);
-            final Bitmap imageBitmap = UIUtils.getLocaleimage(path);
+            imageLocalPath = cursor.getString(column_index);
+            Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
+            imageBitmap = UIUtils.loadBitmap(imageBitmap,imageLocalPath);
             ivPhoto.setVisibility(View.VISIBLE);
             isSendButtonEnable();
             ivPhoto.setImageBitmap(imageBitmap);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        File f = new File(file_str + jpg_path);
-                        if (f.exists()) {
-                            f.delete();
-                        }
-                        FileOutputStream out = new FileOutputStream(f);
-                        Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, path);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-//                        setImageView(UIUtils.cropBitmap(imageBitmap));
-//                        ivPhoto.setImageBitmap(imageBitmap);
-                        saveBitmap(f.getAbsolutePath(), bitmap);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
 
         }
 
@@ -612,29 +575,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private void selectStockBack(SelectStockBean stockBean) {
         curEt.insesrStockText(String.format("%s(%s)", stockBean.getName(), stockBean.getSymbol()));
-    }
-
-    private void saveBitmap(final String path, final Bitmap bitmap) {
-        new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                File f = new File(path);
-                if (f.exists() && !f.toString().equals(path)) {
-                    f.delete();
-                }
-                try {
-                    FileOutputStream out = new FileOutputStream(f);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                    out.flush();
-                    out.close();
-                    // 回收内存中的bitmap
-//                    bitmap.recycle();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
     }
 
     @Override
@@ -711,6 +651,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
     private String imageUri;
+    private String imageLocalPath;
 
     private DraftBean buildDrafteBean() {
         if (null == mDraftBean) {
@@ -729,6 +670,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 String file_str = Environment.getExternalStorageDirectory().getPath();
                 file_str = file_str + jpg_path;
                 mDraftBean.setImageFilepath(file_str);
+                mDraftBean.setImageLocalePath(imageLocalPath);
             }
             if (!TextUtils.isEmpty(jpg_path)) {
                 mDraftBean.setImageUri(imageUri);

@@ -144,4 +144,18 @@ public class DraftBean {
     public void setFailReason(String failReason) {
         this.failReason = failReason;
     }
+
+    /**
+     * 文件本地地址
+     */
+    private String imageLocalePath;
+
+    public String getImageLocalePath() {
+        return imageLocalePath;
+    }
+
+    public void setImageLocalePath(String imageLocalePath) {
+        this.imageLocalePath = imageLocalePath;
+    }
+
 }
