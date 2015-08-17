@@ -12,6 +12,7 @@
 
     <CheckBox
         style="@style/custom_checkbox"
+        android:button="@null"
         android:id="@id/rc_checkbox"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

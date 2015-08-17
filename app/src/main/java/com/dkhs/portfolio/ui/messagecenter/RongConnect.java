@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.RongIM.GetUserInfoProvider;
 import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.RongIMClient.ConnectionStatusListener;
@@ -84,7 +83,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
      */
     private void initDefaultListener() {
 
-        RongIM.setGetUserInfoProvider(new GetUserInfoProvider() {
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
 
             @Override
             public UserInfo getUserInfo(final String arg0) {
@@ -112,13 +111,13 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public void setOnReceiveMessageListener() {
         //开启免打扰模式
-        RongIM.getInstance().getRongClient().setConversationNotificationQuietHours("00:00:00", 1439, new RongIMClient.OperationCallback() {
+        RongIM.getInstance().getRongIMClient().setNotificationQuietHours("00:00:00", 1439, new RongIMClient.OperationCallback() {
 
             @Override
             public void onSuccess() {
                 Log.e(TAG, "----yb----设置会话通知周期-onSuccess");
                 isConnect = true;
-                RongIM.getInstance().getRongClient().setOnReceiveMessageListener(new OnReceiveMessageListener());
+                RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(new OnReceiveMessageListener());
             }
 
             @Override
@@ -191,6 +190,11 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
                 @Override
+                public void onTokenIncorrect() {
+
+                }
+
+                @Override
                 public void onError(ErrorCode errorCode) {
                     // 此处处理连接错误。
                     LogUtils.e("Connect: Login failed.");
@@ -232,7 +236,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public int getUnReadCount() {
         int unreadCount = 0;
-        RongIMClientWrapper clientWrapper = RongIM.getInstance().getRongClient();
+        RongIMClientWrapper clientWrapper = RongIM.getInstance().getRongIMClient();
 
         if (null != clientWrapper) {
             unreadCount = clientWrapper.getUnreadCount(ConversationType.PRIVATE);

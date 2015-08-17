@@ -27,7 +27,7 @@
     </LinearLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@id/rc_viewpager"
+        android:id="@id/rc_pager"
         android:layout_weight="1"
         android:layout_width="fill_parent"
         android:layout_height="0dp" />
@@ -54,7 +54,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@id/rc_currentpage"
+            android:id="@id/rc_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"

@@ -58,10 +58,6 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
 
     }
 
-    @Override
-    public Spannable getSummary(Message data) {
-        return super.getSummary(data);
-    }
 
     //    @Override
 //    public Spannable getSummary(Message data) {
