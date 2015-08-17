@@ -326,7 +326,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            View contentView = findViewById(android.R.id.content);
+            View contentView = findViewById(R.id.layoutContent);
             int contentHeight = contentView.getHeight();
             int hsTitleHeight = hsTitleBottom.getHeight();
             mMaxListHeight = contentHeight - hsTitleHeight;
@@ -455,7 +455,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     @Override
     public int getMaxListHeight() {
-        return mMaxListHeight - 70;
+        return mMaxListHeight - getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height);
     }
 
     @Override
@@ -594,7 +594,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 hideStickHeader();
             }
 
-//            Log.e(TAG, "onScrollChanged botttomTitleTop:" + offsetY);
             /*
              * if (mScrollview.getScrollY() >=
              * getResources().getDimensionPixelOffset
@@ -623,7 +622,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
             if (null != fragment && fragment instanceof IScrollExchangeListener) {
                 ((IScrollExchangeListener) fragment).scrollSelf();
-                ;
             }
         }
 //        stock_layout
