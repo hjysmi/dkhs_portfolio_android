@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ShareBean;
@@ -47,6 +49,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public static final int MENU_MORE_STATUS_DELETE = 6;
     private TopicDetailFragment mTopicDetailFragment;
     private Boolean mScrollToComment;
+    @ViewInject(R.id.ignoreTV)
+    private TextView ignoreTV;
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
@@ -88,6 +92,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
+
             mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
             setContentView(R.layout.activity_topics_detail);
 //            setTitle(R.string.title_activity_topics_detail);
@@ -95,6 +100,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mTopicDetailFragment = new TopicDetailFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, mTopicDetailFragment).commitAllowingStateLoss();
             initData();
+            ignoreTV.setText(mTopicsBean.text);
             mSwitchLikeStateHandler = new SwitchLikeStateHandler(mTopicsBean);
             mSwitchLikeStateHandler.setStatusChangeI(this);
 
@@ -173,10 +179,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         ShareBean shareBean = new ShareBean();
         if (mTopicsBean.text != null) {
 
-            if (mTopicsBean.text.length() > 30) {
-                shareBean.setContent(mTopicsBean.text.substring(0, 30) + "...");
+            if (ignoreTV.getText().toString().length() > 30) {
+                shareBean.setContent(ignoreTV.getText().toString().substring(0, 30) + "...");
             } else {
-                shareBean.setContent(mTopicsBean.text);
+                shareBean.setContent(ignoreTV.getText().toString());
             }
         }
         shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/" + mTopicsBean.getId());
@@ -241,6 +247,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @Override
     public void onFragmentInteraction(TopicsBean topicsBean) {
         mTopicsBean = topicsBean;
+        ignoreTV.setText(mTopicsBean.text);
 
 //        公告正文
 //                研报正文
@@ -294,7 +301,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         oks.setTitleUrl(shareBean.getUrl());
         oks.setUrl(shareBean.getUrl());
         oks.setTitle(shareBean.getTitle());
-        oks.setText(shareBean.getContent());
+        oks.setText(Html.fromHtml(shareBean.getContent()).toString());
         if (path != null) {
             oks.setImagePath(path);
         } else if (!TextUtils.isEmpty(shareBean.getImg())) {

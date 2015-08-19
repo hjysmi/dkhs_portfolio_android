@@ -45,6 +45,7 @@ import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.mingle.bean.PhotoBean;
 
 import org.parceler.transfuse.annotations.Resource;
@@ -90,7 +91,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         vh.getTextView(R.id.titleTV).setTextIsSelectable(true);
         vh.getTextView(R.id.content).setTextIsSelectable(true);
+        String s=  vh.getTextView(R.id.content).getText().toString();
 
+        LogUtils.e(s);
         PeopleBean user = data.user;
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());

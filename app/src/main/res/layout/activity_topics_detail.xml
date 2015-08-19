@@ -5,6 +5,11 @@
     android:background="@color/activity_bg_color"
     tools:context="com.dkhs.portfolio.ui.TopicsDetailActivity">
 
+    <com.dkhs.portfolio.ui.widget.DKHSTextView
+        android:layout_width="fill_parent"
+        android:id="@+id/ignoreTV"
+        android:layout_height="wrap_content"/>
+
 
     <FrameLayout
         android:id="@+id/contentFL"
