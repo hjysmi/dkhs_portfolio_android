@@ -111,7 +111,7 @@
 
     <dimen name="actionsheet_seperated_height">5dp</dimen>
     <dimen name="text_status_content">18sp</dimen>
-    <dimen name="text_status_username">16sp</dimen>
+    <dimen name="text_status_username">17sp</dimen>
     <dimen name="text_status_title">18sp</dimen>
     <dimen name="text_status_time">12sp</dimen>
     <dimen name="text_status_label">13sp</dimen>
