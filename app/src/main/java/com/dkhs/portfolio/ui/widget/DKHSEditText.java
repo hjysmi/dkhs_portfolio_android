@@ -146,7 +146,7 @@ public class DKHSEditText extends EmojiconEditText {
 //        Editable.Factory mEditableFactory = Editable.Factory.getInstance();
 //        Editable mEditable = mEditableFactory.newEditable(mText);
 //        setText(mEditable);
-        setSelection(start + stockname.length());
+        setSelection(getText().length());
     }
 
     CharSequence mText = "";

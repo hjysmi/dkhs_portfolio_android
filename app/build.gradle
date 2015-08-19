@@ -12,9 +12,9 @@ android {
     defaultConfig {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
-        targetSdkVersion 22
-        versionCode 200010814
-        versionName "2.0.1.08140３"
+        targetSdkVersion 19
+        versionCode 200000814
+        versionName "2.0.0.0814"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]

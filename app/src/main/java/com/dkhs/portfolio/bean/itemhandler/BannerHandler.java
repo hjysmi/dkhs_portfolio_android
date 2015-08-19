@@ -54,7 +54,7 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
         AdBean adBean = data.adBean;
         int duration = 1;
         SliderLayout slider = vh.get(R.id.slider);
-        if (adBean != null) {
+        if (adBean != null  && adBean.getAds() != null && adBean.getAds().size()>0) {
 
             if (adBean != slider.getTag()) {
                 vh.get(R.id.sliderSL).setVisibility(View.VISIBLE);

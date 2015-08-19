@@ -146,14 +146,14 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                Log.e(TAG, " onScroll firstVisibleItem:" + firstVisibleItem);
+//                Log.e(TAG, " onScroll firstVisibleItem:" + firstVisibleItem);
                 if (firstVisibleItem == 0) {
                     scrollParent();
                 }
             }
 
         });
-        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 10, list_sector,
+        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 12, list_sector,
                 symbol_stype, exchange);
         mLoadDataEngine.loadData();
 

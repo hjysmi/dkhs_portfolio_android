@@ -16,10 +16,10 @@ public class ViewHolder {
     private View view;
 
     public static  ViewHolder newInstant(View view){
-        ViewHolder viewHolder = (ViewHolder) view.getTag(R.id.tagViewHolder);
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
         if (viewHolder == null) {
             viewHolder = new ViewHolder(view);
-            view.setTag(R.id.tagViewHolder,viewHolder);
+            view.setTag(viewHolder);
         }
         return viewHolder;
     }
