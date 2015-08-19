@@ -162,12 +162,9 @@ public class SplashActivity extends FragmentActivity {
         if (!TextUtils.isEmpty(splashAdStr)) {
             adsEntity = DataParse.parseObjectJson(AdBean.AdsEntity.class, splashAdStr);
         }
-        if (adsEntity != null) {
-            mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
-            splashDelayMills = SHOW_AD + adsEntity.getDisplay_time() * 1000;
-        }
 
-        getSplashAds();
+
+
         user = UserEngineImpl.getUserEntity();
         if (user != null) {
             if (!TextUtils.isEmpty(user.getAccess_token())
@@ -198,6 +195,11 @@ public class SplashActivity extends FragmentActivity {
             } else {
                 mHandler.sendEmptyMessageDelayed(GO_GUIDE, splashDelayMills);
             }
+        }
+        getSplashAds();
+        if (adsEntity != null && !isFirstIn) {
+            mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
+            splashDelayMills = SHOW_AD + adsEntity.getDisplay_time() * 1000;
         }
 
     }

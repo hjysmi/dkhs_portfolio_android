@@ -18,6 +18,7 @@ import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -99,6 +100,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         super.onAttach(activity);
 
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

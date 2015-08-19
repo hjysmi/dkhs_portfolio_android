@@ -20,6 +20,9 @@ public class AdEngineImpl {
     public static  void getNewsBannerAds(  IHttpListener listener) {
         DKHSClient.request(HttpRequest.HttpMethod.GET,DKHSUrl.Ads.getNewsBannerAds, null, listener);
     }
+    public static  void getStatusesBanner(  IHttpListener listener) {
+        DKHSClient.request(HttpRequest.HttpMethod.GET,DKHSUrl.Ads.getStatusesBanner, null, listener);
+    }
     public static  void getRechargeBanner(  IHttpListener listener) {
         DKHSClient.request(HttpRequest.HttpMethod.GET,DKHSUrl.Ads.getRechargeBanner, null, listener);
     }

@@ -261,20 +261,23 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
     }
 
     public void setFundManagerRanking() {
-        floatMenuAdapter.setSelectIndex(data.get(0));
-        floatMenuAdapter2.setSelectIndex(data.get(0));
-        selectItem=data.get(0);
-        notifyDataSetChanged();
-        BusProvider.getInstance().post(selectItem);
-    }
-
-    public void setFundsRanking() {
         floatMenuAdapter.setSelectIndex(data2.get(0));
         floatMenuAdapter2.setSelectIndex(data2.get(0));
         selectItem=data2.get(0);
         notifyDataSetChanged();
         if(selectItem != null)
+            BusProvider.getInstance().post(selectItem);
+
+    }
+
+    public void setFundsRanking() {
+        floatMenuAdapter.setSelectIndex(data.get(0));
+        floatMenuAdapter2.setSelectIndex(data.get(0));
+        selectItem=data.get(0);
+        notifyDataSetChanged();
         BusProvider.getInstance().post(selectItem);
+
+
     }
 
 

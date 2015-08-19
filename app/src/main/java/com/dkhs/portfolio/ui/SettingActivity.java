@@ -187,12 +187,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.rl_aboutus).setVisibility(View.GONE);
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_bound).setVisibility(View.GONE);
-            findViewById(R.id.line4).setVisibility(View.GONE);
-            findViewById(R.id.line5).setVisibility(View.GONE);
-            findViewById(R.id.line6).setVisibility(View.GONE);
-            findViewById(R.id.line7).setVisibility(View.GONE);
-            findViewById(R.id.line8).setVisibility(View.GONE);
-            findViewById(R.id.line10).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_boundphone).setVisibility(View.GONE);
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
         } else {
@@ -200,8 +194,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
 
 //            findViewById(R.id.line4).setVisibility(View.GONE);
-            findViewById(R.id.line).setVisibility(View.GONE);
-            findViewById(R.id.line2).setVisibility(View.GONE);
 
 
             findViewById(R.id.setting_layout_sign).setVisibility(View.GONE);
