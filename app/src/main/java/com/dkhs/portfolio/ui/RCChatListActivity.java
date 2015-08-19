@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,9 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imkit.model.UIConversation;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -37,17 +40,47 @@ public class RCChatListActivity extends ModelAcitivity {
         LogUtils.e(intent.getData().toString());
         LogUtils.e(intent.toString());
 
-
         BusProvider.getInstance().register(this);
-        if(MessageManager.getInstance().isConnect()) {
+        if (MessageManager.getInstance().isConnect()) {
             displayRClListFragment();
         }
+
+        RongIM.setConversationListBehaviorListener(new RongIM.ConversationListBehaviorListener() {
+            @Override
+            public boolean onConversationLongClick(Context context, View view, UIConversation uiConversation) {
+                return false;
+            }
+
+            @Override
+            public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
+                LogUtils.e(uiConversation.getConversationSenderId() + "");
+                LogUtils.e(uiConversation.getMessageContent() + "");
+
+                RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(uiConversation.getConversationType(), uiConversation.getConversationTargetId());
+
+
+                if (uiConversation.getConversationSenderId().equals("640")
+                        || uiConversation.getConversationSenderId().equals("641")
+                        || uiConversation.getConversationSenderId().equals("642")) {
+
+
+                    Intent intent = new Intent(RCChatListActivity.this, SettingActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
     }
 
 
 
-    @Override
+
+
+
+                  @Override
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();

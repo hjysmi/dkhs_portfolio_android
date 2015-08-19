@@ -63,6 +63,7 @@ public class TextModifyUtil {
                 builder.setSpan(new ImageSpan(context, bitmap),
                         tempt - s.length(), tempt,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             }
         }
     }
