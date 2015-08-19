@@ -258,7 +258,7 @@ public class ModelAcitivity extends SwipeBackActivity {
      */
     public void hideHead() {
         View rlHead = findViewById(R.id.tool);
-        if (rlHead.getVisibility() == View.VISIBLE) {
+        if (rlHead.isShown()) {
             rlHead.setVisibility(View.GONE);
         }
     }
