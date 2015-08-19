@@ -8,6 +8,7 @@
     <com.dkhs.portfolio.ui.widget.DKHSTextView
         android:layout_width="fill_parent"
         android:id="@+id/ignoreTV"
+        android:visibility="gone"
         android:layout_height="wrap_content"/>
 
 
