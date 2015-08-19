@@ -438,7 +438,7 @@
     <string name="creat_combination_name">组合名称</string>
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
-    <string name="info_title_mytopic">我的主贴</string>
+    <string name="info_title_mytopic">我的主帖</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
@@ -699,7 +699,7 @@
     <string name="mine_reply">我的回复</string>
     <string name="others_reply">TA的回复</string>
     <string name="reply_content">回复评论</string>
-    <string name="show_original">查看主贴</string>
+    <string name="show_original">查看主帖</string>
     <string name="copy_content">复制</string>
     <string name="msg_copy_content_success">内容已复制</string>
     <string name="msg_del_contetn_success">回复删除成功</string>
