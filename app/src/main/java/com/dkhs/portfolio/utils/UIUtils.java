@@ -237,14 +237,11 @@ public class UIUtils {
             // 旋转图片
             m.postRotate(digree);
             Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
-//            if (null != bms) {
-//                bm = bms;
-//                bms = null;
-//            }
+            bm.recycle();
+
             return bms;
         }
-        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
-//        return null;
+        return bm;
     }
 
     @SuppressLint("ResourceAsColor")
@@ -498,17 +495,30 @@ public class UIUtils {
     public static Bitmap compress2mImage(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         int options = 90;
         image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-        while (baos.toByteArray().length * 8 / 1024 > 0.5 * 1024) { // 循环判断如果压缩后图片是否大于100kb,大于继续压缩
-            baos.reset();// 重置baos即清空baos
-            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+        int streamSize = baos.size(); //byte size
+        int maxSize = 500 * 128;  //bit size convert to byte size 1024/8
+        while (streamSize > maxSize) { // 循环判断如果压缩后图片是否大于500kb,大于继续压缩
+
             options -= 10;// 每次都减少10
             if (options < 30) {
                 break;
             }
+            baos.reset();// 重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+            streamSize = baos.size();
         }
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        image.recycle();
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            baos = null;
+        }
         return BitmapFactory.decodeStream(isBm, null, null);
     }
 
