@@ -19,7 +19,7 @@ public class DKHSUrl {
 
     // 测试
 //    public static final String BASE_TEST_URL = "http://192.168.107.90:8010";
-//    public static final String BASE_TEST_URL = "http://192.168.107.56:8010";
+//    public static final String BASE_TEST_URL = "http://192.168.107.76:8010";
     public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
 
     // 开发

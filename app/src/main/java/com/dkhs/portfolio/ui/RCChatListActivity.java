@@ -41,7 +41,7 @@ public class RCChatListActivity extends ModelAcitivity {
         LogUtils.e(intent.toString());
 
         BusProvider.getInstance().register(this);
-        if(MessageManager.getInstance().isConnect()) {
+        if (MessageManager.getInstance().isConnect()) {
             displayRClListFragment();
         }
 
@@ -53,9 +53,22 @@ public class RCChatListActivity extends ModelAcitivity {
 
             @Override
             public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
-                LogUtils.e(uiConversation.getConversationSenderId()+"");
-                LogUtils.e(uiConversation.getMessageContent()+"");
-                RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(uiConversation.getConversationType(),uiConversation.getConversationTargetId());
+                LogUtils.e(uiConversation.getConversationSenderId() + "");
+                LogUtils.e(uiConversation.getMessageContent() + "");
+
+                RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(uiConversation.getConversationType(), uiConversation.getConversationTargetId());
+
+
+                if (uiConversation.getConversationSenderId().equals("640")
+                        || uiConversation.getConversationSenderId().equals("641")
+                        || uiConversation.getConversationSenderId().equals("642")) {
+
+
+                    Intent intent = new Intent(RCChatListActivity.this, SettingActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
                 return false;
             }
         });
@@ -64,7 +77,10 @@ public class RCChatListActivity extends ModelAcitivity {
 
 
 
-    @Override
+
+
+
+                  @Override
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
