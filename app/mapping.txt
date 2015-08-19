@@ -23884,6 +23884,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int ib_img -> ib_img
     int icon -> icon
     int ifRoom -> ifRoom
+    int ignoreTV -> ignoreTV
     int im_avatar -> im_avatar
     int im_bg -> im_bg
     int im_content -> im_content
@@ -23965,7 +23966,6 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int like_ll -> like_ll
     int line -> line
     int line1 -> line1
-    int line10 -> line10
     int line2 -> line2
     int line3 -> line3
     int line4 -> line4
@@ -23973,7 +23973,6 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int line6 -> line6
     int line7 -> line7
     int line8 -> line8
-    int line9 -> line9
     int linearLayout -> linearLayout
     int lines -> lines
     int liness -> liness
@@ -33276,10 +33275,11 @@ com.dkhs.portfolio.ui.TestActivity -> com.dkhs.portfolio.ui.TestActivity:
 com.dkhs.portfolio.ui.TopicsDetailActivity -> com.dkhs.portfolio.ui.TopicsDetailActivity:
     com.dkhs.portfolio.ui.fragment.TopicDetailFragment mTopicDetailFragment -> c
     java.lang.Boolean mScrollToComment -> d
+    android.widget.TextView ignoreTV -> e
     com.dkhs.portfolio.ui.FloatingActionMenu mFloatingActionMenu -> b
-    com.dkhs.portfolio.bean.TopicsBean mTopicsBean -> e
-    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler mSwitchLikeStateHandler -> f
-    boolean isMyTopics -> g
+    com.dkhs.portfolio.bean.TopicsBean mTopicsBean -> f
+    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler mSwitchLikeStateHandler -> g
+    boolean isMyTopics -> l
     void startActivity(android.content.Context,com.dkhs.portfolio.bean.TopicsBean) -> a
     void startActivity(android.content.Context,int) -> a
     void startActivity(android.content.Context,java.lang.String) -> a
@@ -37999,6 +37999,7 @@ com.dkhs.portfolio.ui.widget.InterceptScrollView -> com.dkhs.portfolio.ui.widget
     boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
     int computeScrollDeltaToGetChildRectOnScreen(android.graphics.Rect) -> computeScrollDeltaToGetChildRectOnScreen
     void onScrollChanged(int,int,int,int) -> onScrollChanged
+    boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
     int computeVerticalScrollRange() -> computeVerticalScrollRange
     void setIsfocus(boolean) -> setIsfocus
     void setScrollable(boolean) -> setScrollable

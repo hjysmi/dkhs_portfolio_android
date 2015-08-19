@@ -47,6 +47,7 @@ import java.util.List;
  * @date 2015/7/27.
  */
 public class TopicDetailFragment extends LoadMoreListFragment {
+
     private TopicsBean mTopicsBean;
     private List<Object> mDataList = new ArrayList<>();
     private TopicsCommendEngineImpl mTopicsCommendEngine = null;
