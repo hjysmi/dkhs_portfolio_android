@@ -276,7 +276,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         if (null != mDraftBean) {
             etTitle.setText(mDraftBean.getTitle());
             etContent.setText(mDraftBean.getContent());
-            etContent.setSelection(mDraftBean.getContent().length());
+            etContent.setSelection(etContent.getText().length());
             if (!TextUtils.isEmpty(mDraftBean.getImageUri())) {
 //                jpg_path = mDraftBean.getImageUri();
                 ImageLoaderUtils.setImage(mDraftBean.getImageUri(), ivPhoto);
