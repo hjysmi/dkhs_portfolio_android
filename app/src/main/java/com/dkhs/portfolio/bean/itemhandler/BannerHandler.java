@@ -58,6 +58,7 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
 
             if (adBean != slider.getTag()) {
                 vh.get(R.id.sliderSL).setVisibility(View.VISIBLE);
+                slider.stopAutoCycle();
                 slider.removeAllSliders();
                 for (AdBean.AdsEntity item : adBean.getAds()) {
                     TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());

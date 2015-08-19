@@ -91,9 +91,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         vh.getTextView(R.id.titleTV).setTextIsSelectable(true);
         vh.getTextView(R.id.content).setTextIsSelectable(true);
-        String s=  vh.getTextView(R.id.content).getText().toString();
-
-        LogUtils.e(s);
         PeopleBean user = data.user;
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());
