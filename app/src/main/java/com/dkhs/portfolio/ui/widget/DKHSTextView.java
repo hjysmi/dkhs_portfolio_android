@@ -7,14 +7,17 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.rockerhieu.emojicon.EmojiconTextView;
 
 /**
@@ -29,17 +32,30 @@ public class DKHSTextView extends EmojiconTextView {
     private static String STOCK_HREF_PATTERN = "@{1}\\S+:";
     private static String STOCK_PATTERN = "\\$\\S+\\([A-Z]+\\)\\$";
 
+    private MessageHandler mMessageHandler;
+
 
     public DKHSTextView(Context context) {
         super(context);
+        init();
     }
+
+
 
     public DKHSTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init();
     }
 
     public DKHSTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
+    }
+
+    private void init() {
+
+        mMessageHandler=new MessageHandler(getContext());
+
     }
 
     @Override
@@ -90,7 +106,7 @@ public class DKHSTextView extends EmojiconTextView {
                 SpannableStringBuilder builder = new SpannableStringBuilder(text);
                 builder.clearSpans();
                 for (URLSpan url : urls) {
-                    MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext());
+                    MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext(),mMessageHandler);
                     mySpan.url = url.getURL();
                     builder.setSpan(mySpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
@@ -103,5 +119,13 @@ public class DKHSTextView extends EmojiconTextView {
             super.setText(text, type);
         }
     }
+
+
+    public void addFilter(){
+
+
+    }
+
+
 
 }
