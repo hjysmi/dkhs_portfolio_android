@@ -39,6 +39,7 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.rockerhieu.emojicon.emoji.Emojicon;
 
 import org.parceler.Parcels;
@@ -279,7 +280,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             etContent.setSelection(etContent.getText().length());
             if (!TextUtils.isEmpty(mDraftBean.getImageUri())) {
 //                jpg_path = mDraftBean.getImageUri();
-                ImageLoaderUtils.setImage(mDraftBean.getImageUri(), ivPhoto);
+                ImageLoaderUtils.setRoundImageByPx(mDraftBean.getImageUri(), ivPhoto, getResources().getDimensionPixelOffset(R.dimen.radius));
                 ivPhoto.setVisibility(View.VISIBLE);
             }
         }
@@ -524,7 +525,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 jpg_path = MY_CAMERA + getTimestampFileName();
                 Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
                 imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
-                ivPhoto.setImageBitmap(imageBitmap);
+                setRoundImage(imageBitmap);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -554,8 +555,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
             ivPhoto.setVisibility(View.VISIBLE);
             isSendButtonEnable();
-            ivPhoto.setImageBitmap(imageBitmap);
-
+            setRoundImage(imageBitmap);
         }
 
         if (requestCode == 0x7 && resultCode == RESULT_OK) {
@@ -567,6 +567,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    private void setRoundImage(Bitmap bitmap) {
+        ivPhoto.setImageDrawable(new RoundedBitmapDisplayer.RoundedDrawable(bitmap, getResources().getDimensionPixelOffset(R.dimen.radius), 0));
+
+    }
 
     private String getTimestampFileName() {
 //        return "/upload.jpg";
