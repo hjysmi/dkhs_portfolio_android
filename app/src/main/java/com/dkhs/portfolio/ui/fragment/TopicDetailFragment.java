@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,26 +11,20 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
-import com.dkhs.portfolio.engine.HotTopicEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.FloatingActionMenu;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
 import com.dkhs.portfolio.ui.eventbus.AddCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
@@ -101,9 +94,10 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         mSwipeLayout.setRefreshing(false);
 
         mListView.setDivider(null);
-        View v = new View(mActivity);
-        v.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
-        mListView.addFooterView(v);
+//        View v = new View(mActivity);
+//        v.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
+//        mListView.addFooterView(v);
+
         ((TopicsDetailActivity) getActivity()).mFloatingActionMenu.attachToListViewTop(mListView, null, null);
         loadData();
 
@@ -132,11 +126,11 @@ public class TopicDetailFragment extends LoadMoreListFragment {
             if (o instanceof CommentBean) {
                 if ((((CommentBean) o).getId() + "").equals(deleteCommentEvent.commentId)) {
                     mDataList.remove(o);
-                    mTopicsBean.comments_count-=1;
-                    if(mDataList.size()==1){
+                    mTopicsBean.comments_count -= 1;
+                    if (mDataList.size() == 1) {
                         NoDataBean noDataBean = new NoDataBean();
                         noDataBean.noData = "暂无评论";
-                        mDataList.add(1,noDataBean);
+                        mDataList.add(1, noDataBean);
                     }
                     mAdapter.notifyDataSetChanged();
                     break;
@@ -151,10 +145,10 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         if (mDataList.size() > 1) {
 
 
-            if(mDataList.get(1) instanceof  NoDataBean){
+            if (mDataList.get(1) instanceof NoDataBean) {
                 mDataList.remove(1);
             }
-            mTopicsBean.comments_count+=1;
+            mTopicsBean.comments_count += 1;
             mDataList.add(1, addCommentEvent.commentBean);
             mAdapter.notifyDataSetChanged();
         }
@@ -221,7 +215,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
         mSwipeLayout.setRefreshing(true);
         BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
-//        BaseInfoEngine.getTopicsDetail(  "1756323", new SimpleParseHttpListener() {
+            //        BaseInfoEngine.getTopicsDetail(  "1756323", new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
                 return TopicsBean.class;
@@ -264,10 +258,10 @@ public class TopicDetailFragment extends LoadMoreListFragment {
             mListView.onLoadMoreComplete();
             if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
                 mListView.setCanLoadMore(false);
-                mListView.setAutoLoadMore(false);
+//                mListView.setAutoLoadMore(false);
             } else {
                 mListView.setCanLoadMore(true);
-                mListView.setAutoLoadMore(true);
+//                mListView.setAutoLoadMore(true);
                 if (getLoadEngine().getCurrentpage() == 1)
                     mListView.setOnLoadListener(this);
             }
