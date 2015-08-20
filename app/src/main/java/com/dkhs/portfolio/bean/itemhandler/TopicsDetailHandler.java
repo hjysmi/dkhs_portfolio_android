@@ -49,6 +49,7 @@ import com.lidroid.xutils.util.LogUtils;
 import com.mingle.bean.PhotoBean;
 
 import org.parceler.transfuse.annotations.Resource;
+import org.parceler.transfuse.annotations.SystemService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,8 +90,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             vh.setTextView(R.id.titleTV, data.title);
         }
 
-        vh.getTextView(R.id.titleTV).setTextIsSelectable(true);
-        vh.getTextView(R.id.content).setTextIsSelectable(true);
         PeopleBean user = data.user;
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());
@@ -167,7 +166,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {
 
-        if(symbols != null){
+        if(symbols != null && symbols.size()>0){
             Spanny  spany=new Spanny();
             spany.append("相关股票: ",new ForegroundColorSpan(mContext.getResources().getColor(R.color.tag_gray)));
 

@@ -123,7 +123,7 @@ public class MessageHandler {
         Uri uri = Uri.parse(url);
         boolean hasHandle = true;
         List<String> segments = uri.getPathSegments();
-        if(uri.getHost().equals("")) {
+//        if(uri.getHost().equals("")) {
 
 
             if (segments.size() > 0) {
@@ -183,7 +183,7 @@ public class MessageHandler {
             } else if (!TextUtils.isEmpty(url)) {
                 mContext.startActivity(AdActivity.getIntent(mContext, url));
             }
-        }
+//        }
 
         return hasHandle;
     }
