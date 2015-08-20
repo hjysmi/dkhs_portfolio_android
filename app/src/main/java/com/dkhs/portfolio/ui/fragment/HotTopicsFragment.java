@@ -14,6 +14,7 @@ import android.widget.ListAdapter;
 
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.adapter.HotTopicsAdapter;
@@ -27,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HotTopicsFragment extends LoadMoreListFragment {
+public class HotTopicsFragment extends LoadMoreListFragment implements BannerHandler.RefreshEnable {
 
     private List<TopicsBean> mDataList = new ArrayList<>();
     private HotTopicEngineImpl mTopicsEngine = null;
@@ -37,11 +38,12 @@ public class HotTopicsFragment extends LoadMoreListFragment {
     }
 
 
+
     @Override
     ListAdapter getListAdapter() {
 
         if (mAdapter == null) {
-            mAdapter = new HotTopicsAdapter(mActivity, mDataList);
+            mAdapter = new HotTopicsAdapter(mActivity, mDataList,HotTopicsFragment.this);
         }
         return mAdapter;
     }
@@ -53,6 +55,7 @@ public class HotTopicsFragment extends LoadMoreListFragment {
         BusProvider.getInstance().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
 
     @Override
     public void onDestroyView() {
@@ -120,6 +123,8 @@ public class HotTopicsFragment extends LoadMoreListFragment {
 
     }
 
+
+
     @Override
     public void loadFail() {
         mSwipeLayout.setRefreshing(false);
@@ -129,6 +134,7 @@ public class HotTopicsFragment extends LoadMoreListFragment {
     public void loadData() {
         mSwipeLayout.setRefreshing(true);
         setHttpHandler(getLoadEngine().loadData());
+
         super.loadData();
     }
 
@@ -148,5 +154,15 @@ public class HotTopicsFragment extends LoadMoreListFragment {
     @Override
     public String getEmptyText() {
         return "暂无话题";
+    }
+
+    @Override
+    public void enable() {
+        mSwipeLayout.setEnabled(true);
+    }
+
+    @Override
+    public void disEnable() {
+        mSwipeLayout.setEnabled(false);
     }
 }

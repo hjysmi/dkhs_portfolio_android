@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/activity_bg_color">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/activity_bg_color">
 
     <RelativeLayout
         android:id="@+id/main_rl"
@@ -12,12 +12,12 @@
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/main_ll"
-            style="@style/white_grayborder_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+                      android:id="@+id/main_ll"
+                      style="@style/white_grayborder_layout"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:paddingBottom="16dp">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -140,6 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+
             android:spinnerMode="dropdown" />
     </LinearLayout>
 
