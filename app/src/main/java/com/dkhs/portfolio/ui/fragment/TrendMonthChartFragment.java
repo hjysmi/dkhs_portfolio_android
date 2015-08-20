@@ -261,7 +261,8 @@ public class TrendMonthChartFragment extends VisiableLoadFragment {
 
         @Override
         protected void afterParseData(DrawLineDataEntity todayNetvalue) {
-            pb.setVisibility(View.GONE);
+            if (null != pb)
+                pb.setVisibility(View.GONE);
             if (todayNetvalue != null) {
                 monthNetvalue = todayNetvalue;
                 setMonthViewLoad();
@@ -271,10 +272,10 @@ public class TrendMonthChartFragment extends VisiableLoadFragment {
         @Override
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-            pb.setVisibility(View.GONE);
+            if (null != pb)
+                pb.setVisibility(View.GONE);
         }
 
-        ;
 
     };
 
