@@ -30,6 +30,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
 import com.squareup.otto.Subscribe;
@@ -95,6 +96,17 @@ public class CombinationDetailActivity extends ModelAcitivity {
 
         updataTitle();
         initView();
+    }
+
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        // TRIM_MEMORY_BACKGROUND TRIM_MEMORY_UI_HIDDEN
+        LogUtils.d(this.getClass().getSimpleName(), "onTrimMemory level:" + level);
+        if (level == TRIM_MEMORY_COMPLETE) {
+            LogUtils.d(this.getClass().getSimpleName(), "TRIM_MEMORY_COMPLETE App will be kill");
+        }
     }
 
     /**
