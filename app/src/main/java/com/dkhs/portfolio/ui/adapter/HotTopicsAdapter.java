@@ -22,15 +22,26 @@ import java.util.List;
  */
 public class HotTopicsAdapter extends com.dkhs.adpter.adapter.AutoAdapter {
 
+    private BannerHandler.RefreshEnable mRefreshEnable;
 
-    public HotTopicsAdapter(Context context, List<?> data) {
+
+
+    public HotTopicsAdapter(Context context, List<?> data, BannerHandler.RefreshEnable refreshEnable) {
         super(context, data);
+        mRefreshEnable = refreshEnable;
+        initHandlers2();
+
+    }
+
+
+    protected void initHandlers2() {
+        addHandler(0, new BannerHandler(mContext,mRefreshEnable));
+        addHandler(1, new TopicsHandler(mContext));
     }
 
     @Override
     protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-        addHandler(0, new BannerHandler(mContext));
-        addHandler(1, new TopicsHandler(mContext));
+
     }
 
     @Override

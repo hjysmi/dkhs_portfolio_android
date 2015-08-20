@@ -15797,24 +15797,26 @@ com.daimajia.slider.library.SliderAdapter -> com.daimajia.slider.library.a:
     void onStart(com.daimajia.slider.library.SliderTypes.BaseSliderView) -> c
     void onEnd(boolean,com.daimajia.slider.library.SliderTypes.BaseSliderView) -> a
 com.daimajia.slider.library.SliderLayout -> com.daimajia.slider.library.SliderLayout:
-    android.content.Context mContext -> a
-    com.daimajia.slider.library.Tricks.InfiniteViewPager mViewPager -> b
-    com.daimajia.slider.library.SliderAdapter mSliderAdapter -> c
-    com.daimajia.slider.library.Indicators.PagerIndicator mIndicator -> d
-    java.util.Timer mCycleTimer -> e
-    java.util.TimerTask mCycleTask -> f
-    java.util.Timer mResumingTimer -> g
-    java.util.TimerTask mResumingTask -> h
-    boolean mCycling -> i
-    boolean mAutoRecover -> j
-    int mTransformerId -> k
-    int mTransformerSpan -> l
-    boolean mAutoCycle -> m
-    long mSliderDuration -> n
-    com.daimajia.slider.library.Indicators.PagerIndicator$IndicatorVisibility mIndicatorVisibility -> o
-    com.daimajia.slider.library.Transformers.BaseTransformer mViewPagerTransformer -> p
-    com.daimajia.slider.library.Animations.BaseAnimationInterface mCustomAnimation -> q
-    android.os.Handler mh -> r
+    android.content.Context mContext -> b
+    com.daimajia.slider.library.Tricks.InfiniteViewPager mViewPager -> c
+    com.daimajia.slider.library.SliderAdapter mSliderAdapter -> d
+    com.daimajia.slider.library.Indicators.PagerIndicator mIndicator -> e
+    java.util.Timer mCycleTimer -> f
+    java.util.TimerTask mCycleTask -> g
+    java.util.Timer mResumingTimer -> h
+    java.util.TimerTask mResumingTask -> i
+    boolean mCycling -> j
+    boolean mAutoRecover -> k
+    int mTransformerId -> l
+    int mTransformerSpan -> m
+    boolean mAutoCycle -> n
+    long mSliderDuration -> o
+    com.daimajia.slider.library.Indicators.PagerIndicator$IndicatorVisibility mIndicatorVisibility -> p
+    com.daimajia.slider.library.Transformers.BaseTransformer mViewPagerTransformer -> q
+    com.daimajia.slider.library.Animations.BaseAnimationInterface mCustomAnimation -> r
+    android.view.View$OnTouchListener mOnTouchListener -> a
+    android.os.Handler mh -> s
+    void setOnTouchListener(android.view.View$OnTouchListener) -> setOnTouchListener
     void setCustomIndicator(com.daimajia.slider.library.Indicators.PagerIndicator) -> setCustomIndicator
     void addSlider(com.daimajia.slider.library.SliderTypes.BaseSliderView) -> a
     void startAutoCycle() -> a
@@ -16026,6 +16028,8 @@ com.daimajia.slider.library.Tricks.InfinitePagerAdapter -> com.daimajia.slider.l
     void debug(java.lang.String) -> a
 com.daimajia.slider.library.Tricks.InfiniteViewPager -> com.daimajia.slider.library.Tricks.InfiniteViewPager:
     void setAdapter(android.support.v4.view.PagerAdapter) -> setAdapter
+    boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
+    boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
 com.daimajia.slider.library.Tricks.ViewPagerEx -> com.daimajia.slider.library.Tricks.ViewPagerEx:
     int[] LAYOUT_ATTRS -> a
     int mExpectedAdapterCount -> b
@@ -26123,11 +26127,23 @@ com.dkhs.portfolio.bean.errorbundle.RaiseUpDown -> com.dkhs.portfolio.bean.error
     void setRaise_down(java.util.List) -> setRaise_down
 com.dkhs.portfolio.bean.itemhandler.BannerHandler -> com.dkhs.portfolio.bean.itemhandler.BannerHandler:
     android.content.Context mContext -> mContext
+    com.dkhs.portfolio.bean.itemhandler.BannerHandler$RefreshEnable mRefreshEnable -> mRefreshEnable
     com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp mOnSliderClickListenerImp -> mOnSliderClickListenerImp
     int getLayoutResId() -> getLayoutResId
     void onBindView(com.dkhs.adpter.util.ViewHolder,com.dkhs.portfolio.bean.BannerTopicsBean,int) -> onBindView
     void onClick(android.view.View) -> onClick
     void onBindView(com.dkhs.adpter.util.ViewHolder,java.lang.Object,int) -> onBindView
+    com.dkhs.portfolio.bean.itemhandler.BannerHandler$RefreshEnable access$000(com.dkhs.portfolio.bean.itemhandler.BannerHandler) -> access$000
+com.dkhs.portfolio.bean.itemhandler.BannerHandler$1 -> com.dkhs.portfolio.bean.itemhandler.BannerHandler$1:
+    com.daimajia.slider.library.SliderLayout val$slider -> val$slider
+    com.dkhs.portfolio.bean.itemhandler.BannerHandler this$0 -> this$0
+    void run() -> run
+com.dkhs.portfolio.bean.itemhandler.BannerHandler$2 -> com.dkhs.portfolio.bean.itemhandler.BannerHandler$2:
+    com.dkhs.portfolio.bean.itemhandler.BannerHandler this$0 -> this$0
+    boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
+com.dkhs.portfolio.bean.itemhandler.BannerHandler$RefreshEnable -> com.dkhs.portfolio.bean.itemhandler.BannerHandler$RefreshEnable:
+    void enable() -> enable
+    void disEnable() -> disEnable
 com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler -> com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler:
     android.content.Context mContext -> mContext
     int getLayoutResId() -> getLayoutResId
@@ -30401,6 +30417,8 @@ com.dkhs.portfolio.ui.adapter.HotPlateAdapter$ViewHodler -> com.dkhs.portfolio.u
     android.widget.TextView tvTextName -> c
     android.widget.TextView tvTextPercent -> d
 com.dkhs.portfolio.ui.adapter.HotTopicsAdapter -> com.dkhs.portfolio.ui.adapter.aj:
+    com.dkhs.portfolio.bean.itemhandler.BannerHandler$RefreshEnable mRefreshEnable -> c
+    void initHandlers2() -> a
     void initHandlers(java.util.HashMap) -> a
     int getViewType(int) -> a
 com.dkhs.portfolio.ui.adapter.InfoOptionAdapter -> com.dkhs.portfolio.ui.adapter.ak:
@@ -32174,6 +32192,8 @@ com.dkhs.portfolio.ui.fragment.HotTopicsFragment -> com.dkhs.portfolio.ui.fragme
     void loadData() -> d
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     java.lang.String getEmptyText() -> k
+    void enable() -> enable
+    void disEnable() -> disEnable
 com.dkhs.portfolio.ui.fragment.HotTopicsFragment$1 -> com.dkhs.portfolio.ui.fragment.bt:
     com.dkhs.portfolio.ui.fragment.HotTopicsFragment this$0 -> a
     void onRefresh() -> a
@@ -34328,8 +34348,6 @@ com.dkhs.portfolio.ui.widget.DKHSTextView -> com.dkhs.portfolio.ui.widget.DKHSTe
     java.lang.String AT_HREF_PATTERN -> d
     java.lang.String STOCK_HREF_PATTERN -> e
     java.lang.String STOCK_PATTERN -> f
-    com.dkhs.portfolio.ui.messagecenter.MessageHandler mMessageHandler -> g
-    void init() -> a
     boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
     android.text.style.ClickableSpan[] getClickSpans(android.view.MotionEvent,android.text.Spanned) -> a
     void setText(java.lang.CharSequence,android.widget.TextView$BufferType) -> setText
@@ -35068,7 +35086,6 @@ com.dkhs.portfolio.ui.widget.MyClickableSpan -> com.dkhs.portfolio.ui.widget.ay:
     int color -> a
     android.content.Context context -> c
     java.lang.String url -> b
-    com.dkhs.portfolio.ui.messagecenter.MessageHandler mMessageHandler -> d
     void onClick(android.view.View) -> onClick
     void updateDrawState(android.text.TextPaint) -> updateDrawState
 com.dkhs.portfolio.ui.widget.MyScrollExpandableListView -> com.dkhs.portfolio.ui.widget.MyScrollExpandableListView:
@@ -35366,8 +35383,11 @@ com.dkhs.portfolio.ui.widget.RatioLayout -> com.dkhs.portfolio.ui.widget.RatioLa
     void onMeasure(int,int) -> onMeasure
 com.dkhs.portfolio.ui.widget.ScaleLayout -> com.dkhs.portfolio.ui.widget.ScaleLayout:
     float mScale -> a
+    boolean mInterceptTouch -> b
     void init(android.util.AttributeSet) -> a
     void onMeasure(int,int) -> onMeasure
+    void setInterceptTouch(boolean) -> setInterceptTouch
+    boolean dispatchTouchEvent(android.view.MotionEvent) -> dispatchTouchEvent
 com.dkhs.portfolio.ui.widget.ScrollViewPager -> com.dkhs.portfolio.ui.widget.ScrollViewPager:
     boolean isCanScroll -> a
     void setCanScroll(boolean) -> setCanScroll
