@@ -32,7 +32,6 @@ import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -182,12 +181,10 @@ public class MainActivity extends BaseActivity {
 
 
     protected void displayFragmentB() {
-        TimeUtils.getUTCdatetimeAsString();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
             fragmentB = new MainMarketFragment();
-//            fragmentB = new ShakesFragment();
         }
         hideAllFragment();
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
