@@ -98,7 +98,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
             }
         });
 
-        vp.setCurrentItem(0);
+        vp.setCurrentItem(1);
         mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         vp.setOffscreenPageLimit(3);
@@ -111,10 +111,10 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         BusProvider.getInstance().register(this);
 
 
-        if(getActivity() instanceof MainActivity){
-            Bundle bundle=((MainActivity)getActivity()).mBundle;
-            if(bundle !=null)
-            handIntent(bundle);
+        if (mActivity instanceof MainActivity) {
+            Bundle bundle = ((MainActivity) mActivity).mBundle;
+            if (bundle != null)
+                handIntent(bundle);
         }
 
 
@@ -125,8 +125,9 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         BusProvider.getInstance().unregister(this);
         super.onDestroyView();
     }
+
     @Subscribe
-    public void newIntent(NewIntent newIntent){
+    public void newIntent(NewIntent newIntent) {
         handIntent(newIntent.bundle);
     }
 
@@ -134,7 +135,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     private void handIntent(Bundle bundle) {
 
         if (bundle.containsKey("fund_index")) {
-            int index =bundle.getInt("fund_index", 0);
+            int index = bundle.getInt("fund_index", 0);
             vp.setCurrentItem(index);
         }
     }
@@ -143,7 +144,6 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     public void requestData() {
 
     }
-
 
 
     @Override
@@ -172,7 +172,6 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     }
 
 
-
     private static final String TAG = MainMarketFragment.class.getSimpleName();
 
     @Subscribe
@@ -180,7 +179,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         if (isAdded() && !isHidden()) {
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
                     null, null, null);
-            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
+            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.rotate_around_center_point);
             mBtnrefresh.startAnimation(animation);
         }
     }
