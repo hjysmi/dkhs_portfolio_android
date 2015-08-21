@@ -16,9 +16,6 @@ import com.squareup.otto.Subscribe;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imkit.model.UIConversation;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
 
 /**
  * @author zwm
@@ -45,33 +42,32 @@ public class RCChatListActivity extends ModelAcitivity {
             displayRClListFragment();
         }
 
-        RongIM.setConversationListBehaviorListener(new RongIM.ConversationListBehaviorListener() {
-            @Override
-            public boolean onConversationLongClick(Context context, View view, UIConversation uiConversation) {
-                return false;
-            }
-
-            @Override
-            public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
-                LogUtils.e(uiConversation.getConversationSenderId() + "");
-                LogUtils.e(uiConversation.getMessageContent() + "");
-
-                RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(uiConversation.getConversationType(), uiConversation.getConversationTargetId());
-
-
-                if (uiConversation.getConversationSenderId().equals("640")
-                        || uiConversation.getConversationSenderId().equals("641")
-                        || uiConversation.getConversationSenderId().equals("642")) {
-
-
-                    Intent intent = new Intent(RCChatListActivity.this, SettingActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-
-                return false;
-            }
-        });
+//        RongIM.setConversationListBehaviorListener(new RongIM.ConversationListBehaviorListener() {
+//            @Override
+//            public boolean onConversationLongClick(Context context, View view, UIConversation uiConversation) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
+////                LogUtils.e(uiConversation.getConversationSenderId() + "");
+////                LogUtils.e(uiConversation.getMessageContent() + "");
+////
+////                RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(uiConversation.getConversationType(), uiConversation.getConversationTargetId());
+////
+////                if (uiConversation.getConversationSenderId().equals("640")
+////                        || uiConversation.getConversationSenderId().equals("641")
+////                        || uiConversation.getConversationSenderId().equals("642")) {
+////
+////
+////                    Intent intent = new Intent(RCChatListActivity.this, SettingActivity.class);
+////                    startActivity(intent);
+////                    return true;
+////                }
+//
+//                return false;
+//            }
+//        });
 
     }
 

@@ -27528,6 +27528,7 @@ com.dkhs.portfolio.ui.CombinationDetailActivity -> com.dkhs.portfolio.ui.Combina
     com.dkhs.portfolio.ui.FloatingActionMenu$OnMenuItemSelectedListener mFloatMenuSelectListner -> c
     android.content.Intent newIntent(android.content.Context,com.dkhs.portfolio.bean.CombinationBean) -> a
     void onCreate(android.os.Bundle) -> onCreate
+    void onTrimMemory(int) -> onTrimMemory
     void onResume() -> onResume
     void onPause() -> onPause
     void updataTitle() -> f
@@ -28338,6 +28339,7 @@ com.dkhs.portfolio.ui.MainActivity -> com.dkhs.portfolio.ui.MainActivity:
     android.os.Bundle mBundle -> b
     long mExitTime -> e
     void onCreate(android.os.Bundle) -> onCreate
+    void onTrimMemory(int) -> onTrimMemory
     void onResume() -> onResume
     void onPause() -> onPause
     void onNewIntent(android.content.Intent) -> onNewIntent
@@ -28859,6 +28861,7 @@ com.dkhs.portfolio.ui.PostTopicActivity -> com.dkhs.portfolio.ui.PostTopicActivi
     void showPicDialog() -> t
     void isSendButtonEnable() -> u
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    void setRoundImage(android.graphics.Bitmap) -> a
     java.lang.String getTimestampFileName() -> v
     void selectStockBack(com.dkhs.portfolio.bean.SelectStockBean) -> a
     void onEmojiconBackSpaceClicked(com.rockerhieu.emojicon.emoji.Emojicon) -> a
@@ -36808,6 +36811,7 @@ com.dkhs.portfolio.utils.ImageLoaderUtils -> com.dkhs.portfolio.e.o:
     void initImageLoader(android.content.Context) -> a
     void setRoundedImage(java.lang.String,android.widget.ImageView) -> a
     void setImage(java.lang.String,android.widget.ImageView) -> b
+    void setRoundImageByPx(java.lang.String,android.widget.ImageView,int) -> a
     void setImagDefault(java.lang.String,android.widget.ImageView) -> c
     void setImage(java.lang.String,android.widget.ImageView,com.nostra13.universalimageloader.core.listener.ImageLoadingListener) -> a
     void loadImage(java.lang.String) -> a
