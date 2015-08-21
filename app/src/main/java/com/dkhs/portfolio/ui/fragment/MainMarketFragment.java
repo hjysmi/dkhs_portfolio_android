@@ -111,8 +111,8 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         BusProvider.getInstance().register(this);
 
 
-        if (getActivity() instanceof MainActivity) {
-            Bundle bundle = ((MainActivity) getActivity()).mBundle;
+        if (mActivity instanceof MainActivity) {
+            Bundle bundle = ((MainActivity) mActivity).mBundle;
             if (bundle != null)
                 handIntent(bundle);
         }
