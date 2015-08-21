@@ -179,7 +179,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         if (isAdded() && !isHidden()) {
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
                     null, null, null);
-            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
+            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.rotate_around_center_point);
             mBtnrefresh.startAnimation(animation);
         }
     }
