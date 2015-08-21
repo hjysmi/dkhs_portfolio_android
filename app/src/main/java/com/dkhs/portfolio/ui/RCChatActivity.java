@@ -41,7 +41,7 @@ public class RCChatActivity extends ModelAcitivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String data = intent.getDataString();
         final Uri uri = Uri.parse(data);
         final String targetId = uri.getQueryParameter("targetId");
@@ -60,14 +60,15 @@ public class RCChatActivity extends ModelAcitivity {
             fragment = new ConversationFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, fragment).commit();
 //            getSupportFragmentManager().beginTransaction().hide(fragment).commitAllowingStateLoss();
-            getRightButton().setBackgroundResource(R.drawable.rc_bar_more);
-            getRightButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-//                    RongIM.getInstance().startConversationSetting(RCChatActivity.this, conversationType, targetId);
-                }
-            });
+//            getRightButton().setBackgroundResource(R.drawable.rc_bar_more);
+//            getRightButton().setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent1=new Intent(mContext,RCChatSettingActivity.class);
+//                    mContext.startActivity(intent1);
+////                    RongIM.getInstance().startConversationSetting(RCChatActivity.this, conversationType, targetId);
+//                }
+//            });
 
             //解决列表闪一下
             getTitleView().postDelayed(new Runnable() {
