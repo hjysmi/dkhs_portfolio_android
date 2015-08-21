@@ -1,1 +1,1 @@
-include ':app', ':kit', ':library', ':baselibrary', ':lib', ':ztext', ':dexposed'
+include ':app', ':kit', ':library', ':baselibrary', ':photoBrower', ':emoji', ':security'

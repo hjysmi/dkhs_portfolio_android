@@ -44,7 +44,6 @@ import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView.OnRefreshListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -483,7 +482,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     @Override
     public void onStart() {
         super.onStart();
-        LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
+        LogUtils.d(TAG,"===========onStart(=============");
     }
 
     public void initView(View view) {
@@ -555,7 +554,6 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
     }
 
-    public static final String ARGUMENT = "ARGUMENT";
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_select);
 

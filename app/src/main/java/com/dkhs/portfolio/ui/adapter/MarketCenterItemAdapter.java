@@ -59,7 +59,7 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
 
         if (convertView == null) {
             viewHolder = new ViewHodler();
-            convertView = View.inflate(mContext, R.layout.market_layout_market, null);
+            convertView = View.inflate(mContext, R.layout.item_market_stock_list, null);
             viewHolder.tvTextName = (TextView) convertView.findViewById(R.id.market_text_name);
             viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.market_text_name_num);
             viewHolder.tvTextItemIndex = (TextView) convertView.findViewById(R.id.market_list_item_index);

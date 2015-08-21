@@ -55,6 +55,7 @@ public class SplashActivity extends FragmentActivity {
     private ImageView adIm;
     private ImageView splashIM;
 
+
     /**
      * Handler:跳转到不同界面
      */
@@ -82,6 +83,8 @@ public class SplashActivity extends FragmentActivity {
         }
     });
 
+
+
     private void showAD() {
         if (adsEntity != null) {
             AlphaAnimation alphaAnimation=new AlphaAnimation(0.2f,1);
@@ -92,6 +95,9 @@ public class SplashActivity extends FragmentActivity {
             adIm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(TextUtils.isEmpty(adsEntity.getRedirect_url())){
+                        return;
+                    }
                     mHandler.removeMessages(GO_GUIDE);
                     mHandler.removeMessages(GO_NOACCOUNT_MAIN);
                     mHandler.removeMessages(GO_ACCOUNT_MAIN);
@@ -156,12 +162,9 @@ public class SplashActivity extends FragmentActivity {
         if (!TextUtils.isEmpty(splashAdStr)) {
             adsEntity = DataParse.parseObjectJson(AdBean.AdsEntity.class, splashAdStr);
         }
-        if (adsEntity != null) {
-            mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
-            splashDelayMills = SHOW_AD + adsEntity.getDisplay_time() * 1000;
-        }
 
-        getSplashAds();
+
+
         user = UserEngineImpl.getUserEntity();
         if (user != null) {
             if (!TextUtils.isEmpty(user.getAccess_token())
@@ -192,6 +195,11 @@ public class SplashActivity extends FragmentActivity {
             } else {
                 mHandler.sendEmptyMessageDelayed(GO_GUIDE, splashDelayMills);
             }
+        }
+        getSplashAds();
+        if (adsEntity != null && !isFirstIn) {
+            mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
+            splashDelayMills = SHOW_AD + adsEntity.getDisplay_time() * 1000;
         }
 
     }

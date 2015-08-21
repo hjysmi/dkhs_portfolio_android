@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:background="@color/activity_bg_color"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/gray_title_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/moreBtn"
+            android:padding="12dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/tag_gray"
+            android:text="查看更多"/>
+        <View
+            android:layout_marginTop="2dp"
+            style="@style/divider_line"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

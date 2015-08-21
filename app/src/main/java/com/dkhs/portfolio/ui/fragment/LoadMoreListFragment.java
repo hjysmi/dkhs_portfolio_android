@@ -125,6 +125,17 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
 
     }
 
+    public void postDelayedeData(){
+        mListView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                loadData();
+
+            }
+        },500);
+    }
+
     /**
      * @param object
      * @return
@@ -144,9 +155,18 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
                 if (getLoadEngine().getCurrentpage() == 1)
                     mListView.setOnLoadListener(LoadMoreListFragment.this);
             }
+
+            if (object.getCurrentPage()==1&& object.getResults().size()==0){
+                setEmptyText(getEmptyText());
+            }
             // loadFinishUpdateView();
+
         }
 
+    }
+
+    public String getEmptyText(){
+        return "暂无数据";
     }
 
     public void setListItemClick(OnItemClickListener listener) {

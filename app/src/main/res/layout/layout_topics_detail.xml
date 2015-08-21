@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/activity_bg_color">
+
+    <RelativeLayout
+        android:id="@+id/main_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:id="@+id/main_ll"
+                      style="@style/white_grayborder_layout"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:paddingBottom="16dp">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    style="@style/lv_avatar_style" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_avatar"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_status_username" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/iv_avatar"
+                    android:layout_toRightOf="@+id/iv_avatar"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/text_status_time" />
+
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/relatedSymbolsTV"
+                android:layout_width="fill_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="@dimen/text_status_content"
+                android:layout_height="wrap_content"/>
+
+            <com.dkhs.portfolio.ui.widget.DKHSTextView
+                android:id="@+id/titleTV"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textIsSelectable="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_status_title" />
+
+            <com.dkhs.portfolio.ui.widget.DKHSTextView
+                android:id="@+id/content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textIsSelectable="true"
+                android:textColor="@color/text_content_color"
+                android:textSize="@dimen/text_status_content" />
+
+            <com.dkhs.portfolio.ui.widget.AutoScaleImageView
+                android:id="@+id/iv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+
+
+                />
+
+        </LinearLayout>
+
+        <include
+            android:visibility="gone"
+            layout="@layout/layout_empty" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        style="@style/white_grayborder_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_rl"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/comment"
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/comment"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_like"
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:text="@string/like"
+            android:textColor="@color/black" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+</RelativeLayout>

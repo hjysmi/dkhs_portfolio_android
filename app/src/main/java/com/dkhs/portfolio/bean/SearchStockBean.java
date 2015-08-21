@@ -24,7 +24,7 @@ import com.lidroid.xutils.db.annotation.Table;
 
 @Table(name = "SearchStock")
 // 建议加上注解， 混淆后表名不受影响
-public class SearchStockBean extends DBEntityBase {
+public class  SearchStockBean extends DBEntityBase {
     @Column(column = "stock_name")
     @SerializedName("abbr_name")
     private String stockName;

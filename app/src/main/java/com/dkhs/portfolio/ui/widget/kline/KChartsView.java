@@ -1049,8 +1049,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
                 mVolumnChartView.setTouch(false);
                 if (!showDetails && goToLand) {
-                    // Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);
-                    // context.startActivity(intent);
+                    // Intent intent = KChartLandScapeActivity.newIntent(mContext, mStockBean, type);
+                    // mContext.startActivity(intent);
                     // PromptManager.showToast("startActivity KChartLandScapeActivity");
                     if (null != callBack) {
                         callBack.stockMarkShow();
@@ -1376,7 +1376,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
     private void initMALineData() {
         MALineEntity MA5 = new MALineEntity();
         MA5.setTitle("MA5");
-        MA5.setLineColor(getResources().getColor(R.color.ma5_color));
+        MA5.setLineColor(getResources().getColor(R.color.text_content_color));
         MA5.setLineData(initMA(mOHLCData, 5));
 
         MALineEntity MA10 = new MALineEntity();

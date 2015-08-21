@@ -17,19 +17,22 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.widget.TabWidget;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
@@ -113,7 +116,32 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
                 mVp.setCurrentItem(position);
             }
         });
+        BusProvider.getInstance().register(this);
+        if (getActivity() instanceof MainActivity) {
+            Bundle bundle = ((MainActivity) getActivity()).mBundle;
+            if (bundle != null)
+                handIntent(bundle);
+        }
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
+
+    private void handIntent(Bundle bundle) {
+        if (bundle.containsKey("option_index")) {
+            int index = bundle.getInt("option_index", 0);
+            mVp.setCurrentItem(index);
+        }
+
+    }
+
+    @Subscribe
+    public void newIntent(NewIntent newIntent) {
+        handIntent(newIntent.bundle);
     }
 
     @Override
@@ -144,7 +172,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                // startActivity(intent);
                 UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
@@ -163,29 +190,40 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-
     private static final String TAG = MainOptionalFragment.class.getSimpleName();
 
     @Override
     public void onViewHide() {
-        Fragment fragment = adapter.getItem(mVp.getCurrentItem());
-        if (fragment instanceof VisiableLoadFragment) {
-            ((VisiableLoadFragment) fragment).onViewHide();
+        try {
+
+            if (null != mVp && null != adapter) {
+                Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+                if (fragment instanceof VisiableLoadFragment) {
+                    ((VisiableLoadFragment) fragment).onViewHide();
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void onViewShow() {
-        Fragment fragment = adapter.getItem(mVp.getCurrentItem());
-        if (fragment instanceof VisiableLoadFragment) {
-            ((VisiableLoadFragment) fragment).onViewShow();
-        } else {
-            fragment.onResume();
+        try {
+
+            if (null != adapter && null != mVp) {
+
+                Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+                if (fragment instanceof VisiableLoadFragment) {
+                    ((VisiableLoadFragment) fragment).onViewShow();
+                } else {
+                    fragment.onResume();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

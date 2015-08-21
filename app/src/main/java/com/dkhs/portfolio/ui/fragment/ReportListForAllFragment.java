@@ -18,10 +18,9 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.OptionListAcitivity;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
-import com.dkhs.portfolio.ui.YanbaoDetailActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
@@ -29,6 +28,7 @@ import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
 
@@ -68,7 +68,6 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         vo = Parcels.unwrap(bundle.getParcelable(VO_NAME));
@@ -79,6 +78,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initView(view);
+        initDate();
     }
 
     @Override
@@ -90,37 +90,48 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     @Override
     public void onViewShow() {
         super.onViewShow();
+        LogUtils.e(viewType + "onViewShow");
         if (null == mLoadDataEngine) {
-            initDate();
+
         } else {
             refreshData();
         }
     }
 
+    @Override
+    public void onViewHide() {
+        LogUtils.e(viewType + "onViewHide");
+        super.onViewHide();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+
+        LogUtils.e("isVisible() " + isVisible());
+        if (getParentFragment() != null)
+            LogUtils.e("getParentFragment().isVisible()() " + getParentFragment().isVisible());
+
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     private void initDate() {
         if (vo != null) {
-            // if (type == NEWS_SECOND_NOTICE) {
-            // NewsTextEngineImple mLoadDataEngine = new NewsTextEngineImple(null, vo.getSymbol());
-            // // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
-            // mLoadDataEngine.loadData();
-            // } else {
-
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, viewType, vo);
-            // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
             mLoadDataEngine.loadData();
-            // }
         } else {
             setEmptyText();
             pb.setVisibility(View.GONE);
         }
-
     }
 
     private boolean isRefresh;
 
     private void refreshData() {
         isRefresh = true;
-        mLoadDataEngine.loadData();
+        if (null != mLoadDataEngine) {
+            mLoadDataEngine.loadData();
+        }
     }
 
     private void initView(View view) {
@@ -174,8 +185,6 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     }
 
 
-
-
     OnItemClickListener itemBackClick = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -196,7 +205,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                             intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                                             .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
                                     vo.getContentSubType(), optionNewsBean.getContentType());
-                            // intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
+                            // intent = ReportForOneListActivity.newIntent(mContext, optionNewsBean.getSymbols().get(0)
                             // .getId(), optionNewsBean.getSymbols().get(0).getAbbrName(), vo.getContentSubType(),
                             // optionNewsBean.getContentType());
                         } else {
@@ -227,31 +236,33 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                         try {
                             switch (viewType) {
                                 case 1:
-                                    name = "公告正文";
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
-                                        intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name,
-                                                optionNewsBean.getSymbols().get(0).getAbbrName(), optionNewsBean
-                                                        .getSymbols().get(0).getId());
-                                        UIUtils.startAnimationActivity(getActivity(), intent);
+
+                                        String idStr = optionNewsBean
+                                                .getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
+                                            );
                                     } else {
-                                        intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name, null,
-                                                null);
-                                        UIUtils.startAnimationActivity(getActivity(), intent);
+                                        String idStr = optionNewsBean.getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
+                                            );
                                     }
                                     break;
 
                                 default:
-                                    name = "研报正文";
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
-                                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(),
-                                                optionNewsBean.getSymbols().get(0).getSymbol(), optionNewsBean
-                                                        .getSymbols().get(0).getAbbrName(),
-                                                optionNewsBean.getContentType());
+                                        String idStr = optionNewsBean
+                                                .getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
+                                            );
                                     } else {
-                                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null,
-                                                null, null);
+                                        String idStr = optionNewsBean.getId();
+                                        if (idStr.matches("\\d+"))
+                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr));
                                     }
-                                    UIUtils.startAnimationActivity(getActivity(), intent);
                                     break;
                             }
 
@@ -271,7 +282,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     private void loadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
@@ -288,6 +299,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         public void loadFinish(List<OptionNewsBean> dataList) {
             pb.setVisibility(View.GONE);
             mSwipeLayout.setRefreshing(false);
+
             mListView.onLoadMoreComplete();
             try {
 
@@ -359,7 +371,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public void onLoadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
 

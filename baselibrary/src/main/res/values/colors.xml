@@ -8,17 +8,18 @@
     <color name="dark_title_color">#ff7373</color>
     <color name="theme_gray">#F5F5F5</color>
     <color name="theme_gray_press">#d0d0d0</color>
+    <color name="lv_gray_press">#F2F2F2</color>
     <color name="round">#b2ffffff</color>
     <color name="md_grey_800">#424242</color>
     <color name="drivi_line">#d0d0d0</color>
     <color name="edit_textcolor">#d0d0d0</color>
-    <color name="gray_textcolor">#979797</color>
+    <color name="gray_textcolor">#969696</color>
     <color name="unable_blue_textcolor">#4fcfff</color>
     <color name="compare_select_gray">#969696</color>
     <color name="green">#62b133</color>
     <color name="pink">#FF4444</color>
     <color name="orange">#F86f0b</color>
-    <color name="black">#000000</color>
+    <color name="black">#262932</color>
     <color name="red">#ff0000</color>
     <color name="red_bg">#ffd8d8</color>
     <color name="red_delete">#E63435</color>
@@ -79,7 +80,7 @@
     <color name="sliding_menu_divider_color">#ff444444</color>
     <color name="color_menu_item_news_amount">#ffffcc00</color>
     <color name="color_alert_icon_bg">#ffffaa00</color>
-    <color name="activity_bg_color">#fff5f5f5</color>
+    <color name="activity_bg_color">#fff0f0f0</color>
     <color name="subscribe_item_text_color_pressed">#ffb9b9b9</color>
     <color name="subscribe_item_text_color_normal">#ff454545</color>
     <color name="subscribe_item_drag_bg">#fff5f5f5</color>
@@ -112,7 +113,7 @@
     <color name="fragment_left_list_line1">#2f3239</color>
     <color name="fragment_left_list_line2">#1e2025</color>
     <color name="list_market_light_gray">#d1d1d1</color>
-    <color name="ma5_color">#646464</color>
+    <color name="text_content_color">#646464</color>
     <color name="ma10_color">#ff9900</color>
     <color name="md_grey_400">#bdbdbd</color>
     <color name="ma20_color">#ff00ff</color>
@@ -146,11 +147,18 @@
     <color name="point_white">#b2ffffff</color>
     <color name="stock_gray_bg">#A0A0A0</color>
     <color name="tag_red">#FF6363</color>
+    <color name="tag_red_60">#99FF6363</color>
     <color name="tag_green">#62BE33</color>
     <color name="tab_normal_black">#262932</color>
     <color name="tag_gray">#969696</color>
     <color name="title_green">#62b133</color>
     <color name="zuhe_divline">#DCDCDC</color>
     <color name="user_combination_head_bg">#ff6363</color>
+
+    <color name="actionsheet_pressed">#DDDEDF</color>
+    <color name="actionsheet_top_seperated">#E7E7E7</color>
+    <color name="actionsheet_middle_seperated">#F4F4F4</color>
+    <color name="actionsheet_bottom_seperated">#E6E6E6</color>
+    <color name="draft_error">#e9b700</color>
 
 </resources>

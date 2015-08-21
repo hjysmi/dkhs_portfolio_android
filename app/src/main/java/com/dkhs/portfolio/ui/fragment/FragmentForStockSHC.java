@@ -24,7 +24,6 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +101,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-//        if (null != context && context instanceof StockQuotesActivity && getadle) {
+//        if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 //        }
     }
@@ -137,6 +136,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
             mOptionlistAdapter = new MarketCenterItemAdapter(context, mDataList, true);
         }
         mListView.setAdapter(mOptionlistAdapter);
+
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -234,8 +234,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
                 mOptionlistAdapter.notifyDataSetChanged();
                 Log.e(TAG, " loadFinishUpdateView size:" + mOptionlistAdapter.getCount());
                 Log.e(TAG, " last size name:" + mDataList.get(mDataList.size() - 1).getName());
-                if (null != mStockQuoteScrollListener) {
-                }
+
 
                 View listItem = mOptionlistAdapter.getView(0, null, mListView);
                 listItem.measure(0, 0); // 计算子项View 的宽高
@@ -254,11 +253,18 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
                     }
                 }
 
+                if (null != mStockQuoteScrollListener) {
+                    if (height <= mStockQuoteScrollListener.getMaxListHeight()) {
+                        mStockQuoteScrollListener = null;
+                    }
+                }
+
+
                 mContentView.getLayoutParams().height = height;
 //                mListView.getLayoutParams().height = height;
 //                }
             }
-//            if (null != context && context instanceof StockQuotesActivity && getadle) {
+//            if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 //            }
         } catch (Exception e) {
@@ -313,7 +319,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         if (isVisibleToUser) {
             if (isVisibleToUser) {
 //                if (null == mDataList || mDataList.size() < 2) {
-//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
 //                    }
 //                } else if (null != mDataList) {
@@ -324,7 +330,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
 //                        int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
 //                        height += list_child_item_height; // 统计所有子项的总高度
 //                    }
-//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
 //                        ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 //                    }
 //                }

@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -32,8 +30,8 @@ public class ModelAcitivity extends SwipeBackActivity {
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
     private TextView btnBack;
     private View mTitleView;
-    protected UserEngineImpl engine;
-    protected Activity mActivity;
+//    protected UserEngineImpl engine;
+//    protected Activity mActivity;
 
     public boolean hadFragment;
 
@@ -50,14 +48,13 @@ public class ModelAcitivity extends SwipeBackActivity {
         hadFragment = true;
     }
 
-    // private LinearLayout llBack;
     @Override
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
         //方便定位类
         LogUtils.d("start Activity ", this.getClass().getSimpleName());
         PortfolioApplication.getInstance().addActivity(this);
-        mActivity = this;
+//        mActivity = this;
         onCreate(arg0, R.layout.layout_model_default);
 
 
@@ -74,6 +71,7 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     protected void onPause() {
         super.onPause();
+
         if (!hadFragment) {
             MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         }
@@ -81,16 +79,13 @@ public class ModelAcitivity extends SwipeBackActivity {
         MobclickAgent.onPause(this);
     }
 
+
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleBundleExtras(extras);
         }
-        engine = new UserEngineImpl();
-
-        // setTheme(android.R.style.Theme_Light_NoTitleBar);
-        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         super.setContentView(R.layout.layout_model);
 
@@ -99,11 +94,7 @@ public class ModelAcitivity extends SwipeBackActivity {
         mSwipeBackLayout.setEdgeSize(100);
 //         设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
         mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
-        // saveTrackingMode(SwipeBackLayout.EDGE_ALL);
-        // ViewStub view = (ViewStub) findViewById(R.id.layout_model_right);
-        // view.setLayoutResource(titleLayout);
-        // view.inflate();
-        // setStatusBarColor(findViewById(R.id.statusBarBackground), getResources().getColor(R.color.red));
+
         stepTitleView();
     }
 
@@ -131,7 +122,7 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     public void replaceContentFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layoutContent, fragment).commit();
+                .replace(R.id.layoutContent, fragment).commitAllowingStateLoss();
     }
 
     /**

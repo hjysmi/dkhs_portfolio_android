@@ -19,7 +19,6 @@ public interface ConstantValue {
 	 * des加密用密钥
 	 */
 	String DES_PASSWORD = "a2d808002b30309d";
-//	String DES_PASSWORD = "e04fd020ea3a6910a2d808002b30309d";
 
 	int IS_EMAIL=60001;
 	int IS_MOBILE=60002;

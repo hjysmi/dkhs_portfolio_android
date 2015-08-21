@@ -10,8 +10,9 @@ package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.SearchHistoryBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockProfileDataBean;
@@ -84,7 +85,7 @@ public class SearchStockEngineImpl {
                 if (null != dataBean) {
 
                     List<SearchStockBean> dataList = dataBean.getResults();
-                    DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                    DbUtils dbUtils = AppConfig.getDBUtils();
                     // dbUtils.configAllowTransaction(true);
                     try {
                         dbUtils.saveOrUpdateAll(dataList);
@@ -117,7 +118,7 @@ public class SearchStockEngineImpl {
         new Thread() {
             public void run() {
 
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {
@@ -148,12 +149,7 @@ public class SearchStockEngineImpl {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-                moreDataBean.setCurrentPage(1);
-                moreDataBean.setResults(selectStockList);
-                moreDataBean.setTotalCount(selectStockList.size());
-                moreDataBean.setTotalPage(1);
-                iLoadListener.loadFinish(moreDataBean);
+                setSearchBack(selectStockList);
 
             }
 
@@ -162,10 +158,22 @@ public class SearchStockEngineImpl {
 
     }
 
+    private void setSearchBack(List<SelectStockBean> selectStockList) {
+        if (null != iLoadListener) {
+
+            MoreDataBean moreDataBean = new MoreDataBean<SelectStockBean>();
+            moreDataBean.setCurrentPage(1);
+            moreDataBean.setResults(selectStockList);
+            moreDataBean.setTotalCount(selectStockList.size());
+            moreDataBean.setTotalPage(1);
+            iLoadListener.loadFinish(moreDataBean);
+        }
+    }
+
     public void searchFunds(final String key) {
         new Thread() {
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {
@@ -209,12 +217,7 @@ public class SearchStockEngineImpl {
                     e.printStackTrace();
                 }
 
-                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-                moreDataBean.setCurrentPage(1);
-                moreDataBean.setResults(selectStockList);
-                moreDataBean.setTotalCount(selectStockList.size());
-                moreDataBean.setTotalPage(1);
-                iLoadListener.loadFinish(moreDataBean);
+                setSearchBack(selectStockList);
             }
 
             ;
@@ -267,7 +270,7 @@ public class SearchStockEngineImpl {
     public void searchStockIndexFunds(final String key) {
         new Thread() {
             public void run() {
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils dbUtils = AppConfig.getDBUtils();
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {
@@ -294,12 +297,40 @@ public class SearchStockEngineImpl {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-                moreDataBean.setCurrentPage(1);
-                moreDataBean.setResults(selectStockList);
-                moreDataBean.setTotalCount(selectStockList.size());
-                moreDataBean.setTotalPage(1);
-                iLoadListener.loadFinish(moreDataBean);
+                setSearchBack(selectStockList);
+            }
+
+            ;
+        }.start();
+    }
+
+    public void searchHistoryStock() {
+        new Thread() {
+            public void run() {
+                DbUtils dbUtils = AppConfig.getDBUtils();
+                // dbUtils.findById(SearchStockBean.class, key);
+                List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
+                try {
+
+                    List<SearchHistoryBean> searchStockList = dbUtils
+                            .findAll(Selector.from(SearchHistoryBean.class).orderBy("saveTime", true)
+                                            .limit(20)
+                            );
+
+                    if (null != searchStockList) {
+                        for (SearchHistoryBean searchBean : searchStockList) {
+                            selectStockList.add(SelectStockBean.copy(searchBean));
+                        }
+                        LogUtils.d(" searchHistoryStock size:" + selectStockList.size());
+                    } else {
+
+                        LogUtils.d(" searchHistoryStock is null");
+                    }
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                setSearchBack(selectStockList);
             }
 
             ;

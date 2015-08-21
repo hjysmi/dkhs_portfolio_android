@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.RongIM.GetUserInfoProvider;
+import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.RongIMClient.ConnectionStatusListener;
 import io.rong.imlib.RongIMClient.ErrorCode;
@@ -83,7 +83,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
      */
     private void initDefaultListener() {
 
-        RongIM.setGetUserInfoProvider(new GetUserInfoProvider() {
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
 
             @Override
             public UserInfo getUserInfo(final String arg0) {
@@ -111,13 +111,13 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public void setOnReceiveMessageListener() {
         //开启免打扰模式
-        RongIM.getInstance().getRongClient().setConversationNotificationQuietHours("00:00:00", 1439, new RongIMClient.OperationCallback() {
+        RongIM.getInstance().getRongIMClient().setNotificationQuietHours("00:00:00", 1439, new RongIMClient.OperationCallback() {
 
             @Override
             public void onSuccess() {
                 Log.e(TAG, "----yb----设置会话通知周期-onSuccess");
                 isConnect = true;
-                RongIM.getInstance().getRongClient().setOnReceiveMessageListener(new OnReceiveMessageListener());
+                RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(new OnReceiveMessageListener());
             }
 
             @Override
@@ -144,12 +144,17 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         }
     }
 
-
     @Override
     public void connect() {
 //        if (PortfolioApplication.)PortfolioApplication
-        if (PortfolioApplication.hasUserLogin() && !isConnect) {
+        if (!isConnect) {
             UserEntity user = UserEngineImpl.getUserEntity();
+
+            if(user ==null ||user.getUsername()== null ){
+                Log.e(TAG, "----user ==null ||user.getUsername()== null ----");
+                return;
+            }
+
             // 先向服务器请求用户连接融云的token，取得token后再去连接融云的服务器。
             new UserEngineImpl().getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(),
                     new BasicHttpListener() {
@@ -183,6 +188,11 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         try {
 
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                @Override
+                public void onTokenIncorrect() {
+
+                }
 
                 @Override
                 public void onError(ErrorCode errorCode) {
@@ -226,8 +236,10 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public int getUnReadCount() {
         int unreadCount = 0;
-        if (null != RongIM.getInstance().getRongClient()) {
-            unreadCount = RongIM.getInstance().getRongClient().getUnreadCount(ConversationType.PRIVATE);
+        RongIMClientWrapper clientWrapper = RongIM.getInstance().getRongIMClient();
+
+        if (null != clientWrapper) {
+            unreadCount = clientWrapper.getUnreadCount(ConversationType.PRIVATE);
         }
         return unreadCount;
     }
@@ -244,7 +256,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     public void startConversationList(Context context) {
         cancelAllNotification(context);
-            RongIM.getInstance().startConversationList(context);
+        RongIM.getInstance().startConversationList(context);
     }
 
 

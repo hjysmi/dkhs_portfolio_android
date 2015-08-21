@@ -117,6 +117,7 @@
     <string name="position_from_to">从%1$s调至%2$s</string>
     <string name="select_fund">选择参照基金</string>
     <string name="select_stock">选择股票</string>
+    <string name="title_search_stock">搜索</string>
     <string name="create_funds">创建组合</string>
     <string name="search_fund_hint">基金简称/代码/拼音</string>
     <string name="add_postional_format">添加(%1$d)</string>
@@ -167,7 +168,7 @@
     <string name="query_before_month">起始时间不能早于创建前1个月</string>
     <string name="hint_account">手机号/邮箱地址</string>
     <string name="logining">登录中...</string>
-    <string name="no_net">网络连接不可用，请稍后重试</string>
+    <string name="no_net">网络不给力，请稍后再试</string>
     <string name="no_net_connect">网络连接失败，请检查网络</string>
     <string name="mobile">手机号</string>
     <string name="hint_mobile">请输入手机号</string>
@@ -363,6 +364,7 @@
     <string name="count_trend_seven">7日收益曲线图</string>
     <string name="count_trend_today">日收益曲线图</string>
     <string name="count_user_combination_list">用户组合列表</string>
+    <string name="clear_history">清楚搜索历史记录</string>
     <string name="password_digts">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ`¬!"£$%^*()~=#{}[];':,./?/*-_+&#060;&#062;&#064;&#038;</string>
 
     <!-- 无数据时提示语 -->
@@ -411,10 +413,11 @@
     <string name="tab_1">自选</string>
     <string name="tab_2">行情</string>
     <string name="tab_5">摇一摇</string>
-    <string name="tab_3">资讯</string>
+    <string name="tab_3">社区</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
+    <string name="title_bbs">社区</string>
     <string name="title_edit_optional_combina">编辑自选组合</string>
     <string name="title_edit_optional_stock">编辑自选股</string>
     <string name="title_edit_optional_fund">编辑自选基金</string>
@@ -434,8 +437,14 @@
     <string name="creat_combination">自建组合</string>
     <string name="creat_combination_name">组合名称</string>
     <string name="message_center">消息中心</string>
+    <string name="info_title_mycom">我的组合</string>
+    <string name="info_title_mytopic">我的主帖</string>
+    <string name="info_title_myreply">我的回复</string>
+    <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
     <string name="msg_follow_success">关注成功</string>
+    <string name="msg_post_topic_success">发表主题成功</string>
+    <string name="msg_post_reply_success">评论成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
 
     <!-- 提醒设置 -->
@@ -523,6 +532,7 @@
     <string name="search_stock">股票简称/代码/拼音</string>
 
     <string name="edit">编辑</string>
+    <string name="delete">删除</string>
 
     <string name="def_not_value">—</string>
     <!--基金详情页-->
@@ -590,16 +600,17 @@
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
     <string name="title_flow_exchange">流量兑换</string>
-    <string name="max_flow_tip">当前最高可兑换%1$dM流量</string>
+    <string name="max_flow_tip">本周可兑换 %1$sM 流量（VIP权限 %2$s 天）</string>
     <string name="prepaid_phone_num">充值手机号：</string>
     <string name="exchange">兑换</string>
     <string name="exchange_tip_title">流量及兑换说明</string>
 
     <string name="exchange_tip">1、用户获得的流量为全国流量，移动、联通、电信全国用户均可使用。
-\n2、流量包中流量长期有效，可随时兑换使用。
-\n3、兑换的全国流量，当月有效且优先使用。
-\n4、兑换的全国流量将在24小时内充值到绑定的手机号码中，请确保手机号码处于正常状态。
-\n5、用户欠费停机和虚拟运营商手机等情况可能造成充值失败。</string>
+\n2、流量长期有效，每周可兑换%1$s
+        \n3、用户积极参加谁牛互动活动，有机会获得流量自由兑换权限。
+\n4、兑换的全国流量，当月有效且优先使用。
+\n5、兑换的全国流量将在24小时内充值到绑定的手机号码中，请确保手机号码处于正常状态。
+\n6、用户欠费停机和虚拟运营商手机等情况可能造成充值失败。</string>
 
     <string name="dialog_exchange_message">确认用积分兑换%1$dM流量？</string>
     <string name="exchange_success">兑换成功</string>
@@ -612,10 +623,12 @@
     <string name="post_success_tip">提交成功</string>
     <string name="post_failure_tip">提交失败</string>
     <string name="invite_history">邀请历史</string>
+    <string name="dialog_button_invite">立即邀请</string>
     <string name="nick_name">昵称</string>
     <string name="register_date">注册时间</string>
     <string name="no_invitations_tips">你还没有邀请。</string>
-    <string name="ad1">  ( 千万流量疯狂送, 快来抢 ! )</string>
+    <string name="tip_flowpackage">（手机流量疯狂送，抢！抢！抢！）</string>
+    <string name="tip_invite_code">（我的邀请码:%1$s）</string>
     <string name="history">历史</string>
     <string name="invite_success">邀请成功</string>
     <string name="invite_cancel">邀请取消</string>
@@ -633,7 +646,7 @@
     <string name="introduce">说明</string>
     <string name="the_number_of_times">已使用%1$d次机会,今日还剩%2$d次</string>
     <string name="the_last_times">今日%1$d次机会已用完,明日再来</string>
-    <string name="recommend_symbol">"推荐股票:  "</string>
+    <string name="recommend_symbol">"相关股票:  "</string>
     <string name="recently_come_in">"近5日资金流入:  %1$s"</string>
     <string name="up_precent">"上涨概率:  %1$s"</string>
     <string name="shake_ad">摇吧!摇出你的股市幸运消息.</string>
@@ -654,4 +667,86 @@
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
+    <string name="comment">评论</string>
+    <string name="like">赞</string>
+    <string name="title_activity_bbs">BBSActivity</string>
+
+
+    <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
+    <string name="dialog_msg_invitecode_success">邀请码提交成功，赠送流量已入库，您也可以发出好友邀请，邀请好友越多，流量送越多!</string>
+    <string name="dialog_msg_invitecode_limit">邀请码错误或已失效，您也可以发出好友邀请，邀请好友越多，流量送越多，上不封顶!</string>
+    <string name="title_activity_photo_view">PhotoViewActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!--发表帖子-->
+    <string name="post_topic">发表帖子</string>
+    <string name="blank_comment">评论%1$s</string>
+    <string name="blank_reply">回复%1$s</string>
+    <string name="send">发送</string>
+    <string name="hint_topic_title">标题(可不填)</string>
+    <string name="hint_content">写点观点...</string>
+    <string name="pls_instore_sdcard">请先安装好sd卡</string>
+    <string name="dialog_msg_save_draft">是否保存草稿</string>
+    <string name="msg_send_topic_fail">内容发送失败，已存入草稿箱</string>
+    <string name="notsave">不保存</string>
+    <string name="save">保存</string>
+    <string name="retake_picture">重新选择照片</string>
+    <string name="delete_picture">删除照片</string>
+    <!--发表帖子-->
+    <!--帖子回复-->
+    <string name="mine_reply">我的回复</string>
+    <string name="others_reply">TA的回复</string>
+    <string name="reply_content">回复评论</string>
+    <string name="show_original">查看主帖</string>
+    <string name="copy_content">复制</string>
+    <string name="msg_copy_content_success">内容已复制</string>
+    <string name="msg_del_contetn_success">回复删除成功</string>
+    <string name="msg_topic_sending">发送中……</string>
+    <string name="msg_topic_send_success">√ 内容发送成功</string>
+    <string name="msg_topic_send_fail">内容发送失败</string>
+
+
+    <!--帖子回复-->
+
+
+    <!--我的草稿 start -->
+    <string name="title_my_draft">我的草稿</string>
+    <string name="title_activity_topics_detail">话题正文</string>
+    <string name="title_activity_info">资讯</string>
+    <string name="title_activity_my_topics">我的主帖</string>
+    <string name="title_activity_my_combination_list">我的组合</string>
+    <string name="title_activity_ta_combination_list">TA的组合</string>
+    <!--我的草稿 end-->
+
+    <!--举报 start -->
+    <string name="title_status_report">举报</string>
+    <string name="report_rubbish">垃圾营销</string>
+    <string name="report_pornographic">淫秽色情</string>
+    <string name="report_no_truly">不实信息</string>
+    <string name="report_sensity">敏感信息</string>
+    <string name="report_plagiarist">抄袭内容</string>
+    <string name="report_harass">骚扰我</string>
+    <string name="report_fake">虚假中奖</string>
+    <string name="report_user">的回复：</string>
+    <string name="report_success">您的举报信息已提交，感谢您的支持</string>
+    <string name="no_bbs_topic">暂无主帖</string>
+    <string name="my_comment">我的回复</string>
+    <string name="ta_comment">TA的回复</string>
+    <string name="ta_bbs_topic">TA的主帖</string>
+    <string name="my_bbs_topic">我的主帖</string>
+    <string name="no_combination">暂无组合</string>
+    <string name="ta_combination">TA的组合</string>
+    <string name="no_comment">暂无回复</string>
+    <string name="no_draft">暂无草稿</string>
+    <string name="title_my_home_page">我的主页</string>
+    <string name="title_ta_home_page">Ta的主页</string>
+    <string name="topics_already_delete">此帖已被删除</string>
+    <string name="delete_topics">删除帖子</string>
+    <string name="delete_comment">删除回复</string>
+    <string name="null_stock">当前股票不存在</string>
+    <!--举报 end-->
+
+
 </resources>

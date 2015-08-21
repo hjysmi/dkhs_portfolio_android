@@ -28,22 +28,25 @@
         android:textSize="18sp"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tv_stock_name"
-        style="@style/hw_wrap"
-        android:layout_centerVertical="true"
-        android:singleLine="true"
-        android:textSize="@dimen/stock_item_def_text" />
-
 
     <TextView
         android:id="@+id/tv_stock_num"
         style="@style/hw_wrap"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/cb_select_stock"
-        android:layout_toRightOf="@+id/tv_stock_name"
         android:ellipsize="end"
         android:singleLine="true"
+        android:textColor="@color/gray_textcolor"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_stock_name"
+        style="@style/hw_wrap"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_toLeftOf="@+id/cb_select_stock"
+        android:layout_toRightOf="@+id/tv_stock_num"
+        android:singleLine="true"
+        android:textSize="@dimen/stock_item_def_text" />
+
 
 </RelativeLayout>

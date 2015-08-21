@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/person_setting_backgroud"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:background="@color/person_setting_backgroud"
+                android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_flow_package"
         style="@style/white_grayborder_layout"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/combin_horSpacing">
+        >
+        <com.dkhs.portfolio.ui.widget.ScaleLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sliderSL"
+            app:scale="0.3125">
 
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"/>
+        </com.dkhs.portfolio.ui.widget.ScaleLayout>
         <com.dkhs.portfolio.ui.widget.HorizontalListView xmlns:widget="http://schemas.android.com/apk/res-auto"
             android:id="@+id/HorizontalListView"
             android:layout_width="fill_parent"
@@ -19,22 +31,30 @@
             android:layout_marginTop="@dimen/combin_horSpacing"
             android:overScrollMode="never"
             widget:dividerWidth="2dp" />
-
-
         <TextView
             android:id="@+id/tv_exchange_maxtip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/HorizontalListView"
             android:layout_centerHorizontal="true"
-            android:drawableLeft="@drawable/change_name_icon"
             android:drawablePadding="6dp"
-            android:text="@string/max_flow_tip"
+            android:layout_gravity="center"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/HorizontalListView"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="6dp"
+            android:layout_gravity="center"
+            android:text="参与社区互动，赢取VIP自由兑换权限 "
             android:textColor="@color/light_gray"
             android:textSize="14sp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_exchange_maxtip"
             android:layout_centerHorizontal="true"
@@ -59,7 +79,7 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/exchange"
@@ -76,6 +96,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/exchange"
         android:layout_marginLeft="30dp"
+        android:scrollbars="none"
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp">
 
@@ -99,7 +120,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_exchange_info_title"
                 android:lineSpacingMultiplier="1.2"
-                android:text="@string/exchange_tip"
                 android:textColor="@color/light_gray"
                 android:textSize="12sp" />
 

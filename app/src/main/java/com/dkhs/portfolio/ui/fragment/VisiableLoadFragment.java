@@ -5,37 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.umeng.analytics.MobclickAgent;
-
 /**
  * Created by zjz on 2015/6/13.
  */
 public abstract class VisiableLoadFragment extends BaseFragment {
 
-
-//    public VisiableLoadFragment getChildFragment() {
-//        return childFragment;
-//    }
-//
-//    public void setChildFragment(VisiableLoadFragment childFragment) {
-//        this.childFragment = childFragment;
-//    }
-//
-//    @Override
-//    public VisiableLoadFragment getParentFragment() {
-//        return parentFragment;
-//    }
-//
-//    public void setParentFragment(VisiableLoadFragment parentFragment) {
-//        this.parentFragment = parentFragment;
-//    }
-
-//    private VisiableLoadFragment childFragment;
-//    private VisiableLoadFragment parentFragment;
-
-
-    protected Activity mActivity;
     private static final String TAG = VisiableLoadFragment.class.getSimpleName();
+    protected Activity mActivity;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -57,12 +33,6 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
 
-//
-//        if (isVisibleToUser && isViewShown && isVisible()) {
-//            onViewShow();
-//        } else {
-//            onViewHide();
-//        }
 
         if (isVisibleToUser && !isViewShown && isVisible()) {
 
@@ -83,12 +53,12 @@ public abstract class VisiableLoadFragment extends BaseFragment {
         if (hidden) {
             //do when hidden
 
-            if(getView() !=null){
+            if (getView() != null) {
                 onViewHide();
             }
 
         } else {
-            if(getView() !=null){
+            if (getView() != null) {
                 requestData();
                 onViewShow();
 
@@ -108,9 +78,9 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     private boolean iStrictVisible() {
         if (getParentFragment() != null) {
 
-            return getUserVisibleHint() && !isHidden() && isVisible() && getParentFragment().isVisible();
+            return getUserVisibleHint() && isVisible() && getParentFragment().isVisible();
         } else {
-            return getUserVisibleHint() && !isHidden() && isVisible();
+            return getUserVisibleHint() && isVisible();
 
         }
     }
@@ -119,16 +89,13 @@ public abstract class VisiableLoadFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         onViewHide();
-//        Log.e(TAG, this + "=============> onPause");
     }
 
 
     public void onViewShow() {
-//        Log.e(TAG, this + "=============> onViewShow");
     }
 
     public void onViewHide() {
-//        Log.e(TAG, this + "=============> onViewHide");
 
     }
 

@@ -20,6 +20,6 @@
         android:adjustViewBounds="false"
         android:focusable="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/gif_guide_frist" />
+        android:src="@drawable/dksh_flash" />
 
 </RelativeLayout>

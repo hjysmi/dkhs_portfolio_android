@@ -21,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -39,6 +40,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,7 @@ import java.util.List;
  * @date 2015-2-7 上午11:03:26
  */
 public class TabConbinationFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
-
+    public static final String TAG = "TabConbinationFragment";
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
     // @ViewInject(R.id.tv_increase)
@@ -197,6 +199,20 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
 //        if (PortfolioApplication.hasUserLogin()) {
 //            refresh();
 //        }
+    }
+
+    @Override
+    public void onViewShow() {
+        StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+
+
+    }
+
+    @Override
+    public void onViewHide() {
+        StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     @Override

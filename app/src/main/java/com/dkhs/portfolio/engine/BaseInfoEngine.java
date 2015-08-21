@@ -5,6 +5,8 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import java.text.MessageFormat;
+
 /**
  * @author zwm
  * @version 2.0
@@ -22,5 +24,14 @@ public class BaseInfoEngine {
 
     public void getOptionNewsBean(String id, IHttpListener listener) {
         DKHSClient.request(HttpRequest.HttpMethod.GET, String.format(DKHSUrl.News.newstext_detial, id), null, listener);
+    }
+
+    /**
+     * 帖子详情
+     * @param id
+     * @param listener
+     */
+    public static void getTopicsDetail(String id, IHttpListener listener) {
+        DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getHotTopicDetail, id), null, listener);
     }
 }

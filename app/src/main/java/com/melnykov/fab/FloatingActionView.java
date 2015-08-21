@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -355,11 +356,28 @@ public class FloatingActionView extends LinearLayout {
         scrollDetector.setScrollDirectionListener(scrollDirectionListener);
         scrollDetector.setOnScrollListener(onScrollListener);
         scrollDetector.setListView(listView);
-        ViewGroup.MarginLayoutParams mLP = (MarginLayoutParams) listView.getLayoutParams();
-        listView.setPadding(mLP.leftMargin, mLP.topMargin, mLP.rightMargin, mLP.bottomMargin + getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
+
+
+        if(listView.getLayoutParams() instanceof  MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams mLP = (MarginLayoutParams) listView.getLayoutParams();
+            listView.setPadding(mLP.leftMargin, mLP.topMargin, mLP.rightMargin, mLP.bottomMargin + getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
+        }else {
+            listView.setPadding(0,0,0,getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
+        }
         scrollDetector.setScrollThreshold(mScrollThreshold);
         listView.setOnScrollListener(scrollDetector);
     }
+
+    public void attachToRecyclerView(android.support.v7.widget.RecyclerView recyclerView){
+
+
+        RecyclerViewScrollDetectorImpl scrollDetector = new RecyclerViewScrollDetectorImpl();
+        scrollDetector.setScrollDirectionListener(null);
+        scrollDetector.setOnScrollListener(null);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        recyclerView.addOnScrollListener(scrollDetector);
+    }
+
     public void attachToListViewTop(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener,
                                  AbsListView.OnScrollListener onScrollListener) {
         AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
@@ -557,4 +575,52 @@ public class FloatingActionView extends LinearLayout {
             show();
         }
     }
+
+    private class RecyclerViewScrollDetectorImpl extends RecyclerViewScrollDetector {
+        private ScrollDirectionListener mScrollDirectionListener;
+        private RecyclerView.OnScrollListener mOnScrollListener;
+
+        private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
+            mScrollDirectionListener = scrollDirectionListener;
+        }
+
+        public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
+            mOnScrollListener = onScrollListener;
+        }
+
+        @Override
+        public void onScrollDown() {
+            show();
+            if (mScrollDirectionListener != null) {
+                mScrollDirectionListener.onScrollDown();
+            }
+        }
+
+        @Override
+        public void onScrollUp() {
+            hide();
+            if (mScrollDirectionListener != null) {
+                mScrollDirectionListener.onScrollUp();
+            }
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (mOnScrollListener != null) {
+                mOnScrollListener.onScrolled(recyclerView, dx, dy);
+            }
+
+            super.onScrolled(recyclerView, dx, dy);
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            if (mOnScrollListener != null) {
+                mOnScrollListener.onScrollStateChanged(recyclerView, newState);
+            }
+
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+    }
+
 }

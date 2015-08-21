@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -25,6 +26,7 @@ import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +126,15 @@ public class MarketCombinationFragment extends VisiableLoadFragment implements V
         if (!PortfolioApplication.hasUserLogin()) {
             loadVisitorCombinationList();
         }
+        StatService.onPageStart(getActivity(), this.getClass().getSimpleName());
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        StatService.onPageEnd(getActivity(), this.getClass().getSimpleName());
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     private void loadVisitorCombinationList() {
@@ -147,8 +158,8 @@ public class MarketCombinationFragment extends VisiableLoadFragment implements V
             }
             break;
             case R.id.btn_search: {
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
-                    getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
+                if (!UIUtils.iStartLoginActivity(mActivity)) {
+                    mActivity.startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
                 }
 //                fragmentList.get(pager.getCurrentItem()).onResume();
             }

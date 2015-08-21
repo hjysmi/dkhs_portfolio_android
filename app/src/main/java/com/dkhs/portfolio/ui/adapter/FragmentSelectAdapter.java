@@ -124,7 +124,7 @@ public class FragmentSelectAdapter {
      * 实现标题栏的代码实现
      */
     public void createView() {
-        View view = inflater.inflate(R.layout.selectadapter_layout, null);
+        View view = inflater.inflate(R.layout.adapter_selecta_layout, null);
         pager = (ScrollViewPager) view.findViewById(R.id.selectadapter_pager);
         pager.setAdapter(new OrderFragmentAdapter(mFragmentManager, fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
@@ -151,13 +151,21 @@ public class FragmentSelectAdapter {
             ll.addView(tv);
             tvList[i] = tv;
             if (i == 0) {
-                tv.setTextColor(context.getResources().getColor(R.color.red));
+                tv.setTextColor(context.getResources().getColor(R.color.tag_red));
                 iv.getLayoutParams().width = textWid[i] + imageAddSize * 2;
             }
         }
         titleLayout.addView(view);
 
     }
+    public void setCurrentItem(int index){
+        if(index> tvList.length-1){
+            return;
+        }
+
+        tvList[index].performClick();
+    }
+
 
     OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
@@ -232,7 +240,7 @@ public class FragmentSelectAdapter {
         for (int i = 0; i < hisPosition; i++) {
             start = start + textLayout[i];
         }
-        tvList[position].setTextColor(context.getResources().getColor(R.color.red));
+        tvList[position].setTextColor(context.getResources().getColor(R.color.tag_red));
         tvList[hisPosition].setTextColor(context.getResources().getColor(R.color.black));
         setAnima(start, end);
         hisPosition = position;

@@ -15,7 +15,6 @@ import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.UiConversation;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.model.Conversation.ConversationType;
 import io.rong.imlib.model.Message;
@@ -66,7 +65,7 @@ public class RCChatActivity extends ModelAcitivity {
                 @Override
                 public void onClick(View v) {
 
-                    RongIM.getInstance().startConversationSetting(RCChatActivity.this, conversationType, targetId);
+//                    RongIM.getInstance().startConversationSetting(RCChatActivity.this, conversationType, targetId);
                 }
             });
 
@@ -130,25 +129,28 @@ public class RCChatActivity extends ModelAcitivity {
         }
 
         @Override
-        public boolean onMessageClick(Context context, Message message) {
-            return messageHandler.handleMessage(message);
-
-        }
-
-        @Override
-        public boolean onMessageLongClick(Context context, Message message) {
-            return true;
-        }
-
-        @Override
-        public boolean onConversationLongClick(Context context, UiConversation uiConversation) {
-            return true;
-        }
-
-        @Override
-        public boolean onConversationItemClick(Context context, UiConversation uiConversation) {
+        public boolean onUserPortraitLongClick(Context context, ConversationType conversationType, UserInfo userInfo) {
             return false;
         }
+
+        @Override
+        public boolean onMessageClick(Context context, View view, Message message) {
+            return messageHandler.handleMessage(message);
+        }
+
+        @Override
+        public boolean onMessageLinkClick(String s) {
+            return false;
+        }
+
+        @Override
+        public boolean onMessageLongClick(Context context, View view, Message message) {
+            return false;
+        }
+
+
+
+
     }
 
 }

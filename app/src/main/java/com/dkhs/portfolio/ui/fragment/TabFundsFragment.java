@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -129,8 +130,15 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     @Override
     public void onViewShow() {
-        reloadData();
-        super.onViewShow();
+        StatService.onPageStart(getActivity(), TAG);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+
+    }
+
+    @Override
+    public void onViewHide() {
+        StatService.onPageEnd(getActivity(), TAG);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     @Override
@@ -177,7 +185,7 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         loadDataListFragment.setDataUpdateListener(this);
         // }
 //        }
-        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
 

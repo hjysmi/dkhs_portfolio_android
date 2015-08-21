@@ -16,11 +16,16 @@
 package com.lidroid.xutils.db.table;
 
 import android.text.TextUtils;
-import com.lidroid.xutils.db.annotation.*;
+
+import com.lidroid.xutils.db.annotation.Check;
 import com.lidroid.xutils.db.annotation.Column;
+import com.lidroid.xutils.db.annotation.CurrentTimestamp;
 import com.lidroid.xutils.db.annotation.Finder;
 import com.lidroid.xutils.db.annotation.Foreign;
 import com.lidroid.xutils.db.annotation.Id;
+import com.lidroid.xutils.db.annotation.NotNull;
+import com.lidroid.xutils.db.annotation.Transient;
+import com.lidroid.xutils.db.annotation.Unique;
 import com.lidroid.xutils.db.converter.ColumnConverter;
 import com.lidroid.xutils.db.converter.ColumnConverterFactory;
 import com.lidroid.xutils.db.sqlite.FinderLazyLoader;
@@ -178,6 +183,15 @@ public class ColumnUtils {
         } else {
             return null;
         }
+    }
+
+//    public static boolean isDefalut(Field field) {
+//        return field.getAnnotation(Default.class) != null;
+//    }
+
+
+    public static boolean isCurrentTime(Field field) {
+        return field.getAnnotation(CurrentTimestamp.class) != null;
     }
 
     @SuppressWarnings("unchecked")

@@ -18,8 +18,9 @@ package com.dkhs.portfolio.net;
 public class DKHSUrl {
 
     // 测试
+//    public static final String BASE_TEST_URL = "http://192.168.107.90:8010";
+//    public static final String BASE_TEST_URL = "http://192.168.107.76:8010";
     public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
-//    public static final String BASE_TEST_URL = "http://192.168.107.75:8000";
 
     // 开发
     public static final String BASE_DEV_URL = "http://121.41.25.170:8010";
@@ -133,11 +134,13 @@ public class DKHSUrl {
     public interface Ads {
 
         String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
+        String getStatusesBanner = "/api/v1/ads/area/statuses_banner/";
         String getSplashAds = "/api/v1/ads/area/splash/";
         String getInvitingInfo = "/api/v1/accounts/invitations/code/";
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
         String getSignUp = "/api/v1/ads/area/signup/";
-        String getInvite = "/api/v1/ads/area/Invite//";
+        String getInvite = "/api/v1/ads/area/Invite/";
+        String getRechargeBanner= "/api/v1/ads/area/recharge_banner/";
 
     }
 
@@ -163,6 +166,17 @@ public class DKHSUrl {
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
         String compareByPeriod = "/api/v1/symbols/{0}/quote_history/";
         String managerInfo = "/api/v1/symbols/funds/managers/%s/";
+    }
+
+    public interface BBS {
+        String getLatestTopic = "/api/v1/statuses/public_timeline/";
+        String getUserTopics = "/api/v1/statuses/user_timeline/";
+        String getHotTopic = "/api/v1/statuses/public_timeline/";
+        String getStickTopic = "/api/v1/statuses/public_timeline/";
+        String getCommend = "/api/v1/statuses/{0}/comments/";
+        String getHotTopicDetail = "/api/v1/statuses/{0}/";
+        String star = "/api/v1/statuses/likes/like/";
+        String unstar = "/api/v1/statuses/likes/unlike/";
 
 
     }
@@ -262,5 +276,27 @@ public class DKHSUrl {
 
     };
 
+    public interface Status {
+        /**
+         * 上传图片
+         */
+        String uploadImage = "/api/v1/media/upload/";
+        /**
+         * 获取话题列表
+         */
+        String statuses = "/api/v1/statuses/";
+        /**
+         * 获取评论列表
+         */
+        String get_comments = "/api/v1/statuses/{0}/comments/";
+        /**
+         * 获取个人回复
+         */
+        String get_replys = "/api/v1/statuses/user_timeline/";
+        /**
+         * 举报
+         */
+        String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
+    }
 
 }

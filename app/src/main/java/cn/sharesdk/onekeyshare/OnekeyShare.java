@@ -191,6 +191,7 @@ public class OnekeyShare implements PlatformActionListener, Callback {
             shareParamsMap.put("imageUrl", imageUrl);
     }
 
+
     /**
      * url在微信（包括好友、朋友圈收藏）和易信（包括好友和朋友圈）中使用，否则可以不提供
      */
@@ -362,6 +363,9 @@ public class OnekeyShare implements PlatformActionListener, Callback {
             e.printStackTrace();
         }
     }
+    public void setBitMap(Bitmap bm) {
+            shareParamsMap.put("viewToShare", bm);
+    }
 
     /**
      * 腾讯微博分享多张图片
@@ -392,8 +396,8 @@ public class OnekeyShare implements PlatformActionListener, Callback {
 //			if (isGooglePlus && !plat.isValid()) {
 //				Message msg = new Message();
 //				msg.what = MSG_TOAST;
-//				int resId = getStringRes(context, "google_plus_client_inavailable");
-//				msg.obj = context.getString(resId);
+//				int resId = getStringRes(mContext, "google_plus_client_inavailable");
+//				msg.obj = mContext.getString(resId);
 //				UIHandler.sendMessage(msg, this);
 //				continue;
 //			}

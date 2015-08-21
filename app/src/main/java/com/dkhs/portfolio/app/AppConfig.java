@@ -2,8 +2,6 @@ package com.dkhs.portfolio.app;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
@@ -13,7 +11,7 @@ import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.github.anrwatchdog.ANRWatchDog;
+import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -55,8 +53,9 @@ public final class AppConfig {
         if (isDebug) {
 //            LeakCanary.install((Application) context);
             CrashHandler.getInstance(context);
-            ANRWatchDog anrWatchDog = new ANRWatchDog();
-            anrWatchDog.start();
+//            StatService.setDebugOn(true);
+//            ANRWatchDog anrWatchDog = new ANRWatchDog();
+//            anrWatchDog.start();
 
 //            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 //                    .detectAll()    // detect everything potentially suspect
@@ -70,26 +69,12 @@ public final class AppConfig {
         }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
-
-
         //启动定时更新数据库的服务类
         Intent demand = new Intent(context, ReLoadDataService.class);
         context.startService(demand);
-
         //消息中心模块的初始化
-        MessageManager.getInstance();
+        MessageManager.getInstance().connect();
 
-    }
-
-
-    private void setRongYunMetaData() {
-        ApplicationInfo appi;
-        try {
-            appi = mContext.getPackageManager().getApplicationInfo(mContext.getPackageName(), PackageManager.GET_META_DATA);
-            appi.metaData.putString("RONG_CLOUD_APP_KEY", "tdrvipksrgsu5");
-        } catch (PackageManager.NameNotFoundException e1) {
-            e1.printStackTrace();
-        }
     }
 
 
@@ -114,9 +99,22 @@ public final class AppConfig {
                     }
                 }
 
-                ;
             }.start();
 
         }
     }
+
+    public static DbUtils getDBUtils() {
+        DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
+        dbConfig.setDbVersion(1);
+        dbConfig.setDbUpgradeListener(new DbUtils.DbUpgradeListener() {
+            @Override
+            public void onUpgrade(DbUtils db, int oldVersion, int newVersion) {
+                Log.e("DBConfig", "oldVersion=" + oldVersion + " newVersion=" + newVersion);
+
+            }
+        });
+        return DbUtils.create(dbConfig);
+    }
+
 }

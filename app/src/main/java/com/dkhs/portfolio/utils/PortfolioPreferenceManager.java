@@ -12,7 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences.Editor;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.common.SecurePreferences;
+import com.dkhs.security.SecurePreferences;
 
 /**
  * @author zjz
@@ -39,6 +39,7 @@ public class PortfolioPreferenceManager {
     public static final String KEY_KLIN_DEPUTY = "key_klin_DEPUTY";
     public static final String KEY_VERSIONY = "key_version";
     public static final String KEY_CLICK_TIME = "key_click_time";
+    public static final String KEY_APP_UPDATE_INFO = "key_app_update_info";
 
     /**
      * app 显示新消息的key

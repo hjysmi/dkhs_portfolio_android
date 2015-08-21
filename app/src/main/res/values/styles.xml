@@ -1,6 +1,7 @@
 <resources>
 
     <style name="AppBaseTheme2" parent="@android:style/Theme.Light.NoTitleBar"></style>
+
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorAccent">@color/title_color</item>
@@ -8,11 +9,15 @@
         <item name="colorPrimaryDark">@color/dark_title_color</item>
         <!-- 解决activity切换时的黑屏问题 -->
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:buttonStyle">@style/ButtonAppTheme</item>
+
     </style>
 
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme"></style>
+
+    <style name="ButtonAppTheme" parent="android:Widget.Holo.Light.Button"></style>
 
     <style name="Theme.AppCompatRed" parent="Theme.AppCompat.Light">
         <!-- colorPrimary is used for the default action bar background -->
@@ -46,9 +51,10 @@
     <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light"></style>
 
 
-    <!-- Activity透明主题 --><style name="TranslucenTheme" parent="@style/AppBaseTheme">
-    <item name="android:windowIsTranslucent">true</item>
-</style>
+    <!-- Activity透明主题 -->
+    <style name="TranslucenTheme" parent="@style/AppBaseTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="hw_wrap">
         <item name="android:layout_width">wrap_content</item>
@@ -79,10 +85,17 @@
     </style>
 
     <style name="divider_line">
-    <item name="android:layout_width">match_parent</item>
-    <item name="android:layout_height">0.5px</item>
-    <item name="android:background">@color/drivi_line</item>
-</style>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5px</item>
+        <item name="android:background">@color/drivi_line</item>
+    </style>
+
+    <style name="inset_divider_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5px</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:background">@color/drivi_line</item>
+    </style>
 
     <style name="vertical_divider_line">
         <item name="android:layout_width">0.5px</item>
@@ -181,6 +194,7 @@
         <item name="android:gravity">center</item>
     </style>
 
+
     <style name="MyDialogStyleBottom" parent="android:Theme.Dialog">
         <item name="android:windowAnimationStyle">@style/AnimBottom</item>
         <item name="android:windowFrame">@null</item>
@@ -255,6 +269,7 @@
 
     <style name="gray_title_text">
         <item name="android:textSize">@dimen/title_tab_text_size</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="bottom_tab_text">
@@ -329,7 +344,7 @@
     </style>
 
     <style name="CommonTextAppearance_Middle_Black" parent="@android:style/TextAppearance">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/theme_color</item>
     </style>
 
@@ -354,7 +369,7 @@
     </style>
 
     <style name="CommonTextAppearance_Middle_White" parent="@android:style/TextAppearance">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -379,7 +394,7 @@
     </style>
 
     <style name="CommonTextAppearance_Middle_Gray" parent="@android:style/TextAppearance">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/tag_gray</item>
     </style>
 
@@ -434,5 +449,82 @@
         <item name="android:textColor">@color/white_textselector</item>
         <item name="android:layout_gravity">center</item>
     </style>
+
+    <style name="recommend_topics_title">
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">@dimen/text_status_title</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="recommend_stick_topics_title">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_stick</item>
+        <item name="android:text">"置顶"</item>
+    </style>
+
+    <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
+    <style name="ActionSheetDialogStyle" parent="@android:style/Theme.Dialog">
+
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog进入及退出动画 -->
+        <item name="android:windowAnimationStyle">@style/ActionSheetDialogAnimation</item>
+    </style>
+
+    <!-- ActionSheet进出动画 -->
+    <style name="ActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/actionsheet_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/actionsheet_dialog_out</item>
+    </style>
+
+
+    <style name="cb_choice_report">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:button">@drawable/cb_report_choice_selector</item>
+        <item name="android:textColor">@color/text_content_color</item>
+    </style>
+
+    <style name="cb_choice_report_left" parent="cb_choice_report">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+
+    <style name="lv_avatar_style">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:src">@drawable/ic_user_head</item>
+    </style>
+
 
 </resources>

@@ -25,6 +25,7 @@ import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -36,7 +37,6 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,6 +66,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private View viewPassword;
     private UserEntity ue;
     private TextView settingSingText;
+    private TextView tvBindPhone;
     private boolean login = false;
     private LinearLayout settingAccountLayout;
     @SuppressLint("HandlerLeak")
@@ -102,12 +103,12 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_layout);
+        setContentView(R.layout.activity_setting_layout);
         context = this;
         // UserEngineImpl.queryThreePlatBind(bindsListener);
         initViews();
         setListener();
-
+        UserEngineImpl.queryThreePlatBind(bindsListener);
         // initData();
         // loadCombinationData();
     }
@@ -153,7 +154,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.rl_aboutus).setOnClickListener(this);
         findViewById(R.id.setting_layout_check_version).setOnClickListener(this);
         findViewById(R.id.setting_layout_sign).setOnClickListener(this);
-        findViewById(R.id.setting_image_bound).setOnClickListener(this);
+        findViewById(R.id.setting_layout_bound).setOnClickListener(this);
+        findViewById(R.id.tv_boundphone).setOnClickListener(this);
+//        findViewById(R.id.setting_image_bound).setOnClickListener(this);
         settingSingText = (TextView) findViewById(R.id.setting_sing_text);
 
     }
@@ -175,6 +178,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextAccountText.setText(account);
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
+        tvBindPhone = (TextView) findViewById(R.id.tv_boundphone);
 
         if (getEditModeEnable()) {
             setTitle(R.string.personal_setting);
@@ -183,19 +187,19 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.rl_aboutus).setVisibility(View.GONE);
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_bound).setVisibility(View.GONE);
-            findViewById(R.id.line4).setVisibility(View.GONE);
             findViewById(R.id.line5).setVisibility(View.GONE);
             findViewById(R.id.line6).setVisibility(View.GONE);
             findViewById(R.id.line7).setVisibility(View.GONE);
             findViewById(R.id.line8).setVisibility(View.GONE);
+            findViewById(R.id.setting_layout_boundphone).setVisibility(View.GONE);
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
         } else {
             setTitle(R.string.setting);
 
 
-            findViewById(R.id.line4).setVisibility(View.GONE);
-            findViewById(R.id.line).setVisibility(View.GONE);
-            findViewById(R.id.line2).setVisibility(View.GONE);
+//            findViewById(R.id.line4).setVisibility(View.GONE);
+//            findViewById(R.id.line).setVisibility(View.GONE);
+//            findViewById(R.id.line2).setVisibility(View.GONE);
 
 
             findViewById(R.id.setting_layout_sign).setVisibility(View.GONE);
@@ -333,8 +337,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
             break;
             case R.id.setting_layout_check_version:
-                UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-                mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+                AppUpdateEngine.getAppVersion("portfolio_android", userInfoListener);
                 userInfoListener.setLoadingDialog(context);
                 break;
             case R.id.setting_layout_sign:
@@ -348,12 +351,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent.putExtras(b);
                 UIUtils.startAnimationActivity(this, intent);
                 break;
-            case R.id.setting_image_bound:
+            case R.id.setting_layout_bound:
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
                 intent = new Intent(this, BoundAccountActivity.class);
                 UIUtils.startAnimationActivity(this, intent);
+                break;
+            case R.id.tv_boundphone:
+                startActivity(RLFActivity.bindPhoneIntent(this));
                 break;
             default:
                 break;
@@ -448,7 +454,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             super.onFailure(errCode, errMsg);
         }
 
-        ;
 
         @Override
         protected List<BindThreePlat> parseDateTask(String jsonData) {
@@ -461,6 +466,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             if (!entity.isEmpty()) {
                 for (int i = 0; i < entity.size(); i++) {
                     BindThreePlat palt = entity.get(i);
+
+
                     if (palt.getProvider().equalsIgnoreCase("mobile") || palt.getProvider().equalsIgnoreCase("email")) {
                         if (palt.isStatus()) {
                             if (!getEditModeEnable()) {
@@ -469,6 +476,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
                         }
                     }
+
+
+                    if (palt.isStatus() && palt.getProvider().contains("mobile")) {
+                        tvBindPhone.setText(palt.getUsername());
+                        tvBindPhone.setEnabled(false);
+
+                    }
+
+
                 }
                 // Message msg = updateHandler.obtainMessage(777);
                 // msg.obj = entity;
