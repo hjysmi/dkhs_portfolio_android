@@ -31,7 +31,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="7dp"
             android:gravity="center"
-            android:text="@string/rc_voice_dialog_collect"
+            android:text="@string/rc_voice_dialog_swipe"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
 </LinearLayout>

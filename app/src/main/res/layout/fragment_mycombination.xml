@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/person_setting_backgroud">
+
+
+    <ListView
+        android:id="@+id/swipemenu_listView"
+        style="@style/listViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text=""
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/add_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawablePadding="6dp"
+        android:drawableTop="@drawable/btn_tianjia"
+        android:text="@string/click_add_stock"
+        android:textColor="@color/position_text_lgray" />
+
+    <include
+        android:id="@android:id/progress"
+        layout="@layout/progressbar"
+        android:visibility="gone" />
+
+</RelativeLayout>

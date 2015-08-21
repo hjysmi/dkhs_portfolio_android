@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginRight="70dp"
         android:ellipsize = "end"
         android:singleLine="true"
         android:gravity="top"
@@ -43,7 +43,7 @@
         android:singleLine="true"
         android:layout_marginLeft="6dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginRight="70dp"
         android:gravity="bottom"
         android:textColor="@color/rc_text_color_secondary"
         android:textSize="@dimen/rc_conversation_item_data_size"/>

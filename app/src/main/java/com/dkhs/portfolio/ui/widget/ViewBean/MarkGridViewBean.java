@@ -1,21 +1,20 @@
 package com.dkhs.portfolio.ui.widget.ViewBean;
 
-import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.MarkStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
 /**
@@ -24,16 +23,20 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class MarkGridViewBean extends ViewBean {
     private static final int TYPE = 2;
 
-    private MarkStockBean mMarkStockBean;
+    private StockQuotesBean mMarkStockBean;
 
 
     public MarkGridViewBean() {
     }
 
-    public MarkGridViewBean(MarkStockBean markStockBean) {
+    public MarkGridViewBean(StockQuotesBean markStockBean) {
         this.mMarkStockBean = markStockBean;
     }
 
+
+    public void setStockQuotes(StockQuotesBean stockBean) {
+        this.mMarkStockBean = stockBean;
+    }
 
     public MarkGridViewBean(SparseArray<ViewBean> viewDatas) {
         super(viewDatas);
@@ -42,57 +45,74 @@ public class MarkGridViewBean extends ViewBean {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, MarkIndexViewPool mViewPool) {
 
-        return new ViewHolder(inflate(container, R.layout.layout_mark_grid), mViewPool);
+        return new ViewHolder(inflate(container, R.layout.item_mark_center));
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
-        private GridView gridView;
-        private MarkIndexViewPool mViewPool;
+        private View contentView;
+        public ImageView mImageView;
+        public TextView tvStockName;
+        public TextView tvTitleName;
+        public TextView tvCurrentValue;
+        public TextView tvIncrease;
+        public TextView tvPercent;
 
-        public ViewHolder(final View itemView, MarkIndexViewPool mViewPool) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             this.itemView = itemView;
-            this.mViewPool = mViewPool;
+            contentView = itemView.findViewById(R.id.item_content_view);
+            tvStockName = (TextView) itemView.findViewById(R.id.tv_stock_name);
+            tvTitleName = (TextView) itemView.findViewById(R.id.tv_title_name);
+            tvCurrentValue = (TextView) itemView.findViewById(R.id.tv_main_value);
+            tvIncrease = (TextView) itemView.findViewById(R.id.tv_incease_value);
+            tvPercent = (TextView) itemView.findViewById(R.id.tv_incease_ratio);
+            AnimationHelper.rotate90Animation(itemView);
+        }
 
-            gridView = (GridView) itemView.findViewById(R.id.gridmarket);
-            gridView.setAdapter(new MarketCenterGridAdapter(itemView.getContext()));
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+        public void bindView(final StockQuotesBean markStockBean) {
+
+            tvStockName.setVisibility(View.GONE);
+
+
+            SelectStockBean item = SelectStockBean.copy(markStockBean);
+
+            float change = item.percentage;
+            tvCurrentValue.setTextColor(ColorTemplate.getUpOrDrownCSL(change));
+            if (change > 0) {
+                tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
+                        itemView.getResources().getDrawable(R.drawable.ic_grow_up), null, null, null);
+            } else if (change < 0) {
+                tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
+                        itemView.getResources().getDrawable(R.drawable.ic_grow_down), null, null, null);
+            } else {
+                tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }
+            tvTitleName.setText(item.name);
+            tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
+            tvPercent.setText(StringFromatUtils.get2PointPercentPlus(item.percentage));
+            tvIncrease.setText(StringFromatUtils.get2PointPlus(item.change));
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    StockQuotesBean bean = (StockQuotesBean) parent.getItemAtPosition(position);
-                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), StockQuotesActivity.newIntent(itemView.getContext(), SelectStockBean.copy(bean)));
-
+                public void onClick(View v) {
+                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), StockQuotesActivity.newIntent(itemView.getContext(), SelectStockBean.copy(markStockBean)));
 
                 }
             });
-            setDefTransittion();
-        }
-
-
-        public void bindView(final MarkStockBean markStockBean) {
-
-            MarketCenterGridAdapter stockGridAdapter = (MarketCenterGridAdapter) gridView.getAdapter();
-            if (null != stockGridAdapter) {
-                stockGridAdapter.setDataList(markStockBean.getResults());
-            }
-            stockGridAdapter.notifyDataSetChanged();
 
 
         }
 
 
-        private void setDefTransittion() {
-            LayoutTransition mTransitioner = new LayoutTransition();
-            AnimationHelper.setupCustomAnimations(mTransitioner, this);
-            gridView.setLayoutTransition(mTransitioner);
-        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
+        int position = itemHolder.getAdapterPosition();
+        //position ==2 no left and right padding
         ((ViewHolder) itemHolder).bindView(mMarkStockBean);
+
 
     }
 

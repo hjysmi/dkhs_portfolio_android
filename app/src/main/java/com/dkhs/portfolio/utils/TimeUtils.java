@@ -8,16 +8,18 @@
  */
 package com.dkhs.portfolio.utils;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import java.text.ParseException;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * @author zjz
@@ -27,90 +29,120 @@ import java.util.TimeZone;
  * @date 2014-9-10 下午2:06:56
  */
 public class TimeUtils {
-    private static final int SECOND = 1000;
-    private static final int MINUTE = 60 * SECOND;
-    private static final int HOUR = 60 * MINUTE;
-    private static final int DAY = 24 * HOUR;
+//    private static final int SECOND = 1000;
+//    private static final int MINUTE = 60 * SECOND;
+//    private static final int HOUR = 60 * MINUTE;
+//    private static final int DAY = 24 * HOUR;
+//
+//    public static String getTimeAgo(long time, Context ctx) {
+//
+//        if (time < 1000000000000L) {
+//            // if timestamp given in seconds, convert to millis
+//            time *= 1000;
+//        }
+//
+//        long now = UIUtils.getCurrentTime(ctx);
+//        if (time > now || time <= 0) {
+//            return null;
+//        }
+//
+//        final long diff = now - time;
+//        if (diff < MINUTE) {
+//            return "刚刚";
+//        } else if (diff < 2 * MINUTE) {
+//            return "一分钟前";
+//        } else if (diff < 50 * MINUTE) {
+//            return diff / MINUTE + "分钟前";
+//        } else if (diff < 90 * MINUTE) {
+//            return "一小时前";
+//        } else if (diff < 24 * HOUR) {
+//            return diff / HOUR + "小时前";
+//        } else if (diff < 48 * HOUR) {
+//            return "昨天";
+//        } else {
+//            return diff / DAY + "天前";
+//        }
+//    }
 
-    public static String getTimeAgo(long time, Context ctx) {
 
-        if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
-            time *= 1000;
+    public static String getBriefTimeString(String time) {
+        if(TextUtils.isEmpty(time)){
+            return "";
         }
+        return getBriefTimeString(new DateTime(time));
+    }
 
-        long now = UIUtils.getCurrentTime(ctx);
-        if (time > now || time <= 0) {
-            return null;
-        }
 
-        final long diff = now - time;
-        if (diff < MINUTE) {
-            return "刚刚";
-        } else if (diff < 2 * MINUTE) {
-            return "一分钟前";
-        } else if (diff < 50 * MINUTE) {
-            return diff / MINUTE + "分钟前";
-        } else if (diff < 90 * MINUTE) {
-            return "一小时前";
-        } else if (diff < 24 * HOUR) {
-            return diff / HOUR + "小时前";
-        } else if (diff < 48 * HOUR) {
-            return "昨天";
+    public static String getBriefTimeString(long second) {
+        return getBriefTimeString(new DateTime(second * 1000));
+    }
+
+    public static String getBriefTimeString(DateTime dateTime) {
+        LocalDate date = dateTime.toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+        if (Days.daysBetween(date, currentDate).getDays() == 0) {
+            return dateTime.toString("今天 HH:mm");
+        } else if (date.getYear() == currentDate.getYear()) {
+            return dateTime.toString("MM-dd HH:mm");
         } else {
-            return diff / DAY + "天前";
+            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM);
         }
     }
 
-    private static final SimpleDateFormat[] ACCEPTED_TIMESTAMP_FORMATS = {
-            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.CHINA),
-            new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)};
+    public static final String FORMAT_TEMPLATE_BASE = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_TEMPLATE_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final String FORMAT_TEMPLATE_DAY = "yyyy-MM-dd";
+    public static final String FORMAT_TEMPLATE_DAY_MM = "yyyy-MM-dd HH:mm";
+    public static final String TAG = "TimeUtils";
 
-    private static final SimpleDateFormat VALID_IFMODIFIEDSINCE_FORMAT = new SimpleDateFormat(
-            "EEE, dd MMM yyyy HH:mm:ss Z", Locale.CHINA);
-    private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",
+
+    private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(FORMAT_TEMPLATE_ISO8601,
             Locale.CHINA);
 
     public static Date parseISOTime(String iso8601str) {
-        try {
-            return DEFAULT_DATE_FORMAT.parse(iso8601str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return new DateTime(iso8601str).toDate();
     }
 
     public static String getTimeString(String iso8601Time) {
-        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
+        return new DateTime(iso8601Time).toString("HH:mm", Locale.CHINA);
+    }
+
+    public static String getMMDDString(String iso8601Time) {
+        return new DateTime(iso8601Time).toString("MM-dd", Locale.CHINA);
     }
 
     public static String getMDTimeString(String iso8601Time) {
-        return new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
+        return new DateTime(iso8601Time).toString("MM-dd HH:mm:ss", Locale.CHINA);
+    }
+
+    public static String getDaySecondString(String iso8601Time) {
+        return new DateTime(iso8601Time).toString(FORMAT_TEMPLATE_DAY_MM, Locale.CHINA);
+    }
+
+
+    public static String getSimpleDay(String iso8601str) {
+        return new DateTime(iso8601str).toString(FORMAT_TEMPLATE_DAY, Locale.CHINA);
     }
 
 
     public static String getHourString(String iso8601Time) {
-        if (TextUtils.isEmpty(iso8601Time)) {
-            return "";
-        }
-        return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
+        return new DateTime(iso8601Time).toString("HH:mm:ss", Locale.CHINA);
 
     }
 
-    public static boolean compareTime(Calendar old) {
-        Calendar c = Calendar.getInstance();
-        return old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH)
-                && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH);
+    //比较是否是同一天的时间
+    public static boolean isSameDay(String iso8601Time) {
+        return compareDateTime(new DateTime(iso8601Time), new DateTime()) == 0;
+//        return DateTimeComparator.getDateOnlyInstance().compare(new DateTime(iso8601Time).toDate(), new DateTime().toDate()) == 0;
     }
+
+    public static int compareDateTime(DateTime date1, DateTime date2) {
+        return DateTimeComparator.getDateOnlyInstance().compare(date1.toDate(), date2.toDate());
+    }
+
 
     public static String getTimeString(Calendar calendar) {
-        return ACCEPTED_TIMESTAMP_FORMATS[7].format(calendar.getTime());
+        return new SimpleDateFormat(FORMAT_TEMPLATE_DAY).format(calendar.getTime());
     }
 
     public static String getDateString(String iso8601Time) {
@@ -139,237 +171,15 @@ public class TimeUtils {
         return dateString;
     }
 
-    public static String getTimeByMSecond(float second) {
-        return new SimpleDateFormat("HH:mm").format(float2Date(second));
 
+    public static Calendar getCalendar(final String simpleDate) {
+
+        return new DateTime(simpleDate).toCalendar(Locale.CHINA);
     }
 
-    public static java.util.Date float2Date(float second) {
-        java.util.Date date_origine = new Date((long) (second * 1000));
-        java.util.Calendar date = java.util.Calendar.getInstance();
-        date.setTime(date_origine);
-        date.add(java.util.Calendar.HOUR, -8);
-        return date.getTime();
-    }
-
-    public static String getSimpleFormatTime(String iso8601str) {
-        return ACCEPTED_TIMESTAMP_FORMATS[2].format(toDate(iso8601str));
-    }
-
-    public static String getSimpleFormatTime(String format, String iso8601str) {
-        return new SimpleDateFormat(format, Locale.CHINA).format(toDate(iso8601str));
-    }
-
-    public static String getSimpleDay(String iso8601str) {
-        return ACCEPTED_TIMESTAMP_FORMATS[7].format(toDate(iso8601str));
-    }
-
-    public static Date parseTimestamp(String timestamp) {
-        for (SimpleDateFormat format : ACCEPTED_TIMESTAMP_FORMATS) {
-            format.setTimeZone(TimeZone.getTimeZone("GMT"));
-            try {
-                return format.parse(timestamp);
-            } catch (ParseException ex) {
-            }
-        }
-
-        return null;
-    }
-
-    // public static boolean isValidFormatForIfModifiedSinceHeader(String timestamp) {
-    // try {
-    // return VALID_IFMODIFIEDSINCE_FORMAT.parse(timestamp) != null;
-    // } catch (Exception ex) {
-    // return false;
-    // }
-    // }
-
-    public static long timestampToMillis(String timestamp, long defaultValue) {
-        if (TextUtils.isEmpty(timestamp)) {
-            return defaultValue;
-        }
-        Date d = parseTimestamp(timestamp);
-        return d == null ? defaultValue : d.getTime();
-    }
-
-    /**
-     * Transform ISO 8601 string to Calendar.
-     */
-    public static Calendar toCalendar(final String iso8601string) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
-        try {
-            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-
-            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
-            calendar.setTime(date);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return calendar;
-    }
-
-    public static Calendar toCalendarAddHour(final String iso8601string) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
-        try {
-            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-            SimpleDateFormat ss = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CHINA);
-            // ss.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
-            Date date = ss.parse(iso8601string);
-            calendar.setTime(date);
-            int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
-            calendar.set(Calendar.HOUR_OF_DAY, k);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return calendar;
-    }
-
-    public static String addHour(final String iso8601string) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String s = "";
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA).parse(iso8601string);
-            calendar.setTime(date);
-            /*
-             * int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
-             * int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
-             * calendar.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
-             */
-            int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
-            calendar.set(Calendar.HOUR_OF_DAY, k);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            s = sdf.format(calendar.getTime());
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return s;
-    }
-
-    public static Calendar simpleDateToCalendar(final String simpleDate) {
-        Calendar calendar = GregorianCalendar.getInstance();
-
-        try {
-
-            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(simpleDate);
-            calendar.setTime(date);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return calendar;
-    }
-
-    public static String simpleDateToMonthDay(final String simpleDate) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        String monthDayText = "";
-        try {
-
-            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(simpleDate);
-            calendar.setTime(date);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
-            monthDayText = sdf.format(calendar.getTime());
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return monthDayText;
-    }
-
-    public static Date toDate(final String iso8601string) {
-
-        String s = iso8601string.replace("Z", "+00:00");
-        Date date = null;
-        try {
-            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return date;
-    }
 
     public static String getUTCdatetimeAsString() {
-        final SimpleDateFormat sdf = ACCEPTED_TIMESTAMP_FORMATS[5];
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        final String utcTime = sdf.format(new Date());
-
-        return utcTime;
+        return new DateTime(DateTimeZone.UTC).toString(FORMAT_TEMPLATE_ISO8601, Locale.CHINA);
     }
 
-    // public static Calendar simpleStringToCalend(String dateString) {
-    // Calendar calendar = GregorianCalendar.getInstance();
-    // Date date;
-    // try {
-    // date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(dateString);
-    // calendar.setTime(date);
-    // } catch (ParseException e) {
-    //
-    // e.printStackTrace();
-    // }
-    // return calendar;
-    // }
-
-    // public static String formatShortDate(Context context, Date date) {
-    // StringBuilder sb = new StringBuilder();
-    // Formatter formatter = new Formatter(sb);
-    // return DateUtils.formatDateRange(context, formatter, date.getTime(), date.getTime(),
-    // DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_NO_YEAR, PrefUtils.getDisplayTimeZone(context).getID())
-    // .toString();
-    // }
-    //
-    // public static String formatShortTime(Context context, Date time) {
-    // DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
-    // TimeZone tz = PrefUtils.getDisplayTimeZone(context);
-    // if (tz != null) {
-    // format.setTimeZone(tz);
-    // }
-    // return format.format(time);
-    // }
-    //
-    // public static boolean hasConferenceStarted(final Context context) {
-    // long now = UIUtils.getCurrentTime(context);
-    // return now >= Config.CONFERENCE_START_MILLIS;
-    // }
-    //
-    // public static boolean hasConferenceEnded(final Context context) {
-    // long now = UIUtils.getCurrentTime(context);
-    // return now > Config.CONFERENCE_END_MILLIS;
-    // }
-    //
-    // public static boolean isConferenceInProgress(final Context context) {
-    // long now = UIUtils.getCurrentTime(context);
-    // return now >= Config.CONFERENCE_START_MILLIS && now <= Config.CONFERENCE_END_MILLIS;
-    // }
-    //
-    // /**
-    // * Returns "Today", "Tomorrow", "Yesterday", or a short date format.
-    // */
-    // public static String formatHumanFriendlyShortDate(final Context context, long timestamp) {
-    // long localTimestamp, localTime;
-    // long now = UIUtils.getCurrentTime(context);
-    //
-    // TimeZone tz = PrefUtils.getDisplayTimeZone(context);
-    // localTimestamp = timestamp + tz.getOffset(timestamp);
-    // localTime = now + tz.getOffset(now);
-    //
-    // long dayOrd = localTimestamp / 86400000L;
-    // long nowOrd = localTime / 86400000L;
-    //
-    // if (dayOrd == nowOrd) {
-    // return context.getString(R.string.day_title_today);
-    // } else if (dayOrd == nowOrd - 1) {
-    // return context.getString(R.string.day_title_yesterday);
-    // } else if (dayOrd == nowOrd + 1) {
-    // return context.getString(R.string.day_title_tomorrow);
-    // } else {
-    // return formatShortDate(context, new Date(timestamp));
-    // }
-    // }
 }

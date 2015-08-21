@@ -2,19 +2,29 @@ package com.dkhs.portfolio.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.FlowPackageBean;
+import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.FlowExchangeEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FlowExPackAdatper;
+import com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp;
 import com.dkhs.portfolio.ui.widget.HorizontalListView;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.ui.widget.ScaleLayout;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -41,19 +51,51 @@ public class ExchangeActivity extends ModelAcitivity {
     @ViewInject(R.id.exchange)
     private Button btnExchange;
 
+
+    @ViewInject(R.id.slider)
+    private   SliderLayout mSlider;
+    @ViewInject(R.id.sliderSL)
+    private ScaleLayout mSliderSL;
+    @ViewInject(R.id.tv_exchange_info)
+    private TextView exchangeInfoTV;
+
+    private OnSliderClickListenerImp mOnSliderClickListenerImp;
+
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle(R.string.title_flow_exchange);
         setContentView(R.layout.activity_flow_exchange);
-        ViewUtils.inject(this);
 
-        tvMaxtip.setText(getString(R.string.max_flow_tip, 0));
+        ViewUtils.inject(this);
+        mOnSliderClickListenerImp=new OnSliderClickListenerImp(this);
+        tvMaxtip.setText(getString(R.string.max_flow_tip, 0,0));
+        exchangeInfoTV.setText(getString(R.string.exchange_tip, "0M"));
         FlowExchangeEngine.packages(overViewListener);
         btnExchange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showExchangeDialog();
+            }
+        });
+        getHeadBanner();
+    }
+
+    private void getHeadBanner() {
+        AdEngineImpl.getRechargeBanner(new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return AdBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+
+                if (object != null) {
+                    AdBean adBean = (AdBean) object;
+                    updateBanner(adBean);
+                }
             }
         });
     }
@@ -70,12 +112,41 @@ public class ExchangeActivity extends ModelAcitivity {
             if (null != object) {
                 packageBean = object;
                 updateUI(object);
-
             }
 
         }
     };
 
+    private void updateBanner( AdBean adBean) {
+        int duration=6;
+        if (adBean != null) {
+            if(adBean.getAds().size()>=0){
+                mSliderSL.setVisibility(View.VISIBLE);
+                mSlider.removeAllSliders();
+                for (AdBean.AdsEntity item : adBean.getAds()) {
+                    TextSliderView textSliderView = new TextSliderView(this);
+                    textSliderView
+                            .description(item.getTitle())
+                            .image(item.getImage())
+                            .setScaleType(BaseSliderView.ScaleType.Fit);
+                    duration = item.getDisplay_time();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("redirect_url", item.getRedirect_url());
+                    textSliderView.bundle(bundle);
+                    textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                    mSlider.addSlider(textSliderView);
+                }
+                mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+                mSlider.setCustomAnimation(new DescriptionAnimation());
+                mSlider.setDuration(duration * 1000);
+                mSlider.startAutoCycle();
+            }else{
+                mSliderSL.setVisibility(View.GONE);
+            }
+
+        }
+    }
 
     private void updateUI(final FlowPackageBean packBean) {
         packAdapter = new FlowExPackAdatper(this, packBean.getOppackages());
@@ -95,8 +166,30 @@ public class ExchangeActivity extends ModelAcitivity {
             }
         });
 
-        tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount()));
+
+
         tvPaidPhone.setText(packBean.getMobile());
+
+        String days;
+        if(TextUtils.isEmpty(packBean.getValid_days())){
+            days="0";
+        }else{
+            days=packBean.getValid_days();
+        }
+
+        tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount(),days));
+        String weekMaxName;
+        if(TextUtils.isEmpty(packBean.getWeek_max_name())){
+            weekMaxName="0M";
+        }else{
+            weekMaxName=packBean.getWeek_max_name();
+        }
+
+        exchangeInfoTV.setText(getString(R.string.exchange_tip, weekMaxName));
+        if(packBean.getMax_amount()==0) {
+            btnExchange.setText("本周额度已用完，请下周再来！");
+            btnExchange.setEnabled(false);
+        }
     }
 
 

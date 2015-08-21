@@ -96,14 +96,12 @@ public class MessageReceive extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("MessageReceive", "收到消息");
+         Log.d("MessageReceive", "收到消息");
         //登陆状态处理消息,否则丢弃掉该消息
-        if (PortfolioApplication.hasUserLogin()) {
-
+//        if (PortfolioApplication.hasUserLogin()) {
             MessageManager.getInstance().notifyNewMessage();
             MessageManager.getInstance().setHasNewUnread(true);
             Message message = intent.getParcelableExtra(KEY_MESSAGE);
-
             if (!PortfolioApplication.getInstance().isRunningForeground()) {
                 if (null != message && "DK:ImgTextMsg".equals(message.getObjectName())) {
                     //推送通知
@@ -114,9 +112,8 @@ public class MessageReceive extends BroadcastReceiver {
                 //震动提醒
                 acquireWakeLock(context);
                 vibrationPhone();
-
             }
-        }
+//        }
     }
 
     public void acquireWakeLock(Context ctx) {
@@ -160,6 +157,8 @@ public class MessageReceive extends BroadcastReceiver {
                     .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
                     .setContentIntent(pendingIntent)
                     .build();
+            notificationCompat.icon=R.drawable.ic_launcher;
+
             NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(notificationId, notificationCompat);
         }

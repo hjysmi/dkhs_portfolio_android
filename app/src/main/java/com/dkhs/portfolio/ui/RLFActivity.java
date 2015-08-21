@@ -24,16 +24,15 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.Action1;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.security.SecurityUtils;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 
@@ -91,7 +90,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rlf_layout);
+        setContentView(R.layout.activity_rlf_layout);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -494,7 +493,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                UserEntity entity = UserEntityDesUtil.encrypt(user);
+                UserEntity entity = SecurityUtils.encrypt(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {

@@ -8,11 +8,10 @@
  */
 package com.dkhs.portfolio.net;
 
-import org.apache.http.NameValuePair;
-
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UrlStoreBean;
 import com.lidroid.xutils.DbUtils;
@@ -20,6 +19,8 @@ import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
+import org.apache.http.NameValuePair;
 
 /**
  * @ClassName CacheHelper
@@ -53,7 +54,7 @@ public class CacheHelper {
     public void queryURLStore(final String autho, final IHttpListener listener) {
         new Thread() {
             public void run() {
-                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                DbUtils db = AppConfig.getDBUtils();
                 try {
                     UrlStoreBean storeBean = db.findFirst(Selector.from(UrlStoreBean.class)
                             .where("url", "=", mQueryUrl).and("authorization", "=", autho));

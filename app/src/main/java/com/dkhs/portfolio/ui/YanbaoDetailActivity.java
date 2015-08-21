@@ -12,7 +12,6 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zwm
@@ -103,10 +102,7 @@ public class YanbaoDetailActivity extends ModelAcitivity {
 
     public void setValue() {
         newsTitleName.setText(mOptionNewsBean.getTitle());
-        String time = mOptionNewsBean.getPublish().replace("T", " ")
-                .substring(0, mOptionNewsBean.getCreatedTime().length() - 6)
-                + "00";
-        time = TimeUtils.addHour(time);
+        String time = TimeUtils.getDaySecondString(mOptionNewsBean.getPublish());
         newsTitleDate.setText(time);
         if (null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0) {
             newsTitleSym.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());

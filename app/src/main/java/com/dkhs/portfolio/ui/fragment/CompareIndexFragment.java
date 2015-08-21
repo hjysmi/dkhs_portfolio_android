@@ -97,7 +97,7 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
-        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        mCreateCalender = TimeUtils.getCalendar(mCombinationBean.getCreateTime());
     }
 
     @Override
@@ -245,8 +245,8 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
             // float pointValue = todayBean.getPercentage();
             float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+            if (dashLineSize == 0 && TimeUtils.getCalendar(todayBean.getDate()) != null) {
+                if (TimeUtils.getCalendar(todayBean.getDate()).after(mCreateCalender)) {
                     dashLineSize = i;
                 }
             }

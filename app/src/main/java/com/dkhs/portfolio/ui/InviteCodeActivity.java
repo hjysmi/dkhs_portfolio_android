@@ -1,9 +1,11 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,8 @@ import android.widget.EditText;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.engine.FlowExchangeEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.ErrorBundle;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -74,18 +78,86 @@ public class InviteCodeActivity extends ModelAcitivity {
         @Override
         public void onSuccess(String result) {
             btnConfirm.setEnabled(true);
-            PromptManager.showSuccessToast(R.string.post_success_tip);
-            finish();
+//            PromptManager.showSuccessToast(R.string.post_success_tip);
+//            finish();
+            showInviteFriend();
 
         }
+
 
         @Override
-        public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
+        public void onFailure(ErrorBundle errorBundle) {
             btnConfirm.setEnabled(true);
-//            PromptManager.showCancelToast(R.string.post_failure_tip);
+
+            if (!TextUtils.isEmpty(errorBundle.getErrorKey()) && errorBundle.getErrorKey().equals("invite_limit")) {
+
+                showInviteLimit();
+            } else {
+                super.onFailure(errorBundle);
+            }
+
+
         }
     };
+
+
+    private void showInviteFriend() {
+        MAlertDialog mAlertDialog = PromptManager.getAlertDialog(this);
+        mAlertDialog.setMessage(R.string.dialog_msg_invitecode_success);
+
+        mAlertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                finish();
+
+            }
+        }).setPositiveButton(R.string.dialog_button_invite, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(InviteCodeActivity.this, InviteFriendsActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+
+
+        mAlertDialog.show();
+    }
+
+    private void showInviteLimit() {
+        MAlertDialog mAlertDialog = PromptManager.getAlertDialog(this);
+        mAlertDialog.setMessage(R.string.dialog_msg_invitecode_limit);
+
+        mAlertDialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                finish();
+
+            }
+        }).setPositiveButton(R.string.dialog_button_invite, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(InviteCodeActivity.this, InviteFriendsActivity.class);
+                startActivity(intent);
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+
+
+        mAlertDialog.show();
+    }
 
 
 }

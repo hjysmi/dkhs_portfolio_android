@@ -84,7 +84,7 @@
                 android:id="@+id/btn_tab4"
                 android:layout_marginTop="7dp"
                 style="@style/bottom_tab_button"
-                android:background="@drawable/cb_bar_news" />
+                android:background="@drawable/ic_bbs" />
 
             <TextView
                 android:id="@+id/tv_tab4"

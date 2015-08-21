@@ -130,4 +130,9 @@
         <attr name="gridWidthWeight" format="integer"></attr>
     </declare-styleable>
 
+    <!--<declare-styleable name="customView">-->
+        <!--<attr name="infectParentVisibility" format="boolean"></attr>-->
+        <!--<attr name="infectId" format="reference"></attr>-->
+    <!--</declare-styleable>-->
+
 </resources>

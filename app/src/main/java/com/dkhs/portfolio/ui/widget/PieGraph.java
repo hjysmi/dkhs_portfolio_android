@@ -166,7 +166,7 @@ public class PieGraph extends View {
         }
     }
 
-    Handler handler = new Handler();
+   protected Handler handler = new Handler();
     Runnable updateRunnable = new Runnable() {
 
         @Override
@@ -283,6 +283,13 @@ public class PieGraph extends View {
 //        }
 //        postInvalidate();
 //    }
+
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        removeCallbacks(updateRunnable);
+    }
 
     public static interface OnSliceClickedListener {
         public abstract void onClick(int index);

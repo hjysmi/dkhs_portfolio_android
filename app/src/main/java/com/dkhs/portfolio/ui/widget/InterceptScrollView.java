@@ -81,16 +81,17 @@ public class InterceptScrollView extends ObservableScrollView {
     }
 
     private boolean isIntercept = false;
-       
-   /* @Override
+
+    @Override
     public boolean onTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stub
-    	if(isIntercept){
-    		return super.onTouchEvent(ev);
-    	}else{
-    		return false;
-    	}
-	}*/
+
+//        Log.e("InterceptScrollView", "MotionEvent =  " + ev.getAction());
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            isIntercept = false;
+            this.requestFocus();
+        }
+        return super.onTouchEvent(ev);
+    }
 
     @Override
     public int computeVerticalScrollRange() {

@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -21,9 +22,6 @@ import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,33 +116,15 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     };
 
     @Override
-    protected void setTabViewPage(List<FragmentSelectStockFund> fragmenList) {
+    protected void setTabViewPage(List<Fragment> fragmenList) {
 
-        // String[] tArray = getResources().getStringArray(R.array.select_optional_stock);
-        // int titleLenght = tArray.length;
-        // for (int i = 0; i < titleLenght; i++) {
-        // titleList.add(tArray[i]);
-        //
-        // }
-        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund
-                .getStockFragment(StockViewType.STOCK_INCREASE_CLICKABLE);
-        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund
-                .getStockFragment(StockViewType.STOCK_DRAWDOWN_CLICKABLE);
-        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
-                .getStockFragment(StockViewType.STOCK_HANDOVER_CLICKABLE);
-//        mIncreaseFragment.setDefLoad(true);
-//        mDownFragment.setDefLoad(true);
-//        mHandoverFragment.setDefLoad(true);
-
-        fragmenList.add(mIncreaseFragment);
-        fragmenList.add(mDownFragment);
-        fragmenList.add(mHandoverFragment);
+        fragmenList.add(FragmentSearchStockFund.getHistoryFragment(true,false));
 
     }
 
     @Override
     protected FragmentSearchStockFund getSearchFragment() {
-        return FragmentSearchStockFund.getItemClickBackFragment();
+        return FragmentSearchStockFund.getItemClickBackFragment(false);
     }
 
     @Override
@@ -159,9 +139,12 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
      */
     @Override
     protected int getTitleRes() {
-        // TODO Auto-generated method stub
-        return R.array.select_optional_stock;
+        return -1;
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

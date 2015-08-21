@@ -24,8 +24,15 @@ public class ShareBean {
     private String code;
     private String url;
 
+    private int resId;
 
+    public int getResId() {
+        return resId;
+    }
 
+    public void setResId(int resId) {
+        this.resId = resId;
+    }
 
     public void setContent(String content) {
         this.content = content;

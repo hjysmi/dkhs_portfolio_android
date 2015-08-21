@@ -11,7 +11,7 @@ import android.os.SystemClock;
  */
 public  class SingleClickHelper {
 
-    private static long L_CLICK_INTERVAL = 800;
+    private static long L_CLICK_INTERVAL = 400;
     private long preClickTime;
 
 

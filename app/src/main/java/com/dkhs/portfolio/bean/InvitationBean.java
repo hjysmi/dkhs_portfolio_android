@@ -18,7 +18,6 @@ public class InvitationBean {
      * avatar_sm :
      * portfolios_following_count : 0
      * avatar_md :
-     * following_count : 0
      * avatar_xs :
      * symbols_count : 0
      * city : null
@@ -33,14 +32,12 @@ public class InvitationBean {
      * avatar_lg :
      * province : null
      * gender : null
-     * followers_count : 0
      */
     private boolean is_active;
     private int portfolios_count;
     private String avatar_sm;
     private int portfolios_following_count;
     private String avatar_md;
-    private int following_count;
     private String avatar_xs;
     private int symbols_count;
     private String city;
@@ -55,7 +52,6 @@ public class InvitationBean {
     private String avatar_lg;
     private String province;
     private String gender;
-    private int followers_count;
 
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
@@ -77,9 +73,6 @@ public class InvitationBean {
         this.avatar_md = avatar_md;
     }
 
-    public void setFollowing_count(int following_count) {
-        this.following_count = following_count;
-    }
 
     public void setAvatar_xs(String avatar_xs) {
         this.avatar_xs = avatar_xs;
@@ -137,9 +130,6 @@ public class InvitationBean {
         this.gender = gender;
     }
 
-    public void setFollowers_count(int followers_count) {
-        this.followers_count = followers_count;
-    }
 
     public boolean isIs_active() {
         return is_active;
@@ -161,9 +151,6 @@ public class InvitationBean {
         return avatar_md;
     }
 
-    public int getFollowing_count() {
-        return following_count;
-    }
 
     public String getAvatar_xs() {
         return avatar_xs;
@@ -221,7 +208,5 @@ public class InvitationBean {
         return gender;
     }
 
-    public int getFollowers_count() {
-        return followers_count;
-    }
+
 }

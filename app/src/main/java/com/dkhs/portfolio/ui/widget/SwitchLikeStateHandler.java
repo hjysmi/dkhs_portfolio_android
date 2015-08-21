@@ -1,0 +1,118 @@
+package com.dkhs.portfolio.ui.widget;
+
+import android.content.Intent;
+import android.widget.ImageView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.LikeBean;
+import com.dkhs.portfolio.bean.StatusBean;
+import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.ui.LoginActivity;
+import com.dkhs.portfolio.utils.UIUtils;
+
+/**
+ * @author zwm
+ * @version 2.0
+ * @ClassName SwitchLikeStateHandler
+ * @Description TODO(这里用一句话描述这个类的作用)
+ * @date 2015/7/30.
+ */
+public class SwitchLikeStateHandler {
+
+
+    private LikeBean mLikeBean;
+
+    private ImageView mLikeIm;
+
+    public SwitchLikeStateHandler(LikeBean likeBean) {
+        mLikeBean = likeBean;
+    }
+
+    public void setLikeBean(LikeBean likeBean) {
+        mLikeBean = likeBean;
+    }
+
+    public void attachLikeImage(ImageView likeIm) {
+        mLikeIm = likeIm;
+    }
+
+    public interface StatusChangeI {
+
+        void likePre();
+
+        void unLikePre();
+    }
+
+    private StatusChangeI mStatusChangeI;
+
+    public void setStatusChangeI(StatusChangeI statusChangeI) {
+        mStatusChangeI = statusChangeI;
+    }
+
+    public void toggleLikeState() {
+        mLikeBean.setLike(!mLikeBean.isLike());
+
+        if (!PortfolioApplication.hasUserLogin()) {
+
+            Intent intent = LoginActivity.loginActivityByAnnoy(PortfolioApplication.getInstance());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PortfolioApplication.getInstance().startActivity(
+                    intent);
+            return;
+        }
+        if (!mLikeBean.isLike()) {
+            //取消点赞
+            if (mLikeIm != null) {
+                unLikeImage();
+            }
+            if (mStatusChangeI != null) {
+                mStatusChangeI.unLikePre();
+            }
+            StatusEngineImpl.unstarTopic(mLikeBean.getId() + "", new SimpleParseHttpListener() {
+                @Override
+                public Class getClassType() {
+                    return StatusBean.class;
+                }
+
+                @Override
+                protected void afterParseData(Object object) {
+                    //do something
+                }
+            });
+        } else {
+            //点赞
+            if (mLikeIm != null) {
+                likeImage();
+            }
+            if (mStatusChangeI != null) {
+                mStatusChangeI.likePre();
+            }
+            StatusEngineImpl.starTopic(mLikeBean.getId() + "", new SimpleParseHttpListener() {
+                @Override
+                public Class getClassType() {
+                    return StatusBean.class;
+                }
+
+                @Override
+                protected void afterParseData(Object object) {
+                    //do something
+                }
+            });
+
+        }
+
+    }
+
+    private void unLikeImage() {
+        mLikeIm.setImageResource(R.drawable.ic_unlike);
+    }
+
+    private void likeImage() {
+        mLikeIm.setImageResource(R.drawable.ic_like);
+    }
+
+
+}

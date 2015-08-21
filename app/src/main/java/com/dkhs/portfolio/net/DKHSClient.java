@@ -9,8 +9,11 @@
 package com.dkhs.portfolio.net;
 
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.EncryptData;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -205,14 +208,9 @@ public class DKHSClient {
 
             if (null != listener) {
                 listener.requestCallBack();
-                listener.onHttpFailure(123, "网络未连接");
+                listener.onHttpFailure(123, PortfolioApplication.getInstance().getString(R.string.no_net_connect));
             }
-            if (Looper.getMainLooper().getThread() == Thread.currentThread() && isShowTip) {
-                // On UI thread.
-                PromptManager.showNoNetWork();
-            } else {
-                // Not on UI thread.
-            }
+
             return null;
         }
     }
@@ -283,14 +281,9 @@ public class DKHSClient {
 
             if (null != listener) {
                 listener.requestCallBack();
-                listener.onHttpFailure(123, "网络未连接");
+                listener.onHttpFailure(123, PortfolioApplication.getInstance().getString(R.string.no_net_connect));
             }
-            if (Looper.getMainLooper().getThread() == Thread.currentThread() && isShowTip) {
-                // On UI thread.
-                PromptManager.showNoNetWork();
-            } else {
-                // Not on UI thread.
-            }
+           
 
         }
     }
@@ -352,27 +345,32 @@ public class DKHSClient {
         if (relativeUrl.contains("http://") || relativeUrl.contains("https://")) {
             return relativeUrl;
         } else {
-            switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
-                case 0:
-                    return DKHSUrl.BASE_DEV_URL + relativeUrl;
-                case 1:
-                    return DKHSUrl.BASE_TEST_URL + relativeUrl;
-                case 2:
-                    return DKHSUrl.BASE_DEV_MAIN + relativeUrl;
-                case 3:
-                    return DKHSUrl.BASE_DEV_TAG + relativeUrl;
-                default:
-                    break;
-            }
-            /*
-             * if (PortfolioPreferenceManager.isRequestByTestServer()) {
-             * 
-             * } else {
-             * return DKHSUrl.BASE_DEV_URL + relativeUrl;
-             * 
-             * }
-             */
+            String x = getHeadUrl() + relativeUrl;
+            if (x != null) return x;
+
             return null;
         }
+    }
+
+    @Nullable
+    public static String getHeadUrl() {
+        String headUrl=DKHSUrl.BASE_DEV_URL;
+        switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
+            case 0:
+                headUrl=   DKHSUrl.BASE_DEV_URL;
+                break;
+            case 1:
+                headUrl=   DKHSUrl.BASE_TEST_URL;
+                break;
+            case 2:
+                headUrl=   DKHSUrl.BASE_DEV_MAIN;
+                break;
+            case 3:
+                headUrl=   DKHSUrl.BASE_DEV_TAG;
+                break;
+            default:
+
+        }
+        return headUrl;
     }
 }

@@ -1,20 +1,18 @@
 package com.dkhs.portfolio.ui.widget.ViewBean;
 
-import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.MarkSectorBean;
 import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.ui.MarketListActivity;
-import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
 /**
@@ -23,13 +21,17 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class MarkPlateGridViewBean extends ViewBean {
     private static final int TYPE = 21;
 
-    private MarkSectorBean mMarkSectorBean;
+    private SectorBean mMarkSectorBean;
 
     public MarkPlateGridViewBean() {
     }
 
 
-    public MarkPlateGridViewBean(MarkSectorBean markSectorBean) {
+    public MarkPlateGridViewBean(SectorBean markSectorBean) {
+        this.mMarkSectorBean = markSectorBean;
+    }
+
+    public void setPlateBean(SectorBean markSectorBean) {
         this.mMarkSectorBean = markSectorBean;
     }
 
@@ -40,58 +42,59 @@ public class MarkPlateGridViewBean extends ViewBean {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, MarkIndexViewPool mViewPool) {
 
-        return new ViewHolder(inflate(container, R.layout.layout_mark_grid), mViewPool);
+        return new ViewHolder(inflate(container, R.layout.item_mark_center), mViewPool);
 
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
-        private GridView gridView;
-        private MarkIndexViewPool mViewPool;
+        public TextView tvStockName;
+        public TextView tvTitleName;
+        public TextView tvCurrentValue;
+        public TextView tvIncrease;
+        public TextView tvPercent;
 
         public ViewHolder(final View itemView, MarkIndexViewPool mViewPool) {
             super(itemView);
             this.itemView = itemView;
-            this.mViewPool = mViewPool;
 
-            gridView = (GridView) itemView.findViewById(R.id.gridmarket);
-            gridView.setAdapter(new MarketPlateGridAdapter(itemView.getContext()));
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            tvStockName = (TextView) itemView.findViewById(R.id.tv_stock_name);
+            tvTitleName = (TextView) itemView.findViewById(R.id.tv_title_name);
+            tvCurrentValue = (TextView) itemView.findViewById(R.id.tv_main_value);
+            tvIncrease = (TextView) itemView.findViewById(R.id.tv_incease_value);
+            tvPercent = (TextView) itemView.findViewById(R.id.tv_incease_ratio);
+            AnimationHelper.rotate90Animation(itemView);
+        }
+
+        public void bindView(final SectorBean item) {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    SectorBean bean = (SectorBean) parent.getItemAtPosition(position);
-                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), MarketListActivity.newIntent(itemView.getContext(), MarketListActivity.LoadViewType.PlateList, bean.getId(),
-                            bean.getAbbr_name()));
-
-
+                public void onClick(View v) {
+                    UIUtils.startAnimationActivity((Activity) itemView.getContext(), MarketListActivity.newIntent(itemView.getContext(), MarketListActivity.LoadViewType.PlateList, item.getId(),
+                            item.getAbbr_name()));
                 }
             });
-            setDefTransittion();
+            tvStockName.setVisibility(View.VISIBLE);
+            float change = item.getPercentage();
+            tvCurrentValue.setTextColor(ColorTemplate.getUpOrDrownCSL(change));
+            tvStockName.setText(item.getTop_symbol_name());
+            tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            tvTitleName.setText(item.getAbbr_name());
+            tvCurrentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getPercentage()));
+            tvPercent.setText(StringFromatUtils.get2PointPercentPlus(item.getTop_symbol_percentage()));
+            tvIncrease.setText(StringFromatUtils.get2Point(item.getTop_symbol_current()));
+
+
         }
 
-        public void bindView(final MarkSectorBean markSectorBean) {
-
-            MarketPlateGridAdapter marketPlateGridAdapter = (MarketPlateGridAdapter) gridView.getAdapter();
-            if (null != marketPlateGridAdapter) {
-                marketPlateGridAdapter.setDataList(markSectorBean.getResults());
-            }
-            marketPlateGridAdapter.notifyDataSetChanged();
-
-
-        }
-
-
-        private void setDefTransittion() {
-            LayoutTransition mTransitioner = new LayoutTransition();
-            AnimationHelper.setupCustomAnimations(mTransitioner, this);
-            gridView.setLayoutTransition(mTransitioner);
-        }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
 
-
+        int position = itemHolder.getAdapterPosition();
+        //position =6 and 9,no right left padding
+        //position > 7 no top padding
         ((ViewHolder) itemHolder).bindView(mMarkSectorBean);
 
     }

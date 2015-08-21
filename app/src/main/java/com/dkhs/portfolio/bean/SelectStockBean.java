@@ -220,6 +220,20 @@ public class SelectStockBean extends DragListItem {
         return bean;
     }
 
+    public SearchHistoryBean parseHistoryBean() {
+
+        SearchHistoryBean bean = new SearchHistoryBean();
+        bean.setStockName(this.name);
+        bean.setId(this.id);
+        bean.setStockCode(this.code);
+        bean.setSymbol(this.symbol);
+        bean.setSymbol_type(this.symbol_type);
+        bean.setSymbol_stype(this.symbol_stype + "");
+        bean.setList_status(this.list_status);
+        return bean;
+    }
+
+
     public boolean equals(Object obj) {
         if (!(obj instanceof SelectStockBean)) {
             return false;

@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.net;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -218,6 +220,14 @@ public class DataParse<T> {
         }
         return null;
 
+    }
+
+    public static Object parseObjectJson(Type type,String jsonObject) {
+        if(TextUtils.isEmpty(jsonObject)||type==null)
+            throw new RuntimeException("jsonObject或者clazz不能为空");
+        Gson gson=new Gson();
+        Object obj = gson.fromJson(jsonObject, type);
+        return obj;
     }
 
 }

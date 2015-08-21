@@ -18,8 +18,10 @@ import android.media.ExifInterface;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -32,14 +34,15 @@ import com.dkhs.portfolio.ui.LoginActivity;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName UiUtils
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-25 下午3:43:24
- * @version 1.0
  */
 public class UIUtils {
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -59,6 +62,47 @@ public class UIUtils {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+
+    public static void setGridViewHeightBasedOnChildren(GridView gridView) {
+        // 获取GridView对应的Adapter
+        ListAdapter listAdapter = gridView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int rows;
+        int columns = 0;
+        int horizontalBorderHeight = 0;
+        Class<?> clazz = gridView.getClass();
+        try {
+            //利用反射，取得每行显示的个数
+            Field column = clazz.getDeclaredField("mRequestedNumColumns");
+            column.setAccessible(true);
+            columns = (Integer) column.get(gridView);
+            //利用反射，取得横向分割线高度
+            Field horizontalSpacing = clazz.getDeclaredField("mRequestedHorizontalSpacing");
+            horizontalSpacing.setAccessible(true);
+            horizontalBorderHeight = (Integer) horizontalSpacing.get(gridView);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        //判断数据总数除以每行个数是否整除。不能整除代表有多余，需要加一行
+        if (listAdapter.getCount() % columns > 0) {
+            rows = listAdapter.getCount() / columns + 1;
+        } else {
+            rows = listAdapter.getCount() / columns;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < rows; i++) { //只计算每项高度*行数
+            View listItem = listAdapter.getView(i, null, gridView);
+            listItem.measure(0, 0); // 计算子项View 的宽高
+            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度
+        }
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight + horizontalBorderHeight * (rows - 1);//最后加上分割线总高度
+        gridView.setLayoutParams(params);
     }
 
     // public static boolean isSameDayDisplay(long time1, long time2, Context context) {
@@ -95,50 +139,6 @@ public class UIUtils {
         }
         lastClickTime = time;
         return false;
-    }
-
-    /** 从给定的路径加载图片，并指定是否自动旋转方向 */
-    public static Bitmap loadBitmap(Bitmap bm, String imgpath) {
-        int digree = 0;
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(imgpath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            exif = null;
-        }
-        if (exif != null) {
-            // 读取图片中相机方向信息
-            int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            double oris = exif.getAttributeDouble(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-            String oriss = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-            // 计算旋转角度
-            switch (ori) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    digree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    digree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    digree = 270;
-                    break;
-                default:
-                    digree = 0;
-                    break;
-            }
-        }
-        if (digree != 0) {
-            // 旋转图片
-            Matrix m = new Matrix();
-            m.postRotate(digree);
-            Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
-            if (null != bms) {
-                bm = bms;
-                bms = null;
-            }
-        }
-        return bm;
     }
 
     public static Bitmap toRoundBitmap(Bitmap bitmap) {
@@ -197,6 +197,51 @@ public class UIUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 从给定的路径加载图片，并指定是否自动旋转方向
+     */
+    public static Bitmap loadBitmap(Bitmap bm, String imgpath) {
+        int digree = 0;
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(imgpath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            exif = null;
+        }
+        if (exif != null) {
+            // 读取图片中相机方向信息
+            int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            double oris = exif.getAttributeDouble(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+            String oriss = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+            // 计算旋转角度
+            switch (ori) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    digree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    digree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    digree = 270;
+                    break;
+                default:
+                    digree = 0;
+                    break;
+            }
+        }
+        Matrix m = new Matrix();
+        if (digree != 0) {
+            // 旋转图片
+            m.postRotate(digree);
+            Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), m, true);
+            bm.recycle();
+
+            return bms;
+        }
+        return bm;
     }
 
     @SuppressLint("ResourceAsColor")
@@ -301,7 +346,7 @@ public class UIUtils {
 
     /**
      * 匹配K线图无网络时经线标题值
-     * 
+     *
      * @param value
      * @return
      */
@@ -338,15 +383,14 @@ public class UIUtils {
     }
 
 
-
     public static boolean iStartLoginActivity(Context context) {
         // try {
         // UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
         // if (user == null) {
         // // PortfolioApplication.getInstance().exitApp();
-        // // Intent intent = new Intent(context, LoginActivity.class);
+        // // Intent intent = new Intent(mContext, LoginActivity.class);
         //
-        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // mContext.startActivity(LoginActivity.loginActivityByAnnoy(mContext));
         // return true;
         // } else {
         // return false;
@@ -354,8 +398,8 @@ public class UIUtils {
         // } catch (DbException e) {
         // e.printStackTrace();
         // // PortfolioApplication.getInstance().exitApp();
-        // // Intent intent = new Intent(context, LoginActivity.class);
-        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // // Intent intent = new Intent(mContext, LoginActivity.class);
+        // mContext.startActivity(LoginActivity.loginActivityByAnnoy(mContext));
         // return true;
         // }
         if (!PortfolioApplication.hasUserLogin()) {
@@ -370,7 +414,7 @@ public class UIUtils {
         /*
          * try {
          * Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
-         * 
+         *
          * return ((Boolean) method.invoke(null)).booleanValue();
          * } catch (Exception e) {
          * // TODO Auto-generated catch block
@@ -380,9 +424,9 @@ public class UIUtils {
         return Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3") || Build.DEVICE.equals("mx4pro");
     }
 
-  public static void startAnimationActivity(Activity context, Intent intent) {
+    public static void startAnimationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
-        // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+        // mContext.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
         setOverridePendingAnin(context);
     }
 
@@ -393,6 +437,7 @@ public class UIUtils {
     public static void setOverridePendingSlideFormBottomAnim(Activity activity) {
         activity.overridePendingTransition(R.anim.activity_in_from_bottom, R.anim.activity_out_to_left);
     }
+
     public static void outAnimationActivity(Activity context) {
         context.overridePendingTransition(R.anim.activity_in_from_left, R.anim.activity_out_to_right);
 
@@ -409,9 +454,72 @@ public class UIUtils {
         return 0.5F + paramFloat * paramContext.getResources().getDisplayMetrics().density;
     }
 
+    public static int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, PortfolioApplication.getInstance().getResources().getDisplayMetrics());
+    }
 
     public static float px2dip(Context paramContext, float paramFloat) {
         return 0.5F + paramFloat / paramContext.getResources().getDisplayMetrics().density;
+    }
+
+    public static Bitmap getLocaleimage(String srcPath) {
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        // 开始读入图片，此时把options.inJustDecodeBounds 设回true了
+        newOpts.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(srcPath, newOpts);// 此时返回bm为空
+
+        newOpts.inJustDecodeBounds = false;
+        int originWidth = newOpts.outWidth;
+        int originHeight = newOpts.outHeight;
+        // 现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
+//        float maxHeight = 1600f;// 这里设置高度为800f
+        float maxWidth = 800f;// 这里设置宽度为480f
+        // 缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
+        int be = 1;// be=1表示不缩放
+//        if (originWidth > originHeight && originWidth > maxWidth) {// 如果宽度大的话根据宽度固定大小缩放
+//            be = (int) (newOpts.outWidth / maxWidth);
+//        } else if (originWidth < originHeight && originHeight > maxHeight) {// 如果高度高的话根据宽度固定大小缩放
+//            be = (int) (newOpts.outHeight / maxHeight);
+//        }
+        if (originWidth > maxWidth) {
+            be = (int) (newOpts.outWidth / maxWidth);
+        }
+        if (be <= 0)
+            be = 1;
+        newOpts.inSampleSize = be;// 设置缩放比例
+        // 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
+        bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
+        return compress2mImage(bitmap);// 压缩好比例大小后再进行质量压缩
+    }
+
+    public static Bitmap compress2mImage(Bitmap image) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        int options = 90;
+        image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int streamSize = baos.size(); //byte size
+        int maxSize = 500 * 128;  //bit size convert to byte size 1024/8
+        while (streamSize > maxSize) { // 循环判断如果压缩后图片是否大于500kb,大于继续压缩
+
+            options -= 10;// 每次都减少10
+            if (options < 30) {
+                break;
+            }
+            baos.reset();// 重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);// 这里压缩options%，把压缩后的数据存放到baos中
+            streamSize = baos.size();
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
+        image.recycle();
+        try {
+            baos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            baos = null;
+        }
+        return BitmapFactory.decodeStream(isBm, null, null);
     }
 
 }

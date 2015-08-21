@@ -15,14 +15,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -116,7 +114,6 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         // btnRefresh.setBackgroundDrawable(null);
         btnRefresh.setText("编辑");
         // btnRefresh.setTextColor(Color.WHITE);
-        // btnRefresh.setBackgroundResource(R.drawable.white_black_selector);
         btnRefresh.setOnClickListener(new OnClickListener() {
 
             @Override

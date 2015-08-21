@@ -40,13 +40,12 @@
     <item type="id" name="rc_message_send_failed"/>
     <item type="id" name="rc_input_switch"/>
     <item type="id" name="rc_input_main"/>
-    <item type="id" name="rc_input_extend"/>
+    <item type="id" name="rc_input_extension"/>
     <item type="id" name="rc_checkbox"/>
     <item type="id" name="rc_btn_cancel"/>
     <item type="id" name="rc_btn_ok"/>
-    <item type="id" name="rc_viewpager"/>
+    <item type="id" name="rc_pager"/>
     <item type="id" name="rc_send"/>
-    <item type="id" name="rc_currentpage"/>
     <item type="id" name="rc_fragment"/>
     <item type="id" name="rc_frame"/>
 

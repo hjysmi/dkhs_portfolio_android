@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView android:id="@+id/text"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:singleLine="true"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ellipsize="marquee"
+          android:textAlignment="inherit"
+          android:layout_gravity="center"
+          android:paddingLeft="12dp"
+          android:paddingRight="12dp"
+          style="?android:attr/spinnerItemStyle"
+          android:paddingTop="10dp"
+          android:paddingBottom="10dp"
+          android:textSize="@dimen/title_tab_text_size"
+          android:textColor="@color/black"/>

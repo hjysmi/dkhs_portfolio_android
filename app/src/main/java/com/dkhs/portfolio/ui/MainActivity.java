@@ -8,9 +8,8 @@
  */
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,12 +18,11 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
+import com.dkhs.portfolio.engine.AppUpdateEngine;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewIntent;
+import com.dkhs.portfolio.ui.fragment.MainBBSFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
@@ -34,8 +32,8 @@ import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
-import com.dkhs.portfolio.ui.widget.UpdateDialog;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.util.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import io.rong.imlib.model.Message;
 
@@ -48,6 +46,7 @@ import io.rong.imlib.model.Message;
  */
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
+    private static final String TAG_FRAGMENT_MENU = "MENU";
     private static final String TAG_FRAGMENT_A = "A";
     private static final String TAG_FRAGMENT_B = "B";
     private static final String TAG_FRAGMENT_C = "C";
@@ -55,71 +54,78 @@ public class MainActivity extends BaseActivity {
     private static final String TAG_FRAGMENT_E = "E";
 
     private MessageHandler handler;
+    private MenuItemFragment mMenuFragment;
+
+    public Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 模拟堆栈管理activity
+
         PortfolioApplication.getInstance().addActivity(this);
-        // setTheme(android.R.style.Theme_Light_NoTitleBar);
-        // PortfolioApplication.getInstance().addActivity(this);
         handler = new MessageHandler(this);
-//        hideHead();
-//        setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
-        handIntent(getIntent());
+
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-            MenuItemFragment mMenuFragment = new MenuItemFragment();
+            mMenuFragment = new MenuItemFragment();
             Bundle bunlde = new Bundle();
-            // bunlde.putInt("content", mIndex);
             mMenuFragment.setArguments(bunlde);
-            t.replace(R.id.bottom_layout, mMenuFragment);
+            t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
 
-            t.commit();
+            t.commitAllowingStateLoss();
             displayFragmentA();
 
         } else {
-//            mMenuFragment = (MenuItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.bottom_layout);
-//            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
-
+            mMenuFragment = (MenuItemFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MENU);
         }
+        new AppUpdateEngine(mContext).checkVersion();
+        handIntent();
+    }
 
-        UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-        mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
-
-
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        LogUtils.d(this.getClass().getSimpleName(), "onTrimMemory level:" + level);
     }
 
     @Override
     protected void onResume() {
         MessageManager.getInstance().connect();
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
 
-        handIntent(intent);
         super.onNewIntent(intent);
+        setIntent(intent);
+        handIntent();
     }
 
-    private void handIntent(Intent intent) {
-
+    private void handIntent() {
+        Intent intent = getIntent();
         if (intent == null) {
             return;
         }
-
-
         if (null != intent.getParcelableExtra(MessageReceive.KEY_MESSAGE)) {
             Message message = intent.getParcelableExtra(MessageReceive.KEY_MESSAGE);
             handler.handleMessage(message);
         }
+        int index = intent.getIntExtra("index", 0);
+
+        mBundle = intent.getBundleExtra("arg");
+
+        mMenuFragment.clickTabIndex(index);
+
 
     }
 
@@ -170,7 +176,7 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentA, TAG_FRAGMENT_A);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
 
@@ -179,7 +185,6 @@ public class MainActivity extends BaseActivity {
         Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
             fragmentB = new MainMarketFragment();
-//            fragmentB = new ShakesFragment();
         }
         hideAllFragment();
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
@@ -191,11 +196,10 @@ public class MainActivity extends BaseActivity {
             ((VisiableLoadFragment) fragmentB).onViewShow();
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     protected void displayFragmentC() {
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {
@@ -208,14 +212,14 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentC, TAG_FRAGMENT_C);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     protected void displayFragmentD() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
         if (null == fragmentD) {
-            fragmentD = new MainInfoFragment();
+            fragmentD = new MainBBSFragment();
         }
         hideAllFragment();
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container
@@ -224,7 +228,7 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentD, TAG_FRAGMENT_D);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     protected void displayFragmentE() {
@@ -240,7 +244,7 @@ public class MainActivity extends BaseActivity {
             ft.add(R.id.content_layout, fragmentE, TAG_FRAGMENT_E);
         }
 
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
 
@@ -275,76 +279,111 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private long exitTime;
+    private long mExitTime;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
+                mExitTime = System.currentTimeMillis();
                 return true;
             } else {
                 GlobalParams.clearUserInfo();
             }
-
         }
-
-
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * Activity被系统杀死时被调用.
-     * 例如:屏幕方向改变时,Activity被销毁再重建;当前Activity处于后台,系统资源紧张将其杀死.
-     * 另外,当跳转到其他Activity或者按Home键回到主屏时该方法也会被调用,系统是为了保存当前View组件的状态.
-     * 在onPause之前被调用.
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        // TODO Auto-generated method stub
-        super.onSaveInstanceState(outState);
-    }
 
-    /**
-     * Activity被系统杀死后再重建时被调用.
-     * 例如:屏幕方向改变时,Activity被销毁再重建;当前Activity处于后台,系统资源紧张将其杀死,用户又启动该Activity.
-     * 这两种情况下onRestoreInstanceState都会被调用,在onStart之后.
-     */
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onRestoreInstanceState(savedInstanceState);
+    public static void gotoUserActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 4);
+        context.startActivity(intent);
     }
 
 
-    ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
+    public static void gotoShakeActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 2);
+        context.startActivity(intent);
+    }
 
-        @Override
-        protected AppBean parseDateTask(String jsonData) {
+    public static void gotoOptionSymbols(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 0);
 
-            return DataParse.parseObjectJson(AppBean.class, jsonData);
-        }
 
-        @Override
-        protected void afterParseData(AppBean object) {
-            if (null != object) {
-                try {
-                    final AppBean bean = object;
-                    PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-                    String version = info.versionName;
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("option_index", 0);
+        intent.putExtra("arg", newIntent.bundle);
+        context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
 
-                    if (object.isNewVersion(version)) {
+    }
 
-                        if (!object.getVersion().equals(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_VERSIONY))) {
-                            UpdateDialog alert = new UpdateDialog(mContext);
-                            alert.showByAppBean(object);
-                        }
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
+    public static void gotoHostTopicsActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 3);
+
+
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("bbs_index", 0);
+        intent.putExtra("arg", newIntent.bundle);
+        context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
+    }
+
+    public static void gotoTopicsHome(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 3);
+        context.startActivity(intent);
+    }
+
+    public static void gotoCombinationRankingActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 1);
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("fund_index", 2);
+        intent.putExtra("arg", newIntent.bundle);
+        context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
+    }
+
+    public static void gotoFundManagerRanking(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 1);
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("fund_index", 1);
+        newIntent.bundle.putBoolean("fund_manager_ranking", true);
+        intent.putExtra("arg", newIntent.bundle);
+        context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
+    }
+
+    public static void gotoFundsRanking(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 1);
+
+
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("fund_index", 1);
+        newIntent.bundle.putBoolean("fund_manager_ranking", false);
+        intent.putExtra("arg", newIntent.bundle);
+        context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
+
+    }
+
+    public static void gotoSHActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("index", 1);
+
+
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("fund_index", 0);
+        intent.putExtra("arg", newIntent.bundle);
+        context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
+    }
 }

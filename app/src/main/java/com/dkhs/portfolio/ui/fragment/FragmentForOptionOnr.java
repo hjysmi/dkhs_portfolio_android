@@ -22,6 +22,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -170,14 +171,17 @@ public class FragmentForOptionOnr extends Fragment {
             try {
                 Intent intent;
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
-                            mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
-                                    .getSymbols().get(0).getAbbrName(), mDataList.get(position).getContentType());
+//                    intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(),
+//                            mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
+//                                    .getSymbols().get(0).getAbbrName(), mDataList.get(position).getContentType());
+
+                    TopicsDetailActivity.startActivity(getActivity(), mDataList.get(position).getId());
                 } else {
-                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null, null);
+//                    intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(), null, null, null);
+                    TopicsDetailActivity.startActivity(getActivity(), mDataList.get(position).getId());
                 }
                 // startActivity(intent);
-                UIUtils.startAnimationActivity(getActivity(), intent);
+//                UIUtils.startAnimationActivity(getActivity(), intent);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -188,13 +192,13 @@ public class FragmentForOptionOnr extends Fragment {
     public void loadMore() {
         if (null != mLoadDataEngine && !isLoadingMore && getadble) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            // mLoadDataEngine.setLoadingDialog(context);;
+            // mLoadDataEngine.setLoadingDialog(mContext);;
             mLoadDataEngine.loadMore();
         }
     }
@@ -215,7 +219,7 @@ public class FragmentForOptionOnr extends Fragment {
                     loadFinishUpdateView();
 
                 } else {
-//                    if (null != context && context instanceof StockQuotesActivity && getadble) {
+//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
 //                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
 //                    }
                     iv.setText("暂无研报");
@@ -253,7 +257,7 @@ public class FragmentForOptionOnr extends Fragment {
 //            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
 //            height += list_child_item_height; // 统计所有子项的总高度
 //        }
-//        if (null != context && context instanceof StockQuotesActivity && getadble) {
+//        if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
 //            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 //        }
     }
@@ -262,7 +266,7 @@ public class FragmentForOptionOnr extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         //            if (null == mDataList || mDataList.size() < 2) {
-//                if (null != context && context instanceof StockQuotesActivity && getadble) {
+//                if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
 //                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
 //                }
 //            } else if (null != mDataList) {
@@ -273,7 +277,7 @@ public class FragmentForOptionOnr extends Fragment {
 //                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
 //                    height += list_child_item_height; // 统计所有子项的总高度
 //                }
-//                if (null != context && context instanceof StockQuotesActivity && getadble) {
+//                if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
 //                    ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 //                }
 //            }

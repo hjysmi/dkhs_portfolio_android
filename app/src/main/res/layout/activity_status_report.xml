@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/person_setting_backgroud">
+
+
+        <com.dkhs.portfolio.ui.widget.DKHSTextView
+            android:id="@+id/tv_report_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_white_border_gray"
+            android:padding="14dp"
+            android:textSize="17sp" />
+
+        <com.dkhs.portfolio.ui.widget.DKHSTextView
+            android:id="@+id/tv_report_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_report_user"
+            android:padding="14dp"
+            android:textSize="17sp" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_report_choice"
+            style="@style/white_grayborder_layout"
+            android:layout_below="@+id/tv_report_content"
+
+            android:padding="14dp">
+
+            <View
+                android:id="@+id/div_center"
+                style="@style/divider_line"
+                android:layout_width="1dp"
+                android:layout_centerHorizontal="true" />
+
+            <RadioButton
+                android:id="@+id/cb_report1"
+                style="@style/cb_choice_report_left"
+                android:layout_marginTop="0dp"
+                android:text="@string/report_rubbish" />
+
+            <RadioButton
+                android:id="@+id/cb_report2"
+                style="@style/cb_choice_report"
+                android:layout_alignBaseline="@+id/cb_report1"
+                android:layout_toRightOf="@+id/div_center"
+                android:text="@string/report_pornographic" />
+
+            <RadioButton
+                android:id="@+id/cb_report3"
+                style="@style/cb_choice_report_left"
+                android:layout_below="@+id/cb_report1"
+                android:text="@string/report_no_truly" />
+
+            <RadioButton
+                android:id="@+id/cb_report4"
+                style="@style/cb_choice_report"
+                android:layout_alignBaseline="@+id/cb_report3"
+                android:layout_toRightOf="@+id/div_center"
+                android:text="@string/report_sensity" />
+
+            <RadioButton
+                android:id="@+id/cb_report5"
+                style="@style/cb_choice_report_left"
+                android:layout_below="@+id/cb_report3"
+                android:text="@string/report_plagiarist" />
+
+            <RadioButton
+                android:id="@+id/cb_report6"
+                style="@style/cb_choice_report"
+                android:layout_alignBaseline="@+id/cb_report5"
+                android:layout_toRightOf="@+id/div_center"
+                android:text="@string/report_harass" />
+
+
+            <RadioButton
+                android:id="@+id/cb_report7"
+                style="@style/cb_choice_report_left"
+                android:layout_below="@+id/cb_report5"
+                android:text="@string/report_fake" />
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_report"
+            style="@style/btn_login_blue"
+            android:layout_below="@+id/rl_report_choice"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dip"
+            android:enabled="false"
+            android:text="@string/title_status_report" />
+
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.umeng.analytics.MobclickAgent;
 
 public class ChangeCheckType extends Activity implements OnClickListener {
     public static String CHECK_TYPE = "checktype";
@@ -22,7 +21,7 @@ public class ChangeCheckType extends Activity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.change_check_layout);
+        setContentView(R.layout.dialog_change_rehabilita);
         getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         checkValue = getIntent().getExtras().getString(CHECK_TYPE);
         initView();
