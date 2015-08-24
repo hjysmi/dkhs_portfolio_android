@@ -264,10 +264,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
             setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
             ibImg.setVisibility(View.GONE);
-            etTitle.setVisibility(View.GONE);
+            etTitle.setVisibility(View.VISIBLE);
         } else if (curType == TYPE_COMMENT) {
             setTitle(String.format(getResources().getString(R.string.blank_comment), userName));
-            ibImg.setVisibility(View.GONE);
+            ibImg.setVisibility(View.VISIBLE);
             etTitle.setVisibility(View.GONE);
         } else if (curType == TYPE_POST) {
             setTitle(R.string.post_topic);

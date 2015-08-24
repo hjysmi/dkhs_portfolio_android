@@ -51,10 +51,10 @@ public class PhotoViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mPhotoBean = getArguments().getParcelable("photoBean");
-         mLoader = ImageLoader.getInstance();
+        mLoader = ImageLoader.getInstance();
         View view = inflater.inflate(R.layout.fragment_photo_view, container, false);
         mPhotoView = (PhotoView) view.findViewById(R.id.photoIm);
-        mPreviewImage= (ImageView) view.findViewById(R.id.previewImage);
+        mPreviewImage = (ImageView) view.findViewById(R.id.previewImage);
         mProgressBar = (CircularProgressBar) view.findViewById(R.id.progressBar);
 
         if (mLoader.getDiskCache().get(mPhotoBean.loadingURl).exists()) {

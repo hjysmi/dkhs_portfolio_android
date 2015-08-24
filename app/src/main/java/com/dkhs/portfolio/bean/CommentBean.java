@@ -26,12 +26,10 @@ public class CommentBean extends LikeBean {
     private double lat;
     private double lon;
 
-    public boolean compact=true;
+    public boolean compact = true;
     private List<UploadImageBean> medias;
     private List<OptionNewsBean.Symbols> symbol;
     private String recomment_level;
-
-
 
 
     public int getAttitudes_count() {
@@ -209,23 +207,22 @@ public class CommentBean extends LikeBean {
     public void setUser(PeopleBean user) {
 
 
-
         this.user = user;
 
 
     }
 
 
+    public static CommentBean fromTopics(TopicsBean topicsBean) {
 
-    public   static  CommentBean fromTopics(TopicsBean topicsBean){
-
-        CommentBean commentBean=new CommentBean();
+        CommentBean commentBean = new CommentBean();
         commentBean.setId(topicsBean.getId());
         commentBean.setUser(topicsBean.user);
         commentBean.setText(topicsBean.text);
         commentBean.setAttitudes_count(topicsBean.attitudes_count);
         commentBean.setCreated_at(topicsBean.created_at);
+        commentBean.setMedias(topicsBean.medias);
 
-        return  commentBean;
+        return commentBean;
     }
 }

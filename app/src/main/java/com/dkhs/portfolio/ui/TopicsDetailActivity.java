@@ -191,7 +191,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         shareBean.setResId(R.drawable.ic_launcher);
         if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
 
-            String imaUrl = mTopicsBean.medias.get(0).image_md;
+            String imaUrl = mTopicsBean.medias.get(0).getImage_md();
             String imgPath = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
 
             if (new File(imgPath).exists()) {

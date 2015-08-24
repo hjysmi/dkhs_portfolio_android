@@ -7,12 +7,12 @@ import java.util.List;
 /**
  * @author zwm
  * @version 2.0
- * className TopcsBean
- *   TODO(这里用一句话描述这个类的作用)
- * date 2015/7/16.
+ *          className TopcsBean
+ *          TODO(这里用一句话描述这个类的作用)
+ *          date 2015/7/16.
  */
 @Parcel
-public class TopicsBean extends  LikeBean {
+public class TopicsBean extends LikeBean {
 
 
     /**
@@ -66,12 +66,11 @@ public class TopicsBean extends  LikeBean {
     public String lat;
 
 
-
     public String modified_at;
     /**
      * medias : [{"image_sm":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.360x360.jpg","image_xs":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.180x180.jpg","id":689076,"media_type":null,"image_md":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.720x19999.jpg","image_lg":"http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.1080x29999.jpg","full_path":null,"size":0}]
      */
-    public List<MediasBean> medias;
+    public List<UploadImageBean> medias;
     /**
      * symbols : [{"id":101000910,"symbol":"SH600651","abbr_name":"飞乐音响"}]
      */
@@ -81,27 +80,27 @@ public class TopicsBean extends  LikeBean {
      */
     public SourceBean source;
 
-    @Parcel
-    public static class MediasBean {
-        /**
-         * image_sm : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.360x360.jpg
-         * image_xs : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.180x180.jpg
-         * id : 689076
-         * media_type : null
-         * image_md : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.720x19999.jpg
-         * image_lg : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.1080x29999.jpg
-         * full_path : null
-         * size : 0
-         */
-        public String image_sm;
-        public String image_xs;
-        public int id;
-        public String media_type;
-        public String image_md;
-        public String image_lg;
-        public String full_path;
-        public int size;
-    }
+//    @Parcel
+//    public static class MediasBean {
+//        /**
+//         * image_sm : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.360x360.jpg
+//         * image_xs : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.180x180.jpg
+//         * id : 689076
+//         * media_type : null
+//         * image_md : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.720x19999.jpg
+//         * image_lg : http://com-dkhs-media-test.oss.aliyuncs.com/medias/2015/07/27/16/4949/upload.1080x29999.jpg
+//         * full_path : null
+//         * size : 0
+//         */
+//        public String image_sm;
+//        public String image_xs;
+//        public int id;
+//        public String media_type;
+//        public String image_md;
+//        public String image_lg;
+//        public String full_path;
+//        public int size;
+//    }
 
     @Parcel
     public static class SymbolsBean {
@@ -114,6 +113,7 @@ public class TopicsBean extends  LikeBean {
         public String symbol;
         public String abbr_name;
     }
+
     @Parcel
     public static class SourceBean {
         /**

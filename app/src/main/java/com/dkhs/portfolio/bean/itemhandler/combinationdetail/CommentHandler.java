@@ -13,6 +13,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -20,6 +21,9 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.mingle.bean.PhotoBean;
+
+import java.util.ArrayList;
 
 
 /**
@@ -59,7 +63,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         PeopleBean user = comment.getUser();
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_head));
-        }else{
+        } else {
             vh.getImageView(R.id.iv_head).setImageResource(R.drawable.default_head);
         }
         vh.getTextView(R.id.tv_username).setText(user.getUsername());
@@ -68,15 +72,25 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         vh.getTextView(R.id.tv_time).setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
         setClickListener(vh.get(R.id.like_ll), comment);
         setClickListener(vh.get(R.id.tv_username), comment);
+        setClickListener(vh.get(R.id.iv_image), comment);
         if (comment.getAttitudes_count() > 0) {
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
         } else {
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText("");
         }
 
-        if(comment.like){
+
+        if (comment.getMedias() != null && comment.getMedias().size() > 0) {
+            vh.get(R.id.iv_image).setVisibility(View.VISIBLE);
+            ImageLoaderUtils.setImagDefault(comment.getMedias().get(0).getImage_xs(), vh.getImageView(R.id.iv_image));
+        } else {
+            vh.get(R.id.iv_image).setVisibility(View.GONE);
+        }
+
+
+        if (comment.like) {
             vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_like);
-        }else{
+        } else {
             vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_unlike);
         }
 
@@ -124,6 +138,9 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
                 case R.id.iv_head:
                 case R.id.tv_username:
                     itemHandlerClickListener = new AvatarClickListenerImp();
+                    break;
+                case R.id.iv_image:
+                    itemHandlerClickListener = new ImageViewClickListenerImp();
                     break;
                 default:
                     itemHandlerClickListener = new LikeClickListenerImp();
@@ -205,6 +222,27 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
                 likeTV.setText("");
             }
 
+        }
+    }
+
+    class ImageViewClickListenerImp extends ItemHandlerClickListenerImp<CommentBean> {
+        private CommentBean topicsBean;
+
+        @Override
+        public View.OnClickListener setDate(CommentBean o) {
+            this.topicsBean = o;
+            return this;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ArrayList<PhotoBean> arrayList = new ArrayList<>();
+            PhotoBean photoBean = new PhotoBean();
+            photoBean.title = topicsBean.id + "";
+            photoBean.loadingURl = topicsBean.getMedias().get(0).getImage_sm();
+            photoBean.imgUrl = topicsBean.getMedias().get(0).getImage_md();
+            arrayList.add(photoBean);
+            PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }
     }
 }
