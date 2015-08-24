@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/activity_bg_color">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/activity_bg_color">
 
     <RelativeLayout
         android:id="@+id/main_rl"
@@ -12,12 +12,12 @@
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:id="@+id/main_ll"
-                      style="@style/white_grayborder_layout"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical"
-                      android:paddingBottom="16dp">
+            android:id="@+id/main_ll"
+            style="@style/white_grayborder_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -49,15 +49,16 @@
                     android:textSize="@dimen/text_status_time" />
 
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/relatedSymbolsTV"
                 android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:textSize="@dimen/text_status_content"
-                android:layout_height="wrap_content"/>
+                android:textSize="@dimen/text_status_content" />
 
             <com.dkhs.portfolio.ui.widget.DKHSTextView
                 android:id="@+id/titleTV"
@@ -67,8 +68,8 @@
                 android:clickable="true"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textIsSelectable="true"
                 android:textColor="@color/black"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/text_status_title" />
 
             <com.dkhs.portfolio.ui.widget.DKHSTextView
@@ -78,8 +79,8 @@
                 android:layout_marginTop="4dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textIsSelectable="true"
                 android:textColor="@color/text_content_color"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/text_status_content" />
 
             <com.dkhs.portfolio.ui.widget.AutoScaleImageView
@@ -96,8 +97,8 @@
         </LinearLayout>
 
         <include
-            android:visibility="gone"
-            layout="@layout/layout_empty" />
+            layout="@layout/layout_empty"
+            android:visibility="gone" />
     </RelativeLayout>
 
 

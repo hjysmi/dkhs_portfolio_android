@@ -114,7 +114,7 @@ public class PostTopicService extends IntentService {
 
     private void postTopic(DraftBean statusBean) {
 
-        if (statusBean.getLabel() == 1 && !TextUtils.isEmpty(statusBean.getImageFilepath())) {
+        if (!TextUtils.isEmpty(statusBean.getImageFilepath())) {
             //上传图片
             saveBitmapAndUpload(statusBean);
 //            StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
@@ -177,7 +177,8 @@ public class PostTopicService extends IntentService {
             if (null != entity && null != mStatusBean) {
                 // 图片上传完毕继续发表主题
 //                PromptManager.showToast("图片上传成功，发表话题");
-                StatusEngineImpl.postStatus(mStatusBean.getTitle(), mStatusBean.getContent(), null, null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
+                StatusEngineImpl.postStatus(mStatusBean.getTitle(), mStatusBean.getContent(), mStatusBean.getStatusId(), null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
+//                StatusEngineImpl.postStatus(mStatusBean.getTitle(), mStatusBean.getContent(), null, null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
 
             }
         }
@@ -235,15 +236,11 @@ public class PostTopicService extends IntentService {
         protected void afterParseData(TopicsBean entity) {
             PromptManager.closeProgressDialog();
             if (null != entity) {
-                // 图片上传完毕继续发表主题
                 if (mStatusBean.getLabel() == 1) {
-
-//                    PromptManager.showSuccessToast(R.string.msg_post_topic_success);
                     AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);
                     BusProvider.getInstance().post(addTopicsEvent);
                 } else {
 //                    PromptManager.showSuccessToast(R.string.msg_post_reply_success);
-
                     AddCommentEvent addCommentEvent = new AddCommentEvent(CommentBean.fromTopics(entity));
                     BusProvider.getInstance().post(addCommentEvent);
                 }
