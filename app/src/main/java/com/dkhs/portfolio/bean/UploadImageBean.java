@@ -1,17 +1,22 @@
 package com.dkhs.portfolio.bean;
 
+import org.parceler.Parcel;
+
 /**
  * Created by zhangcm on 2015/7/27.15:44
  */
+@Parcel
 public class UploadImageBean {
-    private String id;
-    private String image_xs;
-    private String image_sm;
-    private String image_md;
-    private String image_lg;
-    private String full_path;
-    private String media_type;
-    private int size;
+    String id;
+    String image_xs;
+    String image_sm;
+
+
+    String image_md;
+    String image_lg;
+    String full_path;
+    String media_type;
+    int size;
 
     public String getId() {
         return id;
@@ -67,5 +72,13 @@ public class UploadImageBean {
 
     public void setImage_sm(String image_sm) {
         this.image_sm = image_sm;
+    }
+
+    public String getImage_md() {
+        return image_md;
+    }
+
+    public void setImage_md(String image_md) {
+        this.image_md = image_md;
     }
 }

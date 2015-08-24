@@ -2,23 +2,16 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.SpannedString;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,11 +38,7 @@ import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.mingle.bean.PhotoBean;
-
-import org.parceler.transfuse.annotations.Resource;
-import org.parceler.transfuse.annotations.SystemService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +90,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         if (data.medias != null && data.medias.size() > 0) {
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImagDefault(data.medias.get(0).image_md, vh.getImageView(R.id.iv));
+            ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_md(), vh.getImageView(R.id.iv));
 
         } else {
             vh.get(R.id.iv).setVisibility(View.GONE);
@@ -129,11 +118,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
          )
          */
 
-        if(data.content_type != 0){
-            setRelatedSymbols(vh.getTextView(R.id.relatedSymbolsTV),data.symbols);
-            vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at)+getFromOrigin(data.source));
+        if (data.content_type != 0) {
+            setRelatedSymbols(vh.getTextView(R.id.relatedSymbolsTV), data.symbols);
+            vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at) + getFromOrigin(data.source));
 
-            switch (data.content_type){
+            switch (data.content_type) {
                 case 10:
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
                     break;
@@ -146,7 +135,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_yanbao);
                     break;
             }
-        }else{
+        } else {
             vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
             vh.getTextView(R.id.relatedSymbolsTV).setVisibility(View.GONE);
             if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
@@ -158,7 +147,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         Spinner spinner = vh.get(R.id.spinner);
 
-        if(spinner.getAdapter() == null) {
+        if (spinner.getAdapter() == null) {
             spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.topics_commend_sort)));
             spinner.setOnItemSelectedListener(this);
         }
@@ -166,21 +155,21 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {
 
-        if(symbols != null && symbols.size()>0){
-            Spanny  spany=new Spanny();
-            spany.append("相关股票: ",new ForegroundColorSpan(mContext.getResources().getColor(R.color.tag_gray)));
+        if (symbols != null && symbols.size() > 0) {
+            Spanny spany = new Spanny();
+            spany.append("相关股票: ", new ForegroundColorSpan(mContext.getResources().getColor(R.color.tag_gray)));
 
             for (int i = 0; i < symbols.size(); i++) {
                 TopicsBean.SymbolsBean item = symbols.get(i);
-                int star=spany.length();
-                spany.append(" "+item.abbr_name+" ",new SymbolsClickSpan(item));
+                int star = spany.length();
+                spany.append(" " + item.abbr_name + " ", new SymbolsClickSpan(item));
 //                spany.setSpan(new RoundSpan(mContext), star, spany.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
             textView.setMovementMethod(LinkMovementMethod.getInstance());
             textView.setText(spany);
             textView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             textView.setVisibility(View.GONE);
         }
 
@@ -189,11 +178,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     private String getFromOrigin(TopicsBean.SourceBean source) {
 
-        String origin="";
-        if(source != null){
-            origin= origin.concat(" 来自:").concat(source.title);
+        String origin = "";
+        if (source != null) {
+            origin = origin.concat(" 来自:").concat(source.title);
         }
-        return  origin;
+        return origin;
     }
 
     public void setClickListener(View view, TopicsBean data) {
@@ -328,8 +317,8 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             ArrayList<PhotoBean> arrayList = new ArrayList<>();
             PhotoBean photoBean = new PhotoBean();
             photoBean.title = topicsBean.id + "";
-            photoBean.loadingURl = topicsBean.medias.get(0).image_sm;
-            photoBean.imgUrl = topicsBean.medias.get(0).image_md;
+            photoBean.loadingURl = topicsBean.medias.get(0).getImage_sm();
+            photoBean.imgUrl = topicsBean.medias.get(0).getImage_md();
             arrayList.add(photoBean);
             PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }
@@ -352,9 +341,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
     }
 
 
-
-
-    class SymbolsClickSpan extends  ClickableSpan{
+    class SymbolsClickSpan extends ClickableSpan {
 
         TopicsBean.SymbolsBean symbolsBean;
 
@@ -364,15 +351,16 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
         @Override
         public void onClick(View widget) {
-            SelectStockBean selectStockBean=new SelectStockBean();
+            SelectStockBean selectStockBean = new SelectStockBean();
             selectStockBean.setName(symbolsBean.abbr_name);
             selectStockBean.setId(symbolsBean.id);
             selectStockBean.setSymbol(symbolsBean.symbol);
             //设置类型为股票
             selectStockBean.setSymbol_type("1");
-            mContext.startActivity(StockQuotesActivity.newIntent(mContext,selectStockBean));
+            mContext.startActivity(StockQuotesActivity.newIntent(mContext, selectStockBean));
 
         }
+
         /**
          * Makes the text without underline.
          */
@@ -385,8 +373,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
     }
 
 
-
-    public class RoundSpan extends ReplacementSpan{
+    public class RoundSpan extends ReplacementSpan {
 
 
         private Context mContext;
@@ -400,10 +387,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                            CharSequence text,
                            int start, int end,
                            Paint.FontMetricsInt fm) {
-            return (int) MeasureText(paint,text,start,end);
+            return (int) MeasureText(paint, text, start, end);
         }
-        private float MeasureText(Paint paint, CharSequence text, int start, int end)
-        {
+
+        private float MeasureText(Paint paint, CharSequence text, int start, int end) {
             return paint.measureText(text, start, end);
         }
 
@@ -418,13 +405,12 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             RectF rect = new RectF(x, top, x + MeasureText(paint, text, start, end), bottom);
             paint.setColor(mContext.getResources().getColor(R.color.activity_bg_color));
             canvas.drawRoundRect(rect, mContext.getResources().getDimensionPixelOffset(R.dimen.radius)
-                    ,mContext.getResources().getDimensionPixelOffset(R.dimen.radius),
+                    , mContext.getResources().getDimensionPixelOffset(R.dimen.radius),
                     paint);
             paint.setColor(mContext.getResources().getColor(R.color.tag_gray));
             canvas.drawText(text, start, end, x, y, paint);
         }
     }
-
 
 
 }
