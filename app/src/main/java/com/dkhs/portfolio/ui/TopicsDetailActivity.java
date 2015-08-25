@@ -122,8 +122,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         if (UIUtils.iStartLoginActivity(mContext)) {
                             break;
                         }
-                        startActivity(PostTopicActivity.getIntent(mContext,
-                                PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                        if (null != mTopicsBean && null != mTopicsBean.user) {
+
+                            startActivity(PostTopicActivity.getIntent(mContext,
+                                    PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                        }
                         break;
                     case MENU_LIKE:
 
@@ -135,7 +138,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         }
                         break;
                     case MENU_MORE_STATUS_REPORT:
-                        mContext.startActivity(StatusReportActivity.getIntent(mContext, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
+                        if (null != mTopicsBean && null != mTopicsBean.user) {
+
+                            mContext.startActivity(StatusReportActivity.getIntent(mContext, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
+                        }
                         break;
                     case MENU_MORE_GO_HOME:
 

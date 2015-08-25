@@ -162,7 +162,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
                         public void onSuccess(String result) {
                             RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class,
                                     result);
-                            if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
+                            if (null!=rongTolenBean&&!TextUtils.isEmpty(rongTolenBean.getToken())) {
                                 connectRongIM(rongTolenBean.getToken());
                             }
                         }
@@ -307,6 +307,9 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
                         @Override
                         public void onSuccess(String result) {
                             UserEntity userEntity = DataParse.parseObjectJson(UserEntity.class, result);
+                            if(null==userEntity){
+                                return;
+                            }
                             userInfo.setName(userEntity.getUsername());
                             userInfo.setPortraitUri(Uri.parse(userEntity.getAvatar_md()));
                             add(userInfo);
