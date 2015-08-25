@@ -32,7 +32,7 @@ public class ConversationListListener implements RongIM.ConversationListBehavior
             context.startActivity(new Intent(context, CallMeActivity.class));
             return true;
         }
-        if (uiConversation.getConversationSenderId().equals(getCallMeId())) {
+        if (uiConversation.getConversationSenderId().equals(getCommentMeId())) {
             context.startActivity(new Intent(context, CommentMeActivity.class));
             return true;
         }
