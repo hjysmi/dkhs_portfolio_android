@@ -9,10 +9,14 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -21,8 +25,13 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.baidu.mobstat.StatService;
+import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.ui.CallMeActivity;
+import com.dkhs.portfolio.ui.CommentMeActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.adapter.UserInfoAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -130,16 +139,17 @@ public class UserFragment extends BaseTitleFragment {
 
     private void startSettingActivity() {
 
-//        if(BuildConfig.DEBUG){
-//            //测试
-//            Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
-//                    .setContentTitle("谁牛userId" + UserEngineImpl.getUserEntity().getId()).setContentText(DKHSClient.getHeadUrl()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
-//                    .build();
-//            notificationCompat.icon=R.drawable.ic_launcher;
-//
-//            NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-//            notificationManager.notify(-1, notificationCompat);
-//        }
+        if(BuildConfig.DEBUG){
+            //测试
+            Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
+                    .setContentTitle("谁牛userId" + UserEngineImpl.getUserEntity().getId()).setContentText(DKHSClient.getHeadUrl()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
+                    .build();
+            notificationCompat.icon=R.drawable.ic_launcher;
+
+            NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(-1, notificationCompat);
+        }
+
 
         Intent intent = new Intent(getActivity(), SettingActivity.class);
         startActivity(intent);
