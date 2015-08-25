@@ -293,6 +293,12 @@ public class DKHSUrl {
          * 获取个人回复
          */
         String get_replys = "/api/v1/statuses/user_timeline/";
+
+
+        String getCommentMeList = "/api/v1/statuses/comments_timeline/";
+
+
+        String getCallMeList = "/api/v1/statuses/mentions_timeline/";
         /**
          * 举报
          */

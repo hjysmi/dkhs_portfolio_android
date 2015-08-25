@@ -17,6 +17,8 @@ public class TestActivity extends FragmentActivity {
         setContentView(R.layout.activity_test);
 //        getData();
 
+
+        getWindow();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.stock_layout, TabF10Fragment.newIntent("sz300363", TabF10Fragment.TabType.INTRODUCTION)).commit();
 

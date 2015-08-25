@@ -25,14 +25,13 @@ public class InfiniteViewPager extends ViewPagerEx {
         super.setAdapter(adapter);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return true;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-         super.onTouchEvent(ev);
-        return true;
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        return   super.onTouchEvent(ev);
+//    }
 }
