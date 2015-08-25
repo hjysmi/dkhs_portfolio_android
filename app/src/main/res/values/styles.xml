@@ -2,6 +2,7 @@
 
     <style name="AppBaseTheme2" parent="@android:style/Theme.Light.NoTitleBar"></style>
 
+
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorAccent">@color/title_color</item>
