@@ -163,6 +163,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         setBackButtonListener(this);
         ibStock.setOnClickListener(this);
         ibEmoji.setOnClickListener(this);
+        findViewById(R.id.ib_friend).setOnClickListener(this);
         ibImg.setOnClickListener(this);
         ivPhoto.setOnClickListener(this);
         etContent.setOnTouchListener(new View.OnTouchListener() {
@@ -413,6 +414,9 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             case R.id.ib_dollar:
                 pickStock();
                 break;
+            case R.id.ib_friend:
+                pickupFriend();
+                break;
         }
     }
 
@@ -421,6 +425,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         Intent intent = new Intent(this,
                 SelectStatusStockActivity.class);
         startActivityForResult(intent, 0x7);
+    }
+
+    private void pickupFriend() {
+        Intent intent = new Intent(this,
+                SelectFriendActivity.class);
+        startActivityForResult(intent, 0x8);
     }
 
     private boolean isShowDeletePic = false;
@@ -509,60 +519,73 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0x5 && resultCode == RESULT_OK) {
-            // 相册选择
-            try {
-                final Uri uri = data.getData();
-                imageUri = uri.toString();
-                ivPhoto.setVisibility(View.VISIBLE);
-                isSendButtonEnable();
+        if (resultCode == RESULT_OK) {
+
+
+            if (requestCode == 0x5) {
+                // 相册选择
+                try {
+                    final Uri uri = data.getData();
+                    imageUri = uri.toString();
+                    ivPhoto.setVisibility(View.VISIBLE);
+                    isSendButtonEnable();
+                    final String file_str = Environment.getExternalStorageDirectory().getPath();
+                    String[] proj = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = managedQuery(uri, proj, null, null, null);
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    imageLocalPath = cursor.getString(column_index);
+                    jpg_path = MY_CAMERA + getTimestampFileName();
+                    Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
+                    imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
+                    setRoundImage(imageBitmap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (requestCode == 0x1) {
+                // 拍照
                 final String file_str = Environment.getExternalStorageDirectory().getPath();
+                Uri uri = null;
+                if (null != data) {
+                    uri = data.getData();
+                }
+                if (null == uri && photoUri != null) {
+                    uri = photoUri;
+                }
+                if (uri == null) {
+                    return;
+                }
+                final Uri finalUri = uri;
+                imageUri = uri.toString();
                 String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = managedQuery(uri, proj, null, null, null);
+                Cursor cursor = managedQuery(finalUri, proj, null, null, null);
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
-                imageLocalPath = cursor.getString(column_index);
                 jpg_path = MY_CAMERA + getTimestampFileName();
+                imageLocalPath = cursor.getString(column_index);
                 Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
                 imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
+                ivPhoto.setVisibility(View.VISIBLE);
+                isSendButtonEnable();
                 setRoundImage(imageBitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
-        if (requestCode == 0x1 && resultCode == RESULT_OK) {
-            // 拍照
-            final String file_str = Environment.getExternalStorageDirectory().getPath();
-            Uri uri = null;
-            if (null != data) {
-                uri = data.getData();
-            }
-            if (null == uri && photoUri != null) {
-                uri = photoUri;
-            }
-            if (uri == null) {
-                return;
-            }
-            final Uri finalUri = uri;
-            imageUri = uri.toString();
-            String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = managedQuery(finalUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            jpg_path = MY_CAMERA + getTimestampFileName();
-            imageLocalPath = cursor.getString(column_index);
-            Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
-            imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
-            ivPhoto.setVisibility(View.VISIBLE);
-            isSendButtonEnable();
-            setRoundImage(imageBitmap);
-        }
 
-        if (requestCode == 0x7 && resultCode == RESULT_OK) {
-            SelectStockBean stockBean = Parcels.unwrap(data.getExtras().getParcelable(FragmentSearchStockFund.EXTRA_STOCK));
-            if (null != stockBean) {
-                selectStockBack(stockBean);
+            if (requestCode == 0x7) {
+                SelectStockBean stockBean = Parcels.unwrap(data.getExtras().getParcelable(FragmentSearchStockFund.EXTRA_STOCK));
+                if (null != stockBean) {
+                    selectStockBack(stockBean);
+                }
             }
+            if (requestCode == 0x8) {
+
+                PromptManager.showToastTest("选择用户");
+//                SelectStockBean stockBean = Parcels.unwrap(data.getExtras().getParcelable(FragmentSearchStockFund.EXTRA_STOCK));
+//                if (null != stockBean) {
+//                    selectStockBack(stockBean);
+//                }
+            }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

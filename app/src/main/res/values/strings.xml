@@ -749,6 +749,7 @@
     <string name="title_activity_comment_me">评论我的</string>
     <string name="title_activity_call_me">提到我的</string>
     <!--举报 end-->
+    <string name="title_pickup_user">选择用户</string>
 
 
 </resources>
