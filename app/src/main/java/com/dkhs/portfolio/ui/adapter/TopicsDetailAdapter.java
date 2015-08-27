@@ -36,7 +36,7 @@ public class TopicsDetailAdapter extends AutoAdapter{
     @Override
     protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
         addHandler(0,new TopicsDetailHandler(mContext));
-        addHandler(1,new CommentHandler());
+        addHandler(1,new CommentHandler(true,true));
         addHandler(2,new NoDataHandler());
         addHandler(3,new LoadingHandler());
         addHandler(4,new LikePeopleHandler());

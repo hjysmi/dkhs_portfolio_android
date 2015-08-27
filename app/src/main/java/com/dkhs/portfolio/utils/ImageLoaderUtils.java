@@ -2,6 +2,7 @@ package com.dkhs.portfolio.utils;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
@@ -66,6 +67,7 @@ public class ImageLoaderUtils {
     }
 
     public static void setImagDefault(String url, ImageView new_phone1) {
+        new_phone1.setVisibility(View.VISIBLE);
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true)

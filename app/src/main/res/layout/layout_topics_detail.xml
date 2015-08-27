@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/activity_bg_color">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                xmlns:apo="http://schemas.android.com/apk/res-auto"
+    >
 
     <RelativeLayout
         android:id="@+id/main_rl"
@@ -82,17 +83,124 @@
                 android:textColor="@color/text_content_color"
                 android:textIsSelectable="true"
                 android:textSize="@dimen/text_status_content" />
-
-            <com.dkhs.portfolio.ui.widget.AutoScaleImageView
-                android:id="@+id/iv"
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:layout_height="wrap_content">
+                <com.dkhs.portfolio.ui.widget.AutoScaleImageView
+                    android:id="@+id/iv"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_img_thumbnail" />
 
 
-                />
+                <TableLayout
+                    android:layout_width="fill_parent"
+
+
+                    android:layout_height="wrap_content">
+                    <TableRow
+                        android:id="@+id/row1"
+                        >
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:id="@+id/v1"
+                            android:layout_weight="1"
+                            apo:scale="1"
+                            android:src="@drawable/ic_img_thumbnail"
+
+                            />
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            apo:scale="1"
+                            android:id="@+id/v2"
+                            android:src="@drawable/ic_img_thumbnail"
+
+                            />
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            apo:scale="1"
+                            android:id="@+id/v3"
+                            android:src="@drawable/ic_img_thumbnail"
+
+                            />
+
+                    </TableRow> <TableRow
+                    android:id="@+id/row2"
+                    >
+                    <com.dkhs.portfolio.ui.widget.ScaleImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        apo:scale="1"
+                        android:id="@+id/v4"
+                        android:src="@drawable/ic_img_thumbnail"
+
+                        />
+                    <com.dkhs.portfolio.ui.widget.ScaleImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        apo:scale="1"
+                        android:id="@+id/v5"
+                        android:src="@drawable/ic_img_thumbnail"
+
+                        />
+                    <com.dkhs.portfolio.ui.widget.ScaleImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        apo:scale="1"
+                        android:id="@+id/v6"
+                        android:src="@drawable/ic_img_thumbnail"
+
+                        />
+
+                </TableRow> <TableRow
+                    android:id="@+id/row3"
+                    >
+                    <com.dkhs.portfolio.ui.widget.ScaleImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:id="@+id/v7"
+                        apo:scale="1"
+                        android:src="@drawable/ic_img_thumbnail"
+
+                        />
+                    <com.dkhs.portfolio.ui.widget.ScaleImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        apo:scale="1"
+                        android:id="@+id/v8"
+                        android:src="@drawable/ic_img_thumbnail"
+
+                        />
+                    <com.dkhs.portfolio.ui.widget.ScaleImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        apo:scale="1"
+                        android:id="@+id/v9"
+                        android:src="@drawable/ic_img_thumbnail"
+                        />
+
+                </TableRow>
+                </TableLayout>
+
+
+
+            </RelativeLayout>
+
+
 
         </LinearLayout>
 
@@ -143,6 +251,19 @@
             android:layout_gravity="center"
 
             android:spinnerMode="dropdown" />
+
     </LinearLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ic_bottom_line"
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"/>
+    <View
+        android:layout_width="12dp"
+        android:id="@+id/indicate"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ic_triangle"
+        android:layout_height="8dp"/>
 
 </RelativeLayout>
