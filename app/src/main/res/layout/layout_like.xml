@@ -42,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/iv_avatar"
                 android:gravity="top"
-                android:text="dfdfdf"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_status_username"/>
 
