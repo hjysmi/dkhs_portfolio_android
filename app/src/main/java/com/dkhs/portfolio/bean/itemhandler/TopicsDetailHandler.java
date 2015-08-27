@@ -84,7 +84,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
     @Override
     public void onBindView(final ViewHolder vh, final TopicsBean data, int position) {
         setClickListener(vh.get(R.id.iv_avatar), data);
-        setClickListener(vh.get(R.id.iv), data);
+//        setClickListener(vh.get(R.id.iv), data);
         setClickListener(vh.get(R.id.name), data);
 
 
@@ -102,9 +102,18 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
 
         vh.setTextView(R.id.content, data.text);
-        vh.get(R.id.iv).setVisibility(View.GONE);
+//        vh.get(R.id.iv).setVisibility(View.GONE);
 
-        new TopicsImageViewHandler().handleMedias(vh, data);
+        new TopicsImageViewHandler().handleMedias(vh,data);
+        if (data.medias != null && data.medias.size() > 0) {
+            vh.get(R.id.iv).setVisibility(View.VISIBLE);
+            ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_md(), vh.getImageView(R.id.iv));
+
+        } else {
+            vh.get(R.id.iv).setVisibility(View.GONE);
+        }
+
+
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 

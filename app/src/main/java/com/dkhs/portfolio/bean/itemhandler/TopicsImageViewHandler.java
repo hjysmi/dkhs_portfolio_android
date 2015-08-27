@@ -41,11 +41,14 @@ public class TopicsImageViewHandler {
         vh.get(R.id.row2).setVisibility(View.GONE);
         vh.get(R.id.row3).setVisibility(View.GONE);
 
-        if (data.medias != null && data.medias.size() > 0) {
-            vh.get(R.id.iv).setVisibility(View.VISIBLE);
 
+        if (data.medias != null && data.medias.size() >= 0) {
+
+            vh.get(R.id.iv).setVisibility(View.VISIBLE);
             if(data.medias.size()==1) {
                 ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_sm(), vh.getImageView(R.id.iv));
+                vh.get(R.id.iv).setVisibility(View.VISIBLE);
+                vh.getImageView(R.id.iv).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,0));
             }else{
                 vh.getImageView(R.id.iv).setVisibility(View.GONE);
 
@@ -53,13 +56,13 @@ public class TopicsImageViewHandler {
                     vh.get(R.id.row1).setVisibility(View.VISIBLE);
                     vh.get(R.id.row2).setVisibility(View.VISIBLE);
                     ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_sm(), vh.getImageView(R.id.v1));
-                    vh.getImageView(R.id.v1).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,1));
+                    vh.getImageView(R.id.v1).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,0));
                     ImageLoaderUtils.setImagDefault(data.medias.get(1).getImage_sm(), vh.getImageView(R.id.v2));
-                    vh.getImageView(R.id.v2).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,2));
+                    vh.getImageView(R.id.v2).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,1));
                     ImageLoaderUtils.setImagDefault(data.medias.get(2).getImage_sm(), vh.getImageView(R.id.v4));
-                    vh.getImageView(R.id.v3).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,3));
+                    vh.getImageView(R.id.v3).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,2));
                     ImageLoaderUtils.setImagDefault(data.medias.get(3).getImage_sm(), vh.getImageView(R.id.v5));
-                    vh.getImageView(R.id.v4).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,4));
+                    vh.getImageView(R.id.v4).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,3));
 
                 }else{
                     switch (data.medias.size()){
@@ -101,6 +104,7 @@ public class TopicsImageViewHandler {
 
         } else {
             vh.get(R.id.iv).setVisibility(View.GONE);
+
 
         }
 
