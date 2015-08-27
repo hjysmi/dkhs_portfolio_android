@@ -41,6 +41,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.LikesPeopleEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -67,6 +68,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     private Context mContext;
     private  TopicsCommendEngineImpl.SortType mSortType;
+
 
     public TopicsDetailHandler(Context context) {
         mContext = context;
@@ -157,7 +159,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             }
         }
 
-        Spinner spinner = vh.get(R.id.spinner);
+        final Spinner spinner = vh.get(R.id.spinner);
 
 
 
@@ -179,6 +181,24 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                     break;
             }
         }
+        vh.getTextView(R.id.tv_like).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                BusProvider.getInstance().post(new LikesPeopleEvent());
+                spinner.setVisibility(View.INVISIBLE);
+            }
+        });
+        vh.getTextView(R.id.comment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                postRefreshEvent(spinner.getSelectedItemPosition());
+                spinner.setVisibility(View.VISIBLE);
+
+            }
+        });
+
     }
 
     private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {
@@ -249,6 +269,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        postRefreshEvent(position);
+    }
+
+    private void postRefreshEvent(int position) {
         TopicsDetailRefreshEvent topicsDetailRefreshEvent = new TopicsDetailRefreshEvent();
         switch (position) {
             case 0:

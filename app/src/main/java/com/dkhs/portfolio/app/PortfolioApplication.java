@@ -43,7 +43,6 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         mInstance = this;
-//
         AppConfig.config(this);
         super.onCreate();
     }

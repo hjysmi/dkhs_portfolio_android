@@ -174,6 +174,7 @@ public class DKHSUrl {
         String getHotTopic = "/api/v1/statuses/public_timeline/";
         String getStickTopic = "/api/v1/statuses/public_timeline/";
         String getCommend = "/api/v1/statuses/{0}/comments/";
+        String getLikes = "/api/v1/statuses/{0}/likes/";
         String getHotTopicDetail = "/api/v1/statuses/{0}/";
         String star = "/api/v1/statuses/likes/like/";
         String unstar = "/api/v1/statuses/likes/unlike/";

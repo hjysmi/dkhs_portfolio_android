@@ -7,9 +7,11 @@ import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.NoDataBean;
+import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
-import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
@@ -37,6 +39,7 @@ public class TopicsDetailAdapter extends AutoAdapter{
         addHandler(1,new CommentHandler());
         addHandler(2,new NoDataHandler());
         addHandler(3,new LoadingHandler());
+        addHandler(4,new LikePeopleHandler());
     }
 
     @Override
@@ -50,6 +53,8 @@ public class TopicsDetailAdapter extends AutoAdapter{
             return 2;
         } else  if(mData.get(position)instanceof LoadingBean){
             return 3;
+        } else  if(mData.get(position)instanceof UserEntity){
+            return 4;
         }
         return 1;
     }
