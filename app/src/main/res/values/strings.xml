@@ -746,9 +746,10 @@
     <string name="delete_topics">删除帖子</string>
     <string name="delete_comment">删除回复</string>
     <string name="null_stock">当前股票不存在</string>
-    <string name="title_activity_comment_me">回复我的</string>
+    <string name="title_activity_comment_me">评论我的</string>
     <string name="title_activity_call_me">提到我的</string>
     <!--举报 end-->
+    <string name="title_pickup_user">选择用户</string>
 
 
 </resources>

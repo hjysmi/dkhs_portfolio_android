@@ -52,18 +52,21 @@ public class TextModifyUtil {
             temptStr = temptStr.substring(index + s.length());
             tempt += index + s.length();
             // 将s转化成bitmap图片
-            String source = faceMap.get(s);
-            if (!TextUtils.isEmpty(source)) {
-                String sourceName = context.getPackageName()
-                        + ":drawable/" + source;
-                int id = context.getResources().getIdentifier(sourceName,
-                        null, null);
-                Bitmap bitmap = BitmapFactory.decodeResource(context
-                        .getResources(), id);
-                builder.setSpan(new ImageSpan(context, bitmap),
-                        tempt - s.length(), tempt,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (!TextUtils.isEmpty(s)) {
 
+                String source = faceMap.get(s);
+                if (!TextUtils.isEmpty(source)) {
+                    String sourceName = context.getPackageName()
+                            + ":drawable/" + source;
+                    int id = context.getResources().getIdentifier(sourceName,
+                            null, null);
+                    Bitmap bitmap = BitmapFactory.decodeResource(context
+                            .getResources(), id);
+                    builder.setSpan(new ImageSpan(context, bitmap),
+                            tempt - s.length(), tempt,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                }
             }
         }
     }

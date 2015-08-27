@@ -70,7 +70,7 @@ public class DKHSEditText extends EmojiconEditText {
                 Log.i("DKHSTEXT", mySpan.url);
                 span.setSpan(mySpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            TextModifyUtil.setImgText(span, FACE_IMG_PATTERN, getContext());
+//            TextModifyUtil.setImgText(span, FACE_IMG_PATTERN, getContext());
             TextModifyUtil.setStockText(span, STOCK_PATTERN, getContext());
             //加上下面方法会导致崩溃，所以去掉，并不影响，因为edittext不需要点击
 //                setMovementMethod(LinkMovementMethod.getInstance());
