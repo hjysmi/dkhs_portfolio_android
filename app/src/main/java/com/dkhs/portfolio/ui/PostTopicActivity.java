@@ -603,7 +603,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private void selectStockBack(SelectStockBean stockBean) {
         curEt.insesrStockText(String.format("%s(%s)", stockBean.getName(), stockBean.getSymbol()));
+        curEt.inserUserText("zhouzhou");
+
     }
+
 
     @Override
     public void onEmojiconBackSpaceClicked(Emojicon emojicon) {

@@ -2,27 +2,32 @@ package com.dkhs.portfolio.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.util.Log;
+import android.view.View;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
+import com.dkhs.portfolio.ui.widget.DKHSEditText;
 
 /**
  * Created by zjz on 2015/5/13.
  */
-public class TestActivity extends FragmentActivity {
+public class TestActivity extends FragmentActivity implements View.OnClickListener {
+
+    private DKHSEditText etInput;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_test);
-//        getData();
 
-
-        getWindow();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.stock_layout, TabF10Fragment.newIntent("sz300363", TabF10Fragment.TabType.INTRODUCTION)).commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.stock_layout, TabF10Fragment.newIntent("sz300363", TabF10Fragment.TabType.INTRODUCTION)).commit();
 
 //        replaceContentFragment(TabF10Fragment.newIntent("sz300363", TabF10Fragment.TabType.INTRODUCTION));
+        etInput = (DKHSEditText) findViewById(R.id.et_input);
+        findViewById(R.id.btn_test2).setOnClickListener(this);
+        findViewById(R.id.btn_test1).setOnClickListener(this);
     }
 
     private void getData() {
@@ -38,6 +43,32 @@ public class TestActivity extends FragmentActivity {
 //        }
 
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.btn_test1:
+                inserUserText();
+                break;
+            case R.id.btn_test2:
+                break;
+        }
+    }
+
+
+    public void inserUserText() {
+
+        String name = "zhozuzhou";
+
+        String htmlName = String.format("<a href=\"portfolio:friend\">%s</a>", name);
+        Log.e(this.getClass().getSimpleName(), " htmname:" + htmlName);
+        etInput.inserUserText(name);
+        String befro = Html.toHtml(etInput.getText());
+        Log.e(this.getClass().getSimpleName(), " html Edittext:" + befro);
 
     }
+
+
 }

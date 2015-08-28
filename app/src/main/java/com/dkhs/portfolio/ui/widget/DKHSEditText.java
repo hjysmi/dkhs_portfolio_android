@@ -8,7 +8,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.rockerhieu.emojicon.EmojiconEditText;
 
 import java.util.regex.Matcher;
@@ -42,44 +41,56 @@ public class DKHSEditText extends EmojiconEditText {
         super(context);
     }
 
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        if (!TextUtils.isEmpty(text)) {
-//            CharSequence s = Html.toHtml((Editable) text);
-//            text = Html.fromHtml(s.toString());
-            text = getSpannable(text);
-            super.setText(text, type);
-        } else {
-            super.setText(text, type);
+    //
+//    @Override
+//    public void setText(CharSequence text, BufferType type) {
+//        if (!TextUtils.isEmpty(text)) {
+//            String soucreHtml = Html.toHtml(getText());
+////            Log.e(this.getClass().getSimpleName(), " before setText soucreHtml :" + soucreHtml);
+//            Log.e(this.getClass().getSimpleName(), " before setText text :" + text);
+////            CharSequence s = Html.toHtml((Editable) text);
+//            text = Html.fromHtml(text.toString());
+////            text = getSpannable(text);
+//            text = buildSpannChar(text);
+//
+//            mLastSourceText = Html.toHtml(getText());
+//
+//            Log.e(this.getClass().getSimpleName(), " after setText soucreHtml :" + soucreHtml);
+//
+//            super.setText(text, type);
+//        } else {
+//            super.setText(text, type);
+//        }
+//    }
+
+
+    /**
+     * when copy loop the html text
+     */
+    protected CharSequence buildSpannChar(CharSequence html) {
+
+        CharSequence sequence = html;
+        SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
+        URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
+        for (URLSpan span : urls) {
+            makeLinkClickable(strBuilder, span);
         }
-        mText = text;
+        return strBuilder;
+
     }
 
-    private CharSequence getSpannable(CharSequence text) {
-        text = Html.fromHtml(text.toString());
-        if (text instanceof Spannable) {
-            int end = text.length();
-            Spannable sp = (Spannable) text;
-            URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
-//                SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            SpannableString span = new SpannableString(text);
-//                builder.clearSpans();
-            for (URLSpan url : urls) {
-                MyClickableSpan mySpan = new MyClickableSpan(getResources().getColor(R.color.blue), getContext());
-                mySpan.url = url.getURL();
-                Log.i("DKHSTEXT", mySpan.url);
-                span.setSpan(mySpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-//            TextModifyUtil.setImgText(span, FACE_IMG_PATTERN, getContext());
-            TextModifyUtil.setStockText(span, STOCK_PATTERN, getContext());
-            //加上下面方法会导致崩溃，所以去掉，并不影响，因为edittext不需要点击
-//                setMovementMethod(LinkMovementMethod.getInstance());
-            return span;
-        } else {
-        }
-        return text;
+    protected void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span) {
+        int start = strBuilder.getSpanStart(span);
+        int end = strBuilder.getSpanEnd(span);
+        int flags = strBuilder.getSpanFlags(span);
+        NoUnderLineSpan mySpan = new NoUnderLineSpan(getResources().getColor(R.color.blue), getContext());
+        strBuilder.setSpan(mySpan, start, end, flags);
+        strBuilder.removeSpan(span);
     }
 
+    /**
+     * 重新处理光标删除股票逻辑
+     */
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -132,29 +143,39 @@ public class DKHSEditText extends EmojiconEditText {
 
 
     public void insesrStockText(String stockname) {
+        stockname = String.format("<a href=\"portfolio:stock\">$%s$</a>", stockname);
+        insertHtmlText(stockname);
+    }
+
+
+    public void inserUserText(String name) {
+
+        name = String.format("<a href=\"portfolio:friend\">@%s</a>", name);
+        insertHtmlText(name);
+
+    }
+
+
+    private void insertHtmlText(String htmlText) {
         int start = getSelectionStart();
         int end = getSelectionEnd();
-        stockname = "$" + stockname + "$ ";
+        CharSequence htmlSequence = buildSpannChar(Html.fromHtml(htmlText));
         if (start < 0) {
-            append(stockname);
+            append(htmlSequence);
         } else {
-            getText().replace(Math.min(start, end), Math.max(start, end), stockname, 0, stockname.length());
+            getText().replace(Math.min(start, end), Math.max(start, end), htmlSequence, 0, htmlSequence.length());
         }
-        setText(getText().toString());
-//        mText = getText();
-//        mText = Html.toHtml((Editable) mText);
-//        Editable.Factory mEditableFactory = Editable.Factory.getInstance();
-//        Editable mEditable = mEditableFactory.newEditable(mText);
-//        setText(mEditable);
+
         setSelection(getText().length());
     }
 
-    CharSequence mText = "";
-
+    /**
+     * 处理复制黏贴逻辑，对HTML的一些转义符的处理
+     */
     @Override
     public boolean onTextContextMenuItem(int id) {
-        if(id == android.R.id.paste){
-            mText = getText();
+        if (id == android.R.id.paste) {
+            CharSequence mText = getText();
             int min = 0;
             int max = mText.length();
             if (isFocused()) {
@@ -164,24 +185,24 @@ public class DKHSEditText extends EmojiconEditText {
                 min = Math.max(0, Math.min(selStart, selEnd));
                 max = Math.max(0, Math.max(selStart, selEnd));
             }
-            paste(min,max);
+            paste(mText, min, max);
             return true;
-        }else{
+        } else {
             return super.onTextContextMenuItem(id);
         }
     }
 
-    private void paste(int min, int max) {
+    private void paste(CharSequence mText, int min, int max) {
         int beforeLen = mText.length();
         ClipboardManager clipboard =
                 (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = clipboard.getPrimaryClip();
         if (clip != null) {
             boolean didFirst = false;
-            for (int i=0; i<clip.getItemCount(); i++) {
+            for (int i = 0; i < clip.getItemCount(); i++) {
                 CharSequence paste = clip.getItemAt(i).coerceToText(getContext());
 //                paste = getSpannable(paste);
-                paste=Html.fromHtml(paste.toString());
+                paste = Html.fromHtml(paste.toString());
                 if (paste != null) {
                     if (!didFirst) {
                         Selection.setSelection((Spannable) mText, max);

@@ -752,4 +752,10 @@
     <string name="title_pickup_user">选择用户</string>
 
 
+    <!-- topic text format Start-->
+
+    <string name="topic_format_stock"><a href="portfolio:stock">$%s$</a></string>
+    <string name="topic_format_friend"><a href="portfolio:friend">@%s</a></string>
+    <!-- topic text format End -->
+
 </resources>
