@@ -23,60 +23,46 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+
             android:layout_height="@dimen/titlebar_height"
             android:background="@color/person_setting_backgroud">
 
             <ImageButton
-                android:id="@+id/upload_img"
-                android:layout_width="wrap_content"
+                android:id="@+id/ib_dollar"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
+                android:layout_weight="1"
                 android:background="@drawable/bottom_menu_selector"
-                android:paddingLeft="10.0dip"
-                android:paddingRight="10.0dip"
-                android:src="@drawable/kb_icon_camera"
-                android:visibility="invisible" />
+                android:src="@drawable/kb_icon_dollar" />
+
+            <ImageButton
+                android:id="@+id/ib_friend"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bottom_menu_selector"
+                android:src="@drawable/kb_icon_user" />
 
             <ImageButton
                 android:id="@+id/ib_img"
-                android:layout_width="wrap_content"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
+                android:layout_weight="1"
                 android:background="@drawable/bottom_menu_selector"
-                android:paddingLeft="10.0dip"
-                android:paddingRight="10.0dip"
                 android:src="@drawable/kb_icon_camera" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <ImageButton
+                android:id="@+id/ib_emoji"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_toRightOf="@id/upload_img">
+                android:layout_weight="1"
+                android:background="@drawable/bottom_menu_selector"
+                android:src="@drawable/kb_icon_emoji" />
 
-                <ImageButton
-                    android:id="@+id/ib_emoji"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/bottom_menu_selector"
-                    android:src="@drawable/kb_icon_emoji" />
-            </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/upload_img">
-
-                <ImageButton
-                    android:id="@+id/ib_dollar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/bottom_menu_selector"
-                    android:src="@drawable/kb_icon_dollar" />
-            </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/ll_emotion"

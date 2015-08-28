@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.lidroid.xutils.util.LogUtils;
@@ -230,7 +231,7 @@ public class PromptManager {
     }
 
     // 当测试阶段时true
-    private static final boolean isShow = true;
+    private static final boolean isShow = AppConfig.isDebug;
 
     /**
      * 测试用 在正式投入市场：删
