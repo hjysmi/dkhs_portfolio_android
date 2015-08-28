@@ -62,7 +62,7 @@ public class TopicsHandler implements ItemHandler<LikeBean> {
         if (mAvatarImResponse) {
             setClickListener(vh.get(R.id.iv_avatar), data);
         }
-        setClickListener(vh.get(R.id.iv), data);
+//        setClickListener(vh.get(R.id.iv), data);
         setClickListener(vh.get(R.id.main_ll), data);
         setClickListener(vh.get(R.id.fl_star), data);
         setClickListener(vh.get(R.id.name), data);
@@ -82,14 +82,7 @@ public class TopicsHandler implements ItemHandler<LikeBean> {
         vh.setTextView(R.id.content, data.text);
         vh.setTextView(R.id.name, data.user.getUsername());
 
-        if (data.medias != null && data.medias.size() > 0) {
-            vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_sm(), vh.getImageView(R.id.iv));
-
-        } else {
-            vh.get(R.id.iv).setVisibility(View.GONE);
-
-        }
+        new TopicsImageViewHandler().handleMedias(vh,data);
 
         TextSwitcher textSwitcher = vh.get(R.id.tv_like);
         if (data.attitudes_count > 0) {
@@ -118,6 +111,7 @@ public class TopicsHandler implements ItemHandler<LikeBean> {
         }
 
     }
+
 
     public void setClickListener(View view, LikeBean data) {
         ItemHandlerClickListenerImp<LikeBean> itemHandlerClickListener = null;

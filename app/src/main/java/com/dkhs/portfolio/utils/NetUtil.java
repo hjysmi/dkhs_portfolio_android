@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.utils;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

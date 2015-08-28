@@ -89,8 +89,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private CrashHandler() {
     }
 
-    ;
-
     public static CrashHandler getInstance(Context ctx) {
 
         if (crashhandler == null) {

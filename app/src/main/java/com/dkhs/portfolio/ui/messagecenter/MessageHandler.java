@@ -116,7 +116,7 @@ public class MessageHandler {
                 if (segments.get(0).equals("s") && segments.size() >= 2) {
                     gotoStockQuotesActivity(segments);
                     hasHandle = true;
-                } else if (segments.get(0).equals("p") && segments.size() >= 2) {
+                } else if (segments.get(0).equals("p") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
                     hasHandle = true;
                     gotoOrderFundDetailActivity(segments.get(1));
                 } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("news")) {
@@ -129,10 +129,10 @@ public class MessageHandler {
                     //https://www.dkhs.com/statuses/comments_timeline/ 跳转至评论或回复我的
                     gotoCommentMeActivity();
                 } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("public_timeline")) {
-                    //https://www.dkhs.com/statuses/public_timeline/ //跳转至社区热门话题界面
+                    //https://www.dkhs.com/statuses/public_timeline/ //跳转至社区热门话题界面d+
                     gotoHostTopicsActivity();
 
-                } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
+                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
                     hasHandle = true;
                     gotoNewOrYaoBaoDetail(segments.get(1));
                 } else if (segments.get(0).equals("u") && segments.size() >= 2) {
@@ -143,7 +143,7 @@ public class MessageHandler {
                     //https://www.dkhs.com/symbols/funds/managers/ //跳转至基金经理排行页面
                     //https://www.dkhs.com/symbols/funds/managers/pk/ //跳转至基金经理详情页
                     String pk = null;
-                    if (segments.size() >= 4) {
+                    if (segments.size() >= 4 && segments.get(3).matches("\\d+")) {
                         pk = segments.get(3);
                     }
                     gotoFundManager(pk);
