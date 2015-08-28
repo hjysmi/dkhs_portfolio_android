@@ -38,6 +38,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
     private boolean mAvatarImResponse = true;
     private boolean isReplyComment = false;
+    private boolean mCompact =false;
 
 
     public CommentHandler(boolean avatarImResponse) {
@@ -47,6 +48,11 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
     public CommentHandler() {
         this(true);
+    }
+
+    public CommentHandler(boolean avatarImResponse, boolean compact) {
+        mAvatarImResponse = avatarImResponse;
+        mCompact = compact;
     }
 
     public CommentHandler setReplyComment(boolean isReplyComment) {
@@ -118,7 +124,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         });
 
 
-        if (comment.compact) {
+        if (comment.compact || mCompact) {
             vh.get(R.id.bottom).setVisibility(View.GONE);
         } else {
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);

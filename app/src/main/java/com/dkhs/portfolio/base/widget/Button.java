@@ -33,4 +33,5 @@ public class Button  extends AppCompatButton {
     public void setOnClickListener(OnClickListener l) {
         super.setOnClickListener(new SingleClickListener(l));
     }
+
 }

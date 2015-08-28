@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.bean;
 
+import com.lidroid.xutils.db.annotation.NoAutoIncrement;
+
 import org.parceler.Parcel;
 
 import java.util.List;
@@ -12,45 +14,12 @@ import java.util.List;
  * @Description TODO(关注人和粉丝的试题类)
  */
 @Parcel
-public class PeopleBean {
+public class PeopleBean extends UserEntity {
 
 
-    /**
-     * symbols_count : 0
-     * friends_count : 1
-     * is_active : true
-     * gender : 1
-     * city : 浦东
-     * description : 这是测试帐号testuser1
-     * avatar_md : /static/common/img/avatar_80x80.png
-     * avatar_xs :
-     * avatar_lg :
-     * avatar_sm :
-     * province : 上海
-     * followed_by_count : 2
-     * id : 15
-     * category : [1,5]
-     * status_count : 0
-     * username : testuser1
-     * me_follow : true
-     */
-      int symbols_count;
-      int friends_count;
+
       boolean is_active;
-      String gender;
-      String city;
-      String description;
-      String avatar_md;
-      String avatar_xs;
-      String avatar_lg;
-      String avatar_sm;
-      String province;
-      int followed_by_count;
-      int id;
       List<Integer> category;
-      int status_count;
-      String username;
-      boolean me_follow;
 
     /**
      * total_count : 1
@@ -60,6 +29,9 @@ public class PeopleBean {
      */
       int total_count;
       int total_page;
+
+
+
 
     public void setSymbols_count(int symbols_count) {
         this.symbols_count = symbols_count;
@@ -177,9 +149,6 @@ public class PeopleBean {
         return followed_by_count;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public List<Integer> getCategory() {
         return category;

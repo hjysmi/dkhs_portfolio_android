@@ -182,7 +182,9 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         mIsAutoLoadMore = pIsAutoLoadMore;
         // modify by zcm --- 2014.12.22
         if (!pIsAutoLoadMore && mEndRootView != null) {
-            removeFooterView(mEndRootView);
+//            removeFooterView(mEndRootView);
+
+            mEndRootView.setVisibility(GONE);
         }
         // modify by zcm --- 2014.12.22
     }
@@ -345,31 +347,38 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
      * @version 1.0
      */
     private void addFooterView() {
-        mEndRootView = mInflater.inflate(R.layout.pull_to_refresh_load_more, null);
-        mEndRootView.setVisibility(View.VISIBLE);
-        mEndLoadProgressBar = (ProgressBar) mEndRootView.findViewById(R.id.pull_to_refresh_progress);
-        mEndLoadTipsTextView = (TextView) mEndRootView.findViewById(R.id.load_more);
-        mEndRootView.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if (mCanLoadMore) {
-                    if (mCanRefresh) {
-                        // 当可以下拉刷新时，如果FootView没有正在加载，并且HeadView没有正在刷新，才可以点击加载更多。
-                        if (mEndState != ENDINT_LOADING && mHeadState != REFRESHING) {
+
+        if(mEndRootView == null) {
+
+            mEndRootView = mInflater.inflate(R.layout.pull_to_refresh_load_more, null);
+            mEndRootView.setVisibility(View.VISIBLE);
+            mEndLoadProgressBar = (ProgressBar) mEndRootView.findViewById(R.id.pull_to_refresh_progress);
+            mEndLoadTipsTextView = (TextView) mEndRootView.findViewById(R.id.load_more);
+            mEndRootView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (mCanLoadMore) {
+                        if (mCanRefresh) {
+                            // 当可以下拉刷新时，如果FootView没有正在加载，并且HeadView没有正在刷新，才可以点击加载更多。
+                            if (mEndState != ENDINT_LOADING && mHeadState != REFRESHING) {
+                                mEndState = ENDINT_LOADING;
+                                onLoadMore();
+                            }
+                        } else if (mEndState != ENDINT_LOADING) {
+                            // 当不能下拉刷新时，FootView不正在加载时，才可以点击加载更多。
                             mEndState = ENDINT_LOADING;
                             onLoadMore();
                         }
-                    } else if (mEndState != ENDINT_LOADING) {
-                        // 当不能下拉刷新时，FootView不正在加载时，才可以点击加载更多。
-                        mEndState = ENDINT_LOADING;
-                        onLoadMore();
                     }
                 }
-            }
-        });
+            });
 
-        addFooterView(mEndRootView);
+            addFooterView(mEndRootView);
+        }else{
+            mEndRootView.setVisibility(VISIBLE);
+        }
 
         if (mIsAutoLoadMore) {
             mEndState = ENDINT_AUTO_LOAD_DONE;
@@ -395,36 +404,6 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
         } else {
             _Duration = 250;
         }
-        // Interpolator _Interpolator;
-        // switch (pAnimType) {
-        // case 0:
-        // _Interpolator = new AccelerateDecelerateInterpolator();
-        // break;
-        // case 1:
-        // _Interpolator = new AccelerateInterpolator();
-        // break;
-        // case 2:
-        // _Interpolator = new AnticipateInterpolator();
-        // break;
-        // case 3:
-        // _Interpolator = new AnticipateOvershootInterpolator();
-        // break;
-        // case 4:
-        // _Interpolator = new BounceInterpolator();
-        // break;
-        // case 5:
-        // _Interpolator = new CycleInterpolator(1f);
-        // break;
-        // case 6:
-        // _Interpolator = new DecelerateInterpolator();
-        // break;
-        // case 7:
-        // _Interpolator = new OvershootInterpolator();
-        // break;
-        // default:
-        // _Interpolator = new LinearInterpolator();
-        // break;
-        // }
 
         Interpolator _Interpolator = new LinearInterpolator();
 
@@ -521,7 +500,7 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
             // 突然关闭加载更多功能之后，我们要移除FootView。
             System.out.println("this.removeFooterView(endRootView);...");
             mEndRootView.setVisibility(View.GONE);
-            this.removeFooterView(mEndRootView);
+//            this.removeFooterView(mEndRootView);
         }
     }
 
