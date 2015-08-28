@@ -105,14 +105,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 //        vh.get(R.id.iv).setVisibility(View.GONE);
 
         new TopicsImageViewHandler().handleMedias(vh,data);
-        if (data.medias != null && data.medias.size() > 0) {
-            vh.get(R.id.iv).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_md(), vh.getImageView(R.id.iv));
-
-        } else {
-            vh.get(R.id.iv).setVisibility(View.GONE);
-        }
-
 
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
@@ -187,6 +179,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                 ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(vh.get(R.id.indicate), "translationX", (v.getLeft() + v.getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2));
                 objectAnimator.setDuration(200);
                 objectAnimator.start();
+                mSortType = TopicsCommendEngineImpl.SortType.like;
                 BusProvider.getInstance().post(new LikesPeopleEvent());
                 spinner.setVisibility(View.INVISIBLE);
             }
@@ -205,6 +198,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             }
         });
         if (mSortType == TopicsCommendEngineImpl.SortType.like) {
+
             ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.tv_like).getLeft() + vh.getTextView(R.id.tv_like).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
         } else {
             ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.comment).getLeft() + vh.getTextView(R.id.comment).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
