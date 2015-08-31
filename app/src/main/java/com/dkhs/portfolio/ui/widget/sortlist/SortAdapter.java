@@ -9,21 +9,26 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.ImageView;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
 public class SortAdapter extends BaseAdapter implements SectionIndexer {
 
-    private List<SortModel> list = null;
+    private List<UserEntity> list = null;
 
     private Context mContext;
+    private final BitmapUtils bitmapUtils;
 
-    public SortAdapter(Context mContext, List<SortModel> list) {
+    public SortAdapter(Context mContext, List<UserEntity> list) {
         this.mContext = mContext;
         this.list = list;
+        bitmapUtils = new BitmapUtils(mContext);
     }
 
-    public void updateListView(List<SortModel> list) {
+    public void updateListView(List<UserEntity> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -48,12 +53,13 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder = null;
-        final SortModel mContent = list.get(position);
+        final UserEntity mContent = list.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_select_friend, null);
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.title);
             viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.catalog);
+            viewHolder.ivAvater = (ImageView) convertView.findViewById(R.id.iv_avatar);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -72,7 +78,14 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
         } else {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
-        viewHolder.tvTitle.setText(this.list.get(position).getName());
+        viewHolder.tvTitle.setText(mContent.getUsername());
+
+        if (null != mContent.getAvatar_md() && mContent.getAvatar_md().length() > 35) {
+            bitmapUtils.display(viewHolder.ivAvater, mContent.getAvatar_md(), R.drawable.ic_user_head, R.drawable.ic_user_head);
+        } else {
+            viewHolder.ivAvater.setImageResource(R.drawable.ic_user_head);
+        }
+
         return convertView;
     }
 
@@ -109,6 +122,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
     final static class ViewHolder {
         TextView tvLetter;
         TextView tvTitle;
+        ImageView ivAvater;
     }
 
     /**

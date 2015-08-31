@@ -33,19 +33,15 @@ public class SelectFriendActivity extends ModelAcitivity {
 
         replaceSortFriendFragment();
         etSearchKey = (EditText) findViewById(R.id.filter_edit);
-        //根据输入框输入值的改变来过滤搜索
         etSearchKey.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
-//                filterData(s.toString());
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
-
             }
 
             @Override

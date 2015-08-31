@@ -250,7 +250,7 @@ public class DKHSUrl {
         String follow = "/api/v1/users/%s/follow/";
         String unfollow = "/api/v1/users/%s/unfollow/";
         String getUserInfo = "/api/v1/users/%s/";
-        String friend_list = "/api/v1/users/%s/friends/";
+        String friend_list = "/api/v1/users/%s/friends/?page_size=999";
 
 
     }

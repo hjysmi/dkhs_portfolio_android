@@ -3,7 +3,6 @@ package com.dkhs.portfolio.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,11 +15,9 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.widget.sortlist.CharacterParser;
 import com.dkhs.portfolio.ui.widget.sortlist.PinyinComparator;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
 import com.dkhs.portfolio.ui.widget.sortlist.SortAdapter;
-import com.dkhs.portfolio.ui.widget.sortlist.SortModel;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -47,8 +44,8 @@ public class SortFriendFragment extends BaseFragment {
     /**
      * 汉字转换成拼音的类
      */
-    private CharacterParser characterParser;
-    private List<SortModel> SourceDateList;
+//    private CharacterParser characterParser;
+    private List<UserEntity> mSortDateList;
 
     /**
      * 根据拼音来排列ListView里面的数据类
@@ -67,11 +64,18 @@ public class SortFriendFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        friendList = new ArrayList<UserEntity>();
+        mSortDateList = new ArrayList<UserEntity>();
+    }
+
     private void initViews() {
         sideBar.setTextView(dialog);
 
         //实例化汉字转拼音类
-        characterParser = CharacterParser.getInstance();
+//        characterParser = CharacterParser.getInstance();
 
         pinyinComparator = new PinyinComparator();
 
@@ -96,18 +100,17 @@ public class SortFriendFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //这里要利用adapter.getItem(position)来获取当前position所对应的对象
-//                Toast.makeText(getApplication(), (, Toast.LENGTH_SHORT).show();
-                SortModel item = (SortModel) adapter.getItem(position);
-                setSelectBack(item.getName());
+                UserEntity item = (UserEntity) adapter.getItem(position);
+                setSelectBack(item.getUsername());
             }
         });
 
-        SourceDateList = filledData(getResources().getStringArray(R.array.friend_date));
+//        mSortDateList = filledData(getResources().getStringArray(R.array.friend_date));
 
-        // 根据a-z进行排序源数据
-        Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(getActivity(), SourceDateList);
+
+        adapter = new SortAdapter(getActivity(), mSortDateList);
         sortListView.setAdapter(adapter);
+        getFriendData();
     }
 
 
@@ -119,97 +122,102 @@ public class SortFriendFragment extends BaseFragment {
         getActivity().finish();
     }
 
+
+    private List<UserEntity> friendList;
+
     /**
      * 为ListView填充数据
      *
-     * @param date
+     * @param
      * @return
      */
-    private List<SortModel> filledData(String[] date) {
+    private void getFriendData() {
 
-        List<UserEntity> friendList;
+
         new UserEngineImpl().getFriendList(String.valueOf(UserEngineImpl.getUserEntity().getId()), new ParseHttpListener<MoreDataBean<UserEntity>>() {
-            @Override
-            protected MoreDataBean<UserEntity> parseDateTask(String jsonData) {
+                    @Override
+                    protected MoreDataBean<UserEntity> parseDateTask(String jsonData) {
 
-                MoreDataBean<UserEntity> moreBean = (MoreDataBean<UserEntity>) DataParse.parseObjectJson(new TypeToken<MoreDataBean<UserEntity>>() {
-                }.getType(), jsonData);
+                        MoreDataBean<UserEntity> moreBean = (MoreDataBean<UserEntity>) DataParse.parseObjectJson(new TypeToken<MoreDataBean<UserEntity>>() {
+                        }.getType(), jsonData);
 
-                return moreBean;
-            }
+//                        List<SortModel> mSortList = new ArrayList<SortModel>();
+                        if (null != moreBean) {
+                            if (null != moreBean.getResults()) {
 
-            @Override
-            protected void afterParseData(MoreDataBean<UserEntity> object) {
-                if (null != object) {
-                    if (null != object.getResults()) {
-                        for (UserEntity friendModel : object.getResults()) {
-                            Log.d("GetFriend", " friendModel name:" + friendModel.getUsername());
+                                for (UserEntity userEntity : moreBean.getResults()) {
+                                    //汉字转换成拼音
+                                    String pinyin = userEntity.getChi_spell();
+                                    String sortString = pinyin.substring(0, 1).toUpperCase();
 
+                                    // 正则表达式，判断首字母是否是英文字母
+                                    if (sortString.matches("[A-Z]")) {
+                                        userEntity.setSortLetters(sortString.toUpperCase());
+                                    } else {
+                                        userEntity.setSortLetters("#");
+                                    }
+
+                                }
+
+
+                            }
                         }
+
+                        return moreBean;
                     }
 
+                    @Override
+                    protected void afterParseData(MoreDataBean<UserEntity> object) {
+                        if (null != object) {
+                            // 根据a-z进行排序源数据
+                            Collections.sort(object.getResults(), pinyinComparator);
+                            adapter.updateListView(object.getResults());
+                        }
+                        Log.d("afterParseData", " size:" + object.getResults().size());
+                    }
+
+
                 }
-            }
-        });
-
-
-        List<SortModel> mSortList = new ArrayList<SortModel>();
-
-        for (int i = 0; i < date.length; i++) {
-            SortModel sortModel = new SortModel();
-            sortModel.setName(date[i]);
-            //汉字转换成拼音
-            String pinyin = characterParser.getSelling(date[i]);
-            String sortString = pinyin.substring(0, 1).toUpperCase();
-
-            // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches("[A-Z]")) {
-                sortModel.setSortLetters(sortString.toUpperCase());
-            } else {
-                sortModel.setSortLetters("#");
-            }
-
-            mSortList.add(sortModel);
-        }
-
-
-        //添加最近5个联系人
-        for (int i = 0; i < 5; i++) {
-            SortModel sortModel = new SortModel();
-            sortModel.setName(date[i]);
-
-            sortModel.setSortLetters("*");
-
-            mSortList.add(sortModel);
-        }
-
-        return mSortList;
+        );
 
     }
+
+
+    //添加最近5个联系人
+//        for (int i = 0; i < 5; i++) {
+//            SortModel sortModel = new SortModel();
+//            sortModel.setName(date[i]);
+//
+//            sortModel.setSortLetters("*");
+//
+//            mSortList.add(sortModel);
+//        }
+
 
     /**
      * 根据输入框中的值来过滤数据并更新ListView
      *
      * @param filterStr
      */
+
     private void filterData(String filterStr) {
-        List<SortModel> filterDateList = new ArrayList<SortModel>();
-
-        if (TextUtils.isEmpty(filterStr)) {
-            filterDateList = SourceDateList;
-        } else {
-            filterDateList.clear();
-            for (SortModel sortModel : SourceDateList) {
-                String name = sortModel.getName();
-                if (name.indexOf(filterStr.toString()) != -1 || characterParser.getSelling(name).startsWith(filterStr.toString())) {
-                    filterDateList.add(sortModel);
-                }
-            }
-        }
-
-        // 根据a-z进行排序
-        Collections.sort(filterDateList, pinyinComparator);
-        adapter.updateListView(filterDateList);
+//        List<SortModel> filterDateList = new ArrayList<SortModel>();
+//
+//        if (TextUtils.isEmpty(filterStr)) {
+//            filterDateList = mSortDateList;
+//        } else {
+//            filterDateList.clear();
+//            for (SortModel sortModel : mSortDateList) {
+//                String name = sortModel.getName();
+//                if (name.indexOf(filterStr.toString()) != -1 || characterParser.getSelling(name).startsWith(filterStr.toString())) {
+//                    filterDateList.add(sortModel);
+//                }
+//            }
+//        }
+//
+//        // 根据a-z进行排序
+//        Collections.sort(filterDateList, pinyinComparator);
+//        adapter.updateListView(filterDateList);
     }
 
 }
