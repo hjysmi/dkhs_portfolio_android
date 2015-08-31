@@ -10,11 +10,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,10 +25,8 @@ import com.dkhs.portfolio.bean.FeedBackBean;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,6 +65,10 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener 
         feedEditCom = (EditText) findViewById(R.id.feed_edit_com);
         TextView btnCancle = getBtnBack();
         btnSave = getRightButton();
+
+        TextView tvFeedTip = (TextView) findViewById(R.id.tv_feed_back_tip);
+        String feedTip = getString(R.string.feed_back_notice, "<font color=\"#00acec\">" + getString(R.string.app_name) + "</font>");
+        tvFeedTip.setText(Html.fromHtml(feedTip));
 
 
         //btnCancle.setText("取消");

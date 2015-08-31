@@ -260,7 +260,7 @@
     <string name="feed_back_title">意见反馈</string>
     <string name="feed_back_hint">请输入您的反馈意见（500字以内）</string>
     <string name="feed_back_com_title">QQ、邮箱、手机</string>
-    <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题</string>
+    <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题,可以关注微信公众号：%s，直接与微信客服沟通交流</string>
     <string name="text_other_manager_combin">Ta管理的组合一览</string>
     <string name="text_my_manager_combin">我管理的组合一览</string>
     <string name="sign_text_title">个人签名</string>
