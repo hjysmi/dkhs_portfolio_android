@@ -18,7 +18,7 @@
         android:layout_height="@dimen/gray_tab_height"
         android:layout_gravity="top"
         android:background="#CCFEECBE"
-        >
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

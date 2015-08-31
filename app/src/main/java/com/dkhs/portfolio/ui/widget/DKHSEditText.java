@@ -4,10 +4,7 @@ package com.dkhs.portfolio.ui.widget;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.text.Editable;
 import android.text.Html;
-import android.text.Selection;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
@@ -110,7 +107,6 @@ public class DKHSEditText extends EmojiconEditText {
                 int eIndex = end.indexOf("$");
                 if (tIndex >= 0 && eIndex >= 0) {
                     try {
-//                        Log.i("TextView", inTempt);
                         Log.i("TextView", tempt.substring(tIndex, tempt.length()));
                         Log.i("TextView", end.substring(0, eIndex + 1));
                         String inTempt = tempt.substring(tIndex, tempt.length()) + end.substring(0, eIndex + 1);
@@ -143,14 +139,14 @@ public class DKHSEditText extends EmojiconEditText {
 
 
     public void insesrStockText(String stockname) {
-        stockname = String.format("<a href=\"portfolio:stock\">$%s$</a>", stockname);
+        stockname = String.format("<a href=\"dkhs:stock\">$%s$</a>", stockname);
         insertHtmlText(stockname);
     }
 
 
     public void inserUserText(String name) {
 
-        name = String.format("<a href=\"portfolio:friend\">@%s</a> ", name);
+        name = String.format("<a href=\"dkhs:friend\">@%s</a> ", name);
         insertHtmlText(name);
 
     }
@@ -175,53 +171,42 @@ public class DKHSEditText extends EmojiconEditText {
     @Override
     public boolean onTextContextMenuItem(int id) {
         if (id == android.R.id.paste) {
-            CharSequence mText = getText();
-            int min = 0;
-            int max = mText.length();
-            if (isFocused()) {
-                final int selStart = getSelectionStart();
-                final int selEnd = getSelectionEnd();
 
-                min = Math.max(0, Math.min(selStart, selEnd));
-                max = Math.max(0, Math.max(selStart, selEnd));
-            }
-            paste(mText, min, max);
+            pasteToResult();
             return true;
         } else {
             return super.onTextContextMenuItem(id);
         }
     }
 
-    private void paste(CharSequence mText, int min, int max) {
-        int beforeLen = mText.length();
-        ClipboardManager clipboard =
-                (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = clipboard.getPrimaryClip();
-        if (clip != null) {
-            boolean didFirst = false;
-            for (int i = 0; i < clip.getItemCount(); i++) {
-                CharSequence paste = clip.getItemAt(i).coerceToText(getContext());
-//                paste = getSpannable(paste);
-                paste = Html.fromHtml(paste.toString());
-                if (paste != null) {
-                    if (!didFirst) {
-                        Selection.setSelection((Spannable) mText, max);
-                        ((Editable) mText).replace(min, max, paste);
-                        didFirst = true;
-                    } else {
-                        ((Editable) mText).insert(getSelectionEnd(), "\n");
-                        ((Editable) mText).insert(getSelectionEnd(), paste);
-                    }
-                    //以下注释是为了让编辑框内超链接变蓝色，变态需求
-//                    mText = Html.toHtml((Editable) mText);
-//                    Editable.Factory mEditableFactory = Editable.Factory.getInstance();
-//                    Editable mEditable = mEditableFactory.newEditable(mText);
-//                    setText(mEditable);
-                    setText(mText);
-                    setSelection(min + mText.length() - beforeLen);
+    private ClipboardManager mClipboard = null;
 
-                }
+    private void pasteToResult() {
+        // Gets a handle to the clipboard service.
+        if (null == mClipboard) {
+            mClipboard = (ClipboardManager) getContext().
+                    getSystemService(Context.CLIPBOARD_SERVICE);
+        }
+
+        String resultString = "";
+        // 检查剪贴板是否有内容
+        if (mClipboard.hasPrimaryClip()) {
+
+            ClipData clipData = mClipboard.getPrimaryClip();
+            int count = clipData.getItemCount();
+
+            for (int i = 0; i < count; ++i) {
+
+                ClipData.Item item = clipData.getItemAt(i);
+                CharSequence str = item
+                        .coerceToText(getContext());
+                Log.i("mengdd", "item : " + i + ": " + str);
+
+                resultString += str;
             }
+            insertHtmlText(resultString);
         }
     }
+
+
 }
