@@ -20,6 +20,8 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.adapter.HotTopicsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
+import com.mingle.autolist.AutoData;
+import com.mingle.autolist.AutoList;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -28,9 +30,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HotTopicsFragment extends LoadMoreListFragment implements BannerHandler.RefreshEnable {
+public class HotTopicsFragment extends AutoListLoadMoreListFragment implements BannerHandler.RefreshEnable {
 
-    private List<TopicsBean> mDataList = new ArrayList<>();
+    private AutoList<TopicsBean> mDataList = new AutoList<>();
     private HotTopicEngineImpl mTopicsEngine = null;
     private BaseAdapter mAdapter;
 
@@ -40,7 +42,7 @@ public class HotTopicsFragment extends LoadMoreListFragment implements BannerHan
 
 
     @Override
-    ListAdapter getListAdapter() {
+    BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {
             mAdapter = new HotTopicsAdapter(mActivity, mDataList,HotTopicsFragment.this);
@@ -52,39 +54,65 @@ public class HotTopicsFragment extends LoadMoreListFragment implements BannerHan
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        BusProvider.getInstance().register(this);
+        mDataList.setup(this);
+        mDataList.setAdapter(getListAdapter());
+        mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
+            @Override
+            public boolean beforeHandleAction(AutoData a) {
+
+                if(a.action== AutoData.Action.Update){
+
+                    int index = mDataList.indexOf(a);
+                    if (index != -1) {
+                        TopicsBean topicsBean=   mDataList.get(index);
+                        topicsBean.favorites_count = ( (TopicsBean)a).favorites_count;
+                        topicsBean.attitudes_count = ( (TopicsBean)a).attitudes_count;
+                        topicsBean.comments_count =  ( (TopicsBean)a).comments_count;
+                        topicsBean.like = ( (TopicsBean)a).like;
+                    }
+                    return true;
+                }
+                return true;
+            }
+
+            @Override
+            public void afterHandleAction(AutoData a) {
+
+            }
+        });
+//        BusProvider.getInstance().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+//
+//
+//    @Override
+//    public void onDestroyView() {
+//        BusProvider.getInstance().unregister(this);
+//        super.onDestroyView();
+//    }
 
-
-    @Override
-    public void onDestroyView() {
-        BusProvider.getInstance().unregister(this);
-        super.onDestroyView();
-    }
-
-    @Subscribe
-    public void updateList(UpdateTopicsListEvent updateTopicsListEvent) {
-
-        TopicsBean topicsBean = updateTopicsListEvent.topicsBean;
-
-        for (Object object : mDataList) {
-
-            if (object instanceof TopicsBean) {
-                TopicsBean topicsBean1 = (TopicsBean) object;
-
-                if (topicsBean.id == topicsBean1.id) {
-                    topicsBean1.favorites_count = topicsBean.favorites_count;
-                    topicsBean1.attitudes_count = topicsBean.attitudes_count;
-                    topicsBean1.comments_count = topicsBean.comments_count;
-                    topicsBean1.like = topicsBean.like;
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                }
-            }
-        }
-
-    }
+//    @Subscribe
+//    public void updateList(UpdateTopicsListEvent updateTopicsListEvent) {
+//
+//        TopicsBean topicsBean = updateTopicsListEvent.topicsBean;
+//
+//        for (Object object : mDataList) {
+//
+//            if (object instanceof TopicsBean) {
+//                TopicsBean topicsBean1 = (TopicsBean) object;
+//
+//                if (topicsBean.id == topicsBean1.id) {
+//                    topicsBean1.favorites_count = topicsBean.favorites_count;
+//                    topicsBean1.attitudes_count = topicsBean.attitudes_count;
+//                    topicsBean1.comments_count = topicsBean.comments_count;
+//                    topicsBean1.like = topicsBean.like;
+//                    mAdapter.notifyDataSetChanged();
+//                    break;
+//                }
+//            }
+//        }
+//
+//    }
 
     @Override
     LoadMoreDataEngine getLoadEngine() {
@@ -148,7 +176,6 @@ public class HotTopicsFragment extends LoadMoreListFragment implements BannerHan
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
     }
-
 
 
     @Override

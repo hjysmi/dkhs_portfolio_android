@@ -105,7 +105,7 @@ public class CommentItemClick {
                         copyComment(commentBean.text);
                         break;
                     case 2://删除
-                        deleteComment(commentBean.getId() + "");
+                        deleteComment(commentBean);
                         break;
                 }
                 dialog.dismiss();
@@ -158,7 +158,7 @@ public class CommentItemClick {
                         copyComment(commentBean.text);
                         break;
                     case 3://删除回复
-                        deleteComment(commentBean.getId() + "");
+                        deleteComment(commentBean);
                         break;
                 }
                 dialog.dismiss();
@@ -208,14 +208,14 @@ public class CommentItemClick {
     /**
      * 删除回复
      */
-    private void deleteComment(final String commentId) {
+    private void deleteComment(final LikeBean comment) {
 
 
         PromptManager.getAlertDialog(mContext).setMessage(mContext.getString(R.string.delete_comment)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                postDeleteCommnent(commentId);
+                postDeleteCommnent(comment);
             }
         }).setNegativeButton(R.string.cancel, null).show();
 
@@ -223,8 +223,8 @@ public class CommentItemClick {
     }
 
 
-    private void postDeleteCommnent(final String commentId) {
-        StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
+    private void postDeleteCommnent(final LikeBean comment) {
+        StatusEngineImpl.delete(comment.getId()+"", new ParseHttpListener<Boolean>() {
             @Override
             protected Boolean parseDateTask(String jsonData) {
                 DeleteResponeBean reponseBean = DataParse.parseObjectJson(DeleteResponeBean.class, jsonData);
@@ -236,8 +236,9 @@ public class CommentItemClick {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
                     DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
-                    deleteCommentEvent.commentId = commentId;
+                    deleteCommentEvent.commentId = comment.getId()+"";
                     BusProvider.getInstance().post(deleteCommentEvent);
+
 
 
                 }

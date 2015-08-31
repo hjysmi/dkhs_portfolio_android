@@ -82,7 +82,14 @@ public class TopicsHandler implements ItemHandler<LikeBean> {
         vh.setTextView(R.id.content, data.text);
         vh.setTextView(R.id.name, data.user.getUsername());
 
-        new TopicsImageViewHandler().handleMedias(vh,data);
+
+        TopicsImageViewHandler topicsImageViewHandler= (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+        if(topicsImageViewHandler == null){
+            topicsImageViewHandler=  new TopicsImageViewHandler();
+            vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
+        }
+
+        topicsImageViewHandler .handleMedias(vh, data);
 
         TextSwitcher textSwitcher = vh.get(R.id.tv_like);
         if (data.attitudes_count > 0) {

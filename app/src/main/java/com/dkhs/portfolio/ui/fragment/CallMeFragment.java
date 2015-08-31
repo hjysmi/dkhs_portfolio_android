@@ -10,23 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-
 import com.dkhs.adpter.adapter.AutoAdapter;
 import com.dkhs.adpter.handler.ItemHandler;
-import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.engine.CallMeEngineImpl;
-import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
-import com.dkhs.portfolio.ui.adapter.LatestTopicsAdapter;
-import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
-import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
-import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;

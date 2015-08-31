@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="horizontal"
-              android:background="@color/red"
     android:padding="15dp" >
 
     <ProgressBar
