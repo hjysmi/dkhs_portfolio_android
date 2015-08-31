@@ -15,10 +15,10 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
 import com.dkhs.portfolio.ui.adapter.LatestTopicsAdapter;
-import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
+import com.mingle.autolist.AutoList;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -27,21 +27,15 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LatestTopicsFragment extends LoadMoreListFragment {
+public class LatestTopicsFragment extends AutoListLoadMoreListFragment {
 
 
     public LatestTopicsFragment(){
 
     }
-
-    private List<TopicsBean> mDataList = new ArrayList<>();
+    private AutoList<TopicsBean> mDataList = new AutoList<>();
     private LatestTopicsEngineImpl mTopicsEngine= null;
-
-
     private BaseAdapter mAdapter;
-
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -52,6 +46,8 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         BusProvider.getInstance().register(this);
+        mDataList.setup(this);
+        mDataList.setAdapter(getListAdapter());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -59,66 +55,6 @@ public class LatestTopicsFragment extends LoadMoreListFragment {
     public void onDestroyView() {
         BusProvider.getInstance().unregister(this);
         super.onDestroyView();
-    }
-
-    @Subscribe
-    public void updateList(UpdateTopicsListEvent updateTopicsListEvent){
-
-        TopicsBean topicsBean=updateTopicsListEvent.topicsBean;
-        if(topicsBean == null){
-            return;
-        }
-
-        for (Object object : mDataList) {
-
-            if (object instanceof TopicsBean) {
-                TopicsBean topicsBean1 = (TopicsBean) object;
-
-                if (topicsBean.id == topicsBean1.id) {
-                    topicsBean1.attitudes_count = topicsBean.attitudes_count;
-                    topicsBean1.comments_count = topicsBean.comments_count;
-                    topicsBean1.like = topicsBean.like;
-                    // FIXME: 2015/7/30 后期是用recycleView 进行单个Item的更新,不更新全部
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                }
-            }
-        }
-    }    @Subscribe
-    public void updateList(RemoveTopicsEvent updateTopicsListEvent){
-
-        TopicsBean topicsBean=updateTopicsListEvent.topicsBean;
-        if(topicsBean == null){
-            return;
-        }
-
-        for (Object object : mDataList) {
-
-            if (object instanceof TopicsBean) {
-                TopicsBean topicsBean1 = (TopicsBean) object;
-
-                if (topicsBean.id == topicsBean1.id) {
-                    mDataList.remove(topicsBean1);
-                    // FIXME: 2015/7/30 后期是用recycleView 进行单个Item的更新,不更新全部
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                }
-            }
-        }
-    }
-
-    @Subscribe
-    public void updateList(AddTopicsEvent addTopicsEvent){
-
-        TopicsBean topicsBean= addTopicsEvent.topicsBean;
-        if(topicsBean == null){
-            return;
-        }
-
-       if(mDataList != null){
-           mDataList.add(0,topicsBean);
-           mAdapter.notifyDataSetChanged();
-       }
     }
 
 

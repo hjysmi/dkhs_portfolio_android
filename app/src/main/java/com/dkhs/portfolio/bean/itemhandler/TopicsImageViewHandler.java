@@ -7,11 +7,13 @@ import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
+import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zwm
@@ -24,9 +26,16 @@ public class TopicsImageViewHandler {
 
 
 
+    private List<UploadImageBean> mMedias;
+
 
     public  void  handleMedias(ViewHolder vh, LikeBean data){
 
+
+
+        if(mMedias != null && mMedias .equals(data.getMedias())){
+            return;
+        }
         vh.getImageView(R.id.v1).setVisibility(View.INVISIBLE);
         vh.getImageView(R.id.v2).setVisibility(View.INVISIBLE);
         vh.getImageView(R.id.v3).setVisibility(View.INVISIBLE);
@@ -40,9 +49,10 @@ public class TopicsImageViewHandler {
         vh.get(R.id.row1).setVisibility(View.GONE);
         vh.get(R.id.row2).setVisibility(View.GONE);
         vh.get(R.id.row3).setVisibility(View.GONE);
-
+        mMedias=data.medias;
 
         if (data.medias != null && data.medias.size() >= 0) {
+
 
             vh.get(R.id.iv).setVisibility(View.VISIBLE);
             if(data.medias.size()==1) {
@@ -134,7 +144,7 @@ public class TopicsImageViewHandler {
 
             for (int i = 0; i < likeBean.medias.size(); i++) {
                 PhotoBean photoBean = new PhotoBean();
-                photoBean.title = likeBean.id + "";
+                photoBean.title = likeBean.medias.get(i).getId() + "";
                 photoBean.loadingURl = likeBean.medias.get(i).getImage_sm();
                 photoBean.imgUrl = likeBean.medias.get(i).getImage_md();
                 arrayList.add(photoBean);

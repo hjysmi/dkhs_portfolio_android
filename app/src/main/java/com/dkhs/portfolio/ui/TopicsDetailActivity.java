@@ -18,7 +18,6 @@ import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -26,6 +25,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.mingle.autolist.AutoData;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.parceler.Parcels;
@@ -165,8 +165,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
                                         if (mTopicsBean != null) {
-                                            RemoveTopicsEvent removeTopicsListEvent = new RemoveTopicsEvent(mTopicsBean);
-                                            BusProvider.getInstance().post(removeTopicsListEvent);
+//                                            RemoveTopicsEvent removeTopicsListEvent = new RemoveTopicsEvent(mTopicsBean);
+//                                            BusProvider.getInstance().post(removeTopicsListEvent);
+                                            mTopicsBean.appleAction(this, AutoData.Action.Delete).post();
                                         }
                                         ((Activity) mContext).finish();
                                     }
@@ -290,8 +291,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void finish() {
         if (mTopicsBean != null) {
             //更新列表状态
-            UpdateTopicsListEvent updateTopicsListEvent = new UpdateTopicsListEvent(mTopicsBean);
-            BusProvider.getInstance().post(updateTopicsListEvent);
+            mTopicsBean.appleAction(this, AutoData.Action.Update).post();
         }
         super.finish();
     }

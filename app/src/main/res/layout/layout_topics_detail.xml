@@ -100,99 +100,131 @@
                 <TableLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
+
                     <TableRow
                         android:id="@+id/row1"
                         >
+
                         <com.dkhs.portfolio.ui.widget.ScaleImageView
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
                             android:id="@+id/v1"
-                            android:layout_weight="1"
-                            apo:scale="1"
-                            android:src="@drawable/ic_img_thumbnail"
-
-                            />
-                        <com.dkhs.portfolio.ui.widget.ScaleImageView
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="2dp"
+                            android:src="@drawable/ic_img_thumbnail"
                             apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
                             android:id="@+id/v2"
-                            android:src="@drawable/ic_img_thumbnail"
-
-                            />
-                        <com.dkhs.portfolio.ui.widget.ScaleImageView
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            apo:scale="1"
-                            android:id="@+id/v3"
+                            android:layout_margin="2dp"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
 
                             />
 
-                    </TableRow> <TableRow
-                    android:id="@+id/row2"
-                    >
-                    <com.dkhs.portfolio.ui.widget.ScaleImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        apo:scale="1"
-                        android:id="@+id/v4"
-                        android:src="@drawable/ic_img_thumbnail"
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v3"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
 
-                        />
-                    <com.dkhs.portfolio.ui.widget.ScaleImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        apo:scale="1"
-                        android:id="@+id/v5"
-                        android:src="@drawable/ic_img_thumbnail"
+                            />
 
-                        />
-                    <com.dkhs.portfolio.ui.widget.ScaleImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        apo:scale="1"
-                        android:id="@+id/v6"
-                        android:src="@drawable/ic_img_thumbnail"
+                    </TableRow>
 
-                        />
+                    <TableRow
+                        android:id="@+id/row2"
+                        >
 
-                </TableRow> <TableRow
-                    android:id="@+id/row3"
-                    >
-                    <com.dkhs.portfolio.ui.widget.ScaleImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:id="@+id/v7"
-                        apo:scale="1"
-                        android:src="@drawable/ic_img_thumbnail"
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v4"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="2dp"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
 
-                        />
-                    <com.dkhs.portfolio.ui.widget.ScaleImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        apo:scale="1"
-                        android:id="@+id/v8"
-                        android:src="@drawable/ic_img_thumbnail"
+                            />
 
-                        />
-                    <com.dkhs.portfolio.ui.widget.ScaleImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        apo:scale="1"
-                        android:id="@+id/v9"
-                        android:src="@drawable/ic_img_thumbnail"
-                        />
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v5"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
 
-                </TableRow>
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v6"
+                            android:layout_width="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/row3"
+                        >
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v7"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v8"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v9"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="2dp"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+                            />
+
+                    </TableRow>
                 </TableLayout>
 
 

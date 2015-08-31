@@ -81,4 +81,15 @@ public class UploadImageBean {
     public void setImage_md(String image_md) {
         this.image_md = image_md;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+
+        if(o instanceof  UploadImageBean){
+            return  ((UploadImageBean) o).getId().equals(this.getId());
+        }
+
+        return super.equals(o);
+    }
 }

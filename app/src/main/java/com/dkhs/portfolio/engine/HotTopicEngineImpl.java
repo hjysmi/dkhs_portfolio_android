@@ -99,6 +99,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             @Override
             public void onFailure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
+                HotTopicEngineImpl.this.onFailure(errCode,errMsg);
                 onFinish();
             }
 

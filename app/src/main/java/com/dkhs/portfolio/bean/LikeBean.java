@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.bean;
 
+import com.mingle.autolist.AutoData;
+
 import java.util.List;
 
 /**
@@ -9,12 +11,13 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/8/3.
  */
-public class LikeBean {
+public class LikeBean extends AutoData{
+
+
+
 
     public  int  id;
     public  boolean like;
-
-
     public String title;
     public String text;
     public boolean truncated;
@@ -251,5 +254,10 @@ public class LikeBean {
 
     public void setMedias(List<UploadImageBean> medias) {
         this.medias = medias;
+    }
+
+    @Override
+    public String getIdentifies() {
+        return id+"";
     }
 }

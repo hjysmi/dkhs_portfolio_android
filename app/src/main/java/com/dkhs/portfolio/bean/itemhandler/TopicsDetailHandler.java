@@ -55,7 +55,9 @@ import org.parceler.transfuse.annotations.Resource;
 import org.parceler.transfuse.annotations.SystemService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zwm
@@ -70,7 +72,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     private Context mContext;
     private TopicsCommendEngineImpl.SortType mSortType;
-
+    private Map<Integer,Object> mObjectMap=new HashMap<>();
 
     public TopicsDetailHandler(Context context) {
         mContext = context;
@@ -81,13 +83,12 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         return R.layout.layout_topics_detail;
     }
 
+
     @Override
     public void onBindView(final ViewHolder vh, final TopicsBean data, int position) {
         setClickListener(vh.get(R.id.iv_avatar), data);
 //        setClickListener(vh.get(R.id.iv), data);
         setClickListener(vh.get(R.id.name), data);
-
-
         if (TextUtils.isEmpty(data.title)) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
         } else {
@@ -99,13 +100,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());
         }
-
-
         vh.setTextView(R.id.content, data.text);
 //        vh.get(R.id.iv).setVisibility(View.GONE);
-
         new TopicsImageViewHandler().handleMedias(vh,data);
-
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 
@@ -134,7 +131,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
                     break;
                 case 20:
-
                     // FIXME: 2015/8/12 新闻图标暂缺
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
                     break;
@@ -179,8 +175,10 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                 ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(vh.get(R.id.indicate), "translationX", (v.getLeft() + v.getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2));
                 objectAnimator.setDuration(200);
                 objectAnimator.start();
+                TopicsDetailRefreshEvent topicsDetailRefreshEvent = new TopicsDetailRefreshEvent();
                 mSortType = TopicsCommendEngineImpl.SortType.like;
-                BusProvider.getInstance().post(new LikesPeopleEvent());
+                topicsDetailRefreshEvent.sortType=mSortType;
+                BusProvider.getInstance().post(topicsDetailRefreshEvent);
                 spinner.setVisibility(View.INVISIBLE);
             }
         });
@@ -194,6 +192,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                 objectAnimator.start();
                 postRefreshEvent(spinner.getSelectedItemPosition());
                 spinner.setVisibility(View.VISIBLE);
+
 
             }
         });
@@ -293,6 +292,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         }
 
         if (mSortType != topicsDetailRefreshEvent.sortType) {
+            mSortType= topicsDetailRefreshEvent.sortType;
             BusProvider.getInstance().post(topicsDetailRefreshEvent);
         }
     }
