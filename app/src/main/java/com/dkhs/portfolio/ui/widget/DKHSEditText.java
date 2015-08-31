@@ -100,7 +100,6 @@ public class DKHSEditText extends EmojiconEditText {
                 if (s.length() != index) {
                     end = getText().toString().substring(index);
                 }
-                Log.i("TextView", tempt + "...." + end);
                 Pattern pattern = Pattern.compile(STOCK_PATTERN);
                 //判断光标是否在$股票里
                 int tIndex = tempt.lastIndexOf("$");
@@ -114,7 +113,6 @@ public class DKHSEditText extends EmojiconEditText {
                         while (matcher.find()) {
                             String group = matcher.group();
                             setText(tempt.substring(0, tIndex) + end.substring(eIndex + 1));
-                            Log.i("TextView", tempt.substring(0, tIndex) + end.substring(eIndex + 1));
                             setSelection(tIndex);
                             return true;
                         }
@@ -200,7 +198,6 @@ public class DKHSEditText extends EmojiconEditText {
                 ClipData.Item item = clipData.getItemAt(i);
                 CharSequence str = item
                         .coerceToText(getContext());
-                Log.i("mengdd", "item : " + i + ": " + str);
 
                 resultString += str;
             }
