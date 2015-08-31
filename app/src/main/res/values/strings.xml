@@ -260,7 +260,7 @@
     <string name="feed_back_title">意见反馈</string>
     <string name="feed_back_hint">请输入您的反馈意见（500字以内）</string>
     <string name="feed_back_com_title">QQ、邮箱、手机</string>
-    <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题</string>
+    <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题,可以关注微信公众号：%s，直接与微信客服沟通交流</string>
     <string name="text_other_manager_combin">Ta管理的组合一览</string>
     <string name="text_my_manager_combin">我管理的组合一览</string>
     <string name="sign_text_title">个人签名</string>
@@ -530,6 +530,7 @@
 
     <string name="search_stockandfunds">股票、基金简称/代码/拼音</string>
     <string name="search_stock">股票简称/代码/拼音</string>
+    <string name="search_friend">输入昵称</string>
 
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
@@ -750,6 +751,13 @@
     <string name="title_activity_call_me">提到我的</string>
     <!--举报 end-->
     <string name="title_pickup_user">选择用户</string>
+    <string name="last_contact_friend">最近联系人</string>
 
+
+    <!-- topic text format Start-->
+
+    <string name="topic_format_stock"><a href="portfolio:stock">$%s$</a></string>
+    <string name="topic_format_friend"><a href="portfolio:friend">@%s</a></string>
+    <!-- topic text format End -->
 
 </resources>

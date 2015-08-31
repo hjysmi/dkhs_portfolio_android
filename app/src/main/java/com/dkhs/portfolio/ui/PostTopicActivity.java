@@ -578,8 +578,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 }
             }
             if (requestCode == 0x8) {
+                selectFriendBack(data.getExtras());
 
-                PromptManager.showToastTest("选择用户");
+
+//                PromptManager.showToastTest("选择用户");
 //                SelectStockBean stockBean = Parcels.unwrap(data.getExtras().getParcelable(FragmentSearchStockFund.EXTRA_STOCK));
 //                if (null != stockBean) {
 //                    selectStockBack(stockBean);
@@ -603,7 +605,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private void selectStockBack(SelectStockBean stockBean) {
         curEt.insesrStockText(String.format("%s(%s)", stockBean.getName(), stockBean.getSymbol()));
+
     }
+
+    private void selectFriendBack(Bundle bundle) {
+        String username = bundle.getString("select_friend");
+        if (!TextUtils.isEmpty(username)) {
+            curEt.inserUserText(username);
+        }
+
+    }
+
 
     @Override
     public void onEmojiconBackSpaceClicked(Emojicon emojicon) {

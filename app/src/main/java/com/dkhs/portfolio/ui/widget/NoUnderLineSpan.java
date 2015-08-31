@@ -14,7 +14,7 @@ import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
  *
  * @author zcm
  */
-public class MyClickableSpan extends ClickableSpan {
+public class NoUnderLineSpan extends ClickableSpan {
 
 	int color = -1;
 	private Context context;
@@ -22,7 +22,7 @@ public class MyClickableSpan extends ClickableSpan {
 	public int startIndex;
 	public int sLen;
 
-	public MyClickableSpan(Context context) {
+	public NoUnderLineSpan(Context context) {
 		this(-1, context);
 	}
 
@@ -31,7 +31,7 @@ public class MyClickableSpan extends ClickableSpan {
 	 * @param color the link color
 	 * @param context
 	 */
-	public MyClickableSpan(int color, Context context) {
+	public NoUnderLineSpan(int color, Context context) {
 		if (color!=-1) {
 			this.color = color;
 		}
@@ -42,7 +42,6 @@ public class MyClickableSpan extends ClickableSpan {
 	 * Performs the click action associated with this span.
 	 */
 	public void onClick(View widget){
-		System.out.println(url.isEmpty());
 		if(!TextUtils.isEmpty(url)){
 			new MessageHandler(context).handleURL(url);
 		}
@@ -53,6 +52,7 @@ public class MyClickableSpan extends ClickableSpan {
 	 */
 	@Override
 	public void updateDrawState(TextPaint ds) {
+		super.updateDrawState(ds);
 		if (color == -1) {
 			ds.setColor(ds.linkColor);
 		} else {

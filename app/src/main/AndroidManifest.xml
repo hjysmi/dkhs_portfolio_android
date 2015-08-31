@@ -460,13 +460,14 @@
 
         <activity
             android:name=".ui.CommentMeActivity"
-            android:label="@string/title_activity_comment_me"></activity>
+            android:label="@string/title_activity_comment_me" />
         <activity
             android:name=".ui.CallMeActivity"
-            android:label="@string/title_activity_call_me"></activity>
+            android:label="@string/title_activity_call_me" />
         <activity
             android:name=".ui.SelectFriendActivity"
-            android:label="@string/title_pickup_user"></activity>
+            android:label="@string/title_pickup_user" />
+        <activity android:name=".ui.TestActivity" />
     </application>
 
 </manifest>

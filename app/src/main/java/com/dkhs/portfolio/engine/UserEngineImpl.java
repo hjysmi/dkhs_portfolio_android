@@ -280,7 +280,6 @@ public class UserEngineImpl {
     }
 
 
-
     public void setFeedBack(String app, String version, String content, String contact, File file,
                             ParseHttpListener<FeedBackBean> listener) {
         RequestParams params = new RequestParams();
@@ -372,6 +371,11 @@ public class UserEngineImpl {
     public void getUserInfo(String pk, BasicHttpListener listener) {
         RequestParams params = new RequestParams();
         DKHSClient.requestSync(HttpMethod.GET, String.format(DKHSUrl.User.getUserInfo, pk), params, listener);
+    }
+
+    public void getFriendList(String pk, BasicHttpListener listener) {
+        RequestParams params = new RequestParams();
+        DKHSClient.request(HttpMethod.GET, String.format(DKHSUrl.User.friend_list, pk), params, listener);
     }
 
 
