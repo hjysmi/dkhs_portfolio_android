@@ -34,37 +34,11 @@
 
     <View style="@style/divider_line" />
 
+
     <FrameLayout
+        android:id="@+id/fl_friend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:id="@+id/country_lvcountry"
-            style="@style/listViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/dialog"
-            android:layout_width="80.0dip"
-            android:layout_height="80.0dip"
-            android:layout_gravity="center"
-            android:background="@drawable/show_head_toast_bg"
-            android:gravity="center"
-            android:textColor="#ffffffff"
-            android:textSize="30.0dip"
-            android:visibility="invisible" />
-
-        <com.dkhs.portfolio.ui.widget.sortlist.SideBar
-            android:id="@+id/sidrbar"
-            android:layout_width="40.0dip"
-            android:layout_height="fill_parent"
-            android:layout_gravity="right|center"
-            android:layout_marginBottom="40dp"
-            android:layout_marginTop="40dp" />
-
-    </FrameLayout>
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

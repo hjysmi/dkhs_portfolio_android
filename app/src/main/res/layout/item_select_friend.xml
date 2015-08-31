@@ -22,6 +22,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
         android:paddingBottom="@dimen/widget_padding_small"
         android:paddingLeft="20dip"
         android:paddingRight="@dimen/widget_padding_small"

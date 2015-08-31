@@ -140,7 +140,7 @@ public class DKHSUrl {
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
         String getSignUp = "/api/v1/ads/area/signup/";
         String getInvite = "/api/v1/ads/area/Invite/";
-        String getRechargeBanner= "/api/v1/ads/area/recharge_banner/";
+        String getRechargeBanner = "/api/v1/ads/area/recharge_banner/";
 
     }
 
@@ -250,6 +250,7 @@ public class DKHSUrl {
         String follow = "/api/v1/users/%s/follow/";
         String unfollow = "/api/v1/users/%s/unfollow/";
         String getUserInfo = "/api/v1/users/%s/";
+        String friend_list = "/api/v1/users/%s/friends/";
 
 
     }
