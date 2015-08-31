@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/catalog"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0"
+        android:background="@drawable/gray_normal"
+        android:paddingBottom="5dip"
+        android:paddingLeft="20dip"
+        android:paddingTop="5dip"
+        android:text="A"
+        android:textColor="@color/gray_textcolor"
+        android:textSize="14sp" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/widget_padding_small"
+        android:paddingLeft="20dip"
+        android:paddingRight="@dimen/widget_padding_small"
+        android:paddingTop="@dimen/widget_padding_small">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            style="@style/lv_avatar_style"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dip"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:singleLine="true"
+            android:text="hhhh"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_status_username" />
+    </RelativeLayout>
+
+
+</LinearLayout>
