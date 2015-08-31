@@ -72,7 +72,6 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
 
     private Context mContext;
     private TopicsCommendEngineImpl.SortType mSortType;
-    private Map<Integer,Object> mObjectMap=new HashMap<>();
 
     public TopicsDetailHandler(Context context) {
         mContext = context;
