@@ -150,7 +150,7 @@ public class DKHSEditText extends EmojiconEditText {
 
     public void inserUserText(String name) {
 
-        name = String.format("<a href=\"portfolio:friend\">@%s</a>", name);
+        name = String.format("<a href=\"portfolio:friend\">@%s</a> ", name);
         insertHtmlText(name);
 
     }
