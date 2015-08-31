@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/country_lvcountry"
+        android:id="@+id/lv_sort_friend"
         style="@style/listViewStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center" />
 
     <TextView
-        android:id="@+id/dialog"
+        android:id="@+id/tv_center_index"
         android:layout_width="80.0dip"
         android:layout_height="80.0dip"
         android:layout_gravity="center"

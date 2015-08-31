@@ -15,14 +15,14 @@ import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
-public class SortAdapter extends BaseAdapter implements SectionIndexer {
+public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
 
     private List<UserEntity> list = null;
 
     private Context mContext;
     private final BitmapUtils bitmapUtils;
 
-    public SortAdapter(Context mContext, List<UserEntity> list) {
+    public SortFriendAdapter(Context mContext, List<UserEntity> list) {
         this.mContext = mContext;
         this.list = list;
         bitmapUtils = new BitmapUtils(mContext);
@@ -57,7 +57,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_select_friend, null);
-            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
             viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.catalog);
             viewHolder.ivAvater = (ImageView) convertView.findViewById(R.id.iv_avatar);
             convertView.setTag(viewHolder);
@@ -70,7 +70,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
         if (position == getPositionForSection(section)) {
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
             if (mContent.getSortLetters().equals("*")) {
-                viewHolder.tvLetter.setText("最近联系人");
+                viewHolder.tvLetter.setText(R.string.last_contact_friend);
             } else {
 
                 viewHolder.tvLetter.setText(mContent.getSortLetters());
@@ -78,7 +78,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
         } else {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
-        viewHolder.tvTitle.setText(mContent.getUsername());
+        viewHolder.tvUserName.setText(mContent.getUsername());
 
         if (null != mContent.getAvatar_md() && mContent.getAvatar_md().length() > 35) {
             bitmapUtils.display(viewHolder.ivAvater, mContent.getAvatar_md(), R.drawable.ic_user_head, R.drawable.ic_user_head);
@@ -121,7 +121,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 
     final static class ViewHolder {
         TextView tvLetter;
-        TextView tvTitle;
+        TextView tvUserName;
         ImageView ivAvater;
     }
 

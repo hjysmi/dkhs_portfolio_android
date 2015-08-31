@@ -17,7 +17,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.widget.sortlist.PinyinComparator;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
-import com.dkhs.portfolio.ui.widget.sortlist.SortAdapter;
+import com.dkhs.portfolio.ui.widget.sortlist.SortFriendAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -29,16 +29,15 @@ import java.util.List;
  * Created by zjz on 2015/8/31.
  */
 public class SortFriendFragment extends BaseFragment {
-    @ViewInject(R.id.country_lvcountry)
+    @ViewInject(R.id.lv_sort_friend)
     private ListView sortListView;
 
 
     @ViewInject(R.id.sidrbar)
-
     private SideBar sideBar;
-    @ViewInject(R.id.dialog)
-    private TextView dialog;
-    private SortAdapter adapter;
+    @ViewInject(R.id.tv_center_index)
+    private TextView tvCenterIndex;
+    private SortFriendAdapter mFriendAdatper;
 
 
     /**
@@ -72,10 +71,9 @@ public class SortFriendFragment extends BaseFragment {
     }
 
     private void initViews() {
-        sideBar.setTextView(dialog);
+        sideBar.setTextView(tvCenterIndex);
 
-        //实例化汉字转拼音类
-//        characterParser = CharacterParser.getInstance();
+
 
         pinyinComparator = new PinyinComparator();
 
@@ -86,7 +84,7 @@ public class SortFriendFragment extends BaseFragment {
             @Override
             public void onTouchingLetterChanged(String s) {
                 //该字母首次出现的位置
-                int position = adapter.getPositionForSection(s.charAt(0));
+                int position = mFriendAdatper.getPositionForSection(s.charAt(0));
                 if (position != -1) {
                     sortListView.setSelection(position);
                 }
@@ -100,7 +98,7 @@ public class SortFriendFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //这里要利用adapter.getItem(position)来获取当前position所对应的对象
-                UserEntity item = (UserEntity) adapter.getItem(position);
+                UserEntity item = (UserEntity) mFriendAdatper.getItem(position);
                 setSelectBack(item.getUsername());
             }
         });
@@ -108,8 +106,8 @@ public class SortFriendFragment extends BaseFragment {
 //        mSortDateList = filledData(getResources().getStringArray(R.array.friend_date));
 
 
-        adapter = new SortAdapter(getActivity(), mSortDateList);
-        sortListView.setAdapter(adapter);
+        mFriendAdatper = new SortFriendAdapter(getActivity(), mSortDateList);
+        sortListView.setAdapter(mFriendAdatper);
         getFriendData();
     }
 
@@ -171,7 +169,7 @@ public class SortFriendFragment extends BaseFragment {
                         if (null != object) {
                             // 根据a-z进行排序源数据
                             Collections.sort(object.getResults(), pinyinComparator);
-                            adapter.updateListView(object.getResults());
+                            mFriendAdatper.updateListView(object.getResults());
                         }
                         Log.d("afterParseData", " size:" + object.getResults().size());
                     }
@@ -217,7 +215,7 @@ public class SortFriendFragment extends BaseFragment {
 //
 //        // 根据a-z进行排序
 //        Collections.sort(filterDateList, pinyinComparator);
-//        adapter.updateListView(filterDateList);
+//        mFriendAdatper.updateListView(filterDateList);
     }
 
 }

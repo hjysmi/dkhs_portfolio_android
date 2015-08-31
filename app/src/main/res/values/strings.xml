@@ -751,6 +751,7 @@
     <string name="title_activity_call_me">提到我的</string>
     <!--举报 end-->
     <string name="title_pickup_user">选择用户</string>
+    <string name="last_contact_friend">最近联系人</string>
 
 
     <!-- topic text format Start-->
