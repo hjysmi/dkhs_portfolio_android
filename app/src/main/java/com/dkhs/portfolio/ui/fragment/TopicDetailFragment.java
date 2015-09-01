@@ -309,7 +309,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment  {
                 mDataList.add(1, userEntity);
             }
         }
-        mTopicsBean.attitudes_count =mDataList.size()-1;
+//        mTopicsBean.attitudes_count =mDataList.size()-1;
 
     }
 
@@ -333,7 +333,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment  {
                 }
             }
         }
-        mTopicsBean.attitudes_count =mDataList.size()-1;
+//        mTopicsBean.attitudes_count =mDataList.size()-1;
 
     }
 

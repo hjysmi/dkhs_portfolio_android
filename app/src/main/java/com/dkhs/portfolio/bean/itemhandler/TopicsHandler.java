@@ -79,6 +79,13 @@ public class TopicsHandler implements ItemHandler<LikeBean> {
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
+
+
+        if(TextUtils.isEmpty(data.text)){
+            vh.get(R.id.content).setVisibility(View.GONE);
+        }else {
+            vh.get(R.id.content).setVisibility(View.VISIBLE);
+        }
         vh.setTextView(R.id.content, data.text);
         vh.setTextView(R.id.name, data.user.getUsername());
 

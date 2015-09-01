@@ -78,7 +78,7 @@ public class PhotoViewFragment extends Fragment {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 if (imageUri.equals(mPhotoBean.imgUrl)) {
-//                    mProgressBar.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.GONE);
                     mPreviewImage.setVisibility(View.GONE);
                 }
             }
@@ -88,13 +88,13 @@ public class PhotoViewFragment extends Fragment {
 
                 if (mLoader.getDiskCache().get(mPhotoBean.loadingURl).exists()) {
                     mLoader.displayImage(mPhotoBean.loadingURl, mPhotoView);
-//                    mProgressBar.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.GONE);
                     mPreviewImage.setVisibility(View.GONE);
                 } else {
 
                     mPhotoView.setImageResource(R.drawable.ic_img_thumbnail_large);
                 }
-//                mProgressBar.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
                 mPreviewImage.setVisibility(View.GONE);
 
                 super.onLoadingFailed(imageUri, view, failReason);

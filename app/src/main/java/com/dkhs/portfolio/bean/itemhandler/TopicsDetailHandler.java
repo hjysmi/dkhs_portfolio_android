@@ -87,6 +87,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
     public void onBindView(final ViewHolder vh, final TopicsBean data, int position) {
         setClickListener(vh.get(R.id.iv_avatar), data);
 //        setClickListener(vh.get(R.id.iv), data);
+
         setClickListener(vh.get(R.id.name), data);
         if (TextUtils.isEmpty(data.title)) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
@@ -98,6 +99,11 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         PeopleBean user = data.user;
         if (null != user) {
             vh.setTextView(R.id.name, user.getUsername());
+        }
+        if(TextUtils.isEmpty(data.text)){
+            vh.get(R.id.content).setVisibility(View.GONE);
+        }else {
+            vh.get(R.id.content).setVisibility(View.VISIBLE);
         }
         vh.setTextView(R.id.content, data.text);
 //        vh.get(R.id.iv).setVisibility(View.GONE);
@@ -171,6 +177,8 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         vh.getTextView(R.id.tv_like).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vh.getTextView(R.id.tv_like).setTextColor(v.getResources().getColor(R.color.theme_color));
+                vh.getTextView(R.id.comment).setTextColor(v.getResources().getColor(R.color.tag_gray));
                 ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(vh.get(R.id.indicate), "translationX", (v.getLeft() + v.getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2));
                 objectAnimator.setDuration(200);
                 objectAnimator.start();
@@ -186,6 +194,9 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
             public void onClick(View v) {
 
 
+                vh.getTextView(R.id.comment).setTextColor(v.getResources().getColor(R.color.theme_color));
+                vh.getTextView(R.id.tv_like).setTextColor(v.getResources().getColor(R.color.tag_gray));
+
                 ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(vh.get(R.id.indicate), "translationX", (v.getLeft() + v.getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2));
                 objectAnimator.setDuration(200);
                 objectAnimator.start();
@@ -197,8 +208,12 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         });
         if (mSortType == TopicsCommendEngineImpl.SortType.like) {
 
+            vh.getTextView(R.id.tv_like).setTextColor(vh.getConvertView().getResources().getColor(R.color.theme_color));
+            vh.getTextView(R.id.comment).setTextColor(vh.getConvertView().getResources().getColor(R.color.tag_gray));
             ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.tv_like).getLeft() + vh.getTextView(R.id.tv_like).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
         } else {
+            vh.getTextView(R.id.tv_like).setTextColor(vh.getConvertView().getResources().getColor(R.color.tag_gray));
+            vh.getTextView(R.id.comment).setTextColor(vh.getConvertView().getResources().getColor(R.color.theme_color));
             ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.comment).getLeft() + vh.getTextView(R.id.comment).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
 
         }

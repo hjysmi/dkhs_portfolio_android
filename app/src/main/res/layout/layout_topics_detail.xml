@@ -99,6 +99,8 @@
 
                 <TableLayout
                     android:layout_width="fill_parent"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:layout_height="wrap_content">
 
                     <TableRow
@@ -267,8 +269,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
+
             android:text="@string/like"
-            android:textColor="@color/black" />
+            android:textColor="@color/tag_gray" />
 
         <View
             android:layout_width="0dp"

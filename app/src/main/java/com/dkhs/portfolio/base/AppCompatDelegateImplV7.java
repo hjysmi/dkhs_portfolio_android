@@ -195,7 +195,7 @@ class AppCompatDelegateImplV7 extends AppCompatDelegateImplBase
         }
 
         ToolbarActionBar tbab = new ToolbarActionBar(toolbar, ((Activity) mContext).getTitle(),
-                (Window.Callback) mWindow);
+                (Window) mWindow);
         setSupportActionBar(tbab);
         mWindow.setCallback(tbab.getWrappedWindowCallback());
         tbab.invalidateOptionsMenu();
