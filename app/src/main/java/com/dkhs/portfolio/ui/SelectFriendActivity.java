@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
@@ -26,14 +27,18 @@ public class SelectFriendActivity extends ModelAcitivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_select_friend);
         setTitle(R.string.title_pickup_user);
+
         initViews();
     }
+
 
     private void initViews() {
 
         replaceSortFriendFragment();
         etSearchKey = (EditText) findViewById(R.id.filter_edit);
+
         etSearchKey.addTextChangedListener(new TextWatcher() {
+            boolean isEmpty = true;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -42,14 +47,22 @@ public class SelectFriendActivity extends ModelAcitivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
+
+                isEmpty = TextUtils.isEmpty(s);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s)) {
+
+                if (TextUtils.isEmpty(s) && !isEmpty) {
                     replaceSortFriendFragment();
-                } else {
+                    isEmpty = true;
+                }
+
+                if (!TextUtils.isEmpty(s) && isEmpty) {
                     replaceSearchFragment(s.toString());
+                    isEmpty = false;
                 }
             }
         });
@@ -57,10 +70,13 @@ public class SelectFriendActivity extends ModelAcitivity {
 
     }
 
+
     private static final String TAG_SORTLIST = "sortlist";
     private static final String TAG_SEARCH = "search";
 
     private void replaceSortFriendFragment() {
+
+        Log.d(this.getClass().getSimpleName(), " replaceSortFriendFragment ");
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Fragment sortFragment = getSupportFragmentManager().findFragmentByTag(TAG_SORTLIST);
         if (null == sortFragment) {
@@ -80,6 +96,9 @@ public class SelectFriendActivity extends ModelAcitivity {
 
 
     private void replaceSearchFragment(String key) {
+
+        Log.d(this.getClass().getSimpleName(), " replaceSearchFragment ");
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         SearchFriendFragment searchFragment = (SearchFriendFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH);
         if (null == searchFragment) {

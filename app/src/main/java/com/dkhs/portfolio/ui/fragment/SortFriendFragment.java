@@ -3,32 +3,29 @@ package com.dkhs.portfolio.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.widget.sortlist.PinyinComparator;
+import com.dkhs.portfolio.ui.eventbus.Dispatcher;
+import com.dkhs.portfolio.ui.selectfriend.actions.FriendSourceEngine;
+import com.dkhs.portfolio.ui.selectfriend.actions.FriendViewAction;
+import com.dkhs.portfolio.ui.selectfriend.store.FriendStore;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
 import com.dkhs.portfolio.ui.widget.sortlist.SortFriendAdapter;
-import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by zjz on 2015/8/31.
  */
-public class SortFriendFragment extends BaseFragment {
+public class SortFriendFragment extends BaseFragment implements FriendViewAction {
     @ViewInject(R.id.lv_sort_friend)
     private ListView sortListView;
 
@@ -40,16 +37,11 @@ public class SortFriendFragment extends BaseFragment {
     private SortFriendAdapter mFriendAdatper;
 
 
-    /**
-     * 汉字转换成拼音的类
-     */
-//    private CharacterParser characterParser;
     private List<UserEntity> mSortDateList;
 
-    /**
-     * 根据拼音来排列ListView里面的数据类
-     */
-    private PinyinComparator pinyinComparator;
+    private FriendStore todoStore;
+    private FriendSourceEngine actionsCreator;
+
 
     @Override
     public int setContentLayoutId() {
@@ -66,16 +58,31 @@ public class SortFriendFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initDependencies();
         friendList = new ArrayList<UserEntity>();
         mSortDateList = new ArrayList<UserEntity>();
     }
 
+
+    private void initDependencies() {
+        todoStore = FriendStore.get();
+        actionsCreator = FriendSourceEngine.get();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Dispatcher.get().register(todoStore);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Dispatcher.get().unregister(todoStore);
+    }
+
     private void initViews() {
         sideBar.setTextView(tvCenterIndex);
-
-
-
-        pinyinComparator = new PinyinComparator();
 
 
         //设置右侧触摸监听
@@ -131,52 +138,8 @@ public class SortFriendFragment extends BaseFragment {
      */
     private void getFriendData() {
 
+        loadData();
 
-        new UserEngineImpl().getFriendList(String.valueOf(UserEngineImpl.getUserEntity().getId()), new ParseHttpListener<MoreDataBean<UserEntity>>() {
-                    @Override
-                    protected MoreDataBean<UserEntity> parseDateTask(String jsonData) {
-
-                        MoreDataBean<UserEntity> moreBean = (MoreDataBean<UserEntity>) DataParse.parseObjectJson(new TypeToken<MoreDataBean<UserEntity>>() {
-                        }.getType(), jsonData);
-
-//                        List<SortModel> mSortList = new ArrayList<SortModel>();
-                        if (null != moreBean) {
-                            if (null != moreBean.getResults()) {
-
-                                for (UserEntity userEntity : moreBean.getResults()) {
-                                    //汉字转换成拼音
-                                    String pinyin = userEntity.getChi_spell();
-                                    String sortString = pinyin.substring(0, 1).toUpperCase();
-
-                                    // 正则表达式，判断首字母是否是英文字母
-                                    if (sortString.matches("[A-Z]")) {
-                                        userEntity.setSortLetters(sortString.toUpperCase());
-                                    } else {
-                                        userEntity.setSortLetters("#");
-                                    }
-
-                                }
-
-
-                            }
-                        }
-
-                        return moreBean;
-                    }
-
-                    @Override
-                    protected void afterParseData(MoreDataBean<UserEntity> object) {
-                        if (null != object) {
-                            // 根据a-z进行排序源数据
-                            Collections.sort(object.getResults(), pinyinComparator);
-                            mFriendAdatper.updateListView(object.getResults());
-                        }
-                        Log.d("afterParseData", " size:" + object.getResults().size());
-                    }
-
-
-                }
-        );
 
     }
 
@@ -216,6 +179,26 @@ public class SortFriendFragment extends BaseFragment {
 //        // 根据a-z进行排序
 //        Collections.sort(filterDateList, pinyinComparator);
 //        mFriendAdatper.updateListView(filterDateList);
+    }
+
+    @Override
+    public void loadData() {
+        actionsCreator.loadData();
+    }
+
+
+    @Override
+    public void refresh() {
+
+    }
+
+    private void updateUI() {
+        mFriendAdatper.updateListView(todoStore.getTodos());
+    }
+
+    @Subscribe
+    public void onTodoStoreChange(FriendStore.StoreChangeEvent event) {
+        updateUI();
     }
 
 }
