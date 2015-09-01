@@ -1,15 +1,15 @@
 package com.dkhs.portfolio.ui.widget.sortlist;
 
-import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.SortUserEntity;
 
 import java.util.Comparator;
 
 /**
  * @author
  */
-public class PinyinComparator implements Comparator<UserEntity> {
+public class PinyinComparator implements Comparator<SortUserEntity> {
 
-    public int compare(UserEntity o1, UserEntity o2) {
+    public int compare(SortUserEntity o1, SortUserEntity o2) {
         if (o1.getSortLetters().equals("@")
                 || o2.getSortLetters().equals("#")) {
             return -1;

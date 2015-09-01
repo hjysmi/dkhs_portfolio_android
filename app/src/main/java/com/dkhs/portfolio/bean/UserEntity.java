@@ -67,7 +67,7 @@ public class UserEntity {
 
     String chi_spell;
     String chi_spell_all;
-    String sortLetters;//显示数据拼音的首字母
+
 
     String date_joined;
 
@@ -258,13 +258,7 @@ public class UserEntity {
     }
 
 
-    public String getSortLetters() {
-        return sortLetters;
-    }
 
-    public void setSortLetters(String sortLetters) {
-        this.sortLetters = sortLetters;
-    }
 
     public static boolean currentUser(String userId) {
         return null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(userId);
