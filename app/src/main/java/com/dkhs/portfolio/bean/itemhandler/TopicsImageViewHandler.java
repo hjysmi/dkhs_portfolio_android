@@ -70,9 +70,9 @@ public class TopicsImageViewHandler {
                     ImageLoaderUtils.setImagDefault(data.medias.get(1).getImage_sm(), vh.getImageView(R.id.v2));
                     vh.getImageView(R.id.v2).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,1));
                     ImageLoaderUtils.setImagDefault(data.medias.get(2).getImage_sm(), vh.getImageView(R.id.v4));
-                    vh.getImageView(R.id.v3).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,2));
+                    vh.getImageView(R.id.v4).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,2));
                     ImageLoaderUtils.setImagDefault(data.medias.get(3).getImage_sm(), vh.getImageView(R.id.v5));
-                    vh.getImageView(R.id.v4).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,3));
+                    vh.getImageView(R.id.v5).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,3));
 
                 }else{
                     switch (data.medias.size()){

@@ -155,7 +155,7 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
                 if (mListener != null) {
                     mListener.onSuccess();
                 } else {
-                    Toast.makeText(mContext, "图片已保存(手机 > dkhs)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "图片已保存(手机 > shiniua)", Toast.LENGTH_SHORT).show();
                 }
                 mSaveTV.setText("已保存");
 
@@ -198,7 +198,7 @@ public class PhotoViewListFragment extends Fragment implements View.OnClickListe
          void onFailure();
     }
     public String getSaveFileName(PhotoBean photoBean ){
-        return FileUtils.getExternalStoragePath() + File.separator + "dkhs"
+        return FileUtils.getExternalStoragePath() + File.separator + "shiniua"
                 + File.separator + "img_" + photoBean.title+ ".png";
     }
 
