@@ -50,6 +50,7 @@ public class SelectFriendActivity extends ModelAcitivity {
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
 
+                strBefore = s.toString();
                 isEmpty = TextUtils.isEmpty(s);
 
             }
