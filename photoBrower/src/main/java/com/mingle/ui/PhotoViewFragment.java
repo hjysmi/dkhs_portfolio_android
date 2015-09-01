@@ -59,13 +59,7 @@ public class PhotoViewFragment extends Fragment {
         mProgressBar = (CircularProgressBar) view.findViewById(R.id.progressBar);
 
         if (mLoader.getDiskCache().get(mPhotoBean.loadingURl).exists()) {
-            mLoader.displayImage(mPhotoBean.loadingURl, mPreviewImage, null, null, new ImageLoadingProgressListener() {
-                @Override
-                public void onProgressUpdate(String s, View view, int i, int i1) {
-
-                    mProgressBar.setProgressPecentage(i*1.0f/i1);
-                }
-            });
+            mLoader.displayImage(mPhotoBean.loadingURl, mPreviewImage);
         } else {
             mPreviewImage.setImageResource(R.drawable.ic_img_thumbnail_large);
         }
