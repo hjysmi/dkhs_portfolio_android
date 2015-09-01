@@ -17,7 +17,8 @@ import com.dkhs.portfolio.ui.fragment.SortFriendFragment;
  */
 public class SelectFriendActivity extends ModelAcitivity {
 
-
+    private static final String TAG_SORTLIST = "sortlist";
+    private static final String TAG_SEARCH = "search";
     private EditText etSearchKey;
 
 
@@ -26,14 +27,20 @@ public class SelectFriendActivity extends ModelAcitivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_select_friend);
         setTitle(R.string.title_pickup_user);
+
         initViews();
     }
+
+    private String strBefore;
 
     private void initViews() {
 
         replaceSortFriendFragment();
         etSearchKey = (EditText) findViewById(R.id.filter_edit);
+
         etSearchKey.addTextChangedListener(new TextWatcher() {
+            boolean isEmpty = true;
+
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -42,14 +49,28 @@ public class SelectFriendActivity extends ModelAcitivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
+
+                strBefore = s.toString();
+                isEmpty = TextUtils.isEmpty(s);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s)) {
+                String textString = s.toString();
+                if (textString.equals(strBefore)) {
+                    return;
+                }
+                if (TextUtils.isEmpty(s) && !isEmpty) {
                     replaceSortFriendFragment();
-                } else {
+                    isEmpty = true;
+                }
+
+                if (!TextUtils.isEmpty(s) && isEmpty) {
                     replaceSearchFragment(s.toString());
+                    isEmpty = false;
+                } else if (!TextUtils.isEmpty(s)) {
+                    setSearchKey(s.toString());
                 }
             }
         });
@@ -57,10 +78,9 @@ public class SelectFriendActivity extends ModelAcitivity {
 
     }
 
-    private static final String TAG_SORTLIST = "sortlist";
-    private static final String TAG_SEARCH = "search";
 
     private void replaceSortFriendFragment() {
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Fragment sortFragment = getSupportFragmentManager().findFragmentByTag(TAG_SORTLIST);
         if (null == sortFragment) {
@@ -80,6 +100,8 @@ public class SelectFriendActivity extends ModelAcitivity {
 
 
     private void replaceSearchFragment(String key) {
+
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         SearchFriendFragment searchFragment = (SearchFriendFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH);
         if (null == searchFragment) {
@@ -89,7 +111,6 @@ public class SelectFriendActivity extends ModelAcitivity {
             transaction.show(searchFragment);
         }
 
-        searchFragment.setSearchKey(key);
 
         if (getSupportFragmentManager().findFragmentByTag(TAG_SORTLIST) != null) {
             transaction.hide(getSupportFragmentManager().findFragmentByTag(TAG_SORTLIST));
@@ -97,6 +118,16 @@ public class SelectFriendActivity extends ModelAcitivity {
 
         transaction.commitAllowingStateLoss();
 
+        searchFragment.setSearchKey(key);
+
+    }
+
+
+    private void setSearchKey(String key) {
+        SearchFriendFragment searchFragment = (SearchFriendFragment) getSupportFragmentManager().findFragmentByTag(TAG_SEARCH);
+        if (null != searchFragment) {
+            searchFragment.setSearchKey(key);
+        }
     }
 
 

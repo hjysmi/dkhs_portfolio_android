@@ -10,25 +10,25 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
-import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.SortUserEntity;
 import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
 public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
 
-    private List<UserEntity> list = null;
+    private List<SortUserEntity> list = null;
 
     private Context mContext;
     private final BitmapUtils bitmapUtils;
 
-    public SortFriendAdapter(Context mContext, List<UserEntity> list) {
+    public SortFriendAdapter(Context mContext, List<SortUserEntity> list) {
         this.mContext = mContext;
         this.list = list;
         bitmapUtils = new BitmapUtils(mContext);
     }
 
-    public void updateListView(List<UserEntity> list) {
+    public void updateListView(List<SortUserEntity> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -53,7 +53,7 @@ public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder = null;
-        final UserEntity mContent = list.get(position);
+        final SortUserEntity mContent = list.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_select_friend, null);

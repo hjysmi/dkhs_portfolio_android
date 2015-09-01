@@ -194,8 +194,7 @@ class AppCompatDelegateImplV7 extends AppCompatDelegateImplBase
                     "windowActionBar to false in your theme to use a Toolbar instead.");
         }
 
-        ToolbarActionBar tbab = new ToolbarActionBar(toolbar, ((Activity) mContext).getTitle(),
-                (Window.Callback) mWindow);
+        ToolbarActionBar tbab = new ToolbarActionBar(toolbar, ((Activity) mContext).getTitle(), (Window) mWindow);
         setSupportActionBar(tbab);
         mWindow.setCallback(tbab.getWrappedWindowCallback());
         tbab.invalidateOptionsMenu();
@@ -420,7 +419,8 @@ class AppCompatDelegateImplV7 extends AppCompatDelegateImplBase
         }
     }
 
-    void onSubDecorInstalled(ViewGroup subDecor) {}
+    void onSubDecorInstalled(ViewGroup subDecor) {
+    }
 
     private void applyFixedSizeWindow(ContentFrameLayout contentFrameLayout) {
         // This is a bit weird. In the framework, the window sizing attributes control
@@ -1575,7 +1575,9 @@ class AppCompatDelegateImplV7 extends AppCompatDelegateImplBase
 
     private static final class PanelFeatureState {
 
-        /** Feature ID for this panel. */
+        /**
+         * Feature ID for this panel.
+         */
         int featureId;
 
         int background;
@@ -1588,16 +1590,24 @@ class AppCompatDelegateImplV7 extends AppCompatDelegateImplBase
 
         int windowAnimations;
 
-        /** Dynamic state of the panel. */
+        /**
+         * Dynamic state of the panel.
+         */
         ViewGroup decorView;
 
-        /** The panel that we are actually showing. */
+        /**
+         * The panel that we are actually showing.
+         */
         View shownPanelView;
 
-        /** The panel that was returned by onCreatePanelView(). */
+        /**
+         * The panel that was returned by onCreatePanelView().
+         */
         View createdPanelView;
 
-        /** Use {@link #setMenu} to set this. */
+        /**
+         * Use {@link #setMenu} to set this.
+         */
         MenuBuilder menu;
 
         ListMenuPresenter listMenuPresenter;
