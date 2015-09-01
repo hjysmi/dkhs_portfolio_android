@@ -75,6 +75,10 @@
             </LinearLayout>
 
         </RelativeLayout>
+        <View
+            android:id="@+id/line"
+            style="@style/divider_line"
+            />
     </LinearLayout>
 
 
