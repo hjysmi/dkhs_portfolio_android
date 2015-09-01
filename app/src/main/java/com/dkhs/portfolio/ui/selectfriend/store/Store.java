@@ -15,11 +15,11 @@ public abstract class Store {
         this.dispatcher = dispatcher;
     }
 
-    void postStoreChange() {
-        dispatcher.postChange(changeEvent());
+    void postStoreChange(String type) {
+        dispatcher.postChange(changeEvent(type));
     }
 
-    abstract StoreChangeEvent changeEvent();
+    abstract StoreChangeEvent changeEvent(String type);
 
     public abstract void onAction(EventAction action);
 

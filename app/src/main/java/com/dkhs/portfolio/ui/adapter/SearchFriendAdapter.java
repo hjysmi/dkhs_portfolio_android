@@ -43,4 +43,9 @@ public class SearchFriendAdapter extends SingleAutoAdapter {
         }
 
     }
+
+    public void updateData(List<?> data){
+        this.mData = data;
+        notifyDataSetChanged();
+    }
 }

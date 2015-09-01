@@ -9,10 +9,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.SortUserEntity;
 import com.dkhs.portfolio.ui.eventbus.Dispatcher;
 import com.dkhs.portfolio.ui.selectfriend.actions.FriendSourceEngine;
-import com.dkhs.portfolio.ui.selectfriend.actions.FriendViewAction;
 import com.dkhs.portfolio.ui.selectfriend.store.FriendStore;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
 import com.dkhs.portfolio.ui.widget.sortlist.SortFriendAdapter;
@@ -25,7 +24,7 @@ import java.util.List;
 /**
  * Created by zjz on 2015/8/31.
  */
-public class SortFriendFragment extends BaseFragment implements FriendViewAction {
+public class SortFriendFragment extends BaseFragment {
     @ViewInject(R.id.lv_sort_friend)
     private ListView sortListView;
 
@@ -37,7 +36,7 @@ public class SortFriendFragment extends BaseFragment implements FriendViewAction
     private SortFriendAdapter mFriendAdatper;
 
 
-    private List<UserEntity> mSortDateList;
+    private List<SortUserEntity> mSortDateList;
 
     private FriendStore todoStore;
     private FriendSourceEngine actionsCreator;
@@ -52,6 +51,15 @@ public class SortFriendFragment extends BaseFragment implements FriendViewAction
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
+        Dispatcher.get().register(todoStore);
+        Dispatcher.get().register(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Dispatcher.get().unregister(todoStore);
+        Dispatcher.get().unregister(this);
     }
 
 
@@ -59,8 +67,7 @@ public class SortFriendFragment extends BaseFragment implements FriendViewAction
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDependencies();
-        friendList = new ArrayList<UserEntity>();
-        mSortDateList = new ArrayList<UserEntity>();
+        mSortDateList = new ArrayList<SortUserEntity>();
     }
 
 
@@ -69,17 +76,6 @@ public class SortFriendFragment extends BaseFragment implements FriendViewAction
         actionsCreator = FriendSourceEngine.get();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Dispatcher.get().register(todoStore);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Dispatcher.get().unregister(todoStore);
-    }
 
     private void initViews() {
         sideBar.setTextView(tvCenterIndex);
@@ -105,13 +101,10 @@ public class SortFriendFragment extends BaseFragment implements FriendViewAction
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 //这里要利用adapter.getItem(position)来获取当前position所对应的对象
-                UserEntity item = (UserEntity) mFriendAdatper.getItem(position);
-                setSelectBack(item.getUsername());
+                SortUserEntity item = (SortUserEntity) mFriendAdatper.getItem(position);
+                setSelectBack(item);
             }
         });
-
-//        mSortDateList = filledData(getResources().getStringArray(R.array.friend_date));
-
 
         mFriendAdatper = new SortFriendAdapter(getActivity(), mSortDateList);
         sortListView.setAdapter(mFriendAdatper);
@@ -119,85 +112,28 @@ public class SortFriendFragment extends BaseFragment implements FriendViewAction
     }
 
 
-    private void setSelectBack(String username) {
+    private void setSelectBack(SortUserEntity user) {
         Intent intent = new Intent();
-        intent.putExtra("select_friend", username);
+        intent.putExtra("select_friend", user.getUsername());
         getActivity().setResult(Activity.RESULT_OK, intent);
 
         getActivity().finish();
+        actionsCreator.saveSelectFriend(user);
     }
 
 
-    private List<UserEntity> friendList;
-
-    /**
-     * 为ListView填充数据
-     *
-     * @param
-     * @return
-     */
     private void getFriendData() {
-
-        loadData();
-
-
-    }
-
-
-    //添加最近5个联系人
-//        for (int i = 0; i < 5; i++) {
-//            SortModel sortModel = new SortModel();
-//            sortModel.setName(date[i]);
-//
-//            sortModel.setSortLetters("*");
-//
-//            mSortList.add(sortModel);
-//        }
-
-
-    /**
-     * 根据输入框中的值来过滤数据并更新ListView
-     *
-     * @param filterStr
-     */
-
-    private void filterData(String filterStr) {
-//        List<SortModel> filterDateList = new ArrayList<SortModel>();
-//
-//        if (TextUtils.isEmpty(filterStr)) {
-//            filterDateList = mSortDateList;
-//        } else {
-//            filterDateList.clear();
-//            for (SortModel sortModel : mSortDateList) {
-//                String name = sortModel.getName();
-//                if (name.indexOf(filterStr.toString()) != -1 || characterParser.getSelling(name).startsWith(filterStr.toString())) {
-//                    filterDateList.add(sortModel);
-//                }
-//            }
-//        }
-//
-//        // 根据a-z进行排序
-//        Collections.sort(filterDateList, pinyinComparator);
-//        mFriendAdatper.updateListView(filterDateList);
-    }
-
-    @Override
-    public void loadData() {
         actionsCreator.loadData();
-    }
-
-
-    @Override
-    public void refresh() {
 
     }
+
 
     private void updateUI() {
-        mFriendAdatper.updateListView(todoStore.getTodos());
+        mFriendAdatper.updateListView(todoStore.getSortLists());
     }
 
     @Subscribe
-    public void onTodoStoreChange(FriendStore.StoreChangeEvent event) {
+    public void onTodoStoreChange(FriendStore.FriendChangeEvent event) {
         updateUI();
     }
 
