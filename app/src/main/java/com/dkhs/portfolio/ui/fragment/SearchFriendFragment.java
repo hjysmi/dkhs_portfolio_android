@@ -8,11 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.SortUserEntity;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.ui.adapter.SearchFriendAdapter;
+import com.dkhs.portfolio.ui.adapter.SearchFriendItemHandler;
 import com.dkhs.portfolio.ui.eventbus.Dispatcher;
 import com.dkhs.portfolio.ui.selectfriend.actions.FriendSourceEngine;
 import com.dkhs.portfolio.ui.selectfriend.store.FriendStore;
@@ -30,7 +31,7 @@ public class SearchFriendFragment extends BaseFragment {
     private String mSearchKey;
     @ViewInject(R.id.lv_friend)
     private ListView lvSearch;
-    private SearchFriendAdapter adapterSearch;
+    private DKBaseAdapter adapterSearch;
 
     private List<UserEntity> mSearchList;
     //    private FriendSourceEngine actionsCreator;
@@ -64,7 +65,7 @@ public class SearchFriendFragment extends BaseFragment {
             }
         });
 
-        adapterSearch = new SearchFriendAdapter(getActivity(), mSearchList);
+        adapterSearch = new DKBaseAdapter(getActivity(), mSearchList).buildSingleItemView(new SearchFriendItemHandler(getActivity()));
         lvSearch.setAdapter(adapterSearch);
         if (!TextUtils.isEmpty(this.mSearchKey)) {
             setSearchKey(this.mSearchKey);

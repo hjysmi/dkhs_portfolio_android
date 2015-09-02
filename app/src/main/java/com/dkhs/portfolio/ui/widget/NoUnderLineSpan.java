@@ -45,6 +45,7 @@ public class NoUnderLineSpan extends ClickableSpan {
 		if(!TextUtils.isEmpty(url)){
 			new MessageHandler(context).handleURL(url);
 		}
+		widget.invalidate();
 	}
 
 	/**

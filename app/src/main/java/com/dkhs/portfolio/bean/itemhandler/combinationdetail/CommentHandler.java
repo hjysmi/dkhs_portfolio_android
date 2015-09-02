@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,7 +11,6 @@ import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -38,21 +38,23 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
     private boolean mAvatarImResponse = true;
     private boolean isReplyComment = false;
-    private boolean mCompact =false;
+    private boolean mCompact = false;
 
+    private Context mContext;
 
-    public CommentHandler(boolean avatarImResponse) {
-        mAvatarImResponse = avatarImResponse;
+    public CommentHandler(Context context, boolean avatarImResponse) {
+        this(context, avatarImResponse, false);
     }
 
 
-    public CommentHandler() {
-        this(true);
+    public CommentHandler(Context context) {
+        this(context, true);
     }
 
-    public CommentHandler(boolean avatarImResponse, boolean compact) {
+    public CommentHandler(Context context, boolean avatarImResponse, boolean compact) {
         mAvatarImResponse = avatarImResponse;
         mCompact = compact;
+        mContext = context;
     }
 
     public CommentHandler setReplyComment(boolean isReplyComment) {

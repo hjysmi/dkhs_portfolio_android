@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.dkhs.adpter.adapter.AutoAdapter;
-import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
@@ -22,7 +21,6 @@ import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -80,17 +78,14 @@ public class CommentMeFragment extends LoadMoreListFragment {
     BaseAdapter getListAdapter() {
 
         if (null == mAdapter) {
-            mAdapter = new AutoAdapter(mActivity, mDataList) {
-                @Override
-                protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-                    addHandler(0, new CommentHandler(true).setReplyComment(true));
-                }
-
-                @Override
-                protected int getViewType(int position) {
-                    return 0;
-                }
-            };
+//            mAdapter = new AutoAdapter(mActivity, mDataList) {
+//
+//                @Override
+//                protected int getViewType(int position) {
+//                    return new CommentHandler(true).setReplyComment(true).getLayoutResId();
+//                }
+//            }.buildItemView(new CommentHandler(true).setReplyComment(true));
+            mAdapter = new DKBaseAdapter(mActivity,mDataList).buildSingleItemView(new CommentHandler(mActivity,true).setReplyComment(true) );
         }
         return mAdapter;
     }
@@ -100,7 +95,7 @@ public class CommentMeFragment extends LoadMoreListFragment {
     public void deleteSuccessUpdate(DeleteCommentEvent event) {
 
         for (CommentBean commentBean : mDataList) {
-            if ((commentBean.getId()+"").equals(event.commentId)) {
+            if ((commentBean.getId() + "").equals(event.commentId)) {
                 mDataList.remove(commentBean);
             }
         }

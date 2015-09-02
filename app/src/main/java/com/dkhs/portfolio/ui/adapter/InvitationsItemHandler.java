@@ -1,14 +1,10 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import android.content.Context;
-
+import com.dkhs.adpter.handler.SimpleItemHandler;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.InvitationBean;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.dkhs.adpter.adapter.SingleAutoAdapter;
-import com.dkhs.adpter.util.ViewHolder;
-
-import java.util.List;
 
 /**
  * @author zwm
@@ -17,20 +13,17 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/6/19.
  */
-public class InvitationsAdapter extends SingleAutoAdapter {
-    public InvitationsAdapter(Context context, List<?> list) {
-        super(context, list);
-    }
+public class InvitationsItemHandler extends SimpleItemHandler<InvitationBean> {
 
 
     @Override
     public int getLayoutResId() {
-        return  R.layout.item_invite_history;
+        return R.layout.item_invite_history;
     }
 
     @Override
-    public void onBindView(ViewHolder vh, Object data, int position) {
-        InvitationBean invitationBean = (InvitationBean) mData.get(position);
+    public void onBindView(ViewHolder vh, InvitationBean data, int position) {
+        InvitationBean invitationBean = data;
         vh.setTextView(R.id.tv_name, invitationBean.getUsername());
 
         vh.setTextView(R.id.tv_date, TimeUtils.getSimpleDay(invitationBean.getDate_joined()));

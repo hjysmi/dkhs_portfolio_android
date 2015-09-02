@@ -3,24 +3,21 @@ package com.dkhs.portfolio.ui.adapter;
 import android.content.Context;
 import android.view.View;
 
-import com.dkhs.adpter.adapter.SingleAutoAdapter;
+import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.lidroid.xutils.BitmapUtils;
 
-import java.util.List;
-
 /**
  * Created by zjz on 2015/9/1.
  */
-public class SearchFriendAdapter extends SingleAutoAdapter {
+public class SearchFriendItemHandler extends SimpleItemHandler<UserEntity> {
 
     private final BitmapUtils bitmapUtils;
 
-    public SearchFriendAdapter(Context context, List<?> data) {
-        super(context, data);
-        bitmapUtils = new BitmapUtils(mContext);
+    public SearchFriendItemHandler(Context context) {
+        bitmapUtils = new BitmapUtils(context);
     }
 
     @Override
@@ -29,7 +26,7 @@ public class SearchFriendAdapter extends SingleAutoAdapter {
     }
 
     @Override
-    public void onBindView(ViewHolder vh, Object data, int position) {
+    public void onBindView(ViewHolder vh, UserEntity data, int position) {
 
         UserEntity item = (UserEntity) data;
         vh.get(R.id.catalog).setVisibility(View.GONE);
@@ -44,8 +41,5 @@ public class SearchFriendAdapter extends SingleAutoAdapter {
 
     }
 
-    public void updateData(List<?> data){
-        this.mData = data;
-        notifyDataSetChanged();
-    }
+
 }

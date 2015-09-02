@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.FundManagerInfoBean;
@@ -33,12 +34,12 @@ public class FundManagerActivity extends ModelAcitivity {
     private String mWinRateDayValueStr;
     private String mNamStre;
     private String mAvatarMdStr;
-    private ImageView  mAvatarIm;
+    private ImageView mAvatarIm;
 
 
     private List<FundManagerInfoBean.AchivementsEntity> dataL = new ArrayList<>();
 
-    private AchivementAdapter achivementsAdapter;
+    private DKBaseAdapter achivementsAdapter;
 
 
     public static Intent newIntent(Context ctx, String pk) {
@@ -46,6 +47,7 @@ public class FundManagerActivity extends ModelAcitivity {
         intent.putExtra("pk", pk);
         return intent;
     }
+
     public static Intent newIntent(Context ctx, FundManagerBean fundManagerBean) {
         Intent intent = new Intent(ctx, FundManagerActivity.class);
         intent.putExtra("pk", fundManagerBean.id);
@@ -69,7 +71,8 @@ public class FundManagerActivity extends ModelAcitivity {
         mWinRateDayName = (TextView) view.findViewById(R.id.win_rate_day_name);
         mWinRateDayvVlue = (TextView) view.findViewById(R.id.win_rate_day_value);
         lv.addHeaderView(view);
-        achivementsAdapter = new AchivementAdapter(this, dataL);
+//        achivementsAdapter = new AchivementAdapter(this, dataL);
+        achivementsAdapter = new DKBaseAdapter(this, dataL).buildSingleItemView(new AchivementAdapter(this, dataL));
         lv.setAdapter(achivementsAdapter);
         mWinRateDayvVlue.getScrollX();
 

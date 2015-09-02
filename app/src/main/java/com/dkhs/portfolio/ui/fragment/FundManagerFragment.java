@@ -5,10 +5,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ManagersEntity;
 import com.dkhs.portfolio.ui.FundManagerActivity;
-import com.dkhs.portfolio.ui.adapter.FundManagerAdapter;
+import com.dkhs.portfolio.ui.ItemView.FundManagerItemHandler;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -65,8 +66,9 @@ public class FundManagerFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         if (null != mListManager) {
             tvEmpty.setVisibility(View.GONE);
-            FundManagerAdapter mManagerAdapter = new FundManagerAdapter(getActivity(), mListManager);
-            lvManger.setAdapter(mManagerAdapter);
+//            FundManagerItemHandler mManagerAdapter = new FundManagerItemHandler(getActivity(), mListManager);
+            DKBaseAdapter adatper = new DKBaseAdapter(getActivity(), mListManager).buildSingleItemView(new FundManagerItemHandler());
+            lvManger.setAdapter(adatper);
             lvManger.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

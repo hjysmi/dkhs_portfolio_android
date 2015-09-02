@@ -10,22 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
+import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
+import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.ui.adapter.HotTopicsAdapter;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
-import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,12 +35,13 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
     }
 
 
-
     @Override
     BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {
-            mAdapter = new HotTopicsAdapter(mActivity, mDataList,HotTopicsFragment.this);
+            mAdapter = new DKBaseAdapter(mActivity, mDataList).
+                    buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HotTopicsFragment.this))
+                    .buildMultiItemView(TopicsBean.class, new TopicsHandler(mActivity));
         }
         return mAdapter;
     }
@@ -60,15 +56,15 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
             @Override
             public boolean beforeHandleAction(AutoData a) {
 
-                if(a.action== AutoData.Action.Update){
+                if (a.action == AutoData.Action.Update) {
 
                     int index = mDataList.indexOf(a);
                     if (index != -1) {
-                        TopicsBean topicsBean=   mDataList.get(index);
-                        topicsBean.favorites_count = ( (TopicsBean)a).favorites_count;
-                        topicsBean.attitudes_count = ( (TopicsBean)a).attitudes_count;
-                        topicsBean.comments_count =  ( (TopicsBean)a).comments_count;
-                        topicsBean.like = ( (TopicsBean)a).like;
+                        TopicsBean topicsBean = mDataList.get(index);
+                        topicsBean.favorites_count = ((TopicsBean) a).favorites_count;
+                        topicsBean.attitudes_count = ((TopicsBean) a).attitudes_count;
+                        topicsBean.comments_count = ((TopicsBean) a).comments_count;
+                        topicsBean.like = ((TopicsBean) a).like;
                     }
                     return true;
                 }
@@ -150,7 +146,6 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
         postDelayedeData();
 
     }
-
 
 
     @Override

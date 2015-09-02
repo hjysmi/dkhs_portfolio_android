@@ -11,17 +11,14 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.dkhs.adpter.handler.SimpleItemHandler;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.ui.AdActivity;
-import com.dkhs.adpter.handler.ItemHandler;
-import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp;
-import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.widget.ScaleLayout;
 
 /**
@@ -31,18 +28,18 @@ import com.dkhs.portfolio.ui.widget.ScaleLayout;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/16.
  */
-public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClickListener {
+public class BannerHandler extends SimpleItemHandler<BannerTopicsBean> implements View.OnClickListener {
 
 
     public Context mContext;
 
-    private  RefreshEnable mRefreshEnable;
+    private RefreshEnable mRefreshEnable;
 
-    public interface  RefreshEnable{
+    public interface RefreshEnable {
         void enable();
+
         void disEnable();
     }
-
 
 
     private OnSliderClickListenerImp mOnSliderClickListenerImp;
@@ -69,7 +66,7 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
             if (adBean != slider.getTag()) {
 
 
-                ScaleLayout scaleLayout=vh.get(R.id.sliderSL);
+                ScaleLayout scaleLayout = vh.get(R.id.sliderSL);
                 scaleLayout.setInterceptTouch(true);
                 slider.stopAutoCycle();
                 slider.removeAllSliders();
@@ -79,9 +76,9 @@ public class BannerHandler implements ItemHandler<BannerTopicsBean>, View.OnClic
                     public void run() {
                         slider.setVisibility(View.VISIBLE);
                     }
-                },600);
-                if (mRefreshEnable != null){
-                    slider .setOnTouchListener(new View.OnTouchListener() {
+                }, 600);
+                if (mRefreshEnable != null) {
+                    slider.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
                             mRefreshEnable.disEnable();

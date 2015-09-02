@@ -6,7 +6,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 
-import com.dkhs.adpter.adapter.SingleAutoAdapter;
+import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundPriceBean;
@@ -15,8 +15,6 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
-import java.util.List;
-
 /**
  * @author zwm
  * @version 2.0
@@ -24,11 +22,12 @@ import java.util.List;
  * @Description TODO 基金排行榜适配器
  * @date 2015/6/2.
  */
-public class FundOrderAdapter extends SingleAutoAdapter {
+public class FundOrderItemHandler extends SimpleItemHandler<FundPriceBean> {
 
+    private Context mContext;
 
-    public FundOrderAdapter(Context context, List<?> list) {
-        super(context, list);
+    public FundOrderItemHandler(Context context) {
+        this.mContext = context;
     }
 
     private String sort;
@@ -46,8 +45,8 @@ public class FundOrderAdapter extends SingleAutoAdapter {
     }
 
     @Override
-    public void onBindView(ViewHolder vh, Object data, int position) {
-        FundPriceBean fundBean = (FundPriceBean) mData.get(position);
+    public void onBindView(ViewHolder vh, FundPriceBean data, int position) {
+        FundPriceBean fundBean = data;
         vh.setTextView(R.id.tv_stock_name, fundBean.getAbbrname());
         vh.setTextView(R.id.tv_stock_num, fundBean.getSymbol());
         vh.setTextView(R.id.tv_trade_day, TimeUtils.getMMDDString(fundBean.getTradedate()));
