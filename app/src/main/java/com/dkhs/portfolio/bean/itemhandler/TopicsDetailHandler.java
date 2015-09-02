@@ -2,23 +2,16 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.SpannedString;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,8 +19,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
+import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
@@ -41,23 +34,16 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.LikesPeopleEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.mingle.bean.PhotoBean;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-import org.parceler.transfuse.annotations.Resource;
-import org.parceler.transfuse.annotations.SystemService;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author zwm
@@ -67,7 +53,7 @@ import java.util.Map;
  * @date 2015/7/16.
  */
 
-public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView.OnItemSelectedListener {
+public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implements AdapterView.OnItemSelectedListener {
 
 
     private Context mContext;
@@ -107,7 +93,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         }
         vh.setTextView(R.id.content, data.text);
 //        vh.get(R.id.iv).setVisibility(View.GONE);
-        new TopicsImageViewHandler().handleMedias(vh,data);
+        new TopicsImageViewHandler().handleMedias(vh, data);
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 
@@ -184,7 +170,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
                 objectAnimator.start();
                 TopicsDetailRefreshEvent topicsDetailRefreshEvent = new TopicsDetailRefreshEvent();
                 mSortType = TopicsCommendEngineImpl.SortType.like;
-                topicsDetailRefreshEvent.sortType=mSortType;
+                topicsDetailRefreshEvent.sortType = mSortType;
                 BusProvider.getInstance().post(topicsDetailRefreshEvent);
                 spinner.setVisibility(View.INVISIBLE);
             }
@@ -306,7 +292,7 @@ public class TopicsDetailHandler implements ItemHandler<TopicsBean>, AdapterView
         }
 
         if (mSortType != topicsDetailRefreshEvent.sortType) {
-            mSortType= topicsDetailRefreshEvent.sortType;
+            mSortType = topicsDetailRefreshEvent.sortType;
             BusProvider.getInstance().post(topicsDetailRefreshEvent);
         }
     }

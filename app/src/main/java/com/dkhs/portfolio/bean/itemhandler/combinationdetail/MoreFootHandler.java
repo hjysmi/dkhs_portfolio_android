@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
@@ -20,6 +21,13 @@ import com.dkhs.portfolio.utils.UIUtils;
  * @date 2015/7/28.
  */
 public class MoreFootHandler extends SimpleItemHandler<MoreFootBean> implements View.OnClickListener {
+
+    private Context mContext;
+
+    public MoreFootHandler(Context context) {
+        this.mContext = context;
+    }
+
     @Override
     public int getLayoutResId() {
         return R.layout.item_more_foot;

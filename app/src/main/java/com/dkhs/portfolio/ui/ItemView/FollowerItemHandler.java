@@ -1,15 +1,13 @@
-package com.dkhs.portfolio.ui.adapter;
+package com.dkhs.portfolio.ui.ItemView;
 
 import android.content.Context;
 
+import com.dkhs.adpter.handler.SimpleItemHandler;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
-import com.dkhs.adpter.adapter.SingleAutoAdapter;
-import com.dkhs.adpter.util.ViewHolder;
-
-import java.util.List;
 
 /**
  * @author zwm
@@ -18,23 +16,25 @@ import java.util.List;
  * @date 2015/4/23.14:07
  * @Description TODO(这里用一句话描述这个类的作用)
  */
-public class FriendsOrFollowerAdapter extends SingleAutoAdapter {
-    private final BitmapUtils bitmapUtils;
+public class FollowerItemHandler extends SimpleItemHandler<PeopleBean> {
 
-    public FriendsOrFollowerAdapter(Context context, List<?> list) {
-        super(context, list);
+    private final BitmapUtils bitmapUtils;
+    private Context mContext;
+
+    public FollowerItemHandler(Context context) {
+        this.mContext = context;
         bitmapUtils = new BitmapUtils(context);
     }
 
 
     @Override
     public int getLayoutResId() {
-        return  R.layout.layout_friends_or_follower;
+        return R.layout.layout_friends_or_follower;
     }
 
     @Override
-    public void onBindView(ViewHolder vh, Object data, int position) {
-        PeopleBean peopleBean = (PeopleBean) mData.get(position);
+    public void onBindView(ViewHolder vh, PeopleBean data, int position) {
+        PeopleBean peopleBean = data;
 
         if (null != peopleBean.getAvatar_md() && peopleBean.getAvatar_md().length() > 35) {
             bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md(), R.drawable.ic_user_head, R.drawable.ic_user_head);
@@ -50,4 +50,6 @@ public class FriendsOrFollowerAdapter extends SingleAutoAdapter {
                 mContext.getResources().getString(R.string.following) + ":"
                         + StringFromatUtils.handleNumber(peopleBean.getFriends_count()));
     }
+
+
 }

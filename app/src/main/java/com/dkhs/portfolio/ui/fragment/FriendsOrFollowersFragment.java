@@ -10,14 +10,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PeopleBean;
-import com.dkhs.portfolio.engine.PeopleEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.engine.PeopleEngineImpl;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
-import com.dkhs.portfolio.ui.adapter.FriendsOrFollowerAdapter;
+import com.dkhs.portfolio.ui.ItemView.FollowerItemHandler;
+import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
 import com.squareup.otto.Subscribe;
@@ -45,7 +46,7 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
         super.onCreate(arg0);
         Intent intent = getActivity().getIntent();
         String getTypeStr = intent.getStringExtra(FriendsOrFollowersActivity.KEY);
-        userId= intent.getStringExtra(FriendsOrFollowersActivity.USER_ID);
+        userId = intent.getStringExtra(FriendsOrFollowersActivity.USER_ID);
         if (getTypeStr.equals(FriendsOrFollowersActivity.FRIENDS)) {
             type = PeopleEngineImpl.TYPE.FRIENDS;
         } else if (getTypeStr.equals(FriendsOrFollowersActivity.FOLLOWER)) {
@@ -54,7 +55,6 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
         BusProvider.getInstance().register(this);
 
     }
-
 
 
     @Override
@@ -87,7 +87,7 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
         startLoadData();
         dataList.clear();
         if (null != adapter) {
-            adapter .notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         setHttpHandler(getLoadEngine().loadData());
     }
@@ -96,7 +96,8 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     BaseAdapter getListAdapter() {
 
         if (null == adapter) {
-            adapter = new FriendsOrFollowerAdapter(getActivity(), dataList);
+//            adapter = new FollowerItemHandler(getActivity(), dataList);
+            adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FollowerItemHandler(getActivity()));
         }
         return adapter;
     }
@@ -106,15 +107,15 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
 
-        if(!isAdded()){
+        if (!isAdded()) {
             return;
         }
         endLoadData();
         dataList.addAll(object.getResults());
         adapter.notifyDataSetChanged();
-        if(dataList.size() == 0){
+        if (dataList.size() == 0) {
 
-            switch (type){
+            switch (type) {
                 case FOLLOWERS:
                     setEmptyText(R.string.nodata_follower);
                     break;
@@ -131,12 +132,12 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     LoadMoreDataEngine getLoadEngine() {
 
         if (null == peopleEngine) {
-            peopleEngine = new PeopleEngineImpl(this, type,userId);
+            peopleEngine = new PeopleEngineImpl(this, type, userId);
         }
         return peopleEngine;
     }
 
-//    @Override
+    //    @Override
     SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -147,7 +148,6 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     }
 
 
-
     @Override
     AdapterView.OnItemClickListener getItemClickListener() {
         return new AdapterView.OnItemClickListener() {
@@ -155,13 +155,12 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-
-
                 startActivity(UserHomePageActivity.getIntent(getActivity(), dataList.get(position).getUsername(),
                         dataList.get(position).getId() + ""));
             }
         };
     }
+
     private void startLoadData() {
         if (getActivity() instanceof FriendsOrFollowersActivity) {
             ((FriendsOrFollowersActivity) getActivity()).rotateRefreshButton();
@@ -182,7 +181,7 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
 
     @Subscribe
-    public void updateList( UnFollowEvent follow){
+    public void updateList(UnFollowEvent follow) {
 
         switch (type) {
             case FOLLOWERS:
@@ -194,9 +193,9 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
                     if (item.getId() == follow.getId()) {
                         dataList.remove(i);
                         adapter.notifyDataSetChanged();
-                        if(dataList.size() == 0){
+                        if (dataList.size() == 0) {
 
-                            switch (type){
+                            switch (type) {
                                 case FOLLOWERS:
                                     setEmptyText(R.string.nodata_follower);
                                     break;

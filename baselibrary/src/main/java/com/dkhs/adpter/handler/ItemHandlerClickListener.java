@@ -9,6 +9,6 @@ import android.view.View;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/22.
  */
-public interface ItemHandlerClickListener<T extends Object> {
-        public View.OnClickListener setDate(T o);
+public interface ItemHandlerClickListener<T> {
+    public View.OnClickListener setDate(T o);
 }
