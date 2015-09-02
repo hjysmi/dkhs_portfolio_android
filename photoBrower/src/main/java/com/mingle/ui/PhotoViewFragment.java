@@ -15,6 +15,7 @@ import com.mingle.widget.CircularProgressBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import uk.co.senab.photoviewi.PhotoView;
@@ -74,12 +75,21 @@ public class PhotoViewFragment extends Fragment {
         });
 
         mPhotoView.setMinimumScale(0.6f);
+
         mLoader.displayImage(mPhotoBean.imgUrl, mPhotoView, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 if (imageUri.equals(mPhotoBean.imgUrl)) {
                     mProgressBar.setVisibility(View.GONE);
                     mPreviewImage.setVisibility(View.GONE);
+                }
+                if(loadedImage.getWidth() < mPhotoView.getWidth()){
+                    float scale=mPhotoView.getWidth()*1.0f/loadedImage.getWidth();
+//                    scale=  Math.min(scale ,mPhotoView.getMaximumScale());
+//                    mPhotoView.setScale(scale);
+//                    mPhotoView.setScale(10);
+//                    mPhotoView.
+
                 }
             }
 
@@ -98,6 +108,11 @@ public class PhotoViewFragment extends Fragment {
                 mPreviewImage.setVisibility(View.GONE);
 
                 super.onLoadingFailed(imageUri, view, failReason);
+            }
+        }, new ImageLoadingProgressListener() {
+            @Override
+            public void onProgressUpdate(String s, View view, int i, int i1) {
+                mProgressBar.setProgressPecentage(i*1.0f/i1);
             }
         });
         return view;

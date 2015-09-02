@@ -141,13 +141,15 @@ public class UserFragment extends BaseTitleFragment {
 
         if(BuildConfig.DEBUG){
             //测试
-            Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
-                    .setContentTitle("谁牛userId" + UserEngineImpl.getUserEntity().getId()).setContentText(DKHSClient.getHeadUrl()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
-                    .build();
-            notificationCompat.icon=R.drawable.ic_launcher;
+            if(UserEngineImpl.getUserEntity() != null) {
+                Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("谁牛userId" + UserEngineImpl.getUserEntity().getId()).setContentText(DKHSClient.getHeadUrl()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
+                        .build();
+                notificationCompat.icon = R.drawable.ic_launcher;
 
-            NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(-1, notificationCompat);
+                NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(-1, notificationCompat);
+            }
         }
 
 

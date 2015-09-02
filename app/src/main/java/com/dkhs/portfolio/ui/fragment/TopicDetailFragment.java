@@ -179,7 +179,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
 //            mAdapter = new TopicsDetailAdapter(mActivity, mDataList);
             mAdapter = new DKBaseAdapter(mActivity, mDataList)
                     .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(mActivity))
-                    .buildMultiItemView(CommentBean.class, new CommentHandler(mActivity,true, true))
+                    .buildMultiItemView(CommentBean.class, new CommentHandler(mActivity, true, true))
                     .buildMultiItemView(NoDataBean.class, new NoDataHandler())
                     .buildMultiItemView(LoadingBean.class, new LoadingHandler())
                     .buildMultiItemView(UserEntity.class, new LikePeopleHandler(mActivity));

@@ -195,6 +195,7 @@ class AppCompatDelegateImplV7 extends AppCompatDelegateImplBase
         }
 
         ToolbarActionBar tbab = new ToolbarActionBar(toolbar, ((Activity) mContext).getTitle(), (Window) mWindow);
+
         setSupportActionBar(tbab);
         mWindow.setCallback(tbab.getWrappedWindowCallback());
         tbab.invalidateOptionsMenu();
@@ -1575,9 +1576,7 @@ class AppCompatDelegateImplV7 extends AppCompatDelegateImplBase
 
     private static final class PanelFeatureState {
 
-        /**
-         * Feature ID for this panel.
-         */
+        /** Feature ID for this panel. */
         int featureId;
 
         int background;
