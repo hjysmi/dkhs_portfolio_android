@@ -41,7 +41,7 @@ import org.parceler.Parcels;
 public class TopicDetailFragment extends AutoListLoadMoreListFragment  {
 
     private TopicsBean mTopicsBean;
-    private AutoList<Object> mDataList = new AutoList<>();
+    private AutoList<Object> mDataList = new AutoList<>().applyAction(CommentBean.class);
     private TopicsCommendEngineImpl mTopicsCommendEngine = null;
     private TopicsDetailAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
@@ -140,8 +140,8 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment  {
             //// FIXME: 2015/7/31  滑动到帖子位置
 //            mListView.smoothScrollToPosition(1);
 //            mListView.scrollBy(0,-50);
-
-
+//            mListView.setSelection(1);
+//            mListView.scro(1);
 
         }
 

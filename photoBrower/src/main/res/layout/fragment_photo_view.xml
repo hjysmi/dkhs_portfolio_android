@@ -19,10 +19,8 @@
         <uk.co.senab.photoviewi.PhotoView
             android:id="@+id/photoIm"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_centerInParent="true"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
             />
 
         <com.mingle.widget.CircularProgressBar

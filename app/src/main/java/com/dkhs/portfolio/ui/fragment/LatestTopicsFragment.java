@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.dkhs.portfolio.bean.A;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
@@ -18,7 +19,10 @@ import com.dkhs.portfolio.ui.adapter.LatestTopicsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
+import com.lidroid.xutils.util.LogUtils;
+import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
+import com.sea_monster.dao.AbstractDeepDao;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -33,7 +37,7 @@ public class LatestTopicsFragment extends AutoListLoadMoreListFragment {
     public LatestTopicsFragment(){
 
     }
-    private AutoList<TopicsBean> mDataList = new AutoList<>();
+    private AutoList<TopicsBean> mDataList = new AutoList<TopicsBean>().applyAction(TopicsBean.class);
     private LatestTopicsEngineImpl mTopicsEngine= null;
     private BaseAdapter mAdapter;
     @Override
@@ -42,11 +46,40 @@ public class LatestTopicsFragment extends AutoListLoadMoreListFragment {
         mListView.setDivider(null);
         postDelayedeData();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new A().appleAction(this,AutoData.Action.Add).post();
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         BusProvider.getInstance().register(this);
         mDataList.setup(this);
+
+//        mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
+//            @Override
+//            public boolean beforeHandleAction(AutoData a) {
+//
+//
+//                LogUtils.e(a.toString());
+//
+//                if(a instanceof  TopicsBean){
+//                    return false;
+//                }
+//
+//                return true;
+//            }
+//
+//            @Override
+//            public void afterHandleAction(AutoData a) {
+//
+//            }
+//        });
+
         mDataList.setAdapter(getListAdapter());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
