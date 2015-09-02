@@ -8,8 +8,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
-import com.dkhs.adpter.adapter.AutoAdapter;
-import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
@@ -18,7 +17,6 @@ import com.dkhs.portfolio.engine.UserTopicsCommentEngineImpl;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -56,17 +54,14 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
     ListAdapter getListAdapter() {
 
         if (mAdapter == null) {
-            mAdapter = new AutoAdapter(mActivity, mDataList) {
-                @Override
-                protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-                    addHandler(0, new TopicsHandler(mActivity));
-                }
-
-                @Override
-                protected int getViewType(int position) {
-                    return 0;
-                }
-            };
+//            mAdapter = new AutoAdapter(mActivity, mDataList) {
+//
+//                @Override
+//                protected int getViewType(int position) {
+//                    return new TopicsHandler(mActivity).getLayoutResId();
+//                }
+//            }.buildItemView(new TopicsHandler(mActivity));
+            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildSingleItemView(new TopicsHandler(mActivity));
         }
         return mAdapter;
     }

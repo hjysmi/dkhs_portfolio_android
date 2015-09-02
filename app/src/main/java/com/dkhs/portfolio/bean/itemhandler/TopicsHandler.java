@@ -9,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextSwitcher;
 
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
+import com.dkhs.adpter.handler.SimpleItemHandler;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
-import com.dkhs.adpter.handler.ItemHandler;
-import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * @date 2015/7/16.
  */
 
-public class TopicsHandler implements ItemHandler<LikeBean> {
+public class TopicsHandler extends SimpleItemHandler<LikeBean> {
 
     private Context mContext;
     private boolean mAvatarImResponse = true;

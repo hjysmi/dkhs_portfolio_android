@@ -5,11 +5,12 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.InvitationBean;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.adapter.InvitationsAdapter;
+import com.dkhs.portfolio.ui.adapter.InvitationsItemHandler;
 import com.dkhs.widget.CircularProgress;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -42,7 +43,7 @@ public class InviteHistoryActivity extends ModelAcitivity {
     @ViewInject(R.id.rl_empty)
     android.widget.RelativeLayout mRlempty;
     private android.widget.BaseAdapter adapter;
-    private java.util.List<InvitationBean> dataL=new ArrayList<>();
+    private java.util.List<InvitationBean> dataL = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,14 +52,14 @@ public class InviteHistoryActivity extends ModelAcitivity {
         ViewUtils.inject(this);
         setTitle(getString(R.string.invite_history));
 
-        adapter=new InvitationsAdapter(this,dataL);
+        adapter = new DKBaseAdapter(this, dataL).buildSingleItemView(new InvitationsItemHandler());
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                InvitationBean invitationBean=dataL.get(position);
-                InviteHistoryActivity.this.startActivity( UserHomePageActivity.getIntent(InviteHistoryActivity.this, invitationBean.getUsername(), invitationBean.getId() + ""));
+                InvitationBean invitationBean = dataL.get(position);
+                InviteHistoryActivity.this.startActivity(UserHomePageActivity.getIntent(InviteHistoryActivity.this, invitationBean.getUsername(), invitationBean.getId() + ""));
             }
         });
         initData();
@@ -66,7 +67,7 @@ public class InviteHistoryActivity extends ModelAcitivity {
     }
 
     /**
-     *  iniView initData
+     * iniView initData
      */
     public void initData() {
 
@@ -109,7 +110,7 @@ public class InviteHistoryActivity extends ModelAcitivity {
     }
 
     /**
-     *  getData from net
+     * getData from net
      */
     public void getDataForNet() {
     }

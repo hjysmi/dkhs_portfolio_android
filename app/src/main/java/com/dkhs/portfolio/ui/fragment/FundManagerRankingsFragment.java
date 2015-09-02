@@ -9,14 +9,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.bean.FundManagerBean;
-import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.FundManagerRankingsEngineImpl;
-import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.FundManagerActivity;
-import com.dkhs.portfolio.ui.adapter.FundManagerRankingAdapter;
-import com.dkhs.portfolio.ui.adapter.FundOrderAdapter;
+import com.dkhs.portfolio.ui.ItemView.FMRankingItemHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
@@ -37,7 +35,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
     private FundManagerRankingsEngineImpl mFundManagerRankingsEngine = null;
 
 
-    private FundManagerRankingAdapter mAdapter;
+    private DKBaseAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -92,7 +90,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
         startLoadData();
 
         if (!sort.equals("work_seniority") && !sort.equals("-work_seniority")) {
-            mAdapter.setSortKey(sort);
+            ((FMRankingItemHandler) mAdapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortKey(sort);
         }
 
         setHttpHandler(getLoadEngine().loadDate(type, sort));
@@ -114,7 +112,8 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
     BaseAdapter getListAdapter() {
 
         if (null == mAdapter) {
-            mAdapter = new FundManagerRankingAdapter(mActivity, mDataList);
+//            mAdapter = new Dk(mActivity, mDataList);
+            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildSingleItemView(new FMRankingItemHandler());
         }
         return mAdapter;
     }

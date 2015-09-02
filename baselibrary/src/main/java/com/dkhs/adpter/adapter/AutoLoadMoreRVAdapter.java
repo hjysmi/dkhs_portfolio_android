@@ -2,12 +2,12 @@ package com.dkhs.adpter.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 
-import com.dkhs.adpter.itemhandler.LoadMoreHandler;
 import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.adpter.itemhandler.LoadMoreHandler;
 import com.dkhs.adpter.util.ViewHolder;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -68,7 +68,7 @@ public class AutoLoadMoreRVAdapter extends AutoRVAdapter {
     }
 
     @Override
-    protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
+    protected void initHandlers(SparseArray<ItemHandler> itemHandlerHashMap) {
         addHandler(-1, new LoadMoreHandler());
     }
 

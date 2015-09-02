@@ -1,7 +1,5 @@
 package com.dkhs.adpter.handler;
 
-import android.content.Context;
-
 import com.dkhs.adpter.util.ViewHolder;
 
 /**
@@ -11,18 +9,18 @@ import com.dkhs.adpter.util.ViewHolder;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/29.
  */
-public abstract class SimpleItemHandler<T extends  Object> implements  ItemHandler<T> {
+public abstract class SimpleItemHandler<T> implements ItemHandler<T> {
 
 
-
-    protected Context mContext;
+//    protected Context mContext;
 
 
     @Override
     public void onBindView(ViewHolder vh, T data, int position) {
-        if(mContext == null){
-            mContext=vh.getContext();
-        }
+//        if (mContext == null) {
+//            mContext = vh.getContext();
+//        }
 
     }
+
 }

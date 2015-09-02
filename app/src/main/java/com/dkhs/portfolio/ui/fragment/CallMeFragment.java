@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import com.dkhs.adpter.adapter.AutoAdapter;
-import com.dkhs.adpter.handler.ItemHandler;
+
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
@@ -22,7 +21,6 @@ import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,14 +29,13 @@ import java.util.List;
 public class CallMeFragment extends LoadMoreListFragment {
 
 
-    public CallMeFragment(){
+    public CallMeFragment() {
 
     }
 
     private List<LikeBean> mDataList = new ArrayList<>();
-    private CallMeEngineImpl mTopicsEngine= null;
+    private CallMeEngineImpl mTopicsEngine = null;
     private BaseAdapter mAdapter;
-
 
 
     @Override
@@ -47,6 +44,7 @@ public class CallMeFragment extends LoadMoreListFragment {
         mListView.setDivider(null);
         postDelayedeData();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -64,7 +62,7 @@ public class CallMeFragment extends LoadMoreListFragment {
     @Subscribe
     public void deleteSuccessUpdate(DeleteCommentEvent event) {
         for (LikeBean likeBean : mDataList) {
-            if (likeBean.status_type == 1 && (likeBean.getId()+"").equals(event.commentId)) {
+            if (likeBean.status_type == 1 && (likeBean.getId() + "").equals(event.commentId)) {
                 mDataList.remove(likeBean);
             }
         }
@@ -80,7 +78,7 @@ public class CallMeFragment extends LoadMoreListFragment {
     @Override
     public void loadData() {
         mSwipeLayout.setRefreshing(true);
-        setHttpHandler(getLoadEngine().loadDate( ));
+        setHttpHandler(getLoadEngine().loadDate());
     }
 
 
@@ -93,24 +91,23 @@ public class CallMeFragment extends LoadMoreListFragment {
     BaseAdapter getListAdapter() {
 
         if (null == mAdapter) {
-            mAdapter = new AutoAdapter(mActivity, mDataList) {
-                @Override
-                protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-
-
-                    addHandler(0, new  TopicsHandler(mContext));
-                    addHandler(1, new  CommentHandler().setReplyComment(true));
-                    addHandler(2, new  TopicsHandler(mContext));
-
-                }
-
+            mAdapter = new DKBaseAdapter(mActivity, mDataList) {
                 @Override
                 protected int getViewType(int position) {
 
-
-                    return   mDataList.get(position).status_type;
+                    if (mDataList.get(position).status_type == 0) {
+                        return 0;
+                    } else if (mDataList.get(position).status_type == 1) {
+                        return 1;
+                    } else if (mDataList.get(position).status_type == 2) {
+                        return 2;
+                    }
+                    return mDataList.get(position).status_type;
                 }
-            };
+            }.buildCustonTypeItemView(0, new TopicsHandler(mActivity))
+                    .buildCustonTypeItemView(1, new CommentHandler(mActivity).setReplyComment(true))
+                    .buildCustonTypeItemView(2, new TopicsHandler(mActivity));
+
         }
         return mAdapter;
     }
@@ -162,6 +159,7 @@ public class CallMeFragment extends LoadMoreListFragment {
     public void loadFail() {
         mSwipeLayout.setRefreshing(false);
     }
+
     @Override
     public String getEmptyText() {
         return "暂无人@提到你";

@@ -11,18 +11,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
-import com.dkhs.portfolio.ui.adapter.LatestTopicsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
-import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.mingle.autolist.AutoList;
-import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,7 +76,8 @@ public class LatestTopicsFragment extends AutoListLoadMoreListFragment {
     BaseAdapter getListAdapter() {
 
         if (null == mAdapter) {
-            mAdapter = new LatestTopicsAdapter(mActivity, mDataList);
+//            mAdapter = new LatestTopicsAdapter(mActivity, mDataList);
+            mAdapter = new DKBaseAdapter(mActivity,mDataList).buildSingleItemView(new TopicsHandler(mActivity));
         }
         return mAdapter;
     }
