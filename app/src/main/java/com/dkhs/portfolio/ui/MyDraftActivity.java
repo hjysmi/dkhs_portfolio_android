@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
@@ -42,6 +41,5 @@ public class MyDraftActivity extends ModelAcitivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(this.getClass().getSimpleName(), "=========onResume()=========");
     }
 }

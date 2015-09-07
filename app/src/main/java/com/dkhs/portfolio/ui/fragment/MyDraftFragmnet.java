@@ -64,7 +64,6 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     public TextView tvEmptyText;
     public View loadingView;
 
-//    private MainThreadBus eventBus;
 
     @Override
     public int setContentLayoutId() {
@@ -74,7 +73,6 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        eventBus = new MainThreadBus();
         dataEngine = new DraftEngine(BusProvider.getInstance());
 
     }

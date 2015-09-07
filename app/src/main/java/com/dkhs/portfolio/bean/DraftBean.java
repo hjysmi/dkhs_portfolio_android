@@ -24,8 +24,6 @@ public class DraftBean {
     public static final String COLUM_REPLY_USERNAME = "reply_username";  //评论用户名
     public static final String COLUM_REPLY_STATUS_ID = "reply_status_id";  //评论用户名
     public static final String COLUM_FAIL_REASON = "fail_reason";  //失败原因
-    public static final String COLUM_HTML_CONTENT = "html_content";
-    public static final String COLUM_HTML_TITLE = "html_title";
 
     //保存图片的绝对路径
     @Column(column = COLUM_IMAGEURI)
