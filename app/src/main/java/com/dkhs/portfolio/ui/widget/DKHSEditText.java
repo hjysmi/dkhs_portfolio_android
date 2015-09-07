@@ -137,7 +137,7 @@ public class DKHSEditText extends EmojiconEditText {
 
 
     public void insesrStockText(String stockname) {
-        stockname = String.format("<a href=\"dkhs:stock\">$%s$</a>", stockname);
+        stockname = String.format("<a href=\"dkhs:stock\">$%s$</a> ", stockname);
         insertHtmlText(stockname);
     }
 
