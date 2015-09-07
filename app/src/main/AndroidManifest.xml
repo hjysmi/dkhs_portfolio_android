@@ -466,6 +466,7 @@
             android:label="@string/title_activity_call_me" />
         <activity
             android:name=".ui.SelectFriendActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_pickup_user" />
         <activity android:name=".ui.TestActivity" />
     </application>
