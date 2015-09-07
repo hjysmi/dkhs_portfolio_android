@@ -34,8 +34,9 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
-import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
+import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -63,7 +64,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     public TextView tvEmptyText;
     public View loadingView;
 
-    private MainThreadBus eventBus;
+//    private MainThreadBus eventBus;
 
     @Override
     public int setContentLayoutId() {
@@ -73,8 +74,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventBus = new MainThreadBus();
-        dataEngine = new DraftEngine(eventBus);
+//        eventBus = new MainThreadBus();
+        dataEngine = new DraftEngine(BusProvider.getInstance());
 
     }
 
@@ -202,6 +203,14 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
 
     }
 
+    @Subscribe
+    public void onPostTopicUpdate(PostTopComletedEvent event) {
+        if (null != event) {
+            dataEngine.getDraftByUserId();
+            loadingView.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     class MyDraftAdapter extends BaseAdapter {
 
@@ -300,7 +309,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     @Override
     public void onResume() {
         super.onResume();
-        eventBus.register(this);
+        BusProvider.getInstance().register(this);
+        Log.d(this.getClass().getSimpleName(), "=========onResume()=========");
 
         dataEngine.getDraftByUserId();
         loadingView.setVisibility(View.VISIBLE);
@@ -310,7 +320,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     @Override
     public void onPause() {
         super.onPause();
-        eventBus.unregister(this);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override

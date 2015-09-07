@@ -23,6 +23,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
 import com.dkhs.portfolio.ui.eventbus.SendTopicEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -299,6 +300,9 @@ public class PostTopicService extends IntentService {
 
         notificationManager.notify(UPLOAD_NOTIFICATION_ID, notification.build());
         notificationManager.cancel(UPLOAD_NOTIFICATION_ID);
+
+        BusProvider.getInstance().post(new PostTopComletedEvent());
+
     }
 
 
