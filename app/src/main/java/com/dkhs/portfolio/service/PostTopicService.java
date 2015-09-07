@@ -119,7 +119,7 @@ public class PostTopicService extends IntentService {
             saveBitmapAndUpload(statusBean);
 //            StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
         } else {
-            StatusEngineImpl.postStatus(statusBean.getTitle(), statusBean.getContent(), statusBean.getStatusId(), null, 0, 0, "", new PostTopicListener(statusBean));
+            StatusEngineImpl.postStatus(statusBean.getSimpleTitle(), statusBean.getSimpleContent(), statusBean.getStatusId(), null, 0, 0, "", new PostTopicListener(statusBean));
 
         }
 
@@ -177,8 +177,8 @@ public class PostTopicService extends IntentService {
             if (null != entity && null != mStatusBean) {
                 // 图片上传完毕继续发表主题
 //                PromptManager.showToast("图片上传成功，发表话题");
-                StatusEngineImpl.postStatus(mStatusBean.getTitle(), mStatusBean.getContent(), mStatusBean.getStatusId(), null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
-//                StatusEngineImpl.postStatus(mStatusBean.getTitle(), mStatusBean.getContent(), null, null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
+                StatusEngineImpl.postStatus(mStatusBean.getSimpleTitle(), mStatusBean.getSimpleContent(), mStatusBean.getStatusId(), null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
+//                StatusEngineImpl.postStatus(mStatusBean.getSimpleTitle(), mStatusBean.getSimpleContent(), null, null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
 
             }
         }

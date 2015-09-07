@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.bean;
 
+import android.text.Html;
+
 import com.lidroid.xutils.db.annotation.Column;
 
 import org.parceler.Parcel;
@@ -22,6 +24,8 @@ public class DraftBean {
     public static final String COLUM_REPLY_USERNAME = "reply_username";  //评论用户名
     public static final String COLUM_REPLY_STATUS_ID = "reply_status_id";  //评论用户名
     public static final String COLUM_FAIL_REASON = "fail_reason";  //失败原因
+    public static final String COLUM_HTML_CONTENT = "html_content";
+    public static final String COLUM_HTML_TITLE = "html_title";
 
     //保存图片的绝对路径
     @Column(column = COLUM_IMAGEURI)
@@ -35,6 +39,8 @@ public class DraftBean {
     String title;
     @Column(column = COLUM_CONTENTE)
     String content;
+
+
     @Column(column = COLUM_AUTHORID)
     String authorId;
 
@@ -85,12 +91,20 @@ public class DraftBean {
         this.imageUri = imageUri;
     }
 
+    public String getSimpleTitle() {
+        return Html.fromHtml(title).toString();
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSimpleContent() {
+        return Html.fromHtml(content).toString();
     }
 
     public String getContent() {
@@ -144,6 +158,14 @@ public class DraftBean {
     public void setFailReason(String failReason) {
         this.failReason = failReason;
     }
+
+//    public String getHtmlContent() {
+//        return htmlContent;
+//    }
+//
+//    public void setHtmlContent(String htmlContent) {
+//        this.htmlContent = htmlContent;
+//    }
 
 
 }

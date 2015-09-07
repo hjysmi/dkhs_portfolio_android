@@ -218,7 +218,7 @@ public class MultipartEntity implements HttpEntity, UploadEntity {
 
     public InputStream getContent() throws IOException, UnsupportedOperationException {
         throw new UnsupportedOperationException(
-                "Multipart form entity does not implement #getContent()");
+                "Multipart form entity does not implement #getSimpleContent()");
     }
 
     public void writeTo(final OutputStream outStream) throws IOException {

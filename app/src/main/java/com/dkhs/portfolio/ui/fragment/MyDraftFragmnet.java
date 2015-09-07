@@ -238,7 +238,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             ViewHolder holder = (ViewHolder) convertView.getTag();
 
             final DraftBean item = mDataList.get(position);
-            String title = item.getTitle();
+            String title = item.getSimpleTitle();
             if (TextUtils.isEmpty(title)) {
                 holder.tvTitle.setVisibility(View.GONE);
             } else {
@@ -250,8 +250,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             String strLabel = item.getLabel() == 1 ? "主贴" : "回复";
             holder.tvLabel.setText(strLabel);
 
-            String strContent = item.getContent();
-
+            String strContent = item.getSimpleContent();
 
             if (!TextUtils.isEmpty(item.getImageUri())) {
                 ImageLoaderUtils.setImage(item.getImageUri(), holder.ivImage);
@@ -310,7 +309,6 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     public void onResume() {
         super.onResume();
         BusProvider.getInstance().register(this);
-        Log.d(this.getClass().getSimpleName(), "=========onResume()=========");
 
         dataEngine.getDraftByUserId();
         loadingView.setVisibility(View.VISIBLE);
