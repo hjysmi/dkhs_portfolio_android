@@ -15,6 +15,7 @@ import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
+import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
@@ -79,7 +80,6 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
         mListener = null;
     }
 
-
     @Override
     public void onDestroyView() {
         BusProvider.getInstance().unregister(this);
@@ -139,6 +139,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
         mListView.smoothScrollToPosition(1);
         mListView.setOnLoadListener(this);
         mListView.setAutoLoadMore(false);
+        mListView.setCanLoadMore(false);
         if (mScrollToComment) {
 
             //// FIXME: 2015/7/31  滑动到帖子位置
@@ -179,13 +180,12 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
     BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {
-//            mAdapter = new TopicsDetailAdapter(mActivity, mDataList);
             mAdapter = new DKBaseAdapter(mActivity, mDataList)
                     .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(mActivity))
                     .buildMultiItemView(CommentBean.class, new CommentHandler(mActivity, true, true))
                     .buildMultiItemView(NoDataBean.class, new NoDataHandler())
                     .buildMultiItemView(LoadingBean.class, new LoadingHandler())
-                    .buildMultiItemView(UserEntity.class, new LikePeopleHandler(mActivity));
+                    .buildMultiItemView(PeopleBean.class, new LikePeopleHandler(mActivity));
         }
         return mAdapter;
     }
@@ -194,7 +194,6 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
             mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
-
         }
         return mTopicsCommendEngine;
     }

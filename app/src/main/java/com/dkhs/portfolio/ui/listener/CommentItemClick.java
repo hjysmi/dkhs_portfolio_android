@@ -22,6 +22,7 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.mingle.autolist.AutoData;
 
 /**
  * Created by zjz on 2015/7/30.
@@ -235,9 +236,10 @@ public class CommentItemClick {
             protected void afterParseData(Boolean object) {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
-                    DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
-                    deleteCommentEvent.commentId = comment.getId()+"";
-                    BusProvider.getInstance().post(deleteCommentEvent);
+//                    DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
+//                    deleteCommentEvent.commentId = comment.getId()+"";
+//                    BusProvider.getInstance().post(deleteCommentEvent);
+                    comment.appleAction(this, AutoData.Action.Delete).post();
 
 
 

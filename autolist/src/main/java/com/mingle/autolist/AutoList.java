@@ -31,6 +31,9 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
         super(capacity);
         actionFs.add(actionF);
     }
+    public AutoList( ) {
+        super();
+    }
 
     public AutoList(Class actionF) {
         actionFs.add(actionF);
