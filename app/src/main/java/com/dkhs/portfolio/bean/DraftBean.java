@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.bean;
 
+import android.text.Html;
+
 import com.lidroid.xutils.db.annotation.Column;
 
 import org.parceler.Parcel;
@@ -35,6 +37,8 @@ public class DraftBean {
     String title;
     @Column(column = COLUM_CONTENTE)
     String content;
+
+
     @Column(column = COLUM_AUTHORID)
     String authorId;
 
@@ -85,12 +89,20 @@ public class DraftBean {
         this.imageUri = imageUri;
     }
 
+    public String getSimpleTitle() {
+        return Html.fromHtml(title).toString();
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSimpleContent() {
+        return Html.fromHtml(content).toString();
     }
 
     public String getContent() {
@@ -144,6 +156,14 @@ public class DraftBean {
     public void setFailReason(String failReason) {
         this.failReason = failReason;
     }
+
+//    public String getHtmlContent() {
+//        return htmlContent;
+//    }
+//
+//    public void setHtmlContent(String htmlContent) {
+//        this.htmlContent = htmlContent;
+//    }
 
 
 }

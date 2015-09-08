@@ -13,8 +13,8 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 200100901
-        versionName "2.1.0.0901"
+        versionCode 200100907
+        versionName "2.1.0.0907"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.DeleteResponeBean;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -90,7 +89,7 @@ public class CommentItemClick {
         dialog.show();
     }
 
-    private void showTopicMineReplyDialog(final  LikeBean commentBean) {
+    private void showTopicMineReplyDialog(final LikeBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
         String[] choice = mContext.getResources().getStringArray(R.array.choices_topic_minereply);
@@ -224,7 +223,7 @@ public class CommentItemClick {
 
 
     private void postDeleteCommnent(final LikeBean comment) {
-        StatusEngineImpl.delete(comment.getId()+"", new ParseHttpListener<Boolean>() {
+        StatusEngineImpl.delete(comment.getId() + "", new ParseHttpListener<Boolean>() {
             @Override
             protected Boolean parseDateTask(String jsonData) {
                 DeleteResponeBean reponseBean = DataParse.parseObjectJson(DeleteResponeBean.class, jsonData);
@@ -236,9 +235,8 @@ public class CommentItemClick {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
                     DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
-                    deleteCommentEvent.commentId = comment.getId()+"";
+                    deleteCommentEvent.commentId = comment.getId() + "";
                     BusProvider.getInstance().post(deleteCommentEvent);
-
 
 
                 }
@@ -252,7 +250,8 @@ public class CommentItemClick {
      * 举报回复
      */
     private void reportComment(LikeBean commentBean) {
-        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.user.getUsername(), commentBean.text));
+        if (!UIUtils.iStartLoginActivity(mContext))
+            mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.user.getUsername(), commentBean.text));
     }
 
 

@@ -38,4 +38,8 @@ public class MyDraftActivity extends ModelAcitivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

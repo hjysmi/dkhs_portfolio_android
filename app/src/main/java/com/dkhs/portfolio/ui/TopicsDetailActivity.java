@@ -17,8 +17,6 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -138,9 +136,13 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         }
                         break;
                     case MENU_MORE_STATUS_REPORT:
-                        if (null != mTopicsBean && null != mTopicsBean.user) {
+                        if (!UIUtils.iStartLoginActivity(mContext)) {
 
-                            mContext.startActivity(StatusReportActivity.getIntent(mContext, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
+
+                            if (null != mTopicsBean && null != mTopicsBean.user) {
+
+                                mContext.startActivity(StatusReportActivity.getIntent(mContext, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
+                            }
                         }
                         break;
                     case MENU_MORE_GO_HOME:
