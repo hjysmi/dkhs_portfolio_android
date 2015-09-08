@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -276,8 +277,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             etTitle.setVisibility(View.VISIBLE);
         }
         if (null != mDraftBean) {
-            etTitle.setText(mDraftBean.getTitle());
-            etContent.setText(mDraftBean.getContent());
+            etTitle.insertHtmlText(mDraftBean.getTitle());
+            etContent.insertHtmlText(mDraftBean.getContent());
             etContent.setSelection(etContent.getText().length());
             if (!TextUtils.isEmpty(mDraftBean.getImageUri())) {
 //                jpg_path = mDraftBean.getImageUri();
@@ -652,7 +653,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         String inputContent = etContent.getText().toString();
 
         if (null != mDraftBean) {
-            if (inputContent.equals(mDraftBean.getContent()) && inputTitle.equals(mDraftBean.getTitle())) {
+            if (inputContent.equals(mDraftBean.getSimpleContent()) && inputTitle.equals(mDraftBean.getSimpleTitle())) {
                 finish();
                 return;
             }
@@ -720,9 +721,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             mDraftBean.setImageFilepath("");
         }
 
+
+        String strContent = Html.toHtml(etContent.getText());
+        String strTitle = Html.toHtml(etTitle.getText());
         mDraftBean.setFailReason("");
-        mDraftBean.setTitle(etTitle.getText().toString());
-        mDraftBean.setContent(etContent.getText().toString());
+        mDraftBean.setTitle(strTitle);
+        mDraftBean.setContent(strContent);
         return mDraftBean;
 
     }

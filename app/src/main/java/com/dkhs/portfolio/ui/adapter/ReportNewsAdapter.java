@@ -67,7 +67,7 @@ public class ReportNewsAdapter extends BaseAdapter {
         // } else {
         // viewHolder = (ViewHodler) convertView.getTag();
         // }
-        // viewHolder.tvTextName.setText(mOptionNewsBean.getTitle().replaceAll("\n", "").replaceAll("\r",
+        // viewHolder.tvTextName.setText(mOptionNewsBean.getSimpleTitle().replaceAll("\n", "").replaceAll("\r",
         // "").replaceAll("\t", ""));
         // if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
         // viewHolder.tvTextNameNum.getLayoutParams().width=rects.width();
@@ -75,16 +75,16 @@ public class ReportNewsAdapter extends BaseAdapter {
         // Paint p= new Paint();
         // Rect rect = new Rect();
         // p.setTextSize( mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
-        // p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect);
+        // p.getTextBounds(mOptionNewsBean.getSimpleTitle(), 0, mOptionNewsBean.getSimpleTitle().length(), rect);
         // if(dm.widthPixels - 50 < rect.width()){
-        // int le = (int) (mOptionNewsBean.getTitle().length() - mOptionNewsBean.getTitle().length() *(rect.width() -
+        // int le = (int) (mOptionNewsBean.getSimpleTitle().length() - mOptionNewsBean.getSimpleTitle().length() *(rect.width() -
         // dm.widthPixels + 50)/rect.width() - 3);
-        // String text = mOptionNewsBean.getTitle().substring(0, le).replaceAll("\n", "").replaceAll("\r",
+        // String text = mOptionNewsBean.getSimpleTitle().substring(0, le).replaceAll("\n", "").replaceAll("\r",
         // "").replaceAll("\t", "");
         // viewHolder.tvTextName.setText(text + "...");
         // }
         // if(null != mOptionNewsBean.getSource()){
-        // viewHolder.tvTextFrom.setText(mOptionNewsBean.getSource().getTitle());
+        // viewHolder.tvTextFrom.setText(mOptionNewsBean.getSource().getSimpleTitle());
         // }
         // }
         // Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
@@ -100,18 +100,18 @@ public class ReportNewsAdapter extends BaseAdapter {
         // if(null != mOptionNewsBean.getSource() && !(null != mOptionNewsBean.getSymbols() &&
         // mOptionNewsBean.getSymbols().size() > 0)){
         // viewHolder.tvTextNameNum.getLayoutParams().width=rects.width();
-        // viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSource().getTitle());
+        // viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSource().getSimpleTitle());
         // Paint p= new Paint();
         // Rect rect = new Rect();
         // p.setTextSize( mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
-        // p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect);
+        // p.getTextBounds(mOptionNewsBean.getSimpleTitle(), 0, mOptionNewsBean.getSimpleTitle().length(), rect);
         // if(dm.widthPixels * 3/2- 50 < rect.width()){
-        // int le = (int) (mOptionNewsBean.getTitle().length() - mOptionNewsBean.getTitle().length() *(rect.width() -
+        // int le = (int) (mOptionNewsBean.getSimpleTitle().length() - mOptionNewsBean.getSimpleTitle().length() *(rect.width() -
         // dm.widthPixels* 3/2 + 50)/rect.width() - 3);
-        // String text = mOptionNewsBean.getTitle().substring(0, le);
+        // String text = mOptionNewsBean.getSimpleTitle().substring(0, le);
         // viewHolder.tvTextName.setText(text + "...");
         // }else{
-        // viewHolder.tvTextName.setText( mOptionNewsBean.getTitle());
+        // viewHolder.tvTextName.setText( mOptionNewsBean.getSimpleTitle());
         // }
         // /*viewHolder.tvTextDate.setVisibility(View.GONE);
         // viewHolder.tvTextDates.setVisibility(View.VISIBLE);

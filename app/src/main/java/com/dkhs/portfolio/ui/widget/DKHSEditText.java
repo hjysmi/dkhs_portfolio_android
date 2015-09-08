@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
@@ -80,7 +81,8 @@ public class DKHSEditText extends EmojiconEditText {
         int start = strBuilder.getSpanStart(span);
         int end = strBuilder.getSpanEnd(span);
         int flags = strBuilder.getSpanFlags(span);
-        NoUnderLineSpan mySpan = new NoUnderLineSpan(getResources().getColor(R.color.blue), getContext());
+//        NoUnderLineSpan mySpan = new NoUnderLineSpan(getResources().getColor(R.color.blue), getContext());
+        URLSpanNoUnderline mySpan = new URLSpanNoUnderline(span.getURL());
         strBuilder.setSpan(mySpan, start, end, flags);
         strBuilder.removeSpan(span);
     }
@@ -137,7 +139,7 @@ public class DKHSEditText extends EmojiconEditText {
 
 
     public void insesrStockText(String stockname) {
-        stockname = String.format("<a href=\"dkhs:stock\">$%s$</a>", stockname);
+        stockname = String.format("<a href=\"dkhs:stock\">$%s$</a> ", stockname);
         insertHtmlText(stockname);
     }
 
@@ -150,7 +152,7 @@ public class DKHSEditText extends EmojiconEditText {
     }
 
 
-    private void insertHtmlText(String htmlText) {
+    public void insertHtmlText(String htmlText) {
         int start = getSelectionStart();
         int end = getSelectionEnd();
         CharSequence htmlSequence = buildSpannChar(Html.fromHtml(htmlText));
@@ -202,6 +204,20 @@ public class DKHSEditText extends EmojiconEditText {
                 resultString += str;
             }
             insertHtmlText(resultString);
+        }
+    }
+
+
+    private class URLSpanNoUnderline extends URLSpan {
+        public URLSpanNoUnderline(String url) {
+            super(url);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+            ds.setColor(getResources().getColor(R.color.blue));
         }
     }
 

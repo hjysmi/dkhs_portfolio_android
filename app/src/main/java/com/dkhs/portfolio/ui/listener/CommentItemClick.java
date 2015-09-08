@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.DeleteResponeBean;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -254,7 +253,8 @@ public class CommentItemClick {
      * 举报回复
      */
     private void reportComment(LikeBean commentBean) {
-        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.user.getUsername(), commentBean.text));
+        if (!UIUtils.iStartLoginActivity(mContext))
+            mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.user.getUsername(), commentBean.text));
     }
 
 

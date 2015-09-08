@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui.selectfriend.actions;
 
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SortUserEntity;
@@ -74,15 +75,19 @@ public class FriendSourceEngine {
                                 for (SortUserEntity userEntity : sortList) {
                                     //汉字转换成拼音
                                     String pinyin = userEntity.getChi_spell();
-                                    String sortString = pinyin.substring(0, 1).toUpperCase();
-
-                                    // 正则表达式，判断首字母是否是英文字母
-                                    if (sortString.matches("[A-Z]")) {
-                                        userEntity.setSortLetters(sortString.toUpperCase());
-                                    } else {
+                                    if (TextUtils.isEmpty(pinyin)) {
                                         userEntity.setSortLetters("#");
-                                    }
+                                    } else {
 
+                                        String sortString = pinyin.substring(0, 1).toUpperCase();
+
+                                        // 正则表达式，判断首字母是否是英文字母
+                                        if (sortString.matches("[A-Z]")) {
+                                            userEntity.setSortLetters(sortString.toUpperCase());
+                                        } else {
+                                            userEntity.setSortLetters("#");
+                                        }
+                                    }
                                 }
 
                                 saveData(sortList);

@@ -251,7 +251,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 }
                 if (adapter == null) {
 //                    adapter = new MyReplyAdapter(ReplyActivity.this, results);
-                    CommentHandler itemHandler = new CommentHandler(ReplyActivity.this, true);
+                    CommentHandler itemHandler = new CommentHandler(ReplyActivity.this, true, true);
                     itemHandler.setReplyComment(true);
                     adapter = new DKBaseAdapter(ReplyActivity.this, results).buildSingleItemView(itemHandler);
                     lvReply.setAdapter(adapter);
