@@ -14,17 +14,35 @@ import com.mingle.utils.BusProvider;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
-public class AutoList<T extends Object> extends ArrayList<T> implements DataObserver{
+public class AutoList<T extends Object> extends ArrayList<T> implements DataObserver {
 
-    public static final String  Tag="AutoList";
-
-
+    public static final String Tag = "AutoList";
     private BaseAdapter mAdapter;
     private RecyclerView.Adapter mRvAdapter;
     private ActionHandler mActionHandler;
 
+    private List<Class> actionFs = new ArrayList<>();
+
+    public AutoList(int capacity, Class actionF) {
+        super(capacity);
+        actionFs.add(actionF);
+    }
+    public AutoList( ) {
+        super();
+    }
+
+    public AutoList(Class actionF) {
+        actionFs.add(actionF);
+    }
+
+    public AutoList(Collection<? extends T> collection, Class actionF) {
+        super(collection);
+        actionFs.add(actionF);
+    }
 
     private void register() {
 
@@ -33,7 +51,7 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
     }
 
     private void unRegister() {
-        Log.d(Tag,"unRegister Bus");
+        Log.d(Tag, "unRegister Bus");
         BusProvider.getInstance().unregister(this);
     }
 
@@ -50,17 +68,34 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
 
     public void setup(Fragment fragment) {
 
-        if(fragment instanceof  DataObserverEnable){
+        if (fragment instanceof DataObserverEnable) {
             ((DataObserverEnable) fragment).addDataObserver(this);
 
-        }else{
-            Log.e(Tag," your Fragment must implement DataObserverEnable");
+        } else {
+            Log.e(Tag, " your Fragment must implement DataObserverEnable");
         }
     }
 
 
+    public AutoList applyAction(Class actionF) {
+        actionFs.add(actionF);
+        return this;
+    }
+
     @Subscribe
     public void action(T o) {
+
+
+        boolean response = false;
+        for (Class item : actionFs) {
+            if (item.isInstance(o)) {
+                response = true;
+                break;
+            }
+        }
+        if (!response) {
+            return;
+        }
 
 
         if (o instanceof AutoData) {
@@ -77,7 +112,7 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
             if (!handled) {
                 switch (autoData.action) {
                     case Add:
-                        addT(0,autoData);
+                        addT(0, autoData);
                         break;
                     case Delete:
                         deleteT(autoData);
@@ -113,11 +148,10 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
     }
 
 
-
-
-    public interface ActionHandler<T extends  AutoData> {
+    public interface ActionHandler<T extends AutoData> {
         boolean beforeHandleAction(T a);
-         void  afterHandleAction(T a);
+
+        void afterHandleAction(T a);
 
 
     }
@@ -149,7 +183,7 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
 
     }
 
-    public void addT(int addIndex,AutoData o) {
+    public void addT(int addIndex, AutoData o) {
 
         if (!contains(o)) {
             this.add(addIndex, (T) o);

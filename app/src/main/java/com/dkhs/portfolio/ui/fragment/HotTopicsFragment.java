@@ -27,7 +27,7 @@ import com.mingle.autolist.AutoList;
  */
 public class HotTopicsFragment extends AutoListLoadMoreListFragment implements BannerHandler.RefreshEnable {
 
-    private AutoList<TopicsBean> mDataList = new AutoList<>();
+    private AutoList<TopicsBean> mDataList = new AutoList<>().applyAction(TopicsBean.class);
     private HotTopicEngineImpl mTopicsEngine = null;
     private BaseAdapter mAdapter;
 

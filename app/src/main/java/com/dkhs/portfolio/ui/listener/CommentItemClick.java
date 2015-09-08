@@ -21,6 +21,7 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.mingle.autolist.AutoData;
 
 /**
  * Created by zjz on 2015/7/30.
@@ -89,7 +90,7 @@ public class CommentItemClick {
         dialog.show();
     }
 
-    private void showTopicMineReplyDialog(final LikeBean commentBean) {
+    private void showTopicMineReplyDialog(final  LikeBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
         String[] choice = mContext.getResources().getStringArray(R.array.choices_topic_minereply);
@@ -223,7 +224,7 @@ public class CommentItemClick {
 
 
     private void postDeleteCommnent(final LikeBean comment) {
-        StatusEngineImpl.delete(comment.getId() + "", new ParseHttpListener<Boolean>() {
+        StatusEngineImpl.delete(comment.getId()+"", new ParseHttpListener<Boolean>() {
             @Override
             protected Boolean parseDateTask(String jsonData) {
                 DeleteResponeBean reponseBean = DataParse.parseObjectJson(DeleteResponeBean.class, jsonData);
@@ -234,9 +235,11 @@ public class CommentItemClick {
             protected void afterParseData(Boolean object) {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
-                    DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
-                    deleteCommentEvent.commentId = comment.getId() + "";
-                    BusProvider.getInstance().post(deleteCommentEvent);
+//                    DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
+//                    deleteCommentEvent.commentId = comment.getId()+"";
+//                    BusProvider.getInstance().post(deleteCommentEvent);
+                    comment.appleAction(this, AutoData.Action.Delete).post();
+
 
 
                 }

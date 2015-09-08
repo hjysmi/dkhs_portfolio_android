@@ -40,7 +40,7 @@ public class ConversationListListener implements RongIM.ConversationListBehavior
     }
 
 
-    public String getCallMeId() {
+    public static String getCallMeId() {
 
         String id = null;
         switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
@@ -66,7 +66,7 @@ public class ConversationListListener implements RongIM.ConversationListBehavior
         return id;
     }
 
-    public String getCommentMeId() {
+    public static String getCommentMeId() {
         String id = null;
         switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
             case 0:

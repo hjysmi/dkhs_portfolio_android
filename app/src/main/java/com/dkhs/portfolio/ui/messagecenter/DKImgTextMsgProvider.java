@@ -50,6 +50,8 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
         if (data instanceof DKImgTextMsg) {
             DKImgTextMsg dkImgTextMsg = (DKImgTextMsg) data;
             if (!TextUtils.isEmpty(dkImgTextMsg.getTitle())) {
+
+//                if()
                 contentSummary = dkImgTextMsg.getTitle();
             }
         }

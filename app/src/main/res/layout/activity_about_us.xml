@@ -58,33 +58,7 @@
                 android:text="@string/about_dus_1"
                 android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:text="@string/about_dus_2"
-                android:textSize="14sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:text="@string/about_dus_3"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:text="@string/about_dus_4"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:text="@string/about_dus_5"
-                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -96,7 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/about_phone"
+                android:text="@string/about_weixin"
                 android:textSize="14sp" />
 
             <TextView
@@ -126,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingBottom="20dp"
-                android:text="Copyright © 2014 DKHS.All Rights Reserved"
+                android:text="Copyright © 2015 DKHS.All Rights Reserved"
                 android:textSize="14sp" />
         </LinearLayout>
     </RelativeLayout>
