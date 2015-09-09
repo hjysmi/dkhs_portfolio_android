@@ -8,11 +8,14 @@ import org.parceler.Parcel;
 @Parcel
 public class UploadImageBean {
     String id;
+    //180
     String image_xs;
+    //360
     String image_sm;
 
-
+    //px720
     String image_md;
+    //1080
     String image_lg;
     String full_path;
     String media_type;
@@ -86,8 +89,8 @@ public class UploadImageBean {
     @Override
     public boolean equals(Object o) {
 
-        if(o instanceof  UploadImageBean){
-            return  ((UploadImageBean) o).getId().equals(this.getId());
+        if (o instanceof UploadImageBean) {
+            return ((UploadImageBean) o).getId().equals(this.getId());
         }
 
         return super.equals(o);
