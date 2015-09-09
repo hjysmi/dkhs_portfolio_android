@@ -15,6 +15,7 @@ import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
+import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
@@ -45,7 +46,7 @@ import org.parceler.Parcels;
 public class TopicDetailFragment extends AutoListLoadMoreListFragment {
 
     private TopicsBean mTopicsBean;
-    private AutoList<Object> mDataList = new AutoList<>();
+    private AutoList<Object> mDataList = new AutoList<>().applyAction(CommentBean.class);
     private TopicsCommendEngineImpl mTopicsCommendEngine = null;
     private DKBaseAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
@@ -78,7 +79,6 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
         super.onDetach();
         mListener = null;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -139,11 +139,15 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
         mListView.smoothScrollToPosition(1);
         mListView.setOnLoadListener(this);
         mListView.setAutoLoadMore(false);
+        mListView.setCanLoadMore(false);
         if (mScrollToComment) {
 
             //// FIXME: 2015/7/31  滑动到帖子位置
 //            mListView.smoothScrollToPosition(1);
 //            mListView.scrollBy(0,-50);
+//            mListView.setSelection(1);
+//            mListView.scro(1);
+
 
 
         }
@@ -176,13 +180,12 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
     BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {
-//            mAdapter = new TopicsDetailAdapter(mActivity, mDataList);
             mAdapter = new DKBaseAdapter(mActivity, mDataList)
                     .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(mActivity))
                     .buildMultiItemView(CommentBean.class, new CommentHandler(mActivity, true, true))
                     .buildMultiItemView(NoDataBean.class, new NoDataHandler())
                     .buildMultiItemView(LoadingBean.class, new LoadingHandler())
-                    .buildMultiItemView(UserEntity.class, new LikePeopleHandler(mActivity));
+                    .buildMultiItemView(PeopleBean.class, new LikePeopleHandler(mActivity));
         }
         return mAdapter;
     }
@@ -191,7 +194,6 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
             mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
-
         }
         return mTopicsCommendEngine;
     }
@@ -318,14 +320,14 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
                 mDataList.add(1, userEntity);
             }
         }
-        mTopicsBean.attitudes_count = mDataList.size() - 1;
+//        mTopicsBean.attitudes_count =mDataList.size()-1;
 
     }
 
     public void removeLikePeople(UserEntity userEntity) {
-        if (mSortType != TopicsCommendEngineImpl.SortType.like) {
+        if(mSortType != TopicsCommendEngineImpl.SortType.like){
 
-            return;
+            return ;
         }
 
 
@@ -342,7 +344,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
                 }
             }
         }
-        mTopicsBean.attitudes_count = mDataList.size() - 1;
+//        mTopicsBean.attitudes_count =mDataList.size()-1;
 
     }
 

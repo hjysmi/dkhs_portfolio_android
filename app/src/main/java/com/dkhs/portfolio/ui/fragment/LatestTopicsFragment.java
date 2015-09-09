@@ -17,7 +17,13 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LatestTopicsEngineImpl;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
+import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
+import com.lidroid.xutils.util.LogUtils;
+import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
+import com.sea_monster.dao.AbstractDeepDao;
+import com.squareup.otto.Subscribe;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +34,7 @@ public class LatestTopicsFragment extends AutoListLoadMoreListFragment {
     public LatestTopicsFragment(){
 
     }
-    private AutoList<TopicsBean> mDataList = new AutoList<>();
+    private AutoList<TopicsBean> mDataList = new AutoList<TopicsBean>().applyAction(TopicsBean.class);
     private LatestTopicsEngineImpl mTopicsEngine= null;
     private BaseAdapter mAdapter;
     @Override

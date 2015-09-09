@@ -13,6 +13,8 @@ public  abstract class AutoData {
         return  new Poster();
     }
 
+
+
     public enum  Action{
         Add,Delete,Update,Custom
     }

@@ -70,6 +70,7 @@ android {
             manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
         }
         rong_debug {
+            applicationId = "com.dkhs.portfolio.debug"
             manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]
         }
 
