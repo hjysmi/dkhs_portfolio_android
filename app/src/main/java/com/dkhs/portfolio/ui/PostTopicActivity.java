@@ -40,6 +40,7 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.rockerhieu.emojicon.emoji.Emojicon;
 
@@ -106,6 +107,9 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+
+        LogUtils.d("============onCreate=============");
+
         setContentView(R.layout.activity_post_topic);
         getSwipeBackLayout().setEnableGesture(false);
         AndroidBugForSpecialPhone.assistActivity(this);
@@ -496,6 +500,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                         /* 取得相片后返回本画面 */
                             Intent intent = new Intent(Intent.ACTION_PICK,
                                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                             startActivityForResult(intent, 0x5);
                         }
                         break;
@@ -520,9 +525,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode == RESULT_OK) {
-
-
             if (requestCode == 0x5) {
                 // 相册选择
                 try {
