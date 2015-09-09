@@ -9,7 +9,18 @@
         android:layout_width="fill_parent"
         android:background="@color/red"
         android:textSize="22dp"
-        android:text="扥开饭经扥开进发了开\n\n\n\n\n\n\n\n\n\n机费领订饭来看粉丝令肌肤领塞进发了砍死了分开就司令单反四开机费另赛季方零散的发零散扥领赛"
+        android:textIsSelectable="true"
+        android:text="扥开饭经扥开进发了开\n\n\n\n开饭经扥开进\n\n\n\n\n\n机费领
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进订饭来看粉丝令肌肤领塞进发了砍死了分开就司令单反四开机费另赛季方零散的发零散扥领赛"
         android:layout_height="wrap_content"/>
     <com.dkhs.portfolio.ui.widget.MListView
         android:id="@+id/lv"

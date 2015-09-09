@@ -2523,18 +2523,19 @@ android.support.v4.view.ViewCompat -> android.support.v4.view.ao:
     void setScaleY(android.view.View,float) -> e
     float getScaleX(android.view.View) -> s
     void setElevation(android.view.View,float) -> f
-    int getWindowSystemUiVisibility(android.view.View) -> t
-    void requestApplyInsets(android.view.View) -> u
+    float getElevation(android.view.View) -> t
+    int getWindowSystemUiVisibility(android.view.View) -> u
+    void requestApplyInsets(android.view.View) -> v
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
-    boolean getFitsSystemWindows(android.view.View) -> v
-    void jumpDrawablesToCurrentState(android.view.View) -> w
+    boolean getFitsSystemWindows(android.view.View) -> w
+    void jumpDrawablesToCurrentState(android.view.View) -> x
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
-    void stopNestedScroll(android.view.View) -> x
-    boolean isLaidOut(android.view.View) -> y
-    boolean isAttachedToWindow(android.view.View) -> z
+    void stopNestedScroll(android.view.View) -> y
+    boolean isLaidOut(android.view.View) -> z
+    boolean isAttachedToWindow(android.view.View) -> A
 android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view.ao$a:
     java.util.WeakHashMap mViewPropertyAnimatorCompatMap -> a
     boolean canScrollHorizontally(android.view.View,int) -> a
@@ -2575,18 +2576,19 @@ android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view
     int getWindowSystemUiVisibility(android.view.View) -> t
     void requestApplyInsets(android.view.View) -> u
     void setElevation(android.view.View,float) -> f
+    float getElevation(android.view.View) -> v
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
-    boolean getFitsSystemWindows(android.view.View) -> v
-    void jumpDrawablesToCurrentState(android.view.View) -> w
+    boolean getFitsSystemWindows(android.view.View) -> w
+    void jumpDrawablesToCurrentState(android.view.View) -> x
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
     boolean canScrollingViewScrollHorizontally(android.support.v4.view.ScrollingView,int) -> a
     boolean canScrollingViewScrollVertically(android.support.v4.view.ScrollingView,int) -> b
-    void stopNestedScroll(android.view.View) -> x
-    boolean isLaidOut(android.view.View) -> y
-    boolean isAttachedToWindow(android.view.View) -> z
+    void stopNestedScroll(android.view.View) -> y
+    boolean isLaidOut(android.view.View) -> z
+    boolean isAttachedToWindow(android.view.View) -> A
 android.support.v4.view.ViewCompat$EclairMr1ViewCompatImpl -> android.support.v4.view.ao$b:
     boolean isOpaque(android.view.View) -> j
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
@@ -2610,7 +2612,7 @@ android.support.v4.view.ViewCompat$HCViewCompatImpl -> android.support.v4.view.a
     void setScaleX(android.view.View,float) -> d
     void setScaleY(android.view.View,float) -> e
     float getScaleX(android.view.View) -> p
-    void jumpDrawablesToCurrentState(android.view.View) -> w
+    void jumpDrawablesToCurrentState(android.view.View) -> x
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
 android.support.v4.view.ViewCompat$ICSViewCompatImpl -> android.support.v4.view.ao$e:
@@ -2633,20 +2635,21 @@ android.support.v4.view.ViewCompat$JBViewCompatImpl -> android.support.v4.view.a
     int getMinimumWidth(android.view.View) -> q
     int getMinimumHeight(android.view.View) -> r
     void requestApplyInsets(android.view.View) -> u
-    boolean getFitsSystemWindows(android.view.View) -> v
+    boolean getFitsSystemWindows(android.view.View) -> w
 android.support.v4.view.ViewCompat$JbMr1ViewCompatImpl -> android.support.v4.view.ao$g:
     void setLayerPaint(android.view.View,android.graphics.Paint) -> a
     int getLayoutDirection(android.view.View) -> h
     int getWindowSystemUiVisibility(android.view.View) -> t
 android.support.v4.view.ViewCompat$KitKatViewCompatImpl -> android.support.v4.view.ao$h:
     void setImportantForAccessibility(android.view.View,int) -> c
-    boolean isLaidOut(android.view.View) -> y
-    boolean isAttachedToWindow(android.view.View) -> z
+    boolean isLaidOut(android.view.View) -> z
+    boolean isAttachedToWindow(android.view.View) -> A
 android.support.v4.view.ViewCompat$LollipopViewCompatImpl -> android.support.v4.view.ao$i:
     void requestApplyInsets(android.view.View) -> u
     void setElevation(android.view.View,float) -> f
+    float getElevation(android.view.View) -> v
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
-    void stopNestedScroll(android.view.View) -> x
+    void stopNestedScroll(android.view.View) -> y
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
 android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.ao$j:
     boolean canScrollHorizontally(android.view.View,int) -> a
@@ -2684,18 +2687,19 @@ android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.ao$
     void setTranslationY(android.view.View,float) -> b
     void setAlpha(android.view.View,float) -> c
     void setElevation(android.view.View,float) -> f
+    float getElevation(android.view.View) -> v
     int getWindowSystemUiVisibility(android.view.View) -> t
     void requestApplyInsets(android.view.View) -> u
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
-    boolean getFitsSystemWindows(android.view.View) -> v
-    void jumpDrawablesToCurrentState(android.view.View) -> w
+    boolean getFitsSystemWindows(android.view.View) -> w
+    void jumpDrawablesToCurrentState(android.view.View) -> x
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
-    void stopNestedScroll(android.view.View) -> x
-    boolean isLaidOut(android.view.View) -> y
-    boolean isAttachedToWindow(android.view.View) -> z
+    void stopNestedScroll(android.view.View) -> y
+    boolean isLaidOut(android.view.View) -> z
+    boolean isAttachedToWindow(android.view.View) -> A
 android.support.v4.view.ViewCompatBase -> android.support.v4.view.ap:
     java.lang.reflect.Field sMinWidthField -> a
     boolean sMinWidthFieldFetched -> b
@@ -2758,9 +2762,10 @@ android.support.v4.view.ViewCompatKitKat -> android.support.v4.view.aw:
 android.support.v4.view.ViewCompatLollipop -> android.support.v4.view.ax:
     void requestApplyInsets(android.view.View) -> a
     void setElevation(android.view.View,float) -> a
+    float getElevation(android.view.View) -> b
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
-    void stopNestedScroll(android.view.View) -> b
+    void stopNestedScroll(android.view.View) -> c
 android.support.v4.view.ViewCompatLollipop$1 -> android.support.v4.view.ay:
     android.support.v4.view.OnApplyWindowInsetsListener val$listener -> a
     android.view.WindowInsets onApplyWindowInsets(android.view.View,android.view.WindowInsets) -> onApplyWindowInsets
@@ -4670,14 +4675,15 @@ android.support.v7.app.ActionBar -> android.support.v7.app.ActionBar:
     android.content.Context getThemedContext() -> b
     void setHideOnContentScrollEnabled(boolean) -> b
     void setElevation(float) -> a
+    float getElevation() -> c
     void setDefaultDisplayHomeAsUpEnabled(boolean) -> c
     void setShowHideAnimationEnabled(boolean) -> d
     void onConfigurationChanged(android.content.res.Configuration) -> a
     void dispatchMenuVisibilityChanged(boolean) -> e
     android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback) -> a
-    boolean invalidateOptionsMenu() -> c
+    boolean invalidateOptionsMenu() -> d
     boolean onKeyShortcut(int,android.view.KeyEvent) -> a
-    boolean collapseActionView() -> d
+    boolean collapseActionView() -> e
     void setWindowTitle(java.lang.CharSequence) -> a
 android.support.v7.app.ActionBar$DisplayOptions -> android.support.v7.app.ActionBar$DisplayOptions:
 android.support.v7.app.ActionBar$LayoutParams -> android.support.v7.app.ActionBar$LayoutParams:
@@ -4866,6 +4872,7 @@ android.support.v7.app.AppCompatActivity -> android.support.v7.app.AppCompatActi
     void onCreate(android.os.Bundle) -> onCreate
     void onPostCreate(android.os.Bundle) -> onPostCreate
     android.support.v7.app.ActionBar getSupportActionBar() -> b
+    void setSupportActionBar(android.support.v7.widget.Toolbar) -> a
     android.view.MenuInflater getMenuInflater() -> getMenuInflater
     void setContentView(int) -> setContentView
     void setContentView(android.view.View) -> setContentView
@@ -4882,6 +4889,7 @@ android.support.v7.app.AppCompatActivity -> android.support.v7.app.AppCompatActi
     void onSupportActionModeStarted(android.support.v7.view.ActionMode) -> a
     void onSupportActionModeFinished(android.support.v7.view.ActionMode) -> b
     android.support.v7.view.ActionMode onWindowStartingSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
+    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> b
     void onCreateSupportNavigateUpTaskStack(android.support.v4.app.TaskStackBuilder) -> a
     void onPrepareSupportNavigateUpTaskStack(android.support.v4.app.TaskStackBuilder) -> b
     boolean onSupportNavigateUp() -> c
@@ -4900,6 +4908,7 @@ android.support.v7.app.AppCompatDelegate -> android.support.v7.app.i:
     android.support.v7.app.AppCompatDelegate create(android.app.Dialog,android.support.v7.app.AppCompatCallback) -> a
     android.support.v7.app.AppCompatDelegate create(android.content.Context,android.view.Window,android.support.v7.app.AppCompatCallback) -> a
     android.support.v7.app.ActionBar getSupportActionBar() -> a
+    void setSupportActionBar(android.support.v7.widget.Toolbar) -> a
     android.view.MenuInflater getMenuInflater() -> b
     void onCreate(android.os.Bundle) -> a
     void onPostCreate(android.os.Bundle) -> b
@@ -4914,6 +4923,7 @@ android.support.v7.app.AppCompatDelegate -> android.support.v7.app.i:
     void invalidateOptionsMenu() -> e
     void onDestroy() -> f
     boolean requestWindowFeature(int) -> b
+    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
     void installViewFactory() -> g
 android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.j:
     android.content.Context mContext -> a
@@ -4933,6 +4943,7 @@ android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.j:
     android.view.Window$Callback wrapWindowCallback(android.view.Window$Callback) -> a
     android.support.v7.app.ActionBar getSupportActionBar() -> a
     android.support.v7.app.ActionBar peekSupportActionBar() -> i
+    void setSupportActionBar(android.support.v7.app.ActionBar) -> a
     android.view.MenuInflater getMenuInflater() -> b
     void onCreate(android.os.Bundle) -> a
     boolean onPanelClosed(int,android.view.Menu) -> a
@@ -4940,7 +4951,7 @@ android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.j:
     boolean dispatchKeyEvent(android.view.KeyEvent) -> a
     boolean onKeyShortcut(int,android.view.KeyEvent) -> a
     android.content.Context getActionBarThemedContext() -> j
-    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> a
+    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> b
     void onDestroy() -> f
     boolean isDestroyed() -> k
     android.view.Window$Callback getWindowCallback() -> l
@@ -4994,6 +5005,7 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     void onCreate(android.os.Bundle) -> a
     void onPostCreate(android.os.Bundle) -> b
     android.support.v7.app.ActionBar createSupportActionBar() -> h
+    void setSupportActionBar(android.support.v7.widget.Toolbar) -> a
     void onConfigurationChanged(android.content.res.Configuration) -> a
     void onStop() -> c
     void onPostResume() -> d
@@ -5010,9 +5022,9 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     boolean onMenuOpened(int,android.view.Menu) -> b
     boolean onMenuItemSelected(android.support.v7.internal.view.menu.MenuBuilder,android.view.MenuItem) -> a
     void onMenuModeChange(android.support.v7.internal.view.menu.MenuBuilder) -> a
-    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> b
+    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
     void invalidateOptionsMenu() -> e
-    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> a
+    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> b
     boolean onBackPressed() -> n
     boolean onKeyShortcut(int,android.view.KeyEvent) -> a
     boolean dispatchKeyEvent(android.view.KeyEvent) -> a
@@ -6419,7 +6431,64 @@ android.support.v7.internal.app.AppCompatViewInflater -> android.support.v7.inte
     android.view.View createViewFromTag(android.content.Context,java.lang.String,android.util.AttributeSet) -> a
     android.view.View createView(android.content.Context,java.lang.String,java.lang.String) -> a
     android.content.Context themifyContext(android.content.Context,android.util.AttributeSet,boolean,boolean) -> a
-android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.internal.a.b:
+android.support.v7.internal.app.ToolbarActionBar -> android.support.v7.internal.a.b:
+    android.support.v7.internal.widget.DecorToolbar mDecorToolbar -> a
+    boolean mToolbarMenuPrepared -> b
+    android.view.Window$Callback mWindowCallback -> c
+    boolean mMenuCallbackSet -> d
+    boolean mLastMenuVisibility -> e
+    java.util.ArrayList mMenuVisibilityListeners -> f
+    android.view.Window mWindow -> g
+    android.support.v7.internal.view.menu.ListMenuPresenter mListMenuPresenter -> h
+    java.lang.Runnable mMenuInvalidator -> i
+    android.support.v7.widget.Toolbar$OnMenuItemClickListener mMenuClicker -> j
+    android.view.Window$Callback getWrappedWindowCallback() -> f
+    void setHomeButtonEnabled(boolean) -> a
+    void setElevation(float) -> a
+    float getElevation() -> c
+    android.content.Context getThemedContext() -> b
+    void setDefaultDisplayHomeAsUpEnabled(boolean) -> c
+    void setShowHideAnimationEnabled(boolean) -> d
+    void onConfigurationChanged(android.content.res.Configuration) -> a
+    void setWindowTitle(java.lang.CharSequence) -> a
+    int getDisplayOptions() -> a
+    boolean invalidateOptionsMenu() -> d
+    boolean collapseActionView() -> e
+    void populateOptionsMenu() -> g
+    boolean onKeyShortcut(int,android.view.KeyEvent) -> a
+    void dispatchMenuVisibilityChanged(boolean) -> e
+    android.view.View getListMenuView(android.view.Menu) -> a
+    void ensureListMenuPresenter(android.view.Menu) -> b
+    android.view.Menu getMenu() -> h
+    android.view.Window$Callback access$000(android.support.v7.internal.app.ToolbarActionBar) -> a
+    boolean access$200(android.support.v7.internal.app.ToolbarActionBar) -> b
+    android.support.v7.internal.widget.DecorToolbar access$300(android.support.v7.internal.app.ToolbarActionBar) -> c
+    boolean access$202(android.support.v7.internal.app.ToolbarActionBar,boolean) -> a
+    android.view.View access$400(android.support.v7.internal.app.ToolbarActionBar,android.view.Menu) -> a
+android.support.v7.internal.app.ToolbarActionBar$1 -> android.support.v7.internal.a.c:
+    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
+    void run() -> run
+android.support.v7.internal.app.ToolbarActionBar$2 -> android.support.v7.internal.a.d:
+    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
+    boolean onMenuItemClick(android.view.MenuItem) -> a
+android.support.v7.internal.app.ToolbarActionBar$ActionMenuPresenterCallback -> android.support.v7.internal.a.b$a:
+    boolean mClosingActionMenu -> b
+    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
+    boolean onOpenSubMenu(android.support.v7.internal.view.menu.MenuBuilder) -> a
+    void onCloseMenu(android.support.v7.internal.view.menu.MenuBuilder,boolean) -> a
+android.support.v7.internal.app.ToolbarActionBar$MenuBuilderCallback -> android.support.v7.internal.a.b$b:
+    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
+    boolean onMenuItemSelected(android.support.v7.internal.view.menu.MenuBuilder,android.view.MenuItem) -> a
+    void onMenuModeChange(android.support.v7.internal.view.menu.MenuBuilder) -> a
+android.support.v7.internal.app.ToolbarActionBar$PanelMenuPresenterCallback -> android.support.v7.internal.a.b$c:
+    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
+    void onCloseMenu(android.support.v7.internal.view.menu.MenuBuilder,boolean) -> a
+    boolean onOpenSubMenu(android.support.v7.internal.view.menu.MenuBuilder) -> a
+android.support.v7.internal.app.ToolbarActionBar$ToolbarCallbackWrapper -> android.support.v7.internal.a.b$d:
+    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
+    boolean onPreparePanel(int,android.view.View,android.view.Menu) -> onPreparePanel
+    android.view.View onCreatePanelView(int) -> onCreatePanelView
+android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.internal.a.e:
     boolean ALLOW_SHOW_HIDE_ANIMATIONS -> i
     android.content.Context mContext -> j
     android.content.Context mThemedContext -> k
@@ -6458,9 +6527,10 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     void init(android.view.View) -> a
     android.support.v7.internal.widget.DecorToolbar getDecorToolbar(android.view.View) -> b
     void setElevation(float) -> a
+    float getElevation() -> c
     void onConfigurationChanged(android.content.res.Configuration) -> a
     void setHasEmbeddedTabs(boolean) -> k
-    void completeDeferredDestroyActionMode() -> e
+    void completeDeferredDestroyActionMode() -> f
     void onWindowVisibilityChanged(int) -> a
     void setShowHideAnimationEnabled(boolean) -> d
     void dispatchMenuVisibilityChanged(boolean) -> e
@@ -6468,14 +6538,14 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     void setHomeButtonEnabled(boolean) -> a
     void setWindowTitle(java.lang.CharSequence) -> a
     void setDisplayOptions(int,int) -> a
-    int getNavigationMode() -> f
+    int getNavigationMode() -> g
     int getDisplayOptions() -> a
     android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback) -> a
     void enableContentAnimations(boolean) -> g
-    void showForActionMode() -> k
-    void showForSystem() -> g
-    void hideForActionMode() -> l
-    void hideForSystem() -> h
+    void showForActionMode() -> l
+    void showForSystem() -> h
+    void hideForActionMode() -> m
+    void hideForSystem() -> i
     void setHideOnContentScrollEnabled(boolean) -> b
     boolean checkShowingFlags(boolean,boolean,boolean) -> b
     void updateVisibility(boolean) -> l
@@ -6483,9 +6553,9 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     void doHide(boolean) -> i
     void animateToMode(boolean) -> j
     android.content.Context getThemedContext() -> b
-    void onContentScrollStarted() -> i
-    void onContentScrollStopped() -> j
-    boolean collapseActionView() -> d
+    void onContentScrollStarted() -> j
+    void onContentScrollStopped() -> k
+    boolean collapseActionView() -> e
     void setDefaultDisplayHomeAsUpEnabled(boolean) -> c
     boolean access$000(android.support.v7.internal.app.WindowDecorActionBar) -> a
     android.view.View access$100(android.support.v7.internal.app.WindowDecorActionBar) -> b
@@ -6500,16 +6570,16 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     android.support.v7.internal.widget.ActionBarContextView access$1000(android.support.v7.internal.app.WindowDecorActionBar) -> i
     android.support.v7.internal.widget.DecorToolbar access$1100(android.support.v7.internal.app.WindowDecorActionBar) -> j
     android.content.Context access$1200(android.support.v7.internal.app.WindowDecorActionBar) -> k
-android.support.v7.internal.app.WindowDecorActionBar$1 -> android.support.v7.internal.a.c:
+android.support.v7.internal.app.WindowDecorActionBar$1 -> android.support.v7.internal.a.f:
     android.support.v7.internal.app.WindowDecorActionBar this$0 -> a
     void onAnimationEnd(android.view.View) -> b
-android.support.v7.internal.app.WindowDecorActionBar$2 -> android.support.v7.internal.a.d:
+android.support.v7.internal.app.WindowDecorActionBar$2 -> android.support.v7.internal.a.g:
     android.support.v7.internal.app.WindowDecorActionBar this$0 -> a
     void onAnimationEnd(android.view.View) -> b
-android.support.v7.internal.app.WindowDecorActionBar$3 -> android.support.v7.internal.a.e:
+android.support.v7.internal.app.WindowDecorActionBar$3 -> android.support.v7.internal.a.h:
     android.support.v7.internal.app.WindowDecorActionBar this$0 -> a
     void onAnimationUpdate(android.view.View) -> a
-android.support.v7.internal.app.WindowDecorActionBar$ActionModeImpl -> android.support.v7.internal.a.b$a:
+android.support.v7.internal.app.WindowDecorActionBar$ActionModeImpl -> android.support.v7.internal.a.e$a:
     android.content.Context mActionModeContext -> b
     android.support.v7.internal.view.menu.MenuBuilder mMenu -> c
     android.support.v7.view.ActionMode$Callback mCallback -> d
@@ -7643,11 +7713,11 @@ android.support.v7.internal.widget.ActionBarOverlayLayout$4 -> android.support.v
     void run() -> run
 android.support.v7.internal.widget.ActionBarOverlayLayout$ActionBarVisibilityCallback -> android.support.v7.internal.widget.ActionBarOverlayLayout$a:
     void onWindowVisibilityChanged(int) -> a
-    void showForSystem() -> g
-    void hideForSystem() -> h
+    void showForSystem() -> h
+    void hideForSystem() -> i
     void enableContentAnimations(boolean) -> g
-    void onContentScrollStarted() -> i
-    void onContentScrollStopped() -> j
+    void onContentScrollStarted() -> j
+    void onContentScrollStopped() -> k
 android.support.v7.internal.widget.ActionBarOverlayLayout$LayoutParams -> android.support.v7.internal.widget.ActionBarOverlayLayout$LayoutParams:
 android.support.v7.internal.widget.ActivityChooserModel -> android.support.v7.internal.widget.j:
     java.lang.String LOG_TAG -> a
@@ -7967,6 +8037,8 @@ android.support.v7.internal.widget.DecorToolbar -> android.support.v7.internal.w
     void setHomeButtonEnabled(boolean) -> b
     int getNavigationMode() -> q
     void animateToVisibility(int) -> d
+    void setMenuCallbacks(android.support.v7.internal.view.menu.MenuPresenter$Callback,android.support.v7.internal.view.menu.MenuBuilder$Callback) -> a
+    android.view.Menu getMenu() -> r
 android.support.v7.internal.widget.DialogTitle -> android.support.v7.internal.widget.DialogTitle:
     void onMeasure(int,int) -> onMeasure
 android.support.v7.internal.widget.DrawableUtils -> android.support.v7.internal.widget.r:
@@ -8342,7 +8414,7 @@ android.support.v7.internal.widget.ToolbarWidgetWrapper -> android.support.v7.in
     android.graphics.drawable.Drawable mDefaultNavigationIcon -> r
     void setDefaultNavigationContentDescription(int) -> e
     void setDefaultNavigationIcon(android.graphics.drawable.Drawable) -> b
-    int detectDisplayOptions() -> r
+    int detectDisplayOptions() -> s
     android.view.ViewGroup getViewGroup() -> a
     android.content.Context getContext() -> b
     boolean isSplit() -> c
@@ -8360,7 +8432,7 @@ android.support.v7.internal.widget.ToolbarWidgetWrapper -> android.support.v7.in
     void setIcon(android.graphics.drawable.Drawable) -> a
     void setLogo(int) -> b
     void setLogo(android.graphics.drawable.Drawable) -> c
-    void updateToolbarLogo() -> s
+    void updateToolbarLogo() -> t
     boolean canShowOverflowMenu() -> i
     boolean isOverflowMenuShowing() -> j
     boolean isOverflowMenuShowPending() -> k
@@ -8380,8 +8452,10 @@ android.support.v7.internal.widget.ToolbarWidgetWrapper -> android.support.v7.in
     void setNavigationIcon(android.graphics.drawable.Drawable) -> d
     void setNavigationContentDescription(java.lang.CharSequence) -> d
     void setNavigationContentDescription(int) -> f
-    void updateHomeAccessibility() -> t
-    void updateNavigationIcon() -> u
+    void updateHomeAccessibility() -> u
+    void updateNavigationIcon() -> v
+    void setMenuCallbacks(android.support.v7.internal.view.menu.MenuPresenter$Callback,android.support.v7.internal.view.menu.MenuBuilder$Callback) -> a
+    android.view.Menu getMenu() -> r
     android.support.v7.widget.Toolbar access$000(android.support.v7.internal.widget.ToolbarWidgetWrapper) -> a
     java.lang.CharSequence access$100(android.support.v7.internal.widget.ToolbarWidgetWrapper) -> b
     android.view.Window$Callback access$200(android.support.v7.internal.widget.ToolbarWidgetWrapper) -> c
@@ -20354,6 +20428,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int btn_titletab_left -> btn_titletab_left
     int btn_titletab_right -> btn_titletab_right
     int btn_trend -> btn_trend
+    int button -> button
     int button1 -> button1
     int button2 -> button2
     int button3 -> button3
@@ -21059,6 +21134,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int toast_layout_root -> toast_layout_root
     int too -> too
     int tool -> tool
+    int toolBar -> toolBar
     int top -> top
     int topPanel -> topPanel
     int top_line -> top_line
@@ -26342,7 +26418,7 @@ com.dkhs.portfolio.bean.itemhandler.TopicsHandler$LikeClickListenerImp -> com.dk
     android.view.View$OnClickListener setDate(java.lang.Object) -> setDate
 com.dkhs.portfolio.bean.itemhandler.TopicsImageViewHandler -> com.dkhs.portfolio.bean.itemhandler.TopicsImageViewHandler:
     java.util.List mMedias -> mMedias
-    void handleMedias(com.dkhs.adpter.util.ViewHolder,com.dkhs.portfolio.bean.LikeBean) -> handleMedias
+    void handleMedias(com.dkhs.adpter.util.ViewHolder,com.dkhs.portfolio.bean.LikeBean,boolean) -> handleMedias
 com.dkhs.portfolio.bean.itemhandler.TopicsImageViewHandler$ImageViewClickListenerImp -> com.dkhs.portfolio.bean.itemhandler.TopicsImageViewHandler$ImageViewClickListenerImp:
     com.dkhs.portfolio.bean.LikeBean likeBean -> likeBean
     int mIndex -> mIndex
@@ -30057,8 +30133,9 @@ com.dkhs.portfolio.ui.TopicsDetailActivity -> com.dkhs.portfolio.ui.TopicsDetail
     android.widget.TextView ignoreTV -> e
     com.dkhs.portfolio.ui.FloatingActionMenu mFloatingActionMenu -> b
     com.dkhs.portfolio.bean.TopicsBean mTopicsBean -> f
-    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler mSwitchLikeStateHandler -> g
-    boolean isMyTopics -> l
+    com.dkhs.portfolio.bean.TopicsBean mItemTopicsBean -> g
+    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler mSwitchLikeStateHandler -> l
+    boolean isMyTopics -> m
     void startActivity(android.content.Context,com.dkhs.portfolio.bean.TopicsBean) -> a
     void startActivity(android.content.Context,int) -> a
     void startActivity(android.content.Context,java.lang.String) -> a
@@ -30272,7 +30349,8 @@ com.dkhs.portfolio.ui.ZWMTestActivity -> com.dkhs.portfolio.ui.ZWMTestActivity:
     com.dkhs.portfolio.ui.widget.MScrollView mMScrollView -> a
     android.widget.ListView listView -> b
     android.widget.TextView v -> c
-    java.util.List mStringList -> d
+    android.support.v7.widget.Toolbar mToolbar -> d
+    java.util.List mStringList -> e
     void onCreate(android.os.Bundle) -> onCreate
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
@@ -30283,6 +30361,16 @@ com.dkhs.portfolio.ui.ZWMTestActivity$1 -> com.dkhs.portfolio.ui.ho:
 com.dkhs.portfolio.ui.ZWMTestActivity$2 -> com.dkhs.portfolio.ui.hp:
     com.dkhs.portfolio.ui.ZWMTestActivity this$0 -> a
     void run() -> run
+com.dkhs.portfolio.ui.ZWMTestActivity$3 -> com.dkhs.portfolio.ui.hq:
+    com.dkhs.portfolio.ui.ZWMTestActivity this$0 -> a
+    boolean onCreateActionMode(android.support.v7.view.ActionMode,android.view.Menu) -> a
+    boolean onPrepareActionMode(android.support.v7.view.ActionMode,android.view.Menu) -> b
+    boolean onActionItemClicked(android.support.v7.view.ActionMode,android.view.MenuItem) -> a
+    void onDestroyActionMode(android.support.v7.view.ActionMode) -> a
+com.dkhs.portfolio.ui.ZWMTestActivity$4 -> com.dkhs.portfolio.ui.hr:
+    android.support.v7.view.ActionMode$Callback val$callback -> a
+    com.dkhs.portfolio.ui.ZWMTestActivity this$0 -> b
+    void onClick(android.view.View) -> onClick
 com.dkhs.portfolio.ui.adapter.AchivementAdapter -> com.dkhs.portfolio.ui.adapter.a:
     int selectIndex -> a
     com.dkhs.portfolio.ui.widget.BenefitChartView benefitChartView -> b
@@ -35290,7 +35378,6 @@ com.dkhs.portfolio.ui.widget.MScrollView -> com.dkhs.portfolio.ui.widget.MScroll
     boolean isFirst -> c
     void onFinishInflate() -> onFinishInflate
     void onWindowFocusChanged(boolean) -> onWindowFocusChanged
-    boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
     void onNestedScroll(android.view.View,int,int,int,int) -> onNestedScroll
     void onMeasure(int,int) -> onMeasure
     void onLayout(boolean,int,int,int,int) -> onLayout

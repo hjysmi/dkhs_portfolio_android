@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/title_color</item>
         <item name="colorPrimary">@color/title_color</item>
         <item name="colorPrimaryDark">@color/dark_title_color</item>
+        <item name="windowActionModeOverlay">true</item>
         <!-- 解决activity切换时的黑屏问题 -->
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:buttonStyle">@style/ButtonAppTheme</item>

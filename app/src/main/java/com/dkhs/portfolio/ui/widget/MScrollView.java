@@ -59,10 +59,10 @@ public class MScrollView extends NestedScrollView {
 
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return  false;
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        return  false;
+//    }
 
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {

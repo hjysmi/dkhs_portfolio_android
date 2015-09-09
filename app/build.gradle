@@ -56,13 +56,13 @@ android {
         }
         debug {
             buildConfigField 'boolean', 'isSandbox', 'true'
-            minifyEnabled true
+            minifyEnabled false
             debuggable true
-//            zipAlignEnabled false
-//            shrinkResources false
+            zipAlignEnabled false
+            shrinkResources false
             //debug的 versionName 跟正式的不一样
             versionNameSuffix 'debug'
-            proguardFile 'F:/dkhs/dkhs_portfolio_android2/app/proguard.cfg'
+//            proguardFile 'F:/dkhs/dkhs_portfolio_android2/app/proguard.cfg'
         }
     }
 
