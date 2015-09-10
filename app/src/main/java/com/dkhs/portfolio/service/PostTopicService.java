@@ -131,6 +131,7 @@ public class PostTopicService extends IntentService {
             @Override
             public void run() {
                 try {
+                    Log.i("SaveBitmap", "start");
                     Bitmap imageBitmap = UIUtils.getLocaleimage(statusBean.getImageLocalePath());
                     File f = new File(statusBean.getImageFilepath());
                     if (f.exists()) {
@@ -141,7 +142,9 @@ public class PostTopicService extends IntentService {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                     out.flush();
                     out.close();
+                    Log.i("SaveBitmap", "compress over...");
                     StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
+                    Log.i("SaveBitmap", "finish");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

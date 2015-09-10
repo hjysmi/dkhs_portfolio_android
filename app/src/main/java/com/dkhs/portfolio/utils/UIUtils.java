@@ -476,7 +476,7 @@ public class UIUtils {
         int originHeight = newOpts.outHeight;
         // 现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
 //        float maxHeight = 1600f;// 这里设置高度为800f
-        float maxWidth = 1600f;// 这里设置宽度为480f
+        float maxWidth = 800f;// 这里设置宽度为480f
         // 缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
         int be = 1;// be=1表示不缩放
 //        if (originWidth > originHeight && originWidth > maxWidth) {// 如果宽度大的话根据宽度固定大小缩放
@@ -509,7 +509,11 @@ public class UIUtils {
             }
         }
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());// 把压缩后的数据baos存放到ByteArrayInputStream中
-        return BitmapFactory.decodeStream(isBm, null, null);
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = Config.ARGB_8888;
+        opt.inPurgeable = true;//允许可清除
+        opt.inInputShareable = true;// 以上options的两个属性必须联合使用才会有效果
+        return BitmapFactory.decodeStream(isBm, null, opt);
     }
 
 }
