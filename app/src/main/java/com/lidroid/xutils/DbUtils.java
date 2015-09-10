@@ -19,7 +19,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
-import com.lidroid.xutils.db.sqlite.*;
+
+import com.lidroid.xutils.db.sqlite.CursorUtils;
+import com.lidroid.xutils.db.sqlite.DbModelSelector;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.db.sqlite.SqlInfo;
+import com.lidroid.xutils.db.sqlite.SqlInfoBuilder;
+import com.lidroid.xutils.db.sqlite.WhereBuilder;
 import com.lidroid.xutils.db.table.DbModel;
 import com.lidroid.xutils.db.table.Id;
 import com.lidroid.xutils.db.table.Table;
@@ -117,7 +123,7 @@ public class DbUtils {
     }
 
     public static DbUtils create(Context context, String dbDir, String dbName, int dbVersion,
-            DbUpgradeListener dbUpgradeListener) {
+                                 DbUpgradeListener dbUpgradeListener) {
         DaoConfig config = new DaoConfig(context);
         config.setDbDir(dbDir);
         config.setDbName(dbName);
@@ -497,6 +503,16 @@ public class DbUtils {
         return result;
     }
 
+    public <T> Cursor findAllCursor(Class<T> entityType) throws DbException {
+        Selector selector = Selector.from(entityType);
+        if (!tableIsExist(selector.getEntityType()))
+            return null;
+
+        String sql = selector.toString();
+
+        return execQuery(sql);
+    }
+
     public <T> List<T> findAll(Class<T> entityType) throws DbException {
         return findAll(Selector.from(entityType));
     }
@@ -639,7 +655,7 @@ public class DbUtils {
 
         /**
          * set database dir
-         * 
+         *
          * @param dbDir If dbDir is null or empty, use the app default db dir.
          */
         public void setDbDir(String dbDir) {

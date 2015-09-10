@@ -17,8 +17,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
+import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
@@ -58,7 +58,13 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
 
     private void loadVisitorData() {
         mFollowList.clear();
-        mFollowList.addAll(new VisitorDataEngine().getOptionalStockList());
+//        mFollowList.addAll(new VisitorDataEngine().getOptionalStockList());
+        VisitorDataSource.getOptionalStockList(this, null, new VisitorDataSource.ResultCallback() {
+            @Override
+            public void onResultCallback(List stockList) {
+                mFollowList.addAll(stockList);
+            }
+        });
     }
 
     ParseHttpListener loadAllListener = new ParseHttpListener<List<SelectStockBean>>() {

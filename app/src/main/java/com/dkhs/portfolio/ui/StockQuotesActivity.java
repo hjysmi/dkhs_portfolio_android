@@ -34,6 +34,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
@@ -167,7 +168,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private VisitorDataEngine mVisitorDataEngine;
-    private List<SelectStockBean> localList;
+    private List<SelectStockBean> localList = new ArrayList<>();
     Handler viewHandler = new Handler();
 
 
@@ -197,13 +198,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void getLocalOptionList() {
-        new Thread() {
-            public void run() {
-                localList = mVisitorDataEngine.getOptionalStockList();
+//        new Thread() {
+//            public void run() {
+//                localList = mVisitorDataEngine.getOptionalStockList();
+//            }
+//
+//            ;
+//        }.start();
+        VisitorDataSource.getOptionalStockList(this, null, new VisitorDataSource.ResultCallback() {
+            @Override
+            public void onResultCallback(List stockList) {
+                localList.clear();
+                localList.addAll(stockList);
             }
-
-            ;
-        }.start();
+        });
     }
 
     private void initView() {
@@ -350,7 +358,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void onChange(SelectStockBean stockBean) {
             mStockQuotesBean.setFollowed(stockBean.isFollowed());
             if (!PortfolioApplication.hasUserLogin()) {
-                localList = mVisitorDataEngine.getOptionalStockList();
+//                localList = mVisitorDataEngine.getOptionalStockList();
+                getLocalOptionList();
             }
             setAddOptionalButton();
         }
