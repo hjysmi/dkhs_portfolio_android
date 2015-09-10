@@ -60,7 +60,7 @@ public class SearchStockEngineImpl {
         StringBuilder sbLastDate = new StringBuilder("&last_datetime=");
         if (TextUtils.isEmpty(lastLoadTime)) {
 
-            sbLastDate.append("2015-07-28T01:11:23Z");
+            sbLastDate.append("2015-09-10T06:37:15Z");
         } else {
 
             sbLastDate.append(lastLoadTime);
