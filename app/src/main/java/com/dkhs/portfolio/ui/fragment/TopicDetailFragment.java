@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,34 +9,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.base.widget.ListView;
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
+import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
+import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
-import com.dkhs.portfolio.engine.HotTopicEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.FloatingActionMenu;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
-import com.dkhs.portfolio.ui.adapter.TopicsDetailAdapter;
-import com.dkhs.portfolio.ui.eventbus.AddCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
+import com.mingle.autolist.AutoData;
+import com.mingle.autolist.AutoList;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author zwm
@@ -46,11 +43,12 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/27.
  */
-public class TopicDetailFragment extends LoadMoreListFragment {
+public class TopicDetailFragment extends AutoListLoadMoreListFragment {
+
     private TopicsBean mTopicsBean;
-    private List<Object> mDataList = new ArrayList<>();
+    private AutoList<Object> mDataList = new AutoList<>().applyAction(CommentBean.class);
     private TopicsCommendEngineImpl mTopicsCommendEngine = null;
-    private BaseAdapter mAdapter;
+    private DKBaseAdapter mAdapter;
     private OnFragmentInteractionListener mListener;
     private boolean mScrollToComment;
 
@@ -59,7 +57,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BusProvider.getInstance().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
-
     }
 
     @Override
@@ -83,7 +80,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         mListener = null;
     }
 
-
     @Override
     public void onDestroyView() {
         BusProvider.getInstance().unregister(this);
@@ -97,67 +93,77 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
         mDataList.add(mTopicsBean);
         mDataList.add(new LoadingBean());
+        mDataList.setup(this);
+        mDataList.setAdapter(getListAdapter());
+        mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
+            @Override
+            public boolean beforeHandleAction(AutoData a) {
+
+                if (mSortType == TopicsCommendEngineImpl.SortType.like) {
+
+                    return true;
+                }
+                if (a.action == AutoData.Action.Add) {
+                    if (mDataList.get(1) instanceof NoDataBean) {
+                        mDataList.remove(1);
+                    }
+                    mDataList.addT(1, a);
+                    mTopicsBean.comments_count += 1;
+                    return true;
+                } else if (a.action == AutoData.Action.Delete) {
+                    mDataList.deleteT(a);
+                    mTopicsBean.comments_count -= 1;
+                    if (mDataList.size() == 1) {
+                        NoDataBean noDataBean = new NoDataBean();
+                        noDataBean.noData = "暂无评论";
+                        mDataList.add(1, noDataBean);
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void afterHandleAction(AutoData a) {
+
+            }
+        });
         mSwipeLayout.setRefreshing(false);
 
         mListView.setDivider(null);
-        View v = new View(mActivity);
-        v.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
-        mListView.addFooterView(v);
+
+
         ((TopicsDetailActivity) getActivity()).mFloatingActionMenu.attachToListViewTop(mListView, null, null);
         loadData();
-
+        mListView.smoothScrollToPosition(1);
+        mListView.setOnLoadListener(this);
+        mListView.setAutoLoadMore(false);
+        mListView.setCanLoadMore(false);
         if (mScrollToComment) {
 
             //// FIXME: 2015/7/31  滑动到帖子位置
 //            mListView.smoothScrollToPosition(1);
 //            mListView.scrollBy(0,-50);
+//            mListView.setSelection(1);
+//            mListView.scro(1);
+
+
+
         }
+
+//        View v = new View(mActivity);
+//        v.setBackgroundColor(Color.BLUE);
+//        v.setLayoutParams(new ListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height)));
+//        mListView.addFooterView(v);
     }
 
-    @Override
-    public void onResume() {
-
-        super.onResume();
-    }
+    TopicsCommendEngineImpl.SortType mSortType;
 
     @Subscribe
     public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
-    }
-
-    @Subscribe
-    public void delete(DeleteCommentEvent deleteCommentEvent) {
-        for (Object o : mDataList) {
-            if (o instanceof CommentBean) {
-                if ((((CommentBean) o).getId() + "").equals(deleteCommentEvent.commentId)) {
-                    mDataList.remove(o);
-                    mTopicsBean.comments_count-=1;
-                    if(mDataList.size()==1){
-                        NoDataBean noDataBean = new NoDataBean();
-                        noDataBean.noData = "暂无评论";
-                        mDataList.add(1,noDataBean);
-                    }
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                }
-            }
-        }
-    }
-
-    @Subscribe
-    public void add(AddCommentEvent addCommentEvent) {
-
-        if (mDataList.size() > 1) {
-
-
-            if(mDataList.get(1) instanceof  NoDataBean){
-                mDataList.remove(1);
-            }
-            mTopicsBean.comments_count+=1;
-            mDataList.add(1, addCommentEvent.commentBean);
-            mAdapter.notifyDataSetChanged();
-        }
-
+        mSortType = topicsDetailRefreshEvent.sortType;
     }
 
 
@@ -171,10 +177,15 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     }
 
     @Override
-    ListAdapter getListAdapter() {
+    BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {
-            mAdapter = new TopicsDetailAdapter(mActivity, mDataList);
+            mAdapter = new DKBaseAdapter(mActivity, mDataList)
+                    .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(mActivity))
+                    .buildMultiItemView(CommentBean.class, new CommentHandler(mActivity, true, true))
+                    .buildMultiItemView(NoDataBean.class, new NoDataHandler())
+                    .buildMultiItemView(LoadingBean.class, new LoadingHandler())
+                    .buildMultiItemView(PeopleBean.class, new LikePeopleHandler(mActivity));
         }
         return mAdapter;
     }
@@ -183,7 +194,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
             mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
-
         }
         return mTopicsCommendEngine;
     }
@@ -220,7 +230,6 @@ public class TopicDetailFragment extends LoadMoreListFragment {
 
         mSwipeLayout.setRefreshing(true);
         BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
-//        BaseInfoEngine.getTopicsDetail(  "1756323", new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
                 return TopicsBean.class;
@@ -277,7 +286,11 @@ public class TopicDetailFragment extends LoadMoreListFragment {
             mDataList.add(mTopicsBean);
             if (object.getResults().size() == 0) {
                 NoDataBean noDataBean = new NoDataBean();
-                noDataBean.noData = "暂无评论";
+                if (mTopicsCommendEngine.isLikes()) {
+                    noDataBean.noData = "暂无人点赞";
+                } else {
+                    noDataBean.noData = "暂无评论";
+                }
                 mDataList.add(noDataBean);
             }
         }
@@ -285,11 +298,62 @@ public class TopicDetailFragment extends LoadMoreListFragment {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void addLikePeople(UserEntity userEntity) {
+        if (mSortType != TopicsCommendEngineImpl.SortType.like) {
+            return;
+        }
+        if (mDataList.size() > 1) {
+            if (mDataList.get(1) instanceof NoDataBean) {
+                mDataList.remove(1);
+            }
+
+            boolean had = false;
+            for (Object userEntity1 : mDataList) {
+                if (userEntity1 instanceof UserEntity) {
+                    if (((UserEntity) userEntity1).getId() == userEntity.getId()) {
+                        had = true;
+                        break;
+                    }
+                }
+            }
+            if (!had) {
+                mDataList.add(1, userEntity);
+            }
+        }
+//        mTopicsBean.attitudes_count =mDataList.size()-1;
+
+    }
+
+    public void removeLikePeople(UserEntity userEntity) {
+        if(mSortType != TopicsCommendEngineImpl.SortType.like){
+
+            return ;
+        }
+
+
+        for (Object o : mDataList) {
+            if (o instanceof UserEntity) {
+                if (((UserEntity) o).getId() == userEntity.getId()) {
+                    mDataList.remove(o);
+                    if (mDataList.size() == 1) {
+                        NoDataBean noDataBean = new NoDataBean();
+                        noDataBean.noData = "暂无人点赞";
+                        mDataList.add(1, noDataBean);
+                    }
+                    break;
+                }
+            }
+        }
+//        mTopicsBean.attitudes_count =mDataList.size()-1;
+
+    }
+
 
     public void like() {
 
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count += 1;
+            addLikePeople(UserEngineImpl.getUserEntity());
             mAdapter.notifyDataSetChanged();
 
         }
@@ -299,6 +363,7 @@ public class TopicDetailFragment extends LoadMoreListFragment {
     public void unLike() {
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count -= 1;
+            removeLikePeople(UserEngineImpl.getUserEntity());
             mAdapter.notifyDataSetChanged();
         }
     }

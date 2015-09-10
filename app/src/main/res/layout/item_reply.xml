@@ -6,12 +6,13 @@
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/lv_white_selector"
-                  android:id="@+id/main_ll"
         android:orientation="vertical"
         android:padding="@dimen/widget_margin_medium">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,14 +20,13 @@
 
             <ImageView
                 android:id="@+id/iv_head"
-                style="@style/lv_avatar_style"
-                />
+                style="@style/lv_avatar_style" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/iv_head"
-                android:layout_alignTop   ="@+id/iv_head"
+                android:layout_alignTop="@+id/iv_head"
                 android:layout_gravity="center_vertical">
 
                 <LinearLayout
@@ -110,20 +110,28 @@
             android:textSize="@dimen/text_status_content" />
 
 
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="@dimen/thumbnail_width"
+            android:layout_height="@dimen/thumbnail_height"
+            android:layout_marginTop="6dp"
+            android:scaleType="centerCrop" />
+
     </LinearLayout>
+
+
     <View
-        android:layout_below="@+id/main_ll"
         android:id="@+id/line"
-        style="@style/divider_line" />
+        style="@style/divider_line"
+        android:layout_below="@+id/main_ll" />
 
     <View
         android:id="@+id/bottom"
         android:layout_width="fill_parent"
         android:layout_height="16dp"
-        android:layout_below="@+id/line"
-        android:background="@color/activity_bg_color"
         android:layout_alignParentBottom="true"
-   />
+        android:layout_below="@+id/line"
+        android:background="@color/activity_bg_color" />
 
 
 </RelativeLayout>

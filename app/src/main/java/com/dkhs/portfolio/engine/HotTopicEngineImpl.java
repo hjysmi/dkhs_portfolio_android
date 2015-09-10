@@ -99,6 +99,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             @Override
             public void onFailure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
+                HotTopicEngineImpl.this.onFailure(errCode,errMsg);
                 onFinish();
             }
 
@@ -109,7 +110,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             }
         });
 
-        AdEngineImpl.getNewsBannerAds( new SimpleParseHttpListener() {
+        AdEngineImpl.getStatusesBanner( new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
                 return AdBean.class;

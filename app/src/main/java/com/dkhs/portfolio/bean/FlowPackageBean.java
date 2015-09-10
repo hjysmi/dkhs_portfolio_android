@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -24,6 +26,7 @@ public class FlowPackageBean {
     private String opname;
     private int opcode;
     private String mobile;
+    @SerializedName("vip_remain_days")
     private String valid_days;
     private String week_max_name;
 

@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundOrderEngineImpl;
 import com.dkhs.portfolio.ui.FundDetailActivity;
-import com.dkhs.portfolio.ui.adapter.FundOrderAdapter;
+import com.dkhs.portfolio.ui.adapter.FundOrderItemHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
@@ -34,7 +35,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     private List<FundPriceBean> dataList = new ArrayList<>();
     private FundOrderEngineImpl fundOrderEngine = null;
 
-    private FundOrderAdapter adapter;
+    private DKBaseAdapter adapter;
 
 
 
@@ -90,7 +91,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
         mSwipeLayout.setRefreshing(true);
         startLoadData();
-        adapter.setSortAndType(type, sort);
+        ((FundOrderItemHandler)adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
         setHttpHandler(getLoadEngine().loadDate(type, sort));
     }
 
@@ -112,7 +113,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     BaseAdapter getListAdapter() {
 
         if (null == adapter) {
-            adapter = new FundOrderAdapter(getActivity(), dataList);
+            adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FundOrderItemHandler(getActivity()));
         }
         return adapter;
     }

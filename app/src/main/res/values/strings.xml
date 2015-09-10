@@ -260,7 +260,7 @@
     <string name="feed_back_title">意见反馈</string>
     <string name="feed_back_hint">请输入您的反馈意见（500字以内）</string>
     <string name="feed_back_com_title">QQ、邮箱、手机</string>
-    <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题</string>
+    <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题,可以关注微信公众号：%s，直接与微信客服沟通交流</string>
     <string name="text_other_manager_combin">Ta管理的组合一览</string>
     <string name="text_my_manager_combin">我管理的组合一览</string>
     <string name="sign_text_title">个人签名</string>
@@ -294,14 +294,20 @@
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
     <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
-    <string name="about_dus_1">①及时准确免费的行情信息，毫秒级刷新，快人一步。</string>
+    <string name="about_dus_1">谁牛，是一款精心设计，全力打造的专业投资理财平台。
+         提供公募基金实时数据，以及国内首创的基金战胜指数数据，以
+基金经理为导向进行基金产品选购。跟牛人，买牛基，收益更靠谱。
+谁牛社区有更丰富的投资学习和生活的精彩内容。组合管理功能，成
+为用户创建、调整、跟踪和分析投资组合的利器。除此之外，还提供
+沪深两市股票实时行情，股票的基本面数据，如财务数据、公告速递，
+研报等。</string>
     <string name="about_dus_2">②一秒创建专属组合，与牛人、公募基金比比谁更牛！</string>
     <string name="about_dus_3">③一键分享牛股，秀出您的战绩，秒杀他人眼球！</string>
     <string name="about_dus_4">④多维度组合排名，个股异动提醒，助力追踪牛人牛股。</string>
     <string name="about_dus_5">⑤牛人组合持仓调仓数据全公开，绝对的真实透明。</string>
     <string name="about_phone">联 系 电 话 ：0592-5573789</string>
     <string name="about_url">商 务 合 作 ：yunying@dkhs.com</string>
-    <string name="about_weixin">微信公众号：shuiniu</string>
+    <string name="about_weixin">微信公众号：“谁牛”或“shuiniuapp” </string>
     <string name="about_weibo">新 浪 微 博 ：谁牛</string>
     <string name="agreement_url">/portfolio/agreement/</string>
     <string name="faq_url">/portfolio/faq/</string>
@@ -438,7 +444,7 @@
     <string name="creat_combination_name">组合名称</string>
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
-    <string name="info_title_mytopic">我的主贴</string>
+    <string name="info_title_mytopic">我的主帖</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
@@ -530,6 +536,7 @@
 
     <string name="search_stockandfunds">股票、基金简称/代码/拼音</string>
     <string name="search_stock">股票简称/代码/拼音</string>
+    <string name="search_friend">输入昵称</string>
 
     <string name="edit">编辑</string>
     <string name="delete">删除</string>
@@ -699,7 +706,7 @@
     <string name="mine_reply">我的回复</string>
     <string name="others_reply">TA的回复</string>
     <string name="reply_content">回复评论</string>
-    <string name="show_original">查看主贴</string>
+    <string name="show_original">查看主帖</string>
     <string name="copy_content">复制</string>
     <string name="msg_copy_content_success">内容已复制</string>
     <string name="msg_del_contetn_success">回复删除成功</string>
@@ -746,7 +753,18 @@
     <string name="delete_topics">删除帖子</string>
     <string name="delete_comment">删除回复</string>
     <string name="null_stock">当前股票不存在</string>
+    <string name="title_activity_comment_me">评论我的</string>
+    <string name="title_activity_call_me">提到我的</string>
     <!--举报 end-->
+    <string name="title_pickup_user">选择用户</string>
+    <string name="last_contact_friend">最近联系人</string>
 
+
+    <!-- topic text format Start-->
+
+    <string name="topic_format_stock"><a href="portfolio:stock">$%s$</a></string>
+    <string name="topic_format_friend"><a href="portfolio:friend">@%s</a></string>
+    <string name="title_activity_zwmtest">ZWMTestActivity</string>
+    <!-- topic text format End -->
 
 </resources>

@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.adapter;
+
 import android.content.Context;
+import android.util.SparseArray;
+
 import com.dkhs.adpter.handler.ItemHandler;
 import com.dkhs.portfolio.bean.CombinationsBean;
 import com.dkhs.portfolio.bean.CommentBean;
@@ -14,11 +17,10 @@ import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CombinationHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CombinationHeaderHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
-import com.dkhs.portfolio.bean.itemhandler.combinationdetail.MoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.MoreFootHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.MoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,17 +37,19 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
     }
 
     @Override
-    protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
+    protected void initHandlers(SparseArray<ItemHandler> itemHandlerHashMap) {
 
 
         addHandler(0, new NoDataHandler());
-        addHandler(1, new CombinationHandler());
+        addHandler(1, new CombinationHandler(mContext));
         addHandler(2, new CombinationHeaderHandler());
-        addHandler(3, new CommentHandler(false));
+        CommentHandler commentHandler = new CommentHandler(mContext, false);
+        commentHandler.setReplyComment(true);
+        addHandler(3, commentHandler);
         addHandler(4, new LoadingHandler());
-        addHandler(5, new MoreHandler());
-        addHandler(6, new MoreFootHandler());
-        addHandler(7, new TopicsHandler(mContext,false));
+        addHandler(5, new MoreHandler(mContext));
+        addHandler(6, new MoreFootHandler(mContext));
+        addHandler(7, new TopicsHandler(mContext, false));
     }
 
     @Override

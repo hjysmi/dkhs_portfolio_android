@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -33,7 +32,7 @@ import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
-import com.dkhs.portfolio.utils.TimeUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import io.rong.imlib.model.Message;
@@ -83,6 +82,12 @@ public class MainActivity extends BaseActivity {
         }
         new AppUpdateEngine(mContext).checkVersion();
         handIntent();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        LogUtils.d(this.getClass().getSimpleName(), "onTrimMemory level:" + level);
     }
 
     @Override
@@ -176,12 +181,10 @@ public class MainActivity extends BaseActivity {
 
 
     protected void displayFragmentB() {
-        TimeUtils.getUTCdatetimeAsString();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
             fragmentB = new MainMarketFragment();
-//            fragmentB = new ShakesFragment();
         }
         hideAllFragment();
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container

@@ -2,7 +2,7 @@ package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 
 import android.text.TextUtils;
 
-import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.NoDataBean;
@@ -14,7 +14,7 @@ import com.dkhs.portfolio.bean.NoDataBean;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/28.
  */
-public class NoDataHandler implements ItemHandler<NoDataBean> {
+public class NoDataHandler extends SimpleItemHandler<NoDataBean> {
     @Override
     public int getLayoutResId() {
         return R.layout.layout_empty;

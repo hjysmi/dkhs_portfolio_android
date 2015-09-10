@@ -15,7 +15,6 @@ import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.UiConversation;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.model.Conversation.ConversationType;
 import io.rong.imlib.model.Message;
@@ -42,7 +41,7 @@ public class RCChatActivity extends ModelAcitivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         String data = intent.getDataString();
         final Uri uri = Uri.parse(data);
         final String targetId = uri.getQueryParameter("targetId");
@@ -61,14 +60,15 @@ public class RCChatActivity extends ModelAcitivity {
             fragment = new ConversationFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, fragment).commit();
 //            getSupportFragmentManager().beginTransaction().hide(fragment).commitAllowingStateLoss();
-            getRightButton().setBackgroundResource(R.drawable.rc_bar_more);
-            getRightButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    RongIM.getInstance().startConversationSetting(RCChatActivity.this, conversationType, targetId);
-                }
-            });
+//            getRightButton().setBackgroundResource(R.drawable.rc_bar_more);
+//            getRightButton().setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent1=new Intent(mContext,RCChatSettingActivity.class);
+//                    mContext.startActivity(intent1);
+////                    RongIM.getInstance().startConversationSetting(RCChatActivity.this, conversationType, targetId);
+//                }
+//            });
 
             //解决列表闪一下
             getTitleView().postDelayed(new Runnable() {
@@ -130,25 +130,28 @@ public class RCChatActivity extends ModelAcitivity {
         }
 
         @Override
-        public boolean onMessageClick(Context context, Message message) {
-            return messageHandler.handleMessage(message);
-
-        }
-
-        @Override
-        public boolean onMessageLongClick(Context context, Message message) {
-            return true;
-        }
-
-        @Override
-        public boolean onConversationLongClick(Context context, UiConversation uiConversation) {
-            return true;
-        }
-
-        @Override
-        public boolean onConversationItemClick(Context context, UiConversation uiConversation) {
+        public boolean onUserPortraitLongClick(Context context, ConversationType conversationType, UserInfo userInfo) {
             return false;
         }
+
+        @Override
+        public boolean onMessageClick(Context context, View view, Message message) {
+            return messageHandler.handleMessage(message);
+        }
+
+        @Override
+        public boolean onMessageLinkClick(String s) {
+            return false;
+        }
+
+        @Override
+        public boolean onMessageLongClick(Context context, View view, Message message) {
+            return false;
+        }
+
+
+
+
     }
 
 }

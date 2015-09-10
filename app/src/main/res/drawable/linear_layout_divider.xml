@@ -2,10 +2,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <solid android:color="@color/tag_gray"/>
+    <solid android:color="@color/person_setting_line"/>
     <size android:width="20dp"
         android:height="0.5px"
         />
-    <stroke android:color="@color/tag_gray"/>
+    <stroke android:color="@color/person_setting_line"/>
 
 </shape>

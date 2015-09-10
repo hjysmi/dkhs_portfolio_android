@@ -2,6 +2,7 @@ package com.dkhs.portfolio.utils;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
@@ -54,7 +55,19 @@ public class ImageLoaderUtils {
         loader.displayImage(url, new_phone1, options);
 
     }
+
+    public static void setRoundImageByPx(String url, ImageView new_phone1, int roundPx) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true).cacheOnDisk(true)
+                .displayer(new RoundedBitmapDisplayer(roundPx))
+                .build();
+        loader.displayImage(url, new_phone1, options);
+
+    }
+
     public static void setImagDefault(String url, ImageView new_phone1) {
+        new_phone1.setVisibility(View.VISIBLE);
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true)
@@ -65,32 +78,35 @@ public class ImageLoaderUtils {
         loader.displayImage(url, new_phone1, options);
 
     }
-    public static void setImage(String url, ImageView new_phone1,ImageLoadingListener loadingListener) {
+
+    public static void setImage(String url, ImageView new_phone1, ImageLoadingListener loadingListener) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new SimpleBitmapDisplayer())
                 .build();
-        loader.displayImage(url, new_phone1, options,loadingListener);
+        loader.displayImage(url, new_phone1, options, loadingListener);
 
     }
+
     public static void loadImage(String url) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new FadeInBitmapDisplayer(600))
                 .build();
-        loader.loadImage(url, options,null);
+        loader.loadImage(url, options, null);
 
     }
-    public static void loadImage(String url,ImageLoadingListener imageLoadingListener) {
+
+    public static void loadImage(String url, ImageLoadingListener imageLoadingListener) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true).cacheOnDisk(true)
                 .displayer(new FadeInBitmapDisplayer(600))
                 .build();
 
-        loader.loadImage(url, options,imageLoadingListener);
+        loader.loadImage(url, options, imageLoadingListener);
 
     }
 

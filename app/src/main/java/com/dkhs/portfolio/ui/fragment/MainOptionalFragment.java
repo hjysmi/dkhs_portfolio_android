@@ -196,11 +196,14 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
     public void onViewHide() {
         try {
 
-
-            Fragment fragment = adapter.getItem(mVp.getCurrentItem());
-            if (fragment instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragment).onViewHide();
+            if (null != mVp && null != adapter) {
+                Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+                if (fragment instanceof VisiableLoadFragment) {
+                    ((VisiableLoadFragment) fragment).onViewHide();
+                }
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -210,11 +213,14 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
     public void onViewShow() {
         try {
 
-            Fragment fragment = adapter.getItem(mVp.getCurrentItem());
-            if (fragment instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragment).onViewShow();
-            } else {
-                fragment.onResume();
+            if (null != adapter && null != mVp) {
+
+                Fragment fragment = adapter.getItem(mVp.getCurrentItem());
+                if (fragment instanceof VisiableLoadFragment) {
+                    ((VisiableLoadFragment) fragment).onViewShow();
+                } else {
+                    fragment.onResume();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

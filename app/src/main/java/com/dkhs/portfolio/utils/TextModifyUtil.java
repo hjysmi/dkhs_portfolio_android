@@ -12,7 +12,7 @@ import android.text.style.URLSpan;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.MyClickableSpan;
+import com.dkhs.portfolio.ui.widget.NoUnderLineSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,17 +52,21 @@ public class TextModifyUtil {
             temptStr = temptStr.substring(index + s.length());
             tempt += index + s.length();
             // 将s转化成bitmap图片
-            String source = faceMap.get(s);
-            if (!TextUtils.isEmpty(source)) {
-                String sourceName = context.getPackageName()
-                        + ":drawable/" + source;
-                int id = context.getResources().getIdentifier(sourceName,
-                        null, null);
-                Bitmap bitmap = BitmapFactory.decodeResource(context
-                        .getResources(), id);
-                builder.setSpan(new ImageSpan(context, bitmap),
-                        tempt - s.length(), tempt,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (!TextUtils.isEmpty(s)) {
+
+                String source = faceMap.get(s);
+                if (!TextUtils.isEmpty(source)) {
+                    String sourceName = context.getPackageName()
+                            + ":drawable/" + source;
+                    int id = context.getResources().getIdentifier(sourceName,
+                            null, null);
+                    Bitmap bitmap = BitmapFactory.decodeResource(context
+                            .getResources(), id);
+                    builder.setSpan(new ImageSpan(context, bitmap),
+                            tempt - s.length(), tempt,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                }
             }
         }
     }
@@ -87,7 +91,7 @@ public class TextModifyUtil {
 
     }
 
-    private static List<MyClickableSpan> spans = new ArrayList<MyClickableSpan>();
+    private static List<NoUnderLineSpan> spans = new ArrayList<NoUnderLineSpan>();
 
     public static void setAtText(SpannableStringBuilder builder, String patternStr, Context context) {
 //        Pattern pattern = Pattern.compile(patternStr);
@@ -148,7 +152,7 @@ public class TextModifyUtil {
 //					tempt - s.length(), tempt - 1,
 //					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        for (MyClickableSpan span : spans) {
+        for (NoUnderLineSpan span : spans) {
             tempBuilder.setSpan(span, span.startIndex, span.startIndex + span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         builder = tempBuilder;
@@ -200,7 +204,7 @@ public class TextModifyUtil {
 //					tempt - s.length(), tempt - 1,
 //					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        for (MyClickableSpan span : spans) {
+        for (NoUnderLineSpan span : spans) {
             tempBuilder.setSpan(span, span.startIndex, span.startIndex + span.sLen, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return tempBuilder;
@@ -213,8 +217,8 @@ public class TextModifyUtil {
 //        return span;
 //    }
 
-    private static MyClickableSpan getMyClickableSpan(Context context, URLSpan urlSpan) {
-        MyClickableSpan mySpan = new MyClickableSpan(context.getResources().getColor(R.color.blue), context);
+    private static NoUnderLineSpan getMyClickableSpan(Context context, URLSpan urlSpan) {
+        NoUnderLineSpan mySpan = new NoUnderLineSpan(context.getResources().getColor(R.color.blue), context);
         if (urlSpan != null) {
             String url = urlSpan.getURL();
             mySpan.url = url;

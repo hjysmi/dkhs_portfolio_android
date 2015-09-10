@@ -12,8 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dkhs.adpter.adapter.AutoAdapter;
-import com.dkhs.adpter.handler.ItemHandler;
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -31,7 +30,6 @@ import com.lidroid.xutils.BitmapUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -85,7 +83,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
 
 
     private PullToRefreshListView lvReply;
-    private MyReplyAdapter adapter;
+    private DKBaseAdapter adapter;
     private ImageView ivPraise;
     private BitmapUtils bitmapUtils;
     private SwipeRefreshLayout mSwipeLayout;
@@ -214,26 +212,6 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
     }
 
 
-    private class MyReplyAdapter extends AutoAdapter {
-
-
-        protected MyReplyAdapter(Context context, List<?> data) {
-            super(context, data);
-        }
-
-        @Override
-        protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-            CommentHandler itemHandler = new CommentHandler(true);
-            itemHandler.setReplyComment(true);
-            addHandler(0, itemHandler);
-        }
-
-        @Override
-        protected int getViewType(int position) {
-            return 0;
-        }
-    }
-
     private ParseHttpListener<MoreDataBean<CommentBean>> replyListener = new ParseHttpListener<MoreDataBean<CommentBean>>() {
         @Override
         protected MoreDataBean<CommentBean> parseDateTask(String jsonData) {
@@ -272,7 +250,10 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                     results.addAll(moreDataBean.getResults());
                 }
                 if (adapter == null) {
-                    adapter = new MyReplyAdapter(ReplyActivity.this, results);
+//                    adapter = new MyReplyAdapter(ReplyActivity.this, results);
+                    CommentHandler itemHandler = new CommentHandler(ReplyActivity.this, true, true);
+                    itemHandler.setReplyComment(true);
+                    adapter = new DKBaseAdapter(ReplyActivity.this, results).buildSingleItemView(itemHandler);
                     lvReply.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();

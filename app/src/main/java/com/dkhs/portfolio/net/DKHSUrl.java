@@ -19,7 +19,7 @@ public class DKHSUrl {
 
     // 测试
 //    public static final String BASE_TEST_URL = "http://192.168.107.90:8010";
-//    public static final String BASE_TEST_URL = "http://192.168.107.56:8010";
+//    public static final String BASE_TEST_URL = "http://192.168.107.76:8010";
     public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
 
     // 开发
@@ -134,12 +134,13 @@ public class DKHSUrl {
     public interface Ads {
 
         String getNewsBannerAds = "/api/v1/ads/area/news_banner/";
+        String getStatusesBanner = "/api/v1/ads/area/statuses_banner/";
         String getSplashAds = "/api/v1/ads/area/splash/";
         String getInvitingInfo = "/api/v1/accounts/invitations/code/";
         String getInvitations = "/api/v1/accounts/invitations/invitations/";
         String getSignUp = "/api/v1/ads/area/signup/";
         String getInvite = "/api/v1/ads/area/Invite/";
-        String getRechargeBanner= "/api/v1/ads/area/recharge_banner/";
+        String getRechargeBanner = "/api/v1/ads/area/recharge_banner/";
 
     }
 
@@ -173,6 +174,7 @@ public class DKHSUrl {
         String getHotTopic = "/api/v1/statuses/public_timeline/";
         String getStickTopic = "/api/v1/statuses/public_timeline/";
         String getCommend = "/api/v1/statuses/{0}/comments/";
+        String getLikes = "/api/v1/statuses/{0}/likes/";
         String getHotTopicDetail = "/api/v1/statuses/{0}/";
         String star = "/api/v1/statuses/likes/like/";
         String unstar = "/api/v1/statuses/likes/unlike/";
@@ -248,6 +250,7 @@ public class DKHSUrl {
         String follow = "/api/v1/users/%s/follow/";
         String unfollow = "/api/v1/users/%s/unfollow/";
         String getUserInfo = "/api/v1/users/%s/";
+        String friend_list = "/api/v1/users/%s/friends/?page_size=999";
 
 
     }
@@ -292,6 +295,12 @@ public class DKHSUrl {
          * 获取个人回复
          */
         String get_replys = "/api/v1/statuses/user_timeline/";
+
+
+        String getCommentMeList = "/api/v1/statuses/comments_timeline/";
+
+
+        String getCallMeList = "/api/v1/statuses/mentions_timeline/";
         /**
          * 举报
          */

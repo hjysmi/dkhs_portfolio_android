@@ -76,10 +76,10 @@ public class OptionMarketAdapter extends BaseAdapter {
                 /*Paint p= new Paint();
                 Rect rect = new Rect();
 				p.setTextSize( mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
-				p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect); 
+				p.getTextBounds(mOptionNewsBean.getSimpleTitle(), 0, mOptionNewsBean.getSimpleTitle().length(), rect);
 				if(dm.widthPixels - 50   < rect.width()){
-					int le = (int) (mOptionNewsBean.getTitle().length() -  mOptionNewsBean.getTitle().length() *(rect.width() - dm.widthPixels + 50)/rect.width() - 3);
-					String text = mOptionNewsBean.getTitle().substring(0, le);
+					int le = (int) (mOptionNewsBean.getSimpleTitle().length() -  mOptionNewsBean.getSimpleTitle().length() *(rect.width() - dm.widthPixels + 50)/rect.width() - 3);
+					String text = mOptionNewsBean.getSimpleTitle().substring(0, le);
 					tv.setText(text + "...");
 				}else{*/
             viewHolder.tv.setText(mOptionNewsBean.getTitle());

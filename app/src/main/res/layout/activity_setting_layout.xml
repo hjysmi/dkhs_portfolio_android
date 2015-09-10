@@ -21,12 +21,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
+
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/ll_userinfo_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:divider="@drawable/linear_layout_divider"
+                    android:showDividers="middle"
                     android:orientation="vertical">
 
 
@@ -72,9 +75,7 @@
                         </RelativeLayout>
                     </RelativeLayout>
 
-                    <include
-                        android:id="@+id/line"
-                        layout="@layout/layout_line" />
+
 
                     <LinearLayout
                         android:id="@+id/setting_account_layout"
@@ -112,7 +113,6 @@
                                 android:textSize="@dimen/setting_text_name" />
                         </RelativeLayout>
 
-                        <include layout="@layout/layout_line" />
                     </LinearLayout>
 
                     <RelativeLayout
@@ -159,9 +159,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/btn_white_selector">
 
-                        <include
-                            android:id="@+id/line2"
-                            layout="@layout/layout_line" />
+
 
                         <ImageView
                             android:id="@+id/setting_image_password_right"
@@ -184,9 +182,6 @@
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
 
-                    <include
-                        android:id="@+id/line3"
-                        layout="@layout/layout_line" />
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_sign"
@@ -230,9 +225,7 @@
                             android:textSize="@dimen/setting_text_phone" />
                     </RelativeLayout>
 
-                    <include
-                        android:id="@+id/line9"
-                        layout="@layout/layout_line" />
+
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_boundphone"
@@ -263,9 +256,7 @@
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
 
-                    <include
-                        android:id="@+id/line10"
-                        layout="@layout/layout_line" />
+
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_bound"
@@ -293,10 +284,8 @@
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
                 </LinearLayout>
+                <include layout="@layout/layout_line" />
 
-                <include
-                    android:id="@+id/line4"
-                    layout="@layout/layout_line" />
             </LinearLayout>
 
             <LinearLayout

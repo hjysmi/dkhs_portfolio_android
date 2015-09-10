@@ -50,6 +50,8 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
         if (data instanceof DKImgTextMsg) {
             DKImgTextMsg dkImgTextMsg = (DKImgTextMsg) data;
             if (!TextUtils.isEmpty(dkImgTextMsg.getTitle())) {
+
+//                if()
                 contentSummary = dkImgTextMsg.getTitle();
             }
         }
@@ -58,10 +60,6 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
 
     }
 
-    @Override
-    public Spannable getSummary(Message data) {
-        return super.getSummary(data);
-    }
 
     //    @Override
 //    public Spannable getSummary(Message data) {

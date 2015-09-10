@@ -48,7 +48,6 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-  <!--  //new begin 2.0-->
     <!--
     size:24px color:#ffffff
     1、会话页面时间 字体
@@ -94,8 +93,6 @@
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/rc_text_color_secondary</item>
     </style>
-
-<!--    //new end-->
 
 
 </resources>

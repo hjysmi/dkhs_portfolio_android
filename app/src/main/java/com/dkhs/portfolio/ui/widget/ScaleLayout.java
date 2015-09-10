@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
@@ -58,4 +59,23 @@ public class ScaleLayout extends RelativeLayout {
         }
 
 
+
+    private boolean mInterceptTouch;
+
+    public boolean isInterceptTouch() {
+        return mInterceptTouch;
     }
+
+    public void setInterceptTouch(boolean interceptTouch) {
+        mInterceptTouch = interceptTouch;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if(mInterceptTouch)
+        getParent().requestDisallowInterceptTouchEvent(true);//这句话的作用 告诉父view，我的单击事件我自行处理，不要阻碍我。
+        return super.dispatchTouchEvent(ev);
+    }
+
+
+}

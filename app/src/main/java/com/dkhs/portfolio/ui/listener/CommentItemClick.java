@@ -5,8 +5,8 @@ import android.content.DialogInterface;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.DeleteResponeBean;
+import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -21,6 +21,7 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.mingle.autolist.AutoData;
 
 /**
  * Created by zjz on 2015/7/30.
@@ -40,16 +41,16 @@ public class CommentItemClick {
     }
 
 
-    public void clickFromMyReply(CommentBean bean) {
-        if (isCurrentUser(bean.getUser().getId() + "")) {//当前用户
+    public void clickFromMyReply(LikeBean bean) {
+        if (isCurrentUser(bean.user.getId() + "")) {//当前用户
             showMineReplyDialog(bean);
         } else { // TA的回复
             showOtherReplyDialog(bean);
         }
     }
 
-    public void clickFromMyTopic(CommentBean bean) {
-        if (isCurrentUser(bean.getUser().getId() + "")) {//当前用户
+    public void clickFromMyTopic(LikeBean bean) {
+        if (isCurrentUser(bean.user.getId() + "")) {//当前用户
             showTopicMineReplyDialog(bean);
         } else { // TA的回复
             showTopicOtherReplyDialog(bean);
@@ -65,7 +66,7 @@ public class CommentItemClick {
     }
 
 
-    private void showTopicOtherReplyDialog(final CommentBean commentBean) {
+    private void showTopicOtherReplyDialog(final LikeBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
         String[] choice = mContext.getResources().getStringArray(R.array.choices_topic_othereply);
@@ -89,7 +90,7 @@ public class CommentItemClick {
         dialog.show();
     }
 
-    private void showTopicMineReplyDialog(final CommentBean commentBean) {
+    private void showTopicMineReplyDialog(final  LikeBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
         String[] choice = mContext.getResources().getStringArray(R.array.choices_topic_minereply);
@@ -101,10 +102,10 @@ public class CommentItemClick {
                         replyComment(commentBean);
                         break;
                     case 1://复制
-                        copyComment(commentBean.getText());
+                        copyComment(commentBean.text);
                         break;
                     case 2://删除
-                        deleteComment(commentBean.getId() + "");
+                        deleteComment(commentBean);
                         break;
                 }
                 dialog.dismiss();
@@ -113,7 +114,7 @@ public class CommentItemClick {
         dialog.show();
     }
 
-    private void showOtherReplyDialog(final CommentBean commentBean) {
+    private void showOtherReplyDialog(final LikeBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
         String[] choice = mContext.getResources().getStringArray(R.array.choices_other_reply);
@@ -125,10 +126,10 @@ public class CommentItemClick {
                         replyComment(commentBean);
                         break;
                     case 1://查看主贴
-                        showMainTopic(commentBean.getReplied_status());
+                        showMainTopic(commentBean.replied_status);
                         break;
                     case 2://复制
-                        copyComment(commentBean.getText());
+                        copyComment(commentBean.text);
                         break;
                     case 3://举报
                         reportComment(commentBean);
@@ -140,7 +141,7 @@ public class CommentItemClick {
         dialog.show();
     }
 
-    private void showMineReplyDialog(final CommentBean commentBean) {
+    private void showMineReplyDialog(final LikeBean commentBean) {
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
         String[] choice = mContext.getResources().getStringArray(R.array.choices_mine_reply);
         dialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
@@ -151,13 +152,13 @@ public class CommentItemClick {
                         replyComment(commentBean);
                         break;
                     case 1://查看主贴
-                        showMainTopic(commentBean.getReplied_status());
+                        showMainTopic(commentBean.replied_status);
                         break;
                     case 2://复制内容
-                        copyComment(commentBean.getText());
+                        copyComment(commentBean.text);
                         break;
                     case 3://删除回复
-                        deleteComment(commentBean.getId() + "");
+                        deleteComment(commentBean);
                         break;
                 }
                 dialog.dismiss();
@@ -171,15 +172,15 @@ public class CommentItemClick {
     /**
      * 回复评论
      */
-    private void replyComment(CommentBean commentBean) {
+    private void replyComment(LikeBean commentBean) {
 
         if (UIUtils.iStartLoginActivity(mContext)) {
             return;
         }
 
 
-        if (null != commentBean.getUser()) {
-            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY, commentBean.getId() + "", commentBean.getUser().getUsername()));
+        if (null != commentBean.user) {
+            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY, commentBean.getId() + "", commentBean.user.getUsername()));
         } else {
             Log.e(TAG, "comment user is null;");
         }
@@ -207,14 +208,14 @@ public class CommentItemClick {
     /**
      * 删除回复
      */
-    private void deleteComment(final String commentId) {
+    private void deleteComment(final LikeBean comment) {
 
 
         PromptManager.getAlertDialog(mContext).setMessage(mContext.getString(R.string.delete_comment)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                postDeleteCommnent(commentId);
+                postDeleteCommnent(comment);
             }
         }).setNegativeButton(R.string.cancel, null).show();
 
@@ -222,8 +223,8 @@ public class CommentItemClick {
     }
 
 
-    private void postDeleteCommnent(final String commentId) {
-        StatusEngineImpl.delete(commentId, new ParseHttpListener<Boolean>() {
+    private void postDeleteCommnent(final LikeBean comment) {
+        StatusEngineImpl.delete(comment.getId()+"", new ParseHttpListener<Boolean>() {
             @Override
             protected Boolean parseDateTask(String jsonData) {
                 DeleteResponeBean reponseBean = DataParse.parseObjectJson(DeleteResponeBean.class, jsonData);
@@ -234,9 +235,11 @@ public class CommentItemClick {
             protected void afterParseData(Boolean object) {
                 if (object) {
                     PromptManager.showCancelToast(R.string.msg_del_contetn_success);
-                    DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
-                    deleteCommentEvent.commentId = commentId;
-                    BusProvider.getInstance().post(deleteCommentEvent);
+//                    DeleteCommentEvent deleteCommentEvent = new DeleteCommentEvent();
+//                    deleteCommentEvent.commentId = comment.getId()+"";
+//                    BusProvider.getInstance().post(deleteCommentEvent);
+                    comment.appleAction(this, AutoData.Action.Delete).post();
+
 
 
                 }
@@ -249,8 +252,9 @@ public class CommentItemClick {
     /**
      * 举报回复
      */
-    private void reportComment(CommentBean commentBean) {
-        mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.getUser().getUsername(), commentBean.getText()));
+    private void reportComment(LikeBean commentBean) {
+        if (!UIUtils.iStartLoginActivity(mContext))
+            mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.user.getUsername(), commentBean.text));
     }
 
 

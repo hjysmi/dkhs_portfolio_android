@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,14 +9,14 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RongConnectSuccessEvent;
+import com.dkhs.portfolio.ui.messagecenter.ConversationListListener;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
+import io.rong.imkit.model.UIConversation;
 
 /**
  * @author zwm
@@ -37,17 +38,20 @@ public class RCChatListActivity extends ModelAcitivity {
         LogUtils.e(intent.getData().toString());
         LogUtils.e(intent.toString());
 
-
         BusProvider.getInstance().register(this);
-        if(MessageManager.getInstance().isConnect()) {
+        if (MessageManager.getInstance().isConnect()) {
             displayRClListFragment();
         }
 
+        RongIM.setConversationListBehaviorListener(new ConversationListListener());
     }
 
 
 
-    @Override
+
+
+
+                  @Override
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();

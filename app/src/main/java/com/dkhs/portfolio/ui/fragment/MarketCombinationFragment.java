@@ -158,8 +158,8 @@ public class MarketCombinationFragment extends VisiableLoadFragment implements V
             }
             break;
             case R.id.btn_search: {
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
-                    getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
+                if (!UIUtils.iStartLoginActivity(mActivity)) {
+                    mActivity.startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
                 }
 //                fragmentList.get(pager.getCurrentItem()).onResume();
             }

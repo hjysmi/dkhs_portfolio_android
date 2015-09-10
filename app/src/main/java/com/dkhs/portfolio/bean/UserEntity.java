@@ -63,6 +63,12 @@ public class UserEntity {
     String avatar_md;
     String avatar_sm;
     String avatar_lg;
+
+
+    String chi_spell;
+    String chi_spell_all;
+
+
     String date_joined;
 
     boolean me_follow;
@@ -235,9 +241,26 @@ public class UserEntity {
         this.date_joined = date_joined;
     }
 
+    public String getChi_spell() {
+        return chi_spell;
+    }
+
+    public void setChi_spell(String chi_spell) {
+        this.chi_spell = chi_spell;
+    }
+
+    public String getChi_spell_all() {
+        return chi_spell_all;
+    }
+
+    public void setChi_spell_all(String chi_spell_all) {
+        this.chi_spell_all = chi_spell_all;
+    }
 
 
-    public static  boolean currentUser(String userId){
+
+
+    public static boolean currentUser(String userId) {
         return null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(userId);
     }
 }

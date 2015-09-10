@@ -136,6 +136,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
             mOptionlistAdapter = new MarketCenterItemAdapter(context, mDataList, true);
         }
         mListView.setAdapter(mOptionlistAdapter);
+
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -233,8 +234,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
                 mOptionlistAdapter.notifyDataSetChanged();
                 Log.e(TAG, " loadFinishUpdateView size:" + mOptionlistAdapter.getCount());
                 Log.e(TAG, " last size name:" + mDataList.get(mDataList.size() - 1).getName());
-                if (null != mStockQuoteScrollListener) {
-                }
+
 
                 View listItem = mOptionlistAdapter.getView(0, null, mListView);
                 listItem.measure(0, 0); // 计算子项View 的宽高
@@ -252,6 +252,13 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
                         }
                     }
                 }
+
+                if (null != mStockQuoteScrollListener) {
+                    if (height <= mStockQuoteScrollListener.getMaxListHeight()) {
+                        mStockQuoteScrollListener = null;
+                    }
+                }
+
 
                 mContentView.getLayoutParams().height = height;
 //                mListView.getLayoutParams().height = height;

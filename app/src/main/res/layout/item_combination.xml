@@ -45,7 +45,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/tag_gray"
-                android:text="累积涨幅"/>
+                android:text="累计涨幅"/>
         </LinearLayout>
 
         <LinearLayout

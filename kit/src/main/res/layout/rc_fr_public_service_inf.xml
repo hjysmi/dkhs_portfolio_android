@@ -11,7 +11,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -65,7 +65,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="24dp"
                     android:id="@+id/func"
-                    android:text="@string/rc_pub_service_info_func"/>
+                    android:text="@string/rc_pub_service_info_description"/>
 
                 <TextView
                     android:id="@+id/description"
