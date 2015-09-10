@@ -34,6 +34,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
 import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
@@ -205,11 +206,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 //
 //            ;
 //        }.start();
-        VisitorDataSource.getOptionalStockList(this, null, new VisitorDataSource.ResultCallback() {
+        VisitorDataSource.getOptionalStockList(this, new IResultCallback<SelectStockBean>() {
             @Override
-            public void onResultCallback(List stockList) {
+            public void onResultCallback(List<SelectStockBean> resultList) {
                 localList.clear();
-                localList.addAll(stockList);
+                localList.addAll(resultList);
             }
         });
     }

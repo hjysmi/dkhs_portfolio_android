@@ -17,6 +17,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
 import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -59,10 +60,10 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     private void loadVisitorData() {
         mFollowList.clear();
 //        mFollowList.addAll(new VisitorDataEngine().getOptionalStockList());
-        VisitorDataSource.getOptionalStockList(this, null, new VisitorDataSource.ResultCallback() {
+        VisitorDataSource.getOptionalStockList(this, new IResultCallback<SelectStockBean>() {
             @Override
-            public void onResultCallback(List stockList) {
-                mFollowList.addAll(stockList);
+            public void onResultCallback(List<SelectStockBean> resultList) {
+                mFollowList.addAll(resultList);
             }
         });
     }
@@ -124,7 +125,7 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     @Override
     protected void setTabViewPage(List<Fragment> fragmenList) {
 
-        fragmenList.add(FragmentSearchStockFund.getHistoryFragment(true,false));
+        fragmenList.add(FragmentSearchStockFund.getHistoryFragment(true, false));
 
     }
 
