@@ -28,6 +28,7 @@ import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
 import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.ShakeDetector;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.umeng.analytics.MobclickAgent;
@@ -285,8 +286,15 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             uiHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, (ShakeBean) mSuccessObject));
-                    mSuccessObject = null;
+                    // FIXBug:java.lang.IllegalStateException: Fragment ShakeFragment{429d19b8} not attached to Activity
+                    //before fix
+//                    startActivitySlideFormBottomAnim(ShakeActivity.newIntent(mActivity, (ShakeBean) mSuccessObject));
+                    //after fix
+                    if (isAdded()) {
+                        getActivity().startActivity(ShakeActivity.newIntent(mActivity, (ShakeBean) mSuccessObject));
+                        UIUtils.setOverridePendingSlideFormBottomAnim(mActivity);
+                        mSuccessObject = null;
+                    }
                 }
             }, 200);
 
