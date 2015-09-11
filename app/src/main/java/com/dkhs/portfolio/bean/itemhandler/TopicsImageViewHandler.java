@@ -29,7 +29,7 @@ public class TopicsImageViewHandler {
     private List<UploadImageBean> mMedias;
 
 
-    public  void  handleMedias(ViewHolder vh, LikeBean data){
+    public  void  handleMedias(ViewHolder vh, LikeBean data,boolean useMDImage){
 
 
 
@@ -54,10 +54,14 @@ public class TopicsImageViewHandler {
         if (data.medias != null && data.medias.size() >= 0) {
 
 
-            vh.get(R.id.iv).setVisibility(View.VISIBLE);
             if(data.medias.size()==1) {
-                ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_sm(), vh.getImageView(R.id.iv));
                 vh.get(R.id.iv).setVisibility(View.VISIBLE);
+                if(useMDImage) {
+                    ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_md(), vh.getImageView(R.id.iv));
+                }else{
+                    ImageLoaderUtils.setImagDefault(data.medias.get(0).getImage_sm(), vh.getImageView(R.id.iv));
+
+                }
                 vh.getImageView(R.id.iv).setOnClickListener(new ImageViewClickListenerImp(vh.getConvertView().getContext()).setDate(data,0));
             }else{
                 vh.getImageView(R.id.iv).setVisibility(View.GONE);

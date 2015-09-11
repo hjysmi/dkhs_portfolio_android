@@ -78,6 +78,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @ViewInject(R.id.floating_action_view)
     public FloatingActionMenu mFloatingActionMenu;
     private TopicsBean mTopicsBean;
+    private TopicsBean mItemTopicsBean;
     private SwitchLikeStateHandler mSwitchLikeStateHandler;
 
     private boolean isMyTopics = false;
@@ -90,6 +91,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
+            mItemTopicsBean=mTopicsBean;
 
             mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
             setContentView(R.layout.activity_topics_detail);
@@ -291,9 +293,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     public void finish() {
-        if (mTopicsBean != null) {
+        if (mItemTopicsBean != null) {
             //更新列表状态
-            mTopicsBean.appleAction(this, AutoData.Action.Update).post();
+            mItemTopicsBean.attitudes_count=mTopicsBean.attitudes_count;
+            mItemTopicsBean.like=mTopicsBean.like;
+            mItemTopicsBean.comments_count=mTopicsBean.comments_count;
+            mItemTopicsBean.appleAction(this, AutoData.Action.Update).post();
         }
         super.finish();
     }

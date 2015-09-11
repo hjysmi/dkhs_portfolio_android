@@ -93,7 +93,9 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
         }
         vh.setTextView(R.id.content, data.text);
 //        vh.get(R.id.iv).setVisibility(View.GONE);
-        new TopicsImageViewHandler().handleMedias(vh, data);
+        new TopicsImageViewHandler().handleMedias(vh, data,true);
+
+
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 
