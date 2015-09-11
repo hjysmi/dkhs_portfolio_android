@@ -4,10 +4,24 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <View
+    <TextView
+        android:id="@+id/v"
         android:layout_width="fill_parent"
         android:background="@color/red"
-        android:layout_height="120dp"/>
+        android:textSize="22dp"
+        android:textIsSelectable="true"
+        android:text="扥开饭经扥开进发了开\n\n\n\n开饭经扥开进\n\n\n\n\n\n机费领
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进
+        开饭经扥开进订饭来看粉丝令肌肤领塞进发了砍死了分开就司令单反四开机费另赛季方零散的发零散扥领赛"
+        android:layout_height="wrap_content"/>
     <com.dkhs.portfolio.ui.widget.MListView
         android:id="@+id/lv"
         android:layout_width="fill_parent"
