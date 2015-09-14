@@ -70,6 +70,7 @@ public class EmojiconTextView extends TextView {
             EmojiconHandler.addEmojis(getContext(), builder, mEmojiconSize, mEmojiconTextSize, mTextStart, mTextLength, mUseSystemDefault);
             text = builder;
         }
+
         super.setText(text, type);
     }
 

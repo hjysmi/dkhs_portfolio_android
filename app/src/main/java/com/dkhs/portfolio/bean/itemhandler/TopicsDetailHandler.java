@@ -198,12 +198,24 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
 
             vh.getTextView(R.id.tv_like).setTextColor(vh.getConvertView().getResources().getColor(R.color.theme_color));
             vh.getTextView(R.id.comment).setTextColor(vh.getConvertView().getResources().getColor(R.color.tag_gray));
-            ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.tv_like).getLeft() + vh.getTextView(R.id.tv_like).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
+            vh.getTextView(R.id.comment).post(new Runnable() {
+                @Override
+                public void run() {
+                    ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.tv_like).getLeft() + vh.getTextView(R.id.tv_like).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
+
+                }
+            });
         } else {
             vh.getTextView(R.id.tv_like).setTextColor(vh.getConvertView().getResources().getColor(R.color.tag_gray));
             vh.getTextView(R.id.comment).setTextColor(vh.getConvertView().getResources().getColor(R.color.theme_color));
-            ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.comment).getLeft() + vh.getTextView(R.id.comment).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
 
+            vh.getTextView(R.id.comment).post(new Runnable() {
+                @Override
+                public void run() {
+                    ViewHelper.setTranslationX(vh.get(R.id.indicate), vh.getTextView(R.id.comment).getLeft() + vh.getTextView(R.id.comment).getWidth() / 2 - vh.get(R.id.indicate).getWidth() / 2);
+
+                }
+            });
         }
 
     }

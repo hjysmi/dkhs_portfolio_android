@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.TopicsDetailScrollView;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -407,6 +408,19 @@ public class FloatingActionView extends LinearLayout {
         scrollView.setOnScrollChangedListener(scrollDetector);
     }
 
+    public void attachToNestScrollView(@NonNull TopicsDetailScrollView scrollView) {
+        attachToNestScrollView(scrollView, null, null);
+    }
+    public void attachToNestScrollView(@NonNull TopicsDetailScrollView scrollView,
+                                   ScrollDirectionListener scrollDirectionListener,
+                                   ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
+        ScrollViewScrollDetectorImpl scrollDetector = new ScrollViewScrollDetectorImpl();
+        scrollDetector.setScrollDirectionListener(scrollDirectionListener);
+        scrollDetector.setOnScrollChangedListener(onScrollChangedListener);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        scrollView.setOnScrollChangedListener(scrollDetector);
+    }
+
     // private boolean hasLollipopApi() {
     // return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     // }
@@ -433,7 +447,7 @@ public class FloatingActionView extends LinearLayout {
         return Color.HSVToColor(hsv);
     }
 
-    private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
+    public class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
         private ScrollDirectionListener mScrollDirectionListener;
         private AbsListView.OnScrollListener mOnScrollListener;
 

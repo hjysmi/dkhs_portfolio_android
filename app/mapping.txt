@@ -2523,19 +2523,18 @@ android.support.v4.view.ViewCompat -> android.support.v4.view.ao:
     void setScaleY(android.view.View,float) -> e
     float getScaleX(android.view.View) -> s
     void setElevation(android.view.View,float) -> f
-    float getElevation(android.view.View) -> t
-    int getWindowSystemUiVisibility(android.view.View) -> u
-    void requestApplyInsets(android.view.View) -> v
+    int getWindowSystemUiVisibility(android.view.View) -> t
+    void requestApplyInsets(android.view.View) -> u
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
-    boolean getFitsSystemWindows(android.view.View) -> w
-    void jumpDrawablesToCurrentState(android.view.View) -> x
+    boolean getFitsSystemWindows(android.view.View) -> v
+    void jumpDrawablesToCurrentState(android.view.View) -> w
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
-    void stopNestedScroll(android.view.View) -> y
-    boolean isLaidOut(android.view.View) -> z
-    boolean isAttachedToWindow(android.view.View) -> A
+    void stopNestedScroll(android.view.View) -> x
+    boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view.ao$a:
     java.util.WeakHashMap mViewPropertyAnimatorCompatMap -> a
     boolean canScrollHorizontally(android.view.View,int) -> a
@@ -2576,19 +2575,18 @@ android.support.v4.view.ViewCompat$BaseViewCompatImpl -> android.support.v4.view
     int getWindowSystemUiVisibility(android.view.View) -> t
     void requestApplyInsets(android.view.View) -> u
     void setElevation(android.view.View,float) -> f
-    float getElevation(android.view.View) -> v
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
-    boolean getFitsSystemWindows(android.view.View) -> w
-    void jumpDrawablesToCurrentState(android.view.View) -> x
+    boolean getFitsSystemWindows(android.view.View) -> v
+    void jumpDrawablesToCurrentState(android.view.View) -> w
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
     boolean canScrollingViewScrollHorizontally(android.support.v4.view.ScrollingView,int) -> a
     boolean canScrollingViewScrollVertically(android.support.v4.view.ScrollingView,int) -> b
-    void stopNestedScroll(android.view.View) -> y
-    boolean isLaidOut(android.view.View) -> z
-    boolean isAttachedToWindow(android.view.View) -> A
+    void stopNestedScroll(android.view.View) -> x
+    boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompat$EclairMr1ViewCompatImpl -> android.support.v4.view.ao$b:
     boolean isOpaque(android.view.View) -> j
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
@@ -2612,7 +2610,7 @@ android.support.v4.view.ViewCompat$HCViewCompatImpl -> android.support.v4.view.a
     void setScaleX(android.view.View,float) -> d
     void setScaleY(android.view.View,float) -> e
     float getScaleX(android.view.View) -> p
-    void jumpDrawablesToCurrentState(android.view.View) -> x
+    void jumpDrawablesToCurrentState(android.view.View) -> w
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
 android.support.v4.view.ViewCompat$ICSViewCompatImpl -> android.support.v4.view.ao$e:
@@ -2635,21 +2633,20 @@ android.support.v4.view.ViewCompat$JBViewCompatImpl -> android.support.v4.view.a
     int getMinimumWidth(android.view.View) -> q
     int getMinimumHeight(android.view.View) -> r
     void requestApplyInsets(android.view.View) -> u
-    boolean getFitsSystemWindows(android.view.View) -> w
+    boolean getFitsSystemWindows(android.view.View) -> v
 android.support.v4.view.ViewCompat$JbMr1ViewCompatImpl -> android.support.v4.view.ao$g:
     void setLayerPaint(android.view.View,android.graphics.Paint) -> a
     int getLayoutDirection(android.view.View) -> h
     int getWindowSystemUiVisibility(android.view.View) -> t
 android.support.v4.view.ViewCompat$KitKatViewCompatImpl -> android.support.v4.view.ao$h:
     void setImportantForAccessibility(android.view.View,int) -> c
-    boolean isLaidOut(android.view.View) -> z
-    boolean isAttachedToWindow(android.view.View) -> A
+    boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompat$LollipopViewCompatImpl -> android.support.v4.view.ao$i:
     void requestApplyInsets(android.view.View) -> u
     void setElevation(android.view.View,float) -> f
-    float getElevation(android.view.View) -> v
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
-    void stopNestedScroll(android.view.View) -> y
+    void stopNestedScroll(android.view.View) -> x
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
 android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.ao$j:
     boolean canScrollHorizontally(android.view.View,int) -> a
@@ -2687,19 +2684,18 @@ android.support.v4.view.ViewCompat$ViewCompatImpl -> android.support.v4.view.ao$
     void setTranslationY(android.view.View,float) -> b
     void setAlpha(android.view.View,float) -> c
     void setElevation(android.view.View,float) -> f
-    float getElevation(android.view.View) -> v
     int getWindowSystemUiVisibility(android.view.View) -> t
     void requestApplyInsets(android.view.View) -> u
     void setChildrenDrawingOrderEnabled(android.view.ViewGroup,boolean) -> a
-    boolean getFitsSystemWindows(android.view.View) -> w
-    void jumpDrawablesToCurrentState(android.view.View) -> x
+    boolean getFitsSystemWindows(android.view.View) -> v
+    void jumpDrawablesToCurrentState(android.view.View) -> w
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
     void setSaveFromParentEnabled(android.view.View,boolean) -> a
     void setActivated(android.view.View,boolean) -> b
-    void stopNestedScroll(android.view.View) -> y
-    boolean isLaidOut(android.view.View) -> z
-    boolean isAttachedToWindow(android.view.View) -> A
+    void stopNestedScroll(android.view.View) -> x
+    boolean isLaidOut(android.view.View) -> y
+    boolean isAttachedToWindow(android.view.View) -> z
 android.support.v4.view.ViewCompatBase -> android.support.v4.view.ap:
     java.lang.reflect.Field sMinWidthField -> a
     boolean sMinWidthFieldFetched -> b
@@ -2762,10 +2758,9 @@ android.support.v4.view.ViewCompatKitKat -> android.support.v4.view.aw:
 android.support.v4.view.ViewCompatLollipop -> android.support.v4.view.ax:
     void requestApplyInsets(android.view.View) -> a
     void setElevation(android.view.View,float) -> a
-    float getElevation(android.view.View) -> b
     void setOnApplyWindowInsetsListener(android.view.View,android.support.v4.view.OnApplyWindowInsetsListener) -> a
     android.support.v4.view.WindowInsetsCompat onApplyWindowInsets(android.view.View,android.support.v4.view.WindowInsetsCompat) -> a
-    void stopNestedScroll(android.view.View) -> c
+    void stopNestedScroll(android.view.View) -> b
 android.support.v4.view.ViewCompatLollipop$1 -> android.support.v4.view.ay:
     android.support.v4.view.OnApplyWindowInsetsListener val$listener -> a
     android.view.WindowInsets onApplyWindowInsets(android.view.View,android.view.WindowInsets) -> onApplyWindowInsets
@@ -4675,15 +4670,14 @@ android.support.v7.app.ActionBar -> android.support.v7.app.ActionBar:
     android.content.Context getThemedContext() -> b
     void setHideOnContentScrollEnabled(boolean) -> b
     void setElevation(float) -> a
-    float getElevation() -> c
     void setDefaultDisplayHomeAsUpEnabled(boolean) -> c
     void setShowHideAnimationEnabled(boolean) -> d
     void onConfigurationChanged(android.content.res.Configuration) -> a
     void dispatchMenuVisibilityChanged(boolean) -> e
     android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback) -> a
-    boolean invalidateOptionsMenu() -> d
+    boolean invalidateOptionsMenu() -> c
     boolean onKeyShortcut(int,android.view.KeyEvent) -> a
-    boolean collapseActionView() -> e
+    boolean collapseActionView() -> d
     void setWindowTitle(java.lang.CharSequence) -> a
 android.support.v7.app.ActionBar$DisplayOptions -> android.support.v7.app.ActionBar$DisplayOptions:
 android.support.v7.app.ActionBar$LayoutParams -> android.support.v7.app.ActionBar$LayoutParams:
@@ -4872,7 +4866,6 @@ android.support.v7.app.AppCompatActivity -> android.support.v7.app.AppCompatActi
     void onCreate(android.os.Bundle) -> onCreate
     void onPostCreate(android.os.Bundle) -> onPostCreate
     android.support.v7.app.ActionBar getSupportActionBar() -> b
-    void setSupportActionBar(android.support.v7.widget.Toolbar) -> a
     android.view.MenuInflater getMenuInflater() -> getMenuInflater
     void setContentView(int) -> setContentView
     void setContentView(android.view.View) -> setContentView
@@ -4889,7 +4882,6 @@ android.support.v7.app.AppCompatActivity -> android.support.v7.app.AppCompatActi
     void onSupportActionModeStarted(android.support.v7.view.ActionMode) -> a
     void onSupportActionModeFinished(android.support.v7.view.ActionMode) -> b
     android.support.v7.view.ActionMode onWindowStartingSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
-    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> b
     void onCreateSupportNavigateUpTaskStack(android.support.v4.app.TaskStackBuilder) -> a
     void onPrepareSupportNavigateUpTaskStack(android.support.v4.app.TaskStackBuilder) -> b
     boolean onSupportNavigateUp() -> c
@@ -4908,7 +4900,6 @@ android.support.v7.app.AppCompatDelegate -> android.support.v7.app.i:
     android.support.v7.app.AppCompatDelegate create(android.app.Dialog,android.support.v7.app.AppCompatCallback) -> a
     android.support.v7.app.AppCompatDelegate create(android.content.Context,android.view.Window,android.support.v7.app.AppCompatCallback) -> a
     android.support.v7.app.ActionBar getSupportActionBar() -> a
-    void setSupportActionBar(android.support.v7.widget.Toolbar) -> a
     android.view.MenuInflater getMenuInflater() -> b
     void onCreate(android.os.Bundle) -> a
     void onPostCreate(android.os.Bundle) -> b
@@ -4923,7 +4914,6 @@ android.support.v7.app.AppCompatDelegate -> android.support.v7.app.i:
     void invalidateOptionsMenu() -> e
     void onDestroy() -> f
     boolean requestWindowFeature(int) -> b
-    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
     void installViewFactory() -> g
 android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.j:
     android.content.Context mContext -> a
@@ -4943,7 +4933,6 @@ android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.j:
     android.view.Window$Callback wrapWindowCallback(android.view.Window$Callback) -> a
     android.support.v7.app.ActionBar getSupportActionBar() -> a
     android.support.v7.app.ActionBar peekSupportActionBar() -> i
-    void setSupportActionBar(android.support.v7.app.ActionBar) -> a
     android.view.MenuInflater getMenuInflater() -> b
     void onCreate(android.os.Bundle) -> a
     boolean onPanelClosed(int,android.view.Menu) -> a
@@ -4951,7 +4940,7 @@ android.support.v7.app.AppCompatDelegateImplBase -> android.support.v7.app.j:
     boolean dispatchKeyEvent(android.view.KeyEvent) -> a
     boolean onKeyShortcut(int,android.view.KeyEvent) -> a
     android.content.Context getActionBarThemedContext() -> j
-    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> b
+    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> a
     void onDestroy() -> f
     boolean isDestroyed() -> k
     android.view.Window$Callback getWindowCallback() -> l
@@ -5005,7 +4994,6 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     void onCreate(android.os.Bundle) -> a
     void onPostCreate(android.os.Bundle) -> b
     android.support.v7.app.ActionBar createSupportActionBar() -> h
-    void setSupportActionBar(android.support.v7.widget.Toolbar) -> a
     void onConfigurationChanged(android.content.res.Configuration) -> a
     void onStop() -> c
     void onPostResume() -> d
@@ -5022,9 +5010,9 @@ android.support.v7.app.AppCompatDelegateImplV7 -> android.support.v7.app.AppComp
     boolean onMenuOpened(int,android.view.Menu) -> b
     boolean onMenuItemSelected(android.support.v7.internal.view.menu.MenuBuilder,android.view.MenuItem) -> a
     void onMenuModeChange(android.support.v7.internal.view.menu.MenuBuilder) -> a
-    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> a
+    android.support.v7.view.ActionMode startSupportActionMode(android.support.v7.view.ActionMode$Callback) -> b
     void invalidateOptionsMenu() -> e
-    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> b
+    android.support.v7.view.ActionMode startSupportActionModeFromWindow(android.support.v7.view.ActionMode$Callback) -> a
     boolean onBackPressed() -> n
     boolean onKeyShortcut(int,android.view.KeyEvent) -> a
     boolean dispatchKeyEvent(android.view.KeyEvent) -> a
@@ -6431,64 +6419,7 @@ android.support.v7.internal.app.AppCompatViewInflater -> android.support.v7.inte
     android.view.View createViewFromTag(android.content.Context,java.lang.String,android.util.AttributeSet) -> a
     android.view.View createView(android.content.Context,java.lang.String,java.lang.String) -> a
     android.content.Context themifyContext(android.content.Context,android.util.AttributeSet,boolean,boolean) -> a
-android.support.v7.internal.app.ToolbarActionBar -> android.support.v7.internal.a.b:
-    android.support.v7.internal.widget.DecorToolbar mDecorToolbar -> a
-    boolean mToolbarMenuPrepared -> b
-    android.view.Window$Callback mWindowCallback -> c
-    boolean mMenuCallbackSet -> d
-    boolean mLastMenuVisibility -> e
-    java.util.ArrayList mMenuVisibilityListeners -> f
-    android.view.Window mWindow -> g
-    android.support.v7.internal.view.menu.ListMenuPresenter mListMenuPresenter -> h
-    java.lang.Runnable mMenuInvalidator -> i
-    android.support.v7.widget.Toolbar$OnMenuItemClickListener mMenuClicker -> j
-    android.view.Window$Callback getWrappedWindowCallback() -> f
-    void setHomeButtonEnabled(boolean) -> a
-    void setElevation(float) -> a
-    float getElevation() -> c
-    android.content.Context getThemedContext() -> b
-    void setDefaultDisplayHomeAsUpEnabled(boolean) -> c
-    void setShowHideAnimationEnabled(boolean) -> d
-    void onConfigurationChanged(android.content.res.Configuration) -> a
-    void setWindowTitle(java.lang.CharSequence) -> a
-    int getDisplayOptions() -> a
-    boolean invalidateOptionsMenu() -> d
-    boolean collapseActionView() -> e
-    void populateOptionsMenu() -> g
-    boolean onKeyShortcut(int,android.view.KeyEvent) -> a
-    void dispatchMenuVisibilityChanged(boolean) -> e
-    android.view.View getListMenuView(android.view.Menu) -> a
-    void ensureListMenuPresenter(android.view.Menu) -> b
-    android.view.Menu getMenu() -> h
-    android.view.Window$Callback access$000(android.support.v7.internal.app.ToolbarActionBar) -> a
-    boolean access$200(android.support.v7.internal.app.ToolbarActionBar) -> b
-    android.support.v7.internal.widget.DecorToolbar access$300(android.support.v7.internal.app.ToolbarActionBar) -> c
-    boolean access$202(android.support.v7.internal.app.ToolbarActionBar,boolean) -> a
-    android.view.View access$400(android.support.v7.internal.app.ToolbarActionBar,android.view.Menu) -> a
-android.support.v7.internal.app.ToolbarActionBar$1 -> android.support.v7.internal.a.c:
-    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
-    void run() -> run
-android.support.v7.internal.app.ToolbarActionBar$2 -> android.support.v7.internal.a.d:
-    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
-    boolean onMenuItemClick(android.view.MenuItem) -> a
-android.support.v7.internal.app.ToolbarActionBar$ActionMenuPresenterCallback -> android.support.v7.internal.a.b$a:
-    boolean mClosingActionMenu -> b
-    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
-    boolean onOpenSubMenu(android.support.v7.internal.view.menu.MenuBuilder) -> a
-    void onCloseMenu(android.support.v7.internal.view.menu.MenuBuilder,boolean) -> a
-android.support.v7.internal.app.ToolbarActionBar$MenuBuilderCallback -> android.support.v7.internal.a.b$b:
-    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
-    boolean onMenuItemSelected(android.support.v7.internal.view.menu.MenuBuilder,android.view.MenuItem) -> a
-    void onMenuModeChange(android.support.v7.internal.view.menu.MenuBuilder) -> a
-android.support.v7.internal.app.ToolbarActionBar$PanelMenuPresenterCallback -> android.support.v7.internal.a.b$c:
-    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
-    void onCloseMenu(android.support.v7.internal.view.menu.MenuBuilder,boolean) -> a
-    boolean onOpenSubMenu(android.support.v7.internal.view.menu.MenuBuilder) -> a
-android.support.v7.internal.app.ToolbarActionBar$ToolbarCallbackWrapper -> android.support.v7.internal.a.b$d:
-    android.support.v7.internal.app.ToolbarActionBar this$0 -> a
-    boolean onPreparePanel(int,android.view.View,android.view.Menu) -> onPreparePanel
-    android.view.View onCreatePanelView(int) -> onCreatePanelView
-android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.internal.a.e:
+android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.internal.a.b:
     boolean ALLOW_SHOW_HIDE_ANIMATIONS -> i
     android.content.Context mContext -> j
     android.content.Context mThemedContext -> k
@@ -6527,10 +6458,9 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     void init(android.view.View) -> a
     android.support.v7.internal.widget.DecorToolbar getDecorToolbar(android.view.View) -> b
     void setElevation(float) -> a
-    float getElevation() -> c
     void onConfigurationChanged(android.content.res.Configuration) -> a
     void setHasEmbeddedTabs(boolean) -> k
-    void completeDeferredDestroyActionMode() -> f
+    void completeDeferredDestroyActionMode() -> e
     void onWindowVisibilityChanged(int) -> a
     void setShowHideAnimationEnabled(boolean) -> d
     void dispatchMenuVisibilityChanged(boolean) -> e
@@ -6538,14 +6468,14 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     void setHomeButtonEnabled(boolean) -> a
     void setWindowTitle(java.lang.CharSequence) -> a
     void setDisplayOptions(int,int) -> a
-    int getNavigationMode() -> g
+    int getNavigationMode() -> f
     int getDisplayOptions() -> a
     android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback) -> a
     void enableContentAnimations(boolean) -> g
-    void showForActionMode() -> l
-    void showForSystem() -> h
-    void hideForActionMode() -> m
-    void hideForSystem() -> i
+    void showForActionMode() -> k
+    void showForSystem() -> g
+    void hideForActionMode() -> l
+    void hideForSystem() -> h
     void setHideOnContentScrollEnabled(boolean) -> b
     boolean checkShowingFlags(boolean,boolean,boolean) -> b
     void updateVisibility(boolean) -> l
@@ -6553,9 +6483,9 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     void doHide(boolean) -> i
     void animateToMode(boolean) -> j
     android.content.Context getThemedContext() -> b
-    void onContentScrollStarted() -> j
-    void onContentScrollStopped() -> k
-    boolean collapseActionView() -> e
+    void onContentScrollStarted() -> i
+    void onContentScrollStopped() -> j
+    boolean collapseActionView() -> d
     void setDefaultDisplayHomeAsUpEnabled(boolean) -> c
     boolean access$000(android.support.v7.internal.app.WindowDecorActionBar) -> a
     android.view.View access$100(android.support.v7.internal.app.WindowDecorActionBar) -> b
@@ -6570,16 +6500,16 @@ android.support.v7.internal.app.WindowDecorActionBar -> android.support.v7.inter
     android.support.v7.internal.widget.ActionBarContextView access$1000(android.support.v7.internal.app.WindowDecorActionBar) -> i
     android.support.v7.internal.widget.DecorToolbar access$1100(android.support.v7.internal.app.WindowDecorActionBar) -> j
     android.content.Context access$1200(android.support.v7.internal.app.WindowDecorActionBar) -> k
-android.support.v7.internal.app.WindowDecorActionBar$1 -> android.support.v7.internal.a.f:
+android.support.v7.internal.app.WindowDecorActionBar$1 -> android.support.v7.internal.a.c:
     android.support.v7.internal.app.WindowDecorActionBar this$0 -> a
     void onAnimationEnd(android.view.View) -> b
-android.support.v7.internal.app.WindowDecorActionBar$2 -> android.support.v7.internal.a.g:
+android.support.v7.internal.app.WindowDecorActionBar$2 -> android.support.v7.internal.a.d:
     android.support.v7.internal.app.WindowDecorActionBar this$0 -> a
     void onAnimationEnd(android.view.View) -> b
-android.support.v7.internal.app.WindowDecorActionBar$3 -> android.support.v7.internal.a.h:
+android.support.v7.internal.app.WindowDecorActionBar$3 -> android.support.v7.internal.a.e:
     android.support.v7.internal.app.WindowDecorActionBar this$0 -> a
     void onAnimationUpdate(android.view.View) -> a
-android.support.v7.internal.app.WindowDecorActionBar$ActionModeImpl -> android.support.v7.internal.a.e$a:
+android.support.v7.internal.app.WindowDecorActionBar$ActionModeImpl -> android.support.v7.internal.a.b$a:
     android.content.Context mActionModeContext -> b
     android.support.v7.internal.view.menu.MenuBuilder mMenu -> c
     android.support.v7.view.ActionMode$Callback mCallback -> d
@@ -7713,11 +7643,11 @@ android.support.v7.internal.widget.ActionBarOverlayLayout$4 -> android.support.v
     void run() -> run
 android.support.v7.internal.widget.ActionBarOverlayLayout$ActionBarVisibilityCallback -> android.support.v7.internal.widget.ActionBarOverlayLayout$a:
     void onWindowVisibilityChanged(int) -> a
-    void showForSystem() -> h
-    void hideForSystem() -> i
+    void showForSystem() -> g
+    void hideForSystem() -> h
     void enableContentAnimations(boolean) -> g
-    void onContentScrollStarted() -> j
-    void onContentScrollStopped() -> k
+    void onContentScrollStarted() -> i
+    void onContentScrollStopped() -> j
 android.support.v7.internal.widget.ActionBarOverlayLayout$LayoutParams -> android.support.v7.internal.widget.ActionBarOverlayLayout$LayoutParams:
 android.support.v7.internal.widget.ActivityChooserModel -> android.support.v7.internal.widget.j:
     java.lang.String LOG_TAG -> a
@@ -8037,8 +7967,6 @@ android.support.v7.internal.widget.DecorToolbar -> android.support.v7.internal.w
     void setHomeButtonEnabled(boolean) -> b
     int getNavigationMode() -> q
     void animateToVisibility(int) -> d
-    void setMenuCallbacks(android.support.v7.internal.view.menu.MenuPresenter$Callback,android.support.v7.internal.view.menu.MenuBuilder$Callback) -> a
-    android.view.Menu getMenu() -> r
 android.support.v7.internal.widget.DialogTitle -> android.support.v7.internal.widget.DialogTitle:
     void onMeasure(int,int) -> onMeasure
 android.support.v7.internal.widget.DrawableUtils -> android.support.v7.internal.widget.r:
@@ -8414,7 +8342,7 @@ android.support.v7.internal.widget.ToolbarWidgetWrapper -> android.support.v7.in
     android.graphics.drawable.Drawable mDefaultNavigationIcon -> r
     void setDefaultNavigationContentDescription(int) -> e
     void setDefaultNavigationIcon(android.graphics.drawable.Drawable) -> b
-    int detectDisplayOptions() -> s
+    int detectDisplayOptions() -> r
     android.view.ViewGroup getViewGroup() -> a
     android.content.Context getContext() -> b
     boolean isSplit() -> c
@@ -8432,7 +8360,7 @@ android.support.v7.internal.widget.ToolbarWidgetWrapper -> android.support.v7.in
     void setIcon(android.graphics.drawable.Drawable) -> a
     void setLogo(int) -> b
     void setLogo(android.graphics.drawable.Drawable) -> c
-    void updateToolbarLogo() -> t
+    void updateToolbarLogo() -> s
     boolean canShowOverflowMenu() -> i
     boolean isOverflowMenuShowing() -> j
     boolean isOverflowMenuShowPending() -> k
@@ -8452,10 +8380,8 @@ android.support.v7.internal.widget.ToolbarWidgetWrapper -> android.support.v7.in
     void setNavigationIcon(android.graphics.drawable.Drawable) -> d
     void setNavigationContentDescription(java.lang.CharSequence) -> d
     void setNavigationContentDescription(int) -> f
-    void updateHomeAccessibility() -> u
-    void updateNavigationIcon() -> v
-    void setMenuCallbacks(android.support.v7.internal.view.menu.MenuPresenter$Callback,android.support.v7.internal.view.menu.MenuBuilder$Callback) -> a
-    android.view.Menu getMenu() -> r
+    void updateHomeAccessibility() -> t
+    void updateNavigationIcon() -> u
     android.support.v7.widget.Toolbar access$000(android.support.v7.internal.widget.ToolbarWidgetWrapper) -> a
     java.lang.CharSequence access$100(android.support.v7.internal.widget.ToolbarWidgetWrapper) -> b
     android.view.Window$Callback access$200(android.support.v7.internal.widget.ToolbarWidgetWrapper) -> c
@@ -20428,7 +20354,6 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int btn_titletab_left -> btn_titletab_left
     int btn_titletab_right -> btn_titletab_right
     int btn_trend -> btn_trend
-    int button -> button
     int button1 -> button1
     int button2 -> button2
     int button3 -> button3
@@ -21081,6 +21006,7 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int src_atop -> src_atop
     int src_in -> src_in
     int src_over -> src_over
+    int srl -> srl
     int start -> start
     int statusBarBackground -> statusBarBackground
     int status_bar_latest_event_content -> status_bar_latest_event_content
@@ -21134,11 +21060,13 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int toast_layout_root -> toast_layout_root
     int too -> too
     int tool -> tool
-    int toolBar -> toolBar
     int top -> top
     int topPanel -> topPanel
     int top_line -> top_line
+    int top_sticky -> top_sticky
+    int topicDetailRl -> topicDetailRl
     int triangle -> triangle
+    int tsv -> tsv
     int tv -> tv
     int tvForToast -> tvForToast
     int tv_accout -> tv_accout
@@ -21367,7 +21295,6 @@ com.dkhs.portfolio.R$id -> com.dkhs.portfolio.R$id:
     int user_photo_container -> user_photo_container
     int user_profile_view -> user_profile_view
     int username -> username
-    int v -> v
     int v1 -> v1
     int v2 -> v2
     int v3 -> v3
@@ -26300,11 +26227,6 @@ com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler -> com.dkhs.portfolio.bean
     int getLayoutResId() -> getLayoutResId
     void onBindView(com.dkhs.adpter.util.ViewHolder,com.dkhs.portfolio.bean.UserEntity,int) -> onBindView
     void onBindView(com.dkhs.adpter.util.ViewHolder,java.lang.Object,int) -> onBindView
-    android.content.Context access$000(com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler) -> access$000
-com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler$1 -> com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler$1:
-    com.dkhs.portfolio.bean.UserEntity val$data -> val$data
-    com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler this$0 -> this$0
-    void onClick(android.view.View) -> onClick
 com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler -> com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler:
     android.content.Context mContext -> mContext
     com.dkhs.portfolio.engine.TopicsCommendEngineImpl$SortType mSortType -> mSortType
@@ -26332,6 +26254,14 @@ com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$2 -> com.dkhs.portfolio.
     com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler this$0 -> this$0
     void onClick(android.view.View) -> onClick
 com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$3 -> com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$3:
+    com.dkhs.adpter.util.ViewHolder val$vh -> val$vh
+    com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler this$0 -> this$0
+    void run() -> run
+com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$4 -> com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$4:
+    com.dkhs.adpter.util.ViewHolder val$vh -> val$vh
+    com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler this$0 -> this$0
+    void run() -> run
+com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$5 -> com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$5:
     int[] $SwitchMap$com$dkhs$portfolio$engine$TopicsCommendEngineImpl$SortType -> $SwitchMap$com$dkhs$portfolio$engine$TopicsCommendEngineImpl$SortType
 com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$AvatarClickListenerImp -> com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler$AvatarClickListenerImp:
     com.dkhs.portfolio.bean.TopicsBean topicsBean -> topicsBean
@@ -26445,6 +26375,7 @@ com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler -> com.dkhs
     boolean mAvatarImResponse -> mAvatarImResponse
     boolean isReplyComment -> isReplyComment
     boolean mCompact -> mCompact
+    boolean itemClick -> itemClick
     android.content.Context mContext -> mContext
     com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler setReplyComment(boolean) -> setReplyComment
     int getLayoutResId() -> getLayoutResId
@@ -26795,7 +26726,7 @@ com.dkhs.portfolio.engine.LoadMoreDataEngine -> com.dkhs.portfolio.engine.an:
     void afterParseData(java.lang.Object) -> a
 com.dkhs.portfolio.engine.LoadMoreDataEngine$ILoadDataBackListener -> com.dkhs.portfolio.engine.an$a:
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.engine.LoadNewsDataEngine -> com.dkhs.portfolio.engine.ao:
     int totalcount -> a
     int totalpage -> c
@@ -27815,7 +27746,7 @@ com.dkhs.portfolio.ui.EditTabCombinationActivity -> com.dkhs.portfolio.ui.EditTa
 com.dkhs.portfolio.ui.EditTabCombinationActivity$1 -> com.dkhs.portfolio.ui.af:
     com.dkhs.portfolio.ui.EditTabCombinationActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.EditTabCombinationActivity$2 -> com.dkhs.portfolio.ui.ag:
     com.dkhs.portfolio.ui.EditTabCombinationActivity this$0 -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
@@ -27843,7 +27774,7 @@ com.dkhs.portfolio.ui.EditTabFundActivity -> com.dkhs.portfolio.ui.EditTabFundAc
 com.dkhs.portfolio.ui.EditTabFundActivity$1 -> com.dkhs.portfolio.ui.ah:
     com.dkhs.portfolio.ui.EditTabFundActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.EditTabFundActivity$2 -> com.dkhs.portfolio.ui.ai:
     com.dkhs.portfolio.ui.EditTabFundActivity this$0 -> a
     java.util.List parseDateTask(java.lang.String) -> a
@@ -27877,7 +27808,7 @@ com.dkhs.portfolio.ui.EditTabStockActivity -> com.dkhs.portfolio.ui.EditTabStock
 com.dkhs.portfolio.ui.EditTabStockActivity$1 -> com.dkhs.portfolio.ui.aj:
     com.dkhs.portfolio.ui.EditTabStockActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.EditTabStockActivity$2 -> com.dkhs.portfolio.ui.ak:
     com.dkhs.portfolio.ui.EditTabStockActivity this$0 -> a
     java.util.List parseDateTask(java.lang.String) -> a
@@ -30128,38 +30059,81 @@ com.dkhs.portfolio.ui.TestActivity -> com.dkhs.portfolio.ui.TestActivity:
     void onClick(android.view.View) -> onClick
     void inserUserText() -> a
 com.dkhs.portfolio.ui.TopicsDetailActivity -> com.dkhs.portfolio.ui.TopicsDetailActivity:
-    com.dkhs.portfolio.ui.fragment.TopicDetailFragment mTopicDetailFragment -> c
     java.lang.Boolean mScrollToComment -> d
     android.widget.TextView ignoreTV -> e
-    com.dkhs.portfolio.ui.FloatingActionMenu mFloatingActionMenu -> b
     com.dkhs.portfolio.bean.TopicsBean mTopicsBean -> f
-    com.dkhs.portfolio.bean.TopicsBean mItemTopicsBean -> g
-    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler mSwitchLikeStateHandler -> l
-    boolean isMyTopics -> m
+    com.mingle.autolist.AutoList mDataList -> g
+    com.dkhs.portfolio.engine.TopicsCommendEngineImpl mTopicsCommendEngine -> l
+    com.dkhs.adpter.adapter.DKBaseAdapter mAdapter -> m
+    android.support.v4.widget.SwipeRefreshLayout mSwipeLayout -> n
+    com.dkhs.portfolio.ui.widget.TopicsDetailListView mTopicsDetailListView -> o
+    com.dkhs.portfolio.ui.widget.TopicsDetailScrollView mTopicsDetailScrollView -> p
+    com.dkhs.portfolio.engine.TopicsCommendEngineImpl$SortType mSortType -> b
+    com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler mTopicsDetailHandler -> q
+    com.dkhs.portfolio.ui.FloatingActionMenu mFloatingActionMenu -> c
+    com.dkhs.portfolio.bean.TopicsBean mItemTopicsBean -> r
+    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler mSwitchLikeStateHandler -> s
+    boolean isMyTopics -> t
     void startActivity(android.content.Context,com.dkhs.portfolio.bean.TopicsBean) -> a
     void startActivity(android.content.Context,int) -> a
     void startActivity(android.content.Context,java.lang.String) -> a
     void startActivity(android.content.Context,com.dkhs.portfolio.bean.TopicsBean,boolean) -> a
     void onCreate(android.os.Bundle) -> onCreate
-    void initData() -> f
-    void share() -> g
-    void initFloatMenu() -> h
+    void onDestroy() -> onDestroy
+    void refresh(com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent) -> refresh
+    void loadData(com.dkhs.portfolio.engine.TopicsCommendEngineImpl$SortType) -> a
+    void loadData() -> f
+    void setTopicsDetail() -> r
+    com.dkhs.portfolio.engine.TopicsCommendEngineImpl getLoadEngine() -> g
+    void initData() -> h
+    void share() -> s
+    void initFloatMenu() -> t
     void likePre() -> likePre
     void unLikePre() -> unLikePre
     void onFragmentInteraction(com.dkhs.portfolio.bean.TopicsBean) -> a
     void finish() -> finish
     void shareAction(com.dkhs.portfolio.bean.ShareBean,java.lang.String) -> a
-    com.dkhs.portfolio.bean.TopicsBean access$000(com.dkhs.portfolio.ui.TopicsDetailActivity) -> a
-    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler access$100(com.dkhs.portfolio.ui.TopicsDetailActivity) -> b
-    void access$200(com.dkhs.portfolio.ui.TopicsDetailActivity) -> c
+    void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
+    void loadFail() -> b_
+    void addLikePeople(com.dkhs.portfolio.bean.UserEntity) -> a
+    void removeLikePeople(com.dkhs.portfolio.bean.UserEntity) -> b
+    void like() -> i
+    void unLike() -> q
+    com.mingle.autolist.AutoList access$000(com.dkhs.portfolio.ui.TopicsDetailActivity) -> a
+    android.support.v4.widget.SwipeRefreshLayout access$100(com.dkhs.portfolio.ui.TopicsDetailActivity) -> b
+    com.dkhs.portfolio.bean.TopicsBean access$202(com.dkhs.portfolio.ui.TopicsDetailActivity,com.dkhs.portfolio.bean.TopicsBean) -> a
+    com.dkhs.portfolio.bean.TopicsBean access$200(com.dkhs.portfolio.ui.TopicsDetailActivity) -> c
+    void access$300(com.dkhs.portfolio.ui.TopicsDetailActivity) -> d
+    java.lang.Boolean access$400(com.dkhs.portfolio.ui.TopicsDetailActivity) -> e
+    java.lang.Boolean access$402(com.dkhs.portfolio.ui.TopicsDetailActivity,java.lang.Boolean) -> a
+    com.dkhs.portfolio.ui.widget.TopicsDetailScrollView access$500(com.dkhs.portfolio.ui.TopicsDetailActivity) -> f
+    com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler access$600(com.dkhs.portfolio.ui.TopicsDetailActivity) -> g
+    void access$700(com.dkhs.portfolio.ui.TopicsDetailActivity) -> h
 com.dkhs.portfolio.ui.TopicsDetailActivity$1 -> com.dkhs.portfolio.ui.gt:
     com.dkhs.portfolio.ui.TopicsDetailActivity this$0 -> a
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.dkhs.portfolio.ui.TopicsDetailActivity$2 -> com.dkhs.portfolio.ui.gu:
+    com.dkhs.portfolio.ui.TopicsDetailActivity this$0 -> a
+    java.lang.Class getClassType() -> a
+    void afterParseData(java.lang.Object) -> a
+    void onFailure(int,java.lang.String) -> onFailure
+com.dkhs.portfolio.ui.TopicsDetailActivity$2$1 -> com.dkhs.portfolio.ui.gv:
+    com.dkhs.portfolio.ui.TopicsDetailActivity$2 this$1 -> a
+    void run() -> run
+com.dkhs.portfolio.ui.TopicsDetailActivity$3 -> com.dkhs.portfolio.ui.gw:
+    com.dkhs.portfolio.ui.TopicsDetailActivity this$0 -> a
+    void loadMore() -> a
+com.dkhs.portfolio.ui.TopicsDetailActivity$4 -> com.dkhs.portfolio.ui.gx:
+    com.dkhs.portfolio.ui.TopicsDetailActivity this$0 -> a
+    void onRefresh() -> a
+com.dkhs.portfolio.ui.TopicsDetailActivity$5 -> com.dkhs.portfolio.ui.gy:
+    com.dkhs.portfolio.ui.TopicsDetailActivity this$0 -> a
     boolean onMenuItemSelected(int) -> a
-com.dkhs.portfolio.ui.TopicsDetailActivity$1$1 -> com.dkhs.portfolio.ui.gu:
-    com.dkhs.portfolio.ui.TopicsDetailActivity$1 this$1 -> a
+com.dkhs.portfolio.ui.TopicsDetailActivity$5$1 -> com.dkhs.portfolio.ui.gz:
+    com.dkhs.portfolio.ui.TopicsDetailActivity$5 this$1 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
-com.dkhs.portfolio.ui.TopicsDetailActivity$1$1$1 -> com.dkhs.portfolio.ui.gv:
-    com.dkhs.portfolio.ui.TopicsDetailActivity$1$1 this$2 -> a
+com.dkhs.portfolio.ui.TopicsDetailActivity$5$1$1 -> com.dkhs.portfolio.ui.ha:
+    com.dkhs.portfolio.ui.TopicsDetailActivity$5$1 this$2 -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
 com.dkhs.portfolio.ui.UserHomePageActivity -> com.dkhs.portfolio.ui.UserHomePageActivity:
@@ -30209,47 +30183,47 @@ com.dkhs.portfolio.ui.UserHomePageActivity -> com.dkhs.portfolio.ui.UserHomePage
     java.util.List access$700(com.dkhs.portfolio.ui.UserHomePageActivity) -> f
     com.dkhs.portfolio.bean.UserEntity access$102(com.dkhs.portfolio.ui.UserHomePageActivity,com.dkhs.portfolio.bean.UserEntity) -> a
     void access$900(com.dkhs.portfolio.ui.UserHomePageActivity,com.dkhs.portfolio.bean.UserEntity) -> b
-com.dkhs.portfolio.ui.UserHomePageActivity$1 -> com.dkhs.portfolio.ui.gw:
+com.dkhs.portfolio.ui.UserHomePageActivity$1 -> com.dkhs.portfolio.ui.hb:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.UserHomePageActivity$2 -> com.dkhs.portfolio.ui.gx:
+com.dkhs.portfolio.ui.UserHomePageActivity$2 -> com.dkhs.portfolio.ui.hc:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     boolean onMenuItemSelected(int) -> a
-com.dkhs.portfolio.ui.UserHomePageActivity$3 -> com.dkhs.portfolio.ui.gy:
+com.dkhs.portfolio.ui.UserHomePageActivity$3 -> com.dkhs.portfolio.ui.hd:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
-com.dkhs.portfolio.ui.UserHomePageActivity$4 -> com.dkhs.portfolio.ui.gz:
+    void loadFail() -> b_
+com.dkhs.portfolio.ui.UserHomePageActivity$4 -> com.dkhs.portfolio.ui.he:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
-com.dkhs.portfolio.ui.UserHomePageActivity$5 -> com.dkhs.portfolio.ui.ha:
+    void loadFail() -> b_
+com.dkhs.portfolio.ui.UserHomePageActivity$5 -> com.dkhs.portfolio.ui.hf:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
-com.dkhs.portfolio.ui.UserHomePageActivity$6 -> com.dkhs.portfolio.ui.hb:
+    void loadFail() -> b_
+com.dkhs.portfolio.ui.UserHomePageActivity$6 -> com.dkhs.portfolio.ui.hg:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     com.dkhs.portfolio.bean.UserEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.bean.UserEntity) -> a
     void onFailure(com.dkhs.portfolio.net.ErrorBundle) -> onFailure
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.UserHomePageActivity$6$1 -> com.dkhs.portfolio.ui.hc:
+com.dkhs.portfolio.ui.UserHomePageActivity$6$1 -> com.dkhs.portfolio.ui.hh:
     com.dkhs.portfolio.ui.UserHomePageActivity$6 this$1 -> a
     void run() -> run
-com.dkhs.portfolio.ui.UserHomePageActivity$7 -> com.dkhs.portfolio.ui.hd:
+com.dkhs.portfolio.ui.UserHomePageActivity$7 -> com.dkhs.portfolio.ui.hi:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     com.dkhs.portfolio.bean.UserEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.bean.UserEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.UserHomePageActivity$8 -> com.dkhs.portfolio.ui.he:
+com.dkhs.portfolio.ui.UserHomePageActivity$8 -> com.dkhs.portfolio.ui.hj:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     com.dkhs.portfolio.bean.UserEntity parseDateTask(java.lang.String) -> a
     void afterParseData(com.dkhs.portfolio.bean.UserEntity) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.UserHomePageActivity$9 -> com.dkhs.portfolio.ui.hf:
+com.dkhs.portfolio.ui.UserHomePageActivity$9 -> com.dkhs.portfolio.ui.hk:
     com.dkhs.portfolio.ui.UserHomePageActivity this$0 -> a
     void onClick(android.content.DialogInterface,int) -> onClick
 com.dkhs.portfolio.ui.UserTopicsActivity -> com.dkhs.portfolio.ui.UserTopicsActivity:
@@ -30291,31 +30265,31 @@ com.dkhs.portfolio.ui.VerificationActivity -> com.dkhs.portfolio.ui.Verification
     int access$608(com.dkhs.portfolio.ui.VerificationActivity) -> i
     android.widget.Button access$800(com.dkhs.portfolio.ui.VerificationActivity) -> j
     int access$602(com.dkhs.portfolio.ui.VerificationActivity,int) -> a
-com.dkhs.portfolio.ui.VerificationActivity$1 -> com.dkhs.portfolio.ui.hg:
+com.dkhs.portfolio.ui.VerificationActivity$1 -> com.dkhs.portfolio.ui.hl:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void onReceived(java.lang.String) -> a
-com.dkhs.portfolio.ui.VerificationActivity$2 -> com.dkhs.portfolio.ui.hh:
+com.dkhs.portfolio.ui.VerificationActivity$2 -> com.dkhs.portfolio.ui.hm:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.dkhs.portfolio.ui.VerificationActivity$3 -> com.dkhs.portfolio.ui.hi:
+com.dkhs.portfolio.ui.VerificationActivity$3 -> com.dkhs.portfolio.ui.hn:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     java.lang.Boolean parseDateTask(java.lang.String) -> a
     void afterParseData(java.lang.Boolean) -> a
     void afterParseData(java.lang.Object) -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
-com.dkhs.portfolio.ui.VerificationActivity$4 -> com.dkhs.portfolio.ui.hj:
+com.dkhs.portfolio.ui.VerificationActivity$4 -> com.dkhs.portfolio.ui.ho:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void onSuccess(java.lang.String) -> onSuccess
-com.dkhs.portfolio.ui.VerificationActivity$5 -> com.dkhs.portfolio.ui.hk:
+com.dkhs.portfolio.ui.VerificationActivity$5 -> com.dkhs.portfolio.ui.hp:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     java.lang.Object parseDateTask(java.lang.String) -> b
     void afterParseData(java.lang.Object) -> a
-com.dkhs.portfolio.ui.VerificationActivity$6 -> com.dkhs.portfolio.ui.hl:
+com.dkhs.portfolio.ui.VerificationActivity$6 -> com.dkhs.portfolio.ui.hq:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     void run() -> run
-com.dkhs.portfolio.ui.VerificationActivity$7 -> com.dkhs.portfolio.ui.hm:
+com.dkhs.portfolio.ui.VerificationActivity$7 -> com.dkhs.portfolio.ui.hr:
     com.dkhs.portfolio.ui.VerificationActivity this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
 com.dkhs.portfolio.ui.YanBaoActivity -> com.dkhs.portfolio.ui.YanBaoActivity:
@@ -30342,35 +30316,20 @@ com.dkhs.portfolio.ui.YanbaoDetailActivity -> com.dkhs.portfolio.ui.YanbaoDetail
     void initView() -> f
     void setValue() -> g
     com.dkhs.portfolio.bean.OptionNewsBean access$002(com.dkhs.portfolio.ui.YanbaoDetailActivity,com.dkhs.portfolio.bean.OptionNewsBean) -> a
-com.dkhs.portfolio.ui.YanbaoDetailActivity$1 -> com.dkhs.portfolio.ui.hn:
+com.dkhs.portfolio.ui.YanbaoDetailActivity$1 -> com.dkhs.portfolio.ui.hs:
     com.dkhs.portfolio.ui.YanbaoDetailActivity this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.OptionNewsBean) -> a
 com.dkhs.portfolio.ui.ZWMTestActivity -> com.dkhs.portfolio.ui.ZWMTestActivity:
-    com.dkhs.portfolio.ui.widget.MScrollView mMScrollView -> a
+    com.dkhs.portfolio.ui.widget.TopicsDetailScrollView mTopicsDetailScrollView -> a
     android.widget.ListView listView -> b
-    android.widget.TextView v -> c
-    android.support.v7.widget.Toolbar mToolbar -> d
-    java.util.List mStringList -> e
+    java.util.List mStringList -> c
+    android.support.v4.widget.SwipeRefreshLayout mSwipeRefreshLayout -> d
     void onCreate(android.os.Bundle) -> onCreate
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-    com.dkhs.portfolio.ui.widget.MScrollView access$000(com.dkhs.portfolio.ui.ZWMTestActivity) -> a
-com.dkhs.portfolio.ui.ZWMTestActivity$1 -> com.dkhs.portfolio.ui.ho:
+com.dkhs.portfolio.ui.ZWMTestActivity$1 -> com.dkhs.portfolio.ui.ht:
     com.dkhs.portfolio.ui.ZWMTestActivity this$0 -> a
     int getLayoutResId() -> getLayoutResId
-com.dkhs.portfolio.ui.ZWMTestActivity$2 -> com.dkhs.portfolio.ui.hp:
-    com.dkhs.portfolio.ui.ZWMTestActivity this$0 -> a
-    void run() -> run
-com.dkhs.portfolio.ui.ZWMTestActivity$3 -> com.dkhs.portfolio.ui.hq:
-    com.dkhs.portfolio.ui.ZWMTestActivity this$0 -> a
-    boolean onCreateActionMode(android.support.v7.view.ActionMode,android.view.Menu) -> a
-    boolean onPrepareActionMode(android.support.v7.view.ActionMode,android.view.Menu) -> b
-    boolean onActionItemClicked(android.support.v7.view.ActionMode,android.view.MenuItem) -> a
-    void onDestroyActionMode(android.support.v7.view.ActionMode) -> a
-com.dkhs.portfolio.ui.ZWMTestActivity$4 -> com.dkhs.portfolio.ui.hr:
-    android.support.v7.view.ActionMode$Callback val$callback -> a
-    com.dkhs.portfolio.ui.ZWMTestActivity this$0 -> b
-    void onClick(android.view.View) -> onClick
 com.dkhs.portfolio.ui.adapter.AchivementAdapter -> com.dkhs.portfolio.ui.adapter.a:
     int selectIndex -> a
     com.dkhs.portfolio.ui.widget.BenefitChartView benefitChartView -> b
@@ -31354,7 +31313,7 @@ com.dkhs.portfolio.ui.fragment.CallMeFragment -> com.dkhs.portfolio.ui.fragment.
     com.dkhs.portfolio.engine.CallMeEngineImpl getLoadEngine() -> e
     android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
-    void loadFail() -> a
+    void loadFail() -> b_
     java.lang.String getEmptyText() -> i
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> j
     android.widget.ListAdapter getListAdapter() -> k
@@ -31387,13 +31346,13 @@ com.dkhs.portfolio.ui.fragment.CombinationRankFragment -> com.dkhs.portfolio.ui.
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     void onPause() -> onPause
     void onResume() -> onResume
-    void onViewHide() -> b_
-    void onViewShow() -> c_
+    void onViewHide() -> c_
+    void onViewShow() -> d_
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> j
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
     android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
-    void loadFail() -> a
+    void loadFail() -> b_
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.CombinationRankFragment) -> a
     boolean access$102(com.dkhs.portfolio.ui.fragment.CombinationRankFragment,boolean) -> a
 com.dkhs.portfolio.ui.fragment.CombinationRankFragment$1 -> com.dkhs.portfolio.ui.fragment.e:
@@ -31421,7 +31380,7 @@ com.dkhs.portfolio.ui.fragment.CommentMeFragment -> com.dkhs.portfolio.ui.fragme
     com.dkhs.portfolio.engine.CommentMeEngineImpl getLoadEngine() -> m
     android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
-    void loadFail() -> a
+    void loadFail() -> b_
     java.lang.String getEmptyText() -> i
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> j
     android.widget.ListAdapter getListAdapter() -> k
@@ -31739,10 +31698,10 @@ com.dkhs.portfolio.ui.fragment.FragmentForStockSHC$2 -> com.dkhs.portfolio.ui.fr
 com.dkhs.portfolio.ui.fragment.FragmentForStockSHC$StockLoadDataListener -> com.dkhs.portfolio.ui.fragment.FragmentForStockSHC$a:
     com.dkhs.portfolio.ui.fragment.FragmentForStockSHC this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.FragmentLifecycle -> com.dkhs.portfolio.ui.fragment.aa:
-    void onVisible() -> d_
-    void onUnVisible() -> e_
+    void onVisible() -> e_
+    void onUnVisible() -> f_
 com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter -> com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter:
     int mType -> a
     android.support.v4.app.Fragment loadDataListFragment -> b
@@ -31822,7 +31781,7 @@ com.dkhs.portfolio.ui.fragment.FragmentMarketList -> com.dkhs.portfolio.ui.fragm
 com.dkhs.portfolio.ui.fragment.FragmentMarketList$1 -> com.dkhs.portfolio.ui.fragment.ab:
     com.dkhs.portfolio.ui.fragment.FragmentMarketList this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.FragmentMarketList$2 -> com.dkhs.portfolio.ui.fragment.ac:
     com.dkhs.portfolio.ui.fragment.FragmentMarketList this$0 -> a
     void onRefresh() -> a
@@ -31868,8 +31827,8 @@ com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend -> com.dkhs.portfolio.ui.fr
     void handleExtras(android.os.Bundle) -> a
     void handleArguments(android.os.Bundle) -> b
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
-    void onViewHide() -> b_
-    void onViewShow() -> c_
+    void onViewHide() -> c_
+    void onViewShow() -> d_
     void updateComName(com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent) -> updateComName
     void setupViewData() -> f
     void updateIncreaseRatio(float) -> a
@@ -32127,7 +32086,7 @@ com.dkhs.portfolio.ui.fragment.FragmentReportForm -> com.dkhs.portfolio.ui.fragm
 com.dkhs.portfolio.ui.fragment.FragmentReportForm$1 -> com.dkhs.portfolio.ui.fragment.ax:
     com.dkhs.portfolio.ui.fragment.FragmentReportForm this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund -> com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund:
     java.lang.String TAG -> d
     boolean isItemClickBack -> e
@@ -32160,9 +32119,9 @@ com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund -> com.dkhs.portfolio.ui.
     void onCheckedChanged(android.widget.CompoundButton,boolean) -> a
     void onClick(android.view.View) -> onClick
     void requestData() -> b
-    void onViewShow() -> c_
+    void onViewShow() -> d_
     boolean isSearchHistory() -> j
-    void onViewHide() -> b_
+    void onViewHide() -> c_
     com.dkhs.portfolio.common.WeakHandler access$000(com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund) -> a
     java.util.List access$100(com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund) -> b
     com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund access$200(com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund) -> c
@@ -32175,7 +32134,7 @@ com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund -> com.dkhs.portfolio.ui.
 com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund$1 -> com.dkhs.portfolio.ui.fragment.ay:
     com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund$2 -> com.dkhs.portfolio.ui.fragment.az:
     com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
@@ -32251,7 +32210,7 @@ com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund -> com.dkhs.portfolio.ui.
 com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund$1 -> com.dkhs.portfolio.ui.fragment.be:
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund$2 -> com.dkhs.portfolio.ui.fragment.bf:
     com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund this$0 -> a
     boolean handleMessage(android.os.Message) -> handleMessage
@@ -32368,7 +32327,7 @@ com.dkhs.portfolio.ui.fragment.FriendsOrFollowersFragment -> com.dkhs.portfolio.
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> e
     void startLoadData() -> i
     void endLoadData() -> j
-    void loadFail() -> a
+    void loadFail() -> b_
     void updateList(com.dkhs.portfolio.ui.eventbus.UnFollowEvent) -> updateList
     android.widget.ListAdapter getListAdapter() -> g
     java.util.List access$000(com.dkhs.portfolio.ui.fragment.FriendsOrFollowersFragment) -> a
@@ -32410,7 +32369,7 @@ com.dkhs.portfolio.ui.fragment.FundManagerRankingsFragment -> com.dkhs.portfolio
     com.dkhs.portfolio.engine.FundManagerRankingsEngineImpl getLoadEngine() -> m
     android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
-    void loadFail() -> a
+    void loadFail() -> b_
     void startLoadData() -> n
     void endLoadData() -> o
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> j
@@ -32442,7 +32401,7 @@ com.dkhs.portfolio.ui.fragment.FundOrderFragment -> com.dkhs.portfolio.ui.fragme
     com.dkhs.portfolio.engine.FundOrderEngineImpl getLoadEngine() -> m
     android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
-    void loadFail() -> a
+    void loadFail() -> b_
     void startLoadData() -> n
     void endLoadData() -> o
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> j
@@ -32503,7 +32462,7 @@ com.dkhs.portfolio.ui.fragment.HotPlateFragment -> com.dkhs.portfolio.ui.fragmen
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> f
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> g
-    void loadFail() -> a
+    void loadFail() -> b_
     com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl access$000(com.dkhs.portfolio.ui.fragment.HotPlateFragment) -> a
     com.dkhs.portfolio.ui.MarketListActivity$ILoadingFinishListener access$100(com.dkhs.portfolio.ui.fragment.HotPlateFragment) -> b
     java.util.List access$200(com.dkhs.portfolio.ui.fragment.HotPlateFragment) -> c
@@ -32529,7 +32488,7 @@ com.dkhs.portfolio.ui.fragment.HotTopicsFragment -> com.dkhs.portfolio.ui.fragme
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
     void requestData() -> b
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
-    void loadFail() -> a
+    void loadFail() -> b_
     void loadData() -> c
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     java.lang.String getEmptyText() -> i
@@ -32663,8 +32622,8 @@ com.dkhs.portfolio.ui.fragment.KChartsLandFragment -> com.dkhs.portfolio.ui.frag
     void setViewVisible(boolean) -> a
     void onResume() -> onResume
     void onStop() -> onStop
-    void onVisible() -> d_
-    void onUnVisible() -> e_
+    void onVisible() -> e_
+    void onUnVisible() -> f_
     void onPause() -> onPause
     void onClick(android.view.View) -> onClick
     void updateCheckView(java.lang.String) -> b
@@ -32729,7 +32688,7 @@ com.dkhs.portfolio.ui.fragment.LatestTopicsFragment -> com.dkhs.portfolio.ui.fra
     com.dkhs.portfolio.engine.LatestTopicsEngineImpl getLoadEngine() -> m
     android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
-    void loadFail() -> a
+    void loadFail() -> b_
     java.lang.String getEmptyText() -> i
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> j
     android.widget.ListAdapter getListAdapter() -> k
@@ -32803,8 +32762,8 @@ com.dkhs.portfolio.ui.fragment.MainBBSFragment -> com.dkhs.portfolio.ui.fragment
     int setContentLayoutId() -> a_
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void requestData() -> b
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void initView(android.view.View) -> a
 com.dkhs.portfolio.ui.fragment.MainBBSFragment$1 -> com.dkhs.portfolio.ui.fragment.cp:
     com.dkhs.portfolio.ui.fragment.MainBBSFragment this$0 -> a
@@ -32827,8 +32786,8 @@ com.dkhs.portfolio.ui.fragment.MainMarketFragment -> com.dkhs.portfolio.ui.fragm
     void newIntent(com.dkhs.portfolio.ui.eventbus.NewIntent) -> newIntent
     void handIntent(android.os.Bundle) -> a
     void requestData() -> b
-    void onViewHide() -> b_
-    void onViewShow() -> c_
+    void onViewHide() -> c_
+    void onViewShow() -> d_
     void rotateRefreshButton(com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent) -> rotateRefreshButton
     void stopRefreshAnimation(com.dkhs.portfolio.ui.eventbus.StopRefreshEvent) -> stopRefreshAnimation
     void onDestroy() -> onDestroy
@@ -32863,8 +32822,8 @@ com.dkhs.portfolio.ui.fragment.MainOptionalFragment -> com.dkhs.portfolio.ui.fra
     void requestData() -> b
     void setBackTitleBar() -> g
     void setOptionTitleBar() -> h
-    void onViewHide() -> b_
-    void onViewShow() -> c_
+    void onViewHide() -> c_
+    void onViewShow() -> d_
     void setCombinationBar() -> i
     void setFundBar() -> j
     void displayFragmentA() -> c
@@ -32952,7 +32911,7 @@ com.dkhs.portfolio.ui.fragment.MarketFundsFragment -> com.dkhs.portfolio.ui.frag
     void newIntent(com.dkhs.portfolio.ui.eventbus.NewIntent) -> newIntent
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void requestData() -> b
-    void onViewShow() -> c_
+    void onViewShow() -> d_
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     void initView(android.view.View) -> a
     void onClick(android.view.View) -> onClick
@@ -32965,7 +32924,7 @@ com.dkhs.portfolio.ui.fragment.MarketFundsFragment -> com.dkhs.portfolio.ui.frag
     void setDrawableUp(android.widget.TextView) -> a
     void setDrawableDown(android.widget.TextView) -> b
     void setViewOrderIndicator(android.widget.TextView,boolean) -> a
-    void onViewHide() -> b_
+    void onViewHide() -> c_
     void dataUpdate(boolean) -> a
     void access$000(com.dkhs.portfolio.ui.fragment.MarketFundsFragment,android.os.Bundle) -> a
 com.dkhs.portfolio.ui.fragment.MarketFundsFragment$1 -> com.dkhs.portfolio.ui.fragment.dc:
@@ -33007,8 +32966,8 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment -> com.dkhs.portfolio.ui.frag
     void requestData() -> b
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void onStop() -> onStop
     void initView(android.view.View) -> a
     void setDefTransittion() -> g
@@ -33060,7 +33019,7 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment$3 -> com.dkhs.portfolio.ui.fr
 com.dkhs.portfolio.ui.fragment.MarketStockFragment$4 -> com.dkhs.portfolio.ui.fragment.dg:
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.MarketStockFragment$4$1 -> com.dkhs.portfolio.ui.fragment.dh:
     com.dkhs.portfolio.ui.fragment.MarketStockFragment$4 this$1 -> a
     void run() -> run
@@ -33074,7 +33033,7 @@ com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener -> com.
     java.lang.String type -> b
     com.dkhs.portfolio.ui.fragment.MarketStockFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener$1 -> com.dkhs.portfolio.ui.fragment.dk:
     com.dkhs.portfolio.ui.fragment.MarketStockFragment$StockLoadDataListener this$1 -> a
     void run() -> run
@@ -33129,11 +33088,11 @@ com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet -> com.dkhs.portfolio.ui.fr
     void requestData() -> b
     void onResume() -> onResume
     void onStop() -> onStop
-    void onViewHide() -> b_
-    void onViewShow() -> c_
+    void onViewHide() -> c_
+    void onViewShow() -> d_
     void refresh() -> c
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
     void startLoadData() -> h
     void endLoadData() -> i
     void createNewCombination() -> f
@@ -33235,8 +33194,8 @@ com.dkhs.portfolio.ui.fragment.NewMarketStockFragment -> com.dkhs.portfolio.ui.f
     void requestData() -> b
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void onStop() -> onStop
     void initView(android.view.View) -> a
     void onStart() -> onStart
@@ -33288,8 +33247,8 @@ com.dkhs.portfolio.ui.fragment.ReportListForAllFragment -> com.dkhs.portfolio.ui
     com.dkhs.portfolio.ui.fragment.ReportListForAllFragment getFragment(com.dkhs.portfolio.engine.NewsforModel,int) -> a
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void requestData() -> b
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     void initDate() -> c
     void refreshData() -> g
@@ -33357,8 +33316,8 @@ com.dkhs.portfolio.ui.fragment.ShakeFragment -> com.dkhs.portfolio.ui.fragment.S
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void requestData() -> b
     void getDataForNet() -> c
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void gotoShakeActivity(java.lang.Object) -> a
     void hearShake() -> f
     void finishShake() -> g
@@ -33544,8 +33503,8 @@ com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment -> com.dkhs.portfoli
     void onResume() -> onResume
     int setContentLayoutId() -> a_
     void setLandCallBack(com.dkhs.portfolio.ui.widget.LandStockViewCallBack) -> a
-    void onVisible() -> d_
-    void onUnVisible() -> e_
+    void onVisible() -> e_
+    void onUnVisible() -> f_
     com.dkhs.portfolio.ui.widget.StockViewCallBack access$000(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> a
     com.dkhs.portfolio.bean.StockQuotesBean access$100(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> b
     android.view.View access$200(com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment) -> c
@@ -33600,8 +33559,8 @@ com.dkhs.portfolio.ui.fragment.TabConbinationFragment -> com.dkhs.portfolio.ui.f
     void setDataUpdateListener(com.dkhs.portfolio.ui.eventbus.IDataUpdateListener) -> a
     void onClick(android.view.View) -> onClick
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void requestData() -> b
     void initView(android.view.View) -> a
     void addItem() -> f
@@ -33625,7 +33584,7 @@ com.dkhs.portfolio.ui.fragment.TabConbinationFragment -> com.dkhs.portfolio.ui.f
 com.dkhs.portfolio.ui.fragment.TabConbinationFragment$1 -> com.dkhs.portfolio.ui.fragment.eq:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void loadFail() -> a
+    void loadFail() -> b_
 com.dkhs.portfolio.ui.fragment.TabConbinationFragment$2 -> com.dkhs.portfolio.ui.fragment.er:
     com.dkhs.portfolio.ui.fragment.TabConbinationFragment this$0 -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
@@ -33684,8 +33643,8 @@ com.dkhs.portfolio.ui.fragment.TabFundsFragment -> com.dkhs.portfolio.ui.fragmen
     void onCreate(android.os.Bundle) -> onCreate
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void requestData() -> b
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void onResume() -> onResume
     void refreshEditView() -> c
     void setDataUpdateListener(com.dkhs.portfolio.ui.eventbus.IDataUpdateListener) -> a
@@ -33732,8 +33691,8 @@ com.dkhs.portfolio.ui.fragment.TabStockFragment -> com.dkhs.portfolio.ui.fragmen
     void onCreate(android.os.Bundle) -> onCreate
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void requestData() -> b
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void onResume() -> onResume
     void refreshEditView() -> c
     void setDataUpdateListener(com.dkhs.portfolio.ui.eventbus.IDataUpdateListener) -> a
@@ -33778,20 +33737,16 @@ com.dkhs.portfolio.ui.fragment.TopicDetailFragment -> com.dkhs.portfolio.ui.frag
     void onDestroyView() -> onDestroyView
     void onViewCreated(android.view.View,android.os.Bundle) -> onViewCreated
     void refresh(com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent) -> refresh
-    void handExtraIntent() -> r
+    void handExtraIntent() -> n
     android.widget.BaseAdapter getListAdapter() -> l
     com.dkhs.portfolio.engine.TopicsCommendEngineImpl getLoadEngine() -> m
     android.support.v4.widget.SwipeRefreshLayout$OnRefreshListener setOnRefreshListener() -> g
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
     void requestData() -> b
-    void loadFail() -> a
+    void loadFail() -> b_
     void loadData() -> c
     void loadData(com.dkhs.portfolio.engine.TopicsCommendEngineImpl$SortType) -> a
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
-    void addLikePeople(com.dkhs.portfolio.bean.UserEntity) -> a
-    void removeLikePeople(com.dkhs.portfolio.bean.UserEntity) -> b
-    void like() -> n
-    void unLike() -> o
     com.dkhs.portfolio.engine.LoadMoreDataEngine getLoadEngine() -> j
     android.widget.ListAdapter getListAdapter() -> k
     com.mingle.autolist.AutoList access$000(com.dkhs.portfolio.ui.fragment.TopicDetailFragment) -> a
@@ -34023,8 +33978,8 @@ com.dkhs.portfolio.ui.fragment.TrendMonthChartFragment -> com.dkhs.portfolio.ui.
     void startRequry() -> c
     void stopRequry() -> f
     void requestData() -> b
-    void onViewHide() -> b_
-    void onViewShow() -> c_
+    void onViewHide() -> c_
+    void onViewShow() -> d_
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     void onPause() -> onPause
     void onResume() -> onResume
@@ -34093,8 +34048,8 @@ com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment -> com.dkhs.portfolio.
     void setXTitle(com.dkhs.portfolio.ui.fragment.TrendSevenDayChartFragment$DrawLineDataEntity) -> a
     void startRequry() -> c
     void stopRequry() -> f
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     void onPause() -> onPause
     void onResume() -> onResume
@@ -34162,8 +34117,8 @@ com.dkhs.portfolio.ui.fragment.TrendTodayChartFragment -> com.dkhs.portfolio.ui.
     void cancelRequest() -> k
     void setUserVisibleHint(boolean) -> setUserVisibleHint
     void onPause() -> onPause
-    void onViewHide() -> b_
-    void onViewShow() -> c_
+    void onViewHide() -> c_
+    void onViewShow() -> d_
     void onResume() -> onResume
     int setContentLayoutId() -> a_
     void onDestroyView() -> onDestroyView
@@ -34218,7 +34173,7 @@ com.dkhs.portfolio.ui.fragment.UserCombinationListFragment -> com.dkhs.portfolio
     void onActivityCreated(android.os.Bundle) -> onActivityCreated
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> e
     void onDestroy() -> onDestroy
-    void loadFail() -> a
+    void loadFail() -> b_
     void onDetach() -> onDetach
     void onLoadMore() -> f
     void setHttpHandler(com.lidroid.xutils.http.HttpHandler) -> a
@@ -34258,7 +34213,7 @@ com.dkhs.portfolio.ui.fragment.UsersTopicsFragment -> com.dkhs.portfolio.ui.frag
     android.widget.AdapterView$OnItemClickListener getItemClickListener() -> h
     void requestData() -> b
     void onResume() -> onResume
-    void loadFail() -> a
+    void loadFail() -> b_
     void loadData() -> c
     void loadFinish(com.dkhs.portfolio.bean.MoreDataBean) -> a
     java.lang.String getEmptyText() -> i
@@ -34276,8 +34231,8 @@ com.dkhs.portfolio.ui.fragment.VisiableLoadFragment -> com.dkhs.portfolio.ui.fra
     void onResume() -> onResume
     boolean iStrictVisible() -> c
     void onPause() -> onPause
-    void onViewShow() -> c_
-    void onViewHide() -> b_
+    void onViewShow() -> d_
+    void onViewHide() -> c_
     void onAttach(android.app.Activity) -> onAttach
 com.dkhs.portfolio.ui.listener.CommentItemClick -> com.dkhs.portfolio.ui.c.a:
     java.lang.String mClickUserId -> a
@@ -35364,24 +35319,6 @@ com.dkhs.portfolio.ui.widget.MAlertDialog$9 -> com.dkhs.portfolio.ui.widget.aj:
     android.content.DialogInterface$OnClickListener val$onClickListener -> a
     com.dkhs.portfolio.ui.widget.MAlertDialog this$0 -> b
     void onClick(android.view.View) -> onClick
-com.dkhs.portfolio.ui.widget.MListView -> com.dkhs.portfolio.ui.widget.MListView:
-    int mLastMotionY -> b
-    boolean isBlock -> a
-    int mActivePointerId -> c
-    int mStartPointerY -> d
-    int[] mScrollOffset -> e
-    boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
-    boolean dispatchNestedFling(float,float,boolean) -> dispatchNestedFling
-com.dkhs.portfolio.ui.widget.MScrollView -> com.dkhs.portfolio.ui.widget.MScrollView:
-    com.dkhs.portfolio.ui.widget.MListView mMListView -> a
-    int[] mScrollOffset -> b
-    boolean isFirst -> c
-    void onFinishInflate() -> onFinishInflate
-    void onWindowFocusChanged(boolean) -> onWindowFocusChanged
-    void onNestedScroll(android.view.View,int,int,int,int) -> onNestedScroll
-    void onMeasure(int,int) -> onMeasure
-    void onLayout(boolean,int,int,int,int) -> onLayout
-    void onSizeChanged(int,int,int,int) -> onSizeChanged
 com.dkhs.portfolio.ui.widget.MarqueeText -> com.dkhs.portfolio.ui.widget.MarqueeText:
     int currentScrollX -> a
     boolean isStop -> b
@@ -35983,6 +35920,39 @@ com.dkhs.portfolio.ui.widget.TimesharingplanChart -> com.dkhs.portfolio.ui.widge
     void drawVolChart(android.graphics.Canvas) -> l
     float getmGridLineHeight() -> getmGridLineHeight
     float getVolHight() -> getVolHight
+com.dkhs.portfolio.ui.widget.TopicsDetailListView -> com.dkhs.portfolio.ui.widget.TopicsDetailListView:
+    int mLastMotionY -> c
+    boolean isBlock -> a
+    android.view.View mFootView -> d
+    int mLastItem -> e
+    com.dkhs.portfolio.ui.widget.TopicsDetailScrollView mTopicsDetailScrollView -> b
+    int mActivePointerId -> f
+    int speed -> g
+    boolean parentScroll -> h
+    com.dkhs.portfolio.ui.widget.TopicsDetailListView$OnLoadMoreListener mOnLoadMoreListener -> i
+    void init() -> a
+    boolean onTouchEvent(android.view.MotionEvent) -> onTouchEvent
+    void onScrollStateChanged(android.widget.AbsListView,int) -> onScrollStateChanged
+    void onScroll(android.widget.AbsListView,int,int,int) -> onScroll
+    void setAdapter(android.widget.ListAdapter) -> setAdapter
+    void setOnLoadMoreListener(com.dkhs.portfolio.ui.widget.TopicsDetailListView$OnLoadMoreListener) -> setOnLoadMoreListener
+    void setAdapter(android.widget.Adapter) -> setAdapter
+com.dkhs.portfolio.ui.widget.TopicsDetailListView$OnLoadMoreListener -> com.dkhs.portfolio.ui.widget.TopicsDetailListView$a:
+    void loadMore() -> a
+com.dkhs.portfolio.ui.widget.TopicsDetailScrollView -> com.dkhs.portfolio.ui.widget.TopicsDetailScrollView:
+    com.dkhs.portfolio.ui.widget.TopicsDetailListView mTopicsDetailListView -> a
+    android.view.View mTopSticky -> b
+    int mTopStickyHeight -> c
+    com.melnykov.fab.ObservableScrollView$OnScrollChangedListener mOnScrollChangedListener -> d
+    boolean isFirst -> e
+    void setOnScrollChangedListener(com.melnykov.fab.ObservableScrollView$OnScrollChangedListener) -> setOnScrollChangedListener
+    void onFinishInflate() -> onFinishInflate
+    void onWindowFocusChanged(boolean) -> onWindowFocusChanged
+    boolean onInterceptTouchEvent(android.view.MotionEvent) -> onInterceptTouchEvent
+    void onScrollChanged(int,int,int,int) -> onScrollChanged
+    void onNestedScroll(android.view.View,int,int,int,int) -> onNestedScroll
+    boolean onNestedFling(android.view.View,float,float,boolean) -> onNestedFling
+    boolean listViewCanFling() -> a
 com.dkhs.portfolio.ui.widget.TrendChart -> com.dkhs.portfolio.ui.widget.TrendChart:
     java.util.List lineData -> c
     int maxPointNum -> a
@@ -41005,6 +40975,8 @@ com.melnykov.fab.FloatingActionView -> com.melnykov.fab.FloatingActionView:
     void attachToRecyclerView(android.support.v7.widget.RecyclerView) -> a
     void attachToListViewTop(android.widget.AbsListView,com.melnykov.fab.ScrollDirectionListener,android.widget.AbsListView$OnScrollListener) -> b
     void attachToScrollView(com.melnykov.fab.ObservableScrollView,com.melnykov.fab.ScrollDirectionListener,com.melnykov.fab.ObservableScrollView$OnScrollChangedListener) -> a
+    void attachToNestScrollView(com.dkhs.portfolio.ui.widget.TopicsDetailScrollView) -> a
+    void attachToNestScrollView(com.dkhs.portfolio.ui.widget.TopicsDetailScrollView,com.melnykov.fab.ScrollDirectionListener,com.melnykov.fab.ObservableScrollView$OnScrollChangedListener) -> a
     boolean hasHoneycombApi() -> a
     void access$000(com.melnykov.fab.FloatingActionView,boolean,boolean,boolean) -> a
 com.melnykov.fab.FloatingActionView$1 -> com.melnykov.fab.b:
@@ -58780,7 +58752,7 @@ org.joda.time.Chronology -> org.a.a.a:
     java.lang.String toString() -> toString
 org.joda.time.DateTime -> org.a.a.b:
     org.joda.time.DateTime toDateTime() -> a
-    org.joda.time.LocalDate toLocalDate() -> f_
+    org.joda.time.LocalDate toLocalDate() -> g_
 org.joda.time.DateTimeComparator -> org.a.a.c:
     org.joda.time.DateTimeComparator ALL_INSTANCE -> a
     org.joda.time.DateTimeComparator DATE_INSTANCE -> b
