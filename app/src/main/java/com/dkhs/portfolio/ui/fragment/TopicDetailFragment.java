@@ -55,7 +55,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BusProvider.getInstance().register(this);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -82,7 +82,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
 
     @Override
     public void onDestroyView() {
-        BusProvider.getInstance().unregister(this);
+
         super.onDestroyView();
     }
 
@@ -180,12 +180,7 @@ public class TopicDetailFragment extends AutoListLoadMoreListFragment {
     BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {
-            mAdapter = new DKBaseAdapter(mActivity, mDataList)
-                    .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(mActivity))
-                    .buildMultiItemView(CommentBean.class, new CommentHandler(mActivity, true, true))
-                    .buildMultiItemView(NoDataBean.class, new NoDataHandler())
-                    .buildMultiItemView(LoadingBean.class, new LoadingHandler())
-                    .buildMultiItemView(PeopleBean.class, new LikePeopleHandler(mActivity));
+
         }
         return mAdapter;
     }
