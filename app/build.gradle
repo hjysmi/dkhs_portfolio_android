@@ -13,8 +13,8 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 200100908
-        versionName "2.1.0.0908"
+        versionCode 200200915
+        versionName "2.2.0.0915"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
@@ -62,7 +62,6 @@ android {
             shrinkResources false
             //debug的 versionName 跟正式的不一样
             versionNameSuffix 'debug'
-//            proguardFile 'F:/dkhs/dkhs_portfolio_android2/app/proguard.cfg'
         }
     }
 
@@ -71,6 +70,7 @@ android {
             manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
         }
         rong_debug {
+            applicationId = "com.dkhs.portfolio.debug"
             manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]
         }
 
@@ -136,5 +136,6 @@ dependencies {
     compile project(':photoBrower')
     compile project(':emoji')
     compile project(':security')
+    compile project(':PhotoPicker')
     compile files('libs/android_api_3.7.0.jar')
 }

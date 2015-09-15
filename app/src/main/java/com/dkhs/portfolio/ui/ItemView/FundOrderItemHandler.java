@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.ui.adapter;
+package com.dkhs.portfolio.ui.ItemView;
 
 import android.content.Context;
 import android.text.TextUtils;

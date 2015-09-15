@@ -129,17 +129,17 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     }
 
     public void searchByKey(String key) {
+
         if (!TextUtils.isEmpty(mSearchType)) {
+            key.trim();
             mDataList.clear();
             if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_FUNDS)) {
 
-                // new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
-                mSearchEngine.searchFunds(key);
+                mSearchEngine.searchFundsByLoader(key, getActivity());
             } else if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_STOCK)) {
-
-                mSearchEngine.searchStock(key);
+                mSearchEngine.searchStockByLoader(key, getActivity());
             } else {
-                mSearchEngine.searchStockIndexFunds(key);
+                mSearchEngine.searchStockIndexFunds(key, getActivity());
             }
             mAdapterConbinStock.notifyDataSetChanged();
         }
@@ -372,7 +372,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         super.onViewShow();
         if (isSearchHistory()) {
             mDataList.clear();
-            mSearchEngine.searchHistoryStock();
+            mSearchEngine.searchHistoryStock(getActivity());
         }
 
     }

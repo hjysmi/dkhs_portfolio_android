@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.engine;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.app.AppConfig;
@@ -17,15 +19,15 @@ import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockProfileDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.LoaderHelper;
+import com.dkhs.portfolio.engine.LocalDataEngine.VisitorCursorCreateImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.db.sqlite.WhereBuilder;
-import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -60,7 +62,7 @@ public class SearchStockEngineImpl {
         StringBuilder sbLastDate = new StringBuilder("&last_datetime=");
         if (TextUtils.isEmpty(lastLoadTime)) {
 
-            sbLastDate.append("2015-07-28T01:11:23Z");
+            sbLastDate.append("2015-09-10T06:37:15Z");
         } else {
 
             sbLastDate.append(lastLoadTime);
@@ -78,8 +80,6 @@ public class SearchStockEngineImpl {
 
             try {
 
-                // Type listType = new TypeToken<List<SearchStockBean>>() {
-                // }.getType();
                 StockProfileDataBean dataBean = DataParse.parseObjectJson(StockProfileDataBean.class, jsonData);
                 // dataList = DataParse.parseJsonList(jsonData, listType);
                 if (null != dataBean) {
@@ -113,48 +113,11 @@ public class SearchStockEngineImpl {
         }
     };
 
-    public void searchStock(final String key) {
-
-        new Thread() {
-            public void run() {
-
-                DbUtils dbUtils = AppConfig.getDBUtils();
-                // dbUtils.findById(SearchStockBean.class, key);
-                List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
-                try {
-                    // List<SearchStockBean> searchStockList = dbUtils.findAll(Selector.from(SearchStockBean.class)
-                    // .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
-                    // .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "1").and("is_stop", "!=",
-                    // "1"));
-                    List<SearchStockBean> searchStockList = dbUtils
-                            .findAll(Selector.from(SearchStockBean.class)
-                                    .where("symbol_type", "=", "1")
-                                            // .and(WhereBuilder.b("is_stop", "!=", "1"))
-                                    .and(WhereBuilder.b("list_status", "!=", "2"))
-                                    .and(WhereBuilder.b("list_status", "!=", "3"))
-                                    .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
-                                            .or("stock_code", "LIKE", "%" + key + "%")
-                                            .or("stock_symbol", "LIKE", "%" + key + "%")
-                                            .or("chi_spell", "LIKE", "%" + key + "%")));
-                    if (null != searchStockList) {
-                        for (SearchStockBean searchBean : searchStockList) {
-                            selectStockList.add(SelectStockBean.copy(searchBean));
-                        }
-                        LogUtils.d(" searchStockDataList size:" + selectStockList.size());
-                    } else {
-
-                        LogUtils.d(" searchStockDataList is null");
-                    }
-                } catch (DbException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                setSearchBack(selectStockList);
-
-            }
-
-            ;
-        }.start();
+    public void searchStockByLoader(String key, FragmentActivity activity) {
+        Bundle args = new Bundle();
+        args.putInt(VisitorCursorCreateImpl.TYPE, VisitorCursorCreateImpl.VALUE_SEARCH_STOCK);
+        args.putString(VisitorCursorCreateImpl.TYPE_SEARCH, key);
+        LoaderHelper.initCursorLoader(activity, args, new SearchStockCallBack());
 
     }
 
@@ -170,172 +133,69 @@ public class SearchStockEngineImpl {
         }
     }
 
-    public void searchFunds(final String key) {
-        new Thread() {
-            public void run() {
-                DbUtils dbUtils = AppConfig.getDBUtils();
-                // dbUtils.findById(SearchStockBean.class, key);
+
+    public void searchFundsByLoader(String key, FragmentActivity activity) {
+        Bundle args = new Bundle();
+        args.putInt(VisitorCursorCreateImpl.TYPE, VisitorCursorCreateImpl.VALUE_SEARCH_FUNDS);
+        args.putString(VisitorCursorCreateImpl.TYPE_SEARCH, key);
+        LoaderHelper.initCursorLoader(activity, args, new SearchStockCallBack());
+
+    }
+
+    private class SearchStockCallBack implements IResultCallback<SearchStockBean> {
+        @Override
+        public void onResultCallback(List<SearchStockBean> searchStockList) {
+            List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
+            if (null != searchStockList) {
+                for (SearchStockBean searchBean : searchStockList) {
+                    selectStockList.add(SelectStockBean.copy(searchBean));
+                }
+                LogUtils.d(" searchStockDataList size:" + selectStockList.size());
+            } else {
+
+                LogUtils.d(" searchStockDataList is null");
+            }
+
+            setSearchBack(selectStockList);
+
+
+        }
+    }
+
+    public void searchStockIndexFunds(String key, FragmentActivity activity) {
+        LogUtils.e(" searchStockIndexFunds:" + key);
+        Bundle args = new Bundle();
+        args.putInt(VisitorCursorCreateImpl.TYPE, VisitorCursorCreateImpl.VALUE_SEARCH_STOCKINDEXFUNDS);
+        args.putString(VisitorCursorCreateImpl.TYPE_SEARCH, key);
+        LoaderHelper.initCursorLoader(activity, args, new SearchStockCallBack());
+
+    }
+
+
+    public void searchHistoryStock(FragmentActivity activity) {
+        Bundle args = new Bundle();
+        args.putInt(VisitorCursorCreateImpl.TYPE, VisitorCursorCreateImpl.VALUE_SEARCH_HISTORYSTOCK);
+
+        LoaderHelper.initCursorLoader(activity, args, new IResultCallback<SearchHistoryBean>() {
+            @Override
+            public void onResultCallback(List<SearchHistoryBean> searchStockList) {
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
-                try {
-                    // List<SearchStockBean> searchStockList =
-                    // dbUtils.findAll(Selector.from(SearchStockBean.class).where(whereBuilder)
-                    // .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
-                    // .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "3"));
-
-
-                    /**
-                     * (300, '股票'),
-                     (301, '混合型基金'),
-                     (302, '债卷型基金'),
-                     (303, '指数型基金'),
-                     (304, '保本型基金'),
-                     (305, 'qdii'),
-                     (306, 'etf'),
-                     (307, 'lof'),
-                     (308, 'other'),
-                     */
-                    List<SearchStockBean> searchStockList = dbUtils
-                            .findAll(Selector
-                                    .from(SearchStockBean.class)
-                                    .where("symbol_type", "in", new String[]{"3", "5"})
-                                    .and("symbol_stype", "in", new String[]{"300", "303"})
-                                    .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
-                                            .or("stock_code", "LIKE", "%" + key + "%")
-                                            .or("stock_symbol", "LIKE", "%" + key + "%")
-                                            .or("chi_spell", "LIKE", "%" + key + "%")));
-                    if (null != searchStockList) {
-                        for (SearchStockBean searchBean : searchStockList) {
-                            selectStockList.add(SelectStockBean.copy(searchBean));
-                        }
-                        LogUtils.d(" searchfundDataList size:" + selectStockList.size());
-                    } else {
-
-                        LogUtils.d(" searchFundDataList is null");
+                if (null != searchStockList) {
+                    for (SearchHistoryBean searchBean : searchStockList) {
+                        selectStockList.add(SelectStockBean.copy(searchBean));
                     }
-                } catch (DbException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    LogUtils.d(" searchHistoryStock size:" + selectStockList.size());
+                } else {
+
+                    LogUtils.d(" searchHistoryStock is null");
                 }
 
                 setSearchBack(selectStockList);
             }
-
-            ;
-        }.start();
+        });
 
     }
 
-//    public void searchStockAndIndex(final String key) {
-//        new Thread() {
-//            public void run() {
-//                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-//                // dbUtils.findById(SearchStockBean.class, key);
-//                List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
-//                try {
-//                    // List<SearchFundsBean> searchStockList = dbUtils.findAll(Selector.from(SearchFundsBean.class)
-//                    // .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
-//                    // .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "1,5"));
-//
-//                    List<SearchStockBean> searchStockList = dbUtils
-//                            .findAll(Selector
-//                                    .from(SearchStockBean.class)
-//                                    .where("symbol_type", "in", new String[] { "1", "5" })
-//                                    .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
-//                                            .or("stock_code", "LIKE", "%" + key + "%")
-//                                            .or("chi_spell", "LIKE", "%" + key + "%")));
-//
-//                    if (null != searchStockList) {
-//                        for (SearchStockBean searchBean : searchStockList) {
-//                            selectStockList.add(SelectStockBean.copy(searchBean));
-//                        }
-//                        LogUtils.d(" searchfundDataList size:" + selectStockList.size());
-//                    } else {
-//
-//                        LogUtils.d(" searchFundDataList is null");
-//                    }
-//                } catch (DbException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
-//                moreDataBean.setCurrentPage(1);
-//                moreDataBean.setResults(selectStockList);
-//                moreDataBean.setTotalCount(selectStockList.size());
-//                moreDataBean.setTotalPage(1);
-//                iLoadListener.loadFinish(moreDataBean);
-//            };
-//        }.start();
-//    }
-
-    public void searchStockIndexFunds(final String key) {
-        new Thread() {
-            public void run() {
-                DbUtils dbUtils = AppConfig.getDBUtils();
-                // dbUtils.findById(SearchStockBean.class, key);
-                List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
-                try {
-
-                    List<SearchStockBean> searchStockList = dbUtils
-                            .findAll(Selector
-                                    .from(SearchStockBean.class)
-                                    .where("symbol_type", "in", new String[]{"1", "5", "3"})
-                                    .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
-                                            .or("stock_code", "LIKE", "%" + key + "%")
-                                            .or("stock_symbol", "LIKE", "%" + key + "%")
-                                            .or("chi_spell", "LIKE", "%" + key + "%")));
-
-                    if (null != searchStockList) {
-                        for (SearchStockBean searchBean : searchStockList) {
-                            selectStockList.add(SelectStockBean.copy(searchBean));
-                        }
-                        LogUtils.d(" searchfundDataList size:" + selectStockList.size());
-                    } else {
-
-                        LogUtils.d(" searchFundDataList is null");
-                    }
-                } catch (DbException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                setSearchBack(selectStockList);
-            }
-
-            ;
-        }.start();
-    }
-
-    public void searchHistoryStock() {
-        new Thread() {
-            public void run() {
-                DbUtils dbUtils = AppConfig.getDBUtils();
-                // dbUtils.findById(SearchStockBean.class, key);
-                List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
-                try {
-
-                    List<SearchHistoryBean> searchStockList = dbUtils
-                            .findAll(Selector.from(SearchHistoryBean.class).orderBy("saveTime", true)
-                                            .limit(20)
-                            );
-
-                    if (null != searchStockList) {
-                        for (SearchHistoryBean searchBean : searchStockList) {
-                            selectStockList.add(SelectStockBean.copy(searchBean));
-                        }
-                        LogUtils.d(" searchHistoryStock size:" + selectStockList.size());
-                    } else {
-
-                        LogUtils.d(" searchHistoryStock is null");
-                    }
-                } catch (DbException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                setSearchBack(selectStockList);
-            }
-
-            ;
-        }.start();
-    }
 
     public SearchStockEngineImpl(ILoadDataBackListener loadListener) {
         this.iLoadListener = loadListener;

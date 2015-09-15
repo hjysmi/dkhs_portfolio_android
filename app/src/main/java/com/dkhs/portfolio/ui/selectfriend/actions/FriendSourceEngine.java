@@ -153,20 +153,25 @@ public class FriendSourceEngine {
 
     private void notifyDataRefresh(List<SortUserEntity> userList) {
 
-        mSortList.clear();
-        mSortList.addAll(userList);
-        dispatcher.dispatch(
-                FriendSourceEngine.FRIEND_NET_DATA,
-                FriendSourceEngine.KEY_FRIENDLIST, mSortList
-        );
+        if (null != userList) {
+
+
+            mSortList.clear();
+            mSortList.addAll(userList);
+            dispatcher.dispatch(
+                    FriendSourceEngine.FRIEND_NET_DATA,
+                    FriendSourceEngine.KEY_FRIENDLIST, mSortList
+            );
+        }
     }
 
     private void notifyDataSearch(List<SortUserEntity> userList) {
-
-        dispatcher.dispatch(
-                FriendSourceEngine.FRIEND_SEARCH_DATA,
-                FriendSourceEngine.KEY_FRIENDLIST, userList
-        );
+        if (null != userList) {
+            dispatcher.dispatch(
+                    FriendSourceEngine.FRIEND_SEARCH_DATA,
+                    FriendSourceEngine.KEY_FRIENDLIST, userList
+            );
+        }
     }
 
 

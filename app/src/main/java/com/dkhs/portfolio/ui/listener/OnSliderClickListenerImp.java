@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 
 /**

@@ -78,8 +78,6 @@ public final class AppConfig {
     }
 
 
-
-
     private void copyDataBaseToPhone() {
 
         final DataBaseUtil util = new DataBaseUtil(mContext);
