@@ -13,4 +13,11 @@ public class LoaderHelper {
     public static void initCursorLoader(FragmentActivity activity, Bundle bundle, LoaderManager.LoaderCallbacks<Cursor> callbackscallback) {
         activity.getSupportLoaderManager().initLoader(0, bundle, callbackscallback);
     }
+
+    public static void initCursorLoader(FragmentActivity activity, Bundle bundle, IResultCallback resultCallback) {
+        int id = bundle.getInt(VisitorCursorCreateImpl.TYPE, 0);
+        activity.getSupportLoaderManager().restartLoader(id, bundle, new VisitorLoaderCallbacks(activity, resultCallback));
+    }
+
+
 }

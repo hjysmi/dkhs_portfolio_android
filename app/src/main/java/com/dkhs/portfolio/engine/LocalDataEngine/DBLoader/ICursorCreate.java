@@ -9,4 +9,6 @@ import android.os.Bundle;
 public interface ICursorCreate {
 
     public Cursor createCusor(Bundle args);
+
+    public Class<?> getCursorClass(Bundle args);
 }

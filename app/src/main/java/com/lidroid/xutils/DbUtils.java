@@ -513,6 +513,18 @@ public class DbUtils {
         return execQuery(sql);
     }
 
+    @SuppressWarnings("unchecked")
+    public Cursor findSelectorAllCursor(Selector selector) throws DbException {
+        if (!tableIsExist(selector.getEntityType()))
+            return null;
+
+        String sql = selector.toString();
+
+
+        return execQuery(sql);
+
+    }
+
     public <T> List<T> findAll(Class<T> entityType) throws DbException {
         return findAll(Selector.from(entityType));
     }
