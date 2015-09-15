@@ -5,10 +5,13 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.NestedScrollingChild;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewParentCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewParent;
 import android.widget.ListView;
 
 import com.lidroid.xutils.util.LogUtils;
@@ -23,6 +26,8 @@ import com.lidroid.xutils.util.LogUtils;
 public class MListView extends ListView  implements NestedScrollingChild {
 
     private int mLastMotionY;
+
+    public boolean isBlock=false;
 
     public MListView(Context context) {
         super(context);
@@ -46,6 +51,8 @@ public class MListView extends ListView  implements NestedScrollingChild {
      * drags/flings if multiple pointers are used.
      */
     private int mActivePointerId = -1;
+
+    private int mStartPointerY=-1;
       private final int[] mScrollOffset = new int[2];
 
 
@@ -59,9 +66,15 @@ public class MListView extends ListView  implements NestedScrollingChild {
             case MotionEvent.ACTION_DOWN: {
 
                 // Remember where the motion event started
-                mLastMotionY = (int) ev.getY();
+                mLastMotionY = (int) ev.getRawY();
+                mStartPointerY = (int) ev.getRawY();
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
+                final ViewParent parent = getParent();
+                if (parent != null) {
+                    parent.requestDisallowInterceptTouchEvent(true);
+                }
 
+                ViewParentCompat.onStartNestedScroll(this.getParent().getParent(), this, (View) this.getParent().getParent(),ViewCompat.SCROLL_AXIS_VERTICAL);
                 break;
             }
             case MotionEvent.ACTION_MOVE:
@@ -71,25 +84,34 @@ public class MListView extends ListView  implements NestedScrollingChild {
                     Log.e("", "Invalid pointerId=" + mActivePointerId + " in onTouchEvent");
                     break;
                 }
-
-                if(getAdapter() != null &&  this.getChildAt(0)!= null){
+                LogUtils.e("     getRawY  " +(int) ev.getRawY());
+                if(getAdapter() != null &&  this.getChildAt(0)!= null ){
                     LogUtils.e(""+this.getChildAt(0).getTop());
-                    if(this.getChildAt(0).getTop()==0) {
-                        LogUtils.e("       " +(mLastMotionY-(int) ev.getY())  );
+                    if(this.getChildAt(0).getTop() ==0 ) {
 
-                        ViewParentCompat.onNestedScroll(this.getParent().getParent(),this,0, mLastMotionY-(int) ev.getY(), 0, 0);
+                        ViewParentCompat.onNestedScroll(this.getParent().getParent(), this, 0, mLastMotionY - (int) ev.getRawY(), 0, 0);
+
+
+
+                        LogUtils.e("tag " + isBlock);
+                        if(isBlock){
+                            mLastMotionY = (int) ev.getRawY();
+                            return true;
+                        }
+
                     }
-
-
                 }
-
-                mLastMotionY = (int) ev.getY();
-
-                LogUtils.e("mLastMotionY   "+mLastMotionY);
+                mLastMotionY = (int) ev.getRawY();
 
 
         }
 
-        return super.onTouchEvent(ev);
+         super.onTouchEvent(ev);
+        return true;
+    }
+
+    @Override
+    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
+        return super.dispatchNestedFling(velocityX, velocityY, consumed);
     }
 }

@@ -91,12 +91,16 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
 
 
         TopicsImageViewHandler topicsImageViewHandler= (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+
+
+
         if(topicsImageViewHandler == null){
             topicsImageViewHandler=  new TopicsImageViewHandler();
             vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
         }
 
-        topicsImageViewHandler .handleMedias(vh, data);
+        topicsImageViewHandler .handleMedias(vh, data,false);
+
 
         TextSwitcher textSwitcher = vh.get(R.id.tv_like);
         if (data.attitudes_count > 0) {

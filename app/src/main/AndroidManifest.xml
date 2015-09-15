@@ -472,6 +472,15 @@
         <activity
             android:name=".ui.MyAssestsActivity"
             android:label="@string/my_assets" />
+        <!--<activity-->
+            <!--android:name=".ui.ZWMTestActivity"-->
+            <!--android:theme="@style/Theme.AppCompatRed"-->
+            <!--android:label="@string/title_activity_zwmtest" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
     </application>
 
 </manifest>
