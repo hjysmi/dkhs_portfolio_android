@@ -15,7 +15,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundOrderEngineImpl;
 import com.dkhs.portfolio.ui.FundDetailActivity;
-import com.dkhs.portfolio.ui.adapter.FundOrderItemHandler;
+import com.dkhs.portfolio.ui.ItemView.FundOrderItemHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;

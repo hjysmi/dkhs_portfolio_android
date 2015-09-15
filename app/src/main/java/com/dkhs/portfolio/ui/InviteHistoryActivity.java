@@ -10,7 +10,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.InvitationBean;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.adapter.InvitationsItemHandler;
+import com.dkhs.portfolio.ui.ItemView.InvitationsItemHandler;
 import com.dkhs.widget.CircularProgress;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;

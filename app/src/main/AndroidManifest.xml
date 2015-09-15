@@ -36,7 +36,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTranslucentTheme" >
+        android:theme="@style/AppTranslucentTheme">
 
         <!-- 百度统计  start -->
         <!-- 您从百度网站获取的APP KEY -->
@@ -197,7 +197,7 @@
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
@@ -251,8 +251,8 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <receiver android:name=".receiver.CompleteReceiver" >
-            <intent-filter android:priority="1000" >
+        <receiver android:name=".receiver.CompleteReceiver">
+            <intent-filter android:priority="1000">
 
                 <!-- 设置最高优先级 -->
 
@@ -261,14 +261,14 @@
         </receiver>
         <receiver
             android:name=".ui.messagecenter.MessageReceive"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".receiver.MessageNotificationClickReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.dkhs.portfolio.NotificationClick" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -282,7 +282,7 @@
         <service
             android:name=".service.PostTopicService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.dkhs.posttopic.service.action.upload" />
             </intent-filter>
@@ -301,7 +301,7 @@
         <activity
             android:name=".ui.RCChatListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -316,7 +316,7 @@
         <activity
             android:name=".ui.RCChatActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -331,7 +331,7 @@
         <activity
             android:name=".ui.RCChatSettingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -348,7 +348,7 @@
         <!-- start Rong Cloud -->
         <activity
             android:name="io.rong.voipkit.activity.CallSideActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -363,7 +363,7 @@
         <activity
             android:name="io.rong.voipkit.activity.CalledSideActivity"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -466,17 +466,22 @@
             android:label="@string/title_activity_call_me" />
         <activity
             android:name=".ui.SelectFriendActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/title_pickup_user" />
+            android:label="@string/title_pickup_user"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.TestActivity" />
+
+
+        <activity
+            android:name=".ui.pickphoto.PhotoPickerActivity"
+            android:label="@string/title_picker_photo" />
         <!--<activity-->
-            <!--android:name=".ui.ZWMTestActivity"-->
-            <!--android:theme="@style/Theme.AppCompatRed"-->
-            <!--android:label="@string/title_activity_zwmtest" >-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <!--android:name=".ui.ZWMTestActivity"-->
+        <!--android:theme="@style/Theme.AppCompatRed"-->
+        <!--android:label="@string/title_activity_zwmtest" >-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
         <!--</activity>-->
     </application>
 

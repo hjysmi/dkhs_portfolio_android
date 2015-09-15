@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
@@ -19,6 +18,7 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.engine.UploadImageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -26,13 +26,10 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
 import com.dkhs.portfolio.ui.eventbus.SendTopicEvent;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.mingle.autolist.AutoData;
 
 import org.parceler.Parcels;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -112,42 +109,67 @@ public class PostTopicService extends IntentService {
     }
 
 
-    private void postTopic(DraftBean statusBean) {
+    private void postTopic(final DraftBean statusBean) {
 
-        if (!TextUtils.isEmpty(statusBean.getImageFilepath())) {
+        if (statusBean.getPhotoList().size() > 0) {
+            UploadImageEngine uploadImageEngine = new UploadImageEngine();
+
+            uploadImageEngine.setUploadListener(new UploadImageEngine.UploadImageListener() {
+                @Override
+                public void onFailure(String errorMsg) {
+                    statusBean.setFailReason(errorMsg);
+                    requestError(statusBean);
+                }
+
+                @Override
+                public void onSuccess() {
+
+
+                    StringBuilder mediaIDs = new StringBuilder();
+                    for (String path : statusBean.getPhotoList()) {
+                        mediaIDs.append(UploadImageEngine.uploadMap.get(path));
+                        mediaIDs.append(",");
+                    }
+                    String ids = mediaIDs.substring(0, mediaIDs.length() - 1);
+                    StatusEngineImpl.postStatus(statusBean.getSimpleTitle(), statusBean.getSimpleContent(), statusBean.getStatusId(), null, 0, 0, ids, new PostTopicListener(statusBean));
+
+
+                }
+            });
+            uploadImageEngine.setPhotoList(statusBean.getPhotoList());
             //上传图片
-            saveBitmapAndUpload(statusBean);
+//            saveBitmapAndUpload(statusBean);
 //            StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
         } else {
             StatusEngineImpl.postStatus(statusBean.getSimpleTitle(), statusBean.getSimpleContent(), statusBean.getStatusId(), null, 0, 0, "", new PostTopicListener(statusBean));
 
         }
 
-
     }
 
-    private void saveBitmapAndUpload(final DraftBean statusBean) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Bitmap imageBitmap = UIUtils.getLocaleimage(statusBean.getImageFilepath());
-                    File f = new File(statusBean.getImageFilepath());
-                    if (f.exists()) {
-                        f.delete();
-                    }
-                    FileOutputStream out = new FileOutputStream(f);
-                    Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, statusBean.getImageFilepath());
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                    out.flush();
-                    out.close();
-                    StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
+
+//    private void saveBitmapAndUpload(final String filePath) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Bitmap imageBitmap = UIUtils.getLocaleimage(statusBean.getImageFilepath());
+//                    File f = new File(statusBean.getImageFilepath());
+//                    if (f.exists()) {
+//                        f.delete();
+//                    }
+//                    FileOutputStream out = new FileOutputStream(f);
+//                    Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, statusBean.getImageFilepath());
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+//                    out.flush();
+//                    out.close();
+//                    StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
+//    }
 
 
     private class UploadListener extends ParseHttpListener<UploadImageBean> {
@@ -235,6 +257,7 @@ public class PostTopicService extends IntentService {
         @Override
         protected void afterParseData(TopicsBean entity) {
             PromptManager.closeProgressDialog();
+            UploadImageEngine.uploadMap.clear();
             if (null != entity) {
                 if (mStatusBean.getLabel() == 1) {
 //                    AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);

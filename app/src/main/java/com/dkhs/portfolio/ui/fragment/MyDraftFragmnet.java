@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
+import com.bumptech.glide.Glide;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.engine.DraftEngine;
@@ -38,13 +40,13 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
 import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
-import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -250,8 +252,15 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
 
             String strContent = item.getSimpleContent();
 
-            if (!TextUtils.isEmpty(item.getImageUri())) {
-                ImageLoaderUtils.setImage(item.getImageUri(), holder.ivImage);
+            if (item.getPhotoList().size() > 0) {
+                Uri uri = Uri.fromFile(new File(item.getPhotoList().get(0)));
+                Glide.with(getActivity())
+                        .load(uri)
+                        .centerCrop()
+                        .thumbnail(0.1f)
+                        .placeholder(R.drawable.ic_img_thumbnail)
+                        .error(R.drawable.ic_img_failure)
+                        .into(holder.ivImage);
                 holder.ivImage.setVisibility(View.VISIBLE);
             } else {
                 holder.ivImage.setVisibility(View.GONE);

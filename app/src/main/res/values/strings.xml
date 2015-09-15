@@ -758,6 +758,8 @@
     <!--举报 end-->
     <string name="title_pickup_user">选择用户</string>
     <string name="last_contact_friend">最近联系人</string>
+    <string name="title_picker_photo">相机胶卷</string>
+    <string name="btn_next_step">下一步(%1$d/%2$d)</string>
 
 
     <!-- topic text format Start-->
@@ -766,5 +768,6 @@
     <string name="topic_format_friend"><a href="portfolio:friend">@%s</a></string>
     <string name="title_activity_zwmtest">ZWMTestActivity</string>
     <!-- topic text format End -->
+
 
 </resources>

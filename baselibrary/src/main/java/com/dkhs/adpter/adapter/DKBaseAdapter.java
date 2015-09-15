@@ -72,7 +72,7 @@ public class DKBaseAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return mItemHandlerHashMap.size();
+        return mItemHandlerHashMap.size() == 0 ? 1 : mItemHandlerHashMap.size();
     }
 
 
@@ -113,6 +113,10 @@ public class DKBaseAdapter extends BaseAdapter {
         return this;
     }
 
+    /**
+     * must override
+     * getViewType
+     */
     public DKBaseAdapter buildCustonTypeItemView(int type, ItemHandler itemHandler) {
         isBuildMulti = false;
         mItemHandlerHashMap.put(type, itemHandler);

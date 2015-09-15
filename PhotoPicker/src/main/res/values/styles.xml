@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- popupwindow 动画 -->
+    <style name="pop_animation">
+        <item name="android:windowEnterAnimation">@anim/dir_pop_show</item>
+        <item name="android:windowExitAnimation">@anim/dir_pop_out</item>
+    </style>
+
+
+    <style name="listViewStyle">
+        <item name="android:divider">@color/theme_gray_press</item>
+        <item name="android:dividerHeight">0.5px</item>
+        <item name="android:childDivider">@null</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:gravity">center|fill</item>
+    </style>
+
+</resources>
