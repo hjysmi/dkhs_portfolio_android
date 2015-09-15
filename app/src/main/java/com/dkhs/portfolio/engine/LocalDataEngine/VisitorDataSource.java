@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 
 import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
 import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.LoaderHelper;
-import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.VisitorCursorCreateImpl;
 
 /**
  * Created by zjz on 2015/9/10.

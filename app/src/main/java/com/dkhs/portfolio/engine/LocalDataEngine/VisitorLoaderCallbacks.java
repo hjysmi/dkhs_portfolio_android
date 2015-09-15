@@ -1,8 +1,11 @@
-package com.dkhs.portfolio.engine.LocalDataEngine.DBLoader;
+package com.dkhs.portfolio.engine.LocalDataEngine;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.DKCursorLoaderCallbacks;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
 
 /**
  * Created by zjz on 2015/9/10.

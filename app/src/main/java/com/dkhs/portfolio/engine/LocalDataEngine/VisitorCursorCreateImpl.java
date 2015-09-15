@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.engine.LocalDataEngine.DBLoader;
+package com.dkhs.portfolio.engine.LocalDataEngine;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.bean.SearchHistoryBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.ICursorCreate;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.db.sqlite.WhereBuilder;

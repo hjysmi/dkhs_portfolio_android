@@ -21,7 +21,7 @@ import com.dkhs.portfolio.bean.StockProfileDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
 import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.LoaderHelper;
-import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.VisitorCursorCreateImpl;
+import com.dkhs.portfolio.engine.LocalDataEngine.VisitorCursorCreateImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
