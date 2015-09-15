@@ -469,6 +469,9 @@
             android:windowSoftInputMode="adjustPan"
             android:label="@string/title_pickup_user" />
         <activity android:name=".ui.TestActivity" />
+        <activity
+            android:name=".ui.MyAssestsActivity"
+            android:label="@string/my_assets" />
     </application>
 
 </manifest>

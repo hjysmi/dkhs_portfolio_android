@@ -767,4 +767,15 @@
     <string name="title_activity_zwmtest">ZWMTestActivity</string>
     <!-- topic text format End -->
 
+    <!--我的资产 start -->
+    <string name="default_value">-</string>
+    <string name="my_assets">我的资产</string>
+    <string name="total_assets">总资产</string>
+    <string name="recent_profit">今日最新收益</string>
+    <string name="total_profit">累计收益</string>
+    <string name="my_funds">持仓基金</string>
+    <string name="my_trade_history">交易记录</string>
+    <string name="my_bank_cards">银行卡</string>
+    <!--我的资产 end-->
+
 </resources>

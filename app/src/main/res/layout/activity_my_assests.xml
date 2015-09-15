@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/activity_bg_color"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_assets"
+            android:layout_marginTop="@dimen/widget_margin_large"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/widget_text_14sp"
+            android:textColor="@color/gray_textcolor"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:layout_marginTop="@dimen/widget_margin_medium"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/widget_text_30sp"
+            android:textColor="@color/red"
+            android:id="@+id/tv_total_assests"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/widget_margin_normal"
+            android:layout_marginBottom="@dimen/widget_margin_normal"
+            >
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_14sp"
+                    android:text="@string/recent_profit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:textSize="@dimen/widget_text_18sp"
+                    android:text="@string/default_value"
+                    android:textColor="@color/red"
+                    android:id="@+id/tv_recent_profit"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_14sp"
+                    android:text="@string/total_profit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:textSize="@dimen/widget_text_18sp"
+                    android:text="@string/default_value"
+                    android:textColor="@color/red"
+                    android:id="@+id/tv_total_profit"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/widget_margin_large"
+        android:background="@color/white"
+        android:id="@+id/lv_assests"
+        />
+</LinearLayout>

@@ -281,6 +281,7 @@
     <string-array name="user_info_title">
         <item>@string/message_center</item>
         <item>@string/info_title_mycom</item>
+        <item>@string/my_assets</item>
         <item>@string/info_title_mytopic</item>
         <item>@string/info_title_myreply</item>
         <item>@string/info_title_mydraft</item>
@@ -289,6 +290,7 @@
     </string-array>
     <integer-array name="ic_info_ids">
         <item>@drawable/ic_info_message</item>
+        <item>@drawable/ic_info_combina</item>
         <item>@drawable/ic_info_combina</item>
         <item>@drawable/ic_info_topic</item>
         <item>@drawable/ic_info_reply</item>
@@ -320,5 +322,15 @@
         <item>@string/copy_content</item>
         <item>@string/title_status_report</item>
     </string-array>
+    <string-array name="my_assests_title">
+        <item>@string/my_funds</item>
+        <item>@string/my_trade_history</item>
+        <item>@string/my_bank_cards</item>
+    </string-array>
+    <integer-array name="ic_assest_ids">
+        <item>@drawable/ic_info_message</item>
+        <item>@drawable/ic_info_combina</item>
+        <item>@drawable/ic_info_combina</item>
+    </integer-array>
 
 </resources>
