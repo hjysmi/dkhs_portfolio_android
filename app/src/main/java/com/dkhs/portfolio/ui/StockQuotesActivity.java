@@ -1132,7 +1132,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         bottomLayout.setVisibility(View.VISIBLE);
         viewHeader.setVisibility(View.VISIBLE);
         mActionMenu.setVisibility(View.VISIBLE);
-        landStockview.setVisibility(View.INVISIBLE);
+        if (null != landStockview) {
+            landStockview.setVisibility(View.INVISIBLE);
+        }
         fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(true);
         showHead();
         ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[]{1.0F})

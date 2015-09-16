@@ -139,7 +139,7 @@ public class DraftBean {
 
 
     @Column(column = COLUM_SIMPLE_CONTENT)
-    private String simleContent;
+    String simleContent;
 
 //    public String getSimleTitle() {
 //        return simleTitle;

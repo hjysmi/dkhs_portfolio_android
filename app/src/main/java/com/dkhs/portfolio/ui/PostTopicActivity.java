@@ -300,7 +300,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 //            }
 
             mSelectPohotos.addAll(mDraftBean.getPhotoList());
-            if (isTopicType()) {
+            if (isTopicType() && mDraftBean.getPhotoList().size() > 0) {
                 mSelectPohotos.add(ADD_PICTURE);
             }
             mPicAdapter.notifyDataSetChanged();
