@@ -111,7 +111,7 @@ android {
 dependencies {
     //
     //ANR catch
-    compile 'com.github.anrwatchdog:anrwatchdog:1.1.+'
+//    compile 'com.github.anrwatchdog:anrwatchdog:1.1.1'
     compile 'com.android.support:gridlayout-v7:21.0.0'
     compile 'org.parceler:parceler-api:1.0.0'
     provided 'org.parceler:parceler:1.0.0'

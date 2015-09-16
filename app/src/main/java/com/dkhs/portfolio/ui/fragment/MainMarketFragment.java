@@ -80,7 +80,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         super.onViewCreated(view, savedInstanceState);
         fragmentList = new ArrayList<Fragment>();
         mRlheadertitle.setClickable(true);
-        fragmentList.add(new NewMarketStockFragment());
+        fragmentList.add(new MarketStockFragment());
         fragmentList.add(new MarketFundsFragment());
         fragmentList.add(new MarketCombinationFragment());
         mAdapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList);

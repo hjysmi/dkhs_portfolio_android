@@ -42,7 +42,7 @@ import java.util.List;
  * @Description TODO(股票)
  * @date 2015/5/25.
  */
-public class NewMarketStockFragment extends VisiableLoadFragment implements View.OnClickListener {
+public class MarketStockFragment extends VisiableLoadFragment implements View.OnClickListener {
 
 
     @Override
