@@ -776,6 +776,22 @@
     <string name="my_funds">持仓基金</string>
     <string name="my_trade_history">交易记录</string>
     <string name="my_bank_cards">银行卡</string>
+    <string name="bank_card">银行卡号</string>
+    <string name="input_bank_card">输入银行卡号</string>
+    <string name="hint_bank_card">请输入银行卡号</string>
+    <string name="fund_supervision_bank">基金销售账户监督银行：中国民生银行</string>
+    <string name="bank_card_package">银行卡管理</string>
+    <string name="input_bank_card_info">填写银行卡信息</string>
+    <string name="bank_type">卡类型</string>
+    <string name="chose_bank_type">请选择银行卡类型</string>
+    <string name="read_and_agree">我已阅读并同意</string>
+    <string name="authorization_bank">《银行转账授权协议》</string>
+    <string name="real_name">持卡人</string>
+    <string name="hint_real_name">持卡人姓名</string>
+    <string name="id_card_no">身份证号</string>
+    <string name="hint_id_card_no">持卡人身份证号</string>
+    <string name="bank_card_mobile">手机号</string>
+    <string name="hint_bank_card_mobile">银行预留手机号</string>
     <!--我的资产 end-->
 
 </resources>

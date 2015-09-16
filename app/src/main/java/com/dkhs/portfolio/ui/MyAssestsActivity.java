@@ -1,24 +1,34 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.BindThreePlat;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.List;
 
 /**
  * Created by zhangcm on 2015/9/14.15:02
  */
 public class MyAssestsActivity extends ModelAcitivity {
+
+    public static final int REQUESTCODE_CHECK_MOBILE = 1000;
 
     @ViewInject(R.id.tv_total_profit)
     private TextView tvTotalProfit;
@@ -54,7 +64,21 @@ public class MyAssestsActivity extends ModelAcitivity {
         lvAssests.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.print("position ....." + position);
+                switch (position){
+                    case 0: //持仓基金
+
+                        break;
+
+                    case 1: //交易记录
+
+                        break;
+
+                    case 2: //银行卡
+                        //先判断是否绑定了手机号
+                        bindsListener.setLoadingDialog(mContext, false);
+                        UserEngineImpl.queryThreePlatBind(bindsListener);
+                        break;
+                }
             }
         });
     }
@@ -112,4 +136,46 @@ public class MyAssestsActivity extends ModelAcitivity {
         }
     }
 
+    private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+        }
+
+
+        @Override
+        protected List<BindThreePlat> parseDateTask(String jsonData) {
+
+            return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<BindThreePlat> entity) {
+            if (!entity.isEmpty()) {
+                for (int i = 0; i < entity.size(); i++) {
+                    BindThreePlat palt = entity.get(i);
+
+                    if(palt.getProvider().contains("mobile")){
+                        if(palt.isStatus()){
+                            //TODO 绑定了手机号，直接管理银行卡
+                            startActivity(new Intent(mContext, BankcardsPackageActivity.class));
+                        }else{
+                            //去绑定手机号
+                            startActivityForResult(RLFActivity.bindPhoneIntent(MyAssestsActivity.this), REQUESTCODE_CHECK_MOBILE);
+                        }
+                    }
+                }
+            }
+
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == REQUESTCODE_CHECK_MOBILE){
+            // TODO 管理银行卡
+            PromptManager.showToast("绑定成功");
+        }
+    }
 }
