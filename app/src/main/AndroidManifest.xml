@@ -308,7 +308,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="${APPLICATION_ID}"
+                    android:host="${PACKAGE_NAME}"
                     android:path="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
@@ -323,7 +323,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="${APPLICATION_ID}"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
@@ -338,7 +338,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="${APPLICATION_ID}"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/conversationsetting/"
                     android:scheme="rong" />
             </intent-filter>
@@ -355,7 +355,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="${APPLICATION_ID}"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/VoIPCall"
                     android:scheme="rong" />
             </intent-filter>
@@ -370,7 +370,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="${APPLICATION_ID}"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/VoIPAccept"
                     android:scheme="rong" />
             </intent-filter>
