@@ -14,7 +14,5 @@
         android:text="@string/clear_history"
         android:textColor="@color/blue"
         android:textSize="16sp"
-        android:visibility="gone">
-
-    </TextView>
+        android:visibility="gone"/>
 </FrameLayout>
