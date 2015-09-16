@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:paddingLeft="10dp"
-        android:text="以下为历史搜索结果"
+        android:text="@string/search_stock_title"
         android:textColor="@color/gray_textcolor"
         android:textSize="15sp"
         android:visibility="gone" />
@@ -22,7 +22,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_history_tip"
         android:drawSelectorOnTop="false"
-
         android:fastScrollEnabled="false"
         android:footerDividersEnabled="false"
         android:smoothScrollbar="true" />
