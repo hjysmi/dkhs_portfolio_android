@@ -89,7 +89,7 @@ public class PhotoViewFragment extends Fragment {
                     @Override
                     public void run() {
 
-                        if (mPhotoView != null &&mPhotoView.getDisplayRect().width() < mPhotoView.getWidth()) {
+                        if (mPhotoView != null && mPhotoView.getDisplayRect()!= null  &&mPhotoView.getDisplayRect().width() < mPhotoView.getWidth()) {
                             float scale = mPhotoView.getWidth() * 1.0f / mPhotoView.getDisplayRect().width();
                             mPhotoView.setMaximumScale(Math.max(scale, mPhotoView.getMaximumScale()));
                             mPhotoView.setScale(scale, mPhotoView.getWidth() / 2.0f, 0, false);

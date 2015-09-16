@@ -264,6 +264,21 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
             @Override
             public boolean beforeHandleAction(AutoData a) {
+
+                if(a instanceof  CommentBean){
+                    mTopicsBean.comments_count  =mDataList.size();
+                    setTopicsDetail();
+                    switch (a.action){
+
+                        case Add:
+                            if(mDataList.size()>0 &&(mDataList.get(0)instanceof  NoDataBean) ){
+                                mDataList.remove(0);
+                        }
+
+
+                    }
+                }
+
                 return false;
             }
 
@@ -273,7 +288,14 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 if(a instanceof  CommentBean){
                     mTopicsBean.comments_count  =mDataList.size();
                     setTopicsDetail();
+                    switch (a.action){
+                        case Delete:
+                            if(mDataList.size()==0){
+                                mDataList.add(new NoDataBean());
+                            }
+                    }
                 }
+
             }
         });
         mFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
