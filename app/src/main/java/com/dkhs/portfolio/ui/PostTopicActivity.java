@@ -863,6 +863,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         mDraftBean.setFailReason("");
         mDraftBean.setTitle(strTitle);
         mDraftBean.setContent(strContent);
+        mDraftBean.setSimleContent(etContent.getText().toString());
+        mDraftBean.setSimpleTitle(etTitle.getText().toString());
         mSelectPohotos.remove(ADD_PICTURE);
         mDraftBean.setPhotoList(mSelectPohotos);
         return mDraftBean;
