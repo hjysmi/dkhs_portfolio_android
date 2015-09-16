@@ -33,10 +33,10 @@ public class RCChatListActivity extends ModelAcitivity {
         setContentView(R.layout.activity_chat_list);
         setTitle(R.string.message_center);
 
-        Intent intent = getIntent();
-        LogUtils.e(intent.getDataString());
-        LogUtils.e(intent.getData().toString());
-        LogUtils.e(intent.toString());
+//        Intent intent = getIntent();
+//        LogUtils.e(intent.getDataString());
+//        LogUtils.e(intent.getData().toString());
+//        LogUtils.e(intent.toString());
 
         BusProvider.getInstance().register(this);
         if (MessageManager.getInstance().isConnect()) {

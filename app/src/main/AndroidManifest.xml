@@ -84,7 +84,6 @@
             android:theme="@style/AppThemeNoBackgroud">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -290,7 +289,8 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="${RONG_CLOUD_KEY}" />
+            android:value="${RONG_CLOUD_KEY}"
+            />
 
         <!--
                 <meta-data
@@ -308,7 +308,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${APPLICATION_ID}"
                     android:path="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
@@ -323,7 +323,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${APPLICATION_ID}"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
@@ -338,7 +338,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${APPLICATION_ID}"
                     android:pathPrefix="/conversationsetting/"
                     android:scheme="rong" />
             </intent-filter>
@@ -355,7 +355,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${APPLICATION_ID}"
                     android:pathPrefix="/VoIPCall"
                     android:scheme="rong" />
             </intent-filter>
@@ -370,7 +370,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${APPLICATION_ID}"
                     android:pathPrefix="/VoIPAccept"
                     android:scheme="rong" />
             </intent-filter>

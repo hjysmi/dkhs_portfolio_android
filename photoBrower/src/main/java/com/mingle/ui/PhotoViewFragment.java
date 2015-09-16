@@ -85,17 +85,17 @@ public class PhotoViewFragment extends Fragment {
                     mProgressBar.setVisibility(View.GONE);
                     mPreviewImage.setVisibility(View.GONE);
                 }
-                mPhotoView.postDelayed(new Runnable() {
+                mPhotoView.post(new Runnable() {
                     @Override
                     public void run() {
 
-                        if (mPhotoView.getDisplayRect().width() < mPhotoView.getWidth()) {
+                        if (mPhotoView != null &&mPhotoView.getDisplayRect().width() < mPhotoView.getWidth()) {
                             float scale = mPhotoView.getWidth() * 1.0f / mPhotoView.getDisplayRect().width();
                             mPhotoView.setMaximumScale(Math.max(scale, mPhotoView.getMaximumScale()));
                             mPhotoView.setScale(scale, mPhotoView.getWidth() / 2.0f, 0, false);
                         }
                     }
-                },200);
+                });
 
             }
 

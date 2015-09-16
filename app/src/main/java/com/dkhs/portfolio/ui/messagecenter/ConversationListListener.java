@@ -26,7 +26,6 @@ public class ConversationListListener implements RongIM.ConversationListBehavior
 
     @Override
     public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
-        RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(uiConversation.getConversationType(), uiConversation.getConversationTargetId());
 
         if (uiConversation.getConversationSenderId().equals(getCallMeId())) {
             context.startActivity(new Intent(context, CallMeActivity.class));

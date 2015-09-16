@@ -67,11 +67,14 @@ android {
 
     productFlavors {
         rong_release {
+            applicationId = "com.dkhs.portfolio"
             manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
+            manifestPlaceholders = [APPLICATION_ID: "com.dkhs.portfolio"]
         }
         rong_debug {
-            applicationId = "com.dkhs.portfolio.debug"
+            applicationId = "com.dkhs.portfolio"
             manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]
+            manifestPlaceholders = [APPLICATION_ID: "com.dkhs.portfolio"]
         }
 
     }
