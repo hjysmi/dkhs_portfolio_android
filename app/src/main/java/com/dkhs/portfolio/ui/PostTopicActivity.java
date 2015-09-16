@@ -39,6 +39,7 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.google.gson.Gson;
 import com.lidroid.xutils.util.LogUtils;
 import com.rockerhieu.emojicon.emoji.Emojicon;
 
@@ -293,15 +294,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             etTitle.insertHtmlText(mDraftBean.getTitle());
             etContent.insertHtmlText(mDraftBean.getContent());
             etContent.setSelection(etContent.getText().length());
-//            if (!TextUtils.isEmpty(mDraftBean.getImageUri())) {
-////                jpg_path = mDraftBean.getImageUri();
-//                ImageLoaderUtils.setRoundImageByPx(mDraftBean.getImageUri(), ivPhoto, getResources().getDimensionPixelOffset(R.dimen.radius));
-//                ivPhoto.setVisibility(View.VISIBLE);
-//            }
 
             mSelectPohotos.addAll(mDraftBean.getPhotoList());
             if (isTopicType() && mDraftBean.getPhotoList().size() > 0) {
                 mSelectPohotos.add(ADD_PICTURE);
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
             }
             mPicAdapter.notifyDataSetChanged();
         }
@@ -391,18 +389,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 PostTopicService.startPost(this, buildDrafteBean());
                 finish();
 
-//                if (curType == TYPE_COMMENT) {
-//
-//                    StatusEngineImpl.postStatus(null, etContent.getText().toString(), repliedStatus, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-//                } else if (curType == TYPE_POST) {
-//                    if (TextUtils.isEmpty(jpg_path)) {
-//                        //直接发表帖子或评论
-//                        StatusEngineImpl.postStatus(etTitle.getText().toString(), etContent.getText().toString(), null, null, 0, 0, null, statusListener.setLoadingDialog(this, false));
-//                    } else {
-//                        String file_str = Environment.getExternalStorageDirectory().getPath();
-//                        StatusEngineImpl.uploadImage(new File(filePath), uploadListener.setLoadingDialog(this, false));
-//                    }
-//                }
                 break;
             case BACKBUTTON_ID:
                 showAlertDialog();
@@ -415,15 +401,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 }
                 isShowingEmotionView = !isShowingEmotionView;
                 break;
-//            case R.id.iv_photo:
-////                isShowDeletePic = true;
-//                items.clear();
-//                items.add(new SheetItem(getString(R.string.retake_picture), MyActionSheetDialog.SheetItemColor.Black));
-//                items.add(new SheetItem(getString(R.string.delete_picture), MyActionSheetDialog.SheetItemColor.Black));
-//                showPicDialog();
-//                break;
+
             case R.id.ib_img:
-//                isShowDeletePic = false;
                 items.clear();
                 items.add(new SheetItem(getString(R.string.take_picture), MyActionSheetDialog.SheetItemColor.Black));
                 items.add(new SheetItem(getString(R.string.local_image), MyActionSheetDialog.SheetItemColor.Black));
@@ -479,47 +458,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         for (int i = 0; i < items.size(); i++) {
             dialog.addSheetItem(items.get(i));
         }
-//        dialog.setTitle(getString(R.string.save_draft));
         dialog.setSheetItemClickListener(new MyActionSheetDialog.SheetItemClickListener() {
 
             @Override
             public void onSheetItemClick(int position) {
                 switch (position) {
                     case 0:
-//                        if (isShowDeletePic) {
-//                            //重现选择图片
-//                            onClick(ibImg);
-//                        } else {
+
                     {
                         dispatchTakePictureIntent();
-//                            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-//                                String file_str = Environment.getExternalStorageDirectory().getPath();
-//                                File mars_file = new File(file_str + MY_CAMERA);
-//                                // file_go = new File(file_str + jpg_path);
-//                                // 先创建父目录，如果新创建一个文件的时候，父目录没有存在，那么必须先创建父目录，再新建文件。
-//                                if (!mars_file.exists()) {
-//                                    mars_file.mkdirs();
-//                                }
-//
-//                                // Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                                // 并设置拍照的存在方式为外部存储和存储的路径；
-//
-//                                // intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file_go));
-//                                // 跳转到拍照界面;
-//                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                                SimpleDateFormat timeStampFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-//                                String filename = timeStampFormat.format(new Date());
-//                                ContentValues values = new ContentValues();
-//                                values.put(MediaStore.Audio.Media.TITLE, filename);
-//
-//                                photoUri = getContentResolver()
-//                                        .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-//
-//                                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-//                                startActivityForResult(intent, RCODE_TAKE_PHOTO);
-//                            } else {
-//                                PromptManager.showToast(R.string.pls_instore_sdcard);
-//                            }
+
                     }
                     break;
 
@@ -735,7 +683,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 //    }
 
     private String getTimestampFileName() {
-//        return "/upload.jpg";
         return "/" + System.currentTimeMillis() / 1000 + ".jpg";
     }
 
@@ -783,12 +730,39 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
-    private void showAlertDialog() {
+
+    private boolean isDraftModify() {
+        boolean isPhotoNoChange = true;
         String inputTitle = etTitle.getText().toString();
         String inputContent = etContent.getText().toString();
+        ArrayList<String> tempList = new ArrayList<>(mSelectPohotos.size());
+        tempList.addAll(mSelectPohotos);
+        tempList.remove(ADD_PICTURE);
+        if (mDraftBean.getPhotoList() == null && tempList.size() > 0) {
+            isPhotoNoChange = false;
+        } else if (mDraftBean.getPhotoList() != null) {
+            if (mDraftBean.getPhotoList().size() != tempList.size()) {
+                isPhotoNoChange = false;
+            } else {
+                String selectPath = new Gson().toJson(tempList);
+                String draftPaths = mDraftBean.getPhotoPaths();
+                if (!TextUtils.isEmpty(selectPath) && !TextUtils.isEmpty(draftPaths)) {
+                    isPhotoNoChange = selectPath.equals(draftPaths);
+                }
+            }
+        }
+
+
+        return isPhotoNoChange && inputContent.equals(mDraftBean.getSimpleContent()) && inputTitle.equals(mDraftBean.getSimpleTitle());
+
+
+    }
+
+    private void showAlertDialog() {
+
 
         if (null != mDraftBean) {
-            if (inputContent.equals(mDraftBean.getSimpleContent()) && inputTitle.equals(mDraftBean.getSimpleTitle())) {
+            if (isDraftModify()) {
                 finish();
                 return;
             }
