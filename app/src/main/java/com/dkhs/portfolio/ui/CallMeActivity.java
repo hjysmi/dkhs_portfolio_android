@@ -8,6 +8,10 @@ import android.view.MenuItem;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.CallMeFragment;
 import com.dkhs.portfolio.ui.fragment.CommentMeFragment;
+import com.dkhs.portfolio.ui.messagecenter.ConversationListListener;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 public class CallMeActivity extends ModelAcitivity {
 
@@ -15,6 +19,15 @@ public class CallMeActivity extends ModelAcitivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_me);
+
+
+
+        try {
+            RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, ConversationListListener.getCallMeId());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         setTitle(R.string.title_activity_call_me);
         getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,new CallMeFragment()).commitAllowingStateLoss();
