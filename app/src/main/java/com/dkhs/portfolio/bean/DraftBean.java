@@ -33,6 +33,7 @@ public class DraftBean {
     public static final String COLUM_FAIL_REASON = "fail_reason";  //失败原因
     //    public static final String COLUM_PHOTO_LIST = "photo_list";
     public static final String COLUM_PHOTO_PATHS = "photo_paths";
+    public static final String COLUM_SIMPLE_CONTENT = "simple_content";
 
 //    //保存图片的绝对路径
 //    @Column(column = COLUM_PHOTO_PATHS)
@@ -107,6 +108,9 @@ public class DraftBean {
 //    }
 
     public String getSimpleTitle() {
+        if (!TextUtils.isEmpty(simleTitle)) {
+            return simleTitle;
+        }
         return Html.fromHtml(title).toString();
     }
 
@@ -119,6 +123,9 @@ public class DraftBean {
     }
 
     public String getSimpleContent() {
+        if (!TextUtils.isEmpty(simleContent)) {
+            return simleContent;
+        }
         return Html.fromHtml(content).toString();
     }
 
@@ -129,6 +136,25 @@ public class DraftBean {
     public void setContent(String content) {
         this.content = content;
     }
+
+
+    @Column(column = COLUM_SIMPLE_CONTENT)
+    String simleContent;
+
+//    public String getSimleTitle() {
+//        return simleTitle;
+//    }
+
+    public void setSimpleTitle(String simleTitle) {
+        this.simleTitle = simleTitle;
+    }
+
+    private String simleTitle;
+
+    public void setSimleContent(String simleContent) {
+        this.simleContent = simleContent;
+    }
+
 
     public String getAuthorId() {
         return authorId;
@@ -173,8 +199,6 @@ public class DraftBean {
     public void setFailReason(String failReason) {
         this.failReason = failReason;
     }
-
-
 
 
     public ArrayList<String> getPhotoList() {
