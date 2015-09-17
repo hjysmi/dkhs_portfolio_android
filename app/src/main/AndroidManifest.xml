@@ -467,6 +467,7 @@
         <activity
             android:name=".ui.SelectFriendActivity"
             android:label="@string/title_pickup_user"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.TestActivity" />
 

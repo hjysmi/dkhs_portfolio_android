@@ -9,7 +9,7 @@ import org.parceler.Parcel;
 public class UploadImageBean {
     String id;
     //180
-    String image_xs;
+//    String image_xs;
     //360
     String image_sm;
 
@@ -29,13 +29,13 @@ public class UploadImageBean {
         this.id = id;
     }
 
-    public String getImage_xs() {
-        return image_xs;
-    }
-
-    public void setImage_xs(String image_xs) {
-        this.image_xs = image_xs;
-    }
+//    public String getImage_xs() {
+//        return image_xs;
+//    }
+//
+//    public void setImage_xs(String image_xs) {
+//        this.image_xs = image_xs;
+//    }
 
     public String getImage_lg() {
         return image_lg;
