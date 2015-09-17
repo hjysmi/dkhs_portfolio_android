@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import com.dkhs.portfolio.R;
 import com.melnykov.fab.ObservableScrollView;
 
-import java.lang.reflect.Method;
-
 /**
  * @author zwm
  * @version 2.0
