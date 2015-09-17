@@ -104,4 +104,5 @@ public class DKHSTextView extends EmojiconTextView {
 		}
 	}
 
+
 }

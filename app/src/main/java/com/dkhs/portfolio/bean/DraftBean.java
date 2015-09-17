@@ -149,7 +149,7 @@ public class DraftBean {
         this.simleTitle = simleTitle;
     }
 
-    private String simleTitle;
+    public String simleTitle;
 
     public void setSimleContent(String simleContent) {
         this.simleContent = simleContent;
