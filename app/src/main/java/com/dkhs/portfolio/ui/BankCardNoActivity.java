@@ -32,7 +32,7 @@ public class BankCardNoActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_input_bank_card);
+        setContentView(R.layout.activity_bank_card_no);
         ViewUtils.inject(this);
         setTitle(R.string.input_bank_card);
         etBankcard.addTextChangedListener(new TextWatcher() {

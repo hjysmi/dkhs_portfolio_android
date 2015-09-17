@@ -37,7 +37,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_bank_cards_package);
+        setContentView(R.layout.activity_my_bank_cards);
         ViewUtils.inject(this);
         setTitle(R.string.bank_card_package);
         TextView right = getRightButton();
