@@ -99,7 +99,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
             if(convertView == null){
-                convertView = View.inflate(getApplicationContext(), R.layout.item_bank_card_package, null);
+                convertView = View.inflate(getApplicationContext(), R.layout.item_my_bank_cards, null);
                 holder = new ViewHolder();
                 holder.llBank = (View)convertView.findViewById(R.id.ll_bank);
                 convertView.setTag(holder);
