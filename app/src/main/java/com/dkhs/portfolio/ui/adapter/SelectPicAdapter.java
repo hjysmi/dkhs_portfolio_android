@@ -74,6 +74,9 @@ public class SelectPicAdapter extends SingleItemAdapter<String> {
                     }
                     if (mData.size() == 1 && mData.contains(PostTopicActivity.ADD_PICTURE)) {
                         mData.remove(PostTopicActivity.ADD_PICTURE);
+                        if (null != iDeletePicListenr) {
+                            iDeletePicListenr.delFinish();
+                        }
                     }
                     notifyDataSetChanged();
                 }
@@ -82,5 +85,15 @@ public class SelectPicAdapter extends SingleItemAdapter<String> {
         }
 
 
+    }
+
+    private IDeletePicListenr iDeletePicListenr;
+
+    public void setDeletePicListenr(IDeletePicListenr deletePicListenr) {
+        this.iDeletePicListenr = deletePicListenr;
+    }
+
+    public interface IDeletePicListenr {
+        void delFinish();
     }
 }
