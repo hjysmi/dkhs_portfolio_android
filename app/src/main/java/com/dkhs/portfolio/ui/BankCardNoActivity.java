@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/9/14.15:02
  */
-public class InputBankcardActivity extends ModelAcitivity {
+public class BankCardNoActivity extends ModelAcitivity {
 
     @ViewInject(R.id.btn_next)
     private Button btnNext;

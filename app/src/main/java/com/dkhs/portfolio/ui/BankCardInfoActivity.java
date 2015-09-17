@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/9/16.15:02
  */
-public class InputBankcardInfoActivity extends ModelAcitivity {
+public class BankCardInfoActivity extends ModelAcitivity {
 
 
     @Override

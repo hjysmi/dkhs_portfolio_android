@@ -19,7 +19,7 @@ import com.lidroid.xutils.ViewUtils;
 /**
  * Created by zhangcm on 2015/9/14.15:02
  */
-public class BankcardsPackageActivity extends ModelAcitivity {
+public class MyBankCardsActivity extends ModelAcitivity {
 
     private int RED = Color.parseColor("#ff5555");
     private int ORANGE = Color.parseColor("#fca321");
@@ -46,7 +46,7 @@ public class BankcardsPackageActivity extends ModelAcitivity {
             @Override
             public void onClick(View v) {
                 //TODO 添加银行卡
-                startActivity(new Intent(mContext, InputBankcardInfoActivity.class));
+                startActivity(new Intent(mContext, BankCardInfoActivity.class));
             }
         });
         initLoadMoreList();

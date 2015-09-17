@@ -158,7 +158,7 @@ public class MyAssestsActivity extends ModelAcitivity {
                     if(palt.getProvider().contains("mobile")){
                         if(palt.isStatus()){
                             //TODO 绑定了手机号，直接管理银行卡
-                            startActivity(new Intent(mContext, BankcardsPackageActivity.class));
+                            startActivity(new Intent(mContext, MyBankCardsActivity.class));
                         }else{
                             //去绑定手机号
                             startActivityForResult(RLFActivity.bindPhoneIntent(MyAssestsActivity.this), REQUESTCODE_CHECK_MOBILE);

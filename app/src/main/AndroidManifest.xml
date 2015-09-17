@@ -482,12 +482,14 @@
             android:name=".ui.MyAssestsActivity"
             android:label="@string/my_assets" />
         <activity
-            android:name=".ui.InputBankcardActivity"
+            android:name=".ui.BankCardNoActivity"
             android:label="@string/my_assets" />
         <activity
-            android:name=".ui.BankcardsPackageActivity" />
+            android:name=".ui.MyBankCardsActivity" />
         <activity
-            android:name=".ui.InputBankcardInfoActivity" />
+            android:name=".ui.BankCardInfoActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
     </application>
 
 </manifest>
