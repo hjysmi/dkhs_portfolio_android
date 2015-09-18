@@ -203,7 +203,8 @@ public class DKHSEditText extends EmojiconEditText {
 
                 resultString += str;
             }
-            insertHtmlText(resultString);
+
+            insertHtmlText(resultString.replaceAll("\n", "<br/>"));
         }
     }
 
