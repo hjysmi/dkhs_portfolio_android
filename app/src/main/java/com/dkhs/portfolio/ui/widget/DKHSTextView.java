@@ -60,7 +60,6 @@ public class DKHSTextView extends EmojiconTextView implements View.OnTouchListen
 
 			ClickableSpan[] spans= getClickSpans(event, (Spanned) charSequence);
 			if (spans.length == 0) {
-				Log.d("wys","00000000");
 				return false;
 			}
 		}*/
@@ -113,7 +112,6 @@ public class DKHSTextView extends EmojiconTextView implements View.OnTouchListen
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		Log.d("wys","onTouch");
 		boolean ret = false;
 		CharSequence text = ((TextView)v).getText();
 		Spannable stext = Spannable.Factory.getInstance().newSpannable(text);
@@ -137,7 +135,6 @@ public class DKHSTextView extends EmojiconTextView implements View.OnTouchListen
 				ret = true;
 			}
 		}
-		Log.d("wys","onTouch return"+ret);
 		return ret;
 	}
 }

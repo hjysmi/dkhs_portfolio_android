@@ -106,7 +106,7 @@ public class TopicsDetailScrollView extends NestedScrollView {
 
 //                    return true;
                 }
-                if(mTopicsDetailListView.getChildCount()>0 && mTopicsDetailListView.getChildAt(0).getTop()==0 &&  ev.getRawY()-LastY>0){
+                else if(mTopicsDetailListView.getChildCount()>0 && mTopicsDetailListView.getChildAt(0).getTop()==0 &&  ev.getRawY()-LastY>0){
 
                     LastY= (int) ev.getRawY();
 
