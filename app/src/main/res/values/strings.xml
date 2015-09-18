@@ -760,6 +760,7 @@
     <string name="last_contact_friend">最近联系人</string>
     <string name="title_picker_photo">相机胶卷</string>
     <string name="btn_next_step">下一步(%1$d/%2$d)</string>
+    <string name="max_photo_msg">最多只能添加%d张图片</string>
     <string name="search_stock_title">以下为历史搜索结果</string>
 
 

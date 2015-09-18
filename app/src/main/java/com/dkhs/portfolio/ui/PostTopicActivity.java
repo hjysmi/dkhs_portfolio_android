@@ -60,6 +60,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     //    public static final String UPLOAD_JPG = "/upload.jpg";
 
     public static final String ADD_PICTURE = "add_picture";
+    public static int MAX_TOPIC_PICSIZE = 9;
 
     private InputMethodManager imm;
     private boolean isShowingEmotionView;
@@ -295,13 +296,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             etContent.setSelection(etContent.getText().length());
 
             mSelectPohotos.addAll(mDraftBean.getPhotoList());
-            if (isTopicType() && mDraftBean.getPhotoList().size() > 0) {
+            if (isTopicType() && mDraftBean.getPhotoList().size() > 0 && mDraftBean.getPhotoList().size() < MAX_TOPIC_PICSIZE) {
                 mSelectPohotos.add(ADD_PICTURE);
             }
             checkSendButtonEnable();
             mPicAdapter.notifyDataSetChanged();
         }
     }
+
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -474,11 +476,13 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             @Override
             public void onSheetItemClick(int position) {
                 switch (position) {
-                    case 0:
-
-                    {
+                    case 0: {
+                        if (isTopicType() && !mSelectPohotos.contains(ADD_PICTURE)) {
+//                            mSelectPohotos.contains(ADD_PICTURE);
+                            PromptManager.showToast(getString(R.string.max_photo_msg, MAX_TOPIC_PICSIZE));
+                            return;
+                        }
                         dispatchTakePictureIntent();
-
                     }
                     break;
 
@@ -603,7 +607,9 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         if (isTopicType()) {
             mSelectPohotos.remove(ADD_PICTURE);
             mSelectPohotos.add(mCurrentPhotoPath);
-            mSelectPohotos.add(ADD_PICTURE);
+            if (mSelectPohotos.size() < MAX_TOPIC_PICSIZE) {
+                mSelectPohotos.add(ADD_PICTURE);
+            }
         } else {
             mSelectPohotos.clear();
             mSelectPohotos.add(mCurrentPhotoPath);
