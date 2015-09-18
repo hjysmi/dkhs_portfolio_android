@@ -40,7 +40,6 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
-import com.lidroid.xutils.util.LogUtils;
 import com.rockerhieu.emojicon.emoji.Emojicon;
 
 import org.parceler.Parcels;
@@ -55,12 +54,13 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/7/16.
  */
-public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragment.OnEmojiconBackspaceClickedListener, DKHSEmojiFragment.OnEmojiconClickedListener, View.OnClickListener, ViewPager.OnPageChangeListener {
+public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragment.OnEmojiconBackspaceClickedListener, DKHSEmojiFragment.OnEmojiconClickedListener, View.OnClickListener, ViewPager.OnPageChangeListener, SelectPicAdapter.IDeletePicListenr {
 
     //    public static final String MY_CAMERA = "/my_camera";
     //    public static final String UPLOAD_JPG = "/upload.jpg";
-    private Uri photoUri;
-    private String jpg_path;
+
+    public static final String ADD_PICTURE = "add_picture";
+
     private InputMethodManager imm;
     private boolean isShowingEmotionView;
     private ImageButton ibEmoji;
@@ -113,8 +113,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
 
-        LogUtils.d("============onCreate=============");
-
         setContentView(R.layout.activity_post_topic);
         getSwipeBackLayout().setEnableGesture(false);
         AndroidBugForSpecialPhone.assistActivity(this);
@@ -161,6 +159,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         gvSelectPic = (GridViewEx) findViewById(R.id.gv_pic);
         gvSelectPic.isExpanded();
         gvSelectPic.setAdapter(mPicAdapter);
+        mPicAdapter.setDeletePicListenr(this);
         etTitle = (DKHSEditText) findViewById(R.id.et_title);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
@@ -298,9 +297,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             mSelectPohotos.addAll(mDraftBean.getPhotoList());
             if (isTopicType() && mDraftBean.getPhotoList().size() > 0) {
                 mSelectPohotos.add(ADD_PICTURE);
-                btnSend.setEnabled(true);
-                btnSend.setClickable(true);
             }
+            checkSendButtonEnable();
             mPicAdapter.notifyDataSetChanged();
         }
     }
@@ -318,6 +316,23 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onPageScrollStateChanged(int state) {
     }
 
+    @Override
+    public void delFinish() {
+        checkSendButtonEnable();
+    }
+
+    private boolean checkSendButtonEnable() {
+
+        boolean enAble = !TextUtils.isEmpty(etTitle.getText()) || !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
+        btnSend.setEnabled(enAble);
+        btnSend.setClickable(enAble);
+
+        return enAble;
+
+
+    }
+
+
     private class MyTextWatcher implements TextWatcher {
         private boolean isBeforeNull;
 
@@ -332,13 +347,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if (!TextUtils.isEmpty(editable) || mSelectPohotos.size() > 0) {
-                btnSend.setEnabled(true);
-                btnSend.setClickable(true);
-            } else {
-                btnSend.setEnabled(false);
-                btnSend.setClickable(false);
-            }
+            checkSendButtonEnable();
         }
     }
 
@@ -472,17 +481,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     break;
 
                     case 1: {
-//                        if (isShowDeletePic) {
-//                            ivPhoto.setVisibility(View.GONE);
-//                            isSendButtonEnable();
-//                            jpg_path = "";
-////                            imageUri = "";
-//                        } else {
-                        /* 取得相片后返回本画面 */
-//                            Intent intent = new Intent(Intent.ACTION_PICK,
-//                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                            startActivityForResult(intent, RCODE_PICK_PICTURE);
+
                         if (isTopicType()) {
                             pickMultiPicture();
                         } else {
@@ -504,72 +503,17 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
 
-    private void isSendButtonEnable() {
-        if (!TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0) {
-            btnSend.setEnabled(true);
-            btnSend.setClickable(true);
-        } else {
-            btnSend.setEnabled(false);
-            btnSend.setClickable(false);
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == RCODE_PICK_PICTURE) {
                 // 相册选择
-//                    final Uri uri = data.getData();
-//                    imageUri = uri.toString();
-//                    ivPhoto.setVisibility(View.VISIBLE);
-//                    isSendButtonEnable();
-//                    final String file_str = Environment.getExternalStorageDirectory().getPath();
-//                    String[] proj = {MediaStore.Images.Media.DATA};
-//                    Cursor cursor = managedQuery(uri, proj, null, null, null);
-//                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                    cursor.moveToFirst();
-//                    imageLocalPath = cursor.getString(column_index);
-//                    jpg_path = MY_CAMERA + getTimestampFileName();
-//                    Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
-//                    imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
-//                    setRoundImage(imageBitmap);
                 selectPickBack(data.getExtras());
-                isSendButtonEnable();
-//                ivPhoto.setVisibility(View.VISIBLE);
-
             }
             if (requestCode == RCODE_TAKE_PHOTO) {
-
-//                Bundle extras = data.getExtras();
-//                Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                mImageView.setImageBitmap(imageBitmap);
-                // 拍照
-//                final String file_str = Environment.getExternalStorageDirectory().getPath();
-//                Uri uri = null;
-//                if (null != data) {
-//                    uri = data.getData();
-//                }
-//                if (null == uri && photoUri != null) {
-//                    uri = photoUri;
-//                }
-//                if (uri == null) {
-//                    return;
-//                }
-//                final Uri finalUri = uri;
-//                imageUri = uri.toString();
-//                String[] proj = {MediaStore.Images.Media.DATA};
-//                Cursor cursor = managedQuery(finalUri, proj, null, null, null);
-//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                cursor.moveToFirst();
-//                jpg_path = MY_CAMERA + getTimestampFileName();
-//                imageLocalPath = cursor.getString(column_index);
-//                Bitmap imageBitmap = UIUtils.getLocaleimage(imageLocalPath);
-//                imageBitmap = UIUtils.loadBitmap(imageBitmap, imageLocalPath);
                 takePhotoBack();
-//                ivPhoto.setVisibility(View.VISIBLE);
-                isSendButtonEnable();
-//                setRoundImage(imageBitmap);
+
             }
 
             if (requestCode == 0x7) {
@@ -583,6 +527,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
             }
 
+            checkSendButtonEnable();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -631,8 +576,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
 
-    public static final String ADD_PICTURE = "add_picture";
-
     private void selectPickBack(Bundle bundle) {
 
         if (bundle != null) {
@@ -655,7 +598,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private void takePhotoBack() {
         //have add picture image
-//        LogUtils.d("takePhotoBack :" + mCurrentPhotoPath);
         if (isTopicType()) {
             mSelectPohotos.remove(ADD_PICTURE);
             mSelectPohotos.add(mCurrentPhotoPath);
@@ -677,15 +619,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
-//    private void setRoundImage(Bitmap bitmap) {
-//        ivPhoto.setImageDrawable(new RoundedBitmapDisplayer.RoundedDrawable(bitmap, getResources().getDimensionPixelOffset(R.dimen.radius), 0));
-//
-//    }
-
-    private String getTimestampFileName() {
-        return "/" + System.currentTimeMillis() / 1000 + ".jpg";
-    }
-
     private void selectStockBack(SelectStockBean stockBean) {
         curEt.insesrStockText(String.format("%s(%s)", stockBean.getName(), stockBean.getSymbol()));
 
@@ -698,7 +631,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         }
 
     }
-
 
     @Override
     public void onEmojiconBackSpaceClicked(Emojicon emojicon) {
@@ -768,7 +700,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             }
         }
 
-        if (TextUtils.isEmpty(etTitle.getText()) && TextUtils.isEmpty(etContent.getText()) && mSelectPohotos.size() <= 0) {
+        if (!checkSendButtonEnable()) {
             finish();
             return;
         }
@@ -800,9 +732,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
-    //    private String imageUri;
-    private String imageLocalPath;
-
     private DraftBean buildDrafteBean() {
         if (null == mDraftBean) {
             mDraftBean = new DraftBean();
@@ -812,24 +741,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 mDraftBean.setStatusId(repliedStatus);
             }
         }
-
-        //todo save photo list
-//        if (mSelectPohotos.size()>0) {
-//
-//            if (!TextUtils.isEmpty(jpg_path)) {
-//
-////                String file_str = Environment.getExternalStorageDirectory().getPath();
-////                file_str = file_str + jpg_path;
-//                mDraftBean.setImageFilepath(imageLocalPath);
-////                mDraftBean.setImageLocalePath(imageLocalPath);
-//            }
-////            if (!TextUtils.isEmpty(jpg_path)) {
-////                mDraftBean.setImageUri(imageUri);
-////            }
-//        } else {
-//            mDraftBean.setImageUri("");
-//            mDraftBean.setImageFilepath("");
-//        }
 
 
         String strContent = Html.toHtml(etContent.getText());
