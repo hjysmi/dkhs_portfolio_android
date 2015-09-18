@@ -16,10 +16,10 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
@@ -429,6 +429,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     public final static int RCODE_PICK_PICTURE = 700;
     public final static int RCODE_TAKE_PHOTO = 800;
+    public final static int RCODE_PICK_FRIEND = 600;
+    public final static int RCODE_PICK_STOCK = 500;
 
     public void pickMultiPicture() {
         ArrayList<String> sPhotos = new ArrayList();
@@ -448,13 +450,13 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private void pickStock() {
         Intent intent = new Intent(this,
                 SelectStatusStockActivity.class);
-        startActivityForResult(intent, 0x7);
+        startActivityForResult(intent, RCODE_PICK_STOCK);
     }
 
     private void pickupFriend() {
         Intent intent = new Intent(this,
                 SelectFriendActivity.class);
-        startActivityForResult(intent, 0x8);
+        startActivityForResult(intent, RCODE_PICK_FRIEND);
     }
 
     //    private boolean isShowDeletePic = false;
@@ -516,13 +518,13 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
             }
 
-            if (requestCode == 0x7) {
+            if (requestCode == RCODE_PICK_STOCK) {
                 SelectStockBean stockBean = Parcels.unwrap(data.getExtras().getParcelable(FragmentSearchStockFund.EXTRA_STOCK));
                 if (null != stockBean) {
                     selectStockBack(stockBean);
                 }
             }
-            if (requestCode == 0x8) {
+            if (requestCode == RCODE_PICK_FRIEND) {
                 selectFriendBack(data.getExtras());
 
             }
