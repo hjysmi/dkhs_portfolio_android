@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import com.dkhs.portfolio.R;
 import com.melnykov.fab.ObservableScrollView;
 
-import java.lang.reflect.Method;
-
 /**
  * @author zwm
  * @version 2.0
@@ -44,6 +42,7 @@ public class TopicsDetailScrollView extends NestedScrollView {
     public TopicsDetailScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
     public void setOnScrollChangedListener(ObservableScrollView.OnScrollChangedListener listener) {
         mOnScrollChangedListener = listener;
 
@@ -58,7 +57,6 @@ public class TopicsDetailScrollView extends NestedScrollView {
         addView(view);
         super.onFinishInflate();
     }
-
 
 
     private boolean isFirst = true;
@@ -77,44 +75,46 @@ public class TopicsDetailScrollView extends NestedScrollView {
     }
 
 
-    private int LastY=0;
+    private int LastY = 0;
 
     private VelocityTracker mVelocityTracker;
 
-    private boolean isFirstRespose=true;
+    private boolean isFirstResponse = true;
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
 
-        switch (ev.getAction()){
-            case  MotionEvent.ACTION_DOWN:
-                isFirstRespose=true;
-                LastY= (int) ev.getRawY();
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                isFirstResponse = true;
+                LastY = (int) ev.getRawY();
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
                 if (mTopicsDetailListView.getAdapter() == null || mTopicsDetailListView.getAdapter().getCount() == 0) {
-                    isFirstRespose=true;
+                    isFirstResponse = true;
                     return true;
                 }
                 if (mTopicsDetailListView.getTop() - getScrollY() < ev.getY()) {
-                    isFirstRespose=false;
+                    isFirstResponse = false;
                     return false;
                 }
 
                 break;
-            case  MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE:
 
-                if (mTopicsDetailListView.getTop() - mTopStickyHeight > getScrollY() ) {
-                    LastY= (int) ev.getRawY();
+                if (mTopicsDetailListView.getChildAt(0).getTop() == 0 ) {
+                    if (mTopicsDetailListView.getTop() - mTopStickyHeight > getScrollY() && ev.getRawY() - LastY < -12  ) {
+                        LastY = (int) ev.getRawY();
 
-//                    return true;
+                        return true;
+                    }
+                    if (mTopicsDetailListView.getChildCount() > 0  && ev.getRawY() - LastY > 12) {
+
+                        LastY = (int) ev.getRawY();
+
+                        return true;
+                    }
                 }
-                if(mTopicsDetailListView.getChildCount()>0 && mTopicsDetailListView.getChildAt(0).getTop()==0 &&  ev.getRawY()-LastY>0){
-
-                    LastY= (int) ev.getRawY();
-
-                    return true;
-            }
-                LastY= (int) ev.getRawY();
+                LastY = (int) ev.getRawY();
 
         }
         return super.onInterceptTouchEvent(ev);
@@ -130,9 +130,9 @@ public class TopicsDetailScrollView extends NestedScrollView {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-        if(isFirstRespose ){
+        if (isFirstResponse) {
             return super.onTouchEvent(ev);
-        }else {
+        } else {
             initVelocityTrackerIfNotExists().addMovement(ev);
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -147,13 +147,13 @@ public class TopicsDetailScrollView extends NestedScrollView {
 
                     initVelocityTrackerIfNotExists().computeCurrentVelocity(1000);
 //                    .computeCurrentVelocity(1000, mMaximumVelocity);
-                    int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(initVelocityTrackerIfNotExists(),mActivePointerId);
+                    int initialVelocity = (int) VelocityTrackerCompat.getYVelocity(initVelocityTrackerIfNotExists(), mActivePointerId);
                     fling((int) -initialVelocity);
                     break;
 
             }
         }
-        return  true;
+        return true;
     }
 
     @Override
@@ -171,10 +171,9 @@ public class TopicsDetailScrollView extends NestedScrollView {
         }
     }
 
-   
 
     public boolean listViewIsBelow() {
-        if (mTopicsDetailListView.getTop() - mTopStickyHeight > getScrollY() ) {
+        if (mTopicsDetailListView.getTop() - mTopStickyHeight > getScrollY()) {
             return true;
         }
         return false;

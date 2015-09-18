@@ -40,25 +40,31 @@ public class AutoScaleImageView extends ImageView {
     @Override
     public void setImageBitmap(final Bitmap bm) {
 
-        if (mWidth == bm.getWidth() && mHeight == bm.getHeight()) {
-            setImageBitmap1(bm);
-        } else {
-            mWidth = bm.getWidth();
-            mHeight = bm.getHeight();
-            ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
-
-
-            layoutParams.height = (getWidth() - getPaddingLeft() - getPaddingRight()) * bm.getHeight() / bm.getWidth() + getPaddingTop() + getPaddingBottom();
-            setScaleType(ScaleType.FIT_XY);
-            this.requestFocus();
-
-            this.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mWidth == bm.getWidth() && mHeight == bm.getHeight()) {
                     setImageBitmap1(bm);
+                } else {
+                    mWidth = bm.getWidth();
+                    mHeight = bm.getHeight();
+                    ViewGroup.LayoutParams layoutParams = AutoScaleImageView.this.getLayoutParams();
+
+
+                    layoutParams.height = (getWidth() - getPaddingLeft() - getPaddingRight()) * bm.getHeight() / bm.getWidth() + getPaddingTop() + getPaddingBottom();
+                    setScaleType(ScaleType.FIT_XY);
+                    AutoScaleImageView.this.requestFocus();
+
+                    AutoScaleImageView.this.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setImageBitmap1(bm);
+                        }
+                    }, 600);
                 }
-            }, 600);
-        }
+            }
+        });
+
 
 
 
