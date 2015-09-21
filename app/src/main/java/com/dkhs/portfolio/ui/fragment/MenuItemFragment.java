@@ -126,7 +126,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         setupView();
         BusProvider.getInstance().register(this);
-            clickTab(mIndex);
+//            clickTab(mIndex);
     }
 
     public void clickTabIndex(int index) {
