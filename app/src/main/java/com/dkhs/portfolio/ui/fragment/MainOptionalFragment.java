@@ -288,7 +288,8 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     protected void displayFragmentA() {
         if (TextUtils.isEmpty(mUserId)) {
-            setOptionTitleBar();
+
+            setFundBar();
         }
         tabFundsFragment.setDataUpdateListener(null);
         tabConbinationFragment.setDataUpdateListener(null);
@@ -313,7 +314,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     protected void displayFragmentB() {
         if (TextUtils.isEmpty(mUserId)) {
-            setFundBar();
+            setOptionTitleBar();
         }
         tabStockFragment.setDataUpdateListener(null);
         tabFundsFragment.setDataUpdateListener(this);
