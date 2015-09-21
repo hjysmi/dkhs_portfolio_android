@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity {
             t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
 
             t.commitAllowingStateLoss();
-            displayFragmentA();
+            displayFragmentB();
 
         } else {
             mMenuFragment = (MenuItemFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MENU);
@@ -358,7 +358,7 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("index", 1);
         NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 1);
+        newIntent.bundle.putInt("fund_index", 0);
         newIntent.bundle.putBoolean("fund_manager_ranking", true);
         intent.putExtra("arg", newIntent.bundle);
         context.startActivity(intent);
@@ -371,7 +371,7 @@ public class MainActivity extends BaseActivity {
 
 
         NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 1);
+        newIntent.bundle.putInt("fund_index", 0);
         newIntent.bundle.putBoolean("fund_manager_ranking", false);
         intent.putExtra("arg", newIntent.bundle);
         context.startActivity(intent);

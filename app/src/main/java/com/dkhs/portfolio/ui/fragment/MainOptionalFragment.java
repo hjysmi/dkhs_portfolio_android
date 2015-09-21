@@ -103,8 +103,9 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         }
         displayFragmentA();
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(tabStockFragment);
         fragments.add(tabFundsFragment);
+
+        fragments.add(tabStockFragment);
         fragments.add(tabConbinationFragment);
         adapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragments);
         mVp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragments));

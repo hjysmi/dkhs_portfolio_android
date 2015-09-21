@@ -82,7 +82,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     @ViewInject(R.id.tv_new_count)
     private TextView newCountTV;
 
-    private int mIndex = TABINDEX_1;
+    private int mIndex = TABINDEX_2;
 
     public static final String KEY_TABINDEX = "key_tabindex";
 
@@ -126,7 +126,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         setupView();
         BusProvider.getInstance().register(this);
-            clickTab(mIndex);
+//            clickTab(mIndex);
     }
 
     public void clickTabIndex(int index) {
@@ -135,12 +135,13 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
         switch (index) {
             case 0: {
-                id = MenuItemFragment.TABINDEX_1;
+                id = MenuItemFragment.TABINDEX_2;
 
             }
             break;
             case 1: {
-                id = MenuItemFragment.TABINDEX_2;
+                id = MenuItemFragment.TABINDEX_1;
+
             }
             break;
             case 2: {
