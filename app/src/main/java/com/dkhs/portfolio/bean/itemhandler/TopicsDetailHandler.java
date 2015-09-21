@@ -93,9 +93,17 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
         }
         vh.setTextView(R.id.content, data.text);
 //        vh.get(R.id.iv).setVisibility(View.GONE);
-        new TopicsImageViewHandler().handleMedias(vh, data,true);
 
 
+        TopicsImageViewHandler topicsImageViewHandler;
+        if(vh.get(R.id.titleTV).getTag()!= null && vh.get(R.id.titleTV).getTag() instanceof TopicsImageViewHandler){
+            topicsImageViewHandler= (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+        }else {
+              topicsImageViewHandler=new TopicsImageViewHandler();
+
+            vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
+        }
+        topicsImageViewHandler.handleMedias(vh, data, true);
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
 

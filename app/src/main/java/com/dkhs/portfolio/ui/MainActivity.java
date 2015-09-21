@@ -119,7 +119,11 @@ public class MainActivity extends BaseActivity {
         if (null != intent.getParcelableExtra(MessageReceive.KEY_MESSAGE)) {
             Message message = intent.getParcelableExtra(MessageReceive.KEY_MESSAGE);
             handler.handleMessage(message);
+        }else if(null != intent.getStringExtra("handlerUrl")){
+           String handlerUrl= intent.getStringExtra("handlerUrl");
+            handler.handleURL(handlerUrl);
         }
+
         int index = intent.getIntExtra("index", 0);
 
         mBundle = intent.getBundleExtra("arg");
