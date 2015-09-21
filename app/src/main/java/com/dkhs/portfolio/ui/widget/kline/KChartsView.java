@@ -521,6 +521,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     private void drawTitles(Canvas canvas) {
 
+
         if (null == symbolType) {
             return;
         }
@@ -531,7 +532,6 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 for (int i = 0; i < len; i++) {
 
                     String t = getYTitle(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-
                     defPaint.reset();
                     Rect rect = new Rect();
                     defPaint.setAntiAlias(true);
@@ -1164,7 +1164,6 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             }
             mMinPrice = mOHLCData.get(mDataStartIndext).getLow();
             mMaxPrice = mOHLCData.get(mDataStartIndext).getHigh();
-
             for (int i = mDataStartIndext + 1; i < mOHLCData.size() && i < mShowDataNum + mDataStartIndext; i++) {
                 OHLCEntity entity = mOHLCData.get(i);
                 mMinPrice = mMinPrice < entity.getLow() ? mMinPrice : entity.getLow();
@@ -1179,6 +1178,16 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             // i);
             // }
             // }
+            //fix bug 股票日线5/10/20均线画出界外
+            for (MALineEntity lineEntity : MALineData) {
+                for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
+                        && i < mShowDataNum + mDataStartIndext; i++) {
+                    mMinPrice = mMinPrice < lineEntity.getLineData().get(i) ? mMinPrice : lineEntity.getLineData().get(
+                            i);
+                    mMaxPrice = mMaxPrice > lineEntity.getLineData().get(i) ? mMaxPrice : lineEntity.getLineData().get(
+                            i);
+                }
+            }
             double value = mMaxPrice - mMinPrice;
             mMinPrice = mMinPrice - (value * 0.1);
             mMaxPrice = mMaxPrice + (value * 0.1);
