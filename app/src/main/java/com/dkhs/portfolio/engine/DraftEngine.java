@@ -84,6 +84,7 @@ public class DraftEngine {
                 try {
                     draftBean.setAuthorId(mAuthorID);
                     draftBean.setEdittime(System.currentTimeMillis() / 1000);
+                    draftBean.getUploadMap();
 //                    StringBuilder sbPaths = new StringBuilder();
 //                    for (String path : draftBean.getPhotoList()) {
 //                        sbPaths.append(path);

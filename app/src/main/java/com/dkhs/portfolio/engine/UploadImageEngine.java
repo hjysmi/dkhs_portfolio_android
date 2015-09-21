@@ -4,26 +4,36 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.PostImageBean;
 import com.dkhs.portfolio.bean.UploadImageBean;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
-import java.util.WeakHashMap;
 
 /**
  * Created by zjz on 2015/9/15.
  */
-public class UploadImageEngine {
+public class UploadImageEngine implements Runnable {
 
-    public static WeakHashMap<String, String> uploadMap = new WeakHashMap<>();
+    private HashMap<String, PostImageBean> uploadMap = new HashMap<>();
 
+    public UploadImageEngine(HashMap<String, PostImageBean> upMap) {
+        if (null != upMap) {
+            this.uploadMap = upMap;
+        }
+    }
+
+    public UploadImageEngine() {
+    }
 
     public List<String> getPhotoList() {
         return photoList;
@@ -31,9 +41,13 @@ public class UploadImageEngine {
 
     public void setPhotoList(List<String> photoList) {
         this.photoList = photoList;
-
-        LogUtils.d("setPhotoList");
+        setCancelUpload(false);
         isNeedUpload();
+    }
+
+
+    public HashMap<String, PostImageBean> getUploadMap() {
+        return uploadMap;
     }
 
 
@@ -50,30 +64,9 @@ public class UploadImageEngine {
     private UploadImageListener uploadListener;
 
     public synchronized void saveBitmapAndUpload(final String filePath) {
-        LogUtils.d("saveBitmapAndUpload:" + filePath);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String tempFilePath = filePath;
-                    Bitmap imageBitmap = UIUtils.getLocaleimage(filePath);
-                    File f = getTempFile();
-                    if (null == f) {
-                        f = new File(filePath);
-                    } else if (f.exists()) {
-                        f.delete();
-                    }
-                    FileOutputStream out = new FileOutputStream(f);
-                    Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, filePath);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                    out.flush();
-                    out.close();
-                    StatusEngineImpl.uploadImage(f, new UploadListener().setFilePath(filePath));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        mCurrentUpload = filePath;
+        new Thread(this).start();
+
     }
 
 
@@ -88,6 +81,32 @@ public class UploadImageEngine {
         return outputFile;
     }
 
+    private String mCurrentUpload;
+
+    @Override
+    public void run() {
+//        Thread thisThread = Thread.currentThread();
+//        while (myThread == thisThread) {
+        try {
+            String tempFilePath = mCurrentUpload;
+            Bitmap imageBitmap = UIUtils.getLocaleimage(mCurrentUpload);
+            File f = getTempFile();
+            if (null == f) {
+                f = new File(mCurrentUpload);
+            } else if (f.exists()) {
+                f.delete();
+            }
+            FileOutputStream out = new FileOutputStream(f);
+            Bitmap bitmap = UIUtils.loadBitmap(imageBitmap, mCurrentUpload);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+            StatusEngineImpl.uploadImage(f, new UploadListener().setFilePath(mCurrentUpload));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public class UploadListener extends ParseHttpListener<UploadImageBean> {
 
 
@@ -100,6 +119,9 @@ public class UploadImageEngine {
 
         @Override
         protected UploadImageBean parseDateTask(String jsonData) {
+            if (isCancelUpload) { //取消上传
+                return null;
+            }
             if (TextUtils.isEmpty(jsonData)) {
                 return null;
             }
@@ -115,10 +137,17 @@ public class UploadImageEngine {
         @Override
         protected void afterParseData(UploadImageBean entity) {
             if (null == uploadMap) {
-                uploadMap = new WeakHashMap<>();
+                uploadMap = new HashMap<>();
+            }
+            if (isCancelUpload) { //取消上传
+                return;
             }
             if (null != entity && !TextUtils.isEmpty(mFilePath)) {
-                uploadMap.put(mFilePath, entity.getId());
+                PostImageBean imageBean = new PostImageBean();
+                imageBean.filePath = mFilePath;
+                imageBean.serverId = entity.getId();
+                imageBean.uploadTime = System.currentTimeMillis() / 1000;
+                uploadMap.put(mFilePath, imageBean);
             }
             if (!isNeedUpload()) {
                 LogUtils.d("All photo upload finish");
@@ -136,6 +165,9 @@ public class UploadImageEngine {
         @Override
         public void onFailure(int errCode, String errMsg) {
 
+            if (isCancelUpload) {
+                return;
+            }
             if (errCode == 777) {
                 super.onFailure(errCode, errMsg);
             } else if (null != uploadListener) {
@@ -148,7 +180,9 @@ public class UploadImageEngine {
 
         @Override
         public void onFailure(ErrorBundle errorBundle) {
-
+            if (isCancelUpload) {
+                return;
+            }
             if (null != uploadListener) {
                 uploadListener.onFailure(errorBundle.getErrorMessage());
             }
@@ -160,13 +194,16 @@ public class UploadImageEngine {
         if (null != photoList) {
             for (String path : photoList) {
                 if (!TextUtils.isEmpty(path)) {
-                    if (!path.equals(PostTopicActivity.ADD_PICTURE) && uploadMap.get(path) == null) {
+                    PostImageBean imageBean = uploadMap.get(path);
+                    boolean isReUploadImage = (null != imageBean &&!TimeUtils.isEnableImageTime(imageBean.uploadTime));
+
+                    boolean isUnupload = (!path.equals(PostTopicActivity.ADD_PICTURE) && imageBean == null);
+                    if (isUnupload || isReUploadImage) {
                         saveBitmapAndUpload(path);
                         return true;
                     }
                 }
             }
-
 
             if (null != uploadListener)
 
@@ -178,6 +215,35 @@ public class UploadImageEngine {
         return false;
     }
 
+
+    private boolean isCancelUpload;
+
+    //是否取消下载
+    public void cancelUpload() {
+        setCancelUpload(true);
+    }
+
+    private void setCancelUpload(boolean isCancel) {
+        this.isCancelUpload = isCancel;
+    }
+
+    //线程对象引用
+    private Thread myThread;
+
+    public synchronized void stop() {
+        if (myThread == null) {
+            return;
+        }
+        Thread moribund = myThread;
+        myThread = null;
+        moribund.interrupt();
+    }
+
+    //开始
+    public void start() {
+        myThread = new Thread(this, "myThread");
+        myThread.start();
+    }
 
     public interface UploadImageListener {
         void onFailure(String errorMsg);
