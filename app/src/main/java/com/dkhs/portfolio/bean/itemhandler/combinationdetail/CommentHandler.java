@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,9 +11,10 @@ import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -20,6 +22,9 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.mingle.bean.PhotoBean;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,23 +34,32 @@ import com.dkhs.portfolio.utils.UIUtils;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/28.
  */
-public class CommentHandler extends SimpleItemHandler<CommentBean> {
+public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
     private boolean mAvatarImResponse = true;
     private boolean isReplyComment = false;
+    private boolean mCompact = false;
+
+    private Context mContext;
+
+    public CommentHandler(Context context, boolean avatarImResponse) {
+        this(context, avatarImResponse, false);
+    }
 
 
-    public CommentHandler(boolean avatarImResponse) {
+    public CommentHandler(Context context) {
+        this(context, true);
+    }
+
+    public CommentHandler(Context context, boolean avatarImResponse, boolean compact) {
         mAvatarImResponse = avatarImResponse;
+        mCompact = compact;
+        mContext = context;
     }
 
-
-    public CommentHandler() {
-        this(true);
-    }
-
-    public void setReplyComment(boolean isReplyComment) {
+    public CommentHandler setReplyComment(boolean isReplyComment) {
         this.isReplyComment = isReplyComment;
+        return this;
     }
 
     @Override
@@ -54,29 +68,39 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
     }
 
     @Override
-    public void onBindView(ViewHolder vh, final CommentBean comment, int position) {
+    public void onBindView(ViewHolder vh, final LikeBean comment, int position) {
         super.onBindView(vh, comment, position);
-        PeopleBean user = comment.getUser();
+        PeopleBean user = comment.user;
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
-            ImageLoaderUtils.setHeanderImage(comment.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_head));
-        }else{
+            ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_head));
+        } else {
             vh.getImageView(R.id.iv_head).setImageResource(R.drawable.default_head);
         }
         vh.getTextView(R.id.tv_username).setText(user.getUsername());
-        vh.getTextView(R.id.tv_text).setText(comment.getText());
-        ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.getAttitudes_count()));
-        vh.getTextView(R.id.tv_time).setText(TimeUtils.getBriefTimeString(comment.getCreated_at()));
+        vh.getTextView(R.id.tv_text).setText(comment.text);
+        ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.attitudes_count));
+        vh.getTextView(R.id.tv_time).setText(TimeUtils.getBriefTimeString(comment.created_at));
         setClickListener(vh.get(R.id.like_ll), comment);
         setClickListener(vh.get(R.id.tv_username), comment);
-        if (comment.getAttitudes_count() > 0) {
-            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.getAttitudes_count()));
+        setClickListener(vh.get(R.id.iv_image), comment);
+        if (comment.attitudes_count > 0) {
+            ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.attitudes_count));
         } else {
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText("");
         }
 
-        if(comment.like){
+
+        if (comment.medias != null && comment.medias.size() > 0) {
+            vh.get(R.id.iv_image).setVisibility(View.VISIBLE);
+            ImageLoaderUtils.setImagDefault(comment.medias.get(0).getImage_sm(), vh.getImageView(R.id.iv_image));
+        } else {
+            vh.get(R.id.iv_image).setVisibility(View.GONE);
+        }
+
+
+        if (comment.like) {
             vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_like);
-        }else{
+        } else {
             vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_unlike);
         }
 
@@ -102,7 +126,7 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         });
 
 
-        if (comment.compact) {
+        if (comment.compact || mCompact) {
             vh.get(R.id.bottom).setVisibility(View.GONE);
         } else {
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
@@ -111,10 +135,10 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
     }
 
-    public void setClickListener(View view, CommentBean data) {
-        ItemHandlerClickListenerImp<CommentBean> itemHandlerClickListener = null;
+    public void setClickListener(View view, LikeBean data) {
+        ItemHandlerClickListenerImp<LikeBean> itemHandlerClickListener = null;
         if (null != view.getTag() && view.getTag() instanceof ItemHandlerClickListenerImp) {
-            itemHandlerClickListener = (ItemHandlerClickListenerImp<CommentBean>) view.getTag();
+            itemHandlerClickListener = (ItemHandlerClickListenerImp<LikeBean>) view.getTag();
         } else {
 
             switch (view.getId()) {
@@ -124,6 +148,9 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
                 case R.id.iv_head:
                 case R.id.tv_username:
                     itemHandlerClickListener = new AvatarClickListenerImp();
+                    break;
+                case R.id.iv_image:
+                    itemHandlerClickListener = new ImageViewClickListenerImp();
                     break;
                 default:
                     itemHandlerClickListener = new LikeClickListenerImp();
@@ -135,40 +162,40 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
         itemHandlerClickListener.setDate(data);
     }
 
-    class AvatarClickListenerImp extends ItemHandlerClickListenerImp<CommentBean> {
+    class AvatarClickListenerImp extends ItemHandlerClickListenerImp<LikeBean> {
 
 
-        private CommentBean mCommentBean;
+        private LikeBean mLikeBean;
 
 
         @Override
-        public View.OnClickListener setDate(CommentBean o) {
-            this.mCommentBean = o;
+        public View.OnClickListener setDate(LikeBean o) {
+            this.mLikeBean = o;
             return this;
         }
 
         @Override
         public void onClick(View v) {
-            if (mCommentBean.getUser() != null) {
+            if (mLikeBean.getUser() != null) {
                 UIUtils.startAnimationActivity((Activity) mContext,
-                        UserHomePageActivity.getIntent(mContext, mCommentBean.getUser().getUsername(), mCommentBean.getUser().getId() + ""));
+                        UserHomePageActivity.getIntent(mContext, mLikeBean.getUser().getUsername(), mLikeBean.getUser().getId() + ""));
             }
 
         }
     }
 
 
-    class LikeClickListenerImp extends ItemHandlerClickListenerImp<CommentBean> implements SwitchLikeStateHandler.StatusChangeI {
+    class LikeClickListenerImp extends ItemHandlerClickListenerImp<LikeBean> implements SwitchLikeStateHandler.StatusChangeI {
 
         private SwitchLikeStateHandler mSwitchLikeStateHandler;
         private View mView;
 
-        private CommentBean mCommentBean;
+        private LikeBean mLikeBean;
 
         @Override
-        public View.OnClickListener setDate(CommentBean o) {
-            this.mCommentBean = o;
-            mSwitchLikeStateHandler = new SwitchLikeStateHandler(mCommentBean);
+        public View.OnClickListener setDate(LikeBean o) {
+            this.mLikeBean = o;
+            mSwitchLikeStateHandler = new SwitchLikeStateHandler(mLikeBean);
             return this;
         }
 
@@ -184,11 +211,11 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
         @Override
         public void likePre() {
-            mCommentBean.setAttitudes_count(mCommentBean.getAttitudes_count() + 1);
+            mLikeBean.setAttitudes_count(mLikeBean.getAttitudes_count() + 1);
             TextSwitcher likeTV = (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if (mCommentBean.getAttitudes_count() > 0) {
+            if (mLikeBean.getAttitudes_count() > 0) {
 
-                likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
+                likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
             } else {
                 likeTV.setText("");
             }
@@ -196,15 +223,36 @@ public class CommentHandler extends SimpleItemHandler<CommentBean> {
 
         @Override
         public void unLikePre() {
-            mCommentBean.setAttitudes_count(mCommentBean.getAttitudes_count() - 1);
+            mLikeBean.setAttitudes_count(mLikeBean.getAttitudes_count() - 1);
             TextSwitcher likeTV = (TextSwitcher) mView.findViewById(R.id.tv_like);
-            if (mCommentBean.getAttitudes_count() > 0) {
+            if (mLikeBean.getAttitudes_count() > 0) {
 
-                likeTV.setText(StringFromatUtils.handleNumber(mCommentBean.getAttitudes_count()));
+                likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
             } else {
                 likeTV.setText("");
             }
 
+        }
+    }
+
+    class ImageViewClickListenerImp extends ItemHandlerClickListenerImp<LikeBean> {
+        private LikeBean topicsBean;
+
+        @Override
+        public View.OnClickListener setDate(LikeBean o) {
+            this.topicsBean = o;
+            return this;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ArrayList<PhotoBean> arrayList = new ArrayList<>();
+            PhotoBean photoBean = new PhotoBean();
+            photoBean.title = topicsBean.id + "";
+            photoBean.loadingURl = topicsBean.getMedias().get(0).getImage_sm();
+            photoBean.imgUrl = topicsBean.getMedias().get(0).getImage_md();
+            arrayList.add(photoBean);
+            PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }
     }
 }

@@ -79,11 +79,6 @@ public abstract class BaseFragment extends Fragment {
         UIUtils.setOverridePendingAnin(getActivity());
     }
 
-    public void startActivitySlideFormBottomAnim(Intent intent) {
-        super.startActivity(intent);
-        UIUtils.setOverridePendingSlideFormBottomAnim(getActivity());
-    }
-
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {

@@ -108,36 +108,40 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         // UserEngineImpl.queryThreePlatBind(bindsListener);
         initViews();
         setListener();
-        UserEngineImpl.queryThreePlatBind(bindsListener);
+//        UserEngineImpl.queryThreePlatBind(bindsListener);
         // initData();
         // loadCombinationData();
     }
 
     public void initData() {
-        UserEngineImpl engine = new UserEngineImpl();
-        engine.getSettingMessage(listener);
-        UserEngineImpl.queryThreePlatBind(bindsListener);
-        listener.setLoadingDialog(context);
-        if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
-            engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
+        if (PortfolioApplication.hasUserLogin()) {
 
-                @Override
-                protected Object parseDateTask(String jsonData) {
-                    return jsonData;
-                }
+            UserEngineImpl engine = new UserEngineImpl();
+            engine.getSettingMessage(listener);
+            UserEngineImpl.queryThreePlatBind(bindsListener);
+            listener.setLoadingDialog(context);
 
-                @Override
-                protected void afterParseData(Object object) {
-                    try {
-                        JSONObject json = new JSONObject((String) object);
-                        if (json.has("status")) {
-                            isSetPassword = json.getBoolean("status");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
+                engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
+
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+                        return jsonData;
                     }
-                }
-            });
+
+                    @Override
+                    protected void afterParseData(Object object) {
+                        try {
+                            JSONObject json = new JSONObject((String) object);
+                            if (json.has("status")) {
+                                isSetPassword = json.getBoolean("status");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
         }
 
     }

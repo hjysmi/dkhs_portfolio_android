@@ -15,6 +15,7 @@ import com.mingle.widget.CircularProgressBar;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import uk.co.senab.photoviewi.PhotoView;
@@ -51,10 +52,10 @@ public class PhotoViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mPhotoBean = getArguments().getParcelable("photoBean");
-         mLoader = ImageLoader.getInstance();
+        mLoader = ImageLoader.getInstance();
         View view = inflater.inflate(R.layout.fragment_photo_view, container, false);
         mPhotoView = (PhotoView) view.findViewById(R.id.photoIm);
-        mPreviewImage= (ImageView) view.findViewById(R.id.previewImage);
+        mPreviewImage = (ImageView) view.findViewById(R.id.previewImage);
         mProgressBar = (CircularProgressBar) view.findViewById(R.id.progressBar);
 
         if (mLoader.getDiskCache().get(mPhotoBean.loadingURl).exists()) {
@@ -74,13 +75,28 @@ public class PhotoViewFragment extends Fragment {
         });
 
         mPhotoView.setMinimumScale(0.6f);
+
+
+//        mPhotoView.setAdjustViewBounds(true);
         mLoader.displayImage(mPhotoBean.imgUrl, mPhotoView, options, new SimpleImageLoadingListener() {
             @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
                 if (imageUri.equals(mPhotoBean.imgUrl)) {
                     mProgressBar.setVisibility(View.GONE);
                     mPreviewImage.setVisibility(View.GONE);
                 }
+                mPhotoView.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (mPhotoView != null && mPhotoView.getDisplayRect()!= null  &&mPhotoView.getDisplayRect().width() < mPhotoView.getWidth()) {
+                            float scale = mPhotoView.getWidth() * 1.0f / mPhotoView.getDisplayRect().width();
+                            mPhotoView.setMaximumScale(Math.max(scale, mPhotoView.getMaximumScale()));
+                            mPhotoView.setScale(scale, mPhotoView.getWidth() / 2.0f, 0, false);
+                        }
+                    }
+                });
+
             }
 
             @Override
@@ -98,6 +114,11 @@ public class PhotoViewFragment extends Fragment {
                 mPreviewImage.setVisibility(View.GONE);
 
                 super.onLoadingFailed(imageUri, view, failReason);
+            }
+        }, new ImageLoadingProgressListener() {
+            @Override
+            public void onProgressUpdate(String s, View view, int i, int i1) {
+                mProgressBar.setProgressPecentage(i * 1.0f / i1);
             }
         });
         return view;

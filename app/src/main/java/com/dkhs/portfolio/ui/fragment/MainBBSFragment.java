@@ -46,8 +46,6 @@ public class MainBBSFragment extends BaseTitleFragment {
     }
 
 
-
-
     @Override
     public void requestData() {
 
@@ -80,6 +78,7 @@ public class MainBBSFragment extends BaseTitleFragment {
                     return;
                 }
                 getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST, "", ""));
+//                getActivity().startActivity(new Intent(getActivity(), TestActivity.class));
             }
         });
         getChildFragmentManager().beginTransaction().replace(R.id.container, new BBSFragment()).commitAllowingStateLoss();

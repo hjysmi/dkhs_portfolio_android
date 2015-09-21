@@ -15,14 +15,32 @@
         android:weightSum="5" >
 
         <RelativeLayout
-            android:id="@+id/tab_1"
+            android:id="@+id/tab_2"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
 
             style="@style/bottom_tab_layout" >
+            <ImageView
+                android:id="@+id/btn_tab2"
+                android:layout_marginTop="7dp"
+                style="@style/bottom_tab_button"
+                android:background="@drawable/cb_bar_market" />
 
+            <TextView
+                android:id="@+id/tv_tab2"
+                style="@style/bottom_tab_text"
+                android:layout_below="@+id/btn_tab2"
+                android:text="@string/tab_2" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_1"
+            style="@style/bottom_tab_layout" >
 
             <ImageView
                 android:id="@+id/btn_tab1"
@@ -40,24 +58,7 @@
                 style="@style/bottom_tab_text"
                 android:layout_below="@+id/btn_tab1"
                 android:text="@string/tab_1" />
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/tab_2"
-            style="@style/bottom_tab_layout" >
-
-
-            <ImageView
-                android:id="@+id/btn_tab2"
-                android:layout_marginTop="7dp"
-                style="@style/bottom_tab_button"
-                android:background="@drawable/cb_bar_market" />
-
-            <TextView
-                android:id="@+id/tv_tab2"
-                style="@style/bottom_tab_text"
-                android:layout_below="@+id/btn_tab2"
-                android:text="@string/tab_2" />
         </RelativeLayout>
 
         <RelativeLayout

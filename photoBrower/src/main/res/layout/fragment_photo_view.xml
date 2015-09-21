@@ -1,27 +1,33 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.vs.fragment.PhotoViewFragment">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+                    android:clipChildren="false"
+        tools:context="com.vs.fragment.PhotoViewFragment">
 
 
-    <ImageView
-        android:id="@+id/previewImage"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        <ImageView
+            android:id="@+id/previewImage"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
 
-      <uk.co.senab.photoviewi.PhotoView
-          android:id="@+id/photoIm"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent" />
+        <uk.co.senab.photoviewi.PhotoView
+            android:id="@+id/photoIm"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
 
-    <com.mingle.widget.CircularProgressBar
-        android:id="@+id/progressBar"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        <com.mingle.widget.CircularProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center" />
 
-</FrameLayout>
+    </RelativeLayout>
+</ScrollView>

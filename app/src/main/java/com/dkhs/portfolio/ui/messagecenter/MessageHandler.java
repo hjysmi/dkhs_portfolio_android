@@ -16,7 +16,9 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
+import com.dkhs.portfolio.ui.CallMeActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.CommentMeActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.FundManagerActivity;
 import com.dkhs.portfolio.ui.InfoActivity;
@@ -92,27 +94,11 @@ public class MessageHandler {
             MessageManager.getInstance().startPrivateChat(mContext, message.getSenderUserId(), null);
             return;
         }
-//        Uri uri = Uri.parse(messageContent.getUrl());
-//        List<String> segments = uri.getPathSegments();
-//        if (!handleURL(messageContent.getUrl())) {
-//            if (segments.get(0).equals("s") && segments.size() >= 3) {
-//                gotoStockQuotesActivity(segments);
-//            } else if (segments.get(0).equals("p") && segments.size() >= 2) {
-//                gotoOrderFundDetailActivity(segments.get(1));
-//            } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
-//                gotoNewOrYaoBaoDetail(segments.get(1));
-//            } else {
-//                //不在定义范围内 ,使用WebActivity去处理
-//                mContext.startActivity(WebActivity.newIntent(mContext, messageContent.getTitle(), messageContent.getUrl()));
-//            }
-//        } else {
-//            //不在定义范围内 ,使用WebActivity去处理
-//            mContext.startActivity(WebActivity.newIntent(mContext, messageContent.getTitle(), messageContent.getUrl()));
-//        }
         if (!handleURL(messageContent.getUrl())) {
             mContext.startActivity(AdActivity.getIntent(mContext, messageContent.getUrl()));
         }
     }
+
 
 
     public boolean handleURL(String url) {
@@ -130,17 +116,23 @@ public class MessageHandler {
                 if (segments.get(0).equals("s") && segments.size() >= 2) {
                     gotoStockQuotesActivity(segments);
                     hasHandle = true;
-                } else if (segments.get(0).equals("p") && segments.size() >= 2) {
+                } else if (segments.get(0).equals("p") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
                     hasHandle = true;
                     gotoOrderFundDetailActivity(segments.get(1));
                 } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("news")) {
                     //https://www.dkhs.com/statuses/news/ //跳转至信息资讯页面
                     gotoMainInfoActivity();
+                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("mentions_timeline")) {
+                    //https://www.dkhs.com/statuses/mentions_timeline/ 跳转至【提到我的】页面
+                    gotoCallMeActivity();
+                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("comments_timeline")) {
+                    //https://www.dkhs.com/statuses/comments_timeline/ 跳转至评论或回复我的
+                    gotoCommentMeActivity();
                 } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("public_timeline")) {
-                    //https://www.dkhs.com/statuses/public_timeline/ //跳转至社区热门话题界面
+                    //https://www.dkhs.com/statuses/public_timeline/ //跳转至社区热门话题界面d+
                     gotoHostTopicsActivity();
 
-                } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
+                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
                     hasHandle = true;
                     gotoNewOrYaoBaoDetail(segments.get(1));
                 } else if (segments.get(0).equals("u") && segments.size() >= 2) {
@@ -151,7 +143,7 @@ public class MessageHandler {
                     //https://www.dkhs.com/symbols/funds/managers/ //跳转至基金经理排行页面
                     //https://www.dkhs.com/symbols/funds/managers/pk/ //跳转至基金经理详情页
                     String pk = null;
-                    if (segments.size() >= 4) {
+                    if (segments.size() >= 4 && segments.get(3).matches("\\d+")) {
                         pk = segments.get(3);
                     }
                     gotoFundManager(pk);
@@ -186,6 +178,15 @@ public class MessageHandler {
 //        }
 
         return hasHandle;
+    }
+
+    private void gotoCallMeActivity() {
+        mContext.startActivity(new Intent(mContext, CallMeActivity.class));
+    }
+
+    private void gotoCommentMeActivity() {
+
+        mContext.startActivity(new Intent(mContext, CommentMeActivity.class));
     }
 
 

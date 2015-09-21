@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -30,20 +31,22 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnMenuItemClickListener;
 import com.baoyz.swipemenulistview.SwipeMenuListView.OnSwipeListener;
+import com.bumptech.glide.Glide;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
-import com.dkhs.portfolio.ui.eventbus.MainThreadBus;
+import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
-import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +66,6 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     public TextView tvEmptyText;
     public View loadingView;
 
-    private MainThreadBus eventBus;
 
     @Override
     public int setContentLayoutId() {
@@ -73,8 +75,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventBus = new MainThreadBus();
-        dataEngine = new DraftEngine(eventBus);
+        dataEngine = new DraftEngine(BusProvider.getInstance());
 
     }
 
@@ -202,6 +203,14 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
 
     }
 
+    @Subscribe
+    public void onPostTopicUpdate(PostTopComletedEvent event) {
+        if (null != event) {
+            dataEngine.getDraftByUserId();
+            loadingView.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     class MyDraftAdapter extends BaseAdapter {
 
@@ -229,7 +238,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             ViewHolder holder = (ViewHolder) convertView.getTag();
 
             final DraftBean item = mDataList.get(position);
-            String title = item.getTitle();
+            String title = item.getSimpleTitle();
             if (TextUtils.isEmpty(title)) {
                 holder.tvTitle.setVisibility(View.GONE);
             } else {
@@ -241,11 +250,17 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             String strLabel = item.getLabel() == 1 ? "主贴" : "回复";
             holder.tvLabel.setText(strLabel);
 
-            String strContent = item.getContent();
+            String strContent = item.getSimpleContent();
 
-
-            if (!TextUtils.isEmpty(item.getImageUri())) {
-                ImageLoaderUtils.setImage(item.getImageUri(), holder.ivImage);
+            if (item.getPhotoList().size() > 0) {
+                Uri uri = Uri.fromFile(new File(item.getPhotoList().get(0)));
+                Glide.with(getActivity())
+                        .load(uri)
+                        .centerCrop()
+                        .thumbnail(0.1f)
+                        .placeholder(R.drawable.ic_img_thumbnail)
+                        .error(R.drawable.ic_img_failure)
+                        .into(holder.ivImage);
                 holder.ivImage.setVisibility(View.VISIBLE);
             } else {
                 holder.ivImage.setVisibility(View.GONE);
@@ -300,7 +315,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     @Override
     public void onResume() {
         super.onResume();
-        eventBus.register(this);
+        BusProvider.getInstance().register(this);
 
         dataEngine.getDraftByUserId();
         loadingView.setVisibility(View.VISIBLE);
@@ -310,7 +325,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
     @Override
     public void onPause() {
         super.onPause();
-        eventBus.unregister(this);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override

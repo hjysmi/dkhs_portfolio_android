@@ -103,8 +103,9 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         }
         displayFragmentA();
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(tabStockFragment);
         fragments.add(tabFundsFragment);
+
+        fragments.add(tabStockFragment);
         fragments.add(tabConbinationFragment);
         adapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragments);
         mVp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragments));
@@ -287,7 +288,8 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     protected void displayFragmentA() {
         if (TextUtils.isEmpty(mUserId)) {
-            setOptionTitleBar();
+
+            setFundBar();
         }
         tabFundsFragment.setDataUpdateListener(null);
         tabConbinationFragment.setDataUpdateListener(null);
@@ -312,7 +314,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
     protected void displayFragmentB() {
         if (TextUtils.isEmpty(mUserId)) {
-            setFundBar();
+            setOptionTitleBar();
         }
         tabStockFragment.setDataUpdateListener(null);
         tabFundsFragment.setDataUpdateListener(this);

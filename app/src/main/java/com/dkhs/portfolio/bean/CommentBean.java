@@ -6,32 +6,14 @@ import java.util.List;
  * Created by zhangcm on 2015/7/28.17:18
  */
 public class CommentBean extends LikeBean {
-    private String title;
-    private String text;
-    private boolean truncated;
-    private PeopleBean user;
-    private String replied_status;
-    private String replied_comment;
-    private String retweeted_status;
-    private int status_type;
-    private String source;
-    private int retweets_count;
-    private int comments_count;
-    private int favorites_count;
-    private int attitudes_count;
-    private int content_count;
-    private String publish_at;
-    private String created_at;
-    private String modified_at;
-    private double lat;
-    private double lon;
 
-    public boolean compact=true;
-    private List<UploadImageBean> medias;
     private List<OptionNewsBean.Symbols> symbol;
     private String recomment_level;
 
-
+    public String source;
+    public  CommentBean(){
+        compact=false;
+    }
 
 
     public int getAttitudes_count() {
@@ -209,23 +191,22 @@ public class CommentBean extends LikeBean {
     public void setUser(PeopleBean user) {
 
 
-
         this.user = user;
 
 
     }
 
 
+    public static CommentBean fromTopics(TopicsBean topicsBean) {
 
-    public   static  CommentBean fromTopics(TopicsBean topicsBean){
-
-        CommentBean commentBean=new CommentBean();
+        CommentBean commentBean = new CommentBean();
         commentBean.setId(topicsBean.getId());
         commentBean.setUser(topicsBean.user);
         commentBean.setText(topicsBean.text);
         commentBean.setAttitudes_count(topicsBean.attitudes_count);
         commentBean.setCreated_at(topicsBean.created_at);
+        commentBean.setMedias(topicsBean.medias);
 
-        return  commentBean;
+        return commentBean;
     }
 }

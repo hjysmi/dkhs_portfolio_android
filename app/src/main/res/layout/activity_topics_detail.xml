@@ -11,12 +11,15 @@
         android:visibility="gone"
         android:layout_height="wrap_content"/>
 
-
-    <FrameLayout
-        android:id="@+id/contentFL"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
+        android:id="@+id/srl"
+        android:layout_height="fill_parent">
+    <com.dkhs.portfolio.ui.widget.TopicsDetailScrollView
+        android:layout_width="fill_parent"
+        android:id="@+id/tsv"
+        android:layout_height="fill_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
     <com.dkhs.portfolio.ui.FloatingActionMenu
         android:id="@+id/floating_action_view"
         android:layout_width="match_parent"

@@ -1,17 +1,25 @@
 package com.dkhs.portfolio.bean;
 
+import org.parceler.Parcel;
+
 /**
  * Created by zhangcm on 2015/7/27.15:44
  */
+@Parcel
 public class UploadImageBean {
-    private String id;
-    private String image_xs;
-    private String image_sm;
-    private String image_md;
-    private String image_lg;
-    private String full_path;
-    private String media_type;
-    private int size;
+    String id;
+    //180
+//    String image_xs;
+    //360
+    String image_sm;
+
+    //px720
+    String image_md;
+    //1080
+    String image_lg;
+    String full_path;
+    String media_type;
+    int size;
 
     public String getId() {
         return id;
@@ -21,13 +29,13 @@ public class UploadImageBean {
         this.id = id;
     }
 
-    public String getImage_xs() {
-        return image_xs;
-    }
-
-    public void setImage_xs(String image_xs) {
-        this.image_xs = image_xs;
-    }
+//    public String getImage_xs() {
+//        return image_xs;
+//    }
+//
+//    public void setImage_xs(String image_xs) {
+//        this.image_xs = image_xs;
+//    }
 
     public String getImage_lg() {
         return image_lg;
@@ -67,5 +75,24 @@ public class UploadImageBean {
 
     public void setImage_sm(String image_sm) {
         this.image_sm = image_sm;
+    }
+
+    public String getImage_md() {
+        return image_md;
+    }
+
+    public void setImage_md(String image_md) {
+        this.image_md = image_md;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o instanceof UploadImageBean) {
+            return ((UploadImageBean) o).getId().equals(this.getId());
+        }
+
+        return super.equals(o);
     }
 }

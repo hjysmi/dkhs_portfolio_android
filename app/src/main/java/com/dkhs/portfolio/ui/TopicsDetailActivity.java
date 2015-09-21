@@ -6,29 +6,64 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
+import com.dkhs.adpter.handler.SimpleItemHandler;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.ListView;
+import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.LikeBean;
+import com.dkhs.portfolio.bean.LoadingBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.NoDataBean;
+import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
+import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.BaseInfoEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.RemoveTopicsEvent;
-import com.dkhs.portfolio.ui.eventbus.UpdateTopicsListEvent;
+import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
+import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
+import com.dkhs.portfolio.ui.widget.TopicsDetailListView;
+import com.dkhs.portfolio.ui.widget.TopicsDetailScrollView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.mingle.autolist.AutoData;
+import com.mingle.autolist.AutoList;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.rockerhieu.emojicon.emoji.Objects;
+import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
+import org.w3c.dom.Comment;
 
 import java.io.File;
 
@@ -37,7 +72,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 /**
  * 主贴详情
  */
-public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeStateHandler.StatusChangeI, TopicDetailFragment.OnFragmentInteractionListener {
+public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeStateHandler.StatusChangeI, TopicDetailFragment.OnFragmentInteractionListener, LoadMoreDataEngine.ILoadDataBackListener {
 
 
     public static final int MENU_COMMEND = 0;
@@ -51,6 +86,20 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     private Boolean mScrollToComment;
     @ViewInject(R.id.ignoreTV)
     private TextView ignoreTV;
+    private TopicsBean mTopicsBean;
+    private AutoList<Object> mDataList = new AutoList<>().applyAction(CommentBean.class);
+    private TopicsCommendEngineImpl mTopicsCommendEngine = null;
+    private DKBaseAdapter mAdapter;
+    @ViewInject(R.id.srl)
+    private SwipeRefreshLayout mSwipeLayout;
+    @ViewInject(R.id.lv)
+    private TopicsDetailListView mTopicsDetailListView;
+    @ViewInject(R.id.tsv)
+    private TopicsDetailScrollView mTopicsDetailScrollView;
+
+    TopicsCommendEngineImpl.SortType mSortType;
+
+    private TopicsDetailHandler mTopicsDetailHandler = new TopicsDetailHandler(this);
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
@@ -69,7 +118,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     }
 
     public static void startActivity(Context context, TopicsBean topicsBean, boolean scrollToComment) {
-
         Intent intent = new Intent(context, TopicsDetailActivity.class);
         intent.putExtra("topicsBean", Parcels.wrap(topicsBean));
         //在子类的fragment中有使用到
@@ -79,7 +127,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @ViewInject(R.id.floating_action_view)
     public FloatingActionMenu mFloatingActionMenu;
-    private TopicsBean mTopicsBean;
+    private TopicsBean mItemTopicsBean;
     private SwitchLikeStateHandler mSwitchLikeStateHandler;
 
     private boolean isMyTopics = false;
@@ -88,42 +136,182 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        hideHead();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
-
+            mItemTopicsBean = mTopicsBean;
             mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
             setContentView(R.layout.activity_topics_detail);
-//            setTitle(R.string.title_activity_topics_detail);
+
+//            Toolbar toolbar= (Toolbar) findViewById(R.id.tool);
+//            setSupportActionBar(toolbar);
             ViewUtils.inject(this);
-            mTopicDetailFragment = new TopicDetailFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, mTopicDetailFragment).commitAllowingStateLoss();
+            mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+
+
+
             initData();
+            setTopicsDetail();
             ignoreTV.setText(mTopicsBean.text);
             mSwitchLikeStateHandler = new SwitchLikeStateHandler(mTopicsBean);
             mSwitchLikeStateHandler.setStatusChangeI(this);
-
+            loadData();
+            mFloatingActionMenu.attachToListViewTop(mTopicsDetailListView, null, null);
+            BusProvider.getInstance().register(this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
+        loadData(topicsDetailRefreshEvent.sortType);
+        mSortType = topicsDetailRefreshEvent.sortType;
+    }
+
+    public void loadData(TopicsCommendEngineImpl.SortType sortType) {
+        mSwipeLayout.setRefreshing(true);
+        getLoadEngine().loadData(sortType);
+    }
+
+    public void loadData() {
+
+        mSwipeLayout.setRefreshing(true);
+        BaseInfoEngine.getTopicsDetail(mTopicsBean.id + "", new SimpleParseHttpListener() {
+            @Override
+            public Class getClassType() {
+                return TopicsBean.class;
+            }
+
+            @Override
+            protected void afterParseData(Object object) {
+                mSwipeLayout.setRefreshing(false);
+                mTopicsBean = (TopicsBean) object;
+                onFragmentInteraction(mTopicsBean);
+                setTopicsDetail();
+                if (mScrollToComment) {
+
+                    mTopicsDetailScrollView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mScrollToComment = false;
+                            mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    }, 500);
+                }
+
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                mSwipeLayout.setRefreshing(false);
+            }
+        });
+        mSwipeLayout.setRefreshing(true);
+        getLoadEngine().loadData();
 
     }
+
+
+    private void setTopicsDetail() {
+        mTopicsDetailHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.topicDetailRl)), mTopicsBean, 0);
+    }
+
+
+    TopicsCommendEngineImpl getLoadEngine() {
+        if (mTopicsCommendEngine == null) {
+            mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
+        }
+        return mTopicsCommendEngine;
+    }
+
 
     /**
      * iniView initData
      */
     public void initData() {
         initFloatMenu();
+        mDataList.setup(this);
+
+        mTopicsDetailListView.setOnLoadMoreListener(new TopicsDetailListView.OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                getLoadEngine().loadMore();
+            }
+        });
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
+        mAdapter = new DKBaseAdapter(this, mDataList)
+                .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(this))
+                .buildMultiItemView(CommentBean.class, new CommentHandler(this, true, true))
+                .buildMultiItemView(NoDataBean.class, new NoDataHandler())
+                .buildMultiItemView(LoadingBean.class, new LoadingHandler())
+                .buildMultiItemView(UserEntity.class, new LikePeopleHandler(this))
+                .buildMultiItemView(PeopleBean.class, new LikePeopleHandler(this));
+
+        mTopicsDetailListView.setAdapter(mAdapter);
+        mDataList.setAdapter(mAdapter);
+        mDataList.add(new LoadingBean());
+        mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
+            @Override
+            public boolean beforeHandleAction(AutoData a) {
+
+                if(a instanceof  CommentBean){
+                    mTopicsBean.comments_count  =mDataList.size();
+                    setTopicsDetail();
+                    switch (a.action){
+
+                        case Add:
+                            if(mDataList.size()>0 &&(mDataList.get(0)instanceof  NoDataBean) ){
+                                mDataList.remove(0);
+                        }
+
+
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            public void afterHandleAction(AutoData a) {
+
+                if(a instanceof  CommentBean){
+                    mTopicsBean.comments_count  =mDataList.size();
+                    setTopicsDetail();
+                    switch (a.action){
+                        case Delete:
+                            if(mDataList.size()==0){
+                                mDataList.add(new NoDataBean());
+                            }
+                    }
+                }
+
+            }
+        });
         mFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
             @Override
             public boolean onMenuItemSelected(int paramInt) {
                 switch (paramInt) {
                     case MENU_COMMEND:
 
-                        if (UIUtils.iStartLoginActivity(mContext)) {
+                        if (UIUtils.iStartLoginActivity(TopicsDetailActivity.this)) {
                             break;
                         }
-                        startActivity(PostTopicActivity.getIntent(mContext,
-                                PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                        if (null != mTopicsBean && null != mTopicsBean.user) {
+
+                            startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
+                                    PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                        }
                         break;
                     case MENU_LIKE:
 
@@ -135,16 +323,22 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         }
                         break;
                     case MENU_MORE_STATUS_REPORT:
-                        mContext.startActivity(StatusReportActivity.getIntent(mContext, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
+                        if (!UIUtils.iStartLoginActivity(TopicsDetailActivity.this)) {
+
+                            if (null != mTopicsBean && null != mTopicsBean.user) {
+
+                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
+                            }
+                        }
                         break;
                     case MENU_MORE_GO_HOME:
 
-                        MainActivity.gotoTopicsHome(mContext);
-                        ((Activity) mContext).finish();
+                        MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
+                        ((Activity) TopicsDetailActivity.this).finish();
                         break;
                     case MENU_MORE_STATUS_DELETE:
 
-                        PromptManager.getAlertDialog(mContext).setMessage(getString(R.string.delete_topics)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        PromptManager.getAlertDialog(TopicsDetailActivity.this).setMessage(getString(R.string.delete_topics)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 StatusEngineImpl.delete(mTopicsBean.id + "", new ParseHttpListener() {
@@ -159,10 +353,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
                                         if (mTopicsBean != null) {
-                                            RemoveTopicsEvent removeTopicsListEvent = new RemoveTopicsEvent(mTopicsBean);
-                                            BusProvider.getInstance().post(removeTopicsListEvent);
+//                                            RemoveTopicsEvent removeTopicsListEvent = new RemoveTopicsEvent(mTopicsBean);
+//                                            BusProvider.getInstance().post(removeTopicsListEvent);
+                                            mTopicsBean.appleAction(this, AutoData.Action.Delete).post();
                                         }
-                                        ((Activity) mContext).finish();
+                                        ((Activity) TopicsDetailActivity.this).finish();
                                     }
                                 });
                             }
@@ -191,7 +386,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         shareBean.setResId(R.drawable.ic_launcher);
         if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
 
-            String imaUrl = mTopicsBean.medias.get(0).image_md;
+            String imaUrl = mTopicsBean.medias.get(0).getImage_md();
             String imgPath = ImageLoader.getInstance().getDiskCache().get(imaUrl).getPath();
 
             if (new File(imgPath).exists()) {
@@ -233,14 +428,14 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @Override
     public void likePre() {
         initFloatMenu();
-        mTopicDetailFragment.like();
+        like();
     }
 
     @Override
     public void unLikePre() {
 
         initFloatMenu();
-        mTopicDetailFragment.unLike();
+        unLike();
 
     }
 
@@ -248,17 +443,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void onFragmentInteraction(TopicsBean topicsBean) {
         mTopicsBean = topicsBean;
         ignoreTV.setText(mTopicsBean.text);
-
-//        公告正文
-//                研报正文
-//        话题正文
-//                新闻正文
-//        CONTENT_TYPE = (
-//                (0, '话题'),
-//        (10, '新闻'),
-//        (20, '公告'),
-//        (30, '研报'),
-//        )
         switch (topicsBean.content_type) {
             case 0:
                 setTitle("话题正文");
@@ -282,10 +466,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     public void finish() {
-        if (mTopicsBean != null) {
+        if (mItemTopicsBean != null) {
             //更新列表状态
-            UpdateTopicsListEvent updateTopicsListEvent = new UpdateTopicsListEvent(mTopicsBean);
-            BusProvider.getInstance().post(updateTopicsListEvent);
+            mItemTopicsBean.attitudes_count = mTopicsBean.attitudes_count;
+            mItemTopicsBean.like = mTopicsBean.like;
+            mItemTopicsBean.comments_count = mTopicsBean.comments_count;
+            mItemTopicsBean.appleAction(this, AutoData.Action.Update).post();
         }
         super.finish();
     }
@@ -314,5 +500,104 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         oks.setDialogMode();
         oks.show(context);
 
+    }
+
+    @Override
+    public void loadFinish(MoreDataBean object) {
+
+        mSwipeLayout.setRefreshing(false);
+        if (mTopicsCommendEngine.getCurrentpage() == 1) {
+            mDataList.clear();
+            if (object.getResults().size() == 0) {
+                NoDataBean noDataBean = new NoDataBean();
+                if (mTopicsCommendEngine.isLikes()) {
+                    noDataBean.noData = "暂无人点赞";
+                } else {
+                    noDataBean.noData = "暂无评论";
+                }
+                mDataList.add(noDataBean);
+            }
+        }
+        mDataList.addAll(object.getResults());
+        mAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void loadFail() {
+
+        mSwipeLayout.setRefreshing(false);
+
+    }
+
+
+    public void addLikePeople(UserEntity userEntity) {
+        if (mSortType != TopicsCommendEngineImpl.SortType.like) {
+            return;
+        }
+        if (mDataList.size() > 0) {
+            if (mDataList.get(0) instanceof NoDataBean) {
+                mDataList.remove(0);
+            }
+
+            boolean had = false;
+            for (Object userEntity1 : mDataList) {
+                if (userEntity1 instanceof UserEntity) {
+                    if (((UserEntity) userEntity1).getId() == userEntity.getId()) {
+                        had = true;
+                        break;
+                    }
+                }
+            }
+            if (!had) {
+                mDataList.add(0, userEntity);
+            }
+        }
+        setTopicsDetail();
+
+    }
+
+    public void removeLikePeople(UserEntity userEntity) {
+        if (mSortType != TopicsCommendEngineImpl.SortType.like) {
+
+            return;
+        }
+
+
+        for (Object o : mDataList) {
+            if (o instanceof UserEntity) {
+                if (((UserEntity) o).getId() == userEntity.getId()) {
+                    mDataList.remove(o);
+                    if (mDataList.size() == 0) {
+                        NoDataBean noDataBean = new NoDataBean();
+                        noDataBean.noData = "暂无人点赞";
+                        mDataList.add(0, noDataBean);
+                    }
+                    break;
+                }
+            }
+        }
+        setTopicsDetail();
+
+    }
+
+
+    public void like() {
+
+        if (mTopicsBean != null) {
+            mTopicsBean.attitudes_count += 1;
+            addLikePeople(UserEngineImpl.getUserEntity());
+            mAdapter.notifyDataSetChanged();
+
+        }
+
+    }
+
+    public void unLike() {
+        if (mTopicsBean != null) {
+            mTopicsBean.attitudes_count -= 1;
+            removeLikePeople(UserEngineImpl.getUserEntity());
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

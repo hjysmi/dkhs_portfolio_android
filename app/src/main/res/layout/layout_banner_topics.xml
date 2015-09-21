@@ -71,6 +71,7 @@
                 style="@style/recommend_topics_title"
                 android:layout_width="fill_parent"
                 android:id="@+id/recommend_topics2"
+
                 android:layout_height="wrap_content"
                 />
 

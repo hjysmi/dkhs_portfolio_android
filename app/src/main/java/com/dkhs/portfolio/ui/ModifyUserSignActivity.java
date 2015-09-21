@@ -3,11 +3,9 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,7 +16,6 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +53,7 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
 
         Bundle b = getIntent().getExtras();
         if (null != b) {
-            signText.setText(b.getString(DESCRIPTION));
+            signText.setHint(b.getString(DESCRIPTION));
             signText.setSelection(signText.length());
             int k = 40 - signText.getText().toString().length();
             signVlaue.setText(k + "");
@@ -101,10 +98,10 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.btn_right:
-                if (TextUtils.isEmpty(signText.getText().toString())) {
-                    PromptManager.showToast(R.string.sign_text_notice);
-                    return;
-                }
+//                if (TextUtils.isEmpty(signText.getText().toString())) {
+//                    PromptManager.showToast(R.string.sign_text_notice);
+//                    return;
+//                }
                 setSign();
                 break;
 

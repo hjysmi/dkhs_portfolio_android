@@ -80,8 +80,8 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         super.onViewCreated(view, savedInstanceState);
         fragmentList = new ArrayList<Fragment>();
         mRlheadertitle.setClickable(true);
-        fragmentList.add(new NewMarketStockFragment());
         fragmentList.add(new MarketFundsFragment());
+        fragmentList.add(new MarketStockFragment());
         fragmentList.add(new MarketCombinationFragment());
         mAdapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList);
         vp.setAdapter(mAdapter);
@@ -98,7 +98,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
             }
         });
 
-        vp.setCurrentItem(1);
+//        vp.setCurrentItem(1);
         mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         vp.setOffscreenPageLimit(3);

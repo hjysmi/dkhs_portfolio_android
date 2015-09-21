@@ -13,8 +13,8 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 200000821
-        versionName "2.0.1.0821"
+        versionCode 200200921
+        versionName "2.2.0.0921"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
@@ -67,11 +67,14 @@ android {
 
     productFlavors {
         rong_release {
-            manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
+            applicationId = "com.dkhs.portfolio"
+            manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5", PACKAGE_NAME: "com.dkhs.portfolio"]
         }
         rong_debug {
-            manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]
+            applicationId = "com.dkhs.portfolio"
+            manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb", PACKAGE_NAME: "com.dkhs.portfolio"]
         }
+
 
     }
 
@@ -135,5 +138,6 @@ dependencies {
     compile project(':photoBrower')
     compile project(':emoji')
     compile project(':security')
+    compile project(':PhotoPicker')
     compile files('libs/android_api_3.7.0.jar')
 }

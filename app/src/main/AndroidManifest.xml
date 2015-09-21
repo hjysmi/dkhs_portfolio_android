@@ -38,7 +38,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTranslucentTheme">
 
-
         <!-- 百度统计  start -->
         <!-- 您从百度网站获取的APP KEY -->
         <meta-data
@@ -77,6 +76,7 @@
             android:value="DKHS_test" />
         <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
 
+
         <!-- 友盟统计 end -->
         <activity
             android:name=".ui.SplashActivity"
@@ -84,7 +84,6 @@
             android:theme="@style/AppThemeNoBackgroud">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -279,10 +278,8 @@
         <service
             android:name=".service.ReLoadDataService"
             android:exported="false" />
-
-
         <service
-            android:name="com.dkhs.portfolio.service.PostTopicService"
+            android:name=".service.PostTopicService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -292,7 +289,8 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="${RONG_CLOUD_KEY}" />
+            android:value="${RONG_CLOUD_KEY}"
+            />
 
         <!--
                 <meta-data
@@ -310,7 +308,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:path="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
@@ -325,7 +323,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
@@ -340,7 +338,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/conversationsetting/"
                     android:scheme="rong" />
             </intent-filter>
@@ -357,7 +355,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/VoIPCall"
                     android:scheme="rong" />
             </intent-filter>
@@ -372,7 +370,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/VoIPAccept"
                     android:scheme="rong" />
             </intent-filter>
@@ -430,35 +428,62 @@
         <activity android:name=".ui.ShakeActivity" />
         <activity
             android:name=".ui.BBSActivity"
-            android:label="@string/title_activity_bbs"></activity>
+            android:label="@string/title_activity_bbs" />
         <activity
             android:name=".ui.PhotoViewActivity"
-            android:label="@string/title_activity_photo_view"></activity>
+            android:label="@string/title_activity_photo_view" />
         <activity
             android:name=".ui.PostTopicActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.StatusActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.MyDraftActivity"
             android:label="@string/title_my_draft" />
         <activity
             android:name=".ui.TopicsDetailActivity"
-            android:label="@string/title_activity_topics_detail"></activity>
+            android:label="@string/title_activity_topics_detail" />
         <activity
             android:name=".ui.InfoActivity"
-            android:label="@string/title_activity_info"></activity>
+            android:label="@string/title_activity_info" />
         <activity
             android:name=".ui.UserTopicsActivity"
-            android:label="@string/title_activity_my_topics"></activity>
-        <activity android:name=".ui.CombinationListActivity"></activity>
+            android:label="@string/title_activity_my_topics" />
+        <activity android:name=".ui.CombinationListActivity" />
         <activity
             android:name=".ui.StatusReportActivity"
-            android:label="@string/title_status_report"></activity>
+            android:label="@string/title_status_report" />
         <activity
             android:name=".ui.ReplyActivity"
-            android:label="@string/mine_reply"></activity>
+            android:label="@string/mine_reply" />
+
+        <activity
+            android:name=".ui.CommentMeActivity"
+            android:label="@string/title_activity_comment_me" />
+        <activity
+            android:name=".ui.CallMeActivity"
+            android:label="@string/title_activity_call_me" />
+        <activity
+            android:name=".ui.SelectFriendActivity"
+            android:label="@string/title_pickup_user"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.TestActivity" />
+
+
+        <activity
+            android:name=".ui.pickphoto.PhotoPickerActivity"
+            android:label="@string/title_picker_photo" />
+        <!--<activity-->
+        <!--android:name=".ui.ZWMTestActivity"-->
+        <!--android:theme="@style/Theme.AppCompatRed"-->
+        <!--android:label="@string/title_activity_zwmtest" >-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
     </application>
 
 </manifest>

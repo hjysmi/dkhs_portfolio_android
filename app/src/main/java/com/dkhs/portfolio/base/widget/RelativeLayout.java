@@ -4,6 +4,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.ActionMode;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.dkhs.portfolio.base.widget.listener.SingleClickListener;
 
@@ -35,4 +38,6 @@ public class RelativeLayout  extends android.widget.RelativeLayout {
     public void setOnClickListener(OnClickListener l) {
         super.setOnClickListener(new SingleClickListener(l));
     }
+
+
 }

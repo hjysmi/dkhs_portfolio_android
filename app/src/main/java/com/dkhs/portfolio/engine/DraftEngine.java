@@ -43,6 +43,7 @@ public class DraftEngine {
                     draftBeanList = dbUtils
                             .findAll(Selector.from(DraftBean.class).where(DraftBean.COLUM_AUTHORID, "=", mAuthorID).orderBy(DraftBean.COLUM_EDITTIME, true)
                             );
+
                     if (null != mEventBus) {
                         mEventBus.post(new LoadDraftEvent(draftBeanList));
                     }
@@ -83,6 +84,13 @@ public class DraftEngine {
                 try {
                     draftBean.setAuthorId(mAuthorID);
                     draftBean.setEdittime(System.currentTimeMillis() / 1000);
+                    draftBean.getUploadMap();
+//                    StringBuilder sbPaths = new StringBuilder();
+//                    for (String path : draftBean.getPhotoList()) {
+//                        sbPaths.append(path);
+//                        sbPaths.append(",");
+//                    }
+//                    draftBean.setPhotoPaths(sbPaths.toString());
                     dbUtils.saveOrUpdate(draftBean);
 
                 } catch (DbException e) {

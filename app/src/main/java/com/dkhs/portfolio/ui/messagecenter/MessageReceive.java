@@ -154,7 +154,7 @@ public class MessageReceive extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(PortfolioApplication.getInstance(), notificationId, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
             String title = context.getResources().getString(R.string.app_name);
             Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
-                    .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
+                    .setContentTitle(title).setContentText(message.getTitle()+" "+message.getContent()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
                     .setContentIntent(pendingIntent)
                     .build();
             notificationCompat.icon=R.drawable.ic_launcher;

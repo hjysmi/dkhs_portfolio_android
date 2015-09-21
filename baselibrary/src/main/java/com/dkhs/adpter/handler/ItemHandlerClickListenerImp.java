@@ -9,7 +9,7 @@ import android.view.View;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/7/22.
  */
-public class ItemHandlerClickListenerImp<T extends Object>  implements View.OnClickListener,ItemHandlerClickListener<T> {
+public class ItemHandlerClickListenerImp<T> implements View.OnClickListener, ItemHandlerClickListener<T> {
 
     @SuppressWarnings("uncheck")
     @Override

@@ -1,18 +1,19 @@
 package com.dkhs.adpter.adapter;
 
 import android.content.Context;
+import android.util.SparseArray;
 
-import java.util.HashMap;
-import java.util.List;
 import com.dkhs.adpter.handler.ItemHandler;
 
+import java.util.List;
 
-public  abstract  class SingleRVAutoAdapter extends  AutoRVAdapter implements ItemHandler{
+
+public abstract class SingleRVAutoAdapter extends AutoRVAdapter implements ItemHandler {
 
 
     @Override
-    protected void initHandlers(HashMap<Integer, ItemHandler> itemHandlerHashMap) {
-        addHandler(0,this);
+    protected void initHandlers(SparseArray<ItemHandler> itemHandlerHashMap) {
+        addHandler(0, this);
     }
 
     protected SingleRVAutoAdapter(Context context, List<?> data) {
