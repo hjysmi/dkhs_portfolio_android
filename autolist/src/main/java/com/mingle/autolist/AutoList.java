@@ -202,6 +202,11 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
 
     @SuppressLint("ValidFragment")
     class DataFragment extends Fragment {
+
+        public  DataFragment(){
+
+        }
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

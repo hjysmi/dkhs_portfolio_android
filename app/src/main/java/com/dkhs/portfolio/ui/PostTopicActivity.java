@@ -299,9 +299,18 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             if (isTopicType() && mDraftBean.getPhotoList().size() > 0 && mDraftBean.getPhotoList().size() < MAX_TOPIC_PICSIZE) {
                 mSelectPohotos.add(ADD_PICTURE);
             }
+
             checkSendButtonEnable();
             mPicAdapter.notifyDataSetChanged();
+
+            uploadImageEngine = new UploadImageEngine(mDraftBean.getUploadMap());
+            uploadImageEngine.setPhotoList(mDraftBean.getPhotoList());
+
+        } else {
+            uploadImageEngine = new UploadImageEngine();
         }
+
+
     }
 
 
@@ -477,7 +486,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             public void onSheetItemClick(int position) {
                 switch (position) {
                     case 0: {
-                        if (isTopicType() && !mSelectPohotos.contains(ADD_PICTURE)) {
+                        if (isTopicType() && mSelectPohotos.size() > 0 && !mSelectPohotos.contains(ADD_PICTURE)) {
 //                            mSelectPohotos.contains(ADD_PICTURE);
                             PromptManager.showToast(getString(R.string.max_photo_msg, MAX_TOPIC_PICSIZE));
                             return;
@@ -620,7 +629,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
 
-    UploadImageEngine uploadImageEngine = new UploadImageEngine();
+    UploadImageEngine uploadImageEngine;
 
     private void uploadImage() {
         uploadImageEngine.setPhotoList(mSelectPohotos);
@@ -760,6 +769,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         mDraftBean.setSimpleTitle(etTitle.getText().toString());
         mSelectPohotos.remove(ADD_PICTURE);
         mDraftBean.setPhotoList(mSelectPohotos);
+        mDraftBean.setUploadMap(uploadImageEngine.getUploadMap());
+        uploadImageEngine.cancelUpload();
         return mDraftBean;
 
     }

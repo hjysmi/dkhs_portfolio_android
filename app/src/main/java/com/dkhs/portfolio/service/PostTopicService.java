@@ -112,7 +112,7 @@ public class PostTopicService extends IntentService {
     private void postTopic(final DraftBean statusBean) {
 
         if (statusBean.getPhotoList().size() > 0) {
-            UploadImageEngine uploadImageEngine = new UploadImageEngine();
+            UploadImageEngine uploadImageEngine = new UploadImageEngine(statusBean.getUploadMap());
 
             uploadImageEngine.setUploadListener(new UploadImageEngine.UploadImageListener() {
                 @Override
@@ -124,10 +124,9 @@ public class PostTopicService extends IntentService {
                 @Override
                 public void onSuccess() {
 
-
                     StringBuilder mediaIDs = new StringBuilder();
                     for (String path : statusBean.getPhotoList()) {
-                        mediaIDs.append(UploadImageEngine.uploadMap.get(path));
+                        mediaIDs.append(statusBean.getUploadMap().get(path).serverId);
                         mediaIDs.append(",");
                     }
                     String ids = mediaIDs.substring(0, mediaIDs.length() - 1);
@@ -257,7 +256,7 @@ public class PostTopicService extends IntentService {
         @Override
         protected void afterParseData(TopicsBean entity) {
             PromptManager.closeProgressDialog();
-            UploadImageEngine.uploadMap.clear();
+//            UploadImageEngine.uploadMap.clear();
             if (null != entity) {
                 if (mStatusBean.getLabel() == 1) {
 //                    AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);

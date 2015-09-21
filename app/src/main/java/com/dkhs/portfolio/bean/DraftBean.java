@@ -12,6 +12,7 @@ import org.parceler.Parcel;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by zjz on 2015/7/23.
@@ -34,6 +35,8 @@ public class DraftBean {
     //    public static final String COLUM_PHOTO_LIST = "photo_list";
     public static final String COLUM_PHOTO_PATHS = "photo_paths";
     public static final String COLUM_SIMPLE_CONTENT = "simple_content";
+    public static final String COLUM_UPLOAD_MAP = "upload_map";
+
 
 //    //保存图片的绝对路径
 //    @Column(column = COLUM_PHOTO_PATHS)
@@ -63,7 +66,12 @@ public class DraftBean {
     @Column(column = COLUM_PHOTO_PATHS)
     String photoPaths;
 
+    @Column(column = COLUM_UPLOAD_MAP)
+    String strUploadmap;
+
     ArrayList<String> photoList;
+
+    HashMap<String, PostImageBean> uploadMap;
 
     public String getPhotoPaths() {
         return photoPaths;
@@ -98,14 +106,7 @@ public class DraftBean {
     public void setEdittime(long edittime) {
         this.edittime = edittime;
     }
-//
-//    public String getImageUri() {
-//        return imageUri;
-//    }
-//
-//    public void setImageUri(String imageUri) {
-//        this.imageUri = imageUri;
-//    }
+
 
     public String getSimpleTitle() {
         if (!TextUtils.isEmpty(simleTitle)) {
@@ -221,6 +222,31 @@ public class DraftBean {
         this.photoPaths = new Gson().toJson(photoList);
 
     }
+
+    public HashMap<String, PostImageBean> getUploadMap() {
+
+        if (null != uploadMap) {
+            return uploadMap;
+        }
+        try {
+            if (!TextUtils.isEmpty(strUploadmap)) {
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                Type type = new TypeToken<HashMap<String, PostImageBean>>() {
+                }.getType();
+                return gson.fromJson(strUploadmap, type);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
+    }
+
+    public void setUploadMap(HashMap<String, PostImageBean> uploadMap) {
+        this.uploadMap = uploadMap;
+        this.strUploadmap = new Gson().toJson(uploadMap);
+
+    }
+
 //    public String getHtmlContent() {
 //        return htmlContent;
 //    }

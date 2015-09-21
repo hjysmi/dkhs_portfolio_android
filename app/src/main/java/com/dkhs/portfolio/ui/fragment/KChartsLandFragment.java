@@ -26,7 +26,6 @@ import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.ui.widget.kline.PageOHLCEntity;
 import com.dkhs.portfolio.utils.StockUitls;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -505,6 +504,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
                     mMyChartsView.flushFirshData(object.get(0));
                     mVolumnChartView.flushFirstData(object.get(0));
+
+
                 }
             }
 
