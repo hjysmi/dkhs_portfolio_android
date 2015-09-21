@@ -490,6 +490,16 @@
             android:name=".ui.BankCardInfoActivity"
             android:windowSoftInputMode="adjustPan"
             />
+        <activity
+            android:name=".ui.TradePasswordSettingActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
+            />
+        <activity
+            android:name=".ui.TradeRecordActivity"
+            />
+        <activity
+            android:name=".ui.MyFundsActivity"
+            />
     </application>
 
 </manifest>

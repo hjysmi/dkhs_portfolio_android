@@ -792,6 +792,20 @@
     <string name="hint_id_card_no">持卡人身份证号</string>
     <string name="bank_card_mobile">手机号</string>
     <string name="hint_bank_card_mobile">银行预留手机号</string>
+    <string name="trade_password">交易密码</string>
+    <string name="setting_trade_password">设置交易密码</string>
+    <string name="input_trade_password_again">请再次输入交易密码。</string>
+    <string name="trade_password_unsame">密码不一致，请重新输入。</string>
+    <string name="forget_trade_password">忘记密码?</string>
+    <string name="trade_record">交易记录</string>
+    <string name="buy_in">买入</string>
+    <string name="sell_out">卖出</string>
+    <string name="percent_new">最新涨幅</string>
+    <string name="recent_profit_fund">今日收益(元)</string>
+    <string name="total_profit_fund">累计收益(元)</string>
+    <string name="fund_value">持有市值(元)</string>
+    <string name="retry">重试</string>
+    <string name="blank_trade_pwd_wrong">交易密码不正确你还可以输入%1$d次</string>
     <!--我的资产 end-->
 
 </resources>

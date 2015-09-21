@@ -56,6 +56,7 @@ public class MyAssestsActivity extends ModelAcitivity {
             @Override
             public void onClick(View v) {
                 // TODO 资产设置
+                startActivity(new Intent(mContext, TradePasswordSettingActivity.class));
             }
         });
         initIconResource();
@@ -66,10 +67,13 @@ public class MyAssestsActivity extends ModelAcitivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0: //持仓基金
+                        startActivity(new Intent(mContext, MyFundsActivity.class));
 
                         break;
 
                     case 1: //交易记录
+
+                        startActivity(new Intent(mContext, TradeRecordActivity.class));
 
                         break;
 
@@ -178,4 +182,5 @@ public class MyAssestsActivity extends ModelAcitivity {
             PromptManager.showToast("绑定成功");
         }
     }
+
 }

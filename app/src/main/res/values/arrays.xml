@@ -333,4 +333,9 @@
         <item>@drawable/ic_info_combina</item>
     </integer-array>
 
+    <string-array name="my_funds_title">
+        <item>@string/buy_in</item>
+        <item>@string/sell_out</item>
+    </string-array>
+
 </resources>

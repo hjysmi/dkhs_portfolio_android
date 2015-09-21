@@ -95,12 +95,29 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5px"
+        android:background="@color/drivi_line"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5px"
+        android:layout_marginTop="@dimen/widget_margin_large"
+        android:background="@color/drivi_line"
+        />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/widget_margin_large"
         android:background="@color/white"
+        android:divider="@color/drivi_line"
+        android:dividerHeight="0.5px"
         android:id="@+id/lv_assests"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5px"
+        android:background="@color/drivi_line"
         />
 </LinearLayout>

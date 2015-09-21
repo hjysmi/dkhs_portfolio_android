@@ -46,7 +46,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
             @Override
             public void onClick(View v) {
                 //TODO 添加银行卡
-                startActivity(new Intent(mContext, BankCardInfoActivity.class));
+                startActivity(new Intent(mContext, BankCardNoActivity.class));
             }
         });
         initLoadMoreList();
