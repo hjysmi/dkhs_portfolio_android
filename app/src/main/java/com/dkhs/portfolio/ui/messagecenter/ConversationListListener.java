@@ -15,7 +15,7 @@ import io.rong.imkit.model.UIConversation;
  * @author zwm
  * @version 2.0
  * @ClassName ConversationListListener
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO(消息列表点击事件,主要为了拦截  @我的和关于我的item的点击事件)
  * @date 2015/8/25.
  */
 public class ConversationListListener implements RongIM.ConversationListBehaviorListener {

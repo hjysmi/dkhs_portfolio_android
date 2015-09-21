@@ -101,10 +101,10 @@ public class SplashActivity extends FragmentActivity {
                     mHandler.removeMessages(GO_GUIDE);
                     mHandler.removeMessages(GO_NOACCOUNT_MAIN);
                     mHandler.removeMessages(GO_ACCOUNT_MAIN);
-                    Intent[] intents=new Intent[2];
-                    intents[0]=  new Intent(SplashActivity.this, MainActivity.class);
-                    intents[1]=  AdActivity.getIntent(context,adsEntity.getRedirect_url());
-                    context.startActivities(intents);
+                    Intent intent=  new Intent(SplashActivity.this, MainActivity.class);
+//                    intent.putExtra("handlerUrl", "http://www.jianshu.com/users/8a2e2f6c64d7/latest_articles");
+                    intent.putExtra("handlerUrl", adsEntity.getRedirect_url());
+                    context.startActivity(intent);
                     SplashActivity.this.finish();
 
                 }
