@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.Html;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -13,6 +12,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.ShakeBean;
 import com.dkhs.portfolio.common.Spanny;
+import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.lidroid.xutils.ViewUtils;
 
 import org.parceler.Parcels;
@@ -30,7 +30,7 @@ public class ShakeActivity extends ModelAcitivity {
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.titleTV)
     android.widget.TextView mTitleTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.contextTV)
-    android.widget.TextView mContextTV;
+    DKHSTextView mContextTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.symbolTV)
     android.widget.TextView mSymbolTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.view_shakecontent)
@@ -90,7 +90,8 @@ public class ShakeActivity extends ModelAcitivity {
 //            }
             mTitleTV.setText(mShakeBean.title);
 
-            mContextTV.setText(Html.fromHtml(mShakeBean.content));
+            mContextTV.setText(mShakeBean.content);
+//            mContextTV.setText();
 
             if (null == mShakeBean.symbol) {
                 mSymbolTV.setVisibility(View.INVISIBLE);
