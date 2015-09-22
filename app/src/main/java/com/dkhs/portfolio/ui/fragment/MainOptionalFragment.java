@@ -93,16 +93,18 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         return R.layout.fragment_main_optionalstock;
     }
 
+    private ArrayList<Fragment> fragments;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (TextUtils.isEmpty(mUserId)) {
-
+            btnLeft.setVisibility(View.GONE);
         } else {
             setBackTitleBar();
         }
-        displayFragmentA();
-        ArrayList<Fragment> fragments = new ArrayList<>();
+//        displayFragmentA();
+        fragments = new ArrayList<>();
         fragments.add(tabFundsFragment);
 
         fragments.add(tabStockFragment);
@@ -117,6 +119,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
                 mVp.setCurrentItem(position);
             }
         });
+        mVp.setCurrentItem(0);
         BusProvider.getInstance().register(this);
         if (getActivity() instanceof MainActivity) {
             Bundle bundle = ((MainActivity) getActivity()).mBundle;
@@ -165,31 +168,6 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         });
     }
 
-    private void setOptionTitleBar() {
-        btnRight.setVisibility(View.VISIBLE);
-        btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);
-        btnRight.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                UIUtils.startAnimationActivity(getActivity(), intent);
-            }
-        });
-        btnLeft.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (null != tabStockFragment && !tabStockFragment.getDataList().isEmpty()) {
-                    Intent intent = EditTabStockActivity.newIntent(getActivity(), tabStockFragment.getDataList());
-                    startActivityForResult(intent, 777);
-                    UIUtils.setOverridePendingAnin(getActivity());
-                }
-
-            }
-        });
-    }
 
     private static final String TAG = MainOptionalFragment.class.getSimpleName();
 
@@ -253,6 +231,33 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         });
     }
 
+
+    private void setOptionTitleBar() {
+        btnRight.setVisibility(View.VISIBLE);
+        btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);
+        btnRight.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                UIUtils.startAnimationActivity(getActivity(), intent);
+            }
+        });
+        btnLeft.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (null != tabStockFragment && !tabStockFragment.getDataList().isEmpty()) {
+                    Intent intent = EditTabStockActivity.newIntent(getActivity(), tabStockFragment.getDataList());
+                    startActivityForResult(intent, 777);
+                    UIUtils.setOverridePendingAnin(getActivity());
+                }
+
+            }
+        });
+    }
+
     private void setFundBar() {
         btnRight.setVisibility(View.VISIBLE);
         btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);
@@ -265,19 +270,26 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             }
         });
 
-        btnLeft.setVisibility(View.VISIBLE);
-        btnLeft.setOnClickListener(new OnClickListener() {
+        Fragment fragment = fragments.get(mVp.getCurrentItem());
 
-            @Override
-            public void onClick(View v) {
-                if (null != tabFundsFragment && !tabFundsFragment.getDataList().isEmpty()) {
-                    Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
-                    startActivityForResult(intent, 888);
-                    UIUtils.setOverridePendingAnin(getActivity());
+        if (fragment instanceof TabFundsFragment) {
+            final TabFundsFragment tFundFragment = (TabFundsFragment) fragment;
+            boolean isEditAble = (null != tFundFragment && !tFundFragment.getDataList().isEmpty());
+            btnLeft.setVisibility(isEditAble ? View.VISIBLE : View.GONE);
+            btnLeft.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (null != tFundFragment && !tFundFragment.getDataList().isEmpty()) {
+                        Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
+                        startActivityForResult(intent, 888);
+                        UIUtils.setOverridePendingAnin(getActivity());
+                    }
+
                 }
+            });
+        }
 
-            }
-        });
     }
 
 
@@ -291,10 +303,10 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
             setFundBar();
         }
-        tabFundsFragment.setDataUpdateListener(null);
+        tabStockFragment.setDataUpdateListener(null);
         tabConbinationFragment.setDataUpdateListener(null);
-        tabStockFragment.setDataUpdateListener(this);
-        tabStockFragment.refreshEditView();
+        tabFundsFragment.setDataUpdateListener(this);
+        tabFundsFragment.refreshEditView();
 
     }
 
@@ -316,10 +328,11 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         if (TextUtils.isEmpty(mUserId)) {
             setOptionTitleBar();
         }
-        tabStockFragment.setDataUpdateListener(null);
-        tabFundsFragment.setDataUpdateListener(this);
+        tabFundsFragment.setDataUpdateListener(null);
         tabConbinationFragment.setDataUpdateListener(null);
-        tabFundsFragment.refreshEditView();
+        tabStockFragment.setDataUpdateListener(this);
+        tabStockFragment.refreshEditView();
+
     }
 
 
