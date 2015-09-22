@@ -119,11 +119,12 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        replaceDataList();
     }
 
     @Override
     public void requestData() {
-        replaceDataList();
+
 //        reloadData();
 
     }
