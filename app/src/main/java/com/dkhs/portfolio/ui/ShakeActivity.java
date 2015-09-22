@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Html;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
