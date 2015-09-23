@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -63,7 +62,6 @@ public class DKHSTextView extends EmojiconTextView implements View.OnTouchListen
 				return false;
 			}
 		}*/
-		Log.d("wys","motionEvent"+event.getAction());
 
 		return super.onTouchEvent(event);
 	}

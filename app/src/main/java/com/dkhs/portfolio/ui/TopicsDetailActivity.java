@@ -199,6 +199,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 super.onFailure(errCode, errMsg);
                 mSwipeLayout.setRefreshing(false);
             }
+
+
         });
         mSwipeLayout.setRefreshing(true);
         getLoadEngine().loadData();
@@ -232,6 +234,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
                     return;
                 }
+                mTopicsDetailListView.toggleFooter(true);
                 getLoadEngine().loadMore();
             }
         });
@@ -497,6 +500,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void loadFinish(MoreDataBean object) {
 
         mSwipeLayout.setRefreshing(false);
+        mTopicsDetailListView.toggleFooter(false);
         if (mTopicsCommendEngine.getCurrentpage() == 1) {
             mDataList.clear();
             if (object.getResults().size() == 0) {
