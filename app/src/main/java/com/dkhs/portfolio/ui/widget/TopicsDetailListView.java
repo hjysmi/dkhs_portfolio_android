@@ -20,7 +20,7 @@ import com.dkhs.portfolio.R;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/9/7.
  */
-public class TopicsDetailListView extends ListView implements AbsListView.OnScrollListener {
+public class TopicsDetailListView extends ListView  {
 
     private int mLastMotionY;
     private int mStartMotionY;
@@ -56,14 +56,14 @@ public class TopicsDetailListView extends ListView implements AbsListView.OnScro
         mFootView = LayoutInflater.from(getContext()).inflate(R.layout.pull_to_refresh_load_more, null);
         mFootView.setVisibility(INVISIBLE);
         addFooterView(mFootView);
-        setOnScrollListener(this);
+        setOnScrollListener(null);
         setDivider(null);
 
     }
 
     @Override
     public void setOnScrollListener(OnScrollListener l) {
-        super.setOnScrollListener(new  OnScrollListenerIMp(l));
+        super.setOnScrollListener(new OnScrollListenerIMp(l));
     }
 
     class OnScrollListenerIMp implements OnScrollListener{
@@ -83,9 +83,15 @@ public class TopicsDetailListView extends ListView implements AbsListView.OnScro
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
             if(l!= null){
                 l.onScroll(view, firstVisibleItem, visibleItemCount,totalItemCount);
+            }
+            if (getAdapter() != null && mOnLoadMoreListener != null) {
+                int lastItem = firstVisibleItem + visibleItemCount ;
+                if (getAdapter().getCount() == lastItem && mLastItem != lastItem) {
+                    mLastItem = lastItem;
+                    mOnLoadMoreListener.loadMore();
+                }
             }
         }
     }
@@ -119,23 +125,6 @@ public class TopicsDetailListView extends ListView implements AbsListView.OnScro
 
 
 
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-    }
-
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-
-        if (getAdapter() != null && mOnLoadMoreListener != null) {
-            mLastItem = firstVisibleItem + visibleItemCount - 1;
-            if (getAdapter().getCount() == mLastItem) {
-                mOnLoadMoreListener.loadMore();
-            }
-        }
-    }
 
     @Override
     public void setAdapter(ListAdapter adapter) {
