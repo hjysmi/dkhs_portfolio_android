@@ -783,6 +783,7 @@
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
     <string name="bank_type">卡类型</string>
+    <string name="select_bank_card">选择银行</string>
     <string name="chose_bank_type">请选择银行卡类型</string>
     <string name="read_and_agree">我已阅读并同意</string>
     <string name="authorization_bank">《银行转账授权协议》</string>
@@ -804,8 +805,34 @@
     <string name="recent_profit_fund">今日收益(元)</string>
     <string name="total_profit_fund">累计收益(元)</string>
     <string name="fund_value">持有市值(元)</string>
+    <string name="net_new">最新净值</string>
+    <string name="fund_share">持仓份额</string>
+    <string name="trade_record_list">近30笔交易</string>
+    <string name="fund_update_time">交易日上午8点至11点更新,双休日及法定节假日无收益</string>
+    <string name="buy_more">追加买入</string>
+    <string name="blank_buy_value">起购金额 %1$d元</string>
+    <string name="blank_net_new">最新净值 %1$f</string>
+    <string name="blank_limit_value">单笔限额%1$s元，每日限额%2$s元</string>
+    <string name="bank_name">最新净值 </string>
+    <string name="bank_bank_card_no_tail">%1$s(尾号%2$d)</string>
     <string name="retry">重试</string>
     <string name="blank_trade_pwd_wrong">交易密码不正确你还可以输入%1$d次</string>
+    <string name="trade_pwd_locked">交易密码已被锁定,请3小时候再试</string>
+    <string name="bank_no_tip">1、仅支持添加储蓄卡\n2、支持的银行有：工行、农行、中行、建行、交行、中信、光大、民生、兴业、平安、邮储、广发、浦发、南京银行、长沙银行、上海农村商业银行、金华市商业银行</string>
+    <string name="buy_fund_tip1">目前已支持多张银行卡购买基金</string>
+    <string name="buy_fund_tip2">申购费150元 预计1-2交易日确认份额</string>
+    <string name="value">金额</string>
+    <string name="dollar">元</string>
+    <string name="hint_value">1.00元起购</string>
+    <string name="shares">份额</string>
+    <string name="hint_shares">1份起</string>
+    <string name="fen">1.00元起购</string>
+    <string name="blank_limit_hold_shares">最低持有份额: %1$d份</string>
+    <string name="blank_limit_sell_shares">最低卖出份额: %1$d份</string>
+    <string name="blank_available_sell_shares">可赎回份额: %1$f份</string>
+    <string name="blank_recent_available_sell_shares">今日可赎回份额: %1$f份</string>
+    <string name="sell_fund_tip">卖出费150元 预计1-2交易日到款</string>
+    <string name="add_bank_card">添加银行卡</string>
     <!--我的资产 end-->
 
 </resources>

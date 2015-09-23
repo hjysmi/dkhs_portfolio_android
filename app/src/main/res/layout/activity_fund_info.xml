@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/activity_bg_color">
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <LinearLayout
+            android:id="@+id/ll_buy_more"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_blue_gray_selector"
+            android:clickable="true"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_add"
+                android:textColor="@color/white"
+                android:text="@string/buy_more"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_sell_out"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/bg_white_gray_selector"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_add"
+                android:textColor="@color/black"
+                android:text="@string/sell_out"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_above="@id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.dkhs.portfolio.ui.widget.PullToRefreshListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/drivi_line"
+            android:dividerHeight="0.5px"
+            android:smoothScrollbar="true"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

@@ -83,5 +83,13 @@
         android:layout_marginTop="6dp"
         android:enabled="false"
         android:text="下一步"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/widget_margin_xlarge"
+        android:layout_marginLeft="@dimen/widget_margin_xlarge"
+        android:layout_marginRight="@dimen/widget_margin_xlarge"
+        android:text="@string/bank_no_tip"
+        />
 
 </LinearLayout>

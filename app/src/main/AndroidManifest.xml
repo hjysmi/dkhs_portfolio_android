@@ -500,6 +500,15 @@
         <activity
             android:name=".ui.MyFundsActivity"
             />
+        <activity
+            android:name=".ui.FundInfoActivity"
+            />
+        <activity
+            android:name=".ui.BuyFundActivity"
+            />
+        <activity
+            android:name=".ui.SellFundActivity"
+            />
     </application>
 
 </manifest>
