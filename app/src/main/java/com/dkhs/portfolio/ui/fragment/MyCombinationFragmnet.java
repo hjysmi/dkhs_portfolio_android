@@ -23,7 +23,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.common.WeakHandler;
@@ -32,6 +31,7 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.widget.BoundListView;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -85,7 +85,8 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
 
             }
         });
-        ListView mListView = (ListView) view.findViewById(R.id.swipemenu_listView);
+        BoundListView mListView = (BoundListView) view.findViewById(R.id.swipemenu_listView);
+
         mAdapter = new CombinationAdapter();
         mListView.setAdapter(mAdapter);
         mListView.setEmptyView(tvEmptyText);
