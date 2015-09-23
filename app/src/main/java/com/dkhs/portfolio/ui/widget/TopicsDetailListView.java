@@ -63,13 +63,13 @@ public class TopicsDetailListView extends ListView  {
     }
 
     public void toggleFooter(boolean show){
-            if(mFootView == null)
-                return;
-            if(show && mFootView.getVisibility() == View.GONE){
-                mFootView.setVisibility(VISIBLE);
-            }else if(!show && mFootView.getVisibility() == View.VISIBLE){
-                mFootView.setVisibility(GONE);
-            }
+        if(mFootView == null)
+            return;
+        if(show && mFootView.getVisibility() == View.GONE){
+            mFootView.setVisibility(VISIBLE);
+        }else if(!show && mFootView.getVisibility() == View.VISIBLE){
+            mFootView.setVisibility(GONE);
+        }
 
     }
 
@@ -140,8 +140,8 @@ public class TopicsDetailListView extends ListView  {
 
     @Override
     public void setAdapter(ListAdapter adapter) {
-        super.setAdapter(adapter);
         init();
+        super.setAdapter(adapter);
     }
 
     public interface OnLoadMoreListener {
