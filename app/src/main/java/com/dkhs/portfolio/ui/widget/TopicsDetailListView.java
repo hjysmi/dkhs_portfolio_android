@@ -54,10 +54,22 @@ public class TopicsDetailListView extends ListView  {
 
     private void init() {
         mFootView = LayoutInflater.from(getContext()).inflate(R.layout.pull_to_refresh_load_more, null);
-        mFootView.setVisibility(INVISIBLE);
+        mFootView.findViewById(R.id.pull_to_refresh_progress).setVisibility(View.VISIBLE);
+        mFootView.setVisibility(VISIBLE);
         addFooterView(mFootView);
         setOnScrollListener(null);
         setDivider(null);
+
+    }
+
+    public void toggleFooter(boolean show){
+            if(mFootView == null)
+                return;
+            if(show && mFootView.getVisibility() == View.GONE){
+                mFootView.setVisibility(VISIBLE);
+            }else if(!show && mFootView.getVisibility() == View.VISIBLE){
+                mFootView.setVisibility(GONE);
+            }
 
     }
 
