@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -137,7 +138,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
 
 
-
             initData();
             setTopicsDetail();
             ignoreTV.setText(mTopicsBean.text);
@@ -146,6 +146,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             loadData();
             mFloatingActionMenu.attachToListViewTop(mTopicsDetailListView, null, null);
             BusProvider.getInstance().register(this);
+            Log.d("wys", "mScrollToComment" + mScrollToComment);
+            mTopicsDetailListView.setFocusable(false);
         }
     }
 
@@ -159,6 +161,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
         mSortType = topicsDetailRefreshEvent.sortType;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            mTopicsDetailListView.setFocusableInTouchMode(true);
+            mTopicsDetailListView.setFocusable(true);
+        }
     }
 
     public void loadData(TopicsCommendEngineImpl.SortType sortType) {
@@ -186,6 +197,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                     mTopicsDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d("wys","focus down");
                             mScrollToComment = false;
                             mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                         }
