@@ -146,7 +146,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             loadData();
             mFloatingActionMenu.attachToListViewTop(mTopicsDetailListView, null, null);
             BusProvider.getInstance().register(this);
-            Log.d("wys", "mScrollToComment" + mScrollToComment);
             mTopicsDetailListView.setFocusable(false);
         }
     }
@@ -166,7 +165,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
+        if (hasFocus) {
             mTopicsDetailListView.setFocusableInTouchMode(true);
             mTopicsDetailListView.setFocusable(true);
         }
@@ -197,7 +196,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                     mTopicsDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("wys","focus down");
+                            Log.d("wys", "focus down");
                             mScrollToComment = false;
                             mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                         }
@@ -271,15 +270,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             @Override
             public boolean beforeHandleAction(AutoData a) {
 
-                if(a instanceof  CommentBean){
-                    mTopicsBean.comments_count  =mDataList.size();
+                if (a instanceof CommentBean) {
+                    mTopicsBean.comments_count = mDataList.size();
                     setTopicsDetail();
-                    switch (a.action){
+                    switch (a.action) {
 
                         case Add:
-                            if(mDataList.size()>0 &&(mDataList.get(0)instanceof  NoDataBean) ){
+                            if (mDataList.size() > 0 && (mDataList.get(0) instanceof NoDataBean)) {
                                 mDataList.remove(0);
-                        }
+                            }
 
 
                     }
@@ -291,12 +290,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             @Override
             public void afterHandleAction(AutoData a) {
 
-                if(a instanceof  CommentBean){
-                    mTopicsBean.comments_count  =mDataList.size();
+                if (a instanceof CommentBean) {
+                    mTopicsBean.comments_count = mDataList.size();
                     setTopicsDetail();
-                    switch (a.action){
+                    switch (a.action) {
                         case Delete:
-                            if(mDataList.size()==0){
+                            if (mDataList.size() == 0) {
                                 mDataList.add(new NoDataBean());
                             }
                     }
