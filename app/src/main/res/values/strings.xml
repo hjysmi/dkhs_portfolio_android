@@ -611,6 +611,7 @@
     <string name="prepaid_phone_num">充值手机号：</string>
     <string name="exchange">兑换</string>
     <string name="exchange_tip_title">流量及兑换说明</string>
+    <string name="exchange_history">兑换历史</string>
 
     <string name="exchange_tip">1、用户获得的流量为全国流量，移动、联通、电信全国用户均可使用。
 \n2、流量长期有效，每周可兑换%1$s

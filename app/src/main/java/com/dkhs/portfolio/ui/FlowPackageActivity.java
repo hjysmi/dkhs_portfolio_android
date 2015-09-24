@@ -45,7 +45,14 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
         ViewUtils.inject(this);
 
         lvFlowAction.setAdapter(new FlowPackAdapter(this));
-
+        TextView rightButton = getRightButton();
+        rightButton.setText(R.string.history);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FlowPackageActivity.this, ExchangeHistoryActivity.class));
+            }
+        });
 
 
     }

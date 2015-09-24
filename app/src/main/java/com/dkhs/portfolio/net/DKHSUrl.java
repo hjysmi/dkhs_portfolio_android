@@ -260,6 +260,7 @@ public class DKHSUrl {
         String packages = "/api/v1/coins/exchange/packages/";
         String recharge = "/api/v1/coins/exchange/recharge/";
         String invitecode = "/api/v1/accounts/invitations/invite/";
+        String history = "/api/v1/coins/exchange/history/";
     }
 
 
