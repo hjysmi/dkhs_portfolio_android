@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/activity_bg_color">
+
+    <View
+        style="@style/divider_line"
+        android:layout_marginTop="@dimen/widget_margin_large"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_reset_trade_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_gray_selector"
+        android:clickable="true"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/widget_margin_large"
+            android:textSize="@dimen/widget_text_16sp"
+            android:textColor="@color/black"
+            android:text="@string/reset_trade_password"
+            />
+
+        <ImageView
+            android:id="@+id/image_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/widget_margin_large"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_image_right"/>
+    </RelativeLayout>
+
+    <View style="@style/divider_line"/>
+
+</LinearLayout>

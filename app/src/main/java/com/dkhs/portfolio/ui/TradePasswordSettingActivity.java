@@ -35,7 +35,6 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     }
 
     private void initViews(){
-        gpv.setPasswordVisibility(true);
         gpv.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
             public void onChanged(String psw) {

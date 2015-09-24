@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -60,7 +59,7 @@ public class BankCardNoActivity extends ModelAcitivity {
     @OnClick(R.id.btn_next)
     private void onclick(View v){
         //TODO 点击下一步
-        startActivity(new Intent(mContext, BankCardInfoActivity.class));
+        startActivity(BankCardInfoActivity.bankCardInfoIntent(mContext));
     }
 
     private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {

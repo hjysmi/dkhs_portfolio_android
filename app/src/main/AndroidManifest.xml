@@ -509,6 +509,21 @@
         <activity
             android:name=".ui.SellFundActivity"
             />
+        <activity
+            android:name=".ui.SellFundInfoActivity"
+            />
+        <activity
+            android:name=".ui.BuyFundInfoActivity"
+            />
+        <activity
+            android:name=".ui.TradeSettingActivity"
+            />
+        <activity
+            android:name=".ui.ResetTradePasswordActivity"
+            />
+        <activity
+            android:name=".ui.ForgetTradePasswordActivity"
+            />
     </application>
 
 </manifest>

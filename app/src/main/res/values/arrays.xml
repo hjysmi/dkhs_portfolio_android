@@ -291,7 +291,7 @@
     <integer-array name="ic_info_ids">
         <item>@drawable/ic_info_message</item>
         <item>@drawable/ic_info_combina</item>
-        <item>@drawable/ic_info_combina</item>
+        <item>@drawable/ic_info_assests</item>
         <item>@drawable/ic_info_topic</item>
         <item>@drawable/ic_info_reply</item>
         <item>@drawable/ic_info_draft</item>
@@ -328,9 +328,9 @@
         <item>@string/my_bank_cards</item>
     </string-array>
     <integer-array name="ic_assest_ids">
-        <item>@drawable/ic_info_message</item>
-        <item>@drawable/ic_info_combina</item>
-        <item>@drawable/ic_info_combina</item>
+        <item>@drawable/ic_my_funds</item>
+        <item>@drawable/ic_trade_record</item>
+        <item>@drawable/ic_bank_cards</item>
     </integer-array>
 
     <string-array name="my_funds_title">

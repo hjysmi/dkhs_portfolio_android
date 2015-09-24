@@ -56,8 +56,7 @@ public class MyAssestsActivity extends ModelAcitivity {
             @Override
             public void onClick(View v) {
                 // TODO 资产设置
-                startActivity(new Intent(mContext, TradePasswordSettingActivity.class));
-//                showDialog();
+                startActivity(new Intent(mContext, TradeSettingActivity.class));
             }
         });
         initIconResource();

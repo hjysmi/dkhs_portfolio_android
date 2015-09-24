@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.MyFundsBuyFragment;
+import com.dkhs.portfolio.ui.fragment.MyFundsSellFragment;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -32,7 +33,7 @@ public class TradeRecordActivity extends ModelAcitivity{
     private void initViews(){
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new MyFundsBuyFragment());
-        fragments.add(new MyFundsBuyFragment());
+        fragments.add(new MyFundsSellFragment());
 
         mAdpter = new FragmentSelectAdapter(this, getResources().getStringArray(R.array.my_funds_title), fragments, llTradeRecord, getSupportFragmentManager());
     }

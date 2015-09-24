@@ -793,6 +793,13 @@
     <string name="hint_id_card_no">持卡人身份证号</string>
     <string name="bank_card_mobile">手机号</string>
     <string name="hint_bank_card_mobile">银行预留手机号</string>
+    <string name="pls_input_bank_card_mobile">请输入持卡人本人的银行卡号</string>
+    <string name="reset_trade_password">重置交易密码</string>
+    <string name="remember_original_trade_password">我记得交易密码</string>
+    <string name="forget_original_trade_password">我忘记交易密码</string>
+    <string name="forget_trade_pwd">忘记交易密码</string>
+    <string name="pls_rebind_bank_card">请重新绑定银行卡以找回密码</string>
+    <string name="blank_card_info">%1$s&#160;&#160;%2$s&#160;&#160;(%3$d)</string>
     <string name="trade_password">交易密码</string>
     <string name="setting_trade_password">设置交易密码</string>
     <string name="input_trade_password_again">请再次输入交易密码。</string>
@@ -833,6 +840,25 @@
     <string name="blank_recent_available_sell_shares">今日可赎回份额: %1$f份</string>
     <string name="sell_fund_tip">卖出费150元 预计1-2交易日到款</string>
     <string name="add_bank_card">添加银行卡</string>
+    <string name="buy_fund_info">买入交易详情</string>
+    <string name="trade_status">交易状态</string>
+    <string name="trade_value">交易金额</string>
+    <string name="blank_dollar">%1$f元</string>
+    <string name="blank_shares">%1$f份</string>
+    <string name="pay_status">支付成功</string>
+    <string name="trade_time">下单时间</string>
+    <string name="trade_no">交易单号</string>
+    <string name="trade_rate">申购费率</string>
+    <string name="buy_fund_info_tip1">支付成功，等待基金公司确认</string>
+    <string name="buy_fund_info_tip2">确认购买份额</string>
+    <string name="cancel_fund">撤单</string>
+    <string name="sell_fund_info">卖出交易详情</string>
+    <string name="trade_shares">交易份额</string>
+    <string name="sell_rate">卖出费率</string>
+    <string name="sell_fund_info_tip1">卖出成功，等待基金公司确认</string>
+    <string name="sell_fund_info_tip2">确认购买份额</string>
+    <string name="sell_fund_info_tip3">卖出款退款中</string>
+    <string name="sell_fund_info_tip4">卖出款已转银行卡</string>
     <!--我的资产 end-->
 
 </resources>

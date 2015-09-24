@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/widget_padding_medium"
+        android:background="@color/activity_bg_color"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_fund_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/widget_padding_normal"
+            android:paddingTop="@dimen/widget_padding_normal"
+            android:paddingLeft="@dimen/widget_padding_large"
+            android:paddingRight="@dimen/widget_padding_large"
+            android:background="@drawable/bg_white_gray_selector"
+            >
+
+            <ImageView
+                android:id="@+id/image_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/setting_image_right"/>
+
+            <TextView
+                android:id="@+id/tv_info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_text_name"
+                android:text="景顺长城增量永信(12345678)"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            >
+
+            <View style="@style/divider_line"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large"
+                android:layout_marginTop="@dimen/widget_margin_medium"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/trade_status"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_trade_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/widget_text_12sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="@string/pay_status"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/trade_value"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_trade_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/widget_text_12sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="1000.00元"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/trade_time"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_trade_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/widget_text_12sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="2015-09-24 15:08"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/trade_no"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_trade_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/widget_text_12sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="132464646"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/trade_rate"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_trade_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/widget_text_12sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="0.15%"
+                    />
+
+            </RelativeLayout>
+
+            <View
+                style="@style/divider_line"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/widget_margin_large"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_info_tip1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/intrade_suc"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_info_tip1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/iv_info_tip1"
+                    android:layout_marginLeft="@dimen/widget_margin_normal"
+                    android:textColor="@color/black"
+                    android:text="@string/buy_fund_info_tip1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:layout_toRightOf="@id/iv_info_tip1"
+                    android:layout_below="@id/tv_info_tip1"
+                    android:layout_alignLeft="@id/tv_info_tip1"
+                    android:textSize="@dimen/widget_text_10sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="09-24 15:08"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/widget_margin_large"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_info_tip2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/trade_unsuc"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_info_tip2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/iv_info_tip2"
+                    android:layout_marginLeft="@dimen/widget_margin_normal"
+                    android:textColor="@color/black"
+                    android:text="@string/buy_fund_info_tip1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:layout_toRightOf="@id/iv_info_tip2"
+                    android:layout_below="@id/tv_info_tip2"
+                    android:layout_alignLeft="@id/tv_info_tip2"
+                    android:textSize="@dimen/widget_text_10sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="基金公司已确认份额"
+                    />
+
+            </RelativeLayout>
+
+            <Button
+                style="@style/btn_login_blue"
+                android:layout_marginTop="@dimen/widget_margin_large"
+                android:layout_marginBottom="@dimen/widget_margin_large"
+                android:layout_marginLeft="@dimen/widget_margin_xlarge"
+                android:layout_marginRight="@dimen/widget_margin_xlarge"
+                android:text="@string/cancel_fund"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

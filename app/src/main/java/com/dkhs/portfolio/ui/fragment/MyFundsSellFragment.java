@@ -15,7 +15,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.MyFundsEngineImpl;
-import com.dkhs.portfolio.ui.BuyFundInfoActivity;
+import com.dkhs.portfolio.ui.SellFundInfoActivity;
 import com.dkhs.portfolio.ui.adapter.MyFundTradeAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.mingle.autolist.AutoList;
@@ -23,7 +23,7 @@ import com.mingle.autolist.AutoList;
 /**
  * Created by zhangcm on 2015/9/21.11:19
  */
-public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements BannerHandler.RefreshEnable{
+public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements BannerHandler.RefreshEnable{
 
     private AutoList<FundTradeBean> mDataList = new AutoList<FundTradeBean>().applyAction(FundTradeBean.class);
     private MyFundsEngineImpl mFundsEngine= null;
@@ -87,8 +87,8 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO 打开买入基金详情
-                startActivity(new Intent(getActivity(), BuyFundInfoActivity.class));
+                // TODO 打开卖出基金详情
+                startActivity(new Intent(getActivity(), SellFundInfoActivity.class));
             }
         };
     }
