@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <FrameLayout
         android:id="@+id/tool"
@@ -65,10 +64,10 @@
                 <TextView
                     android:id="@+id/btn_right"
                     style="@style/tool_bar_menu"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:visibility="gone" />
             </LinearLayout>
 
@@ -77,14 +76,18 @@
                 style="@style/tool_bar_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/myids"
-                android:visibility="gone"
-                />
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:visibility="gone" />
 
 
         </RelativeLayout>
+
+        <View
+            style="@style/title_bottom_line"
+            android:layout_gravity="bottom" />
+
     </FrameLayout>
 </merge>

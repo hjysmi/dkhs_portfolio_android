@@ -1,10 +1,12 @@
 package com.dkhs.portfolio.ui.widget;
 
 import android.support.annotation.ArrayRes;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.lidroid.xutils.util.LogUtils;
 
 
 /**
@@ -55,12 +57,16 @@ public class TabWidget implements View.OnClickListener {
                 mBtntitletabright.setEnabled(true);
                 mBtntitletableft.setEnabled(false);
                 mBtntitletabcenter.setEnabled(true);
+
+                setSelectTextSize(mBtntitletableft);
+
                 if (onSelectListener != null) {
                     onSelectListener.onSelect(0);
                 }
             }
             break;
             case R.id.btn_titletab_center: {
+                setSelectTextSize(mBtntitletabcenter);
                 mBtntitletabright.setEnabled(true);
                 mBtntitletableft.setEnabled(true);
                 mBtntitletabcenter.setEnabled(false);
@@ -71,6 +77,7 @@ public class TabWidget implements View.OnClickListener {
             }
             break;
             case R.id.btn_titletab_right: {
+                setSelectTextSize(mBtntitletabright);
                 mBtntitletabright.setEnabled(false);
                 mBtntitletableft.setEnabled(true);
                 mBtntitletabcenter.setEnabled(true);
@@ -84,6 +91,18 @@ public class TabWidget implements View.OnClickListener {
         }
     }
 
+
+    private void setSelectTextSize(Button button) {
+        int smallSize = button.getResources().getDimensionPixelSize(R.dimen.text_tab_normal);
+        LogUtils.d("smallSize:" + smallSize);
+        mBtntitletabright.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        mBtntitletableft.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        mBtntitletabcenter.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+
+//        button.setTextSize(button.getResources().getDimensionPixelSize(R.dimen.text_tab_select));
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+    }
 
     private OnSelectListener onSelectListener;
 

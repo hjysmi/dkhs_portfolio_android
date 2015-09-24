@@ -116,6 +116,8 @@
     <dimen name="text_status_time">12sp</dimen>
     <dimen name="text_status_label">13sp</dimen>
     <dimen name="text_status_like">14sp</dimen>
+    <dimen name="text_tab_select">18sp</dimen>
+    <dimen name="text_tab_normal">14sp</dimen>
     <dimen name="item_reply_textsize_small">15sp</dimen>
     <dimen name="divider_height">10dp</dimen>
     <dimen name="radius">10dp</dimen>

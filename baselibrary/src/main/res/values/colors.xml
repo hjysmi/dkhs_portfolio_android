@@ -129,6 +129,7 @@
     <drawable name="theme_color">#262932</drawable>
     <drawable name="theme_gray">#ffdddddd</drawable>
     <drawable name="gray_normal">#F5F5F5</drawable>
+    <drawable name="whilte">#ffffffff</drawable>
     <drawable name="theme_gray_press">#d0d0d0</drawable>
     <drawable name="tab_normal">#262932</drawable>
     <drawable name="tab_select">#3A3743</drawable>

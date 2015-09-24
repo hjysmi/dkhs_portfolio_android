@@ -97,6 +97,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 vp.setCurrentItem(position);
             }
         });
+        tabWidget.setSelection(0);
 
 //        vp.setCurrentItem(1);
         mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));

@@ -39,6 +39,7 @@ android {
             buildConfigField 'boolean', 'isSandbox', 'false'
             signingConfig signingConfigs.release
             minifyEnabled true
+            shrinkResources true
             proguardFiles 'proguard.cfg'
             debuggable false
             zipAlignEnabled true

@@ -7,7 +7,7 @@
 
     <Button
         android:id="@+id/btn_titletab_left"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="@null"
         android:enabled="false"
@@ -18,7 +18,7 @@
 
     <Button
         android:id="@+id/btn_titletab_center"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="@null"
         android:gravity="center"
@@ -29,7 +29,7 @@
 
     <Button
         android:id="@+id/btn_titletab_right"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:background="@null"
         android:gravity="center"
