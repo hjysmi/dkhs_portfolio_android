@@ -51,6 +51,13 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
+    private static final int INDEX_MESSAGE = 0;
+    private static final int INDEX_MY_COMBINATION = 1;
+    private static final int INDEX_COINS = 2;
+    private static final int INDEX_USER_ENTITY = 3;
+    private static final int INDEX_REPLY = 4;
+    private static final int INDEX_DRAFT = 5;
+
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
 
@@ -124,10 +131,10 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickPosition(position);
+                    clickPosition(itemPosition);
                 }
             });
-            if (itemPosition == titleTexts.length - 1) {
+            if (itemPosition == INDEX_COINS) {
                 itemHolder.tvTip.setVisibility(View.VISIBLE);
                 itemHolder.tvTip.setText(R.string.tip_flowpackage);
             } else {
@@ -167,29 +174,29 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         switch (position) {
 
-            case 1: //消息中心
+            case INDEX_MESSAGE: //消息中心
 
 
                 MessageManager.getInstance().startConversationList(mContext);
 
                 break;
-            case 2: //我的组合
+            case INDEX_MY_COMBINATION: //我的组合
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyCombinationActivity.class));
 
 
                 break;
 
-            case 3://我的话题
+            case INDEX_USER_ENTITY://我的话题
 
                 UserEntity userEntity = UserEngineImpl.getUserEntity();
                 UserTopicsActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
                 break;
-            case 4://我的回复
+            case INDEX_REPLY://我的回复
                 UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
 
                 break;
-            case 5://我的草稿
+            case INDEX_DRAFT://我的草稿
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyDraftActivity.class));
 
                 break;
@@ -203,7 +210,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;*/
 
 
-            case 6://流量兑换
+            case INDEX_COINS://流量兑换
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
@@ -235,7 +242,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
             case 1:
             case 2:
-            case 5:
+            case 3:
             case 7:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 

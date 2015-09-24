@@ -589,9 +589,11 @@
 
 
     <!--流量活动-->
-    <string name="flow_package">流量包</string>
+    <string name="flow_package">我的积分</string>
     <string name="exchange_flow">可兑换流量</string>
+    <string name="current_point">当前积分</string>
     <string name="flow_point">流量积分：%1$d分</string>
+    <string name="current_flow">可换流量：%1$dM</string>
     <string name="bind_now">立即绑定</string>
     <string name="has_done">已经完成</string>
     <string name="invite_now">立即邀请</string>
@@ -635,7 +637,7 @@
     <string name="nick_name">昵称</string>
     <string name="register_date">注册时间</string>
     <string name="no_invitations_tips">你还没有邀请。</string>
-    <string name="tip_flowpackage">（手机流量疯狂送，抢！抢！抢！）</string>
+    <string name="tip_flowpackage">（千万流量疯狂送！）</string>
     <string name="tip_invite_code">（我的邀请码:%1$s）</string>
     <string name="history">历史</string>
     <string name="invite_success">邀请成功</string>
