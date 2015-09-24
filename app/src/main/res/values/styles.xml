@@ -529,5 +529,9 @@
         <item name="android:src">@drawable/ic_user_head</item>
     </style>
 
+    <style name="theme_switch_style">
+        <item name="colorControlActivated">@color/theme_blue</item>
+        <item name="colorAccent">@color/theme_blue</item>
+    </style>
 
 </resources>
