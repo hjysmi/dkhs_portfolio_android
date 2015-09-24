@@ -124,6 +124,7 @@
     <dimen name="thumbnail_width">100dp</dimen>
     <dimen name="thumbnail_height">100dp</dimen>
     <dimen name="side_bar_text">13sp</dimen>
+    <dimen name="def_item_pading">12dp</dimen>
 
 
 </resources>

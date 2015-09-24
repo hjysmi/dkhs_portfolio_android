@@ -242,7 +242,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 2:
             case 5:
             case 7:
-                return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
+                return parent.getResources().getDimensionPixelOffset(R.dimen.def_item_pading);
 
             default:
                 return -1;
