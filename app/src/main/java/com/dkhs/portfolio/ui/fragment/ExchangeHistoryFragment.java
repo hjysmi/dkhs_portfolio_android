@@ -145,7 +145,7 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
 
     @Override
     public String getEmptyText() {
-        return "暂无兑换纪录";
+        return "暂无兑换";
     }
 
 
@@ -163,9 +163,22 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
 
         @Override
         public void onBindView(ViewHolder vh, ExchangeHistoryBean data, int position) {
-            vh.setTextView(R.id.exchange_time_tv, TimeUtils.getSimpleDay(data.created_at));
-            vh.setTextView(R.id.exchange_amount_tv,"+"+data.package_amount+"");
-            vh.setTextView(R.id.exchange_stauts_tv,data.status_explain+"");
+            vh.setTextView(R.id.exchange_time_tv, TimeUtils.getDaySecondWITHOUTYEARString(data.created_at));
+            vh.setTextView(R.id.exchange_amount_tv,data.package_amount+"M");
+            vh.setTextView(R.id.exchange_stauts_tv,getStatus(data.status));
+        }
+
+        private String getStatus(int status){
+            switch (status){
+                case 1:
+                    return "成功";
+                case 2:
+                    return "失败";
+                case 3:
+                    return "处理中";
+
+            }
+            return "";
         }
     }
 
