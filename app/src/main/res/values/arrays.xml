@@ -284,7 +284,6 @@
         <item>@string/info_title_mytopic</item>
         <item>@string/info_title_myreply</item>
         <item>@string/info_title_mydraft</item>
-        <item>@string/invite_friends</item>
         <item>@string/flow_package</item>
     </string-array>
     <integer-array name="ic_info_ids">
@@ -293,7 +292,6 @@
         <item>@drawable/ic_info_topic</item>
         <item>@drawable/ic_info_reply</item>
         <item>@drawable/ic_info_draft</item>
-        <item>@drawable/ic_info_invite</item>
         <item>@drawable/ic_info_flowpack</item>
     </integer-array>
 

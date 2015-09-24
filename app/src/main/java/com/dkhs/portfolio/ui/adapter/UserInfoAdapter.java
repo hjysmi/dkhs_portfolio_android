@@ -27,7 +27,6 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
-import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
 import com.dkhs.portfolio.ui.ReplyActivity;
@@ -128,14 +127,9 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     clickPosition(position);
                 }
             });
-            if (itemPosition >= titleTexts.length - 2) {
+            if (itemPosition == titleTexts.length - 1) {
                 itemHolder.tvTip.setVisibility(View.VISIBLE);
-                if (itemPosition == titleTexts.length - 1) {
-
-                    itemHolder.tvTip.setText(R.string.tip_flowpackage);
-                } else if (itemPosition == titleTexts.length - 2 && !TextUtils.isEmpty(mInviteCode)) {
-                    itemHolder.tvTip.setText(mContext.getString(R.string.tip_invite_code, mInviteCode));
-                }
+                itemHolder.tvTip.setText(R.string.tip_flowpackage);
             } else {
                 itemHolder.tvTip.setVisibility(View.GONE);
             }
@@ -201,15 +195,15 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
 
-            case 6://邀请好友
+   /*         case 6://邀请好友
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, InviteFriendsActivity.class));
 
 
-                break;
+                break;*/
 
 
-            case 7://流量兑换
+            case 6://流量兑换
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
