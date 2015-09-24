@@ -203,7 +203,6 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
             @Override
             public void onFailure(final int errCode, final String errMsg) {
-
                 if (errCode == 401) {
                     ErrorBundle errorBundle = new ErrorBundle();
                     errorBundle.setErrorCode(401);
@@ -213,6 +212,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
                     failure(errCode, errMsg);
                 }
+
                 finish();
             }
 

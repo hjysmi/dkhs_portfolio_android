@@ -81,25 +81,29 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         }
 
 
-        if(TextUtils.isEmpty(data.text)){
+        if (TextUtils.isEmpty(data.text)) {
             vh.get(R.id.content).setVisibility(View.GONE);
-        }else {
+        } else {
             vh.get(R.id.content).setVisibility(View.VISIBLE);
         }
         vh.setTextView(R.id.content, data.text);
-        vh.setTextView(R.id.name, data.user.getUsername());
+        if (null != data.user) {
+
+            vh.setTextView(R.id.name, data.user.getUsername());
+        } else {
+            vh.setTextView(R.id.name, "匿名用户");
+        }
 
 
-        TopicsImageViewHandler topicsImageViewHandler= (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+        TopicsImageViewHandler topicsImageViewHandler = (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
 
 
-
-        if(topicsImageViewHandler == null){
-            topicsImageViewHandler=  new TopicsImageViewHandler();
+        if (topicsImageViewHandler == null) {
+            topicsImageViewHandler = new TopicsImageViewHandler();
             vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
         }
 
-        topicsImageViewHandler .handleMedias(vh, data,false);
+        topicsImageViewHandler.handleMedias(vh, data, false);
 
 
         TextSwitcher textSwitcher = vh.get(R.id.tv_like);
