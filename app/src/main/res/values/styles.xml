@@ -50,7 +50,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light"></style>
+    <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light">
+        <!-- Color palette -->
+        <!--        <item name="colorPrimaryDark">@color/primary_dark_material_light</item>-->
+        <!--        <item name="colorPrimary">@color/primary_material_light</item>-->
+        <!--        <item name="colorAccent">@color/accent_material_light</item>-->
+    </style>
 
 
     <!-- Activity透明主题 -->
