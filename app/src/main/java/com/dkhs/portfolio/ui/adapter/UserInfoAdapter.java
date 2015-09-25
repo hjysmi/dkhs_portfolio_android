@@ -28,9 +28,9 @@ import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
+import com.dkhs.portfolio.ui.MyAssestsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
-import com.dkhs.portfolio.ui.ReplyActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
@@ -198,17 +198,17 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 UserEntity userEntity = UserEngineImpl.getUserEntity();
                 UserTopicsActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
                 break;
-            case 5://我的回复
-                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
-
-                break;
-            case 6://我的草稿
+//            case 5://我的回复
+//                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
+//
+//                break;
+            case 5://我的草稿
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyDraftActivity.class));
 
                 break;
 
 
-            case 7://邀请好友
+            case 6://邀请好友
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, InviteFriendsActivity.class));
 
@@ -216,7 +216,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
 
-            case 8://流量兑换
+            case 7://流量兑换
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
@@ -249,8 +249,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 1:
             case 2:
             case 3:
-            case 6:
-            case 8:
+            case 5:
+            case 7:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 
             default:
