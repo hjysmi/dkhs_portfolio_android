@@ -101,6 +101,8 @@ public class UserHomePageActivity extends ModelAcitivity {
         super.onCreate(arg0);
         hadFragment();
         setContentView(R.layout.activity_user_combination);
+        updateTitleBackgroud(R.color.theme_blue);
+        setBackButtonDrawRes(R.drawable.btn_white_back_selector);
         mRV = (RecyclerView) findViewById(R.id.rv);
         mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
 //        getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
@@ -135,6 +137,8 @@ public class UserHomePageActivity extends ModelAcitivity {
 
     private void initViews() {
         mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
+        ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
+        ((TextView) findViewById(R.id.tv_title_info)).setTextColor(getResources().getColor(R.color.white));
         if (isMyInfo) {
             setTitle(getString(R.string.title_my_home_page));
             mLocalFloatingActionMenu.setVisibility(View.GONE);

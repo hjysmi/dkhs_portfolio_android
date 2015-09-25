@@ -148,6 +148,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             }
         });
         mVp.setCurrentItem(0);
+        tabWidget.setSelection(0);
         BusProvider.getInstance().register(this);
         if (getActivity() instanceof MainActivity) {
             Bundle bundle = ((MainActivity) getActivity()).mBundle;

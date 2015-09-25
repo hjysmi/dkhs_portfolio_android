@@ -319,6 +319,10 @@ public class ModelAcitivity extends SwipeBackActivity {
         // }
     }
 
+    public void setBackButtonDrawRes(int resId) {
+        btnBack.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
+    }
+
     public int getActionBarHeight() {
         int actionBarHeight = 0;
         TypedValue tv = new TypedValue();
@@ -361,14 +365,14 @@ public class ModelAcitivity extends SwipeBackActivity {
     }
 
     public void updateTitleBackgroudByValue(float value) {
-        if (value < 0) {
-            updateTitleBackgroud(R.color.tag_green);
-        } else if (value > 0) {
-            updateTitleBackgroud(R.color.tag_red);
-        } else {
-            updateTitleBackgroud(R.color.tag_gray);
-
-        }
+//        if (value < 0) {
+//            updateTitleBackgroud(R.color.theme_blue);
+//        } else if (value > 0) {
+//            updateTitleBackgroud(R.color.tag_red);
+//        } else {
+//            updateTitleBackgroud(R.color.tag_gray);
+//
+//        }
     }
 
 
