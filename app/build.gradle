@@ -16,6 +16,7 @@ android {
         versionCode 200300924
         versionName "2.3.0.0924"
 
+        multiDexEnabled true
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
     }
@@ -144,4 +145,5 @@ dependencies {
     compile project(':PhotoPicker')
     compile files('libs/android_api_3.7.0.jar')
     compile project(':GridPasswordView')
+    compile 'com.android.support:multidex:'
 }
