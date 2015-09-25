@@ -52,9 +52,10 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static final int INDEX_MESSAGE = 0;
     private static final int INDEX_MY_COMBINATION = 1;
-    private static final int INDEX_COINS = 2;
-    private static final int INDEX_USER_ENTITY = 3;
-    private static final int INDEX_DRAFT = 4;
+    private static final int INDEX_PURSE = 2;
+    private static final int INDEX_COINS = 3;
+    private static final int INDEX_USER_ENTITY = 4;
+    private static final int INDEX_DRAFT = 5;
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
@@ -62,6 +63,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private String mInviteCode;
+    private int mUnreadCount;
 
     public UserInfoAdapter(Context context) {
         super();
@@ -81,7 +83,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
     }
-
 
     private void getInviteCode() {
         AdEngineImpl.getInvitingInfo(new SimpleParseHttpListener() {
@@ -158,9 +159,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-
-    private int mUnreadCount;
-
     public void setUnreadCount(int count) {
         this.mUnreadCount = count;
         notifyItemChanged(1);
@@ -213,6 +211,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
                 break;
+            case INDEX_PURSE:
+                break;
         }
     }
 
@@ -240,7 +240,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
             case 1:
             case 2:
-            case 3:
+            case 4:
             case 7:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 
@@ -286,6 +286,22 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @ViewInject(R.id.tv_following)
         private TextView tvFollowing;
+        ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
+
+            @Override
+            protected UserEntity parseDateTask(String jsonData) {
+
+                return DataParse.parseObjectJson(UserEntity.class, jsonData);
+            }
+
+            @Override
+            protected void afterParseData(UserEntity object) {
+                if (null != object) {
+                    updateUserFollowInfo(object);
+                }
+
+            }
+        };
         private View mView;
 
         public HeadViewHolder(View view) {
@@ -329,7 +345,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-
         private void startUserInfoActivity() {
             Intent intent = UserHomePageActivity.getIntent(mView.getContext(), UserEngineImpl.getUserEntity().getUsername(),
                     UserEngineImpl.getUserEntity().getId() + "");
@@ -369,24 +384,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
         }
-
-
-        ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
-
-            @Override
-            protected UserEntity parseDateTask(String jsonData) {
-
-                return DataParse.parseObjectJson(UserEntity.class, jsonData);
-            }
-
-            @Override
-            protected void afterParseData(UserEntity object) {
-                if (null != object) {
-                    updateUserFollowInfo(object);
-                }
-
-            }
-        };
 
         private void updateUserFollowInfo(UserEntity object) {
             tvFollowers.setText(StringFromatUtils.handleNumber(object.getFollowed_by_count()));
