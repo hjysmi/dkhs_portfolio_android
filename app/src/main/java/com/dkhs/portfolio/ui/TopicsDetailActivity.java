@@ -135,7 +135,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 //            Toolbar toolbar= (Toolbar) findViewById(R.id.tool);
 //            setSupportActionBar(toolbar);
             ViewUtils.inject(this);
-            mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+            mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
 
 
             initData();

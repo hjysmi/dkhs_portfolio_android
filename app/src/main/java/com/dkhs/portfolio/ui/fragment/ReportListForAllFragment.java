@@ -171,7 +171,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
 
         mListView.setAdapter(mOptionMarketAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override

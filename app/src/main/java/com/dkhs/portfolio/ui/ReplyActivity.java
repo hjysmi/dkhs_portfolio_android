@@ -98,7 +98,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
                 refreshData();
             }
         });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         lvReply = (PullToRefreshListView) findViewById(R.id.lv_reply);
         lvReply.setCanRefresh(false);
         lvReply.setOnLoadListener(new PullToRefreshListView.OnLoadMoreListener() {
