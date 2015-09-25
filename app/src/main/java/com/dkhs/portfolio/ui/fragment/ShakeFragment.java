@@ -212,6 +212,8 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
                     failure(errCode, errMsg);
                 }
+
+                finish();
             }
 
             public void failure(int errCode, String errMsg) {

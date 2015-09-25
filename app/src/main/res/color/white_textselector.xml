@@ -25,7 +25,7 @@
     <item android:state_pressed="true" android:color="@color/text_press"/>
     <item android:state_selected="true" android:color="@color/text_press"/>
     <!-- <item android:state_enabled="false" android:color="@color/text_press"/> -->
-    <item android:color="@color/white"/>
+    <item android:color="@color/theme_color"/>
     <!-- not selected -->
 
 </selector>

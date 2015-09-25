@@ -242,7 +242,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
             case 1:
             case 2:
-            case 3:
+            case 5:
             case 7:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 

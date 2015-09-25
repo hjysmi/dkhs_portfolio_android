@@ -78,7 +78,7 @@
         android:layout_marginTop="10dp"
         android:fillViewport="false">
 
-        <TextView
+        <com.dkhs.portfolio.ui.widget.DKHSTextView
             android:id="@+id/contextTV"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"

@@ -445,6 +445,7 @@
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
     <string name="info_title_mytopic">我的主帖</string>
+    <string name="info_title_mypost">我的话题</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
@@ -715,7 +716,7 @@
     <string name="msg_del_contetn_success">回复删除成功</string>
     <string name="msg_topic_sending">发送中……</string>
     <string name="msg_topic_send_success">√ 内容发送成功</string>
-    <string name="msg_topic_send_fail">内容发送失败</string>
+    <string name="msg_topic_send_fail">内容发送失败，已存入草稿箱</string>
 
 
     <!--帖子回复-->

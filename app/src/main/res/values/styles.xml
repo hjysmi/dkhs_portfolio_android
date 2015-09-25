@@ -529,5 +529,15 @@
         <item name="android:src">@drawable/ic_user_head</item>
     </style>
 
+    <style name="theme_switch_style">
+        <item name="colorControlActivated">@color/theme_blue</item>
+        <item name="colorAccent">@color/theme_blue</item>
+    </style>
+
+    <style name="title_bottom_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@drawable/bg_title_bottom_line</item>
+    </style>
 
 </resources>

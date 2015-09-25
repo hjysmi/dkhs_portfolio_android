@@ -54,6 +54,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
     private TextView btnLeft;
 
 
+
     private String mUserId;
     private TabWidget tabWidget;
     private BasePagerFragmentAdapter adapter;
@@ -100,6 +101,23 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         super.onViewCreated(view, savedInstanceState);
         if (TextUtils.isEmpty(mUserId)) {
             btnLeft.setVisibility(View.GONE);
+            btnLeft.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Fragment tFundFragment = fragments.get(mVp.getCurrentItem());
+
+                    if (tFundFragment instanceof TabFundsFragment) {
+
+                        if (null != tFundFragment && !((TabFundsFragment) tFundFragment).getDataList().isEmpty()) {
+                            Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
+                            startActivityForResult(intent, 888);
+                            UIUtils.setOverridePendingAnin(getActivity());
+                        }
+                    }
+
+                }
+            });
         } else {
             setBackTitleBar();
         }
@@ -120,6 +138,8 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             }
         });
         mVp.setCurrentItem(0);
+        tabWidget.setSelection(0);
+
         BusProvider.getInstance().register(this);
         if (getActivity() instanceof MainActivity) {
             Bundle bundle = ((MainActivity) getActivity()).mBundle;

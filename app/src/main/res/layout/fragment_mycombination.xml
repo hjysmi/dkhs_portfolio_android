@@ -5,7 +5,7 @@
     android:background="@color/person_setting_backgroud">
 
 
-    <ListView
+    <com.dkhs.portfolio.ui.widget.BoundListView
         android:id="@+id/swipemenu_listView"
         style="@style/listViewStyle"
         android:layout_width="match_parent"

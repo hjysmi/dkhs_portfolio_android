@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.F10DataBean;
 import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.ManagersEntity;
@@ -25,7 +26,7 @@ public class F10ViewParse {
 
     private F10DataBean mDataBean;
     private Context mContext;
-    private static final int HEADER_TEXT_COLOR = 0XFF00ACEC;
+    private static final int HEADER_TEXT_COLOR = PortfolioApplication.getInstance().getResources().getColor(R.color.theme_blue);
 
     private static final int SUB_HEADER_TEXT_COLOR = 0XFF969696;
     private static final int SUBHEADE_FONT_SIZE = 13;

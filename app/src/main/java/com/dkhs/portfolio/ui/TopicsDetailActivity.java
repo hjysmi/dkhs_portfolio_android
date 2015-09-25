@@ -7,22 +7,16 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
-import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.CommentBean;
-import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NoDataBean;
@@ -35,7 +29,6 @@ import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -47,23 +40,19 @@ import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
-import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.ui.widget.TopicsDetailListView;
 import com.dkhs.portfolio.ui.widget.TopicsDetailScrollView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.rockerhieu.emojicon.emoji.Objects;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
-import org.w3c.dom.Comment;
 
 import java.io.File;
 
@@ -149,7 +138,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
 
 
-
             initData();
             setTopicsDetail();
             ignoreTV.setText(mTopicsBean.text);
@@ -158,6 +146,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             loadData();
             mFloatingActionMenu.attachToListViewTop(mTopicsDetailListView, null, null);
             BusProvider.getInstance().register(this);
+            mTopicsDetailListView.setFocusable(false);
         }
     }
 
@@ -171,6 +160,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
         mSortType = topicsDetailRefreshEvent.sortType;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            mTopicsDetailListView.setFocusableInTouchMode(true);
+            mTopicsDetailListView.setFocusable(true);
+        }
     }
 
     public void loadData(TopicsCommendEngineImpl.SortType sortType) {
@@ -198,6 +196,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                     mTopicsDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d("wys", "focus down");
                             mScrollToComment = false;
                             mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                         }
@@ -211,6 +210,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 super.onFailure(errCode, errMsg);
                 mSwipeLayout.setRefreshing(false);
             }
+
+
         });
         mSwipeLayout.setRefreshing(true);
         getLoadEngine().loadData();
@@ -241,6 +242,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         mTopicsDetailListView.setOnLoadMoreListener(new TopicsDetailListView.OnLoadMoreListener() {
             @Override
             public void loadMore() {
+                if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
+                    return;
+                }
+                mTopicsDetailListView.toggleFooter(true);
                 getLoadEngine().loadMore();
             }
         });
@@ -265,15 +270,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             @Override
             public boolean beforeHandleAction(AutoData a) {
 
-                if(a instanceof  CommentBean){
-                    mTopicsBean.comments_count  =mDataList.size();
+                if (a instanceof CommentBean) {
+                    mTopicsBean.comments_count = mDataList.size();
                     setTopicsDetail();
-                    switch (a.action){
+                    switch (a.action) {
 
                         case Add:
-                            if(mDataList.size()>0 &&(mDataList.get(0)instanceof  NoDataBean) ){
+                            if (mDataList.size() > 0 && (mDataList.get(0) instanceof NoDataBean)) {
                                 mDataList.remove(0);
-                        }
+                            }
 
 
                     }
@@ -285,12 +290,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             @Override
             public void afterHandleAction(AutoData a) {
 
-                if(a instanceof  CommentBean){
-                    mTopicsBean.comments_count  =mDataList.size();
+                if (a instanceof CommentBean) {
+                    mTopicsBean.comments_count = mDataList.size();
                     setTopicsDetail();
-                    switch (a.action){
+                    switch (a.action) {
                         case Delete:
-                            if(mDataList.size()==0){
+                            if (mDataList.size() == 0) {
                                 mDataList.add(new NoDataBean());
                             }
                     }
@@ -506,6 +511,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void loadFinish(MoreDataBean object) {
 
         mSwipeLayout.setRefreshing(false);
+        mTopicsDetailListView.toggleFooter(false);
         if (mTopicsCommendEngine.getCurrentpage() == 1) {
             mDataList.clear();
             if (object.getResults().size() == 0) {
