@@ -103,7 +103,7 @@ public class UserHomePageActivity extends ModelAcitivity {
         setContentView(R.layout.activity_user_combination);
         mRV = (RecyclerView) findViewById(R.id.rv);
         mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
-        getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
+//        getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
         userEngine = new UserEngineImpl();
         if (extras != null) {

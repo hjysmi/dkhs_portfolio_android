@@ -21,14 +21,15 @@
             android:paddingTop="@dimen/tool_bar_top_padding"
             android:singleLine="true"
             android:text="@string/shakeItOff"
-            android:textColor="@color/white"
+            android:textColor="@color/theme_color"
             android:textSize="18sp" />
 
+
         <View
-            style="@style/divider_line"
-            android:alpha="0.2"
+            style="@style/title_bottom_line"
             android:layout_alignParentBottom="true"
-            android:background="@color/white" />
+            android:layout_gravity="bottom"
+            android:alpha="0.7" />
     </RelativeLayout>
 
     <android.support.percent.PercentRelativeLayout

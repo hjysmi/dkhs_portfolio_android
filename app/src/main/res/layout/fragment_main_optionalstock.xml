@@ -5,44 +5,48 @@
     android:background="@color/person_setting_backgroud">
 
     <FrameLayout
+        android:id="@+id/tool"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
-        android:id="@+id/tool"
         android:background="@color/title_color">
+
         <RelativeLayout
             android:id="@+id/rl_header_title"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/tool_bar_top_padding"
-            android:layout_height="48dp">
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/tool_bar_top_padding">
 
 
-        <TextView
-            android:id="@+id/btn_header_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            style="@style/tool_bar_menu"
-            android:text="@string/edit"
-            />
+            <TextView
+                android:id="@+id/btn_header_back"
+                style="@style/tool_bar_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/edit" />
 
-        <TextView
-            android:id="@+id/btn_header_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@null"
-            style="@style/tool_bar_menu"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/btn_header_right"
+                style="@style/tool_bar_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:textSize="14sp" />
 
 
-        <include
-            android:id="@+id/titletab_view"
-            layout="@layout/layout_main_market_title_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            <include
+                android:id="@+id/titletab_view"
+                layout="@layout/layout_main_market_title_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
         </RelativeLayout>
+
+        <View
+            style="@style/title_bottom_line"
+            android:layout_gravity="bottom" />
     </FrameLayout>
 
     <android.support.v4.view.ViewPager

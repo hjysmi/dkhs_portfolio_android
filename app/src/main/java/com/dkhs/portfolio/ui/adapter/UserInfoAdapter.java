@@ -30,9 +30,8 @@ import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
-import com.dkhs.portfolio.ui.ReplyActivity;
+import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.UserTopicsActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -189,19 +188,19 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 3://我的话题
 
                 UserEntity userEntity = UserEngineImpl.getUserEntity();
-                UserTopicsActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
+                MyTopicActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
                 break;
-            case 4://我的回复
-                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
-
-                break;
-            case 5://我的草稿
+//            case 4://我的回复
+//                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
+//
+//                break;
+            case 4://我的草稿
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyDraftActivity.class));
 
                 break;
 
 
-            case 6://邀请好友
+            case 5://邀请好友
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, InviteFriendsActivity.class));
 
@@ -209,7 +208,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
 
-            case 7://流量兑换
+            case 6://流量兑换
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
@@ -243,7 +242,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 2:
             case 5:
             case 7:
-                return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
+                return parent.getResources().getDimensionPixelOffset(R.dimen.def_item_pading);
 
             default:
                 return -1;

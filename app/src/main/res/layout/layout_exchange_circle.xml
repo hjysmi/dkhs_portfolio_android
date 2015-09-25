@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="@color/tag_red"
+                android:textColor="@color/theme_blue"
                 android:textSize="42dp" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:layout_alignBaseline="@+id/tv_flow_count"
                 android:layout_toRightOf="@+id/tv_flow_count"
                 android:text="M"
-                android:textColor="@color/tag_red"
+                android:textColor="@color/theme_blue"
                 android:textSize="20dp" />
 
 
