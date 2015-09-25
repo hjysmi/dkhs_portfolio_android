@@ -609,6 +609,10 @@
     <string name="flow_invite_tip">每邀请1位好友成功注册送50M流量</string>
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
+    <string name="exchange_time_title">时间</string>
+    <string name="exchange_flow_title">流量</string>
+    <string name="exchange_status_title">状态</string>
+
     <string name="title_flow_exchange">流量兑换</string>
     <string name="max_flow_tip">本周可兑换 %1$sM 流量（VIP权限 %2$s 天）</string>
     <string name="prepaid_phone_num">充值手机号：</string>

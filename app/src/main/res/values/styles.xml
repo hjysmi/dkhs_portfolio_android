@@ -540,4 +540,9 @@
         <item name="android:background">@drawable/bg_title_bottom_line</item>
     </style>
 
+    <style name="title_exchange_history">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_content_color</item>
+    </style>
+
 </resources>
