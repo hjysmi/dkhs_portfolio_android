@@ -29,14 +29,12 @@ import java.util.List;
 public class ExchangeHistoryFragment extends LoadMoreListFragment {
 
 
-    public ExchangeHistoryFragment() {
-
-    }
-
     private List<ExchangeHistoryBean> mDataList = new ArrayList<>();
     private ExchangeHistoryEngineImpl mExchangeEngine = null;
     private BaseAdapter mAdapter;
+    public ExchangeHistoryFragment() {
 
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -75,17 +73,9 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
 
     @Override
     BaseAdapter getListAdapter() {
+        addHeader();
         if (null == mAdapter) {
-            mAdapter = new DKBaseAdapter(mActivity, mDataList) {
-                @Override
-                protected int getViewType(int position) {
-                    if(position == 0){
-                        return 0;
-                    }
-                    return 1;
-                }
-
-            }.buildCustonTypeItemView(1,new ExchangeHistoryHandler(getActivity())).buildCustonTypeItemView(0,new ExchangeHistoryTitleHandler(getActivity()));
+            mAdapter = new DKBaseAdapter(mActivity,mDataList).buildSingleItemView(new ExchangeHistoryHandler(mActivity));
         }
         return mAdapter;
     }
@@ -97,11 +87,6 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
         mSwipeLayout.setRefreshing(false);
         if (mExchangeEngine.getCurrentpage() == 1) {
             mDataList.clear();
-            ExchangeHistoryBean bean2 = new ExchangeHistoryBean();
-            bean2.created_at = "06-12";
-            bean2.status = 2;
-            bean2.package_amount = 500;
-            mDataList.add(0, bean2);
         }
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
@@ -148,6 +133,12 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
         return "暂无兑换";
     }
 
+    private void addHeader(){
+        if(mListView != null){
+            View v = View.inflate(mActivity,R.layout.item_exchange_list_title,null);
+            mListView.addHeaderView(v);
+        }
+    }
 
     static class ExchangeHistoryHandler extends SimpleItemHandler<ExchangeHistoryBean> {
         private Context mContext;
