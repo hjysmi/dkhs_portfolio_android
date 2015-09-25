@@ -8,11 +8,13 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main_ll"
-        style="@style/white_grayborder_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
+
+        <View style="@style/divider_line" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -298,6 +300,7 @@
             </FrameLayout>
         </LinearLayout>
 
+        <View style="@style/title_bottom_line" />
 
     </LinearLayout>
 

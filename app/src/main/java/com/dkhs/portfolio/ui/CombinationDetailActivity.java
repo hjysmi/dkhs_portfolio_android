@@ -93,7 +93,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
         if (extras != null) {
             handleExtras(extras);
         }
-
+        updateTitleBackgroud(R.color.theme_blue);
         updataTitle();
         initView();
     }
@@ -133,6 +133,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
     }
 
     private void updataTitle() {
+        setBackButtonDrawRes(R.drawable.btn_white_back_selector);
         ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
         ((TextView) findViewById(R.id.tv_title_info)).setTextColor(getResources().getColor(R.color.white));
         if (null != mCombinationBean) {
@@ -140,9 +141,9 @@ public class CombinationDetailActivity extends ModelAcitivity {
             setTitleTipString(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mCombinationBean.getCreateTime())));
         }
-        if (null != mCombinationBean) {
-            updateTitleBackgroudByValue(mCombinationBean.getNetvalue() - 1);
-        }
+//        if (null != mCombinationBean) {
+//            updateTitleBackgroudByValue(mCombinationBean.getNetvalue() - 1);
+//        }
     }
 
     private void handleExtras(Bundle extras) {
