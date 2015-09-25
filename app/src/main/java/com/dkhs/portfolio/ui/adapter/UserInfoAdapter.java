@@ -28,7 +28,6 @@ import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.InviteFriendsActivity;
-import com.dkhs.portfolio.ui.MyAssestsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
 import com.dkhs.portfolio.ui.ReplyActivity;
@@ -186,6 +185,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
                 break;
+
             case 3: //我的资产
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));

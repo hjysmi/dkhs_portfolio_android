@@ -75,23 +75,28 @@ public class PhotoViewFragment extends Fragment {
         });
 
         mPhotoView.setMinimumScale(0.6f);
-        mPhotoView.setScale(10);
+
+
 //        mPhotoView.setAdjustViewBounds(true);
         mLoader.displayImage(mPhotoBean.imgUrl, mPhotoView, options, new SimpleImageLoadingListener() {
             @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
                 if (imageUri.equals(mPhotoBean.imgUrl)) {
                     mProgressBar.setVisibility(View.GONE);
                     mPreviewImage.setVisibility(View.GONE);
                 }
-                if(loadedImage.getWidth() < mPhotoView.getWidth()){
-                    float scale=mPhotoView.getWidth()*1.0f/loadedImage.getWidth();
-//                    scale=  Math.min(scale ,mPhotoView.getMaximumScale());
-//                    mPhotoView.setScale(scale);
-//                    mPhotoView.setScale(10);
-//                    mPhotoView.
+                mPhotoView.post(new Runnable() {
+                    @Override
+                    public void run() {
 
-                }
+                        if (mPhotoView != null && mPhotoView.getDisplayRect()!= null  &&mPhotoView.getDisplayRect().width() < mPhotoView.getWidth()) {
+                            float scale = mPhotoView.getWidth() * 1.0f / mPhotoView.getDisplayRect().width();
+                            mPhotoView.setMaximumScale(Math.max(scale, mPhotoView.getMaximumScale()));
+                            mPhotoView.setScale(scale, mPhotoView.getWidth() / 2.0f, 0, false);
+                        }
+                    }
+                });
+
             }
 
             @Override
@@ -113,7 +118,7 @@ public class PhotoViewFragment extends Fragment {
         }, new ImageLoadingProgressListener() {
             @Override
             public void onProgressUpdate(String s, View view, int i, int i1) {
-                mProgressBar.setProgressPecentage(i*1.0f/i1);
+                mProgressBar.setProgressPecentage(i * 1.0f / i1);
             }
         });
         return view;

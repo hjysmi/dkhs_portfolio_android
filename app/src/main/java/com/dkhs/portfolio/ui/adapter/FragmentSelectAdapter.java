@@ -151,7 +151,7 @@ public class FragmentSelectAdapter {
             ll.addView(tv);
             tvList[i] = tv;
             if (i == 0) {
-                tv.setTextColor(context.getResources().getColor(R.color.tag_red));
+                tv.setTextColor(context.getResources().getColor(R.color.theme_blue));
                 iv.getLayoutParams().width = textWid[i] + imageAddSize * 2;
             }
         }
@@ -240,7 +240,7 @@ public class FragmentSelectAdapter {
         for (int i = 0; i < hisPosition; i++) {
             start = start + textLayout[i];
         }
-        tvList[position].setTextColor(context.getResources().getColor(R.color.tag_red));
+        tvList[position].setTextColor(context.getResources().getColor(R.color.theme_blue));
         tvList[hisPosition].setTextColor(context.getResources().getColor(R.color.black));
         setAnima(start, end);
         hisPosition = position;

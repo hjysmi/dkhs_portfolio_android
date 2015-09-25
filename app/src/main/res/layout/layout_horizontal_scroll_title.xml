@@ -43,7 +43,7 @@
                 android:layout_width="80dp"
                 android:layout_height="@dimen/adapter_line_height"
                 android:scaleType="fitXY"
-                android:src="@color/red" />
+                android:src="@color/theme_blue" />
         </LinearLayout>
     </RelativeLayout>
 

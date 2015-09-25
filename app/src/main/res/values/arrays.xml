@@ -267,6 +267,10 @@
         <item>"最热话题"</item>
         <item>"最新话题"</item>
     </string-array>
+    <string-array name="tab_topic_title_list">
+        <item>@string/info_title_mytopic</item>
+        <item>@string/info_title_myreply</item>
+    </string-array>
     <string-array name="topics_menu_overflow">
         <item>"回到首页"</item>
         <item>"举报"</item>
@@ -282,8 +286,7 @@
         <item>@string/message_center</item>
         <item>@string/info_title_mycom</item>
         <item>@string/my_assets</item>
-        <item>@string/info_title_mytopic</item>
-        <item>@string/info_title_myreply</item>
+        <item>@string/info_title_mypost</item>
         <item>@string/info_title_mydraft</item>
         <item>@string/invite_friends</item>
         <item>@string/flow_package</item>
@@ -292,7 +295,6 @@
         <item>@drawable/ic_info_message</item>
         <item>@drawable/ic_info_combina</item>
         <item>@drawable/ic_info_assests</item>
-        <item>@drawable/ic_info_topic</item>
         <item>@drawable/ic_info_reply</item>
         <item>@drawable/ic_info_draft</item>
         <item>@drawable/ic_info_invite</item>

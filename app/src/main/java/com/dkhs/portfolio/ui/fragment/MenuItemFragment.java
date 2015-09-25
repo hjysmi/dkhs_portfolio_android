@@ -8,27 +8,25 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.MainActivity;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
-import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
-
-import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
-import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.utils.AnimationHelper;
-import com.lidroid.xutils.util.LogUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.squareup.otto.Subscribe;
-
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.MainActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.utils.AnimationHelper;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Subscribe;
 
 /**
  * @author zhoujunzhou
@@ -82,7 +80,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     @ViewInject(R.id.tv_new_count)
     private TextView newCountTV;
 
-    private int mIndex = TABINDEX_1;
+    private int mIndex = TABINDEX_2;
 
     public static final String KEY_TABINDEX = "key_tabindex";
 
@@ -126,7 +124,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         setupView();
         BusProvider.getInstance().register(this);
-            clickTab(mIndex);
+//            clickTab(mIndex);
     }
 
     public void clickTabIndex(int index) {
@@ -135,12 +133,13 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
         switch (index) {
             case 0: {
-                id = MenuItemFragment.TABINDEX_1;
+                id = MenuItemFragment.TABINDEX_2;
 
             }
             break;
             case 1: {
-                id = MenuItemFragment.TABINDEX_2;
+                id = MenuItemFragment.TABINDEX_1;
+
             }
             break;
             case 2: {
@@ -255,7 +254,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     }
 
     private void setSelectText(TextView tvSelect) {
-        tvSelect.setTextColor(getResources().getColorStateList(R.color.title_color));
+        tvSelect.setTextColor(getResources().getColorStateList(R.color.theme_blue));
     }
 
     @OnClick({R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4, R.id.tab_5})

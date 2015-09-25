@@ -84,7 +84,6 @@
             android:theme="@style/AppThemeNoBackgroud">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -308,7 +307,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:path="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
@@ -323,7 +322,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
@@ -338,7 +337,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/conversationsetting/"
                     android:scheme="rong" />
             </intent-filter>
@@ -355,7 +354,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/VoIPCall"
                     android:scheme="rong" />
             </intent-filter>
@@ -370,7 +369,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="com.dkhs.portfolio"
+                    android:host="${PACKAGE_NAME}"
                     android:pathPrefix="/VoIPAccept"
                     android:scheme="rong" />
             </intent-filter>
@@ -466,9 +465,18 @@
             android:label="@string/title_activity_call_me" />
         <activity
             android:name=".ui.SelectFriendActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/title_pickup_user" />
+            android:label="@string/title_pickup_user"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.TestActivity" />
+
+
+        <activity
+            android:name=".ui.pickphoto.PhotoPickerActivity"
+            android:label="@string/title_picker_photo" />
+        <activity
+            android:name=".ui.MyTopicActivity"
+            android:label="@string/info_title_mypost" />
         <!--<activity-->
         <!--android:name=".ui.ZWMTestActivity"-->
         <!--android:theme="@style/Theme.AppCompatRed"-->

@@ -5,6 +5,6 @@
 
     <item android:color="@color/stock_gray_bg" android:state_enabled="false" />
     <item android:color="@color/white" android:state_pressed="true" />
-    <item android:color="@color/tag_red" />
+    <item android:color="@color/theme_blue" />
 
 </selector>

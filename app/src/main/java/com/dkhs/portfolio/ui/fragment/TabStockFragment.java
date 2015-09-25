@@ -117,12 +117,12 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        replaceDataList();
+
     }
 
     @Override
     public void requestData() {
-
+        replaceDataList();
     }
 
     private static final String TAG = TabStockFragment.class.getSimpleName();

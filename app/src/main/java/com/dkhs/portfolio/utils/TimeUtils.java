@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
+import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 
 import java.text.SimpleDateFormat;
@@ -66,7 +67,7 @@ public class TimeUtils {
 
 
     public static String getBriefTimeString(String time) {
-        if(TextUtils.isEmpty(time)){
+        if (TextUtils.isEmpty(time)) {
             return "";
         }
         return getBriefTimeString(new DateTime(time));
@@ -180,6 +181,16 @@ public class TimeUtils {
 
     public static String getUTCdatetimeAsString() {
         return new DateTime(DateTimeZone.UTC).toString(FORMAT_TEMPLATE_ISO8601, Locale.CHINA);
+    }
+
+
+    public static boolean isEnableImageTime(long utime) {
+        LocalDate date = new DateTime(utime * 1000).toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+        if (Hours.hoursBetween(date, currentDate).getHours() > 8) {
+            return false;
+        }
+        return true;
     }
 
 }

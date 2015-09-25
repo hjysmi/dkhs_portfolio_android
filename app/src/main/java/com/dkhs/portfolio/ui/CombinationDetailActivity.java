@@ -133,6 +133,8 @@ public class CombinationDetailActivity extends ModelAcitivity {
     }
 
     private void updataTitle() {
+        ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
+        ((TextView) findViewById(R.id.tv_title_info)).setTextColor(getResources().getColor(R.color.white));
         if (null != mCombinationBean) {
             setTitle(mCombinationBean.getName());
             setTitleTipString(getString(R.string.format_create_time,

@@ -92,7 +92,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
         if (comment.medias != null && comment.medias.size() > 0) {
             vh.get(R.id.iv_image).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImagDefault(comment.medias.get(0).getImage_xs(), vh.getImageView(R.id.iv_image));
+            ImageLoaderUtils.setImagDefault(comment.medias.get(0).getImage_sm(), vh.getImageView(R.id.iv_image));
         } else {
             vh.get(R.id.iv_image).setVisibility(View.GONE);
         }

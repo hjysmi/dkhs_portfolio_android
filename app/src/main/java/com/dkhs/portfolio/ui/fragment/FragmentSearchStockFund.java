@@ -42,6 +42,7 @@ import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
 
@@ -129,17 +130,17 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     }
 
     public void searchByKey(String key) {
+
         if (!TextUtils.isEmpty(mSearchType)) {
+            key.trim();
             mDataList.clear();
             if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_FUNDS)) {
 
-                // new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
-                mSearchEngine.searchFunds(key);
+                mSearchEngine.searchFundsByLoader(key, getActivity());
             } else if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_STOCK)) {
-
-                mSearchEngine.searchStock(key);
+                mSearchEngine.searchStockByLoader(key, getActivity());
             } else {
-                mSearchEngine.searchStockIndexFunds(key);
+                mSearchEngine.searchStockIndexFunds(key, getActivity());
             }
             mAdapterConbinStock.notifyDataSetChanged();
         }
@@ -286,7 +287,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
         ListView mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
-        mListView.setAdapter(mAdapterConbinStock);
+
         if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
@@ -300,9 +301,10 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
                 }
             });
             tvClearHistory = footView.findViewById(R.id.tv_clear);
+            LogUtils.e("tvClearHistory    inflate");
             mListView.addFooterView(footView, null, false);
         }
-
+        mListView.setAdapter(mAdapterConbinStock);
     }
 
 
@@ -342,9 +344,11 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
     private void showHistoryText(boolean iShow) {
         if (iShow) {
+            LogUtils.e("tvClearHistory    show HistoryText");
             tvClearHistory.setVisibility(View.VISIBLE);
             tvHistoryTip.setVisibility(View.VISIBLE);
         } else {
+            LogUtils.e("tvClearHistory    hide HistoryText");
             tvClearHistory.setVisibility(View.GONE);
             tvHistoryTip.setVisibility(View.GONE);
         }
@@ -372,7 +376,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         super.onViewShow();
         if (isSearchHistory()) {
             mDataList.clear();
-            mSearchEngine.searchHistoryStock();
+            mSearchEngine.searchHistoryStock(getActivity());
         }
 
     }

@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,20 +17,18 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * 个人签名
- * 
+ *
  * @author weiting
- * 
  */
 public class ModifyUserSignActivity extends ModelAcitivity implements OnClickListener {
     // private Button btnCancle;
-    private  TextView btnSave;
+    private TextView btnSave;
     private EditText signText;
     private TextView signVlaue;
     public final static String DESCRIPTION = "Description";
@@ -56,10 +53,16 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
 
         Bundle b = getIntent().getExtras();
         if (null != b) {
-            signText.setText(b.getString(DESCRIPTION));
-            signText.setSelection(signText.length());
-            int k = 40 - signText.getText().toString().length();
-            signVlaue.setText(k + "");
+            String strRawSigin = b.getString(DESCRIPTION);
+            if (TextUtils.isEmpty(strRawSigin)) {
+                signText.setHint(R.string.desc_def_text);
+            } else {
+                signText.setText(strRawSigin);
+                signText.setSelection(signText.length());
+                int k = 40 - signText.getText().toString().length();
+                signVlaue.setText(k + "");
+            }
+
         }
         // btnCancle.setText("取消");
         // btnCancle.setBackgroundDrawable(null);
@@ -101,10 +104,10 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.btn_right:
-                if (TextUtils.isEmpty(signText.getText().toString())) {
-                    PromptManager.showToast(R.string.sign_text_notice);
-                    return;
-                }
+//                if (TextUtils.isEmpty(signText.getText().toString())) {
+//                    PromptManager.showToast(R.string.sign_text_notice);
+//                    return;
+//                }
                 setSign();
                 break;
 
@@ -123,7 +126,9 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {

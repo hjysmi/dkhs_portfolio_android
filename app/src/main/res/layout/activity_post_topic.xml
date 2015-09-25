@@ -16,113 +16,12 @@
         android:singleLine="true"
         android:textSize="@dimen/text_status_title" />
 
-    <LinearLayout
+    <include
         android:id="@+id/ll_bottom"
+        layout="@layout/layout_topic_pickbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-
-            android:layout_height="@dimen/titlebar_height"
-            android:background="@color/person_setting_backgroud">
-
-            <ImageButton
-                android:id="@+id/ib_dollar"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bottom_menu_selector"
-                android:src="@drawable/kb_icon_dollar" />
-
-            <ImageButton
-                android:id="@+id/ib_friend"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bottom_menu_selector"
-                android:src="@drawable/kb_icon_user" />
-
-            <ImageButton
-                android:id="@+id/ib_img"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bottom_menu_selector"
-                android:src="@drawable/kb_icon_camera" />
-
-            <ImageButton
-                android:id="@+id/ib_emoji"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bottom_menu_selector"
-                android:src="@drawable/kb_icon_emoji" />
-
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/ll_emotion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#f6f5f5"
-            android:visibility="gone">
-
-            <!--<FrameLayout
-                android:id="@+id/emojicons"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />-->
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_emoji"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"></android.support.v4.view.ViewPager>
-
-            <LinearLayout
-                android:id="@+id/ll_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/vp_emoji"
-                android:layout_marginBottom="6dip"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="true"
-                    android:padding="5.0dip"
-                    android:src="@drawable/dot" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="true"
-                    android:padding="5.0dip"
-                    android:src="@drawable/dot" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="true"
-                    android:padding="5.0dip"
-                    android:src="@drawable/dot" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="true"
-                    android:padding="5.0dip"
-                    android:src="@drawable/dot" />
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+        android:layout_alignParentBottom="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -164,19 +63,29 @@
                     <requestFocus />
                 </com.dkhs.portfolio.ui.widget.DKHSEditText>
 
+                <!--
+                                <ImageView
+                                    android:id="@+id/iv_photo"
+                                    android:layout_width="50dip"
+                                    android:layout_height="50dip"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_below="@+id/et_content"
+                                    android:layout_marginBottom="@dimen/widget_margin_normal"
+                                    android:layout_marginRight="@dimen/widget_margin_xlarge"
+                                    android:clickable="true"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_launcher"
+                                    android:visibility="gone" />-->
 
-                <ImageView
-                    android:id="@+id/iv_photo"
-                    android:layout_width="50dip"
-                    android:layout_height="50dip"
-                    android:layout_alignParentRight="true"
+                <com.dkhs.portfolio.ui.widget.GridViewEx
+                    android:id="@+id/gv_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/et_content"
-                    android:layout_marginBottom="@dimen/widget_margin_normal"
-                    android:layout_marginRight="@dimen/widget_margin_xlarge"
-                    android:clickable="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher"
-                    android:visibility="gone" />
+                    android:layout_margin="@dimen/widget_padding_small"
+                    android:horizontalSpacing="@dimen/widget_padding_small"
+                    android:numColumns="3"
+                    android:verticalSpacing="@dimen/widget_padding_small" />
 
             </RelativeLayout>
 

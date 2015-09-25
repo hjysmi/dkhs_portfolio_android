@@ -846,6 +846,7 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
 
     public void setDataUpdateListener(IDataUpdateListener listen) {
         this.dataUpdateListener = listen;
+
     }
 
     private IDataUpdateListener dataUpdateListener;

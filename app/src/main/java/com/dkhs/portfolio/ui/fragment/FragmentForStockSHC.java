@@ -153,7 +153,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
             }
 
         });
-        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 12, list_sector,
+        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 10, list_sector,
                 symbol_stype, exchange);
         mLoadDataEngine.loadData();
 
@@ -174,10 +174,10 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
         Log.e(TAG, " scrollSelf");
 
 //        mListView.getParent().requestDisallowInterceptTouchEvent(false);
-        if (null != mStockQuoteScrollListener) {
-            mStockQuoteScrollListener.scrollviewObatin();
-
-        }
+//        if (null != mStockQuoteScrollListener) {
+//            mStockQuoteScrollListener.scrollviewObatin();
+//
+//        }
     }
 
     @Override
@@ -185,9 +185,9 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
 
 
         Log.e(TAG, " scrollParent");
-        if (null != mStockQuoteScrollListener) {
-            mStockQuoteScrollListener.interruptSrcollView();
-        }
+//        if (null != mStockQuoteScrollListener) {
+//            mStockQuoteScrollListener.interruptSrcollView();
+//        }
 //        mListView.getParent().requestDisallowInterceptTouchEvent(true);
     }
 
@@ -241,18 +241,19 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
                 int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
                 Log.e(TAG, " list_child_item_height :" + list_child_item_height);
 
-                for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+//                for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+//
+//                    height += list_child_item_height; // 统计所有子项的总高度
+//                    if (null != mStockQuoteScrollListener) {
+//                        if (height > mStockQuoteScrollListener.getMaxListHeight()) {
+//                            height = mStockQuoteScrollListener.getMaxListHeight();
+//                            Log.e(TAG, " break size:" + mDataList.get(i).getName());
+//                            break;
+//                        }
+//                    }
+//                }
 
-                    height += list_child_item_height; // 统计所有子项的总高度
-                    if (null != mStockQuoteScrollListener) {
-                        if (height > mStockQuoteScrollListener.getMaxListHeight()) {
-                            height = mStockQuoteScrollListener.getMaxListHeight();
-                            Log.e(TAG, " break size:" + mDataList.get(i).getName());
-                            break;
-                        }
-                    }
-                }
-
+                height = list_child_item_height * mOptionlistAdapter.getCount();
                 if (null != mStockQuoteScrollListener) {
                     if (height <= mStockQuoteScrollListener.getMaxListHeight()) {
                         mStockQuoteScrollListener = null;

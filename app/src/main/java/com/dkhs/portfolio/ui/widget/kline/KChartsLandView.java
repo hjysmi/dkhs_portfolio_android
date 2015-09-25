@@ -19,6 +19,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -489,6 +490,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
         textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
         textPaint.setAntiAlias(true);
+
         if (isDisplayAxisYTitle()) {
             // Y轴Titles
             int len = getUpperLatitudeNum() + 1;
@@ -496,7 +498,6 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 for (int i = 0; i < len; i++) {
 
                     String t = getYTitle(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-
                     defPaint.reset();
                     Rect rect = new Rect();
                     defPaint.setAntiAlias(true);
@@ -1038,7 +1039,6 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 showDetails = false;
                 timeX = event.getX();
                 timeY = event.getY();
-                Log.e("xyxyxyx", timeX + " ----" + timeY);
                 if (hisDrag == 0) {
                     textforFlush = "加载数据";
                 }
@@ -1346,6 +1346,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             if (mKCallBack != null) {
                 mKCallBack.onDisplayDataChange(getDisplayOHLCEntitys());
             }
+
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -1546,8 +1547,6 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setOHLCData(List<OHLCEntity> OHLCData, int page) {
 
-        Log.e("LoadMore", "-----------setOHLCData page:" + page + "-----------");
-        Log.e("LoadMore", "-----------setOHLCData size:" + OHLCData.size() + "-----------");
         if (null != mKCallBack) {
             mKCallBack.onLoadMoreDataEnd();
             // dragValue = 0;

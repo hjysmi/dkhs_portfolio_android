@@ -13,7 +13,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.SortUserEntity;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.ui.adapter.SearchFriendItemHandler;
+import com.dkhs.portfolio.ui.ItemView.SearchFriendItemHandler;
 import com.dkhs.portfolio.ui.eventbus.Dispatcher;
 import com.dkhs.portfolio.ui.selectfriend.actions.FriendSourceEngine;
 import com.dkhs.portfolio.ui.selectfriend.store.FriendStore;
