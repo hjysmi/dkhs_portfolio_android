@@ -29,9 +29,8 @@ import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
-import com.dkhs.portfolio.ui.ReplyActivity;
+import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.UserTopicsActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -55,8 +54,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int INDEX_MY_COMBINATION = 1;
     private static final int INDEX_COINS = 2;
     private static final int INDEX_USER_ENTITY = 3;
-    private static final int INDEX_REPLY = 4;
-    private static final int INDEX_DRAFT = 5;
+    private static final int INDEX_DRAFT = 4;
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
@@ -190,12 +188,12 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case INDEX_USER_ENTITY://我的话题
 
                 UserEntity userEntity = UserEngineImpl.getUserEntity();
-                UserTopicsActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
+                MyTopicActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
                 break;
-            case INDEX_REPLY://我的回复
-                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
-
-                break;
+//            case 4://我的回复
+//                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
+//
+//                break;
             case INDEX_DRAFT://我的草稿
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyDraftActivity.class));
 
@@ -242,7 +240,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
             case 1:
             case 2:
-            case 5:
+            case 3:
             case 7:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 
