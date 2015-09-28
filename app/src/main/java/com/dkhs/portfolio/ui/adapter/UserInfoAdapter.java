@@ -29,6 +29,7 @@ import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
+import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
@@ -212,6 +213,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 break;
             case INDEX_PURSE:
+                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyPurseActivity.class));
                 break;
         }
     }

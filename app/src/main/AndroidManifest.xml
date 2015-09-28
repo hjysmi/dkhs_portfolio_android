@@ -487,6 +487,7 @@
         <!--</intent-filter>-->
         <!--</activity>-->
         <activity android:name=".ui.ExchangeHistoryActivity"/>
+        <activity android:name=".ui.MyPurseActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -545,4 +545,13 @@
         <item name="android:textColor">@color/text_content_color</item>
     </style>
 
+
+    <style name="btn_change_balance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_content_color</item>
+        <item name="android:background">@drawable/btn_white_selector</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
 </resources>
