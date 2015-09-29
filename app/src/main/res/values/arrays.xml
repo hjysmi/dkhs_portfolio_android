@@ -267,6 +267,10 @@
         <item>"最热话题"</item>
         <item>"最新话题"</item>
     </string-array>
+    <string-array name="reward_title_list">
+        <item>悬赏</item>
+        <item>话题</item>
+    </string-array>
     <string-array name="tab_topic_title_list">
         <item>@string/info_title_mytopic</item>
         <item>@string/info_title_myreply</item>

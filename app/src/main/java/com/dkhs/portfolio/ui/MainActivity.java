@@ -22,9 +22,9 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
-import com.dkhs.portfolio.ui.fragment.MainBBSFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
+import com.dkhs.portfolio.ui.fragment.MainRewardFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.ShakeFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
@@ -223,7 +223,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
         if (null == fragmentD) {
-            fragmentD = new MainBBSFragment();
+            fragmentD = new MainRewardFragment();
         }
         hideAllFragment();
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container

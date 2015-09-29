@@ -17,6 +17,10 @@ public class TopicsBean extends LikeBean {
 
     public int state;
     public int content_type;
+    public String reward_amount;
+    public int reward_state;
+    public int rewarded_by_status;
+    public String reward_expired_at;
     /**
      * symbols : [{"id":101000910,"symbol":"SH600651","abbr_name":"飞乐音响"}]
      */
