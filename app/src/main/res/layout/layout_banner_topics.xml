@@ -164,4 +164,27 @@
         android:layout_height="@dimen/def_item_pading"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/main_ll" />
+    <LinearLayout
+        android:id="@+id/top_sticky"
+        style="@style/white_grayborder_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="42dp"
+        android:layout_below="@+id/bottom"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
 </RelativeLayout>

@@ -323,4 +323,9 @@
         <item>@string/title_status_report</item>
     </string-array>
 
+    <string-array name="choices_topic_sort_type">
+        <item>最热话题</item>
+        <item>最新话题</item>
+    </string-array>
+
 </resources>

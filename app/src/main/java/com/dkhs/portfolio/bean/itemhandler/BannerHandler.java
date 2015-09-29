@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
@@ -18,6 +21,8 @@ import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp;
 import com.dkhs.portfolio.ui.widget.ScaleLayout;
 
@@ -35,13 +40,7 @@ public class BannerHandler extends SimpleItemHandler<BannerTopicsBean> implement
 
     private RefreshEnable mRefreshEnable;
 
-    public interface RefreshEnable {
-        void enable();
-
-        void disEnable();
-    }
-
-
+    private int mSortType = 0;
     private OnSliderClickListenerImp mOnSliderClickListenerImp;
 
 
@@ -162,7 +161,33 @@ public class BannerHandler extends SimpleItemHandler<BannerTopicsBean> implement
         vh.get(R.id.stick_ll3).setOnClickListener(this);
         vh.get(R.id.stick_ll4).setOnClickListener(this);
         vh.get(R.id.stick_ll5).setOnClickListener(this);
+        Spinner spinner = vh.get(R.id.spinner);
+        spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.choices_topic_sort_type)));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                postRefreshEvent(position);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        if(mSortType == 0){
+            spinner.setSelection(0);
+        }else if(mSortType == 1){
+            spinner.setSelection(1);
+        }
+    }
+
+    private void postRefreshEvent(int sortType){
+        if(mSortType != sortType){
+            mSortType = sortType;
+            TopicSortTypeEvent topicSortTypeEvent = new TopicSortTypeEvent();
+            topicSortTypeEvent.sortType = mSortType;
+            BusProvider.getInstance().post(topicSortTypeEvent);
+        }
     }
 
     @Override
@@ -171,6 +196,11 @@ public class BannerHandler extends SimpleItemHandler<BannerTopicsBean> implement
         if (topicsBean != null) {
             TopicsDetailActivity.startActivity(mContext, topicsBean);
         }
+    }
+    public interface RefreshEnable {
+        void enable();
+
+        void disEnable();
     }
 
 
