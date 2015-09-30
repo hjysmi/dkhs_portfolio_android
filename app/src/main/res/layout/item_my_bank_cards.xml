@@ -38,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/widget_margin_medium"
-            android:src="@drawable/ic_launcher"
             />
 
         <LinearLayout
@@ -77,6 +76,17 @@
 
         </LinearLayout>
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/tv_addbank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/bg_white_gray_selector"
+        android:layout_marginLeft="@dimen/widget_margin_medium"
+        android:layout_marginRight="@dimen/widget_margin_medium"
+        android:text="+添加银行卡"
+        android:textColor="@color/edit_textcolor"
+        android:textSize="20sp"
+        android:visibility="visible" />
 
 </LinearLayout>

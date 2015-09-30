@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -48,7 +49,7 @@ public class BankCardNoActivity extends ModelAcitivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!TextUtils.isEmpty(s) && s.length() >= 15){
+                if(!TextUtils.isEmpty(s) && s.length() >= 5){
                     btnNext.setEnabled(true);
                 }else{
                     btnNext.setEnabled(false);
@@ -59,7 +60,7 @@ public class BankCardNoActivity extends ModelAcitivity {
     @OnClick(R.id.btn_next)
     private void onclick(View v){
         //TODO 点击下一步
-        startActivity(BankCardInfoActivity.bankCardInfoIntent(mContext));
+        startActivityForResult(BankCardInfoActivity.bankCardInfoIntent(mContext, etBankcard.getText().toString()),0);
     }
 
     private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
@@ -81,4 +82,12 @@ public class BankCardNoActivity extends ModelAcitivity {
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1 && resultCode ==0){
+            setResult(0);
+            manualFinish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

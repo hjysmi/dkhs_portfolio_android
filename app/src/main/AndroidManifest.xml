@@ -29,6 +29,16 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- ChinaPay plugin begin -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- ChinaPay plugin end -->
+
     <application
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
@@ -532,6 +542,62 @@
         <activity
             android:name=".ui.ForgetTradePasswordActivity"
             />
+        <activity
+            android:name=".ui.ChooseBankActivity"
+            />
+
+        <!-- ChinaPay plugin begin -->
+        <activity
+            android:name="com.chinapay.authplugin.activity.Initialize"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation" >
+        </activity>
+        <activity
+            android:name="com.chinapay.authplugin.activity.InputBankCard"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.chinapay.authplugin.activity.InfoMain"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.chinapay.authplugin.activity.ResultInfo"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.chinapay.authplugin.activity.HelpMain"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.chinapay.authplugin.activity.SustainBankList"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.chinapay.authplugin.activity.SubmitSujestion"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.chinapay.authplugin.activity.DebitCardAuth"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- ChinaPay plugin end -->
+
     </application>
 
 </manifest>

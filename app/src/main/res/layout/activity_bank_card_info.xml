@@ -36,6 +36,7 @@
             android:textColor="@color/gray_textcolor"
             android:layout_toRightOf="@+id/bank"
             android:focusableInTouchMode="false"
+            android:text="选择银行"
             android:textSize="@dimen/widget_text_16sp"/>
     </LinearLayout>
 

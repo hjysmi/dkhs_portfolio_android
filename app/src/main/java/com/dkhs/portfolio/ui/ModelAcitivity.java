@@ -291,6 +291,11 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     }
 
+    public void manualFinish(){
+        UIUtils.outAnimationActivity(this);
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
         PortfolioApplication.getInstance().getLists().remove(this);

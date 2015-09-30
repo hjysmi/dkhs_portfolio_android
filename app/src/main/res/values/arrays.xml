@@ -340,4 +340,25 @@
         <item>@string/sell_out</item>
     </string-array>
 
+    <!--Chinapay plugin begin-->
+    <string-array name="cp_auth_idtype">
+        <item>证件类型</item>
+        <item>身份证</item>
+        <item>军官证</item>
+        <item>护照</item>
+        <item>回乡证</item>
+        <item>台胞证</item>
+        <item>警官证</item>
+        <item>士兵证</item>
+        <item>其他证件</item>
+    </string-array>
+    <!--Chinapay plugin end-->
+    <integer-array name="bank_ids">
+        <item>1</item>
+        <item>14</item>
+        <item>15</item>
+        <item>8</item>
+        <item>6</item>
+    </integer-array>
+
 </resources>

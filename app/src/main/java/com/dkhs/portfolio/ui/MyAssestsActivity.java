@@ -21,6 +21,8 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -56,7 +58,33 @@ public class MyAssestsActivity extends ModelAcitivity {
             @Override
             public void onClick(View v) {
                 // TODO 资产设置
-                startActivity(new Intent(mContext, TradeSettingActivity.class));
+                ParseHttpListener<Boolean> isTradePwdSetListener = new ParseHttpListener<Boolean>() {
+                    @Override
+                    protected Boolean parseDateTask(String jsonData) {
+                        try{
+                            JSONObject json = new JSONObject(jsonData);
+                            if(json.has("status")){
+                                return json.getBoolean("status");
+                            }
+
+                        }catch (Exception e){
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Boolean object) {
+                        if(null != object){
+                            if(object){
+                                //TODO 设置过交易密码
+                                startActivity(new Intent(mContext, TradeSettingActivity.class));
+                            }else{
+                                //TODO 没设置过交易密码
+                                startActivity(TradePasswordSettingActivity.firstSetPwdIntent(mContext));
+                            }
+                        }
+                    }
+                };
             }
         });
         initIconResource();
@@ -182,5 +210,6 @@ public class MyAssestsActivity extends ModelAcitivity {
             PromptManager.showToast("绑定成功");
         }
     }
+
 
 }

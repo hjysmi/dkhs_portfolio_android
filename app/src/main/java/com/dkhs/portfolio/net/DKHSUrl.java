@@ -307,4 +307,14 @@ public class DKHSUrl {
         String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
     }
 
+    public interface Funds{
+        String verify_identy = "/api/v1/funds/identity_auth/verify/";
+        String bind_bank_card = "/api/v1/funds/bind_bank_card/";
+        String get_banks = "/api/v1/accounts/banks/";
+        String is_trade_password_set = "/api/v1/accounts/is_trade_password_set/";
+        String set_trade_password = "/api/v1/accounts/set_trade_password/";
+        String get_my_bank_cards = "/api/v1/accounts/bank_cards/mine/";
+
+    }
+
 }
