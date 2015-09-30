@@ -784,4 +784,7 @@
     <!-- topic text format End -->
 
 
+    <string name="reward_on_going">悬赏中</string>
+    <string name="reward_close">已关闭</string>
+    <string name="reward_finish">已悬赏</string>
 </resources>

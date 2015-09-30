@@ -137,32 +137,30 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         TextView amountTv = vh.getTextView(R.id.tv_reward_amount);
         TextView amountUnit = vh.getTextView(R.id.tv_reward_amount_unit);
         ImageView moneyIv = vh.getImageView(R.id.iv_money);
-        String state;
-        int stateStyle;
+        int state;
         int amountStyle;
         int unitStyle;
         int leftDrawable;
         if(data.reward_state == 0){
-            state = "悬赏中";
-            stateStyle = R.style.state_rewarding;
+            state = R.string.reward_on_going;
             amountStyle = R.style.reward_amount_on_going;
             unitStyle = R.style.reward_unit_on_going;
             leftDrawable = R.drawable.ic_money_highlight;
+            stateTv.setBackgroundResource(R.drawable.bg_reward_on_going);
         }else if(data.reward_state == 1){
-            state = "已关闭";
-            stateStyle = R.style.state_reward_finish;
+            state = R.string.reward_close;
             amountStyle = R.style.reward_amount_finish;
             unitStyle = R.style.reward_unit_finish;
             leftDrawable = R.drawable.ic_money_normal;
+            stateTv.setBackgroundResource(R.drawable.bg_reward_finish);
         }else{
-            state =  "已悬赏";
-            stateStyle = R.style.state_reward_finish;
+            state =  R.string.reward_finish;
             amountStyle = R.style.reward_amount_finish;
             unitStyle = R.style.reward_unit_finish;
             leftDrawable = R.drawable.ic_money_normal;
+            stateTv.setBackgroundResource(R.drawable.bg_reward_finish);
         }
         stateTv.setText(state);
-        stateTv.setTextAppearance(mContext, stateStyle);
         amountTv.setTextAppearance(mContext, amountStyle);
         amountUnit.setTextAppearance(mContext, unitStyle);
         moneyIv.setImageResource(leftDrawable);
