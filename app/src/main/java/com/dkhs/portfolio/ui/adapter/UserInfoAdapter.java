@@ -30,6 +30,7 @@ import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
 import com.dkhs.portfolio.ui.MyPurseActivity;
+import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
@@ -55,8 +56,9 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int INDEX_MY_COMBINATION = 1;
     private static final int INDEX_PURSE = 2;
     private static final int INDEX_COINS = 3;
-    private static final int INDEX_USER_ENTITY = 4;
-    private static final int INDEX_DRAFT = 5;
+    private static final int INDEX_REWARD = 4;
+    private static final int INDEX_USER_ENTITY = 5;
+    private static final int INDEX_DRAFT = 6;
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
@@ -214,6 +216,10 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case INDEX_PURSE:
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyPurseActivity.class));
+                break;
+            case INDEX_REWARD:
+                UserEntity entity = UserEngineImpl.getUserEntity();
+                MyRewardActivity.starActivity(mContext, entity.getId() + "", entity.getUsername());
                 break;
         }
     }

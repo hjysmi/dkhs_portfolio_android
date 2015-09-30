@@ -291,6 +291,7 @@
         <item>@string/info_title_mycom</item>
         <item>@string/info_title_purse</item>
         <item>@string/flow_package</item>
+        <item>@string/info_title_reward</item>
         <item>@string/info_title_mypost</item>
         <item>@string/info_title_mydraft</item>
     </string-array>
@@ -299,6 +300,7 @@
         <item>@drawable/ic_info_combina</item>
         <item>@drawable/ic_info_purse</item>
         <item>@drawable/ic_info_flowpack</item>
+        <item>@drawable/ic_reward_pressed</item>
         <item>@drawable/ic_info_reply</item>
         <item>@drawable/ic_info_draft</item>
     </integer-array>

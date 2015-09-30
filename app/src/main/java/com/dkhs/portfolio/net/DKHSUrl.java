@@ -179,6 +179,7 @@ public class DKHSUrl {
         String star = "/api/v1/statuses/likes/like/";
         String unstar = "/api/v1/statuses/likes/unlike/";
         String getRewardList = "/api/v1/statuses/public_timeline/";
+        String getUserRewards = "/api/v1/statuses/user_timeline/";
 
 
     }

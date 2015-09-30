@@ -787,4 +787,6 @@
     <string name="reward_on_going">悬赏中</string>
     <string name="reward_close">已关闭</string>
     <string name="reward_finish">已悬赏</string>
+    <string name="info_title_reward">我的悬赏</string>
+    <string name="no_reward">暂无悬赏</string>
 </resources>
