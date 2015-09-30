@@ -7,12 +7,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
  * @date 2015/7/16.
  */
 
-public class RewardsHandler extends SimpleItemHandler<LikeBean> {
+public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
 
     private Context mContext;
     private boolean mAvatarImResponse = true;
@@ -56,7 +58,7 @@ public class RewardsHandler extends SimpleItemHandler<LikeBean> {
     }
 
     @Override
-    public void onBindView(ViewHolder vh, final LikeBean data, int position) {
+    public void onBindView(ViewHolder vh, final TopicsBean data, int position) {
         setClickListener(vh.get(R.id.fl_commend), data);
 
         if (mAvatarImResponse) {
@@ -131,7 +133,40 @@ public class RewardsHandler extends SimpleItemHandler<LikeBean> {
         } else {
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
         }
-
+        TextView stateTv = vh.getTextView(R.id.tv_reward_state);
+        TextView amountTv = vh.getTextView(R.id.tv_reward_amount);
+        TextView amountUnit = vh.getTextView(R.id.tv_reward_amount_unit);
+        ImageView moneyIv = vh.getImageView(R.id.iv_money);
+        String state;
+        int stateStyle;
+        int amountStyle;
+        int unitStyle;
+        int leftDrawable;
+        if(data.reward_state == 0){
+            state = "悬赏中";
+            stateStyle = R.style.state_rewarding;
+            amountStyle = R.style.reward_amount_on_going;
+            unitStyle = R.style.reward_unit_on_going;
+            leftDrawable = R.drawable.ic_money_highlight;
+        }else if(data.reward_state == 1){
+            state = "已关闭";
+            stateStyle = R.style.state_reward_finish;
+            amountStyle = R.style.reward_amount_finish;
+            unitStyle = R.style.reward_unit_finish;
+            leftDrawable = R.drawable.ic_money_normal;
+        }else{
+            state =  "已悬赏";
+            stateStyle = R.style.state_reward_finish;
+            amountStyle = R.style.reward_amount_finish;
+            unitStyle = R.style.reward_unit_finish;
+            leftDrawable = R.drawable.ic_money_normal;
+        }
+        stateTv.setText(state);
+        stateTv.setTextAppearance(mContext, stateStyle);
+        amountTv.setTextAppearance(mContext, amountStyle);
+        amountUnit.setTextAppearance(mContext, unitStyle);
+        moneyIv.setImageResource(leftDrawable);
+        amountTv.setText(data.reward_amount);
     }
 
 

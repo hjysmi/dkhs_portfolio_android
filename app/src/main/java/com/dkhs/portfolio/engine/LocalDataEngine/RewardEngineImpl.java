@@ -93,6 +93,7 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
         params.addQueryStringParameter("recommend_level", "");
+        params.addQueryStringParameter("content_type","40");
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getRewardList, params, new ParseHttpListener<MoreDataBean>() {
             @Override
             protected MoreDataBean parseDateTask(String jsonData) {

@@ -42,60 +42,58 @@
     </RelativeLayout>
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/tool_bar_top_padding"
+            android:background="@color/title_color"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-
-
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+            <Button
+                android:id="@+id/btn_titletab_left"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:enabled="false"
                 android:gravity="center"
-                android:background="@color/title_color"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/ll_title">
+                android:text="悬赏"
+                android:textColor="@color/title_tab_textselector"
+                android:textSize="16sp" />
 
-                <Button
-                    android:id="@+id/btn_titletab_left"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:enabled="false"
-                    android:gravity="center"
-                    android:text="悬赏"
-                    android:textColor="@color/title_tab_textselector"
-                    android:textSize="16sp" />
+            <Button
+                android:id="@+id/btn_titletab_right"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="话题"
+                android:textColor="@color/title_tab_textselector"
+                android:textSize="16sp" />
 
-                <Button
-                    android:id="@+id/btn_titletab_right"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="话题"
-                    android:textColor="@color/title_tab_textselector"
-                    android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/title_bottom_line"
+            style="@style/title_bottom_line"
+            android:layout_below="@id/ll_title" />
 
 
 
-            </LinearLayout>
-    <View
-        android:id="@+id/title_bottom_line"
-        android:layout_below="@id/ll_title"
-        style="@style/title_bottom_line"
-         />
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/title_bottom_line" />
-</RelativeLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/title_bottom_line" />
+    </RelativeLayout>
 
 
     <ImageView
@@ -103,8 +101,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
+        android:clickable="true"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_edit"/>
+        android:src="@drawable/ic_edit" />
 </FrameLayout>

@@ -35,6 +35,10 @@ public class RewardsFragment extends LoadMoreListFragment  {
 
 
     @Override
+    public int setContentLayoutId() {
+        return R.layout.empty_listview_reward;
+    }
+    @Override
     BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {

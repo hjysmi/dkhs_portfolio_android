@@ -45,21 +45,34 @@
                 android:textColor="@color/gray_textcolor"
                 android:textSize="@dimen/text_status_time" />
 
-            <TextView android:id="@+id/tv_reward_amount"
+            <TextView android:id="@+id/tv_reward_amount_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/ic_money_highlight"
-                android:textSize="22sp"
-                android:text="300元"/>
+                style="@style/reward_unit_on_going"
+                android:text="元"/>
+            <TextView android:id="@+id/tv_reward_amount"
+                android:layout_alignBaseline="@id/tv_reward_amount_unit"
+                android:layout_toLeftOf="@id/tv_reward_amount_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/reward_amount_on_going"
+                />
+            <ImageView
+                android:layout_toLeftOf="@id/tv_reward_amount"
+                android:id="@+id/iv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_money_highlight"/>
             <TextView
                 android:id="@+id/tv_reward_state"
                 android:layout_below="@id/tv_reward_amount"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/recommend_stick_topics_title"
-                android:text="悬赏中"/>
+                style="@style/state_rewarding"
+                />
 
         </RelativeLayout>
 

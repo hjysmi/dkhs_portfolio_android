@@ -4,4 +4,5 @@
     <color name="balance">#64AAFF</color>
     <color name="balance_in">#FF6363</color>
     <color name="balance_out">#62BE33</color>
+    <color name="orange">#FA6739</color>
 </resources>
