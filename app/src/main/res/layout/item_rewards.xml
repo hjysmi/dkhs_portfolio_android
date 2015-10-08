@@ -291,7 +291,7 @@
                         android:id="@+id/iv_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_unlike" />
+                        android:src="@drawable/praise" />
 
                     <TextSwitcher
                         android:id="@+id/tv_like"
