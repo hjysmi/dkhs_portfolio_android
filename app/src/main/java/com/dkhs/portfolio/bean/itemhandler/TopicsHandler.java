@@ -114,9 +114,9 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
             textSwitcher.setCurrentText(vh.getConvertView().getContext().getString(R.string.like));
         }
         if (data.like) {
-            vh.getImageView(R.id.iv_like).setImageResource(R.drawable.ic_like);
+            vh.getImageView(R.id.iv_like).setImageResource(R.drawable.praised);
         } else {
-            vh.getImageView(R.id.iv_like).setImageResource(R.drawable.ic_unlike);
+            vh.getImageView(R.id.iv_like).setImageResource(R.drawable.praise);
 
         }
 

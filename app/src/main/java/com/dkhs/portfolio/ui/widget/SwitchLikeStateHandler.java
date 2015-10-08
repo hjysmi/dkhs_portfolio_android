@@ -7,11 +7,9 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.StatusBean;
-import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.LoginActivity;
-import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @author zwm
@@ -107,11 +105,11 @@ public class SwitchLikeStateHandler {
     }
 
     private void unLikeImage() {
-        mLikeIm.setImageResource(R.drawable.ic_unlike);
+        mLikeIm.setImageResource(R.drawable.praise);
     }
 
     private void likeImage() {
-        mLikeIm.setImageResource(R.drawable.ic_like);
+        mLikeIm.setImageResource(R.drawable.praised);
     }
 
 

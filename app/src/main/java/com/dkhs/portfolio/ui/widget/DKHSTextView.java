@@ -91,7 +91,7 @@ public class DKHSTextView extends EmojiconTextView implements View.OnTouchListen
 				SpannableStringBuilder builder = new SpannableStringBuilder(text);
 				builder.clearSpans();
 				for (URLSpan url : urls) {
-					NoUnderLineSpan mySpan = new NoUnderLineSpan(getResources().getColor(R.color.blue), getContext());
+					NoUnderLineSpan mySpan = new NoUnderLineSpan(getResources().getColor(R.color.theme_blue), getContext());
 					mySpan.url = url.getURL();
 					builder.setSpan(mySpan, sp.getSpanStart(url), sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				}
