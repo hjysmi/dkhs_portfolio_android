@@ -14,7 +14,6 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.rockerhieu.emojicon.emoji.People;
 
 import java.text.MessageFormat;
 
@@ -27,6 +26,11 @@ import java.text.MessageFormat;
  */
 public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
 
+
+    @Override
+    public int getTotalcount() {
+        return super.getTotalcount();
+    }
 
     /**
      * 默认显示一页20条数据

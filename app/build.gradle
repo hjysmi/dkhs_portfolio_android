@@ -18,6 +18,8 @@ android {
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
+
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -141,4 +143,5 @@ dependencies {
     compile project(':security')
     compile project(':PhotoPicker')
     compile files('libs/android_api_3.7.0.jar')
+    compile 'com.android.support:multidex:'
 }

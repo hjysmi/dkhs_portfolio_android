@@ -544,4 +544,50 @@
         <item name="android:background">@drawable/bg_title_bottom_line</item>
     </style>
 
+    <style name="title_exchange_history">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_content_color</item>
+    </style>
+
+
+    <style name="btn_change_balance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_content_color</item>
+        <item name="android:background">@drawable/btn_white_selector</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="state_rewarding">
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_reward_on_going</item>
+    </style>
+
+
+    <style name="reward_amount_on_going">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="reward_amount_finish">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray_textcolor</item>
+    </style>
+
+    <style name="reward_unit_on_going">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="reward_unit_finish">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/gray_textcolor</item>
+    </style>
+
+
+
 </resources>

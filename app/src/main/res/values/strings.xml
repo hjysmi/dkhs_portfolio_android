@@ -420,6 +420,7 @@
     <string name="tab_2">行情</string>
     <string name="tab_5">摇一摇</string>
     <string name="tab_3">社区</string>
+    <string name="tab_reward">悬赏</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
@@ -445,6 +446,7 @@
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
     <string name="info_title_mytopic">我的主帖</string>
+    <string name="info_title_purse">我的钱包</string>
     <string name="info_title_mypost">我的话题</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
@@ -590,9 +592,11 @@
 
 
     <!--流量活动-->
-    <string name="flow_package">流量包</string>
+    <string name="flow_package">我的积分</string>
     <string name="exchange_flow">可兑换流量</string>
+    <string name="current_point">当前积分</string>
     <string name="flow_point">流量积分：%1$d分</string>
+    <string name="current_flow">可换流量：%1$dM</string>
     <string name="bind_now">立即绑定</string>
     <string name="has_done">已经完成</string>
     <string name="invite_now">立即邀请</string>
@@ -607,11 +611,16 @@
     <string name="flow_invite_tip">每邀请1位好友成功注册送50M流量</string>
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
+    <string name="exchange_time_title">时间</string>
+    <string name="exchange_flow_title">流量</string>
+    <string name="exchange_status_title">状态</string>
+
     <string name="title_flow_exchange">流量兑换</string>
     <string name="max_flow_tip">本周可兑换 %1$sM 流量（VIP权限 %2$s 天）</string>
     <string name="prepaid_phone_num">充值手机号：</string>
     <string name="exchange">兑换</string>
     <string name="exchange_tip_title">流量及兑换说明</string>
+    <string name="exchange_history">兑换历史</string>
 
     <string name="exchange_tip">1、用户获得的流量为全国流量，移动、联通、电信全国用户均可使用。
 \n2、流量长期有效，每周可兑换%1$s
@@ -635,7 +644,7 @@
     <string name="nick_name">昵称</string>
     <string name="register_date">注册时间</string>
     <string name="no_invitations_tips">你还没有邀请。</string>
-    <string name="tip_flowpackage">（手机流量疯狂送，抢！抢！抢！）</string>
+    <string name="tip_flowpackage">（千万流量疯狂送！）</string>
     <string name="tip_invite_code">（我的邀请码:%1$s）</string>
     <string name="history">历史</string>
     <string name="invite_success">邀请成功</string>
@@ -672,10 +681,12 @@
     <string name="fund_manager_rankings">基金经理排行</string>
     <string name="fund_rankings">传统基金排行</string>
     <string name="win_rate_day">日战胜指数</string>
+    <string name="win_rate_week">周战胜指数</string>
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
     <string name="comment">评论</string>
+    <string name="reply">回复</string>
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
@@ -773,4 +784,9 @@
     <!-- topic text format End -->
 
 
+    <string name="reward_on_going">悬赏中</string>
+    <string name="reward_close">已关闭</string>
+    <string name="reward_finish">已悬赏</string>
+    <string name="info_title_reward">我的悬赏</string>
+    <string name="no_reward">暂无悬赏</string>
 </resources>

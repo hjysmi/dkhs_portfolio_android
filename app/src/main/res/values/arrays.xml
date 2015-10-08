@@ -267,6 +267,10 @@
         <item>"最热话题"</item>
         <item>"最新话题"</item>
     </string-array>
+    <string-array name="reward_title_list">
+        <item>悬赏</item>
+        <item>话题</item>
+    </string-array>
     <string-array name="tab_topic_title_list">
         <item>@string/info_title_mytopic</item>
         <item>@string/info_title_myreply</item>
@@ -285,20 +289,20 @@
     <string-array name="user_info_title">
         <item>@string/message_center</item>
         <item>@string/info_title_mycom</item>
-        <item>@string/info_title_mytopic</item>
-        <item>@string/info_title_myreply</item>
-        <item>@string/info_title_mydraft</item>
-        <item>@string/invite_friends</item>
+        <item>@string/info_title_purse</item>
         <item>@string/flow_package</item>
+        <item>@string/info_title_reward</item>
+        <item>@string/info_title_mypost</item>
+        <item>@string/info_title_mydraft</item>
     </string-array>
     <integer-array name="ic_info_ids">
         <item>@drawable/ic_info_message</item>
         <item>@drawable/ic_info_combina</item>
-        <item>@drawable/ic_info_topic</item>
+        <item>@drawable/ic_info_purse</item>
+        <item>@drawable/ic_info_flowpack</item>
+        <item>@drawable/ic_reward_pressed</item>
         <item>@drawable/ic_info_reply</item>
         <item>@drawable/ic_info_draft</item>
-        <item>@drawable/ic_info_invite</item>
-        <item>@drawable/ic_info_flowpack</item>
     </integer-array>
 
 
@@ -324,5 +328,16 @@
         <item>@string/copy_content</item>
         <item>@string/title_status_report</item>
     </string-array>
+
+    <string-array name="choices_topic_sort_type">
+        <item>最热话题</item>
+        <item>最新话题</item>
+    </string-array>
+
+    <string-array name="tab_reward_title_list">
+        <item>我发布的</item>
+        <item>我参与的</item>
+    </string-array>
+
 
 </resources>

@@ -178,6 +178,8 @@ public class DKHSUrl {
         String getHotTopicDetail = "/api/v1/statuses/{0}/";
         String star = "/api/v1/statuses/likes/like/";
         String unstar = "/api/v1/statuses/likes/unlike/";
+        String getRewardList = "/api/v1/statuses/public_timeline/";
+        String getUserRewards = "/api/v1/statuses/user_timeline/";
 
 
     }
@@ -260,6 +262,7 @@ public class DKHSUrl {
         String packages = "/api/v1/coins/exchange/packages/";
         String recharge = "/api/v1/coins/exchange/recharge/";
         String invitecode = "/api/v1/accounts/invitations/invite/";
+        String history = "/api/v1/coins/exchange/history/";
     }
 
 

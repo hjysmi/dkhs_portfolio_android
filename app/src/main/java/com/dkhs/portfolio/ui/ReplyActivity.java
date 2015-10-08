@@ -106,7 +106,7 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
             public void onLoadMore() {
                 CUR_TYPE = TYPE_LODAMORE;
                 if (current_page < total_page && current_page != 0 && total_page != 0) {
-                    StatusEngineImpl.getReplys(userId, current_page + 1, 0, replyListener);
+                    StatusEngineImpl.getReplys(userId,"0", current_page + 1, 0, replyListener);
                 }
             }
         });
@@ -144,10 +144,10 @@ public class ReplyActivity extends ModelAcitivity implements View.OnClickListene
         current_page = 0;
         if (!TextUtils.isEmpty(userId)) {
 
-            StatusEngineImpl.getReplys(userId, current_page, 0, replyListener);
+            StatusEngineImpl.getReplys(userId,"0", current_page, 0, replyListener);
         } else {
             userId = "1";
-            StatusEngineImpl.getReplys(userId, current_page, 0, replyListener);
+            StatusEngineImpl.getReplys(userId,"0", current_page, 0, replyListener);
         }
     }
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="balance_title">#969696</color>
+    <color name="balance">#64AAFF</color>
+    <color name="balance_in">#FF6363</color>
+    <color name="balance_out">#62BE33</color>
+    <color name="orange">#FA6739</color>
+</resources>
