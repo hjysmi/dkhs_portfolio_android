@@ -97,7 +97,7 @@ public class FloatingActionMenu extends FloatingActionView {
                 getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height), 1.0F));
         TextView tvConntent = (TextView) flaotMenu.findViewById(R.id.tv_floatmenu);
         tvConntent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        tvConntent.setTextColor(getResources().getColor(R.color.theme_color));
+        tvConntent.setTextColor(getResources().getColor(R.color.text_content_color));
         if (!TextUtils.isEmpty(tvText)) {
             tvConntent.setText(tvText);
         }

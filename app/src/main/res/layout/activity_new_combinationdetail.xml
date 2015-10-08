@@ -83,9 +83,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
 
-    <View
-        style="@style/divider_line"
-        android:layout_gravity="top"
-        android:background="@color/white_10" />
 
 </FrameLayout>

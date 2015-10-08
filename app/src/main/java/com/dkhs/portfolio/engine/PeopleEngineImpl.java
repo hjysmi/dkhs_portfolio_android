@@ -89,7 +89,7 @@ public class PeopleEngineImpl extends LoadMoreDataEngine {
         return moreBean;
     }
 
-    static public enum TYPE {
+    public enum TYPE {
         FRIENDS(DKHSUrl.Portfolio.get_frients), FOLLOWERS(DKHSUrl.Portfolio.get_followers);
 
         private TYPE(String url) {
