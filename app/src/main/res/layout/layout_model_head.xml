@@ -86,6 +86,7 @@
         </RelativeLayout>
 
         <View
+            android:id="@+id/bottom_line"
             style="@style/title_bottom_line"
             android:layout_gravity="bottom" />
 

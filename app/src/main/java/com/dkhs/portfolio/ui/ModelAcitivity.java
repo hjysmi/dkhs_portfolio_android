@@ -28,17 +28,30 @@ public class ModelAcitivity extends SwipeBackActivity {
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
+    public boolean hadFragment;
     private TextView btnBack;
-    private View mTitleView;
 //    protected UserEngineImpl engine;
 //    protected Activity mActivity;
-
-    public boolean hadFragment;
-
+    private View mTitleView;
     /**
      * 显示子页面的容器
      */
     private RelativeLayout layoutContent;
+    private OnClickListener clickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            switch (v.getId()) {
+                case BACKBUTTON_ID:
+
+                    onBackPressed();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     /**
      * 返回按钮
@@ -79,7 +92,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         MobclickAgent.onPause(this);
     }
 
-
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
         Bundle extras = getIntent().getExtras();
@@ -119,7 +131,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         setContentView(view, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
-
     public void replaceContentFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.layoutContent, fragment).commitAllowingStateLoss();
@@ -146,22 +157,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         btnBack.setOnClickListener(clickListener);
         // llBack.setOnClickListener(clickListener);
     }
-
-    private OnClickListener clickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            switch (v.getId()) {
-                case BACKBUTTON_ID:
-
-                    onBackPressed();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     /**
      * @param @param listener
@@ -207,6 +202,10 @@ public class ModelAcitivity extends SwipeBackActivity {
         // super.setTitle(titleId);
         ((TextView) findViewById(R.id.tv_title)).setText(titleId);
 
+    }
+
+    public void hideBottomLine(){
+        findViewById(R.id.bottom_line).setVisibility(View.GONE);
     }
 
     /**
