@@ -9,6 +9,14 @@ public class CommentBean extends LikeBean {
 
     private List<OptionNewsBean.Symbols> symbol;
     private String recomment_level;
+    public int state;
+    public int content_type;
+    public String reward_amount;
+    public int reward_state;
+    public int rewarded_by_status;
+    public String reward_expired_at;
+    public int reward_type;
+    public int rewarded_comment;
 
     public String source;
     public  CommentBean(){

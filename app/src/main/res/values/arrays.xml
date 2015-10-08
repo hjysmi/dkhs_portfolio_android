@@ -334,4 +334,10 @@
         <item>最新话题</item>
     </string-array>
 
+    <string-array name="tab_reward_title_list">
+        <item>我发布的</item>
+        <item>我参与的</item>
+    </string-array>
+
+
 </resources>

@@ -114,11 +114,14 @@ public class MainRewardFragment extends VisiableLoadFragment {
         view.findViewById(R.id.btn_edit).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //判断mCurFragment实现不同操作
                 if (UIUtils.iStartLoginActivity(getActivity())) {
                     return;
                 }
-                getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST, "", ""));
+                if(mCurFragment == 0){
+                    //TODO
+                }else if(mCurFragment == 1){
+                    getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST, "", ""));
+                }
             }
         });
     }

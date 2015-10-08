@@ -73,7 +73,7 @@ public class TabTopicFragment extends VisiableLoadFragment {
 
 
         fragments.add(UsersTopicsFragment.newIntent(userId, userName));
-        fragments.add(ReplyFragment.getIntent( GlobalParams.LOGIN_USER.getId() + ""));
+        fragments.add(ReplyFragment.getIntent( GlobalParams.LOGIN_USER.getId() + "","0"));
 
         mAdpter = new FragmentSelectAdapter(mActivity, getResources().getStringArray(R.array.tab_topic_title_list), fragments, mll, getChildFragmentManager());
         mAdpter.setCurrentItem(0);

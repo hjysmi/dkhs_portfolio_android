@@ -73,9 +73,9 @@ public class TabRewardFragment extends VisiableLoadFragment {
 
 
         fragments.add(UsersRewardFragment.newIntent(userId, userName));
-        fragments.add(ReplyFragment.getIntent( GlobalParams.LOGIN_USER.getId() + ""));
+        fragments.add(ReplyFragment.getIntent( GlobalParams.LOGIN_USER.getId() + "","40"));
 
-        mAdpter = new FragmentSelectAdapter(mActivity, getResources().getStringArray(R.array.tab_topic_title_list), fragments, mll, getChildFragmentManager());
+        mAdpter = new FragmentSelectAdapter(mActivity, getResources().getStringArray(R.array.tab_reward_title_list), fragments, mll, getChildFragmentManager());
         mAdpter.setCurrentItem(0);
 
 
