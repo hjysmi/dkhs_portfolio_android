@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -196,7 +195,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                     mTopicsDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("wys", "focus down");
                             mScrollToComment = false;
                             mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                         }

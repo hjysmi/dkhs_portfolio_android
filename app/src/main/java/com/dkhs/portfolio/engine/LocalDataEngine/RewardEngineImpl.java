@@ -80,8 +80,9 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        params.addQueryStringParameter("recommend_level", "1");
+        params.addQueryStringParameter("recommend_level", "");
         params.addQueryStringParameter("page_size", pageSize + "");
+        params.addQueryStringParameter("content_type","40");
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getRewardList, params, this);
 
     }
