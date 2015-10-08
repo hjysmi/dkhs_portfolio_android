@@ -270,7 +270,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
-
             android:text="@string/like"
             android:textColor="@color/tag_gray" />
 

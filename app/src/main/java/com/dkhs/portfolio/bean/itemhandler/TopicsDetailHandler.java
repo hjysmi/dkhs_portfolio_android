@@ -337,9 +337,9 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
         public void onClick(View v) {
             ImageView imageView = (ImageView) v.findViewById(R.id.iv_like);
             if (topicsBean.like) {
-                imageView.setImageResource(R.drawable.ic_like);
+                imageView.setImageResource(R.drawable.praised);
             } else {
-                imageView.setImageResource(R.drawable.ic_unlike);
+                imageView.setImageResource(R.drawable.praise);
             }
             topicsBean.like = !topicsBean.like;
         }

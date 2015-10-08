@@ -110,9 +110,9 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
 
         if (comment.like) {
-            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_like);
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.praised);
         } else {
-            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_unlike);
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.praise);
         }
 
         if (mAvatarImResponse) {
