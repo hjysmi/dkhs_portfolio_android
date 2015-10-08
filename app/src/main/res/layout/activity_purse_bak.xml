@@ -8,23 +8,21 @@
     <LinearLayout
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
         android:gravity="center"
-        android:paddingBottom="16dp"
-        android:paddingTop="22dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_balance_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
+            android:textSize="22sp"
             android:textColor="@color/gray_textcolor"
             android:text="现金余额(元)"/>
         <TextView
             android:id="@+id/tv_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40sp"
+            android:textSize="80sp"
             android:textColor="@color/theme_blue"
             android:includeFontPadding="false"
             android:text="25000.00"/>
@@ -32,7 +30,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginTop="1dp"
         android:background="@color/white"
         android:orientation="horizontal">
