@@ -101,7 +101,7 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
                 refreshData();
             }
         });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         lvReply = (PullToRefreshListView) view.findViewById(R.id.lv_reply);
         lvReply.setCanRefresh(false);
         lvReply.setOnLoadListener(new PullToRefreshListView.OnLoadMoreListener() {

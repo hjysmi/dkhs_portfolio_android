@@ -42,10 +42,10 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_tiyan_selector"
+            android:background="@drawable/btn_blue_border_selector"
             android:gravity="center"
             android:text="随便看看"
-            android:textColor="@color/tag_red"
+            android:textColor="@color/theme_blue"
             android:textSize="18sp" />
     </LinearLayout>
 
