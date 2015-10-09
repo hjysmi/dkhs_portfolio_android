@@ -16,6 +16,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,12 +27,44 @@ import java.util.regex.Pattern;
 public class RechargeFragment extends BaseFragment implements View.OnClickListener {
 
     @ViewInject(R.id.et_play_num)
-    EditText etPayNum;
+    private EditText etPayNum;
     @ViewInject(R.id.btn_recharge)
-    Button btnRecharge;
+    private Button btnRecharge;
+    @ViewInject(R.id.iv_select_alipay)
+    private View ivSelectAli;
+    @ViewInject(R.id.iv_select_weixin)
+    private View ivSelectWeixin;
+    @ViewInject(R.id.iv_select_card)
+    private View ivSelectCard;
 
+    @ViewInject(R.id.rl_wechatpay)
+    private View viewWexin;
+    @ViewInject(R.id.rl_alipay)
+    private View viewAlipay;
+    @ViewInject(R.id.rl_cardpay)
+    private View viewCard;
 
-    String payType;
+    private String payType;
+
+    private ThreePayManager mPayManager;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPayManager = new ThreePayManager(getActivity(), rechargeCallback);
+    }
+
+    IThreePayCallback rechargeCallback = new IThreePayCallback() {
+        @Override
+        public void rechargeSuccess() {
+            getActivity().finish();
+        }
+
+        @Override
+        public void rechargeFail() {
+
+        }
+    };
 
     @Override
     public int setContentLayoutId() {
@@ -42,7 +75,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         etPayNum.addTextChangedListener(percentTextWatch);
-        btnRecharge.setOnClickListener(this);
+//        btnRecharge.setOnClickListener(this);
     }
 
     String strBefore;
@@ -84,27 +117,70 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
         if (TextUtils.isEmpty(str)) {
             return true;
         }
-        // 匹配XXXXXX.XXX
         String compText = "^(\\d{0,9})|(\\d{0,9}?(\\.\\d{0,2}))$";
         Pattern p = Pattern.compile(compText);
         Matcher m = p.matcher(str);
         return m.matches();
     }
 
+    @OnClick({R.id.btn_recharge, R.id.rl_alipay, R.id.rl_wechatpay, R.id.rl_cardpay})
     @Override
     public void onClick(View v) {
-        String amountText = etPayNum.getText().toString();
-        if (TextUtils.isEmpty(amountText)) {
-            PromptManager.showToast("请输入有效金额");
-            return;
-        }
-        float amout = Float.valueOf(amountText);
+        int id = v.getId();
+        if (id == R.id.btn_recharge) {
+
+
+            String amountText = etPayNum.getText().toString();
+            if (TextUtils.isEmpty(amountText)) {
+                PromptManager.showToast("请输入有效金额");
+                return;
+            }
+            float amout = Float.valueOf(amountText);
 //        if (amout < 1) {
 //            PromptManager.showToast("充值金额不能小于1元！");
 //            return;
 //        }
 
-        payType = WalletsEngine.Alipay;
+            payType = getPayType();
+            payment(amout);
+        } else if (id == R.id.rl_alipay) {
+            setAllEnable();
+            viewAlipay.setClickable(false);
+            ivSelectAli.setVisibility(View.VISIBLE);
+        } else if (id == R.id.rl_wechatpay) {
+            setAllEnable();
+            viewWexin.setClickable(false);
+            ivSelectWeixin.setVisibility(View.VISIBLE);
+        } else if (id == R.id.rl_cardpay) {
+            setAllEnable();
+            viewCard.setClickable(false);
+            ivSelectCard.setVisibility(View.VISIBLE);
+        }
+
+
+    }
+
+    private void setAllEnable() {
+        viewAlipay.setClickable(true);
+        ivSelectAli.setVisibility(View.GONE);
+        viewCard.setClickable(true);
+        ivSelectCard.setVisibility(View.GONE);
+        viewWexin.setClickable(true);
+        ivSelectWeixin.setVisibility(View.GONE);
+    }
+
+    private String getPayType() {
+        if (ivSelectAli.isShown())
+            return WalletsEngine.Alipay;
+        if (ivSelectWeixin.isShown())
+            return WalletsEngine.WeiXin;
+        if (ivSelectCard.isShown())
+            return WalletsEngine.YiBao;
+        return null;
+    }
+
+
+    private void payment(float amout) {
         WalletsEngine.payment(amout, payType, new ParseHttpListener<PaymentBean>() {
             @Override
             protected PaymentBean parseDateTask(String jsonData) {
@@ -115,15 +191,11 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
             @Override
             protected void afterParseData(PaymentBean object) {
                 if (null != object) {
-                    if (payType.equals(WalletsEngine.Alipay)) {
-                        String orderText = object.getAlipay_order_info();
-
-                        new ThreePay(getActivity()).alipay(orderText);
-                    }
+                    object.setPayType(payType);
+                    mPayManager.alipay(object);
                 }
             }
         });
-
     }
 
 

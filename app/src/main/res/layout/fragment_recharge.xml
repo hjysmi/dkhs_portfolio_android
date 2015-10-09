@@ -66,7 +66,8 @@
 
         <RelativeLayout
             android:id="@+id/rl_alipay"
-            style="@style/recharge_pay_layout">
+            style="@style/recharge_pay_layout"
+            android:clickable="false">
 
             <TextView
                 style="@style/recharge_pay_text"
@@ -74,28 +75,54 @@
                 android:drawableLeft="@drawable/ic_pay_alipay"
 
                 android:text="支付宝支付" />
+
+            <ImageView
+                android:id="@+id/iv_select_alipay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_pay_select" />
+
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_wechatpay"
-            style="@style/recharge_pay_layout">
+            style="@style/recharge_pay_layout"
+            android:clickable="true">
 
             <TextView
                 style="@style/recharge_pay_text"
                 android:drawableLeft="@drawable/ic_pay_weixin"
-
                 android:text="微信支付" />
+
+            <ImageView
+                android:id="@+id/iv_select_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_pay_select"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_yibaopay"
+            android:id="@+id/rl_cardpay"
             style="@style/recharge_pay_layout">
 
             <TextView
                 style="@style/recharge_pay_text"
                 android:drawableLeft="@drawable/ic_pay_card"
-
                 android:text="银行卡快捷充值" />
+
+            <ImageView
+                android:id="@+id/iv_select_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_pay_select"
+                android:visibility="gone" />
         </RelativeLayout>
 
 
@@ -111,6 +138,7 @@
         android:layout_margin="30dp"
         android:layout_marginTop="@dimen/combin_horSpacing"
         android:background="@drawable/btn_red_selector"
+        android:gravity="center"
         android:text="支付"
         android:textColor="@color/white"
         android:textSize="@dimen/setting_text_name" />
