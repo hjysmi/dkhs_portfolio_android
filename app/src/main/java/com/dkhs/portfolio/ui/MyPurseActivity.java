@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 /**
  * 主贴详情
  */
-public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener,PullToRefreshListView.OnLoadMoreListener {
+public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener {
 
     @ViewInject(R.id.swipeRefreshLayout)
     private SwipeRefreshLayout mSwipeLayout;
@@ -29,10 +30,6 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
     private TextView mBalanceInTv;
     @ViewInject(R.id.btn_balance_out)
     private TextView mBalanceOutTv;
-
-
-
-
 
 
     @Override
@@ -48,14 +45,15 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
                 loadData();
             }
         });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
     }
 
-    private void loadData(){
+    private void loadData() {
         mSwipeLayout.setRefreshing(true);
         getLoadEngine().loadData();
     }
-    private LoadMoreDataEngine getLoadEngine(){
+
+    private LoadMoreDataEngine getLoadEngine() {
         return null;
     }
 
@@ -69,13 +67,18 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         mSwipeLayout.setRefreshing(true);
     }
 
-    @OnClick({R.id.btn_balance_out,R.id.btn_balance_in})
-    public void changeBalance(View v){
-        switch (v.getId()){
+    @OnClick({R.id.btn_balance_out, R.id.btn_balance_in})
+    public void changeBalance(View v) {
+        Intent intent = null;
+        switch (v.getId()) {
             case R.id.btn_balance_in:
+                intent = new Intent(MyPurseActivity.this, RechargeActivity.class);
                 break;
             case R.id.btn_balance_out:
                 break;
+        }
+        if (null != intent) {
+            startActivity(intent);
         }
     }
 
