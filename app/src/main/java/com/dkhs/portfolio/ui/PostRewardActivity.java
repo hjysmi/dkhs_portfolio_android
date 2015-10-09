@@ -97,7 +97,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     /**
      * @param context
-     * @param type          TYPE_POST:发表话题，TYPE_COMMENT:评论话题
+     * @param type          TYPE_POST:发表悬赏，TYPE_COMMENT:回复悬赏
      * @param repliedStatus
      * @return
      */
@@ -114,7 +114,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
 
-        setContentView(R.layout.activity_post_topic);
+        setContentView(R.layout.activity_post_reward);
         getSwipeBackLayout().setEnableGesture(false);
         AndroidBugForSpecialPhone.assistActivity(this);
         Bundle extras = getIntent().getExtras();
@@ -148,12 +148,11 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     }
 
     private DKHSEditText etContent;
-    private DKHSEditText etTitle;
     private DKHSEditText curEt;
     //    private ImageView ivPhoto;
     private View ibImg;
     private TextView btnSend;
-
+    private LinearLayout llRewardInfo;
 
     private void initViews() {
         mPicAdapter = new SelectPicAdapter(this, mSelectPohotos);
@@ -161,8 +160,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         gvSelectPic.isExpanded();
         gvSelectPic.setAdapter(mPicAdapter);
         mPicAdapter.setDeletePicListenr(this);
-        etTitle = (DKHSEditText) findViewById(R.id.et_title);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
+        llRewardInfo = (LinearLayout)findViewById(R.id.ll_reward_info);
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
         ibStock = (ImageButton) findViewById(R.id.ib_dollar);
 //        ivPhoto = (ImageView) findViewById(R.id.iv_photo);
@@ -195,35 +194,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 return onTouchEvent(event);
             }
         });
-        etTitle.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //隐藏表情
-                if (isShowingEmotionView) {
-                    hideEmotionView();
-                    isShowingEmotionView = !isShowingEmotionView;
-                }
-                if (curEt != etTitle)
-                    curEt = etTitle;
-                return onTouchEvent(event);
-            }
-        });
-        etTitle.clearFocus();
         curEt = etContent;
-        etTitle.setFocusable(false);
-        etTitle.setFocusableInTouchMode(false);
         etContent.requestFocus();
-        etTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!etTitle.isFocusable()) {
-                    etTitle.setFocusable(true);
-                    etTitle.setFocusableInTouchMode(true);
-                    etTitle.requestFocus();
-                }
-            }
-        });
         MyTextWatcher watcher = new MyTextWatcher();
 //        etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
@@ -280,20 +252,22 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
             setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
             ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.GONE);
+            etContent.setHint(R.string.reward_reply_hint);
+            llRewardInfo.setVisibility(View.GONE);
         } else if (curType == TYPE_COMMENT) {
             setTitle(String.format(getResources().getString(R.string.reward_comment), userName));
             ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.GONE);
+            etContent.setHint(R.string.reward_reply_hint);
+            llRewardInfo.setVisibility(View.GONE);
         } else if (curType == TYPE_POST) {
             setTitle(R.string.post_reward);
             ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.VISIBLE);
+            etContent.setHint(R.string.reward_hint);
+            llRewardInfo.setVisibility(View.VISIBLE);
         }
         if (null != mDraftBean) {
 
 
-            etTitle.insertHtmlText((mDraftBean.getTitle()));
             etContent.insertHtmlText((mDraftBean.getContent()));
             etContent.setSelection(etContent.getText().length());
 
@@ -336,7 +310,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     private boolean checkSendButtonEnable() {
 
-        boolean enAble = !TextUtils.isEmpty(etTitle.getText()) || !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
+        boolean enAble =  !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
         btnSend.setEnabled(enAble);
         btnSend.setClickable(enAble);
 
@@ -684,7 +658,6 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     private boolean isDraftModify() {
         boolean isPhotoNoChange = true;
-        String inputTitle = etTitle.getText().toString();
         String inputContent = etContent.getText().toString();
         ArrayList<String> tempList = new ArrayList<>(mSelectPohotos.size());
         tempList.addAll(mSelectPohotos);
@@ -704,7 +677,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         }
 
 
-        return isPhotoNoChange && inputContent.equals(mDraftBean.getSimpleContent()) && inputTitle.equals(mDraftBean.getSimpleTitle());
+        return isPhotoNoChange && inputContent.equals(mDraftBean.getSimpleContent());
 
 
     }
@@ -762,12 +735,9 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         }
 
         String strContent = DKHtml.toHtml(etContent.getText());
-        String strTitle = DKHtml.toHtml(etTitle.getText());
         mDraftBean.setFailReason("");
-        mDraftBean.setTitle(strTitle);
         mDraftBean.setContent(strContent);
         mDraftBean.setSimleContent(etContent.getText().toString());
-        mDraftBean.setSimpleTitle(etTitle.getText().toString());
         mSelectPohotos.remove(ADD_PICTURE);
         mDraftBean.setPhotoList(mSelectPohotos);
         mDraftBean.setUploadMap(uploadImageEngine.getUploadMap());
