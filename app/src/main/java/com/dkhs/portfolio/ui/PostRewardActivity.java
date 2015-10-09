@@ -736,6 +736,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
         String strContent = DKHtml.toHtml(etContent.getText());
         mDraftBean.setFailReason("");
+        mDraftBean.setTitle(getString(R.string.post_reward));
+        mDraftBean.setSimpleTitle(getString(R.string.post_reward));
         mDraftBean.setContent(strContent);
         mDraftBean.setSimleContent(etContent.getText().toString());
         mSelectPohotos.remove(ADD_PICTURE);

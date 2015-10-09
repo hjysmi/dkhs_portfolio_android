@@ -244,15 +244,16 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 new ViewHolder(convertView);
             }
             ViewHolder holder = (ViewHolder) convertView.getTag();
-
             final DraftBean item = mDataList.get(position);
+
             String title = item.getSimpleTitle();
-            if (TextUtils.isEmpty(title)) {
+            if (TextUtils.isEmpty(title) || title.equals(getString(R.string.post_reward))) {
                 holder.tvTitle.setVisibility(View.GONE);
             } else {
                 holder.tvTitle.setVisibility(View.VISIBLE);
                 holder.tvTitle.setText(title);
             }
+
 //            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getUtcTime()));
             holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getEdittime()));
             String strLabel = "";
