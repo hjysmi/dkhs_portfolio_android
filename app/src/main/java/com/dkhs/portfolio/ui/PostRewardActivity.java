@@ -771,6 +771,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         mSelectPohotos.remove(ADD_PICTURE);
         mDraftBean.setPhotoList(mSelectPohotos);
         mDraftBean.setUploadMap(uploadImageEngine.getUploadMap());
+        mDraftBean.setContentType(40);
         uploadImageEngine.cancelUpload();
         return mDraftBean;
 

@@ -26,6 +26,8 @@ public final class AppConfig {
 
     public static final boolean isDebug = BuildConfig.isSandbox;
 
+    public static final int VERSION_CURRENT = 2;
+
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
 
@@ -106,7 +108,7 @@ public final class AppConfig {
 
     public static DbUtils getDBUtils() {
         DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
-        dbConfig.setDbVersion(1);
+        dbConfig.setDbVersion(VERSION_CURRENT);
         dbConfig.setDbUpgradeListener(new DbUtils.DbUpgradeListener() {
             @Override
             public void onUpgrade(DbUtils db, int oldVersion, int newVersion) {
