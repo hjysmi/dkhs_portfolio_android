@@ -489,6 +489,7 @@
         <activity android:name=".ui.ExchangeHistoryActivity"/>
         <activity android:name=".ui.MyPurseActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.MyRewardActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PostRewardActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
