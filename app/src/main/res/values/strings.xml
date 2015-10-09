@@ -686,7 +686,7 @@
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
     <string name="comment">评论</string>
-    <string name="reply">回复</string>
+    <string name="answer">回答</string>
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
@@ -790,4 +790,5 @@
     <string name="info_title_reward">我的悬赏</string>
     <string name="no_reward">暂无悬赏</string>
     <string name="reward_comment">回答%1$s</string>
+    <string name="post_reward">发表悬赏</string>
 </resources>
