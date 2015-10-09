@@ -57,7 +57,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_status_title" />
+            android:textSize="@dimen/topic_handler_title" />
 
         <com.dkhs.portfolio.ui.widget.DKHSTextView
             android:id="@+id/content"
@@ -67,7 +67,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@color/text_content_color"
-            android:textSize="@dimen/text_status_content" />
+            android:textSize="@dimen/topic_handler_content" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
