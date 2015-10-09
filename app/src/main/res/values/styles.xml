@@ -588,6 +588,11 @@
         <item name="android:textColor">@color/gray_textcolor</item>
     </style>
 
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/show_anim</item>
+        <item name="android:windowExitAnimation">@anim/dismiss_anim</item>
+    </style>
+
 
 
 </resources>
