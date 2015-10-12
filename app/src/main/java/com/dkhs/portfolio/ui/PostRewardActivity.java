@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -153,6 +155,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     private View ibImg;
     private TextView btnSend;
     private LinearLayout llRewardInfo;
+    private DKHSEditText amountEt;
+    private TextView balanceTv;
 
     private void initViews() {
         mPicAdapter = new SelectPicAdapter(this, mSelectPohotos);
@@ -162,6 +166,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         mPicAdapter.setDeletePicListenr(this);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
         llRewardInfo = (LinearLayout)findViewById(R.id.ll_reward_info);
+        amountEt = (DKHSEditText)findViewById(R.id.et_reward);
+        balanceTv = (TextView)findViewById(R.id.tv_balance);
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
         ibStock = (ImageButton) findViewById(R.id.ib_dollar);
 //        ivPhoto = (ImageView) findViewById(R.id.iv_photo);
@@ -199,6 +205,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         MyTextWatcher watcher = new MyTextWatcher();
 //        etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
+        amountEt.setFilters(new InputFilter[]{lengthfilter});
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
@@ -267,7 +274,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         }
         if (null != mDraftBean) {
 
-
+            amountEt.insertHtmlText(mDraftBean.getRewardAmount());
             etContent.insertHtmlText((mDraftBean.getContent()));
             etContent.setSelection(etContent.getText().length());
 
@@ -744,6 +751,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         mDraftBean.setPhotoList(mSelectPohotos);
         mDraftBean.setUploadMap(uploadImageEngine.getUploadMap());
         mDraftBean.setContentType(40);
+        mDraftBean.setRewardAmount(amountEt.getText().toString());
         uploadImageEngine.cancelUpload();
         return mDraftBean;
 
@@ -755,4 +763,40 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     }
 
 
+    private static final float MAX_AMOUNT = 99999.99f;
+    private float minAmount = 10.00f;
+    /**
+     * 限制悬赏金额  大于指定最小金额，小于99999.99
+     */
+
+    private boolean checkAmountLegal(float amount){
+        if(amount < minAmount || amount > MAX_AMOUNT){
+            return false;
+        }
+        return true;
+    }
+
+    private static final int DECIMAL_DIGITS = 2;
+    /**
+     * 限制小数位数
+     */
+    InputFilter lengthfilter = new InputFilter() {
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
+            // 删除等特殊字符，直接返回
+            if ("".equals(source.toString())) {
+                return null;
+            }
+            String dValue = dest.toString();
+            String[] splitArray = dValue.split("//.");
+            if (splitArray.length > 1) {
+                String dotValue = splitArray[1];
+                int diff = dotValue.length() + 1 - DECIMAL_DIGITS;
+                if (diff > 0) {
+                    return source.subSequence(start, end - diff);
+                }
+            }
+            return null;
+        }
+    };
 }
