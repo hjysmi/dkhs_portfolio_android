@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/topicDetailRl"
+    xmlns:apo="http://schemas.android.com/apk/res-auto"
+    >
+
+    <RelativeLayout
+        android:id="@+id/main_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/main_ll"
+            style="@style/white_grayborder_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    style="@style/lv_avatar_style" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_avatar"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_status_username" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/iv_avatar"
+                    android:layout_toRightOf="@+id/iv_avatar"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/text_status_time" />
+
+
+                <TextView android:id="@+id/tv_reward_amount_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    style="@style/reward_unit_on_going"
+                    android:text="元"/>
+                <TextView android:id="@+id/tv_reward_amount"
+                    android:layout_alignBaseline="@id/tv_reward_amount_unit"
+                    android:layout_toLeftOf="@id/tv_reward_amount_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/reward_amount_on_going"
+                    />
+                <ImageView
+                    android:layout_toLeftOf="@id/tv_reward_amount"
+                    android:id="@+id/iv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_money_highlight"/>
+                <TextView
+                    android:id="@+id/tv_reward_state"
+                    android:layout_below="@id/tv_reward_amount"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/state_rewarding"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/relatedSymbolsTV"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textSize="@dimen/text_status_content" />
+
+            <com.dkhs.portfolio.ui.widget.DKHSTextView
+                android:id="@+id/titleTV"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_status_title" />
+
+            <com.dkhs.portfolio.ui.widget.DKHSTextView
+                android:id="@+id/content"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/text_content_color"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_status_content" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+                <com.dkhs.portfolio.ui.widget.AutoScaleImageView
+                    android:id="@+id/iv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:src="@drawable/ic_img_thumbnail"
+                    />
+
+
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:id="@+id/row1"
+                        >
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v1"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="2dp"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v2"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v3"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/row2"
+                        >
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v4"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="2dp"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v5"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v6"
+                            android:layout_width="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/row3"
+                        >
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v7"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v8"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+
+                            />
+
+                        <com.dkhs.portfolio.ui.widget.ScaleImageView
+                            android:id="@+id/v9"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:layout_margin="2dp"
+                            android:src="@drawable/ic_img_thumbnail"
+                            apo:scale="1"
+                            />
+
+                    </TableRow>
+                </TableLayout>
+
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+        <include
+            layout="@layout/layout_empty"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        style="@style/white_grayborder_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="42dp"
+        android:layout_below="@+id/main_rl"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:id="@+id/top_sticky"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/comment"
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/comment"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_like"
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:text="@string/like"
+            android:textColor="@color/tag_gray" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ic_bottom_line"
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"/>
+    <View
+        android:layout_width="12dp"
+        android:id="@+id/indicate"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ic_triangle"
+        android:layout_height="8dp"/>
+
+</RelativeLayout>

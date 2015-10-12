@@ -24,8 +24,8 @@ import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
-import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
-import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
+import com.dkhs.portfolio.bean.itemhandler.RewardAnswerHandler;
+import com.dkhs.portfolio.bean.itemhandler.RewardDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
@@ -72,7 +72,6 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public static final int MENU_MORE_GO_HOME = 4;
     public static final int MENU_MORE_STATUS_REPORT = 5;
     public static final int MENU_MORE_STATUS_DELETE = 6;
-    private TopicDetailFragment mTopicDetailFragment;
     private Boolean mScrollToComment;
     @ViewInject(R.id.ignoreTV)
     private TextView ignoreTV;
@@ -83,13 +82,13 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @ViewInject(R.id.srl)
     private SwipeRefreshLayout mSwipeLayout;
     @ViewInject(R.id.lv)
-    private TopicsDetailListView mTopicsDetailListView;
+    private RewardDetailListView mRewardDetailListView;
     @ViewInject(R.id.tsv)
-    private TopicsDetailScrollView mTopicsDetailScrollView;
+    private RewardDetailScrollView mRewardDetailScrollView;
 
     TopicsCommendEngineImpl.SortType mSortType;
 
-    private TopicsDetailHandler mTopicsDetailHandler = new TopicsDetailHandler(this);
+    private RewardDetailHandler mRewardDetailHandler = new RewardDetailHandler(this);
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
@@ -131,7 +130,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mTopicsBean = Parcels.unwrap(extras.getParcelable("topicsBean"));
             mItemTopicsBean = mTopicsBean;
             mScrollToComment = getIntent().getBooleanExtra("scrollToComment", false);
-            setContentView(R.layout.activity_topics_detail);
+            setContentView(R.layout.activity_reward_detail);
 
 //            Toolbar toolbar= (Toolbar) findViewById(R.id.tool);
 //            setSupportActionBar(toolbar);
@@ -145,9 +144,9 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mSwitchLikeStateHandler = new SwitchLikeStateHandler(mTopicsBean);
             mSwitchLikeStateHandler.setStatusChangeI(this);
             loadData();
-            mFloatingActionMenu.attachToListViewTop(mTopicsDetailListView, null, null);
+            mFloatingActionMenu.attachToListViewTop(mRewardDetailListView, null, null);
             BusProvider.getInstance().register(this);
-            mTopicsDetailListView.setFocusable(false);
+            mRewardDetailListView.setFocusable(false);
         }
     }
 
@@ -167,8 +166,8 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            mTopicsDetailListView.setFocusableInTouchMode(true);
-            mTopicsDetailListView.setFocusable(true);
+            mRewardDetailListView.setFocusableInTouchMode(true);
+            mRewardDetailListView.setFocusable(true);
         }
     }
 
@@ -194,11 +193,11 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 setTopicsDetail();
                 if (mScrollToComment) {
 
-                    mTopicsDetailScrollView.postDelayed(new Runnable() {
+                    mRewardDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mScrollToComment = false;
-                            mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            mRewardDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                         }
                     }, 500);
                 }
@@ -220,7 +219,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
     private void setTopicsDetail() {
-        mTopicsDetailHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.topicDetailRl)), mTopicsBean, 0);
+        mRewardDetailHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.topicDetailRl)), mTopicsBean, 0);
     }
 
 
@@ -239,13 +238,13 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
         initFloatMenu();
         mDataList.setup(this);
 
-        mTopicsDetailListView.setOnLoadMoreListener(new TopicsDetailListView.OnLoadMoreListener() {
+        mRewardDetailListView.setOnLoadMoreListener(new RewardDetailListView.OnLoadMoreListener() {
             @Override
             public void loadMore() {
                 if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
                     return;
                 }
-                mTopicsDetailListView.toggleFooter(true);
+                mRewardDetailListView.toggleFooter(true);
                 getLoadEngine().loadMore();
             }
         });
@@ -256,14 +255,14 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
             }
         });
         mAdapter = new DKBaseAdapter(this, mDataList)
-                .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(this))
-                .buildMultiItemView(CommentBean.class, new CommentHandler(this, true, true))
+                .buildMultiItemView(TopicsBean.class, new RewardDetailHandler(this))
+                .buildMultiItemView(CommentBean.class, new RewardAnswerHandler(this, true, true))
                 .buildMultiItemView(NoDataBean.class, new NoDataHandler())
                 .buildMultiItemView(LoadingBean.class, new LoadingHandler())
                 .buildMultiItemView(UserEntity.class, new LikePeopleHandler(this))
                 .buildMultiItemView(PeopleBean.class, new LikePeopleHandler(this));
 
-        mTopicsDetailListView.setAdapter(mAdapter);
+        mRewardDetailListView.setAdapter(mAdapter);
         mDataList.setAdapter(mAdapter);
         mDataList.add(new LoadingBean());
         mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
@@ -409,7 +408,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
         }
 
         mFloatingActionMenu.removeAllItems();
-        mFloatingActionMenu.addItem(MENU_COMMEND, R.string.comment, R.drawable.ic_coment);
+        mFloatingActionMenu.addItem(MENU_COMMEND, R.string.answer, R.drawable.ic_coment);
         if (mTopicsBean.like) {
             mFloatingActionMenu.addItem(MENU_LIKE, R.string.like, R.drawable.praised);
         } else {
@@ -461,6 +460,9 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
             case 30:
                 setTitle("研报正文");
                 break;
+            case 40:
+                setTitle("悬赏正文");
+                break;
             default:
                 break;
         }
@@ -511,7 +513,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void loadFinish(MoreDataBean object) {
 
         mSwipeLayout.setRefreshing(false);
-        mTopicsDetailListView.toggleFooter(false);
+        mRewardDetailListView.toggleFooter(false);
         if (mTopicsCommendEngine.getCurrentpage() == 1) {
             mDataList.clear();
             if (object.getResults().size() == 0) {
