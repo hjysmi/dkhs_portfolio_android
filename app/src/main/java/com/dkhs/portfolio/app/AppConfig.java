@@ -54,7 +54,7 @@ public final class AppConfig {
 
         if (isDebug) {
 //            LeakCanary.install((Application) context);
-            CrashHandler.getInstance(context);
+//            CrashHandler.getInstance(context);
 //            StatService.setDebugOn(true);
 //            ANRWatchDog anrWatchDog = new ANRWatchDog();
 //            anrWatchDog.start();
