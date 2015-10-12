@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:textSize="@dimen/reward_balance"
+            android:inputType="numberDecimal"
             android:textColor="@color/gray_textcolor"
             android:text="余额:200.00"/>
     </LinearLayout>

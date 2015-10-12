@@ -23,10 +23,14 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
+import com.dkhs.portfolio.bean.AccountInfoBean;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.DraftEngine;
+import com.dkhs.portfolio.engine.LocalDataEngine.WalletEngineImpl;
 import com.dkhs.portfolio.engine.UploadImageEngine;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.PostTopicService;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
@@ -95,6 +99,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     private static final String TAG = "PostTopicActivity";
     private int curType;
     private DraftBean mDraftBean;
+    private String available = "0.00";
 
 
     /**
@@ -126,7 +131,40 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         initViews();
         initEmoji();
         setupViewData();
+        getAccountInfo();
+    }
 
+    private void getAccountInfo(){
+        WalletEngineImpl.getWalletBalance(new ParseHttpListener<AccountInfoBean>() {
+
+            @Override
+            protected AccountInfoBean parseDateTask(String jsonData) {
+                if (TextUtils.isEmpty(jsonData)) {
+                    return null;
+                }
+                try {
+                    AccountInfoBean entity = DataParse.parseObjectJson(AccountInfoBean.class, jsonData);
+                    return entity;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void afterParseData(AccountInfoBean object) {
+                available = object.getAvailable();
+                balanceTv.setText(String.format(getString(R.string.balance),available));
+                amountEt.setHint(String.format(getString(R.string.reward_lower_limit), String.valueOf(minAmount)));
+                btnSend.setEnabled(true);
+                btnSend.setClickable(true);
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+            }
+        });
     }
 
     private void handleExtras(Bundle extras) {
@@ -206,6 +244,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 //        etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
         amountEt.setFilters(new InputFilter[]{lengthfilter});
+//        amountEt.addTextChangedListener(new RewardTextWatcher());
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
@@ -271,6 +310,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             ibImg.setVisibility(View.VISIBLE);
             etContent.setHint(R.string.reward_hint);
             llRewardInfo.setVisibility(View.VISIBLE);
+            amountEt.requestFocus();
         }
         if (null != mDraftBean) {
 
@@ -283,7 +323,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 mSelectPohotos.add(ADD_PICTURE);
             }
 
-            checkSendButtonEnable();
+//            checkSendButtonEnable();
             mPicAdapter.notifyDataSetChanged();
 
             uploadImageEngine = new UploadImageEngine(mDraftBean.getUploadMap());
@@ -312,10 +352,10 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     @Override
     public void delFinish() {
-        checkSendButtonEnable();
+//        checkSendButtonEnable();
     }
 
-    private boolean checkSendButtonEnable() {
+/*    private boolean checkSendButtonEnable() {
 
         boolean enAble =  !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
         btnSend.setEnabled(enAble);
@@ -324,7 +364,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         return enAble;
 
 
-    }
+    }*/
 
 
     private class MyTextWatcher implements TextWatcher {
@@ -341,8 +381,33 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
         @Override
         public void afterTextChanged(Editable editable) {
-            checkSendButtonEnable();
+//            checkSendButtonEnable();
         }
+    }
+
+    private class RewardTextWatcher implements TextWatcher {
+        private boolean isBeforeNull;
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            isBeforeNull = TextUtils.isEmpty(charSequence);
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if(TextUtils.isEmpty(editable.toString())){
+                return;
+            };
+            float amount = Float.valueOf(editable.toString());
+            if(amount > MAX_AMOUNT){
+                amountEt.setText(String.valueOf(MAX_AMOUNT));
+            }
+        }
+
     }
 
 
@@ -388,9 +453,12 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-
-                PostTopicService.startPost(this, buildDrafteBean());
-                finish();
+                String text = amountEt.getText().toString();
+                float amount = !TextUtils.isEmpty(text)?Float.valueOf(text):0;
+                if(checkRewardValid(etContent.getText().toString(),amount,Float.valueOf(available))){
+                    PostTopicService.startPost(this, buildDrafteBean());
+                    finish();
+                }
 
                 break;
             case BACKBUTTON_ID:
@@ -525,7 +593,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
             }
 
-            checkSendButtonEnable();
+//            checkSendButtonEnable();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -699,10 +767,10 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             }
         }
 
-        if (!checkSendButtonEnable()) {
-            finish();
-            return;
-        }
+//        if (!checkSendButtonEnable()) {
+//            finish();
+//            return;
+//        }
         MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.dialog_msg_save_draft)
@@ -799,4 +867,51 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             return null;
         }
     };
+
+    /**
+     *限制最大值
+     */
+    InputFilter limitfilter = new InputFilter() {
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
+            if ("".equals(source.toString()) || TextUtils.isEmpty(dest.toString())) {
+                return null;
+            }
+            String dValue = dest.toString();
+            float amount = Float.valueOf(dValue);
+            if(amount > MAX_AMOUNT){
+                return String.valueOf(MAX_AMOUNT);
+            }
+            return null;
+        }
+    };
+    /**
+     * 发布悬赏前进行检查
+     */
+    private boolean checkRewardValid(String content,float rewardAmount,float available){
+        if(rewardAmount < minAmount){
+            PromptManager.showToast("没有达到最小金额");
+            return false;
+        }
+        if(rewardAmount > MAX_AMOUNT){
+            PromptManager.showToast("不能超过"+MAX_AMOUNT);
+            return false;
+        }
+        if(rewardAmount > available){
+            PromptManager.showToast("余额不足");
+            showChargeDialog();
+            return false;
+        }
+        if(TextUtils.isEmpty(content)){
+            PromptManager.showToast("请输入悬赏内容");
+            return false;
+        }
+        return true;
+    }
+
+    private void showChargeDialog(){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage("余额不足，是否充值").setPositiveButton("充值",null).setNegativeButton("取消",null);
+        builder.show();
+    }
 }
