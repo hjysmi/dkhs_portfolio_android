@@ -126,5 +126,13 @@
     <dimen name="side_bar_text">13sp</dimen>
     <dimen name="def_item_pading">12dp</dimen>
 
+    <dimen name="reward_amount_title">15sp</dimen>
+    <dimen name="reward_amount">14sp</dimen>
+    <dimen name="reward_content">15sp</dimen>
+    <dimen name="reward_balance">12sp</dimen>
+    <dimen name="topic_content">15sp</dimen>
+    <dimen name="topic_handler_title">14sp</dimen>
+    <dimen name="topic_handler_content">14sp</dimen>
+
 
 </resources>

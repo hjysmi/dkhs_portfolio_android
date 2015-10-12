@@ -262,6 +262,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/ic_coment"
+                    android:drawablePadding="5dp"
                     android:gravity="center"
                     android:text="@string/comment"
                     android:textColor="@color/tag_gray"
@@ -291,6 +292,7 @@
                         android:id="@+id/iv_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingRight="5dp"
                         android:src="@drawable/praise" />
 
                     <TextSwitcher

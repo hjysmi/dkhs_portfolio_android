@@ -92,7 +92,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
             params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-            params.addQueryStringParameter("recommend_level", "1");
+            params.addQueryStringParameter("recommend_level", "");
             params.addQueryStringParameter("page_size", pageSize + "");
             return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getLatestTopic, params, this);
         }
@@ -117,7 +117,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             url = DKHSUrl.BBS.getLatestTopic;
             params.addQueryStringParameter("page", "1");
             params.addQueryStringParameter("pageSize", pageSize + "");
-            params.addQueryStringParameter("recommend_level", "1");
+            params.addQueryStringParameter("recommend_level", "");
         }
         DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, new ParseHttpListener<MoreDataBean>() {
             @Override

@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -31,7 +32,8 @@ public class StatusEngineImpl {
      * lat (float, optional, 发帖的经度坐标),
      * replied_status (field, optional, 当前话题要回复的话题)
      */
-    public static void postStatus(String title, String text, String replied_status, String retweeted_status, double lat, double lon, String media_ids, ParseHttpListener listener) {
+    public static void postStatus(String title, String text, String replied_status, String retweeted_status, double lat, double lon, String media_ids,int contentType,String rewardAmount, ParseHttpListener listener) {
+        Log.d("wys","11111");
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(title)) {
             params.addBodyParameter("title", title);
@@ -53,6 +55,12 @@ public class StatusEngineImpl {
         }
         if (!TextUtils.isEmpty(media_ids)) {
             params.addBodyParameter("media_ids", media_ids);
+        }
+        if(contentType != 0){
+            params.addBodyParameter("content_type", String.valueOf(contentType));
+        }
+        if(!TextUtils.isEmpty(rewardAmount)){
+            params.addBodyParameter("reward_amount", rewardAmount);
         }
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses, params, listener);
     }

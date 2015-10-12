@@ -513,6 +513,8 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
 
         <!-- alipay sdk end -->
+        <activity android:name=".ui.PostRewardActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.widget.RewardDetailActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

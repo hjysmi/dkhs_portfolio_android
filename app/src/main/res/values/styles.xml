@@ -463,7 +463,7 @@
         <item name="android:paddingLeft">2dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:background">@null</item>
-        <item name="android:textSize">@dimen/text_status_title</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:singleLine">true</item>
         <item name="android:layout_gravity">center</item>
@@ -587,6 +587,11 @@
     <style name="reward_unit_finish">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/gray_textcolor</item>
+    </style>
+
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/show_anim</item>
+        <item name="android:windowExitAnimation">@anim/dismiss_anim</item>
     </style>
 
     <style name="recharge_pay_layout">
