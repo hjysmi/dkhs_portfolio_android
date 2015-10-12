@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.base.widget.Button;
 import com.dkhs.portfolio.bean.PaymentBean;
 import com.dkhs.portfolio.engine.WalletsEngine;
@@ -136,10 +137,10 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
                 return;
             }
             float amout = Float.valueOf(amountText);
-//        if (amout < 1) {
-//            PromptManager.showToast("充值金额不能小于1元！");
-//            return;
-//        }
+            if (amout < 1 && !AppConfig.isDebug) {
+                PromptManager.showToast("充值金额不能小于1元！");
+                return;
+            }
 
             payType = getPayType();
             payment(amout);
