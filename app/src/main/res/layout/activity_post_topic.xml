@@ -14,7 +14,7 @@
         android:paddingLeft="@dimen/widget_padding_medium"
         android:paddingTop="@dimen/widget_padding_medium"
         android:singleLine="true"
-        android:textSize="@dimen/topic_content" />
+        android:textSize="@dimen/text_status_title" />
 
     <include
         android:id="@+id/ll_bottom"
