@@ -448,7 +448,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         ignoreTV.setText(mTopicsBean.text);
         switch (topicsBean.content_type) {
             case 0:
-                setTitle("话题详情");
+                setTitle("话题正文");
                 break;
             case 10:
                 setTitle("新闻正文");

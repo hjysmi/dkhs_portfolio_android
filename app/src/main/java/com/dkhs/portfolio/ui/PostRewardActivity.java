@@ -893,10 +893,10 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             PromptManager.showToast("没有达到最小金额");
             return false;
         }
-        if(rewardAmount > MAX_AMOUNT){
+/*        if(rewardAmount > MAX_AMOUNT){
             PromptManager.showToast("不能超过"+MAX_AMOUNT);
             return false;
-        }
+        }*/
         if(rewardAmount > available){
             showChargeDialog();
             return false;
