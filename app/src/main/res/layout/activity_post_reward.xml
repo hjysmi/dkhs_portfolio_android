@@ -26,7 +26,8 @@
             android:textSize="@dimen/reward_amount"
             android:textColor="@color/title_tab_def_color"
             android:singleLine="true"
-            android:hint="10元起"/>
+            android:inputType="numberDecimal"
+            android:hint="--"/>
         <TextView
             android:id="@+id/tv_balance"
             android:layout_width="0dp"
@@ -34,9 +35,8 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:textSize="@dimen/reward_balance"
-            android:inputType="numberDecimal"
             android:textColor="@color/gray_textcolor"
-            android:text="余额:200.00"/>
+            android:text="--"/>
     </LinearLayout>
 
     <include

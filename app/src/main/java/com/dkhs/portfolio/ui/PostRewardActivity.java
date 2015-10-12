@@ -898,7 +898,6 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             return false;
         }
         if(rewardAmount > available){
-            PromptManager.showToast("余额不足");
             showChargeDialog();
             return false;
         }
