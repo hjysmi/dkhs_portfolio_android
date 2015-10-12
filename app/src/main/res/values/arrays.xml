@@ -300,7 +300,7 @@
         <item>@drawable/ic_info_combina</item>
         <item>@drawable/ic_info_purse</item>
         <item>@drawable/ic_info_flowpack</item>
-        <item>@drawable/ic_info_reward</item>
+        <item>@drawable/ic_info_xuanshang</item>
         <item>@drawable/ic_info_reply</item>
         <item>@drawable/ic_info_draft</item>
     </integer-array>

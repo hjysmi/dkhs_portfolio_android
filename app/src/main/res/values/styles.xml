@@ -533,6 +533,7 @@
         <item name="android:padding">2dp</item>
         <item name="android:src">@drawable/ic_user_head</item>
     </style>
+
     <style name="theme_switch_style">
         <item name="colorControlActivated">@color/theme_blue</item>
         <item name="colorAccent">@color/theme_blue</item>
@@ -593,6 +594,23 @@
         <item name="android:windowExitAnimation">@anim/dismiss_anim</item>
     </style>
 
+    <style name="recharge_pay_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_white_selector</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">35dp</item>
+        <item name="android:paddingRight">35dp</item>
+        <item name="android:paddingTop">12dp</item>
+    </style>
+
+
+    <style name="recharge_pay_text" parent="text_18_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/widget_padding_medium</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 
 
 </resources>

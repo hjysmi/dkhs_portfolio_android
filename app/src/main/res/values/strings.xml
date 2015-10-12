@@ -686,6 +686,7 @@
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
     <string name="comment">评论</string>
+    <string name="reply">回复</string>
     <string name="answer">回答</string>
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
@@ -783,7 +784,7 @@
     <string name="title_activity_zwmtest">ZWMTestActivity</string>
     <!-- topic text format End -->
 
-    <!-- reward -->
+
     <string name="reward_on_going">悬赏中</string>
     <string name="reward_close">已关闭</string>
     <string name="reward_finish">已悬赏</string>
@@ -795,4 +796,5 @@
     <string name="reward_reply_hint">说两句吧...</string>
     <string name="balance">余额:%1$s</string>
     <string name="reward_lower_limit">%1$s元起</string>
+    <string name="title_recharge">充值</string>
 </resources>

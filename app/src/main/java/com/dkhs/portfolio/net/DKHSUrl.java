@@ -274,6 +274,17 @@ public class DKHSUrl {
         String hotPlate = "/api/v1/symbols/sectors/?sector_root_id=26";
     }
 
+
+    public interface Wallets {
+        //GET /api/v1/wallets/account/mine/
+        String myAccount = "/api/v1/wallets/account/mine/";
+
+        //POST 用户钱包充值
+        // amount (decimal, 充值金额),
+        //  vendor (string, 第三方支付渠道，weixinpay,微信／alipay,支付宝／yibao,易宝)
+        String payment = "/api/v1/wallets/recharge/payment/";
+    }
+
     // DKHSUrl.Portfolio.rankingList,
     public static String[] storeURLList = {DKHSUrl.Plate.hotPlate, DKHSUrl.Portfolio.portfolio,
             DKHSUrl.StockSymbol.optional, DKHSUrl.Portfolio.champion, DKHSUrl.StockSymbol.opitionmarket,
