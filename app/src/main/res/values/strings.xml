@@ -797,4 +797,5 @@
     <string name="balance">余额:%1$s</string>
     <string name="reward_lower_limit">%1$s元起</string>
     <string name="title_recharge">充值</string>
+    <string name="recharge_success">充值成功</string>
 </resources>

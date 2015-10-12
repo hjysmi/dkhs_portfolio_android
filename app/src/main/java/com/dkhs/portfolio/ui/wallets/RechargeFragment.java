@@ -58,6 +58,8 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     IThreePayCallback rechargeCallback = new IThreePayCallback() {
         @Override
         public void rechargeSuccess() {
+
+            PromptManager.showSuccessToast(R.string.recharge_success);
             getActivity().finish();
         }
 

@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.wallets;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
@@ -36,6 +37,8 @@ public class AlipayImpl implements IThreePay {
                 // 调用支付接口，获取支付结果
                 String result = alipay.pay(paymentBean.getAlipay_order_info());
 
+                LogUtils.d("payRunnable result:" + result);
+
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
                 msg.obj = result;
@@ -49,8 +52,9 @@ public class AlipayImpl implements IThreePay {
     }
 
 
-    private WeakHandler mHandler = new WeakHandler() {
-        public void handleMessage(Message msg) {
+    private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
                     AliPayResult payResult = new AliPayResult((String) msg.obj);
@@ -88,7 +92,10 @@ public class AlipayImpl implements IThreePay {
                 default:
                     break;
             }
+            return false;
         }
+    }
+    );
 
-    };
+
 }
