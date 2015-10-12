@@ -687,6 +687,7 @@
     <string name="history_management_of_the_fund">历史管理的基金</string>
     <string name="comment">评论</string>
     <string name="reply">回复</string>
+    <string name="answer">回答</string>
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
@@ -789,5 +790,11 @@
     <string name="reward_finish">已悬赏</string>
     <string name="info_title_reward">我的悬赏</string>
     <string name="no_reward">暂无悬赏</string>
+    <string name="reward_comment">回答%1$s</string>
+    <string name="post_reward">发表悬赏</string>
+    <string name="reward_hint">试着将问题尽可能清晰、详尽的描述出来，这样回答者们才能更完整、更高质量的为你解答</string>
+    <string name="reward_reply_hint">说两句吧...</string>
+    <string name="balance">余额:%1$s</string>
+    <string name="reward_lower_limit">%1$s元起</string>
     <string name="title_recharge">充值</string>
 </resources>

@@ -16,7 +16,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
-import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -125,7 +125,7 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         if (data.comments_count > 0) {
             vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
         } else {
-            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.reply));
+            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.answer));
         }
 
         if (data.compact) {
@@ -273,9 +273,10 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
                 if (UIUtils.iStartLoginActivity(mContext)) {
                     return;
                 }
-                UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT, likeBean.id + "", likeBean.user.getUsername()));
+                UIUtils.startAnimationActivity((Activity) mContext, PostRewardActivity.getIntent(mContext, PostRewardActivity.TYPE_COMMENT, likeBean.id + "", likeBean.user.getUsername()));
 
             } else {
+                //need fix
                 TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
             }
         }

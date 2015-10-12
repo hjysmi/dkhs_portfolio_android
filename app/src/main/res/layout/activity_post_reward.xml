@@ -4,17 +4,40 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <com.dkhs.portfolio.ui.widget.DKHSEditText
-        android:id="@+id/et_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/hint_topic_title"
-        android:paddingBottom="@dimen/widget_padding_medium"
-        android:paddingLeft="@dimen/widget_padding_medium"
-        android:paddingTop="@dimen/widget_padding_medium"
-        android:singleLine="true"
-        android:textSize="@dimen/topic_content" />
+
+    <LinearLayout android:id="@+id/ll_reward_info"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/reward_amount_title"
+            android:textColor="@color/black"
+            android:text="悬赏金额"/>
+        <com.dkhs.portfolio.ui.widget.DKHSEditText
+            android:id="@+id/et_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="@dimen/reward_amount"
+            android:textColor="@color/title_tab_def_color"
+            android:singleLine="true"
+            android:inputType="numberDecimal"
+            android:hint="--"/>
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textSize="@dimen/reward_balance"
+            android:textColor="@color/gray_textcolor"
+            android:text="--"/>
+    </LinearLayout>
 
     <include
         android:id="@+id/ll_bottom"
@@ -27,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_bottom"
-        android:layout_below="@id/et_title"
+        android:layout_below="@id/ll_reward_info"
         android:orientation="vertical">
 
         <View
@@ -51,14 +74,14 @@
                     android:background="@null"
                     android:fadingEdge="none"
                     android:gravity="top"
-                    android:hint="@string/hint_content"
+                    android:hint="@string/reward_hint"
                     android:imeOptions="actionSend|flagNoEnterAction"
                     android:lineSpacingExtra="3.0dip"
                     android:minHeight="100dp"
                     android:paddingBottom="@dimen/widget_padding_medium"
                     android:paddingLeft="@dimen/widget_padding_medium"
                     android:paddingTop="@dimen/widget_padding_normal"
-                    android:textSize="@dimen/topic_content">
+                    android:textSize="@dimen/reward_content">
 
                     <requestFocus />
                 </com.dkhs.portfolio.ui.widget.DKHSEditText>

@@ -321,4 +321,11 @@ public class DKHSUrl {
         String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
     }
 
+    public interface Wallet{
+        /**
+         * 查询余额信息
+         */
+        String account_info = "/api/v1/wallets/account/mine/";
+    }
+
 }
