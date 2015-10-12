@@ -62,7 +62,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void rechargeFail() {
-
+            PromptManager.showToast("充值失败!");
         }
     };
 
