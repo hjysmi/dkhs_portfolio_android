@@ -788,7 +788,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 return null;
             }
             String dValue = dest.toString();
-            String[] splitArray = dValue.split("//.");
+            String[] splitArray = dValue.split("\\.");
             if (splitArray.length > 1) {
                 String dotValue = splitArray[1];
                 int diff = dotValue.length() + 1 - DECIMAL_DIGITS;
