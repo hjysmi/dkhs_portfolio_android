@@ -272,9 +272,6 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <include
-        layout="@layout/layout_adopt_reply"
-            />
     <LinearLayout
         style="@style/white_grayborder_layout"
         android:layout_width="fill_parent"

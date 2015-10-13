@@ -29,7 +29,6 @@ import com.dkhs.portfolio.bean.itemhandler.RewardAnswerHandler;
 import com.dkhs.portfolio.bean.itemhandler.RewardDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
-import com.dkhs.portfolio.bean.itemhandler.combinationdetail.RewardAdoptedHandler;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -89,13 +88,11 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     private RewardDetailScrollView mRewardDetailScrollView;
     @ViewInject(R.id.rootView)
     private RelativeLayout mRootView;
-    @ViewInject(R.id.adopt_reply_rl)
-    private RelativeLayout mAdoptRl;
+/*    @ViewInject(R.id.adopt_reply_rl)
+    private RelativeLayout mAdoptRl;*/
     TopicsCommendEngineImpl.SortType mSortType;
     RewardAnswerHandler mHandler;
-    RewardAdoptedHandler mAdoptHandler = new RewardAdoptedHandler(this);
 
-    private boolean mShowAdopt;
 
     private RewardDetailHandler mRewardDetailHandler = new RewardDetailHandler(this);
 
