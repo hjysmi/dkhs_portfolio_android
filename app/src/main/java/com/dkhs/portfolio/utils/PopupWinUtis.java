@@ -16,14 +16,12 @@ import com.dkhs.portfolio.R;
  * Created by wuyongsen on 2015/10/9.
  */
 public class PopupWinUtis {
-    private static PopupWindow pw;
     private PopupWinUtis(){
 
     }
     public static PopupWindow getPopupWindow(Context context,String[] items,AdapterView.OnItemClickListener itemClickListener){
-        if(pw == null){
             View view = View.inflate(context, R.layout.layout_popupwin, null);
-            pw = new PopupWindow(view,
+            final PopupWindow pw = new PopupWindow(view,
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
             view.findViewById(R.id.im_bg).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -38,7 +36,8 @@ public class PopupWinUtis {
             pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             pw.setOutsideTouchable(true);
             pw.setAnimationStyle(R.style.popwin_anim_style);
-        }
         return pw;
     }
+
+
 }

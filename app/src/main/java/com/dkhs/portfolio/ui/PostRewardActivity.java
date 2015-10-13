@@ -455,7 +455,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             case RIGHTBUTTON_ID:
                 String text = amountEt.getText().toString();
                 float amount = !TextUtils.isEmpty(text)?Float.valueOf(text):0;
-                if(checkRewardValid(etContent.getText().toString(),amount,Float.valueOf(available))){
+                if(curType != TYPE_POST || checkRewardValid(etContent.getText().toString(),amount,Float.valueOf(available))){
                     PostTopicService.startPost(this, buildDrafteBean());
                     finish();
                 }

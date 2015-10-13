@@ -3,6 +3,7 @@ package com.dkhs.portfolio.bean.itemhandler;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
@@ -17,9 +18,11 @@ import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.listener.CommentItemClick;
+import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -42,9 +45,11 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
     private boolean mCompact = false;
 
     private Context mContext;
+    private long mRewardUserId;
+    private int mRewardState;
 
     public RewardAnswerHandler(Context context, boolean avatarImResponse) {
-        this(context, avatarImResponse, false);
+        this(context, avatarImResponse, false,0,0);
     }
 
 
@@ -52,10 +57,16 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         this(context, true);
     }
 
-    public RewardAnswerHandler(Context context, boolean avatarImResponse, boolean compact) {
+    public RewardAnswerHandler(Context context, boolean avatarImResponse, boolean compact,long userId,int rewardState) {
         mAvatarImResponse = avatarImResponse;
         mCompact = compact;
         mContext = context;
+        mRewardUserId = userId;
+        mRewardState = rewardState;
+    }
+
+    public void setRewardState(int state){
+        mRewardState = state;
     }
 
     public RewardAnswerHandler setReplyComment(boolean isReplyComment) {
@@ -71,6 +82,14 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
     @Override
     public void onBindView(ViewHolder vh, final LikeBean comment, int position) {
         super.onBindView(vh, comment, position);
+        long replyUserId = comment.getUser().getId();
+        if(isShowAdopt(mRewardUserId,replyUserId,mRewardState)){
+            vh.getTextView(R.id.tv_adopt).setVisibility(View.VISIBLE);
+            vh.get(R.id.view_divider).setVisibility(View.VISIBLE);
+        }else{
+            vh.getTextView(R.id.tv_adopt).setVisibility(View.GONE);
+            vh.get(R.id.view_divider).setVisibility(View.GONE);
+        }
         PeopleBean user = comment.user;
         if(comment instanceof CommentBean){
             CommentBean cb = (CommentBean)comment;
@@ -121,11 +140,11 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentItemClick mCommentClick;
+                RewardReplyItemClick mCommentClick;
                 if (null != GlobalParams.LOGIN_USER) {
-                    mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
+                    mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
                 } else {
-                    mCommentClick = new CommentItemClick("", v.getContext());
+                    mCommentClick = new RewardReplyItemClick("", v.getContext());
                 }
                 if (isReplyComment) {
                     mCommentClick.clickFromMyReply(comment);
@@ -143,6 +162,12 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
         }
 
+        vh.getTextView(R.id.tv_adopt).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showAdoptDialog();
+            }
+        });
 
     }
 
@@ -266,4 +291,24 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
             PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }
     }
+
+    private boolean isShowAdopt(long rewardUserId,long replyUserId,int rewardState){
+        if(rewardUserId == replyUserId){
+            return false;
+        }
+        Log.d("wys","state"+rewardState);
+        if(rewardState != 0 ){
+            return false;
+        }
+        if(GlobalParams.LOGIN_USER == null ||rewardUserId != GlobalParams.LOGIN_USER.getId()){
+            return false;
+        }
+        return true;
+    }
+    private void showAdoptDialog() {
+        MAlertDialog builder = PromptManager.getAlertDialog(mContext);
+        builder.setMessage(mContext.getString(R.string.msg_adopt_reply)).setPositiveButton("确定",null).setNegativeButton("取消",null);
+        builder.show();
+    }
+
 }

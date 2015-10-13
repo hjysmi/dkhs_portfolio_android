@@ -112,7 +112,7 @@
                 android:paddingRight="16dp"
                 android:textColor="@color/text_content_color"
                 android:textIsSelectable="true"
-                android:textSize="@dimen/text_status_content" />
+                android:textSize="@dimen/text_status_title" />
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
@@ -290,7 +290,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/comment"
+            android:text="@string/answer"
             android:textColor="@color/black" />
 
         <TextView

@@ -149,4 +149,10 @@ public class StatusEngineImpl {
 //        params.addBodyParameter("pk", status);
         DKHSClient.request(HttpRequest.HttpMethod.DELETE, DKHSUrl.Status.statuses + status + "/", null, listener);
     }
+
+    public static void closeReward(String status, ParseHttpListener listener) {
+//        RequestParams params = new RequestParams();
+//        params.addBodyParameter("pk", status);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses + status + "/close_reward/", null, listener);
+    }
 }

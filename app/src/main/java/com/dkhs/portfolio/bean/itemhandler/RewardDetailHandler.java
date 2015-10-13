@@ -35,7 +35,9 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.mingle.bean.PhotoBean;
@@ -105,7 +107,7 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
         }
         topicsImageViewHandler.handleMedias(vh, data, true);
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
-        vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
+        vh.setTextView(R.id.comment, mContext.getString(R.string.answer) + " " + data.comments_count);
 
         if (data.state == -1) {
             vh.setTextView(R.id.tv_empty, mContext.getString(R.string.topics_already_delete));
@@ -153,7 +155,7 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
 
 
         if (spinner.getAdapter() == null) {
-            spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.topics_commend_sort)));
+            spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.rewards_reply_sort)));
             spinner.setOnItemSelectedListener(this);
         }
 
@@ -259,7 +261,10 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
         moneyIv.setImageResource(leftDrawable);
         amountTv.setText(data.reward_amount);
 
+
     }
+
+
 
     private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {
 
