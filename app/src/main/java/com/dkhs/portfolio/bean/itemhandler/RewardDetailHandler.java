@@ -23,6 +23,7 @@ import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -35,9 +36,7 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.mingle.bean.PhotoBean;
@@ -60,6 +59,7 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
 
     private Context mContext;
     private TopicsCommendEngineImpl.SortType mSortType;
+    private CommentBean mCommentBean;
 
     public RewardDetailHandler(Context context) {
         mContext = context;
@@ -68,6 +68,10 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
     @Override
     public int getLayoutResId() {
         return R.layout.layout_reward_detail;
+    }
+
+    public void setCommentBean(CommentBean commentBean){
+        mCommentBean = commentBean;
     }
 
 
@@ -260,6 +264,7 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
         amountUnit.setTextAppearance(mContext, unitStyle);
         moneyIv.setImageResource(leftDrawable);
         amountTv.setText(data.reward_amount);
+
 
 
     }

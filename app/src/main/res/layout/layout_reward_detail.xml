@@ -272,7 +272,9 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-
+    <include
+        layout="@layout/layout_adopt_reply"
+            />
     <LinearLayout
         style="@style/white_grayborder_layout"
         android:layout_width="fill_parent"
@@ -329,5 +331,6 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/ic_triangle"
         android:layout_height="8dp"/>
+
 
 </RelativeLayout>

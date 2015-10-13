@@ -6,6 +6,8 @@
 
     <include
         layout="@layout/layout_reward_detail"/>
+    <include
+        layout="@layout/layout_adopt_reply"/>
 
     <com.dkhs.portfolio.ui.widget.RewardDetailListView
         android:id="@+id/lv"

@@ -155,4 +155,19 @@ public class StatusEngineImpl {
 //        params.addBodyParameter("pk", status);
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses + status + "/close_reward/", null, listener);
     }
+
+    public static void adoptReply(String status,ParseHttpListener listener){
+        Log.d("wys",""+status);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses + status + "/reward/", null, listener);
+    }
+
+    public static void getAdoptedReply(String status,ParseHttpListener listener){
+        Log.d("wys",status+"");
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("sort", "latest");
+        params.addQueryStringParameter("page_size", 10 + "");
+        params.addQueryStringParameter("rewarded","1");
+        DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getCommend, status), params, listener);
+    }
 }

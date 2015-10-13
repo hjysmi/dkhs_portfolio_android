@@ -2,8 +2,8 @@ package com.dkhs.portfolio.bean.itemhandler;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
@@ -16,6 +16,8 @@ import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
@@ -165,7 +167,7 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         vh.getTextView(R.id.tv_adopt).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                showAdoptDialog();
+                showAdoptDialog(comment);
             }
         });
 
@@ -296,7 +298,6 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         if(rewardUserId == replyUserId){
             return false;
         }
-        Log.d("wys","state"+rewardState);
         if(rewardState != 0 ){
             return false;
         }
@@ -305,9 +306,27 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         }
         return true;
     }
-    private void showAdoptDialog() {
+    private void showAdoptDialog(LikeBean comment) {
         MAlertDialog builder = PromptManager.getAlertDialog(mContext);
-        builder.setMessage(mContext.getString(R.string.msg_adopt_reply)).setPositiveButton("确定",null).setNegativeButton("取消",null);
+        final int commentId =  comment.getId();
+        builder.setMessage(mContext.getString(R.string.msg_adopt_reply)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StatusEngineImpl.adoptReply(String.valueOf(commentId), new ParseHttpListener() {
+
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Object object) {
+                        //TODO:提示界面更新
+                    }
+                });
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消",null);
         builder.show();
     }
 

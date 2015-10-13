@@ -29,6 +29,7 @@ import com.dkhs.portfolio.bean.itemhandler.RewardAnswerHandler;
 import com.dkhs.portfolio.bean.itemhandler.RewardDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.RewardAdoptedHandler;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -88,8 +89,11 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     private RewardDetailScrollView mRewardDetailScrollView;
     @ViewInject(R.id.rootView)
     private RelativeLayout mRootView;
+    @ViewInject(R.id.adopt_reply_rl)
+    private RelativeLayout mAdoptRl;
     TopicsCommendEngineImpl.SortType mSortType;
     RewardAnswerHandler mHandler;
+    RewardAdoptedHandler mAdoptHandler = new RewardAdoptedHandler(this);
 
     private boolean mShowAdopt;
 
@@ -145,6 +149,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
             initData();
             setTopicsDetail();
+            setRewardAdopted();
             ignoreTV.setText(mTopicsBean.text);
             mSwitchLikeStateHandler = new SwitchLikeStateHandler(mTopicsBean);
             mSwitchLikeStateHandler.setStatusChangeI(this);
@@ -159,6 +164,35 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
+    }
+
+    private void setRewardAdopted(){
+        if(mTopicsBean.reward_state == 2){
+            StatusEngineImpl.getAdoptedReply(String.valueOf(mTopicsBean.getId()),new SimpleParseHttpListener() {
+                @Override
+                public Class getClassType() {
+                    return CommentBean.class;
+                }
+
+                @Override
+                protected void afterParseData(Object object) {
+//                    mAdoptRl.setVisibility(View.VISIBLE);
+                    CommentBean comment = (CommentBean)object;
+//                    mAdoptHandler.onBindView(ViewHolder.newInstant(mAdoptRl),comment,0);
+//                    setTopicsDetail();
+                }
+
+                @Override
+                protected Object parseDateTask(String jsonData) {
+                    return super.parseDateTask(jsonData);
+                }
+
+                @Override
+                public void onFailure(int errCode, String errMsg) {
+                    super.onFailure(errCode, errMsg);
+                }
+            });
+        }
     }
 
     @Subscribe
@@ -230,7 +264,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
-            mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
+            mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "",mTopicsBean.reward_state == 2?"0":"");
         }
         return mTopicsCommendEngine;
     }
