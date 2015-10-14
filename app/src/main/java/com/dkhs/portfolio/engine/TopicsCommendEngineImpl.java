@@ -39,6 +39,7 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
 
     private String topicsId;
     private String sort;
+    private String mRewarded;
 
 
     public enum SortType {
@@ -54,6 +55,10 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
         }
     }
 
+    public TopicsCommendEngineImpl(ILoadDataBackListener loadListener, String topicsId,String rewarded) {
+        this(loadListener,topicsId);
+        mRewarded = rewarded;
+    }
 
     public TopicsCommendEngineImpl(ILoadDataBackListener loadListener, String topicsId) {
         super(loadListener);
@@ -75,11 +80,14 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
 
         RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
-
+        if(!TextUtils.isEmpty(mRewarded)){
+            params.addQueryStringParameter("rewarded",mRewarded);
+        }
         if (sort.equals(SortType.like.getValues())) {
 
             params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
             params.addQueryStringParameter("page_size", pageSize + "");
+            params.addQueryStringParameter("sort", sort);
             return DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getLikes, topicsId), params, this);
         } else {
             params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
@@ -93,14 +101,20 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
     public HttpHandler loadData() {
 
         if (sort != null) {
-
             if (sort.equals(SortType.like.getValues())) {
                 RequestParams params = new RequestParams();
+                if(!TextUtils.isEmpty(mRewarded)){
+                    params.addQueryStringParameter("rewarded",mRewarded);
+                }
                 params.addQueryStringParameter("page", "1");
                 params.addQueryStringParameter("page_size", pageSize + "");
+                params.addQueryStringParameter("sort", sort);
                 return DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getLikes, topicsId), params, this);
             } else {
                 RequestParams params = new RequestParams();
+                if(!TextUtils.isEmpty(mRewarded)){
+                    params.addQueryStringParameter("rewarded",mRewarded);
+                }
                 params.addQueryStringParameter("page", "1");
                 params.addQueryStringParameter("pageSize", pageSize + "");
                 params.addQueryStringParameter("sort", sort);
