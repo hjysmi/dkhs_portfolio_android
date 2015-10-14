@@ -23,7 +23,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
-import com.dkhs.portfolio.bean.AccountInfoBean;
+import com.dkhs.portfolio.bean.RewardInfoBean;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.DraftEngine;
@@ -137,15 +137,15 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     }
 
     private void getAccountInfo(){
-        WalletEngineImpl.getWalletBalance(new ParseHttpListener<AccountInfoBean>() {
+        WalletEngineImpl.getWalletBalance(new ParseHttpListener<RewardInfoBean>() {
 
             @Override
-            protected AccountInfoBean parseDateTask(String jsonData) {
+            protected RewardInfoBean parseDateTask(String jsonData) {
                 if (TextUtils.isEmpty(jsonData)) {
                     return null;
                 }
                 try {
-                    AccountInfoBean entity = DataParse.parseObjectJson(AccountInfoBean.class, jsonData);
+                    RewardInfoBean entity = DataParse.parseObjectJson(RewardInfoBean.class, jsonData);
                     return entity;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -154,9 +154,11 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             }
 
             @Override
-            protected void afterParseData(AccountInfoBean object) {
+            protected void afterParseData(RewardInfoBean object) {
                 available = object.getAvailable();
                 balanceTv.setText(String.format(getString(R.string.balance),available));
+
+                minAmount = object.getMin_reward();
                 amountEt.setHint(String.format(getString(R.string.reward_lower_limit), String.valueOf(minAmount)));
                 btnSend.setClickable(true);
                 btnSend.setEnabled(true);
@@ -891,13 +893,9 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
      */
     private boolean checkRewardValid(String content,float rewardAmount,float available){
         if(rewardAmount < minAmount){
-            PromptManager.showToast("没有达到最小金额");
+            PromptManager.showToast(String.format(getString(R.string.reward_too_low),minAmount));
             return false;
         }
-/*        if(rewardAmount > MAX_AMOUNT){
-            PromptManager.showToast("不能超过"+MAX_AMOUNT);
-            return false;
-        }*/
         if(rewardAmount > available){
             showChargeDialog();
             return false;
