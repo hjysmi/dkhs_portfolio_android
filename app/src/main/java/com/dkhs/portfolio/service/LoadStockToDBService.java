@@ -16,7 +16,7 @@ import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 
 /**
  * @ClassName LoadStockToDBService
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 本地股票数据更新服务
  * @author zjz
  * @date 2014-9-17 下午1:43:22
  * @version 1.0

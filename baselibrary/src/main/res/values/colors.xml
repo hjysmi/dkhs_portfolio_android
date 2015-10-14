@@ -30,6 +30,7 @@
     <color name="white">#ffffffff</color>
     <color name="white_60">#99ffffff</color>
     <color name="white_10">#1affffff</color>
+    <color name="nav_right_text">#787878</color>
 
     <color name="gray">#ff444444</color>
     <color name="alpha_gray">#66262932</color>

@@ -24,7 +24,7 @@
                 android:drawableLeft="@drawable/ic_info"
                 android:paddingLeft="10dp"
                 android:paddingRight="15dp"
-                android:textColor="@color/white_textselector" />
+                android:textColor="@color/nav_right_text" />
 
 
             <include

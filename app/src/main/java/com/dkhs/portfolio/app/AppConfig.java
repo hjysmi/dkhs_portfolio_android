@@ -21,6 +21,13 @@ import java.io.IOException;
 
 /**
  * Created by zjz on 2015/5/27.
+ * App配置相关类
+ * 包含了：
+ * １.数据库是否更新
+ * ２.设置友萌统计的平台名称
+ * 3.图片下载工具类的初始化
+ * 4.启动定时更新数据库的服务类
+ * 5.消息中心模块的初始化
  */
 public final class AppConfig {
 
@@ -54,7 +61,7 @@ public final class AppConfig {
 
         if (isDebug) {
 //            LeakCanary.install((Application) context);
-            CrashHandler.getInstance(context);
+//            CrashHandler.getInstance(context);
 //            StatService.setDebugOn(true);
 //            ANRWatchDog anrWatchDog = new ANRWatchDog();
 //            anrWatchDog.start();
