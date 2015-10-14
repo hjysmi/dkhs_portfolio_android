@@ -97,9 +97,7 @@ public class PostTopicService extends IntentService {
 
                 wakeLock.acquire();
                 try {
-                    Log.d("wys","createNotification");
                     createNotification();
-                    Log.d("wys","postTopic");
                     postTopic(statusBean);
                 } catch (Exception exception) {
                     updateNotificationError(statusBean);

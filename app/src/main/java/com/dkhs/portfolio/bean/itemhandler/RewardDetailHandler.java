@@ -129,10 +129,9 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
          (30, '研报'),
          )
          */
-        if (data.content_type != 0) {
+        if (data.content_type != 40) {
             setRelatedSymbols(vh.getTextView(R.id.relatedSymbolsTV), data.symbols);
             vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at) + getFromOrigin(data.source));
-
             switch (data.content_type) {
                 case 10:
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);

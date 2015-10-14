@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -227,7 +226,6 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
                 onFragmentInteraction(mTopicsBean);
-                Log.d("wys","comment data"+mTopicsBean.comments_count);
                 setTopicsDetail();
                 if (mScrollToComment) {
 

@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -156,12 +155,10 @@ public class StatusEngineImpl {
     }
 
     public static void adoptReply(String status,ParseHttpListener listener){
-        Log.d("wys",""+status);
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses + status + "/reward/", null, listener);
     }
 
     public static void getAdoptedReply(String status,ParseHttpListener listener){
-        Log.d("wys",status+"");
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("sort", "latest");
