@@ -41,7 +41,8 @@ import io.rong.imlib.model.Message;
  * @author zjz
  * @version 2.0
  * @ClassName NewMainActivity
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 主界面
+ * 对主界面碎片化管理，延迟加载没点击的界面
  * @date 2015-2-5 上午10:26:35
  */
 public class MainActivity extends BaseActivity {

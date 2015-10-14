@@ -24,7 +24,19 @@ import com.umeng.analytics.MobclickAgent;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-
+/**
+ * @author zjz
+ * @version 1.0
+ * @ClassName ModelAcitivity
+ * @Description 模板Activity类，实现以下功能
+ * 1.带统一风格的标题栏
+ * 2.实现点击空白区别，隐藏软键盘
+ * 3.在左边100像素范围侧滑后台
+ * 4.进入和退出页面的动画风格
+ * 5.对Activity的出栈入栈管理
+ * 6.添加了友盟/百度统计
+ * @date 2015-4-23 下午2:59:54
+ */
 public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
