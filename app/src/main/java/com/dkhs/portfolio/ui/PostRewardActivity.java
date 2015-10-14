@@ -893,13 +893,9 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
      */
     private boolean checkRewardValid(String content,float rewardAmount,float available){
         if(rewardAmount < minAmount){
-            PromptManager.showToast("没有达到最小金额");
+            PromptManager.showToast(String.format(getString(R.string.reward_too_low),minAmount));
             return false;
         }
-/*        if(rewardAmount > MAX_AMOUNT){
-            PromptManager.showToast("不能超过"+MAX_AMOUNT);
-            return false;
-        }*/
         if(rewardAmount > available){
             showChargeDialog();
             return false;
