@@ -131,7 +131,9 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         initViews();
         initEmoji();
         setupViewData();
-        getAccountInfo();
+        if(curType == TYPE_POST){
+            getAccountInfo();
+        }
     }
 
     private void getAccountInfo(){
@@ -156,8 +158,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 available = object.getAvailable();
                 balanceTv.setText(String.format(getString(R.string.balance),available));
                 amountEt.setHint(String.format(getString(R.string.reward_lower_limit), String.valueOf(minAmount)));
-                btnSend.setEnabled(true);
                 btnSend.setClickable(true);
+                btnSend.setEnabled(true);
             }
 
             @Override
@@ -241,7 +243,6 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         curEt = etContent;
         etContent.requestFocus();
         MyTextWatcher watcher = new MyTextWatcher();
-//        etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
         amountEt.setFilters(new InputFilter[]{lengthfilter});
 //        amountEt.addTextChangedListener(new RewardTextWatcher());
@@ -323,7 +324,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 mSelectPohotos.add(ADD_PICTURE);
             }
 
-//            checkSendButtonEnable();
+            checkSendButtonEnable();
             mPicAdapter.notifyDataSetChanged();
 
             uploadImageEngine = new UploadImageEngine(mDraftBean.getUploadMap());
@@ -352,19 +353,19 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     @Override
     public void delFinish() {
-//        checkSendButtonEnable();
+        checkSendButtonEnable();
     }
 
-/*    private boolean checkSendButtonEnable() {
+    private boolean checkSendButtonEnable() {
 
-        boolean enAble =  !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
+        boolean enAble =  !TextUtils.isEmpty(amountEt.getText()) || !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
         btnSend.setEnabled(enAble);
         btnSend.setClickable(enAble);
 
         return enAble;
 
 
-    }*/
+    }
 
 
     private class MyTextWatcher implements TextWatcher {
@@ -381,7 +382,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
         @Override
         public void afterTextChanged(Editable editable) {
-//            checkSendButtonEnable();
+            checkSendButtonEnable();
         }
     }
 
@@ -455,7 +456,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             case RIGHTBUTTON_ID:
                 String text = amountEt.getText().toString();
                 float amount = !TextUtils.isEmpty(text)?Float.valueOf(text):0;
-                if(checkRewardValid(etContent.getText().toString(),amount,Float.valueOf(available))){
+                if(curType != TYPE_POST || checkRewardValid(etContent.getText().toString(),amount,Float.valueOf(available))){
                     PostTopicService.startPost(this, buildDrafteBean());
                     finish();
                 }
@@ -593,7 +594,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
             }
 
-//            checkSendButtonEnable();
+            checkSendButtonEnable();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -767,10 +768,10 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
             }
         }
 
-//        if (!checkSendButtonEnable()) {
-//            finish();
-//            return;
-//        }
+        if (!checkSendButtonEnable()&&TextUtils.isEmpty(amountEt.getText())) {
+            finish();
+            return;
+        }
         MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.dialog_msg_save_draft)

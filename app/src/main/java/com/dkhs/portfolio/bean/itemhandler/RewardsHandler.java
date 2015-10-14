@@ -17,8 +17,8 @@ import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostRewardActivity;
-import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.widget.RewardDetailActivity;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -277,7 +277,7 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
 
             } else {
                 //need fix
-                TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
+                RewardDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
             }
         }
     }
@@ -342,7 +342,7 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
 
         @Override
         public void onClick(View v) {
-            TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
+            RewardDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
         }
 
 

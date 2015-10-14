@@ -284,6 +284,12 @@
         <item>最热评论</item>
         <item>最早评论</item>
     </string-array>
+    <string-array name="rewards_reply_sort">
+        <item>最新回答</item>
+        <item>最热回答</item>
+        <item>最早回答</item>
+    </string-array>
+
 
 
     <string-array name="user_info_title">
@@ -345,5 +351,16 @@
         <item>复制</item>
         <item>删除</item>
         <item>取消</item>
+    </string-array>
+
+    <string-array name="choices_reward_minereply">
+        <item>@string/reply</item>
+        <item>@string/copy_content</item>
+    </string-array>
+
+    <string-array name="choices_reward_othereply">
+        <item>@string/reply</item>
+        <item>@string/copy_content</item>
+        <item>@string/title_status_report</item>
     </string-array>
 </resources>

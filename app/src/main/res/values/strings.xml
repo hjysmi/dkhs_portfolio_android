@@ -798,4 +798,6 @@
     <string name="reward_lower_limit">%1$s元起</string>
     <string name="title_recharge">充值</string>
     <string name="recharge_success">充值成功</string>
+    <string name="msg_adopt_reply">确定采纳TA为最佳回答，并支付赏金？</string>
+    <string name="msg_close_reward">确定无满意答案并关闭该悬赏？</string>
 </resources>

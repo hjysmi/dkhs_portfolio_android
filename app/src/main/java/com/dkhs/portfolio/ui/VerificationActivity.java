@@ -26,7 +26,6 @@ import com.dkhs.portfolio.receiver.SMSBroadcastReceiver;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +43,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private String mVerifyCode;
     private Button rlfbutton;
     private EditText etVerifucode;
-    private Button btn_get_code;
+    private TextView btn_get_code;
     private Context context;
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
@@ -92,7 +91,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         TextView tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
         tvPhoneNum.setText(phoneNum);
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
-        btn_get_code = (Button) findViewById(R.id.btn_getCode);
+        btn_get_code = (TextView) findViewById(R.id.btn_getCode);
         btn_get_code.setOnClickListener(this);
         // 生成广播处理
         mSMSBroadcastReceiver = new SMSBroadcastReceiver();
@@ -280,17 +279,17 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 case GET_CODE_ABLE:
                     btn_get_code.setText(R.string.get_code);
                     btn_get_code.setEnabled(true);
-                    btn_get_code.setBackgroundResource(R.drawable.btn_blue_selector);
-                    btn_get_code.setTextColor(ColorTemplate.getTextColor(R.color.btn_blue_textselector));
+//                    btn_get_code.setBackgroundResource(R.drawable.btn_blue_selector);
+                    btn_get_code.setTextColor(ColorTemplate.getTextColor(R.color.theme_blue));
 
                     count = 0;
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
-                    btn_get_code.setText((60 - count) + "秒后重新获取验证码");
+                    btn_get_code.setText("重新发送("+(60 - count)+")" );
                     btn_get_code.setEnabled(false);
-                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
-                    btn_get_code.setTextColor(getResources().getColor(R.color.white));
+//                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
+                    btn_get_code.setTextColor(getResources().getColor(R.color.theme_gray));
 
                     break;
                 case GET_PHONE_NUMBER:
