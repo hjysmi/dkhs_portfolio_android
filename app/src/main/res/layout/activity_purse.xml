@@ -17,17 +17,17 @@
             android:id="@+id/tv_balance_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
+            android:textSize="13sp"
             android:textColor="@color/gray_textcolor"
-            android:text="现金余额(元)"/>
+            android:text="@string/balance_hint"/>
         <TextView
             android:id="@+id/tv_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40sp"
+            android:textSize="42sp"
             android:textColor="@color/theme_blue"
             android:includeFontPadding="false"
-            android:text="25000.00"/>
+            android:text="--"/>
     </LinearLayout>
 
     <LinearLayout
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:gravity="center"
             style="@style/btn_change_balance"
-            android:text="充值"/>
+            android:text="@string/charge"/>
         <View android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/activity_bg_color"/>
@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:gravity="center"
             style="@style/btn_change_balance"
-            android:text="提现"/>
+            android:text="@string/withdraw"/>
     </LinearLayout>
 
 

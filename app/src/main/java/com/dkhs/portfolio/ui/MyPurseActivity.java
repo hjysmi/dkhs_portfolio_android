@@ -7,13 +7,17 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LocalDataEngine.WalletExchangeEngineImpl;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.mingle.autolist.AutoList;
 
 /**
  * 主贴详情
@@ -31,6 +35,10 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
     @ViewInject(R.id.btn_balance_out)
     private TextView mBalanceOutTv;
 
+    private WalletExchangeEngineImpl mWalletEngineImpl;
+    private AutoList<Object> mDataList = new AutoList<>().applyAction(CommentBean.class);
+    private DKBaseAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         setContentView(R.layout.activity_purse);
         setTitle(R.string.info_title_purse);
         ViewUtils.inject(this);
+        initData();
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -48,18 +57,27 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
     }
 
+    private void initData(){
+        mAdapter = new DKBaseAdapter(this,mDataList) ;
+        mRecordListView.setAdapter(mAdapter);
+    }
     private void loadData() {
         mSwipeLayout.setRefreshing(true);
         getLoadEngine().loadData();
     }
 
     private LoadMoreDataEngine getLoadEngine() {
-        return null;
+        if(mWalletEngineImpl == null){
+            mWalletEngineImpl = new WalletExchangeEngineImpl(this);
+        }
+        return mWalletEngineImpl;
     }
 
     @Override
     public void loadFinish(MoreDataBean object) {
         mSwipeLayout.setRefreshing(false);
+        mDataList.addAll(object.getResults());
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

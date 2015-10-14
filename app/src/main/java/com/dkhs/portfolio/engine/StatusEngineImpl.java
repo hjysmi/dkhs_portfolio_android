@@ -33,7 +33,6 @@ public class StatusEngineImpl {
      * replied_status (field, optional, 当前话题要回复的话题)
      */
     public static void postStatus(String title, String text, String replied_status, String retweeted_status, double lat, double lon, String media_ids,int contentType,String rewardAmount, ParseHttpListener listener) {
-        Log.d("wys","11111");
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(title)) {
             params.addBodyParameter("title", title);

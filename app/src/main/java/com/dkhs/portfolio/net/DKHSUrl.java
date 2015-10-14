@@ -327,6 +327,8 @@ public class DKHSUrl {
          * 查询余额信息
          */
         String account_info = "/api/v1/wallets/account/mine/";
+        String wallet_exchange = "/api/v1/wallets/account/changes/";
+        String rewards_balance = "/api/v1/statuses/rewards/balance/";
     }
 
 }

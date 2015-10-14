@@ -12,6 +12,6 @@ import com.lidroid.xutils.http.client.HttpRequest;
 public class WalletEngineImpl {
     public static void getWalletBalance( ParseHttpListener listener) {
         RequestParams params = new RequestParams();
-        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallet.account_info, params, listener);
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallet.rewards_balance, params, listener);
     }
 }
