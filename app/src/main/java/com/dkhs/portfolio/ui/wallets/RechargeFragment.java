@@ -195,7 +195,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
             protected void afterParseData(PaymentBean object) {
                 if (null != object) {
                     object.setPayType(payType);
-                    mPayManager.alipay(object);
+                    mPayManager.pay(object);
                 }
             }
         });

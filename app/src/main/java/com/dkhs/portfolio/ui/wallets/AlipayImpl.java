@@ -12,6 +12,7 @@ import com.lidroid.xutils.util.LogUtils;
 
 /**
  * Created by zjz on 2015/10/9.
+ * 支付宝支付的实现类
  */
 public class AlipayImpl implements IThreePay {
 

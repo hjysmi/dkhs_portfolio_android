@@ -8,6 +8,7 @@ import com.dkhs.portfolio.engine.WalletsEngine;
 
 /**
  * Created by zjz on 2015/10/9.
+ * 第三方支付的管理
  */
 public class ThreePayManager {
 
@@ -24,7 +25,7 @@ public class ThreePayManager {
     }
 
 
-    public void alipay(PaymentBean paymentBean) {
+    public void pay(PaymentBean paymentBean) {
         mPaymentBean = paymentBean;
         if (null != mPaymentBean && !TextUtils.isEmpty(mPaymentBean.getPayType())) {
             if (mPaymentBean.getPayType().equals(WalletsEngine.Alipay)) {
