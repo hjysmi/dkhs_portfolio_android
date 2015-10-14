@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -11,8 +12,18 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ListView;
+import com.dkhs.portfolio.bean.MyBankCard;
+import com.dkhs.portfolio.engine.TradeEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhangcm on 2015/9/24.17:24
@@ -29,28 +40,59 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
         ViewUtils.inject(this);
         setTitle(R.string.forget_trade_pwd);
         initViews();
+        initData();
+    }
+
+    private void initData() {
+        ParseHttpListener listenr = new ParseHttpListener<List<MyBankCard>>() {
+            @Override
+            protected List<MyBankCard> parseDateTask(String jsonData) {
+                List<MyBankCard> myCards = null;
+                if (!TextUtils.isEmpty(jsonData)) {
+                    try {
+                        jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+                        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                        myCards = gson.fromJson(jsonData, new TypeToken<List<MyBankCard>>(){}.getType());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return myCards;
+            }
+
+            @Override
+            protected void afterParseData(List<MyBankCard> cards) {
+                if(cards != null && cards.size() > 0){
+                    myCards = cards;
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+        new TradeEngineImpl().getMyBankCards(listenr.setLoadingDialog(mContext));
     }
 
     private void initViews() {
-
-        lvBankCard.setAdapter(new MyBankCardAdapter());
+        mAdapter = new MyBankCardAdapter();
+        lvBankCard.setAdapter(mAdapter);
         lvBankCard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(BankCardInfoActivity.forgetTradePasswordIntent(mContext));
+                startActivity(BankCardInfoActivity.forgetTradePasswordIntent(mContext, myCards.get(position)));
             }
         });
     }
+    private List<MyBankCard> myCards = new ArrayList<MyBankCard>();
+    private MyBankCardAdapter mAdapter;
 
     private class MyBankCardAdapter extends BaseAdapter{
         @Override
         public int getCount() {
-            return 3;
+            return myCards.size();
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -76,6 +118,16 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
                 tv.setLayoutParams(params );
                 convertView = tv;
             }
+            TextView tv = (TextView) convertView;
+            MyBankCard card = myCards.get(position);
+            int type = card.getBank_card_type();
+            String cardType;
+            if(type == 0){
+                cardType = "储蓄卡";
+            }else{
+                cardType = "信用卡";
+            }
+            tv.setText(String.format(getResources().getString(R.string.blank_card_info),card.getBank().getBank_card_no_tail(),cardType,card.getBank_card_no_tail()));
             return convertView;
         }
     }

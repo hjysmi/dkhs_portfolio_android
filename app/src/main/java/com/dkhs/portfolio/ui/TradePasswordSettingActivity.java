@@ -50,6 +50,11 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
         intent.putExtra(LAYOUT_TYPE, TYPE_FIRST_SET_PWD);
         return intent;
     }
+    public static Intent resetPwdIntent(Context context){
+        Intent intent = new Intent(context, TradePasswordSettingActivity.class);
+        intent.putExtra(LAYOUT_TYPE, TYPE_RESET_PWD);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -69,17 +74,20 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     }
 
     private String firstPwd;
+    private String oldPwd;
+    private boolean isOldPwdTrue;
 
     private void initViews(){
         if(curLayoutType == TYPE_FIRST_SET_PWD){
-            tv_trade_pwd_tip1.setVisibility(View.GONE);
-            tv_trade_pwd_tip2.setVisibility(View.GONE);
+            tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
+            tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
         }else if(curLayoutType == TYPE_RESET_PWD){
-            tv_trade_pwd_tip1.setVisibility(View.GONE);
-            tv_trade_pwd_tip2.setVisibility(View.GONE);
+            tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
+            tv_trade_pwd_tip2.setVisibility(View.VISIBLE);
+            setTitle(R.string.old_trade_password);
         }else if(curLayoutType == TYPE_FORGET_PWD){
-            tv_trade_pwd_tip1.setVisibility(View.GONE);
-            tv_trade_pwd_tip2.setVisibility(View.GONE);
+            tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
+            tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
         }
         gpv.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
@@ -90,30 +98,35 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
 
             @Override
             public void onMaxLength(String psw) {
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                 if(TextUtils.isEmpty(firstPwd)){
-                    firstPwd =psw;
-                    gpv.clearPassword();
-                    tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
-                    tv_trade_pwd_tip1.setText(R.string.input_trade_password_again);
+                    if(curLayoutType == TYPE_FIRST_SET_PWD || (curLayoutType == TYPE_RESET_PWD&&isOldPwdTrue)){
+                        firstPwd =psw;
+                        gpv.clearPassword();
+                        tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
+                        tv_trade_pwd_tip1.setText(R.string.input_trade_password_again);
+                        tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
+                    }else if(curLayoutType == TYPE_RESET_PWD && !isOldPwdTrue){
+                        oldPwd = psw;
+                        btn_set_trade_password.setEnabled(true);
+                    }
                 }else{
                     if(firstPwd.equals(gpv.getPassWord())){
                         // TODO 密码一致设置密码
                         btn_set_trade_password.setEnabled(true);
+                        imm.hideSoftInputFromWindow(gpv.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                     }else{
                         //TODO 密码不一致根据当前layoutType提示
-                        if(curLayoutType == TYPE_FIRST_SET_PWD){
+                        if(curLayoutType == TYPE_FIRST_SET_PWD ||curLayoutType == TYPE_RESET_PWD){
+                            firstPwd = null;
                             gpv.clearPassword();
                             tv_trade_pwd_tip1.setText(R.string.trade_password_unsame);
                             tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
-                        }else if(curLayoutType == TYPE_RESET_PWD){
-
                         }else if(curLayoutType == TYPE_FORGET_PWD){
 
                         }
                     }
                 }
-                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(gpv.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
         btn_set_trade_password.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +134,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
             public void onClick(View v) {
                 //下一步
                 TradeEngineImpl tradeEngine = new TradeEngineImpl();
-                tradeEngine.setTradePassword(gpv.getPassWord(),new ParseHttpListener<Boolean>() {
+                ParseHttpListener<Boolean> listener = new ParseHttpListener<Boolean>() {
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
                         try{
@@ -138,16 +151,53 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                     @Override
                     protected void afterParseData(Boolean object) {
                         if(null != object){
-                            if(object){
-                                PromptManager.showToast("交易密码设置成功");
-                                setResult(0);
-                                manualFinish();
-                            }else{
-                                PromptManager.showToast("设置密码失败");
+                            if(curLayoutType == TYPE_FIRST_SET_PWD){
+                                if(object){
+                                    PromptManager.showToast("交易密码设置成功");
+                                    setResult(0);
+                                    manualFinish();
+                                }else{
+                                    PromptManager.showToast("设置密码失败");
+                                }
+                            }else if(curLayoutType == TYPE_RESET_PWD){
+                                if(object){
+                                    if(TextUtils.isEmpty(firstPwd)){
+                                        //设置新交易密码成功
+                                        PromptManager.showToast("原密码正确,请设置新的交易密码");
+                                        isOldPwdTrue = object;
+                                        setTitle(R.string.setting_trade_password);
+                                        gpv.clearPassword();
+                                        btn_set_trade_password.setEnabled(false);
+                                        tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
+                                        tv_trade_pwd_tip1.setText(R.string.pls_input_trade_pwd);
+                                        tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
+                                    }else{
+                                        PromptManager.showToast("设置新交易密码成功");
+                                        finish();
+                                    }
+                                }else{
+                                    if(TextUtils.isEmpty(firstPwd)){
+                                        gpv.clearPassword();
+                                        btn_set_trade_password.setEnabled(false);
+                                        PromptManager.showToast("原密码错误");
+                                    }else{
+                                        PromptManager.showToast("设置新交易密码失败");
+                                    }
+                                }
                             }
+
                         }
                     }
-                });
+                };
+                if(curLayoutType == TYPE_FIRST_SET_PWD){
+                    tradeEngine.setTradePassword(gpv.getPassWord(),listener.setLoadingDialog(mContext));
+                }else if(curLayoutType == TYPE_RESET_PWD){
+                    if(TextUtils.isEmpty(firstPwd)){
+                        tradeEngine.checkTradePassword(oldPwd,listener.setLoadingDialog(mContext));
+                    }else{
+                        tradeEngine.changeTradePassword(oldPwd, firstPwd, listener.setLoadingDialog(mContext));
+                    }
+                }
             }
         });
 

@@ -70,6 +70,14 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         return DKHSClient.request(HttpRequest.HttpMethod.GET, curUrl, params, this);
     }
 
+    public void setCurUrl(String url){
+        curUrl = url;
+    }
+
+    public void setCurType(Type type){
+        type = curType;
+    }
+
     /**
      * post身份认证
      */
@@ -112,6 +120,36 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
     }
     public void getMyBankCards(IHttpListener listener){
         DKHSClient.requestByGet(listener,DKHSUrl.Funds.get_my_bank_cards);
+    }
+    public void getMyAssests(IHttpListener listener){
+        DKHSClient.requestByGet(listener,DKHSUrl.Funds.get_my_assests);
+    }
+    public void checkTradePassword(String password, IHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("password",password);
+        DKHSClient.requestByPost(DKHSUrl.Funds.check_trade_password,params,listener);
+    }
+    public void changeTradePassword(String old_password, String new_password, IHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("old_password",old_password);
+        params.addBodyParameter("new_password",new_password);
+        DKHSClient.requestByPost(DKHSUrl.Funds.change_trade_password,params,listener);
+    }
+    public void buyFund(String fund_id, String bank_card_id,String amount,String password, IHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("fund_id",fund_id);
+        params.addBodyParameter("bank_card_id",bank_card_id);
+        params.addBodyParameter("amount",amount);
+        params.addBodyParameter("password",password);
+        DKHSClient.requestByPost(DKHSUrl.Funds.buy_fund,params,listener);
+    }
+    public void sellFund(String fund_id, String bank_card_id,String shares,String password, IHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("fund_id",fund_id);
+        params.addBodyParameter("bank_card_id",bank_card_id);
+        params.addBodyParameter("shares",shares);
+        params.addBodyParameter("password",password);
+        DKHSClient.requestByPost(DKHSUrl.Funds.sell_fund,params,listener);
     }
 
 }

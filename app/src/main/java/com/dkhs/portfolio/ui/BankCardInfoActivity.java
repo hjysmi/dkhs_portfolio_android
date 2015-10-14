@@ -19,6 +19,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.Bank;
 import com.dkhs.portfolio.bean.IdentityAuthBean;
+import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -41,7 +42,9 @@ public class BankCardInfoActivity extends ModelAcitivity {
     public static String BANK = "bank";
     private Bank bank;
     private boolean isResetPasswordType;
+    private MyBankCard mBankCard;
     private String bankCrardNo;
+    public static String BANK_CARD = "bank_card";
     private static final String LAYOUT_TYPE = "layout_type";
     private static final String BANK_CARD_NO = "card_no";
 
@@ -69,9 +72,10 @@ public class BankCardInfoActivity extends ModelAcitivity {
     @ViewInject(R.id.btn_bind_bank_card)
     private Button btn_bind_bank_card;
 
-    public static Intent forgetTradePasswordIntent(Context context) {
+    public static Intent forgetTradePasswordIntent(Context context,MyBankCard bankCard) {
         Intent intent = new Intent(context, BankCardInfoActivity.class);
         intent.putExtra(LAYOUT_TYPE, true);
+        intent.putExtra(BANK_CARD, bankCard);
         return intent;
     }
 
@@ -98,16 +102,19 @@ public class BankCardInfoActivity extends ModelAcitivity {
     private void handleExtras(Bundle extras) {
         isResetPasswordType = extras.getBoolean(LAYOUT_TYPE);
         bankCrardNo = extras.getString(BANK_CARD_NO, "");
+        mBankCard = (MyBankCard) extras.getSerializable(BANK_CARD);
     }
 
     private void initViews() {
         if (isResetPasswordType) {
             ll_bank_card.setVisibility(View.VISIBLE);
             ll_choose_bank_type.setVisibility(View.GONE);
+            etBankCard.setHint(String.format(getResources().getString(R.string.blank_hint_card_no),mBankCard.getBank_card_no_tail()));
         } else {
             ll_bank_card.setVisibility(View.GONE);
             ll_choose_bank_type.setVisibility(View.VISIBLE);
         }
+        etBankCard.addTextChangedListener(new MyTextWatcher());
         et_real_name.addTextChangedListener(new MyTextWatcher());
         et_id_card_no.addTextChangedListener(new MyTextWatcher());
         et_bank_card_mobile.addTextChangedListener(new MyTextWatcher());
@@ -293,10 +300,12 @@ public class BankCardInfoActivity extends ModelAcitivity {
                         if(null != object){
                             if(object){
                                 //TODO 设置过交易密码
+                                PromptManager.showToast("已经设置过交易密码");
                                 setResult(0);
                                 manualFinish();
                             }else{
                                 //TODO 没设置过交易密码
+                                PromptManager.showToast("没有设置过交易密码");
                                 startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext),0);
                             }
                         }
@@ -322,6 +331,7 @@ public class BankCardInfoActivity extends ModelAcitivity {
                         if(null != object){
                             if(object){
                                //TODO 绑卡成功，判断是否设置过交易密码
+                                PromptManager.showToast("绑卡成功，判断是否设置过交易密码");
                                 tradeEngine.isTradePasswordSet(isTradePwdSetListener);
                             }else{
                                 PromptManager.showToast(R.string.bind_card_fail);

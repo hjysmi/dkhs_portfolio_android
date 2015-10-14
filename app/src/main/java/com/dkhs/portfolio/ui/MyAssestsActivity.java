@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.BindThreePlat;
+import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -77,7 +79,7 @@ public class MyAssestsActivity extends ModelAcitivity {
                         if(null != object){
                             if(object){
                                 //TODO 设置过交易密码
-                                startActivity(new Intent(mContext, TradeSettingActivity.class));
+                                startActivity(new Intent(mContext, ResetTradePasswordActivity.class));
                             }else{
                                 //TODO 没设置过交易密码
                                 startActivity(TradePasswordSettingActivity.firstSetPwdIntent(mContext));
@@ -85,6 +87,7 @@ public class MyAssestsActivity extends ModelAcitivity {
                         }
                     }
                 };
+                new TradeEngineImpl().isTradePasswordSet(isTradePwdSetListener.setLoadingDialog(mContext));
             }
         });
         initIconResource();
@@ -201,6 +204,40 @@ public class MyAssestsActivity extends ModelAcitivity {
 
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new TradeEngineImpl().getMyAssests(new ParseHttpListener<String>() {
+            @Override
+            protected String parseDateTask(String jsonData) {
+                return jsonData;
+            }
+
+            @Override
+            protected void afterParseData(String object) {
+                if(!TextUtils.isEmpty(object)){
+                    try {
+                        JSONObject json = new JSONObject(object);
+                        if(json.has("worth_value")) {
+                            // 总资产
+                            tvTotalAssests.setText(json.getString("worth_value"));
+                        }
+                        if(json.has("income_latest")){
+                            //最新收益
+                            tvRecentProfit.setText(json.getString("income_latest"));
+                        }
+                        if(json.has("income_total")){
+                            //累计收益
+                            tvTotalProfit.setText(json.getString("income_total"));
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+            }
+        }.setLoadingDialog(mContext));
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

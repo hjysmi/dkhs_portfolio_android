@@ -28,6 +28,7 @@
             >
 
             <TextView
+                android:id="@+id/tv_trade_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/widget_text_14sp"
@@ -36,6 +37,7 @@
                 />
 
             <TextView
+                android:id="@+id/tv_trade_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -51,7 +53,7 @@
             android:layout_marginTop="@dimen/widget_margin_normal"
             android:background="@color/drivi_line"/>
         <TextView
-            android:id="@+id/tv_trade_time"
+            android:id="@+id/tv_fund_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/widget_margin_normal"

@@ -24,7 +24,7 @@ public class ResetTradePasswordActivity extends ModelAcitivity {
     @OnClick({R.id.rl_remember_original_trade_password,R.id.rl_forget_original_trade_password})
     private void onClick(View view){
         if(view.getId() == R.id.rl_remember_original_trade_password){
-            startActivity(new Intent(mContext, TradePasswordSettingActivity.class));
+            startActivity(TradePasswordSettingActivity.resetPwdIntent(mContext));
         }else{
             startActivity(new Intent(mContext, ForgetTradePasswordActivity.class));
         }

@@ -31,14 +31,13 @@
                 android:src="@drawable/setting_image_right"/>
 
             <TextView
-                android:id="@+id/tv_info_title"
+                android:id="@+id/tv_fund_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="@dimen/setting_text_name"
-                android:text="景顺长城增量永信(12345678)"/>
+                android:textSize="@dimen/setting_text_name"/>
 
         </RelativeLayout>
 
@@ -74,7 +73,6 @@
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/widget_text_12sp"
                     android:textColor="@color/gray_textcolor"
-                    android:text="@string/pay_status"
                     />
 
             </RelativeLayout>
@@ -103,7 +101,6 @@
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/widget_text_12sp"
                     android:textColor="@color/gray_textcolor"
-                    android:text="1000.00份"
                     />
 
             </RelativeLayout>
@@ -131,7 +128,6 @@
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/widget_text_12sp"
                     android:textColor="@color/gray_textcolor"
-                    android:text="待定"
                     />
 
             </RelativeLayout>
@@ -159,7 +155,6 @@
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/widget_text_12sp"
                     android:textColor="@color/gray_textcolor"
-                    android:text="2015-09-24 15:08"
                     />
 
             </RelativeLayout>
@@ -187,7 +182,6 @@
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/widget_text_12sp"
                     android:textColor="@color/gray_textcolor"
-                    android:text="132464646"
                     />
 
             </RelativeLayout>
@@ -215,7 +209,6 @@
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/widget_text_12sp"
                     android:textColor="@color/gray_textcolor"
-                    android:text="0.15%"
                     />
 
             </RelativeLayout>

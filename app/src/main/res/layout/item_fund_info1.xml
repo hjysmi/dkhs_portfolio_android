@@ -40,12 +40,12 @@
         >
 
         <TextView
+            android:id="@+id/tv_recent_profit_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/widget_margin_large"
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/widget_text_14sp"
-            android:text="最新收益(元) 07-27"
             android:textColor="@color/gray_textcolor"/>
 
         <TextView
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_textcolor"
                     android:textSize="@dimen/widget_text_14sp"
-                    android:text="@string/total_profit_fund"
+                    android:text="@string/net_new"
                     />
 
                 <TextView

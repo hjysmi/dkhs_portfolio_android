@@ -22,8 +22,7 @@
             android:paddingTop="@dimen/widget_padding_large"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="@dimen/widget_text_18sp"
-            android:text="景顺长城增量永信(12345678)"/>
+            android:textSize="@dimen/widget_text_18sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,12 +35,11 @@
             >
 
             <TextView
-                android:id="@+id/tv_net_new"
+                android:id="@+id/tv_net_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_textcolor"
                 android:textSize="@dimen/widget_text_14sp"
-                android:text="最新净值 1.2662"
                 />
 
             <TextView
@@ -51,7 +49,6 @@
                 android:layout_marginLeft="@dimen/widget_margin_xxlarge"
                 android:textColor="@color/gray_textcolor"
                 android:textSize="@dimen/widget_text_14sp"
-                android:text="起购金额"
                 />
         </LinearLayout>
 
@@ -75,7 +72,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_launcher"
                 />
 
             <ImageView
@@ -103,8 +99,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/widget_text_18sp"
-                    android:text="兴业银行(尾号5678)"/>
+                    android:textSize="@dimen/widget_text_18sp"/>
 
                 <TextView
                     android:id="@+id/tv_limit_value"
@@ -113,7 +108,6 @@
                     android:layout_marginTop="@dimen/widget_margin_normal"
                     android:textColor="@color/gray_textcolor"
                     android:textSize="@dimen/widget_text_14sp"
-                    android:text="单笔限额5000元，每日限额50000元"
                     />
             </LinearLayout>
         </RelativeLayout>
@@ -173,6 +167,7 @@
         </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_buy_poundage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/widget_margin_medium"

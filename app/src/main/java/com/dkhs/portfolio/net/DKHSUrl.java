@@ -313,7 +313,16 @@ public class DKHSUrl {
         String get_banks = "/api/v1/accounts/banks/";
         String is_trade_password_set = "/api/v1/accounts/is_trade_password_set/";
         String set_trade_password = "/api/v1/accounts/set_trade_password/";
+        String check_trade_password = "/api/v1/accounts/check_trade_password/";
+        String change_trade_password = "/api/v1/accounts/change_trade_password/";
         String get_my_bank_cards = "/api/v1/accounts/bank_cards/mine/";
+        String get_my_assests = "/api/v1/funds/assets/mine/";
+        String get_my_funds = "/api/v1/funds/fund/mine/";
+        String get_my_fundinfo = "/api/v1/funds/fund/fund_info/";
+        String get_funds_trades = "/api/v1/funds/trades/";
+        String get_funds_trades_info = "/api/v1/funds/trades/{0}/";
+        String buy_fund = "/api/v1/funds/buy/";
+        String sell_fund = "/api/v1/funds/sell/";
 
     }
 

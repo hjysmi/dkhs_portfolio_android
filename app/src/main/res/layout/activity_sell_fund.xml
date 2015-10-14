@@ -22,8 +22,7 @@
             android:paddingTop="@dimen/widget_padding_large"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="@dimen/widget_text_18sp"
-            android:text="景顺长城增量永信(12345678)"/>
+            android:textSize="@dimen/widget_text_18sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_textcolor"
                 android:textSize="@dimen/widget_text_14sp"
-                android:text="最低持有份额: 1份"
                 />
 
             <TextView
@@ -51,7 +49,7 @@
                 android:layout_marginLeft="@dimen/widget_margin_xxlarge"
                 android:textColor="@color/gray_textcolor"
                 android:textSize="@dimen/widget_text_14sp"
-                android:text="最低卖出份额: 1份"
+                android:text="最低卖出份额: 1.00份"
                 />
         </LinearLayout>
 
@@ -75,7 +73,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_launcher"
                 />
 
             <ImageView
@@ -103,8 +100,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/widget_text_18sp"
-                    android:text="兴业银行(尾号5678)"/>
+                    android:textSize="@dimen/widget_text_18sp"/>
 
                 <TextView
                     android:id="@+id/tv_available_shares"
@@ -113,7 +109,6 @@
                     android:layout_marginTop="@dimen/widget_margin_normal"
                     android:textColor="@color/gray_textcolor"
                     android:textSize="@dimen/widget_text_14sp"
-                    android:text="可卖出份额 2536.23份"
                     />
             </LinearLayout>
         </RelativeLayout>
@@ -127,7 +122,7 @@
         android:layout_marginBottom="@dimen/widget_margin_medium"
         android:layout_marginLeft="@dimen/widget_margin_large"
         android:textColor="@color/gray_textcolor"
-        android:text="今日可赎回份额: 555.3份"
+        android:visibility="invisible"
         />
     <RelativeLayout
         android:layout_width="match_parent"
@@ -146,7 +141,7 @@
             android:layout_centerVertical="true"
             android:textColor="@color/black"
             android:textSize="@dimen/widget_text_14sp"
-            android:text="@string/value"
+            android:text="@string/shares"
             />
         <TextView
             android:id="@+id/tv_fen"
@@ -156,7 +151,7 @@
             android:layout_centerVertical="true"
             android:textColor="@color/black"
             android:textSize="@dimen/widget_text_14sp"
-            android:text="@string/dollar"
+            android:text="@string/copy"
             />
         <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_shares"
@@ -174,6 +169,7 @@
         </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_sell_poundage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/widget_margin_medium"

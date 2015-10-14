@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -88,7 +87,7 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO 打开买入基金详情
-                startActivity(new Intent(getActivity(), BuyFundInfoActivity.class));
+                startActivity(BuyFundInfoActivity.getFundInfoIntent(getActivity(), mDataList.get(position).getId()));
             }
         };
     }
@@ -97,7 +96,7 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
     LoadMoreDataEngine getLoadEngine() {
 
         if (null == mFundsEngine) {
-            mFundsEngine = new MyFundsEngineImpl(this);
+            mFundsEngine = new MyFundsEngineImpl(this,0);
         }
         return mFundsEngine;
     }
@@ -106,7 +105,7 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
     BaseAdapter getListAdapter() {
         if (null == mAdapter) {
 //            mAdapter = new LatestTopicsAdapter(mActivity, mDataList);
-            mAdapter = new MyFundTradeAdapter(getActivity());
+            mAdapter = new MyFundTradeAdapter(getActivity(),mDataList);
         }
         return mAdapter;
     }

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -41,11 +42,7 @@ import java.util.List;
  */
 public class MyBankCardsActivity extends ModelAcitivity {
 
-    private int RED = Color.parseColor("#ff5555");
-    private int ORANGE = Color.parseColor("#fca321");
-    private int BLUE = Color.parseColor("#0c70c1");
-    private int GREEN = Color.parseColor("#009688");
-    private int GOLDEN = Color.parseColor("#fca321");
+
     private SwipeRefreshLayout mSwipeLayout;
 
     private PullToRefreshListView mListView;
@@ -111,7 +108,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
 
     public void loadData() {
         mSwipeLayout.setRefreshing(true);
-        ParseHttpListener listenr = new ParseHttpListener<List<MyBankCard>>() {
+        ParseHttpListener listener = new ParseHttpListener<List<MyBankCard>>() {
             @Override
             protected List<MyBankCard> parseDateTask(String jsonData) {
                 List<MyBankCard> myCards = null;
@@ -137,7 +134,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
                 mSwipeLayout.setEnabled(false);
             }
         };
-        new TradeEngineImpl().getMyBankCards(listenr);
+        new TradeEngineImpl().getMyBankCards(listener);
 
     }
 
@@ -169,6 +166,9 @@ public class MyBankCardsActivity extends ModelAcitivity {
                 holder.ll_fund_supervision_bank = (View)convertView.findViewById(R.id.ll_fund_supervision_bank);
                 holder.iv_bank_logo = (ImageView)convertView.findViewById(R.id.iv_bank_logo);
                 holder.tv_addbank = (TextView)convertView.findViewById(R.id.tv_addbank);
+                holder.tv_bank_name = (TextView)convertView.findViewById(R.id.tv_bank_name);
+                holder.tv_card_num = (TextView)convertView.findViewById(R.id.tv_card_num);
+                holder.tv_username = (TextView)convertView.findViewById(R.id.tv_username);
                 convertView.setTag(holder);
             }else{
                 holder = (ViewHolder)convertView.getTag();
@@ -176,6 +176,12 @@ public class MyBankCardsActivity extends ModelAcitivity {
             if(position == myCards.size()){
                 holder.tv_addbank.setVisibility(View.VISIBLE);
                 holder.ll_bank.setVisibility(View.GONE);
+                holder.tv_addbank.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(new Intent(mContext, BankCardNoActivity.class), 0);
+                    }
+                });
             }else{
                 holder.tv_addbank.setVisibility(View.GONE);
                 holder.ll_bank.setVisibility(View.VISIBLE);
@@ -186,10 +192,21 @@ public class MyBankCardsActivity extends ModelAcitivity {
             }else{
                 holder.ll_fund_supervision_bank.setVisibility(View.GONE);
             }
-
-            GradientDrawable myGrad = (GradientDrawable)holder.ll_bank.getBackground();
-            myGrad.setColor(getResources().getColor(R.color.orange));
-            mBitmapUtils.display(holder.iv_bank_logo, "http://com-dkhs-media-test.oss.aliyuncs.com/banks/logos/ICBC.png", null, callBack);
+            if(myCards.size() > 0 && position != myCards.size()){
+                MyBankCard card = myCards.get(position);
+//                GradientDrawable myGrad = (GradientDrawable)holder.ll_bank.getBackground();
+//                myGrad.setColor(getResources().getColor(R.color.orange));
+                StateListDrawable list = (StateListDrawable)holder.ll_bank.getBackground();
+                GradientDrawable myGrad = (GradientDrawable) getResources().getDrawable(R.drawable.item_bankcard_package_bg);
+//                myGrad.setColor(getResources().getColor(R.color.orange));
+                myGrad.setColor(getBankbg(Integer.parseInt(card.getBank().getId())));
+                list.addState(new int []{},myGrad);
+                holder.ll_bank.setBackgroundDrawable(list);
+                mBitmapUtils.display(holder.iv_bank_logo, card.getBank().getLogo(), null, callBack);
+                holder.tv_username.setText(card.getReal_name());
+                holder.tv_bank_name.setText(card.getBank().getName());
+                holder.tv_card_num.setText("**** **** **** "+card.getBank_card_no_tail());
+            }
             return convertView;
         }
 
@@ -198,6 +215,9 @@ public class MyBankCardsActivity extends ModelAcitivity {
             View ll_bank;
             ImageView iv_bank_logo;
             TextView tv_addbank;
+            TextView tv_bank_name;
+            TextView tv_card_num;
+            TextView tv_username;
 
         }
     }
@@ -245,5 +265,26 @@ public class MyBankCardsActivity extends ModelAcitivity {
             //请求获取数据
             loadData();
         }
+    }
+    private int RED = Color.parseColor("#ff5555");
+    private int ORANGE = Color.parseColor("#fca321");
+    private int BLUE = Color.parseColor("#0c70c1");
+    private int GREEN = Color.parseColor("#009688");
+    private int GOLDEN = Color.parseColor("#fca321");
+    private int getBankbg(int bank_id){
+        if (bank_id == 1 || bank_id == 4 || bank_id == 6 || bank_id == 8 || bank_id == 9 || bank_id == 14 || bank_id == 15) {
+            return RED;
+        } else if (bank_id == 3 || bank_id == 5 || bank_id == 11 || bank_id == 16){
+            return BLUE;
+        } else if (bank_id == 2 || bank_id == 10 || bank_id == 13){
+            return GREEN;
+        } else if (bank_id == 7){
+            return GOLDEN;
+        } else if (bank_id == 12 || bank_id == 17){
+            return ORANGE;
+        } else {
+            return GOLDEN;
+        }
+
     }
 }

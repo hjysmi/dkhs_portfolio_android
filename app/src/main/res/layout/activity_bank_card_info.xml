@@ -83,9 +83,10 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:hint="**1455(请输入完整卡号)"
-                android:textColor="@color/gray_textcolor"
+                android:inputType="number"
+                android:maxLength="19"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@+id/bank"
-                android:focusableInTouchMode="false"
                 android:textSize="@dimen/widget_text_16sp"/>
         </LinearLayout>
 
@@ -151,6 +152,8 @@
                 android:layout_weight="2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/widget_margin_normal"
+                android:inputType="number"
+                android:digits="0123456789xyzXYZ"
                 android:text="@string/id_card_no"
                 android:textSize="@dimen/widget_text_16sp"/>
 
@@ -163,6 +166,8 @@
                 android:background="@null"
                 android:hint="@string/hint_id_card_no"
                 android:singleLine="true"
+                android:inputType="number"
+                android:maxLength="11"
                 android:textSize="@dimen/widget_text_14sp"/>
         </LinearLayout>
 

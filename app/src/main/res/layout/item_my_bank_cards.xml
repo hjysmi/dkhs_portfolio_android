@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/widget_margin_medium"
         android:layout_marginRight="@dimen/widget_margin_medium"
-        android:background="@drawable/item_bankcard_package_bg"
+        android:background="@drawable/item_bankcard_bg"
         android:orientation="horizontal"
         >
 
@@ -84,6 +84,7 @@
         android:background="@drawable/bg_white_gray_selector"
         android:layout_marginLeft="@dimen/widget_margin_medium"
         android:layout_marginRight="@dimen/widget_margin_medium"
+        android:layout_marginTop="@dimen/widget_margin_medium"
         android:text="+添加银行卡"
         android:textColor="@color/edit_textcolor"
         android:textSize="20sp"

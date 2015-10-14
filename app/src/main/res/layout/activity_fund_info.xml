@@ -10,6 +10,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:visibility="invisible"
         >
 
         <LinearLayout
@@ -62,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/drivi_line"
+            android:listSelector="@color/transparent"
             android:dividerHeight="0.5px"
             android:smoothScrollbar="true"
             android:layout_weight="1"
