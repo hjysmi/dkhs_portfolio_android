@@ -74,7 +74,8 @@ public class MyBankCardsActivity extends ModelAcitivity {
     private void initLoadMoreList() {
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
 //        mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
+
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
         mListView.setDivider(null);
         mAdapter = new MyBankCardsAdapter();

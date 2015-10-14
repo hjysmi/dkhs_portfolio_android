@@ -274,6 +274,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private final int MENU_FOLLOW = 1;
     private final int MENU_DELFOLLOW = 2;
     private final int MENU_REMIND = 3;
+    private final int MENU_BUY = 4;
     private final int MENU_SHARE = 6;
 
     FloatingActionMenu.OnMenuItemSelectedListener mFloatMenuSelectListner = new FloatingActionMenu.OnMenuItemSelectedListener() {
@@ -300,6 +301,10 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 case MENU_SHARE: {
 
                 }
+                break;
+                case MENU_BUY:
+                    //TODO 购买基金
+                    startActivity(BuyFundActivity.buyIntent(mContext,null));
                 break;
                 default:
                     break;
@@ -368,6 +373,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void initFloatingActionMenu(QuotesBean quoteBean) {
         mFloatMenu.removeAllItems();
 
+        mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,R.drawable.lv_blue_selector);
         if (quoteBean.isFollowed()) {
             mFloatMenu.addItem(MENU_DELFOLLOW, R.string.float_menu_delfollow,
                     R.drawable.btn_del_item_normal);

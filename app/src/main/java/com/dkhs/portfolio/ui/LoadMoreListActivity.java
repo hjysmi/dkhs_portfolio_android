@@ -64,7 +64,7 @@ public abstract  class LoadMoreListActivity extends ModelAcitivity implements Lo
     private void initLoadMoreList(){
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
         tvEmptyText = (TextView) findViewById(android.R.id.empty);
         mProgressView = (RelativeLayout) findViewById(android.R.id.progress);

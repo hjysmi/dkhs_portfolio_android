@@ -508,6 +508,7 @@
     <string name="float_menu_follow">加入自选</string>
     <string name="float_menu_optional">自选</string>
     <string name="float_menu_delfollow">取消自选</string>
+    <string name="float_menu_buyfund">立即购买</string>
     <string name="dialog_messag_delfollow">确认取消自选</string>
     <string name="float_menu_remind">提醒</string>
     <string name="float_menu_stock_remind">股价提醒</string>

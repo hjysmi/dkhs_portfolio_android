@@ -27,7 +27,6 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
-import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyAssestsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
@@ -35,7 +34,6 @@ import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.UserTopicsActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -57,11 +55,12 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static final int INDEX_MESSAGE = 0;
     private static final int INDEX_MY_COMBINATION = 1;
-    private static final int INDEX_PURSE = 2;
-    private static final int INDEX_COINS = 3;
-    private static final int INDEX_REWARD = 4;
-    private static final int INDEX_USER_ENTITY = 5;
-    private static final int INDEX_DRAFT = 6;
+    private static final int INDEX_ASSESTS = 2;
+    private static final int INDEX_PURSE = 3;
+    private static final int INDEX_COINS = 4;
+    private static final int INDEX_REWARD = 6;
+    private static final int INDEX_USER_ENTITY = 7;
+    private static final int INDEX_DRAFT = 8;
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
@@ -188,33 +187,28 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
                 break;
-
-            case INDEX_USER_ENTITY://我的话题
-            case 3: //我的资产
+            case INDEX_ASSESTS: //我的资产
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
 
-
                 break;
 
-            case 4://我的话题
+            case INDEX_USER_ENTITY://我的话题
 
                 UserEntity userEntity = UserEngineImpl.getUserEntity();
-                UserTopicsActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
+                MyTopicActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
                 break;
-//            case 5://我的回复
+//            case 4://我的回复
 //                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
 //
 //                break;
             case INDEX_DRAFT://我的草稿
-            case 5://我的草稿
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyDraftActivity.class));
 
                 break;
 
 
    /*         case 6://邀请好友
-            case 6://邀请好友
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, InviteFriendsActivity.class));
 
@@ -223,7 +217,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
             case INDEX_COINS://流量兑换
-            case 7://流量兑换
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
@@ -262,8 +255,9 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
             case 1:
             case 2:
-            case 4:
-            case 7:
+            case 3:
+            case 5:
+            case 8:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 
             default:
