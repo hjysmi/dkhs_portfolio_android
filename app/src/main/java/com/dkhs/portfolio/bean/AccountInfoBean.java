@@ -5,8 +5,7 @@ package com.dkhs.portfolio.bean;
  */
 public class AccountInfoBean {
     private String available;
-    private String frozen_trade;
-    private String frozen_withdraw;
+    private float mid_reward;
 
     public String getAvailable() {
         return available;
@@ -16,19 +15,11 @@ public class AccountInfoBean {
         this.available = available;
     }
 
-    public String getFrozen_trade() {
-        return frozen_trade;
+    public float getMid_reward() {
+        return mid_reward;
     }
 
-    public void setFrozen_trade(String frozen_trade) {
-        this.frozen_trade = frozen_trade;
-    }
-
-    public String getFrozen_withdraw() {
-        return frozen_withdraw;
-    }
-
-    public void setFrozen_withdraw(String frozen_withdraw) {
-        this.frozen_withdraw = frozen_withdraw;
+    public void setMid_reward(float mid_reward) {
+        this.mid_reward = mid_reward;
     }
 }
