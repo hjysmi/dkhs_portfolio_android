@@ -246,9 +246,9 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
-                    btn_get_code.setText("重新发送("+(60 - count)+")");
+                    btn_get_code.setText("重新发送("+(60 - count)+")s");
 //                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
-                    btn_get_code.setTextColor(getResources().getColor(R.color.theme_gray));
+                    btn_get_code.setTextColor(getResources().getColor(R.color.text_content_color));
                     btn_get_code.setEnabled(false);
                     break;
 
