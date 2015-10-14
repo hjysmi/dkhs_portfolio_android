@@ -517,13 +517,6 @@
         <activity android:name=".ui.widget.RewardDetailActivity" android:screenOrientation="portrait"/>
 
 
-
-        <activity
-            android:name="com.weixin.paydemo.wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop"/>
-
-
         <receiver
             android:name="net.sourceforge.simcpux.AppRegister">
             <intent-filter>
