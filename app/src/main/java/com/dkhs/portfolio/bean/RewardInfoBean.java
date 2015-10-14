@@ -5,7 +5,7 @@ package com.dkhs.portfolio.bean;
  */
 public class RewardInfoBean {
     private String available;
-    private float mid_reward;
+    private float min_reward;
 
     public String getAvailable() {
         return available;
@@ -15,11 +15,11 @@ public class RewardInfoBean {
         this.available = available;
     }
 
-    public float getMid_reward() {
-        return mid_reward;
+    public float getMin_reward() {
+        return min_reward;
     }
 
-    public void setMid_reward(float mid_reward) {
-        this.mid_reward = mid_reward;
+    public void setMin_reward(float min_reward) {
+        this.min_reward = min_reward;
     }
 }

@@ -158,7 +158,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 available = object.getAvailable();
                 balanceTv.setText(String.format(getString(R.string.balance),available));
 
-                minAmount = object.getMid_reward();
+                minAmount = object.getMin_reward();
                 amountEt.setHint(String.format(getString(R.string.reward_lower_limit), String.valueOf(minAmount)));
                 btnSend.setClickable(true);
                 btnSend.setEnabled(true);
