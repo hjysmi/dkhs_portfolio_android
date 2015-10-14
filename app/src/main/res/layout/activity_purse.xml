@@ -44,7 +44,7 @@
             android:gravity="center"
             style="@style/btn_change_balance"
             android:text="@string/charge"/>
-        <View android:layout_width="1dp"
+        <View android:layout_width="2dp"
             android:layout_height="match_parent"
             android:background="@color/activity_bg_color"/>
         <TextView
@@ -57,19 +57,25 @@
             android:text="@string/withdraw"/>
     </LinearLayout>
 
+    <View
+        android:background="@drawable/ic_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"/>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_marginTop="8dp"
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
 
         >
     <com.dkhs.portfolio.ui.widget.PullToRefreshListView
         android:id="@+id/lv_trading_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:listSelector="@android:color/transparent"
         />
     </android.support.v4.widget.SwipeRefreshLayout>
 

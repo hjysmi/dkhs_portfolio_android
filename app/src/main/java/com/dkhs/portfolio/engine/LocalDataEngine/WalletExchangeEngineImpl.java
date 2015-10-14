@@ -2,9 +2,8 @@ package com.dkhs.portfolio.engine.LocalDataEngine;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.WalletChangeBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -70,11 +69,11 @@ public class WalletExchangeEngineImpl extends LoadMoreDataEngine {
 
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
-        MoreDataBean<TopicsBean> moreBean = null;
+        MoreDataBean<WalletChangeBean> moreBean = null;
         if (!TextUtils.isEmpty(jsonData)) {
             try {
                     Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                    moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CommentBean>>() {
+                    moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<WalletChangeBean>>() {
                     }.getType());
 
             } catch (Exception e) {

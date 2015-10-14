@@ -14,4 +14,8 @@ public class WalletEngineImpl {
         RequestParams params = new RequestParams();
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallet.rewards_balance, params, listener);
     }
+
+    public static void getMineAccountInfo( ParseHttpListener listener){
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallet.account_info, null, listener);
+    }
 }
