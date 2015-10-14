@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 /**
  * Created by zjz on 2015/10/9.
+ * 支付宝支付请求返回的Bean
  */
 public class AliPayResult {
 

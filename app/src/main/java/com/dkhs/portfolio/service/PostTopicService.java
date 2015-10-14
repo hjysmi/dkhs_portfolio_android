@@ -34,6 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by zjz on 2015/8/4.
+ * 话题发布，后台服务
  */
 public class PostTopicService extends IntentService {
     private static final String SERVICE_NAME = PostTopicService.class.getName();

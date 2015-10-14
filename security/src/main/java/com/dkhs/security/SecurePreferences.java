@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by zjz on 2015/6/5.
+ * 对SharedPreferences的加密封装
  */
 public class SecurePreferences implements SharedPreferences {
     private final SharedPreferences sp;

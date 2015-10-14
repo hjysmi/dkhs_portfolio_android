@@ -74,8 +74,8 @@ android {
             manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5", PACKAGE_NAME: "com.dkhs.portfolio"]
         }
         rong_debug {
-            applicationId = "com.dkhs.portfolio.debug"
-            manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb", PACKAGE_NAME: "com.dkhs.portfolio.debug"]
+            applicationId = "com.dkhs.portfolio"
+            manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb", PACKAGE_NAME: "com.dkhs.portfolio"]
         }
 
 
@@ -147,4 +147,5 @@ dependencies {
     compile files('libs/android_api_3.7.0.jar')
     compile 'com.android.support:multidex:'
     compile files('libs/alipaySDK-20150818.jar')
+    compile files('libs/libammsdk.jar')
 }
