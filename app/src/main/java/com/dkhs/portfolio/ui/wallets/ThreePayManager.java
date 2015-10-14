@@ -31,7 +31,7 @@ public class ThreePayManager {
             if (mPaymentBean.getPayType().equals(WalletsEngine.Alipay)) {
                 mThreePay = new AlipayImpl(mCotnext, this.payCallback);
             } else if (mPaymentBean.getPayType().equals(WalletsEngine.WeiXin)) {
-                mThreePay = new WeixinpayImpl();
+                mThreePay = new WeixinpayImpl(mCotnext, this.payCallback);
             } else {
                 mThreePay = new CardPayImpl();
             }
