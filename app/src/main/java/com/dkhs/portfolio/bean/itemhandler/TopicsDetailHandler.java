@@ -337,9 +337,9 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
         public void onClick(View v) {
             ImageView imageView = (ImageView) v.findViewById(R.id.iv_like);
             if (topicsBean.like) {
-                imageView.setImageResource(R.drawable.ic_like);
+                imageView.setImageResource(R.drawable.praised);
             } else {
-                imageView.setImageResource(R.drawable.ic_unlike);
+                imageView.setImageResource(R.drawable.praise);
             }
             topicsBean.like = !topicsBean.like;
         }
@@ -449,7 +449,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
          */
         @Override
         public void updateDrawState(TextPaint ds) {
-            ds.setColor(mContext.getResources().getColor(R.color.blue));
+            ds.setColor(mContext.getResources().getColor(R.color.theme_blue));
             ds.setUnderlineText(false);
         }
 

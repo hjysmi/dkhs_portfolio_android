@@ -11,6 +11,7 @@ import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -71,6 +72,16 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
     public void onBindView(ViewHolder vh, final LikeBean comment, int position) {
         super.onBindView(vh, comment, position);
         PeopleBean user = comment.user;
+        if(comment instanceof CommentBean){
+            CommentBean cb = (CommentBean)comment;
+            if(cb.reward_type == 1){
+                vh.getImageView(R.id.iv_rewarded).setVisibility(View.VISIBLE);
+            }else{
+                vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
+            }
+        }else{
+            vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_head));
         } else {
@@ -99,9 +110,9 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
 
         if (comment.like) {
-            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_like);
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.praised);
         } else {
-            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.ic_unlike);
+            vh.getImageView(R.id.iv_praise).setImageResource(R.drawable.praise);
         }
 
         if (mAvatarImResponse) {

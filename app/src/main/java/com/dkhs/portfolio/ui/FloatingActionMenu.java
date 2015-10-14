@@ -9,13 +9,10 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,8 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.PopupWindow;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -97,7 +93,7 @@ public class FloatingActionMenu extends FloatingActionView {
                 getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height), 1.0F));
         TextView tvConntent = (TextView) flaotMenu.findViewById(R.id.tv_floatmenu);
         tvConntent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        tvConntent.setTextColor(getResources().getColor(R.color.theme_color));
+        tvConntent.setTextColor(getResources().getColor(R.color.text_content_color));
         if (!TextUtils.isEmpty(tvText)) {
             tvConntent.setText(tvText);
         }
@@ -160,15 +156,19 @@ public class FloatingActionMenu extends FloatingActionView {
     public MoreMenuItemBuilder addMoreItem(int viewIndex, String textString, int iconResId, boolean isAddMenu) {
 
         final View moreView = addItemView(viewIndex, textString, iconResId, isAddMenu);
-        View view = View.inflate(getContext(), R.layout.layout_btn_more, null);
-        final PopupWindow pw = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        final ListPopupWindow listPopupWindow = new ListPopupWindow(getContext());
         ArrayAdapter itemAdapter = new ArrayAdapter<String>(getContext(), R.layout.item_btn_more);
         final MoreMenuItemBuilder moreMenuItemBuilder = new MoreMenuItemBuilder(itemAdapter);
-        ListView listView = (ListView) view.findViewById(R.id.lv_more);
-        listView.setOnItemClickListener(new OnItemClickListener() {
+
+        listPopupWindow.setAdapter(itemAdapter);
+        listPopupWindow.setAnchorView(moreView);
+        listPopupWindow.setWidth(300);
+
+        listPopupWindow.setModal(true);
+        listPopupWindow.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                pw.dismiss();
+                listPopupWindow.dismiss();
                 if (moreMenuItemBuilder.positionItemIdMap.get(position) != null && null != menuItemSelectedListener) {
                     menuItemSelectedListener.onMenuItemSelected(moreMenuItemBuilder.positionItemIdMap.get(position));
                 }
@@ -176,18 +176,12 @@ public class FloatingActionMenu extends FloatingActionView {
             }
         });
 
-        listView.setAdapter(itemAdapter);
-        pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        pw.setOutsideTouchable(true);
-        pw.setFocusable(true);
 
         moreView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-//                pw.showAtLocation(localView, Gravity.RIGHT | Gravity.BOTTOM, 10, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
-                pw.showAtLocation(moreView, Gravity.RIGHT | Gravity.BOTTOM, 10, moreView.getHeight());
+                listPopupWindow.show();
             }
         });
         return moreMenuItemBuilder;

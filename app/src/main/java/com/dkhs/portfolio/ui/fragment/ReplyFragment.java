@@ -42,7 +42,9 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
     private List<CommentBean> results = new ArrayList<CommentBean>();
 
     private static final String USER_ID = "user_id";
+    private static final String CONTENT_TYPE = "content_type";
     private String userId;
+    private String contentType;
     private boolean isCurrentUser;
     //    private static final String REPLY_TYPE = "reply_type";
 //    public static final int TYPE_MINE = 1;
@@ -55,12 +57,13 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
      * @param userId 帖子id
      * @return
      */
-    public static ReplyFragment getIntent(String userId) {
+    public static ReplyFragment getIntent(String userId,String contentType) {
 
         ReplyFragment fragment = new ReplyFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString(USER_ID, userId);
+        bundle.putString(CONTENT_TYPE,contentType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -101,7 +104,7 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
                 refreshData();
             }
         });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         lvReply = (PullToRefreshListView) view.findViewById(R.id.lv_reply);
         lvReply.setCanRefresh(false);
         lvReply.setOnLoadListener(new PullToRefreshListView.OnLoadMoreListener() {
@@ -109,7 +112,7 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
             public void onLoadMore() {
                 CUR_TYPE = TYPE_LODAMORE;
                 if (current_page < total_page && current_page != 0 && total_page != 0) {
-                    StatusEngineImpl.getReplys(userId, current_page + 1, 0, replyListener);
+                    StatusEngineImpl.getReplys(userId,contentType, current_page + 1, 0, replyListener);
                 }
             }
         });
@@ -127,6 +130,7 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
         if (bundle != null) {
 
             userId = bundle.getString(USER_ID);
+            contentType = bundle.getString(CONTENT_TYPE);
             if (null != GlobalParams.LOGIN_USER) {
                 isCurrentUser = String.valueOf(GlobalParams.LOGIN_USER.getId()).equals(userId);
             }
@@ -147,10 +151,10 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
         current_page = 0;
         if (!TextUtils.isEmpty(userId)) {
 
-            StatusEngineImpl.getReplys(userId, current_page, 0, replyListener);
+            StatusEngineImpl.getReplys(userId,contentType, current_page, 0, replyListener);
         } else {
             userId = "1";
-            StatusEngineImpl.getReplys(userId, current_page, 0, replyListener);
+            StatusEngineImpl.getReplys(userId,contentType, current_page, 0, replyListener);
         }
     }
 

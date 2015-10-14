@@ -86,13 +86,13 @@
                 android:id="@+id/btn_tab4"
                 style="@style/bottom_tab_button"
                 android:layout_marginTop="7dp"
-                android:background="@drawable/ic_bbs" />
+                android:background="@drawable/ic_reward" />
 
             <TextView
                 android:id="@+id/tv_tab4"
                 style="@style/bottom_tab_text"
                 android:layout_below="@+id/btn_tab4"
-                android:text="@string/tab_3" />
+                android:text="@string/tab_reward" />
         </RelativeLayout>
 
         <RelativeLayout

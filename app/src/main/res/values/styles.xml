@@ -5,9 +5,9 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="colorAccent">@color/title_color</item>
-        <item name="colorPrimary">@color/title_color</item>
-        <item name="colorPrimaryDark">@color/dark_title_color</item>
+        <item name="colorAccent">@color/theme_color</item>
+        <item name="colorPrimary">@color/theme_color</item>
+        <item name="colorPrimaryDark">@color/theme_color</item>
         <item name="windowActionModeOverlay">true</item>
         <!-- 解决activity切换时的黑屏问题 -->
         <item name="android:textColor">?android:attr/textColorPrimary</item>
@@ -50,7 +50,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light"></style>
+    <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light">
+        <!-- Color palette -->
+        <!--        <item name="colorPrimaryDark">@color/primary_dark_material_light</item>-->
+        <!--        <item name="colorPrimary">@color/primary_material_light</item>-->
+        <!--        <item name="colorAccent">@color/accent_material_light</item>-->
+    </style>
 
 
     <!-- Activity透明主题 -->
@@ -121,7 +126,7 @@
     </style>
 
     <style name="listViewStyle">
-        <item name="android:divider">@color/theme_gray_press</item>
+        <item name="android:divider">@color/drivi_line</item>
         <item name="android:dividerHeight">0.5px</item>
         <item name="android:childDivider">@null</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
@@ -536,9 +541,77 @@
 
     <style name="title_bottom_line">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_height">0.5px</item>
         <item name="android:background">@drawable/bg_title_bottom_line</item>
     </style>
+
+    <style name="title_exchange_history">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_content_color</item>
+    </style>
+
+
+    <style name="btn_change_balance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_content_color</item>
+        <item name="android:background">@drawable/btn_white_selector</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="state_rewarding">
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/bg_reward_on_going</item>
+    </style>
+
+
+    <style name="reward_amount_on_going">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="reward_amount_finish">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray_textcolor</item>
+    </style>
+
+    <style name="reward_unit_on_going">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="reward_unit_finish">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/gray_textcolor</item>
+    </style>
+
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/show_anim</item>
+        <item name="android:windowExitAnimation">@anim/dismiss_anim</item>
+    </style>
+
+    <style name="recharge_pay_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_white_selector</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">32dp</item>
+        <item name="android:paddingRight">35dp</item>
+        <item name="android:paddingTop">12dp</item>
+    </style>
+
+
+    <style name="recharge_pay_text" parent="text_18_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">13dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
 
     <!-- ChinaPay plugin begin -->
     <style name="cp_Animation" parent="android:Theme.Light">

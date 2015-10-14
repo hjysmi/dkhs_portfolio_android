@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -70,7 +71,7 @@ public class ExchangeActivity extends ModelAcitivity {
 
         ViewUtils.inject(this);
         mOnSliderClickListenerImp=new OnSliderClickListenerImp(this);
-        tvMaxtip.setText(getString(R.string.max_flow_tip, 0,0));
+        tvMaxtip.setText(getString(R.string.max_flow_tip, 0, 0));
         exchangeInfoTV.setText(getString(R.string.exchange_tip, "0M"));
         FlowExchangeEngine.packages(overViewListener);
         btnExchange.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +81,14 @@ public class ExchangeActivity extends ModelAcitivity {
             }
         });
         getHeadBanner();
+        TextView rightButton = getRightButton();
+        rightButton.setText(R.string.history);
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ExchangeActivity.this, ExchangeHistoryActivity.class));
+            }
+        });
     }
 
     private void getHeadBanner() {

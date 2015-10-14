@@ -355,13 +355,13 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         tvIncreaseRatio.setText(msp);
         BusProvider.getInstance().post(new TitleChangeEvent(netValue));
         netValue = netValue - 1;
-        if (netValue == 0) {
-            comView.setBackgroundResource(R.color.tag_gray);
-        } else if (netValue > 0) {
-            comView.setBackgroundResource(R.color.tag_red);
-        } else {
-            comView.setBackgroundResource(R.color.tag_green);
-        }
+//        if (netValue == 0) {
+//            comView.setBackgroundResource(R.color.tag_gray);
+//        } else if (netValue > 0) {
+//            comView.setBackgroundResource(R.color.tag_red);
+//        } else {
+//            comView.setBackgroundResource(R.color.tag_green);
+//        }
     }
 
     public void setColor(String type) {

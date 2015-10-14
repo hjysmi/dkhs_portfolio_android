@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -38,6 +37,7 @@ import com.dkhs.portfolio.ui.widget.GridViewEx;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
+import com.dkhs.portfolio.utils.DKHtml;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.rockerhieu.emojicon.emoji.Emojicon;
@@ -291,8 +291,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             etTitle.setVisibility(View.VISIBLE);
         }
         if (null != mDraftBean) {
-            etTitle.insertHtmlText(mDraftBean.getTitle());
-            etContent.insertHtmlText(mDraftBean.getContent());
+
+
+            etTitle.insertHtmlText((mDraftBean.getTitle()));
+            etContent.insertHtmlText((mDraftBean.getContent()));
             etContent.setSelection(etContent.getText().length());
 
             mSelectPohotos.addAll(mDraftBean.getPhotoList());
@@ -759,9 +761,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             }
         }
 
-
-        String strContent = Html.toHtml(etContent.getText());
-        String strTitle = Html.toHtml(etTitle.getText());
+        String strContent = DKHtml.toHtml(etContent.getText());
+        String strTitle = DKHtml.toHtml(etTitle.getText());
         mDraftBean.setFailReason("");
         mDraftBean.setTitle(strTitle);
         mDraftBean.setContent(strContent);

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -135,7 +134,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 //            Toolbar toolbar= (Toolbar) findViewById(R.id.tool);
 //            setSupportActionBar(toolbar);
             ViewUtils.inject(this);
-            mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+            mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
 
 
             initData();
@@ -196,7 +195,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                     mTopicsDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("wys", "focus down");
                             mScrollToComment = false;
                             mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                         }
@@ -411,9 +409,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         mFloatingActionMenu.removeAllItems();
         mFloatingActionMenu.addItem(MENU_COMMEND, R.string.comment, R.drawable.ic_coment);
         if (mTopicsBean.like) {
-            mFloatingActionMenu.addItem(MENU_LIKE, R.string.like, R.drawable.ic_like);
+            mFloatingActionMenu.addItem(MENU_LIKE, R.string.like, R.drawable.praised);
         } else {
-            mFloatingActionMenu.addItem(MENU_LIKE, R.string.like, R.drawable.ic_unlike);
+            mFloatingActionMenu.addItem(MENU_LIKE, R.string.like, R.drawable.praise);
         }
         mFloatingActionMenu.addItem(MENU_SHARE, R.string.share, R.drawable.ic_fm_share);
         String[] choices = getResources().getStringArray(R.array.topics_menu_overflow);

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -31,7 +32,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +47,7 @@ import java.util.TimerTask;
  * @date 2014-11-3 下午5:03:25
  */
 public class ForgetPswActivity extends ModelAcitivity implements OnClickListener {
-    private Button btn_get_code;
+    private TextView btn_get_code;
     private Button rlfbutton;
     private EditText etVerifucode;
     private EditText etPhoneNum;
@@ -74,7 +74,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
 
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
-        btn_get_code = (Button) findViewById(R.id.btn_getCode);
+        btn_get_code = (TextView) findViewById(R.id.btn_getCode);
         btn_get_code.setOnClickListener(this);
         btn_get_code.setEnabled(false);
         // 生成广播处理
@@ -240,15 +240,15 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
                 case GET_CODE_ABLE:
                     btn_get_code.setText(R.string.get_code);
                     btn_get_code.setEnabled(true);
-                    btn_get_code.setBackgroundResource(R.drawable.btn_blue_selector);
-                    btn_get_code.setTextColor(ColorTemplate.getTextColor(R.color.btn_blue_textselector));
+//                    btn_get_code.setBackgroundResource(R.drawable.btn_blue_selector);
+                    btn_get_code.setTextColor(ColorTemplate.getTextColor(R.color.theme_blue));
                     count = 0;
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
-                    btn_get_code.setText((60 - count) + "秒后重新获取验证码");
-                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
-                    btn_get_code.setTextColor(getResources().getColor(R.color.white));
+                    btn_get_code.setText("重新发送("+(60 - count)+")s");
+//                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
+                    btn_get_code.setTextColor(getResources().getColor(R.color.text_content_color));
                     btn_get_code.setEnabled(false);
                     break;
 

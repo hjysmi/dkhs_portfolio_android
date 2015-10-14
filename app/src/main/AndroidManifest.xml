@@ -102,7 +102,7 @@
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppBaseTheme" />
         <activity android:name=".ui.RLFActivity" />
         <activity android:name=".ui.SetPasswordActivity" />
         <activity android:name=".ui.RegisterSuccessActivity" />
@@ -496,6 +496,44 @@
         <!--<category android:name="android.intent.category.LAUNCHER" />-->
         <!--</intent-filter>-->
         <!--</activity>-->
+        <activity android:name=".ui.ExchangeHistoryActivity" />
+        <activity
+            android:name=".ui.MyPurseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MyRewardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.RechargeActivity"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+        <!-- alipay sdk end -->
+        <activity android:name=".ui.PostRewardActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.widget.RewardDetailActivity" android:screenOrientation="portrait"/>
+
+
+        <receiver
+            android:name="net.sourceforge.simcpux.AppRegister">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".ui.MyAssestsActivity"
             android:label="@string/my_assets" />

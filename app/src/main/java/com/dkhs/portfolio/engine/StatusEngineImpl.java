@@ -31,7 +31,7 @@ public class StatusEngineImpl {
      * lat (float, optional, 发帖的经度坐标),
      * replied_status (field, optional, 当前话题要回复的话题)
      */
-    public static void postStatus(String title, String text, String replied_status, String retweeted_status, double lat, double lon, String media_ids, ParseHttpListener listener) {
+    public static void postStatus(String title, String text, String replied_status, String retweeted_status, double lat, double lon, String media_ids,int contentType,String rewardAmount, ParseHttpListener listener) {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(title)) {
             params.addBodyParameter("title", title);
@@ -53,6 +53,12 @@ public class StatusEngineImpl {
         }
         if (!TextUtils.isEmpty(media_ids)) {
             params.addBodyParameter("media_ids", media_ids);
+        }
+        if(contentType != 0){
+            params.addBodyParameter("content_type", String.valueOf(contentType));
+        }
+        if(!TextUtils.isEmpty(rewardAmount)){
+            params.addBodyParameter("reward_amount", rewardAmount);
         }
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses, params, listener);
     }
@@ -92,10 +98,11 @@ public class StatusEngineImpl {
      * @param page_size
      * @param listener
      */
-    public static void getReplys(String userId, int page, int page_size, ParseHttpListener listener) {
+    public static void getReplys(String userId, String contentType,int page, int page_size, ParseHttpListener listener) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("user_pk", userId);
         params.addQueryStringParameter("status_type", "1");
+        params.addQueryStringParameter("content_type",contentType);
         if (page != 0) {
             params.addQueryStringParameter("page", page + "");
         }
@@ -139,5 +146,24 @@ public class StatusEngineImpl {
 //        RequestParams params = new RequestParams();
 //        params.addBodyParameter("pk", status);
         DKHSClient.request(HttpRequest.HttpMethod.DELETE, DKHSUrl.Status.statuses + status + "/", null, listener);
+    }
+
+    public static void closeReward(String status, ParseHttpListener listener) {
+//        RequestParams params = new RequestParams();
+//        params.addBodyParameter("pk", status);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses + status + "/close_reward/", null, listener);
+    }
+
+    public static void adoptReply(String status,ParseHttpListener listener){
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Status.statuses + status + "/reward/", null, listener);
+    }
+
+    public static void getAdoptedReply(String status,ParseHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("sort", "latest");
+        params.addQueryStringParameter("page_size", 10 + "");
+        params.addQueryStringParameter("rewarded","1");
+        DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getCommend, status), params, listener);
     }
 }

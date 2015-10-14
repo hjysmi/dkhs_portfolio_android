@@ -123,7 +123,7 @@
     <dimen name="actionsheet_seperated_height">5dp</dimen>
     <dimen name="text_status_content">18sp</dimen>
     <dimen name="text_status_username">17sp</dimen>
-    <dimen name="text_status_title">18sp</dimen>
+    <dimen name="text_status_title">16sp</dimen>
     <dimen name="text_status_time">12sp</dimen>
     <dimen name="text_status_label">13sp</dimen>
     <dimen name="text_status_like">14sp</dimen>
@@ -136,6 +136,14 @@
     <dimen name="thumbnail_height">100dp</dimen>
     <dimen name="side_bar_text">13sp</dimen>
     <dimen name="def_item_pading">12dp</dimen>
+
+    <dimen name="reward_amount_title">15sp</dimen>
+    <dimen name="reward_amount">14sp</dimen>
+    <dimen name="reward_content">15sp</dimen>
+    <dimen name="reward_balance">12sp</dimen>
+    <dimen name="topic_content">15sp</dimen>
+    <dimen name="topic_handler_title">14sp</dimen>
+    <dimen name="topic_handler_content">14sp</dimen>
 
 
 </resources>

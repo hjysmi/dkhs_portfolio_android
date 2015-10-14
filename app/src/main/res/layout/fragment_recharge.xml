@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/person_setting_backgroud"
+    android:orientation="vertical">
+
+    <View style="@style/divider_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/edittext_bg">
+
+        <TextView
+            android:id="@+id/tv_accout"
+            style="@style/text_18_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="充值金额" />
+
+        <TextView
+            style="@style/text_18_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="元" />
+
+        <EditText
+            android:id="@+id/et_play_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@+id/tv_accout"
+            android:background="@null"
+            android:digits="@string/password_digts"
+            android:hint="请输入充值金额"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View style="@style/divider_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/combin_horSpacing"
+        android:divider="@drawable/linear_layout_divider"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+        <View style="@style/divider_line" />
+
+        <RelativeLayout
+            android:id="@+id/rl_alipay"
+            style="@style/recharge_pay_layout"
+            android:clickable="false">
+
+            <TextView
+                style="@style/recharge_pay_text"
+
+                android:drawableLeft="@drawable/ic_pay_alipay"
+
+                android:text="支付宝支付" />
+
+            <ImageView
+                android:id="@+id/iv_select_alipay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_pay_select" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_wechatpay"
+            style="@style/recharge_pay_layout"
+            android:clickable="true">
+
+            <TextView
+                style="@style/recharge_pay_text"
+                android:drawableLeft="@drawable/ic_pay_weixin"
+                android:text="微信支付" />
+
+            <ImageView
+                android:id="@+id/iv_select_weixin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_pay_select"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_cardpay"
+            style="@style/recharge_pay_layout">
+
+            <TextView
+                style="@style/recharge_pay_text"
+                android:drawableLeft="@drawable/ic_pay_card"
+                android:text="银行卡快捷充值" />
+
+            <ImageView
+                android:id="@+id/iv_select_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_pay_select"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
+        <View style="@style/divider_line" />
+    </LinearLayout>
+
+
+    <com.dkhs.portfolio.base.widget.Button
+        android:id="@+id/btn_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="30dp"
+        android:layout_marginTop="@dimen/combin_horSpacing"
+        android:background="@drawable/btn_red_selector"
+        android:gravity="center"
+        android:text="支付"
+        android:textColor="@color/white"
+        android:textSize="@dimen/setting_text_name" />
+
+</LinearLayout>

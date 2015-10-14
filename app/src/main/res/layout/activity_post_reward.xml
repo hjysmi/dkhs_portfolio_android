@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout android:id="@+id/ll_reward_info"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_status_title"
+            android:textColor="@color/black"
+            android:text="悬赏金额"/>
+        <com.dkhs.portfolio.ui.widget.DKHSEditText
+            android:id="@+id/et_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="@dimen/reward_amount"
+            android:textColor="@color/title_tab_def_color"
+            android:singleLine="true"
+            android:inputType="numberDecimal"
+            android:hint="--"/>
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textSize="@dimen/reward_balance"
+            android:textColor="@color/gray_textcolor"
+            android:text="--"/>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/ll_bottom"
+        layout="@layout/layout_topic_pickbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_bottom"
+        android:layout_below="@id/ll_reward_info"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dip"
+            android:background="@color/subscribe_seperate_line" />
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <com.dkhs.portfolio.ui.widget.DKHSEditText
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fadingEdge="none"
+                    android:gravity="top"
+                    android:hint="@string/reward_hint"
+                    android:imeOptions="actionSend|flagNoEnterAction"
+                    android:lineSpacingExtra="3.0dip"
+                    android:minHeight="100dp"
+                    android:paddingBottom="@dimen/widget_padding_medium"
+                    android:paddingLeft="@dimen/widget_padding_medium"
+                    android:paddingTop="@dimen/widget_padding_normal"
+                    android:textSize="@dimen/text_status_title">
+
+                    <requestFocus />
+                </com.dkhs.portfolio.ui.widget.DKHSEditText>
+
+                <!--
+                                <ImageView
+                                    android:id="@+id/iv_photo"
+                                    android:layout_width="50dip"
+                                    android:layout_height="50dip"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_below="@+id/et_content"
+                                    android:layout_marginBottom="@dimen/widget_margin_normal"
+                                    android:layout_marginRight="@dimen/widget_margin_xlarge"
+                                    android:clickable="true"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_launcher"
+                                    android:visibility="gone" />-->
+
+                <com.dkhs.portfolio.ui.widget.GridViewEx
+                    android:id="@+id/gv_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_content"
+                    android:layout_margin="@dimen/widget_padding_small"
+                    android:horizontalSpacing="@dimen/widget_padding_small"
+                    android:numColumns="3"
+                    android:verticalSpacing="@dimen/widget_padding_small" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

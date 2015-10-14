@@ -20,7 +20,7 @@ import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 
 /**
  * @author zjz
- * @version 1.0
+ * @version 定时唤醒更新服务的定时器
  * @ClassName ReLoadDataService
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-12-12 下午1:08:58
