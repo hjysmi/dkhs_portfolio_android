@@ -306,7 +306,7 @@ public class BuyFundActivity extends ModelAcitivity {
                     card = myCards.get(position);
                     mBitmapUtils.display(iv_bank_logo, bank.getLogo(), null, callBack);
                     tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value),bank.getSingle_limit(),bank.getSingle_day_limit()));
-                    tv_bank_card_no_tail.setText(bank.getName()+"(" +myCards.get(position).getBank_card_no_tail()+")");
+                    tv_bank_card_no_tail.setText(bank.getName()+"(" +myCards.get(position).getBank().getBank_card_no_tail()+")");
                     isBankcardChoosed = true;
                     if(!TextUtils.isEmpty(et_value.getText()) && Double.parseDouble(et_value.getText().toString()) >= limitValue)
                         btn_buy.setEnabled(true);
@@ -320,6 +320,7 @@ public class BuyFundActivity extends ModelAcitivity {
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         Window dialogWindow = bankCardDialog.getWindow();
         dialogWindow.setGravity(Gravity.LEFT | Gravity.BOTTOM);
+
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.x = 0;
         lp.y = 0;
@@ -337,6 +338,7 @@ public class BuyFundActivity extends ModelAcitivity {
 
         int statusHeight = -1;
         try {
+
             Class clazz = Class.forName("com.android.internal.R$dimen");
             Object object = clazz.newInstance();
             int height = Integer.parseInt(clazz.getField("status_bar_height")
