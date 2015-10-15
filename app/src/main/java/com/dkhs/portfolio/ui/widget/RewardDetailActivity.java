@@ -225,6 +225,8 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
             protected void afterParseData(Object object) {
                 mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
+                mHandler.setRewardUserId(mTopicsBean.getUser().getId());
+                mHandler.setRewardState(mTopicsBean.reward_state);
                 onFragmentInteraction(mTopicsBean);
                 setTopicsDetail();
                 if (mScrollToComment) {
@@ -290,7 +292,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 loadData();
             }
         });
-        mHandler = new RewardAnswerHandler(this, true, true,mTopicsBean.getUser().getId(),mTopicsBean.reward_state);
+        mHandler = new RewardAnswerHandler(this, true, true);
         mAdapter = new DKBaseAdapter(this, mDataList)
                 .buildMultiItemView(TopicsBean.class, new RewardDetailHandler(this))
                 .buildMultiItemView(CommentBean.class, mHandler)

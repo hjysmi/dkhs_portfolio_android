@@ -51,7 +51,7 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
     private int mRewardState;
 
     public RewardAnswerHandler(Context context, boolean avatarImResponse) {
-        this(context, avatarImResponse, false,0,0);
+        this(context, avatarImResponse, false);
     }
 
 
@@ -59,13 +59,16 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         this(context, true);
     }
 
-    public RewardAnswerHandler(Context context, boolean avatarImResponse, boolean compact,long userId,int rewardState) {
+    public RewardAnswerHandler(Context context, boolean avatarImResponse, boolean compact) {
         mAvatarImResponse = avatarImResponse;
         mCompact = compact;
         mContext = context;
-        mRewardUserId = userId;
-        mRewardState = rewardState;
     }
+
+    public void setRewardUserId(long userId){
+        mRewardUserId = userId;
+    }
+
 
     public void setRewardState(int state){
         mRewardState = state;
@@ -95,7 +98,7 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         PeopleBean user = comment.user;
         if(comment instanceof CommentBean){
             CommentBean cb = (CommentBean)comment;
-            if(cb.reward_type == 1){
+            if(cb.rewarded_type == 1){
                 vh.getImageView(R.id.iv_rewarded).setVisibility(View.VISIBLE);
             }else{
                 vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
@@ -149,7 +152,7 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
                     mCommentClick = new RewardReplyItemClick("", v.getContext());
                 }
                 if (isReplyComment) {
-                    mCommentClick.clickFromMyReply(comment);
+                    mCommentClick.clickFromMyReply(comment,((CommentBean)comment).rewarded_type == 1?true:false);
                 } else {
 
                     mCommentClick.clickFromMyTopic(comment);
