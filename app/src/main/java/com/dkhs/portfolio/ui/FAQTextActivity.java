@@ -1,15 +1,14 @@
 package com.dkhs.portfolio.ui;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.net.DKHSClient;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.utils.PromptManager;
 
 public class FAQTextActivity extends ModelAcitivity {
     private WebView agreement_webview_web;
@@ -18,7 +17,7 @@ public class FAQTextActivity extends ModelAcitivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agreement);
-        setTitle("谁牛FAQ");
+        setTitle("谁牛金融FAQ");
         context = this;
 
         agreement_webview_web = (WebView) findViewById(R.id.agreement_webview_web);
