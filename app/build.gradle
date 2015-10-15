@@ -26,6 +26,10 @@ android {
 
         debug {
             // No debug config
+            storeFile file("xdsdkhs.keystore")
+            storePassword "xdsdkhs"
+            keyAlias "xdsdkhs"
+            keyPassword "xdsdkhsadmin"
         }
         release {
             storeFile file("xdsdkhs.keystore")

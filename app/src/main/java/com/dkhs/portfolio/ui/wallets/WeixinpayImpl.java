@@ -11,8 +11,6 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import net.sourceforge.simcpux.Constants;
-
 /**
  * Created by zjz on 2015/10/9.
  */
@@ -31,22 +29,23 @@ public class WeixinpayImpl implements IThreePay {
 
     @Override
     public void recharge(final PaymentBean paymentBean) {
+        //TODO调用微信sdk
+        PaymentBean.WeiXinOrderInfo info = paymentBean.getWeixinpay_order_info();
+        Log.d("wys","info"+info.sign);
+        if(info != null){
+            sendPayReq(info);
+        }
         Runnable payRunnable = new Runnable() {
 
             @Override
             public void run() {
-                //TODO调用微信sdk
-                PaymentBean.WeiXinOrderInfo info = paymentBean.getWeixinpay_order_info();
-                Log.d("wys","info"+info.sign);
-                if(info != null){
-                    sendPayReq(info);
-                }
+
             }
         };
 
         // 必须异步调用
         Thread payThread = new Thread(payRunnable);
-        payThread.start();
+//        payThread.start();
     }
 
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
@@ -67,7 +66,7 @@ public class WeixinpayImpl implements IThreePay {
         req.nonceStr = info.noncestr;
         req.timeStamp = info.timestamp;
         req.sign = info.sign;
-        msgApi.registerApp(Constants.APP_ID);
+        msgApi.registerApp(info.appid);
         msgApi.sendReq(req);
     }
 }

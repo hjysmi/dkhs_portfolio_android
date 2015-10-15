@@ -499,7 +499,7 @@
         <intent-filter>
             <action android:name="android.intent.action.VIEW"/>
             <category android:name="android.intent.category.DEFAULT"/>
-            <data android:scheme="wx88888888445dfa"/>
+            <data android:scheme="wx89557ae58e44573a"/>
         </intent-filter>
         </activity>
 

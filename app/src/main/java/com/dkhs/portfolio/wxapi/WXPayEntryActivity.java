@@ -2,13 +2,14 @@ package com.dkhs.portfolio.wxapi;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.tencent.mm.sdk.constants.ConstantsAPI;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.PayResEvent;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -22,7 +23,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	private static final String TAG = "WXPayEntryActivity";
 	
     private IWXAPI api;
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +48,20 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	@Override
 	public void onResp(BaseResp resp) {
 		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("微信支付结果");
-			builder.setMessage("err"+resp.errStr+""+resp.errCode);
-			builder.show();
+		int errCode = resp.errCode;
+		switch (errCode){
+			case 0:
+				PromptManager.showToast("支付成功");
+				BusProvider.getInstance().post(new PayResEvent(0));
+				break;
+			case -1:
+				PromptManager.showToast("支付失败");
+				break;
+			case -2:
+				PromptManager.showToast("支付取消");
+				break;
+			default:
 		}
+		finish();
 	}
 }
