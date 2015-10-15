@@ -261,7 +261,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     TopicsCommendEngineImpl getLoadEngine() {
         if (mTopicsCommendEngine == null) {
-            mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "",mTopicsBean.reward_state == 2?"0":"");
+            mTopicsCommendEngine = new TopicsCommendEngineImpl(this, mTopicsBean.id + "");
         }
         return mTopicsCommendEngine;
     }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
+import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
@@ -33,7 +34,7 @@ public final class AppConfig {
 
     public static final boolean isDebug = BuildConfig.isSandbox;
 
-    public static final int VERSION_CURRENT = 2;
+    public static final int VERSION_CURRENT = 3;//当前数据库版本号
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
@@ -120,6 +121,15 @@ public final class AppConfig {
             @Override
             public void onUpgrade(DbUtils db, int oldVersion, int newVersion) {
                 Log.e("DBConfig", "oldVersion=" + oldVersion + " newVersion=" + newVersion);
+                switch (newVersion) {
+                    case 2:
+                    case 3:
+                        try {
+                            db.dropTable(DraftBean.class);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                }
 
             }
         });

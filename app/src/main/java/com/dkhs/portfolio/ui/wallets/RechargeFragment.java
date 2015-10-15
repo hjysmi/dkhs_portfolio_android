@@ -14,6 +14,8 @@ import com.dkhs.portfolio.bean.PaymentBean;
 import com.dkhs.portfolio.engine.WalletsEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -58,9 +60,9 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     IThreePayCallback rechargeCallback = new IThreePayCallback() {
         @Override
         public void rechargeSuccess() {
-
             PromptManager.showSuccessToast(R.string.recharge_success);
             getActivity().finish();
+            BusProvider.getInstance().post(new PayResEvent(0));
         }
 
         @Override

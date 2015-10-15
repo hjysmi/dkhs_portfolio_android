@@ -18,6 +18,8 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.WalletEngineImpl;
 import com.dkhs.portfolio.engine.LocalDataEngine.WalletExchangeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,6 +27,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.mingle.autolist.AutoList;
+import com.squareup.otto.Subscribe;
 
 /**
  * 主贴详情
@@ -53,6 +56,7 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         setContentView(R.layout.activity_purse);
         setTitle(R.string.info_title_purse);
         ViewUtils.inject(this);
+        BusProvider.getInstance().register(this);
         initData();
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -76,7 +80,7 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
 
             @Override
             protected void afterParseData(Object object) {
-                AccountInfoBean bean = (AccountInfoBean)object;
+                AccountInfoBean bean = (AccountInfoBean) object;
                 float available = bean.available;
                 mBalanceTv.setText(String.valueOf(available));
             }
@@ -134,9 +138,22 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         }
     }
 
+    @Subscribe
+    public void updateData(PayResEvent event){
+        if(event.errCode == 0){
+            loadData();
+            getAccountInfo();
+        }
+    }
 
     @Override
     public void onLoadMore() {
         getLoadEngine().loadMore();
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
     }
 }
