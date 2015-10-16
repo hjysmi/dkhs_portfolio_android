@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ import com.dkhs.portfolio.bean.itemhandler.RewardAnswerHandler;
 import com.dkhs.portfolio.bean.itemhandler.RewardDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.RewardReplyBarHandler;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -86,8 +86,6 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     private RewardDetailListView mRewardDetailListView;
     @ViewInject(R.id.tsv)
     private RewardDetailScrollView mRewardDetailScrollView;
-    @ViewInject(R.id.rootView)
-    private RelativeLayout mRootView;
 /*    @ViewInject(R.id.adopt_reply_rl)
     private RelativeLayout mAdoptRl;*/
     TopicsCommendEngineImpl.SortType mSortType;
@@ -95,6 +93,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
     private RewardDetailHandler mRewardDetailHandler = new RewardDetailHandler(this);
+    private RewardReplyBarHandler mRewardReplyBarHandler = new RewardReplyBarHandler(this);
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
@@ -258,6 +257,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     private void setTopicsDetail() {
         mRewardDetailHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.topicDetailRl)), mTopicsBean, 0);
+        mRewardReplyBarHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.ll_reply_bar)), mTopicsBean, 0);
     }
 
 

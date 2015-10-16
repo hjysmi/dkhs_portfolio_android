@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ll_reply_bar">
+    <LinearLayout
+        style="@style/white_grayborder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:id="@+id/top_sticky"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/comment"
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/answer"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_like"
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:text="@string/like"
+            android:textColor="@color/tag_gray" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ic_bottom_line"
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"/>
+    <View
+        android:layout_width="12dp"
+        android:id="@+id/indicate"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/ic_triangle"
+        android:layout_height="8dp"/>
+</LinearLayout>
