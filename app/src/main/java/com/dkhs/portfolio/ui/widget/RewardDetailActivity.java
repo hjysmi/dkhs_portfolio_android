@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import com.dkhs.portfolio.bean.itemhandler.RewardAnswerHandler;
 import com.dkhs.portfolio.bean.itemhandler.RewardDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.RewardAdoptedHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.RewardReplyBarHandler;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
@@ -47,6 +49,9 @@ import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.mingle.autolist.AutoData;
@@ -94,6 +99,8 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     private RewardDetailHandler mRewardDetailHandler = new RewardDetailHandler(this);
     private RewardReplyBarHandler mRewardReplyBarHandler = new RewardReplyBarHandler(this);
+
+    private RewardAdoptedHandler mRewardAdoptedHandler = new RewardAdoptedHandler(this);
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
@@ -172,15 +179,26 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                 @Override
                 protected void afterParseData(Object object) {
-//                    mAdoptRl.setVisibility(View.VISIBLE);
+                    findViewById(R.id.adopt_reply_rl).setVisibility(View.VISIBLE);
                     CommentBean comment = (CommentBean)object;
-//                    mAdoptHandler.onBindView(ViewHolder.newInstant(mAdoptRl),comment,0);
-//                    setTopicsDetail();
+                    mRewardAdoptedHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.adopt_reply_rl)), comment, 0);
                 }
 
                 @Override
                 protected Object parseDateTask(String jsonData) {
-                    return super.parseDateTask(jsonData);
+                    MoreDataBean<CommentBean> moreBean = null;
+                    if (!TextUtils.isEmpty(jsonData)) {
+
+                        try {
+                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                                    moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CommentBean>>() {
+                                    }.getType());
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return moreBean.getResults().get(0);
                 }
 
                 @Override

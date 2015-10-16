@@ -150,11 +150,10 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
                     mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
                 } else {
                     mCommentClick = new RewardReplyItemClick("", v.getContext());
-                }
+               }
                 if (isReplyComment) {
                     mCommentClick.clickFromMyReply(comment,((CommentBean)comment).rewarded_type == 1?true:false);
                 } else {
-
                     mCommentClick.clickFromMyTopic(comment);
                 }
             }

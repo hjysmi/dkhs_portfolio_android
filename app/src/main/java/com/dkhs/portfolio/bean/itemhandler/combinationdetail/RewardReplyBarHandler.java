@@ -44,7 +44,7 @@ public class RewardReplyBarHandler extends SimpleItemHandler<TopicsBean> impleme
     @Override
     public void onBindView(final ViewHolder vh, final TopicsBean data, int position) {
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
-        vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
+        vh.setTextView(R.id.comment, mContext.getString(R.string.answer) + " " + data.comments_count);
 
         final Spinner spinner = vh.get(R.id.spinner);
         if (spinner.getAdapter() == null) {
