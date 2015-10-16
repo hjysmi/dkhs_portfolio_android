@@ -100,7 +100,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     private RewardDetailHandler mRewardDetailHandler = new RewardDetailHandler(this);
     private RewardReplyBarHandler mRewardReplyBarHandler = new RewardReplyBarHandler(this);
 
-    private RewardAdoptedHandler mRewardAdoptedHandler = new RewardAdoptedHandler(this);
+    private RewardAdoptedHandler mRewardAdoptedHandler;
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
@@ -181,6 +181,9 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 protected void afterParseData(Object object) {
                     findViewById(R.id.adopt_reply_rl).setVisibility(View.VISIBLE);
                     CommentBean comment = (CommentBean)object;
+                    if(mRewardAdoptedHandler == null){
+                        mRewardAdoptedHandler = new RewardAdoptedHandler(RewardDetailActivity.this,true,true);
+                    }
                     mRewardAdoptedHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.adopt_reply_rl)), comment, 0);
                 }
 

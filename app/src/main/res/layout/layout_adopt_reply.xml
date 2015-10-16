@@ -22,6 +22,8 @@
             android:layout_alignParentLeft="true"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/title_tab_text_size"
             android:text="采纳回答"/>
         <ImageView
             android:layout_width="wrap_content"
