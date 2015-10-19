@@ -152,7 +152,6 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
             initData();
             setTopicsDetail();
-            setRewardAdopted();
             ignoreTV.setText(mTopicsBean.text);
             mSwitchLikeStateHandler = new SwitchLikeStateHandler(mTopicsBean);
             mSwitchLikeStateHandler.setStatusChangeI(this);
@@ -245,12 +244,12 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
             protected void afterParseData(Object object) {
                 mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
+                setRewardAdopted();
                 mHandler.setRewardUserId(mTopicsBean.getUser().getId());
                 mHandler.setRewardState(mTopicsBean.reward_state);
                 onFragmentInteraction(mTopicsBean);
                 setTopicsDetail();
                 if (mScrollToComment) {
-
                     mRewardDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
