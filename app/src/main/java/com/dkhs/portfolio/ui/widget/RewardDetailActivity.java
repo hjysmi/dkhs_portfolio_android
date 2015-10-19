@@ -417,6 +417,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                                             mTopicsBean.reward_state = 1;
                                             mHandler.setRewardState(mTopicsBean.reward_state);
                                             mAdapter.notifyDataSetChanged();
+                                            setTopicsDetail();
                                             initFloatMenu();
                                         }
 
