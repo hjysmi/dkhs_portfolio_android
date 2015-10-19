@@ -18,8 +18,11 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.RewardsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.RewardEngineImpl;
+import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
+import com.squareup.otto.Subscribe;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +57,7 @@ public class RewardsFragment extends LoadMoreListFragment  {
 
         mDataList.setup(this);
         mDataList.setAdapter(getListAdapter());
+        BusProvider.getInstance().register(this);
         mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
             @Override
             public boolean beforeHandleAction(AutoData a) {
@@ -152,4 +156,18 @@ public class RewardsFragment extends LoadMoreListFragment  {
         return "暂无悬赏";
     }
 
+    @Subscribe
+    public void updateRewardList(AddTopicsEvent event){
+        TopicsBean data = event.topicsBean;
+        if(data != null){
+            mDataList.add(0,data);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
 }
