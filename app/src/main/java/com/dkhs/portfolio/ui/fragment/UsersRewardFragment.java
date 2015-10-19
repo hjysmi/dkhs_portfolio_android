@@ -3,7 +3,9 @@ package com.dkhs.portfolio.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
@@ -11,11 +13,15 @@ import android.widget.ListAdapter;
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.RewardsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.UserRewardsEngineImpl;
 import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
+import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +55,27 @@ public class UsersRewardFragment extends LoadMoreListFragment {
         super.onViewCreated(view, savedInstanceState);
         mListView.setDivider(null);
         loadData();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        BusProvider.getInstance().register(this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
+
+    @Subscribe
+    public void updateRewardList(AddTopicsEvent event){
+        TopicsBean data = event.topicsBean;
+        if(data != null){
+            mDataList.add(0,data);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
