@@ -139,11 +139,7 @@ public class RewardReplyItemClick {
     private void showMineReplyDialog(final LikeBean commentBean,boolean rewarded) {
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
         String[] choice = null;
-        if(rewarded){
-            choice = mContext.getResources().getStringArray(R.array.reward_reply_op_rewarded);
-        }else{
-            choice = mContext.getResources().getStringArray(R.array.reward_reply_op);
-        }
+        choice = mContext.getResources().getStringArray(rewarded? R.array.reward_reply_op_rewarded:R.array.reward_reply_op);
         dialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
