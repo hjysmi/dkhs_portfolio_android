@@ -14,8 +14,8 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
-import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.ui.widget.RewardDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -39,9 +39,9 @@ public class RewardReplyItemClick {
     }
 
 
-    public void clickFromMyReply(LikeBean bean) {
+    public void clickFromMyReply(LikeBean bean,boolean rewarded) {
         if (isCurrentUser(bean.user.getId() + "")) {//当前用户
-            showMineReplyDialog(bean);
+            showMineReplyDialog(bean,rewarded);
         } else { // TA的回复
             showOtherReplyDialog(bean);
         }
@@ -136,9 +136,10 @@ public class RewardReplyItemClick {
         dialog.show();
     }
 
-    private void showMineReplyDialog(final LikeBean commentBean) {
+    private void showMineReplyDialog(final LikeBean commentBean,boolean rewarded) {
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
-        String[] choice = mContext.getResources().getStringArray(R.array.choices_mine_reply);
+        String[] choice = null;
+        choice = mContext.getResources().getStringArray(rewarded? R.array.reward_reply_op_rewarded:R.array.reward_reply_op);
         dialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -196,7 +197,7 @@ public class RewardReplyItemClick {
     private void showMainTopic(String topicId) {
         TopicsBean topicsBean = new TopicsBean();
         topicsBean.id = Integer.valueOf(topicId);
-        TopicsDetailActivity.startActivity(mContext, topicsBean);
+        RewardDetailActivity.startActivity(mContext, topicsBean);
 
     }
 

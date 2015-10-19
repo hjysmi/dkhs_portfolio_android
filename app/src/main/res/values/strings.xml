@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">谁牛</string>
+    <string name="app_name">谁牛金融</string>
     <string name="setting">设置</string>
     <string name="personal_setting">个人设置</string>
     <string name="copyright">Copyright &#169; 2014 DKHS.ALL Rights Reserved</string>
@@ -273,7 +273,7 @@
     <string name="season_income_rate">季收益</string>
     <string name="all_income_rate">累计收益</string>
     <string name="more_combination_tip">最多只能添加20个组合组合</string>
-    <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛</string>
+    <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛金融</string>
     <string name="change_combination_name">修改组合名称</string>
     <string name="change_position">调整仓位</string>
     <string name="privacy_setting">隐私设置</string>
@@ -294,7 +294,7 @@
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
     <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
-    <string name="about_dus_1">谁牛，是一款精心设计，全力打造的专业投资理财平台。
+    <string name="about_dus_1">谁牛金融，是一款精心设计，全力打造的专业投资理财平台。
          提供公募基金实时数据，以及国内首创的基金战胜指数数据，以
 基金经理为导向进行基金产品选购。跟牛人，买牛基，收益更靠谱。
 谁牛社区有更丰富的投资学习和生活的精彩内容。组合管理功能，成
