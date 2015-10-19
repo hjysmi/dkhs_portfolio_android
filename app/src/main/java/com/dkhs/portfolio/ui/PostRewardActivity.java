@@ -27,7 +27,7 @@ import com.dkhs.portfolio.bean.RewardInfoBean;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.DraftEngine;
-import com.dkhs.portfolio.engine.LocalDataEngine.WalletEngineImpl;
+import com.dkhs.portfolio.engine.WalletEngineImpl;
 import com.dkhs.portfolio.engine.UploadImageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;

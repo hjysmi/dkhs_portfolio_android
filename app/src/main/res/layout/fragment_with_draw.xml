@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/person_setting_backgroud"
+    tools:context="com.dkhs.portfolio.ui.wallets.WithDrawFragment"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        style="@style/with_draw_ll"
+        android:layout_marginTop="8dp"
+        >
+        <TextView
+            style="@style/with_draw_title"
+            android:text="提现金额"/>
+        <EditText
+            android:id="@+id/et_withdraw_amount"
+            android:layout_marginLeft="25dp"
+            android:background="@null"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/with_draw_hint"
+            android:inputType="numberDecimal"
+            android:hint="@string/with_draw_available"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="元"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/with_draw_ll"
+        android:layout_marginTop="8dp"
+        >
+        <TextView
+            style="@style/with_draw_title"
+            android:text="支付宝账号"
+            />
+        <EditText
+            android:id="@+id/et_alipay_account"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:background="@null"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/with_draw_hint"
+            android:hint="输入支付宝账号"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/with_draw_ll">
+        <TextView
+            style="@style/with_draw_title"
+            android:text="收款人姓名"/>
+        <EditText
+            android:background="@null"
+            android:id="@+id/et_bound_name"
+            android:layout_marginLeft="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/with_draw_hint"
+            android:hint="输入支付宝实名"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginRight="-1dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edittext_bg" >
+
+
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
+            android:layout_centerVertical="true"
+            android:id="@+id/et_verifycode"
+            android:layout_marginLeft="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_verifycode"
+            android:background="@null"
+            android:layout_marginRight="20dp"
+            android:textSize="@dimen/with_draw_hint"
+            android:hint="填写验证码"
+            android:inputType="numberDecimal"
+            android:singleLine="true" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#f2f2f2"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/btn_getCode"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/theme_blue"
+            android:textSize="@dimen/with_draw_hint"
+            android:text="获取验证码" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_send_code"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="31dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/with_draw_default"
+        android:textColor="@color/gray_textcolor"
+        android:text="@string/msg_send_post"/>
+    <Button
+        android:id="@+id/rlbutton"
+        style="@style/btn_login_blue"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="提交" />
+    <TextView
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="31dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/with_draw_default"
+        android:textColor="@color/gray_textcolor"
+        android:text="@string/money_arrive_hint"/>
+
+</LinearLayout>
