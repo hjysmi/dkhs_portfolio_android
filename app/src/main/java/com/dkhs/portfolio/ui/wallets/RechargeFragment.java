@@ -188,6 +188,11 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     private void payment(float amout) {
         WalletsEngine.payment(amout, payType, new ParseHttpListener<PaymentBean>() {
             @Override
+            public void beforeRequest() {
+                super.beforeRequest();
+            }
+
+            @Override
             protected PaymentBean parseDateTask(String jsonData) {
                 PaymentBean bean = DataParse.parseObjectJson(PaymentBean.class, jsonData);
                 return bean;
@@ -200,7 +205,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
                     mPayManager.pay(object);
                 }
             }
-        });
+        }.setLoadingDialog(getActivity(),false));
     }
 
 
