@@ -96,16 +96,6 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
             vh.get(R.id.view_divider).setVisibility(View.GONE);
         }
         PeopleBean user = comment.user;
-        if(comment instanceof CommentBean){
-            CommentBean cb = (CommentBean)comment;
-            if(cb.rewarded_type == 1){
-                vh.getImageView(R.id.iv_rewarded).setVisibility(View.VISIBLE);
-            }else{
-                vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
-            }
-        }else{
-            vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
-        }
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_head));
         } else {

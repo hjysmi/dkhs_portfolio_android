@@ -138,7 +138,7 @@
         android:id="@+id/iv_rewarded"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_rewarded"
+        android:src="@drawable/icon_reply_rewarded"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"/>
 </RelativeLayout>
