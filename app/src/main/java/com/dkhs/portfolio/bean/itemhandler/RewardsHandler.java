@@ -70,12 +70,6 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         setClickListener(vh.get(R.id.name), data);
 
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
-        if (TextUtils.isEmpty(data.title)) {
-            vh.get(R.id.titleTV).setVisibility(View.GONE);
-        } else {
-            vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.titleTV, data.title);
-        }
         if (data.user != null && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         } else {
@@ -97,12 +91,12 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         }
 
 
-        TopicsImageViewHandler topicsImageViewHandler = (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+        TopicsImageViewHandler topicsImageViewHandler = (TopicsImageViewHandler) vh.get(R.id.content).getTag();
 
 
         if (topicsImageViewHandler == null) {
             topicsImageViewHandler = new TopicsImageViewHandler();
-            vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
+            vh.get(R.id.content).setTag(topicsImageViewHandler);
         }
 
         topicsImageViewHandler.handleMedias(vh, data, false);
