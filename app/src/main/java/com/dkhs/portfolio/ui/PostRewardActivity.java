@@ -45,6 +45,7 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.DKHtml;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.rockerhieu.emojicon.emoji.Emojicon;
 
@@ -909,7 +910,12 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     private void showChargeDialog(){
         MAlertDialog builder = PromptManager.getAlertDialog(this);
-        builder.setMessage("余额不足，是否充值").setPositiveButton("充值",null).setNegativeButton("取消",null);
+        builder.setMessage("余额不足，是否充值").setPositiveButton("充值", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UIUtils.startAnimationActivity(PostRewardActivity.this,new Intent(PostRewardActivity.this,RechargeActivity.class));
+            }
+        }).setNegativeButton("取消",null);
         builder.show();
     }
 }
