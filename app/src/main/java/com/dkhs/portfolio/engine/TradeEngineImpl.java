@@ -106,7 +106,7 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
      * 获取银行列表
      */
     public void getBanks(IHttpListener listener) {
-        DKHSClient.requestByGet(listener,DKHSUrl.Funds.get_banks);
+        DKHSClient.requestByGet(listener, DKHSUrl.Funds.get_banks);
     }
 
     public void isTradePasswordSet(IHttpListener listener){
@@ -116,10 +116,10 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
     public void setTradePassword(String password,IHttpListener listener){
         RequestParams params = new RequestParams();
         params.addBodyParameter("password",password);
-        DKHSClient.requestByPost(DKHSUrl.Funds.set_trade_password,params,listener);
+        DKHSClient.requestByPost(DKHSUrl.Funds.set_trade_password, params, listener);
     }
     public void getMyBankCards(IHttpListener listener){
-        DKHSClient.requestByGet(listener,DKHSUrl.Funds.get_my_bank_cards);
+        DKHSClient.requestByGet(listener, DKHSUrl.Funds.get_my_bank_cards);
     }
     public void getMyAssests(IHttpListener listener){
         DKHSClient.requestByGet(listener,DKHSUrl.Funds.get_my_assests);
@@ -127,7 +127,7 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
     public void checkTradePassword(String password, IHttpListener listener){
         RequestParams params = new RequestParams();
         params.addBodyParameter("password",password);
-        DKHSClient.requestByPost(DKHSUrl.Funds.check_trade_password,params,listener);
+        DKHSClient.requestByPost(DKHSUrl.Funds.check_trade_password, params, listener);
     }
     public void changeTradePassword(String old_password, String new_password, IHttpListener listener){
         RequestParams params = new RequestParams();
@@ -150,6 +150,11 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         params.addBodyParameter("shares",shares);
         params.addBodyParameter("password",password);
         DKHSClient.requestByPost(DKHSUrl.Funds.sell_fund,params,listener);
+    }
+    public void checkBank(String bank_card_no, IHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("bank_card_no",bank_card_no);
+        DKHSClient.requestByPost(DKHSUrl.Funds.check_bank_card,params,listener);
     }
 
 }

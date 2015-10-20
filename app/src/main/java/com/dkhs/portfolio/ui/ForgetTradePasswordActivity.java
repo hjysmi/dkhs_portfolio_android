@@ -105,7 +105,7 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
             if(convertView == null){
                 TextView tv = new TextView(mContext);
                 Resources res = getResources();
-                tv.setBackgroundResource(R.drawable.btn_white_selector);
+                tv.setBackgroundResource(R.drawable.bg_white_gray_selector);
                 tv.setTextColor(res.getColor(R.color.black));
                 tv.setTextSize(res.getDimension(R.dimen.widget_text_8sp));
                 tv.setText(String.format(getResources().getString(R.string.blank_card_info), "兴业银行", "储蓄卡", 1248));
@@ -127,7 +127,7 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
             }else{
                 cardType = "信用卡";
             }
-            tv.setText(String.format(getResources().getString(R.string.blank_card_info),card.getBank().getBank_card_no_tail(),cardType,card.getBank_card_no_tail()));
+            tv.setText(String.format(getResources().getString(R.string.blank_card_info),card.getBank().getName(),cardType,card.getBank_card_no_tail()));
             return convertView;
         }
     }

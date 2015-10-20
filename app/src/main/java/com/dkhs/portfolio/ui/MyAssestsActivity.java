@@ -51,9 +51,13 @@ public class MyAssestsActivity extends ModelAcitivity {
         super.onCreate(arg0);
         setContentView(R.layout.activity_my_assests);
         ViewUtils.inject(this);
+        ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
+        ((TextView) findViewById(R.id.tv_title_info)).setTextColor(getResources().getColor(R.color.white));
+        updateTitleBackgroud(R.color.theme_blue);
         setTitle(R.string.my_assets);
+        setBackButtonDrawRes(R.drawable.btn_white_back_selector);
         TextView addButton = getRightButton();
-        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_setting_selecter),
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_white_setting_selecter),
                 null, null, null);
         addButton.setOnClickListener(new View.OnClickListener() {
 

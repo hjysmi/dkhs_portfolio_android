@@ -347,6 +347,7 @@ public class DKHSUrl {
         String get_funds_trades_info = "/api/v1/funds/trades/{0}/";
         String buy_fund = "/api/v1/funds/buy/";
         String sell_fund = "/api/v1/funds/sell/";
+        String check_bank_card = "/api/v1/accounts/bank_cards/check/";
 
     }
 

@@ -23,6 +23,7 @@ import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -97,6 +98,36 @@ public class BankCardInfoActivity extends ModelAcitivity {
         ViewUtils.inject(this);
         setTitle(R.string.input_bank_card_info);
         initViews();
+        if(isResetPasswordType){
+
+        }else{
+            initData();
+        }
+    }
+
+    private void initData() {
+        ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
+            @Override
+            protected Bank parseDateTask(String jsonData) {
+                Bank bank = null;
+                try{
+                    jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+                    bank = DataParse.parseObjectJson(Bank.class, jsonData);
+                }catch (Exception e){
+                }
+                return bank;
+            }
+
+            @Override
+            protected void afterParseData(Bank bank) {
+                if(!TextUtils.isEmpty(bank.getName())){
+                    tvBank.setText(bank.getName());
+                    btnStatus++;
+                }
+            }
+        };
+        new TradeEngineImpl().checkBank(bankCrardNo,listener.setLoadingDialog(mContext));
+
     }
 
     private void handleExtras(Bundle extras) {
