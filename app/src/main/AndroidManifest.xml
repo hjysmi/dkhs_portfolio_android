@@ -536,6 +536,8 @@
             android:launchMode="singleTop"/>
         <!-- weixin -->
 
+        <activity android:name=".ui.WithDrawActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
