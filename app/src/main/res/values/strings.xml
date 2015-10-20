@@ -805,7 +805,7 @@
     <!--wallet-->
     <string name="balance_hint">现金余额(元)</string>
     <string name="charge">充值</string>
-    <string name="withdraw">提取</string>
+    <string name="withdraw">提现</string>
     <string name="with_draw_available">可提现金额为%1$s元</string>
     <string name="money_arrive_hint">预计5个工作日内到账</string>
     <string name="msg_bound_mobile">需要绑定手机号码才可以提现哦</string>

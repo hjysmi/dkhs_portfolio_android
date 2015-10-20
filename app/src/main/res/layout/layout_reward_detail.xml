@@ -67,6 +67,7 @@
                 <ImageView
                     android:layout_toLeftOf="@id/tv_reward_amount"
                     android:id="@+id/iv_money"
+                    android:layout_marginRight="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_money_highlight"/>
@@ -75,6 +76,7 @@
                     android:layout_below="@id/tv_reward_amount"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="12dp"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/state_rewarding"
