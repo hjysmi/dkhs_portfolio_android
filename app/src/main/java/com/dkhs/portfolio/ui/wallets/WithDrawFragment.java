@@ -28,7 +28,6 @@ import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -154,6 +153,9 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onDestroyView() {
+        if(mTimer != null){
+            mTimer.cancel();
+        }
         if(handler != null){
             handler.removeMessages(GET_CODE_UNABLE);
             handler.removeMessages(GET_CODE_ABLE);
@@ -274,7 +276,6 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
             @Override
             protected Object parseDateTask(String jsonData) {
                 WithDrawResBean obj = DataParse.parseObjectJson(WithDrawResBean.class, jsonData);
-                LogUtils.d("wys","serial_no"+obj.serial_no);
                 return obj;
             }
 
