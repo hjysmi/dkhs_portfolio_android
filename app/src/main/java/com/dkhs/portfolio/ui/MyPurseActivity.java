@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -223,7 +224,12 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
 
     private void showBoundMobileDialog(){
             MAlertDialog builder = PromptManager.getAlertDialog(this);
-            builder.setMessage(R.string.msg_bound_mobile).setPositiveButton(R.string.btn_bound_mobile,null).setNegativeButton(R.string.cancel,null);
+            builder.setMessage(R.string.msg_bound_mobile).setPositiveButton(R.string.btn_bound_mobile, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(RLFActivity.bindPhoneIntent(MyPurseActivity.this));
+                }
+            }).setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 }
