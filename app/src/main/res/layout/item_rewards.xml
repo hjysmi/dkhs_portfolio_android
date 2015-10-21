@@ -4,7 +4,7 @@
     android:id="@+id/rootView"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/activity_bg_color">
+    android:background="@color/person_setting_backgroud">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main_ll"
