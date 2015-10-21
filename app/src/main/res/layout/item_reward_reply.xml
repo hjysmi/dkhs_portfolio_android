@@ -153,6 +153,6 @@
         android:layout_height="16dp"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/line"
-        android:background="@color/activity_bg_color" />
+        android:background="@color/person_setting_backgroud" />
 
 </RelativeLayout>
