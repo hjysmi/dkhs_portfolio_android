@@ -75,6 +75,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/widget_margin_small"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:inAnimation="@anim/switch_bottom_in"
                         android:outAnimation="@anim/switch_top_out">
 
@@ -102,12 +104,14 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
                         android:background="#f2f2f2"
                         android:visibility="gone"
                         />
                     <TextView
                         android:id="@+id/tv_adopt"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
