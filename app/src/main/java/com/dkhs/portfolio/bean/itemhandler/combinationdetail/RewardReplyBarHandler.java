@@ -48,7 +48,7 @@ public class RewardReplyBarHandler extends SimpleItemHandler<TopicsBean> impleme
 
         final Spinner spinner = vh.get(R.id.spinner);
         if (spinner.getAdapter() == null) {
-            spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.topics_commend_sort)));
+            spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.rewards_reply_sort)));
             spinner.setOnItemSelectedListener(this);
         }
 

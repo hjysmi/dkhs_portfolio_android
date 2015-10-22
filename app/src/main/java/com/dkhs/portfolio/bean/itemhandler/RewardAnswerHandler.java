@@ -20,6 +20,8 @@ import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
 import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -314,8 +316,10 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
                     @Override
                     protected void afterParseData(Object object) {
                         //TODO:提示界面更新
+                        PromptManager.showToast(R.string.reward_success);
+                        BusProvider.getInstance().post(new RewardDetailRefreshEvent(0));
                     }
-                });
+                }.setLoadingDialog(mContext,false));
                 dialog.dismiss();
             }
         }).setNegativeButton("取消",null);

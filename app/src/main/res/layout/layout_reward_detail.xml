@@ -55,10 +55,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_alignBottom="@id/name"
                     style="@style/reward_unit_on_going"
                     android:text="元"/>
                 <TextView android:id="@+id/tv_reward_amount"
-                    android:layout_alignBaseline="@id/tv_reward_amount_unit"
+                    android:layout_alignBottom="@id/name"
                     android:layout_toLeftOf="@id/tv_reward_amount_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,8 +67,9 @@
                     />
                 <ImageView
                     android:layout_toLeftOf="@id/tv_reward_amount"
-                    android:id="@+id/iv_money"
                     android:layout_marginRight="5dp"
+                    android:layout_alignBottom="@id/name"
+                    android:id="@+id/iv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_money_highlight"/>
@@ -75,10 +77,10 @@
                     android:id="@+id/tv_reward_state"
                     android:layout_below="@id/tv_reward_amount"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="12dp"
-                    android:textSize="14sp"
+                    android:layout_alignBaseline="@id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="10sp"
                     style="@style/state_rewarding"
                     />
 
@@ -94,16 +96,6 @@
                 android:paddingRight="16dp"
                 android:textSize="@dimen/text_status_content" />
 
-            <com.dkhs.portfolio.ui.widget.DKHSTextView
-                android:id="@+id/titleTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColor="@color/black"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/text_status_title" />
 
             <com.dkhs.portfolio.ui.widget.DKHSTextView
                 android:id="@+id/content"

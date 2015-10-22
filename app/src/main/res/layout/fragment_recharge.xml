@@ -108,6 +108,7 @@
 
         <RelativeLayout
             android:id="@+id/rl_cardpay"
+            android:visibility="gone"
             style="@style/recharge_pay_layout">
 
             <TextView

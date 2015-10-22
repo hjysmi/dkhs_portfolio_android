@@ -77,12 +77,6 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
 //        setClickListener(vh.get(R.id.iv), data);
 
         setClickListener(vh.get(R.id.name), data);
-        if (TextUtils.isEmpty(data.title)) {
-            vh.get(R.id.titleTV).setVisibility(View.GONE);
-        } else {
-            vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.titleTV, data.title);
-        }
 
         PeopleBean user = data.user;
         if (null != user) {
@@ -98,12 +92,11 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
 
 
         TopicsImageViewHandler topicsImageViewHandler;
-        if(vh.get(R.id.titleTV).getTag()!= null && vh.get(R.id.titleTV).getTag() instanceof TopicsImageViewHandler){
-            topicsImageViewHandler= (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+        if(vh.get(R.id.content).getTag()!= null && vh.get(R.id.content).getTag() instanceof TopicsImageViewHandler){
+            topicsImageViewHandler= (TopicsImageViewHandler) vh.get(R.id.content).getTag();
         }else {
               topicsImageViewHandler=new TopicsImageViewHandler();
-
-            vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
+            vh.get(R.id.content).setTag(topicsImageViewHandler);
         }
         topicsImageViewHandler.handleMedias(vh, data, true);
 

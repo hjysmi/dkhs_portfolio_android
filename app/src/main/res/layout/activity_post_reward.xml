@@ -10,6 +10,8 @@
         android:visibility="gone"
         android:orientation="horizontal"
         android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="8dp">
         <TextView
@@ -20,12 +22,14 @@
             android:text="悬赏金额"/>
         <com.dkhs.portfolio.ui.widget.DKHSEditText
             android:id="@+id/et_reward"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:textSize="@dimen/reward_amount"
             android:textColor="@color/title_tab_def_color"
             android:singleLine="true"
+            android:background="@null"
             android:inputType="numberDecimal"
             android:hint="--"/>
         <TextView

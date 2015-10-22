@@ -73,7 +73,7 @@
     <dimen name="adapter_line_height">7px</dimen>
     <dimen name="padding_left">90px</dimen>
     <dimen name="gray_tab_height">32dp</dimen>
-    <dimen name="main_tab_textsize">12sp</dimen>
+    <dimen name="main_tab_textsize">10sp</dimen>
     <dimen name="fab_scroll_threshold">4dp</dimen>
     <dimen name="float_menu_div_padding">10dp</dimen>
     <dimen name="floating_action_menu_item_height">48.0dip</dimen>
@@ -137,5 +137,6 @@
     <dimen name="with_draw_default">14sp</dimen>
     <dimen name="with_draw_hint">16sp</dimen>
 
+    <dimen name="bg_reward_state_radius">6dp</dimen>
 
 </resources>

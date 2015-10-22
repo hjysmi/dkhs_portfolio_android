@@ -77,6 +77,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     private GridViewEx gvSelectPic;
     private SelectPicAdapter mPicAdapter;
     private ArrayList<String> mSelectPohotos = new ArrayList<>();
+    private LinearLayout rewardInfoLl;
 
     /**
      * 发表
@@ -215,6 +216,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         ibStock = (ImageButton) findViewById(R.id.ib_dollar);
 //        ivPhoto = (ImageView) findViewById(R.id.iv_photo);
         ibImg = findViewById(R.id.ib_img);
+        rewardInfoLl = (LinearLayout)findViewById(R.id.ll_reward_info);
+        rewardInfoLl.setOnClickListener(this);
 //        TextView backBtn = (TextView) getBtnBack();
 //        backBtn.setCompoundDrawables(null, null, null, null);
 //        backBtn.setText(R.string.cancel);
@@ -488,6 +491,9 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 break;
             case R.id.ib_friend:
                 pickupFriend();
+                break;
+            case R.id.ll_reward_info:
+                amountEt.requestFocus();
                 break;
         }
     }
@@ -910,12 +916,12 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     private void showChargeDialog(){
         MAlertDialog builder = PromptManager.getAlertDialog(this);
-        builder.setMessage("余额不足，是否充值").setPositiveButton("充值", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.msg_balance_insufficient).setPositiveButton(R.string.charge, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 UIUtils.startAnimationActivity(PostRewardActivity.this,new Intent(PostRewardActivity.this,RechargeActivity.class));
             }
-        }).setNegativeButton("取消",null);
+        }).setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 }

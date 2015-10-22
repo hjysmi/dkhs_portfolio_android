@@ -800,7 +800,9 @@
     <string name="recharge_success">充值成功</string>
     <string name="msg_adopt_reply">确定采纳TA为最佳回答，并支付赏金？</string>
     <string name="msg_close_reward">确定无满意答案并关闭该悬赏？</string>
-    <string name="reward_too_low">至少发布的悬赏%1$s元</string>
+    <string name="reward_too_low">悬赏金额最低%1$s元起!</string>
+    <string name="reward_success">赏金支付成功!</string>
+    <string name="close_reward_hint">关闭成功，即将退回你的赏金</string>
 
     <!--wallet-->
     <string name="balance_hint">现金余额(元)</string>
@@ -811,4 +813,5 @@
     <string name="msg_bound_mobile">需要绑定手机号码才可以提现哦</string>
     <string name="btn_bound_mobile">去绑定</string>
     <string name="msg_send_post">向手机%1$s发送验证码</string>
+    <string name="msg_balance_insufficient">钱包余额不足，请充值</string>
 </resources>
