@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:background="@drawable/btn_white_grayborder_selector"
     android:id="@+id/adopt_reply_rl"
     android:visibility="gone"
     android:layout_marginTop="8dp"
@@ -14,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="@drawable/bg_white_border_gray"
         >
         <TextView
             android:id="@+id/adopt_tv_hint"
@@ -26,6 +26,7 @@
             android:text="采纳回答"/>
         <ImageView
             android:layout_width="wrap_content"
+            android:layout_marginRight="16dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/icon_rewarded"/>

@@ -49,10 +49,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignBottom="@id/name"
                 style="@style/reward_unit_on_going"
                 android:text="元"/>
             <TextView android:id="@+id/tv_reward_amount"
-                android:layout_alignBaseline="@id/tv_reward_amount_unit"
+                android:layout_alignBottom="@id/name"
                 android:layout_toLeftOf="@id/tv_reward_amount_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,6 +62,7 @@
             <ImageView
                 android:layout_toLeftOf="@id/tv_reward_amount"
                 android:layout_marginRight="5dp"
+                android:layout_alignBottom="@id/name"
                 android:id="@+id/iv_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,10 +71,10 @@
                 android:id="@+id/tv_reward_state"
                 android:layout_below="@id/tv_reward_amount"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
+                android:layout_alignBaseline="@id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="10sp"
                 style="@style/state_rewarding"
                 />
 

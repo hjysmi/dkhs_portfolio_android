@@ -137,5 +137,6 @@
     <dimen name="with_draw_default">14sp</dimen>
     <dimen name="with_draw_hint">16sp</dimen>
 
+    <dimen name="bg_reward_state_radius">6dp</dimen>
 
 </resources>
