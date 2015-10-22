@@ -10,7 +10,7 @@
         android:id="@+id/main_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/btn_white_grayborder_selector"
         android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
 
