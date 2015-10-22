@@ -136,12 +136,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     clickPosition(itemPosition);
                 }
             });
-            if (itemPosition == INDEX_COINS) {
-                itemHolder.tvTip.setVisibility(View.VISIBLE);
-                itemHolder.tvTip.setText(R.string.tip_flowpackage);
-            } else {
-                itemHolder.tvTip.setVisibility(View.GONE);
-            }
             if (itemPosition == 0) {
 
                 if (mUnreadCount > 0) {

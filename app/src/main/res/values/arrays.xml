@@ -286,7 +286,7 @@
     </string-array>
     <string-array name="rewards_reply_sort">
         <item>最新回答</item>
-        <item>最热回答</item>
+        <item>最赞回答</item>
         <item>最早回答</item>
     </string-array>
 

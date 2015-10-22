@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,9 +18,9 @@ import com.dkhs.portfolio.bean.WalletChangeBean;
 import com.dkhs.portfolio.bean.itemhandler.WalletChangeHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.WalletEngineImpl;
 import com.dkhs.portfolio.engine.LocalDataEngine.WalletExchangeEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.engine.WalletEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -80,6 +79,7 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
                 loadData();
             }
         });
+
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         loadData();
         getAccountInfo();
@@ -107,6 +107,9 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         mAdapter = new DKBaseAdapter(this,mDataList).buildMultiItemView(WalletChangeBean.class,new WalletChangeHandler(this))
         .buildMultiItemView(NoDataBean.class,new NoDataHandler());
         mRecordListView.setAdapter(mAdapter);
+        mRecordListView.setCanLoadMore(true);
+        mRecordListView.setOnLoadListener(this);
+        mRecordListView.setAutoLoadMore(true);
     }
     private void loadData() {
         mSwipeLayout.setRefreshing(true);
@@ -132,11 +135,13 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         }
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
+        mRecordListView.onLoadMoreComplete();
     }
 
     @Override
     public void loadFail() {
         mSwipeLayout.setRefreshing(true);
+        mRecordListView.onLoadMoreComplete();
     }
 
     @OnClick({R.id.btn_balance_out, R.id.btn_balance_in})
@@ -173,7 +178,12 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
 
     @Override
     public void onLoadMore() {
-        getLoadEngine().loadMore();
+        if (mWalletEngineImpl.getCurrentpage() < mWalletEngineImpl.getTotalpage() && mWalletEngineImpl.getCurrentpage() != 0 && mWalletEngineImpl.getTotalpage() != 0) {
+            getLoadEngine().loadMore();
+        }else{
+            mRecordListView.onLoadMoreComplete();
+            PromptManager.showToast("没有数据");
+        }
     }
 
     @Override
@@ -199,7 +209,6 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
             if (null != entity && entity.size() > 0) {
                 for(BindThreePlat bindThreePlat :entity){
                     if(bindThreePlat.getProvider().equals("mobile")&&bindThreePlat.isStatus()){//取provider为mobile中的status这个值判断当前用户是否绑定过手机号
-                        Log.d("wys","bound"+bindThreePlat.getUsername());
                         withDrawAvailable = true;
                     }
                 }
