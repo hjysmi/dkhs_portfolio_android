@@ -34,6 +34,20 @@ public class WalletChangeHandler extends SimpleItemHandler<WalletChangeBean> {
             vh.getTextView(R.id.tv_amount).setTextColor(mContext.getResources().getColor(R.color.balance_out));
         }
         vh.getTextView(R.id.tv_op_date).setText(TimeUtils.getDaySecondWITHOUTYEARString(data.getModified_at()));
+        vh.getTextView(R.id.tv_state).setText(getStateDes(data.getState()));
         super.onBindView(vh, data, position);
+    }
+
+    private String getStateDes(int state){
+        switch (state){
+            case 0:
+                return "处理中";
+            case 1:
+                return "成功";
+            case -1:
+                return "失败";
+            default:
+                return "失败";
+        }
     }
 }
