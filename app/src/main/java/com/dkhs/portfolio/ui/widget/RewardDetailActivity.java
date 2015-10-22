@@ -45,6 +45,7 @@ import com.dkhs.portfolio.ui.ModelAcitivity;
 import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -215,6 +216,22 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
         mSortType = topicsDetailRefreshEvent.sortType;
+    }
+
+    /**
+     * 点击采纳回答成功后更新界面
+     * @param event
+     */
+    @Subscribe
+    public void refresh(RewardDetailRefreshEvent event){
+        mTopicsBean.reward_state = 2;
+        mHandler.setRewardState(mTopicsBean.reward_state);
+        setTopicsDetail();
+        initFloatMenu();
+        if(mAdapter != null){
+            mAdapter.notifyDataSetChanged();
+        }
+        setRewardAdopted();
     }
 
     @Override
@@ -413,6 +430,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                                     @Override
                                     protected void afterParseData(Object object) {
+                                        PromptManager.showToast(R.string.close_reward_hint);
                                         if (mTopicsBean != null) {
                                             mTopicsBean.reward_state = 1;
                                             mHandler.setRewardState(mTopicsBean.reward_state);
@@ -420,9 +438,8 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                                             setTopicsDetail();
                                             initFloatMenu();
                                         }
-
                                     }
-                                });
+                                }.setLoadingDialog(RewardDetailActivity.this,false));
                                 dialog.dismiss();
                             }
                         }).setNegativeButton(R.string.cancel, null).show();
