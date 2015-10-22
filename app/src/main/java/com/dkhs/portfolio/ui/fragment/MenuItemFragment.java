@@ -213,7 +213,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         tabLayout3.setEnabled(true);
         tabLayout4.setEnabled(true);
         tabLayout5.setEnabled(true);
-        ColorStateList cls = getResources().getColorStateList(R.color.compare_select_gray);
+        ColorStateList cls = getResources().getColorStateList(R.color.tab_default);
         tvTab1.setTextColor(cls);
         tvTab2.setTextColor(cls);
         tvTab3.setTextColor(cls);
