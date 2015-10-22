@@ -94,16 +94,6 @@
                 android:paddingRight="16dp"
                 android:textSize="@dimen/text_status_content" />
 
-            <com.dkhs.portfolio.ui.widget.DKHSTextView
-                android:id="@+id/titleTV"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColor="@color/black"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/text_status_title" />
 
             <com.dkhs.portfolio.ui.widget.DKHSTextView
                 android:id="@+id/content"
