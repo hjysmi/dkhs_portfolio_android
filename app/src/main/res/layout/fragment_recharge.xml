@@ -138,7 +138,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="30dp"
         android:layout_marginTop="@dimen/combin_horSpacing"
-        android:background="@drawable/btn_red_selector"
+        android:background="@drawable/btn_blue_selector"
         android:gravity="center"
         android:text="支付"
         android:textColor="@color/white"

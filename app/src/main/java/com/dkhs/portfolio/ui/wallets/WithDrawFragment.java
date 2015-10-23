@@ -4,9 +4,11 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +42,9 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private static final int GET_CODE_UNABLE = 11;
     private static final int GET_CODE_ABLE = 12;
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
+
+    private static final int ENABLE_STATUS = 0;
+    private static final int DISABLE_STATUS = 1;
 
     public Timer mTimer = new Timer();// 定时器
     private int count ;
@@ -115,6 +120,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         initData();
+        initView();
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -130,6 +136,11 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
             sendCodeTv.setText(sendCodeMsg);
         }
         amountEt.setHint(availHint);
+    }
+
+    private void initView(){
+        amountEt.addTextChangedListener(amountTextWatcher);
+        changeBtnStatus(DISABLE_STATUS);
     }
 
     private WeakHandler handler = new WeakHandler(new Handler.Callback() {
@@ -220,6 +231,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
         if(v.getId() == R.id.btn_getCode){
             getVerifyCode();
         }else if(v.getId() == R.id.rlbutton){
+            LogUtils.d("wys","onclick");
             String amount = amountEt.getText().toString();
             String account = accountEt.getText().toString();
             String name = boundNameEt.getText().toString();
@@ -297,5 +309,37 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
                 }
             }
         });
+    }
+
+    private TextWatcher amountTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String textString = s.toString();
+            if(TextUtils.isEmpty(textString)){
+                changeBtnStatus(DISABLE_STATUS);
+            }else{
+                changeBtnStatus(ENABLE_STATUS);
+            }
+        }
+    };
+
+    private void changeBtnStatus(int status){
+        if(status == DISABLE_STATUS){
+            rlBtn.setEnabled(false);
+            rlBtn.setClickable(false);
+        }else{
+            rlBtn.setEnabled(true);
+            rlBtn.setClickable(true);
+        }
     }
 }

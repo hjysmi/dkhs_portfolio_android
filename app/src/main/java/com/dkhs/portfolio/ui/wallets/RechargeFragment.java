@@ -18,6 +18,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -28,6 +29,9 @@ import java.util.regex.Pattern;
  * Created by zjz on 2015/10/9.
  */
 public class RechargeFragment extends BaseFragment implements View.OnClickListener {
+
+    private static final int ENABLE_STATUS = 0;
+    private static final int DISABLE_STATUS = 1;
 
     @ViewInject(R.id.et_play_num)
     private EditText etPayNum;
@@ -80,6 +84,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         etPayNum.addTextChangedListener(percentTextWatch);
+        changeBtnStatus(DISABLE_STATUS);
 //        btnRecharge.setOnClickListener(this);
     }
 
@@ -98,6 +103,12 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
         @Override
         public void afterTextChanged(Editable s) {
             String textString = s.toString();
+            //金额为空时　充值按钮置灰不可点击
+            if(TextUtils.isEmpty(textString)){
+                changeBtnStatus(DISABLE_STATUS);
+            }else{
+                changeBtnStatus(ENABLE_STATUS);
+            }
             if (textString.equals(strBefore)) {
                 return;
             }
@@ -133,7 +144,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_recharge) {
-
+            LogUtils.d("wys","onclick");
 
             String amountText = etPayNum.getText().toString();
             if (TextUtils.isEmpty(amountText)) {
@@ -208,5 +219,13 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
         }.setLoadingDialog(getActivity(),false));
     }
 
-
+    private void changeBtnStatus(int status){
+        if(status == DISABLE_STATUS){
+            btnRecharge.setEnabled(false);
+            btnRecharge.setClickable(false);
+        }else{
+            btnRecharge.setEnabled(true);
+            btnRecharge.setClickable(true);
+        }
+    }
 }
