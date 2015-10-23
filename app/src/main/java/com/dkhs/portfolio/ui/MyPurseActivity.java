@@ -229,7 +229,7 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
             }
 
         }
-    };
+    }.setLoadingDialog(MyPurseActivity.this,false);
 
     private void showBoundMobileDialog(){
             MAlertDialog builder = PromptManager.getAlertDialog(this);

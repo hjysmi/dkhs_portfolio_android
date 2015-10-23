@@ -5,7 +5,7 @@
     android:descendantFocusability="blocksDescendants"
     android:id="@+id/adopt_reply_rl"
     android:visibility="gone"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="@dimen/combin_horSpacing"
     android:orientation="vertical">
 
     <RelativeLayout

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="-1dp"
         android:layout_marginRight="-1dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/combin_horSpacing"
         android:background="@drawable/edittext_bg">
 
         <TextView
@@ -49,7 +49,8 @@
             android:inputType="numberDecimal"
             android:singleLine="true"
             android:textCursorDrawable="@null"
-            android:textSize="16sp" />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <View style="@style/divider_line" />

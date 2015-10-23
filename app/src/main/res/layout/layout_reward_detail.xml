@@ -10,7 +10,7 @@
         android:id="@+id/main_rl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="@dimen/combin_horSpacing">
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -59,20 +59,13 @@
                     style="@style/reward_unit_on_going"
                     android:text="元"/>
                 <TextView android:id="@+id/tv_reward_amount"
-                    android:layout_alignBottom="@id/name"
+                    android:layout_alignTop="@id/tv_reward_amount_unit"
                     android:layout_toLeftOf="@id/tv_reward_amount_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     style="@style/reward_amount_on_going"
                     />
-                <ImageView
-                    android:layout_toLeftOf="@id/tv_reward_amount"
-                    android:layout_marginRight="5dp"
-                    android:layout_alignBottom="@id/name"
-                    android:id="@+id/iv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_money_highlight"/>
                 <TextView
                     android:id="@+id/tv_reward_state"
                     android:layout_below="@id/tv_reward_amount"
