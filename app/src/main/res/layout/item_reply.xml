@@ -58,6 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
                     android:gravity="right"
                     android:orientation="horizontal">
 
@@ -106,6 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/widget_margin_normal"
+            android:lineSpacingExtra="5dp"
             android:textColor="@color/text_content_color"
             android:textSize="@dimen/text_status_content" />
 
