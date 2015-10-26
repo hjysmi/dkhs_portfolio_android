@@ -138,5 +138,6 @@
     <dimen name="with_draw_hint">18sp</dimen>
 
     <dimen name="bg_reward_state_radius">6dp</dimen>
+    <dimen name="amount_padding_bottom">2dp</dimen>
 
 </resources>
