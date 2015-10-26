@@ -5,8 +5,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PaymentBean;
 import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -31,6 +33,15 @@ public class WeixinpayImpl implements IThreePay {
     public void recharge(final PaymentBean paymentBean) {
         //TODO调用微信sdk
         PaymentBean.WeiXinOrderInfo info = paymentBean.getWeixinpay_order_info();
+        if(!msgApi.isWXAppInstalled()){
+            PromptManager.showToast(R.string.weixin_not_installed);
+            return;
+        }
+        if(!msgApi.isWXAppSupportAPI()){//版本不支持支付
+            PromptManager.showToast(R.string.weixinpay_not_support);
+            return;
+        }
+        ;
         Log.d("wys","info"+info.sign);
         if(info != null){
             sendPayReq(info);
