@@ -20,6 +20,6 @@ android {
 }
 
 dependencies {
-    compile project(':baselibrary')
+    compile project(':base')
     compile files('src/main/libs/PhotoViewi.jar.jar')
 }

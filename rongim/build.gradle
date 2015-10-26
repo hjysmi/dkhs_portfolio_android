@@ -37,5 +37,5 @@ android {
 
 dependencies {
     compile files('src/main/libs/Rong_IMKit_v2_2_3.jar')
-    compile project(':baselibrary')
+    compile project(':base')
 }

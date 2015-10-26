@@ -22,6 +22,6 @@ android {
 }
 
 dependencies {
-    compile project(':baselibrary')
+    compile project(':base')
 }
 
