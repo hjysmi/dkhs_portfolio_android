@@ -9,4 +9,6 @@
     <!--输入框提示统一颜色-->
     <color name="text_hint_color">#c8c8c8</color>
     <color name="text_color">#262932</color>
+    <!-- 最外层viewpager未选中时文字的颜色-->
+    <color name="tab_color_unselect">#787878</color>
 </resources>
