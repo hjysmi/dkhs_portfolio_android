@@ -1,1 +1,1 @@
-include ':app', ':kit', ':library', ':baselibrary', ':photoBrower', ':emoji', ':security', ':autolist', ':PhotoPicker'
+include ':app', ':rongim', ':slider', ':base', ':photobrowser', ':emoji', ':security', ':autolist', ':photopicker'
