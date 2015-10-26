@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @我界面
+ * @我的钱包　交易历史
  */
 public class BalanceChangeFragment extends LoadMoreListFragment {
 
