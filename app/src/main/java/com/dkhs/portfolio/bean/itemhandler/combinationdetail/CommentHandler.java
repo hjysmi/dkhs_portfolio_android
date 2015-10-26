@@ -123,7 +123,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentBean bean = (CommentBean)comment;
+                LikeBean bean = comment;
                 if(bean.content_type == 0){
                     showCommentDialog(v, bean);
                 }else{
@@ -157,7 +157,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         }
     }
 
-    private void showRewardReplyDialog(View v, CommentBean comment) {
+    private void showRewardReplyDialog(View v, LikeBean comment) {
         RewardReplyItemClick mCommentClick;
         if (null != GlobalParams.LOGIN_USER) {
             mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
