@@ -26,6 +26,7 @@
     <dimen name="setting_sub_text_name">14sp</dimen>
     <dimen name="setting_text_phone">14sp</dimen>
     <dimen name="mark_symbol_size">10sp</dimen>
+    <!--一个界面中　多个板块　默认上下间隙-->
     <dimen name="combin_horSpacing">10dp</dimen>
     <dimen name="title_text_font">8sp</dimen>
     <dimen name="select_fund_height">94dp</dimen>
