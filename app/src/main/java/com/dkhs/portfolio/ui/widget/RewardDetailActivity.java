@@ -54,6 +54,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
@@ -185,6 +186,7 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         mRewardAdoptedHandler = new RewardAdoptedHandler(RewardDetailActivity.this,true,true);
                     }
                     mRewardAdoptedHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.adopt_reply_rl)), comment, 0);
+                    LogUtils.d("wys","adopted height"+ findViewById(R.id.adopt_reply_rl).getHeight());
                 }
 
                 @Override
@@ -261,7 +263,6 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
             protected void afterParseData(Object object) {
                 mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
-                setRewardAdopted();
                 mHandler.setRewardUserId(mTopicsBean.getUser().getId());
                 mHandler.setRewardState(mTopicsBean.reward_state);
                 onFragmentInteraction(mTopicsBean);
@@ -272,8 +273,11 @@ public class RewardDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         public void run() {
                             mScrollToComment = false;
                             mRewardDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            setRewardAdopted();
                         }
-                    }, 500);
+                    }, 0);
+                }else{
+                    setRewardAdopted();
                 }
 
             }
