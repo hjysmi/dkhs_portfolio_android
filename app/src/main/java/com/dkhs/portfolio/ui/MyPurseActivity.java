@@ -4,21 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AccountInfoBean;
 import com.dkhs.portfolio.bean.BindThreePlat;
-import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NoDataBean;
-import com.dkhs.portfolio.bean.WalletChangeBean;
-import com.dkhs.portfolio.bean.itemhandler.WalletChangeHandler;
-import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LocalDataEngine.WalletExchangeEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.WalletEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -26,8 +17,8 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.eventbus.WithDrawEvent;
+import com.dkhs.portfolio.ui.fragment.BalanceChangeFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,7 +26,6 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.mingle.autolist.AutoList;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
@@ -43,15 +33,11 @@ import java.util.List;
 /**
  * 主贴详情
  */
-public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener {
+public class MyPurseActivity extends ModelAcitivity {
 
     private static final int WITH_DRAW_AVAIL = 0;
     private static final int WITH_DRAW_UNAVAIL = 1;
     public static final String AVAIL_AMOUNT = "avail_amount";
-    @ViewInject(R.id.swipeRefreshLayout)
-    private SwipeRefreshLayout mSwipeLayout;
-    @ViewInject(R.id.lv_trading_record)
-    private PullToRefreshListView mRecordListView;
     @ViewInject(R.id.tv_balance)
     private TextView mBalanceTv;
     @ViewInject(R.id.btn_balance_in)
@@ -59,9 +45,6 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
     @ViewInject(R.id.btn_balance_out)
     private TextView mBalanceOutTv;
 
-    private WalletExchangeEngineImpl mWalletEngineImpl;
-    private AutoList<Object> mDataList = new AutoList<>().applyAction(WalletChangeBean.class);
-    private DKBaseAdapter mAdapter;
     private boolean withDrawAvailable = false;
     private float available = 0;
 
@@ -72,16 +55,7 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         setTitle(R.string.info_title_purse);
         ViewUtils.inject(this);
         BusProvider.getInstance().register(this);
-        initData();
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-            }
-        });
-
-        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
-        loadData();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new BalanceChangeFragment()).commitAllowingStateLoss();
         getAccountInfo();
 
     }
@@ -103,46 +77,6 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
         });
     }
 
-    private void initData(){
-        mAdapter = new DKBaseAdapter(this,mDataList).buildMultiItemView(WalletChangeBean.class,new WalletChangeHandler(this))
-        .buildMultiItemView(NoDataBean.class,new NoDataHandler());
-        mRecordListView.setAdapter(mAdapter);
-        mRecordListView.setCanLoadMore(true);
-        mRecordListView.setOnLoadListener(this);
-        mRecordListView.setAutoLoadMore(true);
-    }
-    private void loadData() {
-        mSwipeLayout.setRefreshing(true);
-        getLoadEngine().loadData();
-    }
-
-    private LoadMoreDataEngine getLoadEngine() {
-        if(mWalletEngineImpl == null){
-            mWalletEngineImpl = new WalletExchangeEngineImpl(this);
-        }
-        return mWalletEngineImpl;
-    }
-
-    @Override
-    public void loadFinish(MoreDataBean object) {
-        mSwipeLayout.setRefreshing(false);
-        if (mWalletEngineImpl.getCurrentpage() == 1) {
-            mDataList.clear();
-            if (object.getResults().size() == 0) {
-                NoDataBean noDataBean = new NoDataBean();
-                mDataList.add(noDataBean);
-            }
-        }
-        mDataList.addAll(object.getResults());
-        mAdapter.notifyDataSetChanged();
-        mRecordListView.onLoadMoreComplete();
-    }
-
-    @Override
-    public void loadFail() {
-        mSwipeLayout.setRefreshing(true);
-        mRecordListView.onLoadMoreComplete();
-    }
 
     @OnClick({R.id.btn_balance_out, R.id.btn_balance_in})
     public void changeBalance(View v) {
@@ -163,7 +97,7 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
     @Subscribe
     public void updateData(PayResEvent event){
         if(event.errCode == 0){
-            loadData();
+            ((BalanceChangeFragment)getSupportFragmentManager().findFragmentById(R.id.contentFL)).loadData();
             getAccountInfo();
         }
     }
@@ -171,20 +105,11 @@ public class MyPurseActivity extends ModelAcitivity implements LoadMoreDataEngin
     @Subscribe
     public void updateData(WithDrawEvent event){
         if(event.errCode == 0){
-            loadData();
+            ((BalanceChangeFragment)getSupportFragmentManager().findFragmentById(R.id.contentFL)).loadData();
             getAccountInfo();
         }
     }
 
-    @Override
-    public void onLoadMore() {
-        if (mWalletEngineImpl.getCurrentpage() < mWalletEngineImpl.getTotalpage() && mWalletEngineImpl.getCurrentpage() != 0 && mWalletEngineImpl.getTotalpage() != 0) {
-            getLoadEngine().loadMore();
-        }else{
-            mRecordListView.onLoadMoreComplete();
-            PromptManager.showToast("没有数据");
-        }
-    }
 
     @Override
     protected void onDestroy() {
