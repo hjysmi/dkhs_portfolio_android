@@ -145,6 +145,7 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
         TextView stateTv = vh.getTextView(R.id.tv_reward_state);
         TextView amountTv = vh.getTextView(R.id.tv_reward_amount);
         TextView amountUnit = vh.getTextView(R.id.tv_reward_amount_unit);
+        ImageView moneyIv = vh.getImageView(R.id.iv_money);
         int state;
         int amountStyle;
         int unitStyle;
@@ -170,12 +171,9 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
         }
         stateTv.setText(state);
         amountTv.setTextAppearance(mContext, amountStyle);
-        amountTv.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(leftDrawable), null, null, null);
+        moneyIv.setBackgroundResource(leftDrawable);
         amountUnit.setTextAppearance(mContext, unitStyle);
         amountTv.setText(data.reward_amount);
-
-
-
     }
 
 
