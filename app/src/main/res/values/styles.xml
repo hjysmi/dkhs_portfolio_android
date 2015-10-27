@@ -557,9 +557,9 @@
     <style name="btn_change_balance">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_content_color</item>
-        <item name="android:background">@drawable/btn_white_selector</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="android:background">@drawable/btn_white_grayborder_selector</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
     <style name="state_rewarding">
