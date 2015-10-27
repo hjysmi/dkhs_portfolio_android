@@ -20,6 +20,8 @@ import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
 import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -51,7 +53,7 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
     private int mRewardState;
 
     public RewardAnswerHandler(Context context, boolean avatarImResponse) {
-        this(context, avatarImResponse, false,0,0);
+        this(context, avatarImResponse, false);
     }
 
 
@@ -59,13 +61,16 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
         this(context, true);
     }
 
-    public RewardAnswerHandler(Context context, boolean avatarImResponse, boolean compact,long userId,int rewardState) {
+    public RewardAnswerHandler(Context context, boolean avatarImResponse, boolean compact) {
         mAvatarImResponse = avatarImResponse;
         mCompact = compact;
         mContext = context;
-        mRewardUserId = userId;
-        mRewardState = rewardState;
     }
+
+    public void setRewardUserId(long userId){
+        mRewardUserId = userId;
+    }
+
 
     public void setRewardState(int state){
         mRewardState = state;
@@ -93,16 +98,6 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
             vh.get(R.id.view_divider).setVisibility(View.GONE);
         }
         PeopleBean user = comment.user;
-        if(comment instanceof CommentBean){
-            CommentBean cb = (CommentBean)comment;
-            if(cb.reward_type == 1){
-                vh.getImageView(R.id.iv_rewarded).setVisibility(View.VISIBLE);
-            }else{
-                vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
-            }
-        }else{
-            vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
-        }
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_head));
         } else {
@@ -147,11 +142,10 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
                     mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
                 } else {
                     mCommentClick = new RewardReplyItemClick("", v.getContext());
-                }
+               }
                 if (isReplyComment) {
-                    mCommentClick.clickFromMyReply(comment);
+                    mCommentClick.clickFromMyReply(comment,((CommentBean)comment).rewarded_type == 1);
                 } else {
-
                     mCommentClick.clickFromMyTopic(comment);
                 }
             }
@@ -322,8 +316,10 @@ public class RewardAnswerHandler extends SimpleItemHandler<LikeBean> {
                     @Override
                     protected void afterParseData(Object object) {
                         //TODO:提示界面更新
+                        PromptManager.showToast(R.string.reward_success);
+                        BusProvider.getInstance().post(new RewardDetailRefreshEvent(0));
                     }
-                });
+                }.setLoadingDialog(mContext,false));
                 dialog.dismiss();
             }
         }).setNegativeButton("取消",null);

@@ -18,6 +18,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
+import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -74,7 +75,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         PeopleBean user = comment.user;
         if(comment instanceof CommentBean){
             CommentBean cb = (CommentBean)comment;
-            if(cb.reward_type == 1){
+            if(cb.rewarded_type == 1){
                 vh.getImageView(R.id.iv_rewarded).setVisibility(View.VISIBLE);
             }else{
                 vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
@@ -118,20 +119,15 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         if (mAvatarImResponse) {
             setClickListener(vh.get(R.id.iv_head), comment);
         }
+
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommentItemClick mCommentClick;
-                if (null != GlobalParams.LOGIN_USER) {
-                    mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
-                } else {
-                    mCommentClick = new CommentItemClick("", v.getContext());
-                }
-                if (isReplyComment) {
-                    mCommentClick.clickFromMyReply(comment);
-                } else {
-
-                    mCommentClick.clickFromMyTopic(comment);
+                LikeBean bean = comment;
+                if(bean.content_type == 0){
+                    showCommentDialog(v, bean);
+                }else{
+                    showRewardReplyDialog(v,bean);
                 }
             }
         });
@@ -144,6 +140,35 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         }
 
 
+    }
+
+    private void showCommentDialog(View v, LikeBean comment) {
+        CommentItemClick mCommentClick;
+        if (null != GlobalParams.LOGIN_USER) {
+            mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
+        } else {
+            mCommentClick = new CommentItemClick("", v.getContext());
+        }
+        if (isReplyComment) {
+            mCommentClick.clickFromMyReply(comment);
+        } else {
+
+            mCommentClick.clickFromMyTopic(comment);
+        }
+    }
+
+    private void showRewardReplyDialog(View v, LikeBean comment) {
+        RewardReplyItemClick mCommentClick;
+        if (null != GlobalParams.LOGIN_USER) {
+            mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
+        } else {
+            mCommentClick = new RewardReplyItemClick("", v.getContext());
+        }
+        if (isReplyComment) {
+            mCommentClick.clickFromMyReply(comment,comment.rewarded_type == 1?true:false);
+        } else {
+            mCommentClick.clickFromMyTopic(comment);
+        }
     }
 
     public void setClickListener(View view, LikeBean data) {

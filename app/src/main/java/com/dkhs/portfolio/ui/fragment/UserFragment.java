@@ -30,8 +30,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
-import com.dkhs.portfolio.ui.CallMeActivity;
-import com.dkhs.portfolio.ui.CommentMeActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.adapter.UserInfoAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -143,7 +141,7 @@ public class UserFragment extends BaseTitleFragment {
             //测试
             if(UserEngineImpl.getUserEntity() != null) {
                 Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("谁牛userId" + UserEngineImpl.getUserEntity().getId()).setContentText(DKHSClient.getHeadUrl()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
+                        .setContentTitle("谁牛金融userId" + UserEngineImpl.getUserEntity().getId()).setContentText(DKHSClient.getHeadUrl()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS | NotificationCompat.DEFAULT_SOUND | NotificationCompat.DEFAULT_VIBRATE)
                         .build();
                 notificationCompat.icon = R.drawable.ic_launcher;
 

@@ -13,8 +13,8 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 200401014
-        versionName "2.4.0.1014"
+        versionCode 200401027
+        versionName "2.4.0.1027"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
@@ -26,6 +26,10 @@ android {
 
         debug {
             // No debug config
+            storeFile file("xdsdkhs.keystore")
+            storePassword "xdsdkhs"
+            keyAlias "xdsdkhs"
+            keyPassword "xdsdkhsadmin"
         }
         release {
             storeFile file("xdsdkhs.keystore")
@@ -130,9 +134,9 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Core-2.6.0.jar')
     //    compile files('libs/ShareSDK-Wechat-Favorite-2.6.0.jar')
     compile files('libs/ShareSDK-Wechat-Moments-2.6.0.jar')
-    compile project(':kit')
-    compile project(':library')
-    compile project(':baselibrary')
+    compile project(':rongim')
+    compile project(':slider')
+    compile project(':base')
     compile files('libs/ShareSDK-SinaWeibo-2.6.0.jar')
     compile files('libs/MobTools.jar')
     compile files('libs/ShareSDK-QQ-2.6.0.jar')
@@ -140,14 +144,14 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
-    compile project(':photoBrower')
+    compile project(':photobrowser')
     compile project(':emoji')
     compile project(':security')
-    compile project(':PhotoPicker')
+    compile project(':photopicker')
     compile files('libs/android_api_3.7.0.jar')
     compile 'com.android.support:multidex:'
     compile files('libs/alipaySDK-20150818.jar')
     compile files('libs/libammsdk.jar')
-    compile project(':GridPasswordView')
+    compile project(':gridpasswordview')
     compile files('libs/cpauth_android_1.0.0_lib.jar')
 }

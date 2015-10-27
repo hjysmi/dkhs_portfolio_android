@@ -505,7 +505,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.RechargeActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="wx89557ae58e44573a"/>
+        </intent-filter>
+        </activity>
 
         <!-- alipay sdk begin -->
         <activity
@@ -524,7 +530,7 @@
 
         <!-- alipay sdk end -->
         <activity android:name=".ui.PostRewardActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.widget.RewardDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.RewardDetailActivity" android:screenOrientation="portrait"/>
 
 
         <receiver
@@ -533,6 +539,12 @@
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
         </receiver>
+        <!-- weixin callback-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <!-- weixin -->
 
         <activity
             android:name=".ui.MyAssestsActivity"
@@ -642,6 +654,8 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- ChinaPay plugin end -->
 
+        <activity android:name=".ui.WithDrawActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

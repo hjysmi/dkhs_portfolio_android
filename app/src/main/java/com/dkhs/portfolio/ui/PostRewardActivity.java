@@ -27,7 +27,7 @@ import com.dkhs.portfolio.bean.RewardInfoBean;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.DraftEngine;
-import com.dkhs.portfolio.engine.LocalDataEngine.WalletEngineImpl;
+import com.dkhs.portfolio.engine.WalletEngineImpl;
 import com.dkhs.portfolio.engine.UploadImageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -45,6 +45,7 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.DKHtml;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.rockerhieu.emojicon.emoji.Emojicon;
 
@@ -76,6 +77,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
     private GridViewEx gvSelectPic;
     private SelectPicAdapter mPicAdapter;
     private ArrayList<String> mSelectPohotos = new ArrayList<>();
+    private LinearLayout rewardInfoLl;
 
     /**
      * 发表
@@ -214,6 +216,8 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
         ibStock = (ImageButton) findViewById(R.id.ib_dollar);
 //        ivPhoto = (ImageView) findViewById(R.id.iv_photo);
         ibImg = findViewById(R.id.ib_img);
+        rewardInfoLl = (LinearLayout)findViewById(R.id.ll_reward_info);
+        rewardInfoLl.setOnClickListener(this);
 //        TextView backBtn = (TextView) getBtnBack();
 //        backBtn.setCompoundDrawables(null, null, null, null);
 //        backBtn.setText(R.string.cancel);
@@ -487,6 +491,9 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
                 break;
             case R.id.ib_friend:
                 pickupFriend();
+                break;
+            case R.id.ll_reward_info:
+                amountEt.requestFocus();
                 break;
         }
     }
@@ -909,7 +916,12 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     private void showChargeDialog(){
         MAlertDialog builder = PromptManager.getAlertDialog(this);
-        builder.setMessage("余额不足，是否充值").setPositiveButton("充值",null).setNegativeButton("取消",null);
+        builder.setMessage(R.string.msg_balance_insufficient).setPositiveButton(R.string.charge, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UIUtils.startAnimationActivity(PostRewardActivity.this,new Intent(PostRewardActivity.this,RechargeActivity.class));
+            }
+        }).setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 }

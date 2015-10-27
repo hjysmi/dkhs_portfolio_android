@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@drawable/lv_white_selector"
    >
 
     <TextView
@@ -8,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:textSize="16sp"
         android:textColor="@color/text_content_color"
         />
@@ -24,12 +25,23 @@
         />
     <TextView
         android:id="@+id/tv_amount"
-        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/tv_op"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:textSize="18sp"
+        />
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_below="@+id/tv_amount"
+        android:layout_alignBaseline="@id/tv_op_date"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:textSize="18sp"
+        android:textColor="@color/gray_textcolor"
+        android:layout_marginRight="16dp"
+        android:textSize="14sp"
         />
 
 </RelativeLayout>

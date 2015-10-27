@@ -282,10 +282,13 @@
     <style name="bottom_tab_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text_press</item>
+        <item name="android:textColor">@color/tab_default</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:textSize">@dimen/main_tab_textsize</item>
         <item name="android:clickable">false</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingBottom">-1dp</item>
     </style>
 
     <style name="bottom_tab_button">
@@ -566,8 +569,8 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_content_color</item>
         <item name="android:background">@drawable/btn_white_selector</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
     </style>
 
     <style name="state_rewarding">
@@ -609,19 +612,35 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/btn_white_selector</item>
-        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingBottom">@dimen/edittext_padding</item>
         <item name="android:paddingLeft">32dp</item>
         <item name="android:paddingRight">35dp</item>
-        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingTop">@dimen/edittext_padding</item>
     </style>
 
 
-    <style name="recharge_pay_text" parent="text_18_style">
+    <style name="recharge_pay_text" parent="text_16_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:drawablePadding">13dp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
+
+    <style name="with_draw_title" parent="text_16_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="with_draw_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:paddingLeft">30dp</item>
+    </style>
+
 
 
     <!-- ChinaPay plugin begin -->

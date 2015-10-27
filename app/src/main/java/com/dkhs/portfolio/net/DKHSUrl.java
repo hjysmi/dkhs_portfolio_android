@@ -329,6 +329,7 @@ public class DKHSUrl {
         String account_info = "/api/v1/wallets/account/mine/";
         String wallet_exchange = "/api/v1/wallets/account/changes/";
         String rewards_balance = "/api/v1/statuses/rewards/balance/";
+        String withdraw = "/api/v1/wallets/withdraw/";
     }
 
     public interface Funds{

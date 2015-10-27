@@ -122,6 +122,8 @@ public class GesturePasswordActivity extends ModelAcitivity {
         } else {
             if (gesPassword.leftCount == 0 && !isResetMode) {
                 showErrorDialog();
+            }else if(gesPassword.leftCount == 1){
+                gesPassword.leftCount = 0;
             }
         }
         originPassword = gesPassword.password;
@@ -265,14 +267,14 @@ public class GesturePasswordActivity extends ModelAcitivity {
                         lockPatternView
                                 .setDisplayMode(LockPatternView.DisplayMode.Wrong);
                         lockPatternView.invalidate();
-                        if (gesPassword.leftCount > 0) {
-                            gesPassword.leftCount = gesPassword.leftCount - 1;
-                        }
                         if (gesPassword.leftCount == 0) {
                             tv_tip.setText(String.format(getResources().getString(R.string.blank_gesture_password_error), gesPassword.leftCount));
                             showErrorDialog();
                         } else {
                             tv_tip.setText(String.format(getResources().getString(R.string.blank_gesture_password_error), gesPassword.leftCount));
+                        }
+                        if (gesPassword.leftCount > 0) {
+                            gesPassword.leftCount = gesPassword.leftCount - 1;
                         }
                         tv_tip.setTextColor(getResources().getColor(R.color.red));
                         tv_tip.startAnimation(animation);
@@ -330,6 +332,8 @@ public class GesturePasswordActivity extends ModelAcitivity {
     }
 
     private void showErrorDialog() {
+        lockPatternView.clearPattern();
+        lockPatternView.invalidate();
         gesPassword.leftCount = 0;
         GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
         new MyAlertDialog(this).builder()

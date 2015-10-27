@@ -18,7 +18,7 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.widget.RewardDetailActivity;
+import com.dkhs.portfolio.ui.RewardDetailActivity;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -70,12 +70,6 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         setClickListener(vh.get(R.id.name), data);
 
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
-        if (TextUtils.isEmpty(data.title)) {
-            vh.get(R.id.titleTV).setVisibility(View.GONE);
-        } else {
-            vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.titleTV, data.title);
-        }
         if (data.user != null && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         } else {
@@ -97,12 +91,12 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         }
 
 
-        TopicsImageViewHandler topicsImageViewHandler = (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+        TopicsImageViewHandler topicsImageViewHandler = (TopicsImageViewHandler) vh.get(R.id.content).getTag();
 
 
         if (topicsImageViewHandler == null) {
             topicsImageViewHandler = new TopicsImageViewHandler();
-            vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
+            vh.get(R.id.content).setTag(topicsImageViewHandler);
         }
 
         topicsImageViewHandler.handleMedias(vh, data, false);
@@ -136,7 +130,7 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         TextView stateTv = vh.getTextView(R.id.tv_reward_state);
         TextView amountTv = vh.getTextView(R.id.tv_reward_amount);
         TextView amountUnit = vh.getTextView(R.id.tv_reward_amount_unit);
-        ImageView moneyIv = vh.getImageView(R.id.iv_money);
+//        ImageView moneyIv = vh.getImageView(R.id.iv_money);
         int state;
         int amountStyle;
         int unitStyle;
@@ -162,8 +156,9 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         }
         stateTv.setText(state);
         amountTv.setTextAppearance(mContext, amountStyle);
+//        amountTv.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(leftDrawable), null, null, null);
         amountUnit.setTextAppearance(mContext, unitStyle);
-        moneyIv.setImageResource(leftDrawable);
+        vh.getImageView(R.id.iv_money).setImageResource(leftDrawable);
         amountTv.setText(data.reward_amount);
     }
 
