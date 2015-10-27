@@ -5,7 +5,6 @@
     android:background="@color/person_setting_backgroud"
     android:orientation="vertical">
 
-    <View style="@style/divider_line" />
 
     <RelativeLayout
         android:id="@+id/rl_account"
@@ -54,13 +53,11 @@
             android:textSize="@dimen/edittext_content_size" />
     </RelativeLayout>
 
-    <View style="@style/divider_line" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/combin_horSpacing"
-        android:divider="@drawable/linear_layout_divider"
         android:orientation="vertical"
         android:showDividers="middle">
 
@@ -87,7 +84,6 @@
                 android:src="@drawable/ic_pay_select" />
 
         </RelativeLayout>
-
         <RelativeLayout
             android:id="@+id/rl_wechatpay"
             style="@style/recharge_pay_layout"
@@ -143,7 +139,8 @@
         android:background="@drawable/btn_blue_selector"
         android:gravity="center"
         android:text="支付"
-        android:textColor="@color/white"
+        android:textColor="@color/btn_blue_textselector"
         android:textSize="@dimen/setting_text_name" />
+
 
 </LinearLayout>
