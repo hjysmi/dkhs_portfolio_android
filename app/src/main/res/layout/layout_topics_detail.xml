@@ -10,7 +10,7 @@
         android:id="@+id/main_rl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="@dimen/combin_horSpacing">
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -248,7 +248,7 @@
         android:layout_width="fill_parent"
         android:layout_height="42dp"
         android:layout_below="@+id/main_rl"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/combin_horSpacing"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
         android:id="@+id/top_sticky"

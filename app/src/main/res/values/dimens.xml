@@ -146,5 +146,6 @@
     <dimen name="edittext_content_size">14sp</dimen>
     <!--输入框上下间距-->
     <dimen name="edittext_padding">14dp</dimen>
-
+    <!--悬赏话题　文字行间距-->
+    <dimen name="line_space">5dp</dimen>
 </resources>

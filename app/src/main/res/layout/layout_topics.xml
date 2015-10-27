@@ -67,6 +67,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@color/text_content_color"
+            android:lineSpacingExtra="@dimen/line_space"
             android:textSize="@dimen/text_status_title" />
 
         <RelativeLayout

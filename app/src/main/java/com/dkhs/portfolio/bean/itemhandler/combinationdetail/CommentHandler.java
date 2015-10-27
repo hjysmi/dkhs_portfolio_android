@@ -96,8 +96,10 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         setClickListener(vh.get(R.id.tv_username), comment);
         setClickListener(vh.get(R.id.iv_image), comment);
         if (comment.attitudes_count > 0) {
+            ((TextSwitcher) vh.get(R.id.tv_like)).setVisibility(View.VISIBLE);
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.attitudes_count));
         } else {
+            ((TextSwitcher) vh.get(R.id.tv_like)).setVisibility(View.GONE);
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText("");
         }
 
@@ -250,9 +252,10 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
             mLikeBean.setAttitudes_count(mLikeBean.getAttitudes_count() + 1);
             TextSwitcher likeTV = (TextSwitcher) mView.findViewById(R.id.tv_like);
             if (mLikeBean.getAttitudes_count() > 0) {
-
+                likeTV.setVisibility(View.VISIBLE);
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
             } else {
+                likeTV.setVisibility(View.GONE);
                 likeTV.setText("");
             }
         }
@@ -262,9 +265,10 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
             mLikeBean.setAttitudes_count(mLikeBean.getAttitudes_count() - 1);
             TextSwitcher likeTV = (TextSwitcher) mView.findViewById(R.id.tv_like);
             if (mLikeBean.getAttitudes_count() > 0) {
-
+                likeTV.setVisibility(View.VISIBLE);
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
             } else {
+                likeTV.setVisibility(View.GONE);
                 likeTV.setText("");
             }
 
