@@ -5,4 +5,10 @@
     <color name="balance_in">#FF6363</color>
     <color name="balance_out">#62BE33</color>
     <color name="orange">#FA6739</color>
+
+    <!--输入框提示统一颜色-->
+    <color name="text_hint_color">#c8c8c8</color>
+    <color name="text_color">#262932</color>
+    <!-- 最外层viewpager未选中时文字的颜色-->
+    <color name="tab_color_unselect">#787878</color>
 </resources>

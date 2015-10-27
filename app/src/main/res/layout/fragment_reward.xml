@@ -104,5 +104,5 @@
         android:clickable="true"
         android:paddingBottom="16dp"
         android:paddingRight="16dp"
-        android:src="@drawable/ic_edit" />
+        android:background="@drawable/btn_publish_selector" />
 </FrameLayout>

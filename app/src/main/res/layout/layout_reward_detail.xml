@@ -56,6 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignBottom="@id/name"
+                    android:paddingBottom="@dimen/amount_padding_bottom"
                     style="@style/reward_unit_on_going"
                     android:text="元"/>
                 <TextView android:id="@+id/tv_reward_amount"
