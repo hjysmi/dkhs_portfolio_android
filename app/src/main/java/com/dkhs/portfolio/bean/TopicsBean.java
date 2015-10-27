@@ -16,7 +16,6 @@ public class TopicsBean extends LikeBean {
 
 
     public int state;
-    public String reward_amount;
     public int rewarded_by_status;
     public String reward_expired_at;
     public int rewarded_comment;

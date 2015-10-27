@@ -43,6 +43,7 @@ public class LikeBean extends AutoData{
     public int content_type;
     public int reward_state;
     public int rewarded_type;
+    public String reward_amount;
 
     public int getId() {
         return id;

@@ -15,7 +15,7 @@ import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.portfolio.bean.itemhandler.RewardsHandler;
+import com.dkhs.portfolio.bean.itemhandler.RewardsTopicHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.RewardEngineImpl;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
@@ -46,7 +46,7 @@ public class RewardsFragment extends LoadMoreListFragment  {
 
         if (mAdapter == null) {
             mAdapter = new DKBaseAdapter(mActivity, mDataList).
-                 buildSingleItemView(new RewardsHandler(mActivity));
+                 buildSingleItemView(new RewardsTopicHandler(mActivity));
         }
         return mAdapter;
     }
