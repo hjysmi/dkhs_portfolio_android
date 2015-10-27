@@ -22,7 +22,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="手机号"
-            android:textSize="@dimen/text_status_content" />
+            android:textSize="@dimen/edittext_title_size" />
 
         <EditText
             android:layout_marginRight="20dp"
@@ -35,7 +35,7 @@
             android:digits="0123456789"
             android:hint="@string/hint_mobile"
             android:inputType="number"
-            android:textSize="@dimen/text_status_content"
+            android:textSize="@dimen/edittext_content_size"
             android:textColorHint="@color/text_hint_color"
             android:maxLength="11"
             android:singleLine="true" />
@@ -66,7 +66,7 @@
             android:maxLength="6"
             android:singleLine="true"
             android:textColorHint="@color/text_hint_color"
-            android:textSize="@dimen/text_status_content" />
+            android:textSize="@dimen/edittext_content_size" />
 
         <View
             android:layout_width="1dp"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textColor="@color/theme_blue"
-            android:textSize="@dimen/text_status_content"
+            android:textSize="@dimen/edittext_title_size"
             android:text="获取验证码" />
 
     </LinearLayout>

@@ -136,9 +136,13 @@
     <dimen name="topic_handler_content">14sp</dimen>
 
     <dimen name="with_draw_default">14sp</dimen>
-    <dimen name="with_draw_hint">18sp</dimen>
+    <dimen name="with_draw_hint">@dimen/edittext_content_size</dimen>
 
     <dimen name="bg_reward_state_radius">6dp</dimen>
     <dimen name="amount_padding_bottom">2dp</dimen>
+
+    <!-- 输入框统一样式　标题16sp 内容14sp-->
+    <dimen name="edittext_title_size">16sp</dimen>
+    <dimen name="edittext_content_size">14sp</dimen>
 
 </resources>
