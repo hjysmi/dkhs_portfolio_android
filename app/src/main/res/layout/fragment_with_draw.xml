@@ -8,6 +8,7 @@
 
     <LinearLayout
         style="@style/with_draw_ll"
+        android:paddingRight="30dp"
         android:layout_marginTop="8dp"
         >
         <TextView
