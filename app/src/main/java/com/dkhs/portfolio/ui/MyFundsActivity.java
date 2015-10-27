@@ -123,6 +123,9 @@ public class MyFundsActivity extends LoadMoreListActivity{
         if (mTradeEngine.getCurrentpage() == 1) {
             mDataList.clear();
         }
+        if (object.getCurrentPage() == 1 && object.getResults().size() == 0) {
+            setEmptyText(getEmptyText());
+        }
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
     }
@@ -204,5 +207,6 @@ public class MyFundsActivity extends LoadMoreListActivity{
             TextView tv_total_profit;
         }
     }
+
 
 }

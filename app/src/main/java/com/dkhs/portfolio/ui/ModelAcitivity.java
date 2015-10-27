@@ -364,6 +364,12 @@ public class ModelAcitivity extends SwipeBackActivity {
         UIUtils.setOverridePendingAnin(this);
     }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        UIUtils.setOverridePendingAnin(this);
+    }
+
     public void startActivityNoAnim(Intent intent) {
         super.startActivity(intent);
     }

@@ -1,9 +1,15 @@
 package com.dkhs.portfolio.ui;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -11,11 +17,34 @@ import android.widget.EditText;
 
 import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.base.MAppActivity;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.yang.gesturepassword.GesturePasswordManager;
+import com.yang.gesturepassword.ISecurityGesture;
 
 public class BaseActivity extends MAppActivity {
 
     protected Context mContext;
+    private class MyHandler extends Handler {
+        public MyHandler(Looper mainLooper) {
+            super(mainLooper);
+        }
 
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case NEED_SHOW_GESTURE:
+                    GlobalParams.needShowGesture = true;
+                    break;
+            }
+        }
+    }
+    private MyHandler mHandler;
+    /**
+     * 无操作后锁屏时间
+     */
+    private final static int SHOW_GESTURE_DELAY = 1000  * 7;
+
+    private final static int NEED_SHOW_GESTURE = 2;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -23,6 +52,8 @@ public class BaseActivity extends MAppActivity {
         // this.getWindow().getDecorView().setOnTouchListener(this);
         getWindow().setBackgroundDrawable(null);
         mContext = this;
+        //监听手势超时
+        mHandler = new MyHandler(getApplication().getMainLooper());
     }
 
     @Override
@@ -112,5 +143,15 @@ public class BaseActivity extends MAppActivity {
         }
     }
 
-
+    /**
+     * 当用户在登录情况下不操作3分钟时
+     */
+    @Override
+    public void onUserInteraction() {
+        if(!TextUtils.isEmpty(GlobalParams.MOBILE)){
+//            GesturePasswordManager.getInstance().userInteractionInNormal();
+            mHandler.removeMessages(NEED_SHOW_GESTURE);
+            mHandler.sendEmptyMessageDelayed(NEED_SHOW_GESTURE, SHOW_GESTURE_DELAY);
+        }
+    }
 }

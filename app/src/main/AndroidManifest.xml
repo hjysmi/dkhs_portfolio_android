@@ -583,6 +583,12 @@
         <activity
             android:name=".ui.ChooseBankActivity"
             />
+        <activity
+            android:name=".ui.GesturePasswordActivity"
+            />
+        <activity
+            android:name=".ui.VerifyLoginPasswordActivity"
+            />
 
         <!-- ChinaPay plugin begin -->
         <activity
