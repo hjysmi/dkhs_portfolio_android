@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
     android:id="@+id/rootView"
-    tools:context="com.dkhs.portfolio.ui.widget.RewardDetailActivity">
+    tools:context="com.dkhs.portfolio.ui.RewardDetailActivity">
 
     <com.dkhs.portfolio.ui.widget.DKHSTextView
         android:layout_width="fill_parent"

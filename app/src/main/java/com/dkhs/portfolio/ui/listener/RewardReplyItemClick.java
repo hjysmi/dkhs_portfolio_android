@@ -15,7 +15,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.ui.widget.RewardDetailActivity;
+import com.dkhs.portfolio.ui.RewardDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.dkhs.portfolio.utils.UIUtils;

@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.ui.widget;
+package com.dkhs.portfolio.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,15 +39,13 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.FloatingActionMenu;
-import com.dkhs.portfolio.ui.MainActivity;
-import com.dkhs.portfolio.ui.ModelAcitivity;
-import com.dkhs.portfolio.ui.PostRewardActivity;
-import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
+import com.dkhs.portfolio.ui.widget.RewardDetailListView;
+import com.dkhs.portfolio.ui.widget.RewardDetailScrollView;
+import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
