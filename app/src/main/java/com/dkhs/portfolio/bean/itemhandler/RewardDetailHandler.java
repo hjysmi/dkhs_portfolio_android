@@ -171,7 +171,7 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
         }
         stateTv.setText(state);
         amountTv.setTextAppearance(mContext, amountStyle);
-        moneyIv.setBackgroundResource(leftDrawable);
+        moneyIv.setImageResource(leftDrawable);
         amountUnit.setTextAppearance(mContext, unitStyle);
         amountTv.setText(data.reward_amount);
     }
