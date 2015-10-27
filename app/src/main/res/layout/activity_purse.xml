@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@color/person_setting_backgroud"
+    android:background="@drawable/lv_white_selector"
     android:orientation="vertical">
+    <View
+        style="@style/divider_line"/>
     <LinearLayout
-        android:background="@drawable/edittext_bg"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -41,7 +43,7 @@
             android:text="@string/charge"/>
 
         <TextView
-            android:layout_marginLeft="1dp"
+            android:layout_marginTop="0.5px"
             android:id="@+id/btn_balance_out"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -53,8 +55,12 @@
 
 
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/combin_horSpacing"
+        android:background="@color/person_setting_backgroud"
+        />
     <FrameLayout
-        android:layout_marginTop="@dimen/combin_horSpacing"
         android:id="@+id/contentFL"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>

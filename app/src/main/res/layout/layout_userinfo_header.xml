@@ -99,7 +99,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/btn_white_selector"
+                android:background="@drawable/btn_white_grayborder_selector"
                 android:orientation="vertical"
                 android:padding="6dp">
 
@@ -131,7 +131,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/btn_white_selector"
+                android:background="@drawable/btn_white_grayborder_selector"
                 android:orientation="vertical"
                 android:padding="6dp">
 
