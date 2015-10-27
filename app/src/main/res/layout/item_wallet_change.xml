@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="16dp"
         android:textSize="16sp"
         android:textColor="@color/text_content_color"
         />
@@ -29,7 +29,7 @@
         android:layout_alignBaseline="@id/tv_op"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="16dp"
         android:textSize="18sp"
         />
     <TextView
@@ -39,7 +39,8 @@
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:textColor="@color/gray_textcolor"
+        android:layout_marginRight="16dp"
         android:textSize="14sp"
         />
 
