@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:textSize="@dimen/edittext_content_size"
-            android:textColor="@color/title_tab_def_color"
+            android:textColor="@color/black"
             android:singleLine="true"
             android:background="@null"
             android:inputType="numberDecimal"

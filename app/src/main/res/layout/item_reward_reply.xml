@@ -129,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/widget_margin_normal"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="@dimen/line_space"
             android:textColor="@color/text_content_color"
             android:textSize="@dimen/text_status_content" />
 
