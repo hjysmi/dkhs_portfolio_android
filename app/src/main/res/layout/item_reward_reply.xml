@@ -129,6 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/widget_margin_normal"
+            android:lineSpacingExtra="@dimen/line_space"
             android:textColor="@color/text_content_color"
             android:textSize="@dimen/text_status_content" />
 
@@ -156,4 +157,12 @@
         android:layout_below="@+id/line"
         android:background="@color/person_setting_backgroud" />
 
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_rewarded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_reply_rewarded"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
 </RelativeLayout>
