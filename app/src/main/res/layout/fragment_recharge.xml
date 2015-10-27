@@ -46,6 +46,7 @@
             android:background="@null"
             android:digits="@string/password_digts"
             android:hint="请输入充值金额"
+            android:textColorHint="@color/text_hint_color"
             android:inputType="numberDecimal"
             android:singleLine="true"
             android:textCursorDrawable="@null"

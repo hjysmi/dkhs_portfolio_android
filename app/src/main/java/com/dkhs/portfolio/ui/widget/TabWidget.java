@@ -95,9 +95,9 @@ public class TabWidget implements View.OnClickListener {
     private void setSelectTextSize(Button button) {
         int smallSize = button.getResources().getDimensionPixelSize(R.dimen.text_tab_normal);
         LogUtils.d("smallSize:" + smallSize);
-        mBtntitletabright.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        mBtntitletableft.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        mBtntitletabcenter.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        mBtntitletabright.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        mBtntitletableft.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        mBtntitletabcenter.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
 //        button.setTextSize(button.getResources().getDimensionPixelSize(R.dimen.text_tab_select));
         button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);

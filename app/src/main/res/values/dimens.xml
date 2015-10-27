@@ -128,9 +128,9 @@
     <dimen name="def_item_pading">12dp</dimen>
 
     <dimen name="reward_amount_title">15sp</dimen>
-    <dimen name="reward_amount">14sp</dimen>
-    <dimen name="reward_content">15sp</dimen>
-    <dimen name="reward_balance">12sp</dimen>
+    <dimen name="reward_amount">@dimen/text_status_content</dimen>
+    <dimen name="reward_content">@dimen/text_status_content</dimen>
+    <dimen name="reward_balance">@dimen/text_status_content</dimen>
     <dimen name="topic_content">15sp</dimen>
     <dimen name="topic_handler_title">14sp</dimen>
     <dimen name="topic_handler_content">14sp</dimen>
@@ -139,5 +139,6 @@
     <dimen name="with_draw_hint">18sp</dimen>
 
     <dimen name="bg_reward_state_radius">6dp</dimen>
+    <dimen name="amount_padding_bottom">2dp</dimen>
 
 </resources>

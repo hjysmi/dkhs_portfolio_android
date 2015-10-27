@@ -54,21 +54,10 @@
 
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_marginTop="8dp"
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        >
-    <com.dkhs.portfolio.ui.widget.PullToRefreshListView
-        android:id="@+id/lv_trading_record"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:listSelector="@android:color/transparent"
-        android:background="@drawable/edittext_bg"
-        />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <FrameLayout
+        android:layout_marginTop="@dimen/combin_horSpacing"
+        android:id="@+id/contentFL"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
