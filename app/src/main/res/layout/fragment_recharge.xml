@@ -5,7 +5,8 @@
     android:background="@color/person_setting_backgroud"
     android:orientation="vertical">
 
-
+    <View
+        style="@style/divider_line"/>
     <RelativeLayout
         android:id="@+id/rl_account"
         android:layout_width="match_parent"
