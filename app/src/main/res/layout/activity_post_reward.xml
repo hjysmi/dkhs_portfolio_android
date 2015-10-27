@@ -10,8 +10,8 @@
         android:visibility="gone"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
+        android:paddingTop="@dimen/edittext_padding"
+        android:paddingBottom="@dimen/edittext_padding"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="8dp">
         <TextView

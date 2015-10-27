@@ -26,9 +26,9 @@
     <!-- 设置padding -->
 
     <padding
-        android:bottom="14dp"
+        android:bottom="@dimen/edittext_padding"
         android:left="14dp"
         android:right="14dp"
-        android:top="14dp" />
+        android:top="@dimen/edittext_padding" />
 
 </shape>
