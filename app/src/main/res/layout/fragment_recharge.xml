@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/tv_accout"
-            style="@style/text_18_style"
+            style="@style/text_16_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -27,7 +27,7 @@
             android:text="充值金额" />
 
         <TextView
-            style="@style/text_18_style"
+            style="@style/text_16_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -51,7 +51,7 @@
             android:singleLine="true"
             android:textCursorDrawable="@null"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/edittext_content_size" />
     </RelativeLayout>
 
     <View style="@style/divider_line" />
