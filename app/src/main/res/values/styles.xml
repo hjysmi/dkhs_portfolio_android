@@ -601,10 +601,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/btn_white_selector</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingBottom">@dimen/edittext_padding</item>
         <item name="android:paddingLeft">32dp</item>
         <item name="android:paddingRight">35dp</item>
-        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingTop">@dimen/edittext_padding</item>
     </style>
 
 
