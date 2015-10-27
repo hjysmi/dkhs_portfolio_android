@@ -132,6 +132,6 @@
         style="@style/divider_line"
         android:layout_height="0.5dp"
         android:layout_alignParentTop="true"
-        android:background="@color/compare_select_gray" />
+        android:background="@color/title_tab_def_color" />
 
 </RelativeLayout>
