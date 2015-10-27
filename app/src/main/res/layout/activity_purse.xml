@@ -39,10 +39,9 @@
             android:gravity="center"
             style="@style/btn_change_balance"
             android:text="@string/charge"/>
-        <View android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:background="@color/person_setting_backgroud"/>
+
         <TextView
+            android:layout_marginLeft="1dp"
             android:id="@+id/btn_balance_out"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
