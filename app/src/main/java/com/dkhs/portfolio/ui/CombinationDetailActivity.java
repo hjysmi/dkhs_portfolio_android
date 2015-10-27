@@ -93,7 +93,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
         if (extras != null) {
             handleExtras(extras);
         }
-        updateTitleBackgroud(R.color.theme_blue);
+//        updateTitleBackgroud(R.color.theme_blue);
         updataTitle();
         initView();
     }

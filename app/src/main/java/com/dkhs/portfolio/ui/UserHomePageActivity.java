@@ -101,7 +101,7 @@ public class UserHomePageActivity extends ModelAcitivity {
         super.onCreate(arg0);
         hadFragment();
         setContentView(R.layout.activity_user_combination);
-        updateTitleBackgroud(R.color.theme_blue);
+//        updateTitleBackgroud(R.color.theme_blue);
         setBackButtonDrawRes(R.drawable.btn_white_back_selector);
         mRV = (RecyclerView) findViewById(R.id.rv);
         mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
