@@ -22,6 +22,7 @@ import com.dkhs.portfolio.engine.UploadImageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
@@ -260,7 +261,7 @@ public class PostTopicService extends IntentService {
             PromptManager.closeProgressDialog();
 //            UploadImageEngine.uploadMap.clear();
             if (null != entity) {
-                if (mStatusBean.getLabel() == 1) {
+                if (mStatusBean.getLabel() == PostTopicActivity.TYPE_POST_TOPIC || mStatusBean.getLabel() == PostTopicActivity.TYPE_POST_REWARD) {
                     AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);
                     BusProvider.getInstance().post(addTopicsEvent);
                     entity.appleAction(this, AutoData.Action.Add).post();
