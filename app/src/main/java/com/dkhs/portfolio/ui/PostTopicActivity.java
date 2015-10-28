@@ -966,6 +966,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 UIUtils.startAnimationActivity(PostTopicActivity.this, new Intent(PostTopicActivity.this, RechargeActivity.class));
+                dialog.dismiss();
             }
         }).setNegativeButton(R.string.cancel, null);
         builder.show();
