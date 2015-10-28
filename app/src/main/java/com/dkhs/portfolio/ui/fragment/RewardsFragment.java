@@ -18,6 +18,7 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.RewardEngineImpl;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.mingle.autolist.AutoData;
@@ -159,7 +160,7 @@ public class RewardsFragment extends LoadMoreListFragment  {
     @Subscribe
     public void updateRewardList(AddTopicsEvent event){
         TopicsBean data = event.topicsBean;
-        if(data != null){
+        if(data != null&&data.content_type == TopicsDetailActivity.TYPE_REWARD){
             mDataList.add(0,data);
             mAdapter.notifyDataSetChanged();
         }

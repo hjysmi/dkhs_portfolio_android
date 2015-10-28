@@ -328,7 +328,7 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
             if (UIUtils.iStartLoginActivity(mContext)) {
                 return;
             }
-            UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT, topicsBean.id + "", topicsBean.user.getUsername())));
+            UIUtils.startAnimationActivity((Activity) mContext, (PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_TOPIC, topicsBean.id + "", topicsBean.user.getUsername())));
         }
     }
 

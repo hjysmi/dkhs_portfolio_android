@@ -106,7 +106,7 @@ public class PostRewardActivity extends ModelAcitivity implements DKHSEmojiFragm
 
     /**
      * @param context
-     * @param type          TYPE_POST:发表悬赏，TYPE_COMMENT:回复悬赏
+     * @param type
      * @param repliedStatus
      * @return
      */

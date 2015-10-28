@@ -408,11 +408,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         if (null != mTopicsBean && null != mTopicsBean.user) {
                             //TODO 判断content_type 或者  发表悬赏，话题合成一个
                             if(mTopicsBean.content_type == TYPE_REWARD){
-                                startActivity(PostRewardActivity.getIntent(TopicsDetailActivity.this,
-                                        PostRewardActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                                startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
+                                        PostTopicActivity.TYPE_COMMENT_REWARD, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
                             }else{
                                 startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
-                                        PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                                        PostTopicActivity.TYPE_COMMENT_TOPIC, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
                             }
                         }
                         break;
