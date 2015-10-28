@@ -162,6 +162,7 @@ public class MyPurseActivity extends ModelAcitivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startActivity(RLFActivity.bindPhoneIntent(MyPurseActivity.this));
+                    dialog.dismiss();
                 }
             }).setNegativeButton(R.string.cancel, null);
         builder.show();
