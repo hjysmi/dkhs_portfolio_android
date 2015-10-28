@@ -2,6 +2,7 @@ package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,16 +12,21 @@ import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.StatusEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -33,7 +39,7 @@ import java.util.ArrayList;
  * @author zwm
  * @version 2.0
  * @ClassName CommendHandler
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 用于显示话题回复及悬赏回复
  * @date 2015/7/28.
  */
 public class CommentHandler extends SimpleItemHandler<LikeBean> {
@@ -43,6 +49,13 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
     private boolean mCompact = false;
 
     private Context mContext;
+    private long mRewardUserId;
+    private int mRewardState;
+    /**
+     * 用于区分悬赏详情(不显示图片)　和　我参与的（显示图片）　场景
+     * @param isShowRewardStatus
+     */
+    private boolean isShowRewardStatus = true;
 
     public CommentHandler(Context context, boolean avatarImResponse) {
         this(context, avatarImResponse, false);
@@ -54,9 +67,28 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
     }
 
     public CommentHandler(Context context, boolean avatarImResponse, boolean compact) {
+        this(context, avatarImResponse, compact,true);
+    }
+
+    public CommentHandler(Context context, boolean avatarImResponse, boolean compact,boolean showRewardStatus) {
         mAvatarImResponse = avatarImResponse;
         mCompact = compact;
         mContext = context;
+        isShowRewardStatus = showRewardStatus;
+    }
+
+
+    public void setIsShowRewardStatus(boolean isShowRewardStatus) {
+        this.isShowRewardStatus = isShowRewardStatus;
+    }
+
+    public void setRewardUserId(long userId){
+        mRewardUserId = userId;
+    }
+
+
+    public void setRewardState(int state){
+        mRewardState = state;
     }
 
     public CommentHandler setReplyComment(boolean isReplyComment) {
@@ -72,17 +104,23 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
     @Override
     public void onBindView(ViewHolder vh, final LikeBean comment, int position) {
         super.onBindView(vh, comment, position);
-        PeopleBean user = comment.user;
-        if(comment instanceof CommentBean){
-            CommentBean cb = (CommentBean)comment;
-            if(cb.rewarded_type == 1){
-                vh.getImageView(R.id.iv_rewarded).setVisibility(View.VISIBLE);
-            }else{
-                vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
-            }
+        long replyUserId = comment.getUser().getId();
+        //判断是否显示采纳按钮
+        if(isShowAdopt(mRewardUserId,replyUserId,mRewardState)){
+            vh.getTextView(R.id.tv_adopt).setVisibility(View.VISIBLE);
+            vh.get(R.id.view_divider).setVisibility(View.VISIBLE);
+        }else{
+            vh.getTextView(R.id.tv_adopt).setVisibility(View.GONE);
+            vh.get(R.id.view_divider).setVisibility(View.GONE);
+        }
+        //显示蓝色悬赏图片
+        if(comment.rewarded_type == 1 && isShowRewardStatus){
+            vh.getImageView(R.id.iv_rewarded).setVisibility(View.VISIBLE);
         }else{
             vh.getImageView(R.id.iv_rewarded).setVisibility(View.GONE);
         }
+
+        PeopleBean user = comment.user;
         if (!TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_head));
         } else {
@@ -96,11 +134,11 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         setClickListener(vh.get(R.id.tv_username), comment);
         setClickListener(vh.get(R.id.iv_image), comment);
         if (comment.attitudes_count > 0) {
-            ((TextSwitcher) vh.get(R.id.tv_like)).setVisibility(View.VISIBLE);
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.attitudes_count));
+            vh.get(R.id.tv_like).setVisibility(View.VISIBLE);
         } else {
-            ((TextSwitcher) vh.get(R.id.tv_like)).setVisibility(View.GONE);
             ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText("");
+            vh.get(R.id.tv_like).setVisibility(View.GONE);
         }
 
 
@@ -121,7 +159,6 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         if (mAvatarImResponse) {
             setClickListener(vh.get(R.id.iv_head), comment);
         }
-
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,15 +172,20 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         });
 
 
+
         if (comment.compact || mCompact) {
             vh.get(R.id.bottom).setVisibility(View.GONE);
         } else {
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
         }
 
-
+        vh.getTextView(R.id.tv_adopt).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showAdoptDialog(comment);
+            }
+        });
     }
-
     private void showCommentDialog(View v, LikeBean comment) {
         CommentItemClick mCommentClick;
         if (null != GlobalParams.LOGIN_USER) {
@@ -255,8 +297,8 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
                 likeTV.setVisibility(View.VISIBLE);
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
             } else {
-                likeTV.setVisibility(View.GONE);
                 likeTV.setText("");
+                likeTV.setVisibility(View.GONE);
             }
         }
 
@@ -268,8 +310,8 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
                 likeTV.setVisibility(View.VISIBLE);
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
             } else {
-                likeTV.setVisibility(View.GONE);
                 likeTV.setText("");
+                likeTV.setVisibility(View.GONE);
             }
 
         }
@@ -295,4 +337,43 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
             PhotoViewActivity.startPhotoViewActivity(mContext, arrayList, v, 0);
         }
     }
+
+    private boolean isShowAdopt(long rewardUserId,long replyUserId,int rewardState){
+        if(rewardUserId == replyUserId){
+            return false;
+        }
+        if(rewardState != 0 ){
+            return false;
+        }
+        if(GlobalParams.LOGIN_USER == null ||rewardUserId != GlobalParams.LOGIN_USER.getId()){
+            return false;
+        }
+        return true;
+    }
+    private void showAdoptDialog(LikeBean comment) {
+        MAlertDialog builder = PromptManager.getAlertDialog(mContext);
+        final int commentId =  comment.getId();
+        builder.setMessage(mContext.getString(R.string.msg_adopt_reply)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StatusEngineImpl.adoptReply(String.valueOf(commentId), new ParseHttpListener() {
+
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Object object) {
+                        //TODO:提示界面更新
+                        PromptManager.showToast(R.string.reward_success);
+                        BusProvider.getInstance().post(new RewardDetailRefreshEvent(0));
+                    }
+                }.setLoadingDialog(mContext,false));
+                dialog.dismiss();
+            }
+        }).setNegativeButton("取消",null);
+        builder.show();
+    }
+
 }
