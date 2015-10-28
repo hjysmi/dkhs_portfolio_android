@@ -148,4 +148,6 @@
     <dimen name="edittext_padding">14dp</dimen>
     <!--悬赏话题　文字行间距-->
     <dimen name="line_space">5dp</dimen>
+    <!--点赞与右边缘间距-->
+    <dimen name="like_maring_right">10dp</dimen>
 </resources>

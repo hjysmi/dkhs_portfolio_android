@@ -16,7 +16,7 @@ import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
-import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
+import com.dkhs.portfolio.bean.itemhandler.RewardsTopicHandler;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -44,7 +44,7 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
         if (mAdapter == null) {
             mAdapter = new DKBaseAdapter(mActivity, mDataList).
                     buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HotTopicsFragment.this))
-                    .buildMultiItemView(TopicsBean.class, new TopicsHandler(mActivity));
+                    .buildMultiItemView(TopicsBean.class, new RewardsTopicHandler(mActivity));
         }
         return mAdapter;
     }

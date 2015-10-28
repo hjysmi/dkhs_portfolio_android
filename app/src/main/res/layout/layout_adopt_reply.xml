@@ -97,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:gravity="right"
+                    android:layout_marginRight="@dimen/like_maring_right"
                     android:orientation="horizontal">
 
                     <ImageView

@@ -14,9 +14,9 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
-import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostRewardActivity;
+import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -36,29 +36,29 @@ import java.util.ArrayList;
  * @date 2015/7/16.
  */
 
-public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
+public class RewardsTopicHandler extends SimpleItemHandler<LikeBean> {
 
     private Context mContext;
     private boolean mAvatarImResponse = true;
 
 
-    public RewardsHandler(Context context) {
+    public RewardsTopicHandler(Context context) {
 
         this(context, true);
     }
 
-    public RewardsHandler(Context context, boolean avatarImResponse) {
+    public RewardsTopicHandler(Context context, boolean avatarImResponse) {
         mContext = context;
         mAvatarImResponse = avatarImResponse;
     }
 
     @Override
     public int getLayoutResId() {
-        return R.layout.item_rewards;
+        return R.layout.layout_reward_topic;
     }
 
     @Override
-    public void onBindView(ViewHolder vh, final TopicsBean data, int position) {
+    public void onBindView(ViewHolder vh, final LikeBean data, int position) {
         setClickListener(vh.get(R.id.fl_commend), data);
 
         if (mAvatarImResponse) {
@@ -70,6 +70,12 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         setClickListener(vh.get(R.id.name), data);
 
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
+        if (TextUtils.isEmpty(data.title)) {
+            vh.get(R.id.titleTV).setVisibility(View.GONE);
+        } else {
+            vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
+            vh.setTextView(R.id.titleTV, data.title);
+        }
         if (data.user != null && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         } else {
@@ -118,8 +124,10 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
 
         if (data.comments_count > 0) {
             vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
-        } else {
+        } else if ((data.content_type == 40)){
             vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.answer));
+        } else{
+            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.comment));
         }
 
         if (data.compact) {
@@ -127,10 +135,20 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         } else {
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
         }
+        if(data.content_type == 40){
+            vh.get(R.id.layout_reward_status).setVisibility(View.VISIBLE);
+            vh.getTextView(R.id.tv_reward_state).setVisibility(View.VISIBLE);
+            showRewardState(vh, data);
+        }else{
+            vh.get(R.id.layout_reward_status).setVisibility(View.GONE);
+            vh.getTextView(R.id.tv_reward_state).setVisibility(View.GONE);
+        }
+    }
+
+    private void showRewardState(ViewHolder vh, LikeBean data) {
         TextView stateTv = vh.getTextView(R.id.tv_reward_state);
         TextView amountTv = vh.getTextView(R.id.tv_reward_amount);
         TextView amountUnit = vh.getTextView(R.id.tv_reward_amount_unit);
-//        ImageView moneyIv = vh.getImageView(R.id.iv_money);
         int state;
         int amountStyle;
         int unitStyle;
@@ -156,7 +174,6 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
         }
         stateTv.setText(state);
         amountTv.setTextAppearance(mContext, amountStyle);
-//        amountTv.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(leftDrawable), null, null, null);
         amountUnit.setTextAppearance(mContext, unitStyle);
         vh.getImageView(R.id.iv_money).setImageResource(leftDrawable);
         amountTv.setText(data.reward_amount);
@@ -262,7 +279,15 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
 
         @Override
         public void onClick(View v) {
+            //判断content_type
+            if(likeBean.content_type == 40){
+                rewardCommendClick();
+            }else{
+                topicCommendClick();
+            }
+        }
 
+        private void rewardCommendClick() {
             if (likeBean.comments_count == 0) {
 
                 if (UIUtils.iStartLoginActivity(mContext)) {
@@ -272,6 +297,19 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
 
             } else {
                 //need fix
+                TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
+            }
+        }
+
+        private void topicCommendClick(){
+            if (likeBean.comments_count == 0) {
+
+                if (UIUtils.iStartLoginActivity(mContext)) {
+                    return;
+                }
+                UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT, likeBean.id + "", likeBean.user.getUsername()));
+
+            } else {
                 TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
             }
         }
@@ -337,7 +375,11 @@ public class RewardsHandler extends SimpleItemHandler<TopicsBean> {
 
         @Override
         public void onClick(View v) {
-            TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
+            if(likeBean.content_type == 40){
+                TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
+            }else{
+                TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
+            }
         }
 
 
