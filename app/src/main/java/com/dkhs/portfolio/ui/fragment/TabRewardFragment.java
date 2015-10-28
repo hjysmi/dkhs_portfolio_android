@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.MyTopicActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -72,7 +73,7 @@ public class TabRewardFragment extends VisiableLoadFragment {
         ArrayList<android.support.v4.app.Fragment> fragments = new ArrayList<>();
 
 
-        fragments.add(UsersRewardFragment.newIntent(userId, userName));
+        fragments.add(UsersTopicsFragment.newIntent(userId, userName, TopicsDetailActivity.TYPE_REWARD));
         fragments.add(ReplyFragment.getIntent( GlobalParams.LOGIN_USER.getId() + "","40"));
 
         mAdpter = new FragmentSelectAdapter(mActivity, getResources().getStringArray(R.array.tab_reward_title_list), fragments, mll, getChildFragmentManager());
