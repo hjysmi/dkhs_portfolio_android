@@ -14,8 +14,8 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.ui.RewardDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -197,7 +197,7 @@ public class RewardReplyItemClick {
     private void showMainTopic(String topicId) {
         TopicsBean topicsBean = new TopicsBean();
         topicsBean.id = Integer.valueOf(topicId);
-        RewardDetailActivity.startActivity(mContext, topicsBean);
+        TopicsDetailActivity.startActivity(mContext, topicsBean);
 
     }
 

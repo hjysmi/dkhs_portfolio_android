@@ -77,8 +77,10 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
         setClickListener(vh.get(R.id.adopt_iv_image), comment);
         if (comment.attitudes_count > 0) {
             ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.attitudes_count));
+            ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setVisibility(View.VISIBLE);
         } else {
             ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setCurrentText("");
+            ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setVisibility(View.GONE);
         }
 
 
@@ -179,8 +181,10 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
             if (mLikeBean.getAttitudes_count() > 0) {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
+                likeTV.setVisibility(View.VISIBLE);
             } else {
                 likeTV.setText("");
+                likeTV.setVisibility(View.GONE);
             }
         }
 
@@ -191,8 +195,10 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
             if (mLikeBean.getAttitudes_count() > 0) {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
+                likeTV.setVisibility(View.VISIBLE);
             } else {
                 likeTV.setText("");
+                likeTV.setVisibility(View.GONE);
             }
 
         }

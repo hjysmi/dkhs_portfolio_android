@@ -77,6 +77,12 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
 //        setClickListener(vh.get(R.id.iv), data);
 
         setClickListener(vh.get(R.id.name), data);
+        if (TextUtils.isEmpty(data.title) || data.title.equals("发表悬赏")) {//TODO 之前发表悬赏的问题　需修改
+            vh.get(R.id.titleTV).setVisibility(View.GONE);
+        } else {
+            vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
+            vh.setTextView(R.id.titleTV, data.title);
+        }
 
         PeopleBean user = data.user;
         if (null != user) {
@@ -141,7 +147,17 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
             }
         }
 
+        if(data.content_type == 40){
+            vh.get(R.id.layout_reward_status).setVisibility(View.VISIBLE);
+            vh.getTextView(R.id.tv_reward_state).setVisibility(View.VISIBLE);
+            showRewardState(vh, data);
+        }else{
+            vh.get(R.id.layout_reward_status).setVisibility(View.GONE);
+            vh.getTextView(R.id.tv_reward_state).setVisibility(View.GONE);
+        }
+    }
 
+    private void showRewardState(ViewHolder vh, TopicsBean data) {
         TextView stateTv = vh.getTextView(R.id.tv_reward_state);
         TextView amountTv = vh.getTextView(R.id.tv_reward_amount);
         TextView amountUnit = vh.getTextView(R.id.tv_reward_amount_unit);
@@ -175,7 +191,6 @@ public class RewardDetailHandler extends SimpleItemHandler<TopicsBean> implement
         amountUnit.setTextAppearance(mContext, unitStyle);
         amountTv.setText(data.reward_amount);
     }
-
 
 
     private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -24,10 +25,12 @@ import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
-import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
+import com.dkhs.portfolio.bean.itemhandler.RewardDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.RewardAdoptedHandler;
+import com.dkhs.portfolio.bean.itemhandler.combinationdetail.RewardReplyBarHandler;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
@@ -37,6 +40,7 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -44,7 +48,11 @@ import com.dkhs.portfolio.ui.widget.TopicsDetailListView;
 import com.dkhs.portfolio.ui.widget.TopicsDetailScrollView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
@@ -58,10 +66,17 @@ import java.io.File;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
- * 主贴详情
+ * 主贴详情,悬赏详情
  */
 public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeStateHandler.StatusChangeI, TopicDetailFragment.OnFragmentInteractionListener, LoadMoreDataEngine.ILoadDataBackListener {
-
+    /**
+     * 话题类型
+     */
+    public static final int TYPE_TOPIC = 0;
+    /**
+     * 悬赏类型
+     */
+    public static final int TYPE_REWARD = 40;
 
     public static final int MENU_COMMEND = 0;
     public static final int MENU_LIKE = 1;
@@ -70,7 +85,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public static final int MENU_MORE_GO_HOME = 4;
     public static final int MENU_MORE_STATUS_REPORT = 5;
     public static final int MENU_MORE_STATUS_DELETE = 6;
-    private TopicDetailFragment mTopicDetailFragment;
+
     private Boolean mScrollToComment;
     @ViewInject(R.id.ignoreTV)
     private TextView ignoreTV;
@@ -83,11 +98,17 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     @ViewInject(R.id.lv)
     private TopicsDetailListView mTopicsDetailListView;
     @ViewInject(R.id.tsv)
-    private TopicsDetailScrollView mTopicsDetailScrollView;
-
+    private TopicsDetailScrollView topicsDetailScrollView;
+    /*    @ViewInject(R.id.adopt_reply_rl)
+        private RelativeLayout mAdoptRl;*/
     TopicsCommendEngineImpl.SortType mSortType;
+    CommentHandler mHandler;
 
-    private TopicsDetailHandler mTopicsDetailHandler = new TopicsDetailHandler(this);
+
+    private RewardDetailHandler mRewardDetailHandler = new RewardDetailHandler(this);
+    private RewardReplyBarHandler mRewardReplyBarHandler = new RewardReplyBarHandler(this);
+
+    private RewardAdoptedHandler mRewardAdoptedHandler;
 
     public static void startActivity(Context context, TopicsBean topicsBean) {
         startActivity(context, topicsBean, false);
@@ -155,10 +176,71 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         super.onDestroy();
     }
 
+    private void setRewardAdopted() {
+        if (mTopicsBean.reward_state == 2) {
+            StatusEngineImpl.getAdoptedReply(String.valueOf(mTopicsBean.getId()), new SimpleParseHttpListener() {
+                @Override
+                public Class getClassType() {
+                    return CommentBean.class;
+                }
+
+                @Override
+                protected void afterParseData(Object object) {
+                    findViewById(R.id.adopt_reply_rl).setVisibility(View.VISIBLE);
+                    CommentBean comment = (CommentBean) object;
+                    if (mRewardAdoptedHandler == null) {
+                        mRewardAdoptedHandler = new RewardAdoptedHandler(TopicsDetailActivity.this, true, true);
+                    }
+                    mRewardAdoptedHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.adopt_reply_rl)), comment, 0);
+                    LogUtils.d("wys", "adopted height" + findViewById(R.id.adopt_reply_rl).getHeight());
+                }
+
+                @Override
+                protected Object parseDateTask(String jsonData) {
+                    MoreDataBean<CommentBean> moreBean = null;
+                    if (!TextUtils.isEmpty(jsonData)) {
+
+                        try {
+                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                            moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CommentBean>>() {
+                            }.getType());
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return moreBean.getResults().get(0);
+                }
+
+                @Override
+                public void onFailure(int errCode, String errMsg) {
+                    super.onFailure(errCode, errMsg);
+                }
+            });
+        }
+    }
+
     @Subscribe
     public void refresh(TopicsDetailRefreshEvent topicsDetailRefreshEvent) {
         loadData(topicsDetailRefreshEvent.sortType);
         mSortType = topicsDetailRefreshEvent.sortType;
+    }
+
+    /**
+     * 点击采纳回答成功后更新界面
+     *
+     * @param event
+     */
+    @Subscribe
+    public void refresh(RewardDetailRefreshEvent event) {
+        mTopicsBean.reward_state = 2;
+        mHandler.setRewardState(mTopicsBean.reward_state);
+        setTopicsDetail();
+        initFloatMenu();
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+        setRewardAdopted();
     }
 
     @Override
@@ -188,17 +270,23 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             protected void afterParseData(Object object) {
                 mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
+                mHandler.setRewardUserId(mTopicsBean.getUser().getId());
+                mHandler.setRewardState(mTopicsBean.reward_state);
                 onFragmentInteraction(mTopicsBean);
                 setTopicsDetail();
                 if (mScrollToComment) {
 
-                    mTopicsDetailScrollView.postDelayed(new Runnable() {
+                    topicsDetailScrollView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mScrollToComment = false;
-                            mTopicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            topicsDetailScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            setRewardAdopted();
                         }
-                    }, 500);
+                    }, 0);
+                } else {
+                    setRewardAdopted();
+
                 }
 
             }
@@ -218,7 +306,13 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
     private void setTopicsDetail() {
-        mTopicsDetailHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.topicDetailRl)), mTopicsBean, 0);
+        mRewardDetailHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.topicDetailRl)), mTopicsBean, 0);
+        if (mTopicsBean.content_type == TYPE_REWARD) {
+            mRewardReplyBarHandler.setBarType(RewardReplyBarHandler.REWARD_BAR);
+        } else {
+            mRewardReplyBarHandler.setBarType(RewardReplyBarHandler.TOPIC_BAE);
+        }
+        mRewardReplyBarHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.ll_reply_bar)), mTopicsBean, 0);
     }
 
 
@@ -253,9 +347,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 loadData();
             }
         });
+        mHandler = new CommentHandler(this, true, true, false);
         mAdapter = new DKBaseAdapter(this, mDataList)
-                .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(this))
-                .buildMultiItemView(CommentBean.class, new CommentHandler(this, true, true))
+                .buildMultiItemView(TopicsBean.class, new RewardDetailHandler(this))
+                .buildMultiItemView(CommentBean.class, mHandler)
                 .buildMultiItemView(NoDataBean.class, new NoDataHandler())
                 .buildMultiItemView(LoadingBean.class, new LoadingHandler())
                 .buildMultiItemView(UserEntity.class, new LikePeopleHandler(this))
@@ -311,9 +406,14 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             break;
                         }
                         if (null != mTopicsBean && null != mTopicsBean.user) {
-
-                            startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
-                                    PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                            //TODO 判断content_type 或者  发表悬赏，话题合成一个
+                            if(mTopicsBean.content_type == TYPE_REWARD){
+                                startActivity(PostRewardActivity.getIntent(TopicsDetailActivity.this,
+                                        PostRewardActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                            }else{
+                                startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
+                                        PostTopicActivity.TYPE_COMMENT, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
+                            }
                         }
                         break;
                     case MENU_LIKE:
@@ -329,7 +429,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         if (!UIUtils.iStartLoginActivity(TopicsDetailActivity.this)) {
 
                             if (null != mTopicsBean && null != mTopicsBean.user) {
-
                                 TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
                             }
                         }
@@ -340,37 +439,74 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         ((Activity) TopicsDetailActivity.this).finish();
                         break;
                     case MENU_MORE_STATUS_DELETE:
-
-                        PromptManager.getAlertDialog(TopicsDetailActivity.this).setMessage(getString(R.string.delete_topics)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                StatusEngineImpl.delete(mTopicsBean.id + "", new ParseHttpListener() {
-                                    @Override
-                                    protected Object parseDateTask(String jsonData) {
-
-                                        return null;
-                                    }
-
-                                    @Override
-                                    protected void afterParseData(Object object) {
-
-
-                                        if (mTopicsBean != null) {
-//                                            RemoveTopicsEvent removeTopicsListEvent = new RemoveTopicsEvent(mTopicsBean);
-//                                            BusProvider.getInstance().post(removeTopicsListEvent);
-                                            mTopicsBean.appleAction(this, AutoData.Action.Delete).post();
-                                        }
-                                        ((Activity) TopicsDetailActivity.this).finish();
-                                    }
-                                });
-                            }
-                        }).setNegativeButton(R.string.cancel, null).show();
+                         if (mTopicsBean.content_type == TYPE_REWARD) {
+                            showColseRewardDialog();
+                        }else{
+                             showDelTopicDialog();
+                         }
 
                         break;
                 }
                 return false;
             }
+
+
         });
+    }
+
+    private void showDelTopicDialog() {
+        PromptManager.getAlertDialog(TopicsDetailActivity.this).setMessage(getString(R.string.delete_topics)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StatusEngineImpl.delete(mTopicsBean.id + "", new ParseHttpListener() {
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Object object) {
+
+
+                        if (mTopicsBean != null) {
+//                                            RemoveTopicsEvent removeTopicsListEvent = new RemoveTopicsEvent(mTopicsBean);
+//                                            BusProvider.getInstance().post(removeTopicsListEvent);
+                            mTopicsBean.appleAction(this, AutoData.Action.Delete).post();
+                        }
+                        ((Activity) TopicsDetailActivity.this).finish();
+                    }
+                });
+            }
+        }).setNegativeButton(R.string.cancel, null).show();
+    }
+
+    private void showColseRewardDialog() {
+        PromptManager.getAlertDialog(TopicsDetailActivity.this).setMessage(getString(R.string.msg_close_reward)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StatusEngineImpl.closeReward(mTopicsBean.id + "", new ParseHttpListener() {
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Object object) {
+                        PromptManager.showToast(R.string.close_reward_hint);
+                        if (mTopicsBean != null) {
+                            mTopicsBean.reward_state = 1;
+                            mHandler.setRewardState(mTopicsBean.reward_state);
+                            mAdapter.notifyDataSetChanged();
+                            setTopicsDetail();
+                            initFloatMenu();
+                        }
+                    }
+                }.setLoadingDialog(TopicsDetailActivity.this, false));
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.cancel, null).show();
     }
 
     private void share() {
@@ -384,7 +520,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             }
         }
         shareBean.setUrl(DKHSClient.getHeadUrl() + "/statuses/" + mTopicsBean.getId());
-        shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
+        if (mTopicsBean.content_type == 0) {
+            shareBean.setTitle(String.format("分享 %s 的话题", mTopicsBean.user.getUsername()));
+        } else {
+            shareBean.setTitle(String.format("分享 %s 的悬赏", mTopicsBean.user.getUsername()));
+        }
         String img = null;
         shareBean.setResId(R.drawable.ic_launcher);
         if (mTopicsBean.medias != null && mTopicsBean.medias.size() > 0) {
@@ -407,7 +547,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         }
 
         mFloatingActionMenu.removeAllItems();
-        mFloatingActionMenu.addItem(MENU_COMMEND, R.string.comment, R.drawable.ic_comment_detail);
+        if (mTopicsBean.content_type == TYPE_REWARD) {
+            mFloatingActionMenu.addItem(MENU_COMMEND, R.string.answer, R.drawable.ic_comment_detail);
+        } else {
+            mFloatingActionMenu.addItem(MENU_COMMEND, R.string.comment, R.drawable.ic_comment_detail);
+        }
+
         if (mTopicsBean.like) {
             mFloatingActionMenu.addItem(MENU_LIKE, R.string.like, R.drawable.praised);
         } else {
@@ -421,9 +566,23 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                     .addItem(MENU_MORE_GO_HOME, "回到首页").
                     addItem(MENU_MORE_STATUS_REPORT, "举报");
         } else {
-            mFloatingActionMenu.addMoreItem(MENU_MORE, getString(R.string.more), R.drawable.ic_fm_more)
-                    .addItem(MENU_MORE_GO_HOME, "回到首页").
-                    addItem(MENU_MORE_STATUS_DELETE, "删除");
+            if (mTopicsBean.content_type == 0) {
+
+                mFloatingActionMenu.addMoreItem(MENU_MORE, getString(R.string.more), R.drawable.ic_fm_more)
+                        .addItem(MENU_MORE_GO_HOME, "回到首页").
+                        addItem(MENU_MORE_STATUS_DELETE, "删除");
+            } else if (mTopicsBean.content_type == TYPE_REWARD) {
+                if (mTopicsBean != null && mTopicsBean.reward_state == 0) {
+                    mFloatingActionMenu.addMoreItem(MENU_MORE, getString(R.string.more), R.drawable.ic_fm_more)
+                            .addItem(MENU_MORE_GO_HOME, "回到首页").
+                            addItem(MENU_MORE_STATUS_DELETE, "关闭悬赏");
+                } else {
+                    mFloatingActionMenu.addMoreItem(MENU_MORE, getString(R.string.more), R.drawable.ic_fm_more)
+                            .addItem(MENU_MORE_GO_HOME, "回到首页")
+                    ;
+                }
+            }
+
         }
     }
 
@@ -447,7 +606,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         mTopicsBean = topicsBean;
         ignoreTV.setText(mTopicsBean.text);
         switch (topicsBean.content_type) {
-            case 0:
+            case TYPE_TOPIC:
                 setTitle("话题正文");
                 break;
             case 10:
@@ -458,6 +617,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 break;
             case 30:
                 setTitle("研报正文");
+                break;
+            case TYPE_REWARD:
+                setTitle("悬赏正文");
                 break;
             default:
                 break;
@@ -604,4 +766,5 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mAdapter.notifyDataSetChanged();
         }
     }
+
 }
