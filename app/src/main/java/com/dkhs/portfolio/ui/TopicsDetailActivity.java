@@ -693,7 +693,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 if (mTopicsCommendEngine.isLikes()) {
                     noDataBean.noData = "暂无人点赞";
                 } else {
-                    noDataBean.noData = "暂无评论";
+                    if(mTopicsBean.content_type == TYPE_REWARD){
+                        noDataBean.noData = "暂无回答";
+                    }else{
+                        noDataBean.noData = "暂无评论";
+                    }
                 }
                 mDataList.add(noDataBean);
             }
