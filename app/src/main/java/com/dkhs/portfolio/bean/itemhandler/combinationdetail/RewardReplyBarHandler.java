@@ -59,7 +59,6 @@ public class RewardReplyBarHandler extends SimpleItemHandler<TopicsBean> impleme
         }
 
         final Spinner spinner = vh.get(R.id.spinner);
-//        if (spinner.getAdapter() == null) {//是否有效率的影响
             if(mBarType == TOPIC_BAE){
                 spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.topics_commend_sort)));
             }else{
@@ -67,7 +66,6 @@ public class RewardReplyBarHandler extends SimpleItemHandler<TopicsBean> impleme
                 spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.rewards_reply_sort)));
             }
             spinner.setOnItemSelectedListener(this);
-//        }
 
         if (mSortType != null) {
             switch (mSortType) {
