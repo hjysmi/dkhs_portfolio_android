@@ -35,7 +35,6 @@ import com.bumptech.glide.Glide;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.engine.DraftEngine;
-import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.LoadDraftEvent;
@@ -160,17 +159,9 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 if (UIUtils.iStartLoginActivity(getActivity())) {
                     return;
                 }
-                int contentType = draftBean.getContentType();
-                if(contentType == 0) {
-                    Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getStatusId(), draftBean.getReplyUserName());
-                    intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
-                    startActivity(intent);
-                }else if(contentType == 40){
-                    Intent intent = PostRewardActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getStatusId(), draftBean.getReplyUserName());
-                    intent.putExtra(PostRewardActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
-                    startActivity(intent);
-                }
-
+                Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getStatusId(), draftBean.getReplyUserName());
+                intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
+                startActivity(intent);
             }
         });
     }
@@ -258,9 +249,9 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getEdittime()));
             String strLabel = "";
             if(item.getContentType() == 0){
-                strLabel = item.getLabel() == 1 ? "主贴" : "回复";
+                strLabel = item.getLabel() == PostTopicActivity.TYPE_POST_TOPIC ? "主贴" : "回复";
             }else if(item.getContentType() == 40){
-                strLabel = item.getLabel() == 1 ? "悬赏" : "回复";
+                strLabel = item.getLabel() == PostTopicActivity.TYPE_POST_REWARD ? "悬赏" : "回复";
             }
             holder.tvLabel.setText(strLabel);
 

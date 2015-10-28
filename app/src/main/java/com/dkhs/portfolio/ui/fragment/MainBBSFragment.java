@@ -77,7 +77,7 @@ public class MainBBSFragment extends BaseTitleFragment {
                 if (UIUtils.iStartLoginActivity(getActivity())) {
                     return;
                 }
-                getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST, "", ""));
+                getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST_TOPIC, "", ""));
 //                getActivity().startActivity(new Intent(getActivity(), TestActivity.class));
             }
         });

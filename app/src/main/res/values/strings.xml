@@ -817,4 +817,6 @@
 
     <string name="weixinpay_not_support">所安装的微信客户端不支持支付</string>
     <string name="weixin_not_installed">未安装微信客户端</string>
+
+    <string name="reward_content_hint">请输入悬赏内容</string>
 </resources>

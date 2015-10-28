@@ -221,7 +221,7 @@ public class UserHomePageActivity extends ModelAcitivity {
             public void loadFail() {
 
             }
-        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Topics).loadData();
+        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Topics,TopicsDetailActivity.TYPE_TOPIC).loadData();
         new UserTopicsCommentEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener() {
             @Override
             public void loadFinish(MoreDataBean object) {
@@ -252,7 +252,7 @@ public class UserHomePageActivity extends ModelAcitivity {
             public void loadFail() {
 
             }
-        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Comment).loadData();
+        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Comment,TopicsDetailActivity.TYPE_TOPIC).loadData();
     }
 
     private void updateUI() {

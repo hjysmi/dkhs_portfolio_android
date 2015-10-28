@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
-import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -119,9 +118,9 @@ public class MainRewardFragment extends VisiableLoadFragment {
                     return;
                 }
                 if(mCurFragment == 0){
-                    getActivity().startActivity(PostRewardActivity.getIntent(getActivity(), PostRewardActivity.TYPE_POST, "", ""));
+                    getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST_REWARD, "", ""));
                 }else if(mCurFragment == 1){
-                    getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST, "", ""));
+                    getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST_TOPIC, "", ""));
                 }
             }
         });

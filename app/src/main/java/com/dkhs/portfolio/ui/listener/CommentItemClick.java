@@ -12,7 +12,6 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -207,9 +206,9 @@ public class CommentItemClick {
 
         if (null != commentBean.user) {
             if(commentBean.content_type == TopicsDetailActivity.TYPE_REWARD){
-                mContext.startActivity(PostRewardActivity.getIntent(mContext, PostRewardActivity.TYPE_REPLY, commentBean.getId() + "", commentBean.user.getUsername()));
+                mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY_REWARD, commentBean.getId() + "", commentBean.user.getUsername()));
             }else{
-                mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY, commentBean.getId() + "", commentBean.user.getUsername()));
+                mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY_TOPIC, commentBean.getId() + "", commentBean.user.getUsername()));
             }
         } else {
             Log.e(TAG, "comment user is null;");

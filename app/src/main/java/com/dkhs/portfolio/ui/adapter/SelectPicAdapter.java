@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide;
 import com.dkhs.adpter.adapter.SingleItemAdapter;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 
 import java.io.File;
@@ -43,8 +42,6 @@ public class SelectPicAdapter extends SingleItemAdapter<String> {
                 public void onClick(View v) {
                     if (mContext instanceof PostTopicActivity) {
                         ((PostTopicActivity) mContext).pickMultiPicture();
-                    }else if(mContext instanceof PostRewardActivity){
-                        ((PostRewardActivity) mContext).pickMultiPicture();
                     }
                 }
             });
