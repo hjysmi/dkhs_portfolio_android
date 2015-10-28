@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.baidu.mobstat.StatService;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.MAppActivity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.yang.gesturepassword.GesturePasswordManager;
@@ -24,21 +25,6 @@ import com.yang.gesturepassword.ISecurityGesture;
 public class BaseActivity extends MAppActivity {
 
     protected Context mContext;
-    private class MyHandler extends Handler {
-        public MyHandler(Looper mainLooper) {
-            super(mainLooper);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case NEED_SHOW_GESTURE:
-                    GlobalParams.needShowGesture = true;
-                    break;
-            }
-        }
-    }
-    private MyHandler mHandler;
     /**
      * 无操作后锁屏时间
      */
@@ -52,8 +38,6 @@ public class BaseActivity extends MAppActivity {
         // this.getWindow().getDecorView().setOnTouchListener(this);
         getWindow().setBackgroundDrawable(null);
         mContext = this;
-        //监听手势超时
-        mHandler = new MyHandler(getApplication().getMainLooper());
     }
 
     @Override
@@ -149,9 +133,7 @@ public class BaseActivity extends MAppActivity {
     @Override
     public void onUserInteraction() {
         if(!TextUtils.isEmpty(GlobalParams.MOBILE)){
-//            GesturePasswordManager.getInstance().userInteractionInNormal();
-            mHandler.removeMessages(NEED_SHOW_GESTURE);
-            mHandler.sendEmptyMessageDelayed(NEED_SHOW_GESTURE, SHOW_GESTURE_DELAY);
+            PortfolioApplication.getInstance().onUserInteraction();
         }
     }
 }

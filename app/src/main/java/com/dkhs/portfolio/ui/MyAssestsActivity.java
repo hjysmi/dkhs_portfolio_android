@@ -271,6 +271,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     @Override
     public void onUserInteraction() {
         Log.i("onUserInteraction", getComponentName().toString());
+        super.onUserInteraction();
         if(!TextUtils.isEmpty(GlobalParams.MOBILE)){
             GesturePasswordManager.getInstance().userInteraction();
         }
