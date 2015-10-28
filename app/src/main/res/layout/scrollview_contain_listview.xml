@@ -5,7 +5,7 @@
               android:orientation="vertical">
 
     <include
-        layout="@layout/layout_reward_detail"/>
+        layout="@layout/layout_topics_detail"/>
     <include
         layout="@layout/layout_adopt_reply"/>
     <include

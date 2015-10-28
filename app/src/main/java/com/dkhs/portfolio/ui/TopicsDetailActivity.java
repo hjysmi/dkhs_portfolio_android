@@ -25,7 +25,7 @@ import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.LikePeopleHandler;
-import com.dkhs.portfolio.bean.itemhandler.RewardDetailHandler;
+import com.dkhs.portfolio.bean.itemhandler.TopicsDetailHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CommentHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.LoadingHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.NoDataHandler;
@@ -105,7 +105,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     CommentHandler mHandler;
 
 
-    private RewardDetailHandler mRewardDetailHandler = new RewardDetailHandler(this);
+    private TopicsDetailHandler mRewardDetailHandler = new TopicsDetailHandler(this);
     private RewardReplyBarHandler mRewardReplyBarHandler = new RewardReplyBarHandler(this);
 
     private RewardAdoptedHandler mRewardAdoptedHandler;
@@ -349,7 +349,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         });
         mHandler = new CommentHandler(this, true, true, false);
         mAdapter = new DKBaseAdapter(this, mDataList)
-                .buildMultiItemView(TopicsBean.class, new RewardDetailHandler(this))
+                .buildMultiItemView(TopicsBean.class, new TopicsDetailHandler(this))
                 .buildMultiItemView(CommentBean.class, mHandler)
                 .buildMultiItemView(NoDataBean.class, new NoDataHandler())
                 .buildMultiItemView(LoadingBean.class, new LoadingHandler())
@@ -407,10 +407,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         }
                         if (null != mTopicsBean && null != mTopicsBean.user) {
                             //TODO 判断content_type 或者  发表悬赏，话题合成一个
-                            if(mTopicsBean.content_type == TYPE_REWARD){
+                            if (mTopicsBean.content_type == TYPE_REWARD) {
                                 startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
                                         PostTopicActivity.TYPE_COMMENT_REWARD, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
-                            }else{
+                            } else {
                                 startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
                                         PostTopicActivity.TYPE_COMMENT_TOPIC, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
                             }
@@ -439,11 +439,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         ((Activity) TopicsDetailActivity.this).finish();
                         break;
                     case MENU_MORE_STATUS_DELETE:
-                         if (mTopicsBean.content_type == TYPE_REWARD) {
+                        if (mTopicsBean.content_type == TYPE_REWARD) {
                             showColseRewardDialog();
-                        }else{
-                             showDelTopicDialog();
-                         }
+                        } else {
+                            showDelTopicDialog();
+                        }
 
                         break;
                 }
