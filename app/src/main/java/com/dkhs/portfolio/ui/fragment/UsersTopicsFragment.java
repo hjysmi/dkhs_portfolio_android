@@ -15,7 +15,6 @@ import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserTopicsCommentEngineImpl;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +71,6 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
 
     @Override
     LoadMoreDataEngine getLoadEngine() {
-        LogUtils.d("wys","contentType"+mContentType);
         if (mTopicsEngine == null) {
             mTopicsEngine = new UserTopicsCommentEngineImpl(this, getArguments().getString(UserTopicsActivity.USER_ID), UserTopicsCommentEngineImpl.StatusType.Topics,mContentType);
         }
