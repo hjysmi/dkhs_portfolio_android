@@ -480,10 +480,15 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-
-                PostTopicService.startPost(this, buildDrafteBean());
-                finish();
-
+                if(curType == TYPE_POST_REWARD ){
+                    if(checkRewardValid(etContent.getText().toString(),amountEt.getText().toString(),Float.valueOf(available))){
+                        PostTopicService.startPost(this, buildDrafteBean());
+                        finish();
+                    }
+                }else{
+                    PostTopicService.startPost(this, buildDrafteBean());
+                    finish();
+                }
                 break;
             case BACKBUTTON_ID:
                 showAlertDialog();
@@ -941,17 +946,21 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     /**
      * 发布悬赏前进行检查
      */
-    private boolean checkRewardValid(String content,float rewardAmount,float available){
-        if(rewardAmount < minAmount){
+    private boolean checkRewardValid(String content,String rewardAmount,float available){
+        if(TextUtils.isEmpty(rewardAmount)){
+            return false;
+        }
+        float reward  = Float.valueOf(rewardAmount);
+        if(reward < minAmount){
             PromptManager.showToast(String.format(getString(R.string.reward_too_low),minAmount));
             return false;
         }
-        if(rewardAmount > available){
+        if(reward > available){
             showChargeDialog();
             return false;
         }
         if(TextUtils.isEmpty(content)){
-            PromptManager.showToast("请输入悬赏内容");
+            PromptManager.showToast(R.string.reward_content_hint);
             return false;
         }
         return true;

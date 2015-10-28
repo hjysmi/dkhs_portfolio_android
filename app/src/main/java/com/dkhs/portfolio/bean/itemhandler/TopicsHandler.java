@@ -164,7 +164,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
             unitStyle = R.style.reward_unit_finish;
             leftDrawable = R.drawable.ic_money_normal;
             stateTv.setBackgroundResource(R.drawable.bg_reward_finish);
-        }else{
+        }else {
             state =  R.string.reward_finish;
             amountStyle = R.style.reward_amount_finish;
             unitStyle = R.style.reward_unit_finish;
