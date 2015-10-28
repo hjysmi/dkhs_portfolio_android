@@ -21,6 +21,7 @@ import com.dkhs.portfolio.engine.LocalDataEngine.RewardEngineImpl;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.lidroid.xutils.util.LogUtils;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
 import com.squareup.otto.Subscribe;
@@ -160,6 +161,7 @@ public class RewardsFragment extends LoadMoreListFragment  {
     @Subscribe
     public void updateRewardList(AddTopicsEvent event){
         TopicsBean data = event.topicsBean;
+        LogUtils.d("wys","type"+data.content_type);
         if(data != null&&data.content_type == TopicsDetailActivity.TYPE_REWARD){
             mDataList.add(0,data);
             mAdapter.notifyDataSetChanged();

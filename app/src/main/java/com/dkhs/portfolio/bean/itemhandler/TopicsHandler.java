@@ -374,11 +374,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
 
         @Override
         public void onClick(View v) {
-            if(likeBean.content_type == 40){
-                TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
-            }else{
-                TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
-            }
+            TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean());
         }
 
 
