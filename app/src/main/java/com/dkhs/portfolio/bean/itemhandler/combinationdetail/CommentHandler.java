@@ -22,7 +22,6 @@ import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
-import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
@@ -162,12 +161,12 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LikeBean bean = comment;
-                if(bean.content_type == 0){
-                    showCommentDialog(v, bean);
-                }else{
-                    showRewardReplyDialog(v,bean);
-                }
+//                LikeBean bean = comment;
+//                if(bean.content_type == 0){
+                    showCommentDialog(v, comment);
+//                }else{
+//                    showRewardReplyDialog(v,bean);
+//                }
             }
         });
 
@@ -194,26 +193,13 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
             mCommentClick = new CommentItemClick("", v.getContext());
         }
         if (isReplyComment) {
-            mCommentClick.clickFromMyReply(comment);
+            mCommentClick.clickFromMyReply(comment,comment.rewarded_type == 1);
         } else {
 
             mCommentClick.clickFromMyTopic(comment);
         }
     }
 
-    private void showRewardReplyDialog(View v, LikeBean comment) {
-        RewardReplyItemClick mCommentClick;
-        if (null != GlobalParams.LOGIN_USER) {
-            mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
-        } else {
-            mCommentClick = new RewardReplyItemClick("", v.getContext());
-        }
-        if (isReplyComment) {
-            mCommentClick.clickFromMyReply(comment,comment.rewarded_type == 1?true:false);
-        } else {
-            mCommentClick.clickFromMyTopic(comment);
-        }
-    }
 
     public void setClickListener(View view, LikeBean data) {
         ItemHandlerClickListenerImp<LikeBean> itemHandlerClickListener = null;

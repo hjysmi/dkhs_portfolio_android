@@ -18,7 +18,7 @@ import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
+import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -104,13 +104,13 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RewardReplyItemClick mCommentClick;
+                CommentItemClick mCommentClick;
                 if (null != GlobalParams.LOGIN_USER) {
-                    mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
+                    mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
                 } else {
-                    mCommentClick = new RewardReplyItemClick("", v.getContext());
+                    mCommentClick = new CommentItemClick("", v.getContext());
                 }
-                mCommentClick.clickFromMyTopic(comment);
+                    mCommentClick.clickFromMyTopic(comment);
             }
         });
 
