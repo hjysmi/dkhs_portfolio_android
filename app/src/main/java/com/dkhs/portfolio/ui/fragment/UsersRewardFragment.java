@@ -14,7 +14,7 @@ import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.portfolio.bean.itemhandler.RewardsHandler;
+import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.UserRewardsEngineImpl;
 import com.dkhs.portfolio.ui.MyRewardActivity;
@@ -89,7 +89,7 @@ public class UsersRewardFragment extends LoadMoreListFragment {
 //                    return new TopicsHandler(mActivity).getLayoutResId();
 //                }
 //            }.buildItemView(new TopicsHandler(mActivity));
-            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildSingleItemView(new RewardsHandler(mActivity));
+            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildSingleItemView(new TopicsHandler(mActivity));
         }
         return mAdapter;
     }
