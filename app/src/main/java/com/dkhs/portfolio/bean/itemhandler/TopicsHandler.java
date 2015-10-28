@@ -69,7 +69,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         setClickListener(vh.get(R.id.name), data);
 
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
-        if (TextUtils.isEmpty(data.title)||data.title.equals("发表悬赏")) {
+        if (TextUtils.isEmpty(data.title)) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
         } else {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);

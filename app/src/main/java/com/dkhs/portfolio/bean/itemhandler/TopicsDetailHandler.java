@@ -77,7 +77,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
 //        setClickListener(vh.get(R.id.iv), data);
 
         setClickListener(vh.get(R.id.name), data);
-        if (TextUtils.isEmpty(data.title) || data.title.equals("发表悬赏")) {//TODO 之前发表悬赏的问题　需修改
+        if (TextUtils.isEmpty(data.title) ) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
         } else {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
