@@ -19,6 +19,6 @@ public class WalletEngineImpl {
 
     public static void getMineAccountInfo( ParseHttpListener listener){
         //加密请求我的钱包信息
-        DKHSClient.requestGetByEncryp(new TreeMap<String, String>(), DKHSUrl.Wallets.account_info, listener);
+        DKHSClient.requestGetByEncryp(new TreeMap<String, String>(), DKHSUrl.Wallets.account_info, listener.openEncry());
     }
 }
