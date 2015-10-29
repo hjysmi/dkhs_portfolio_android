@@ -23,6 +23,6 @@ public class WalletsEngine {
         TreeMap<String, String> paramsMap = new TreeMap<>();
         paramsMap.put("amount", String.valueOf(amount));
         paramsMap.put("vendor", vendor);
-        DKHSClient.requestPostByEncryp(paramsMap, DKHSUrl.Wallets.payment, listener);
+        DKHSClient.requestPostByEncryp(paramsMap, DKHSUrl.Wallets.payment, listener.openEncry());
     }
 }

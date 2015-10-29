@@ -27,6 +27,6 @@ public class WithDrawEngineImpl {
         paramsMap.put(NAME, name);
         paramsMap.put(CAPTCHA, captcha);
         paramsMap.put(VENDOR, "alipay");
-        DKHSClient.requestPostByEncryp(null, DKHSUrl.Wallets.withdraw, listener);
+        DKHSClient.requestPostByEncryp(null, DKHSUrl.Wallets.withdraw, listener.openEncry());
     }
 }
