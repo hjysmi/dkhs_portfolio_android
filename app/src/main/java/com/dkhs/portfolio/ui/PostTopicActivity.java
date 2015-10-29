@@ -262,8 +262,8 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             }
         });
         MyTextWatcher watcher = new MyTextWatcher();
-//        etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
+        amountEt.addTextChangedListener(watcher);
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         amountEt.setFilters(new InputFilter[]{lengthfilter});
