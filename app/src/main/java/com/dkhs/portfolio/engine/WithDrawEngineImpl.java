@@ -3,8 +3,6 @@ package com.dkhs.portfolio.engine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.client.HttpRequest;
 
 import java.util.TreeMap;
 
@@ -27,6 +25,6 @@ public class WithDrawEngineImpl {
         paramsMap.put(NAME, name);
         paramsMap.put(CAPTCHA, captcha);
         paramsMap.put(VENDOR, "alipay");
-        DKHSClient.requestPostByEncryp(null, DKHSUrl.Wallets.withdraw, listener.openEncry());
+        DKHSClient.requestPostByEncryp(paramsMap, DKHSUrl.Wallets.withdraw, listener.openEncry());
     }
 }
