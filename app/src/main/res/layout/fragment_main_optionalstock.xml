@@ -7,14 +7,14 @@
     <FrameLayout
         android:id="@+id/tool"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/title_color">
+        android:layout_height="48dp">
 
         <RelativeLayout
             android:id="@+id/rl_header_title"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="@dimen/tool_bar_top_padding">
+            android:background="@color/title_color"
+            >
 
 
             <TextView

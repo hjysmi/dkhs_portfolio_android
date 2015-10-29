@@ -4,86 +4,92 @@
     <FrameLayout
         android:id="@+id/tool"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/title_color">
+        android:layout_height="@dimen/title_height">
 
-        <RelativeLayout
-            android:id="@+id/view_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            android:layout_marginTop="@dimen/tool_bar_top_padding">
-
-
-            <TextView
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@null"
-                android:paddingLeft="10dp"
-                android:paddingRight="15dp"
-                android:textColor="@color/nav_right_text" />
-
+            <include layout="@layout/toolbar" />
 
             <RelativeLayout
-                android:id="@+id/ll_tilte"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:id="@+id/view_title"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/title_color">
+
 
                 <TextView
-                    android:id="@+id/tv_title"
+                    android:id="@+id/btn_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_color"
-                    android:textSize="18sp" />
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="15dp"
+                    android:textColor="@color/nav_right_text" />
 
-                <TextView
-                    android:id="@+id/tv_title_info"
+
+                <RelativeLayout
+                    android:id="@+id/ll_tilte"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_title"
-                    android:layout_centerHorizontal="true"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_color"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-            </RelativeLayout>
+                    android:layout_centerInParent="true">
 
-            <LinearLayout
-                android:id="@+id/myids"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:singleLine="true"
+                        android:textColor="@color/theme_color"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_title_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_title"
+                        android:layout_centerHorizontal="true"
+                        android:singleLine="true"
+                        android:textColor="@color/theme_color"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/myids"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/btn_right"
+                        style="@style/tool_bar_menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:visibility="gone" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/btn_right"
+                    android:id="@+id/btn_right_second"
                     style="@style/tool_bar_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/myids"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:visibility="gone" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/btn_right_second"
-                style="@style/tool_bar_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/myids"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:visibility="gone" />
 
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:id="@+id/bottom_line"
