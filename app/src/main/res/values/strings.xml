@@ -820,4 +820,5 @@
     <string name="weixin_not_installed">未安装微信客户端</string>
 
     <string name="reward_content_hint">请输入悬赏内容</string>
+    <string name="reward_amount_hint">请输入悬赏金额</string>
 </resources>

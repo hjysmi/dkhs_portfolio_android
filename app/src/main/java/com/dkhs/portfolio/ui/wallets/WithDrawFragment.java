@@ -31,7 +31,6 @@ import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -153,7 +152,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
         amountEt.setFilters(new InputFilter[]{lengthfilter});
         String availHint = String.format(getString(R.string.with_draw_available),avail);
         String mobile = GlobalParams.MOBILE;
-        if(!TextUtils.isEmpty(mobile)){
+        if(!TextUtils.isEmpty(mobile)){//不显示完整号码　用****替换中间数字
             hideMobile(mobile);
         }else{
             UserEngineImpl.queryThreePlatBind(bindsListener);
@@ -168,7 +167,6 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private void hideMobile(String mobile) {
         String src = mobile.substring(4,8);
         String newMobile = mobile.replace(src,"****");
-        LogUtils.d("wys", newMobile);
         String sendCodeMsg = String.format(getString(R.string.msg_send_post), newMobile);
         sendCodeTv.setText(sendCodeMsg);
     }

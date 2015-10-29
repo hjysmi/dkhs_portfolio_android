@@ -3,7 +3,6 @@ package com.dkhs.portfolio.ui.wallets;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PaymentBean;
@@ -42,7 +41,6 @@ public class WeixinpayImpl implements IThreePay {
             return;
         }
         ;
-        Log.d("wys","info"+info.sign);
         if(info != null){
             sendPayReq(info);
         }

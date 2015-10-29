@@ -942,6 +942,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      */
     private boolean checkRewardValid(String content,String rewardAmount,float available){
         if(TextUtils.isEmpty(rewardAmount)){
+            PromptManager.showToast(R.string.reward_amount_hint);
             return false;
         }
         float reward  = Float.valueOf(rewardAmount);

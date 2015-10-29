@@ -52,7 +52,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
@@ -206,7 +205,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         mRewardAdoptedHandler = new RewardAdoptedHandler(TopicsDetailActivity.this, true, true);
                     }
                     mRewardAdoptedHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.adopt_reply_rl)), comment, 0);
-                    LogUtils.d("wys", "adopted height" + findViewById(R.id.adopt_reply_rl).getHeight());
                 }
 
                 @Override
@@ -420,7 +418,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             break;
                         }
                         if (null != mTopicsBean && null != mTopicsBean.user) {
-                            //TODO 判断content_type 或者  发表悬赏，话题合成一个
                             if (mTopicsBean.content_type == TYPE_REWARD) {
                                 startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
                                         PostTopicActivity.TYPE_COMMENT_REWARD, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
@@ -772,7 +769,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mTopicsBean.attitudes_count += 1;
             addLikePeople(UserEngineImpl.getUserEntity());
             mAdapter.notifyDataSetChanged();
-
+            setTopicsDetail();
         }
 
     }
@@ -782,6 +779,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mTopicsBean.attitudes_count -= 1;
             removeLikePeople(UserEngineImpl.getUserEntity());
             mAdapter.notifyDataSetChanged();
+            setTopicsDetail();
         }
     }
 

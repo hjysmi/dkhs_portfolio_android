@@ -14,7 +14,6 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
-import com.lidroid.xutils.util.LogUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -50,11 +49,9 @@ public class RewardReplyBarHandler extends SimpleItemHandler<TopicsBean> impleme
     @Override
     public void onBindView(final ViewHolder vh, final TopicsBean data, int position) {
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
-        LogUtils.d("wys", "barType"+mBarType);
         if(mBarType == TOPIC_BAE){
             vh.setTextView(R.id.comment, mContext.getString(R.string.reply) + " " + data.comments_count);
         }else{
-            LogUtils.d("wys", "1111111");
             vh.setTextView(R.id.comment, mContext.getString(R.string.answer) + " " + data.comments_count);
         }
 
