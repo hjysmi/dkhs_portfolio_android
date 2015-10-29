@@ -83,7 +83,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
     public static final int TYPE_ANNOUNCE = 20;
 
     /**
-     * 公告类型
+     * 研报类型
      */
     public static final int TYPE_REPORT = 30;
 
