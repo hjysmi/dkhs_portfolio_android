@@ -22,7 +22,7 @@ public class CommentMeActivity extends ModelAcitivity {
             e.printStackTrace();
         }
         setContentView(R.layout.activity_comment_me);
-        setTitle(R.string.title_activity_comment_me);
+        setTitle(R.string.title_activity_reply_me);
         getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,new CommentMeFragment()).commitAllowingStateLoss();
     }
 
