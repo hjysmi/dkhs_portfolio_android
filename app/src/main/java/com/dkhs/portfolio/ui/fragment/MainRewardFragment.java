@@ -187,6 +187,7 @@ public class MainRewardFragment extends VisiableLoadFragment {
 
         }
 
+
         @Override
         public void onPageScrollStateChanged(int i) {
 
