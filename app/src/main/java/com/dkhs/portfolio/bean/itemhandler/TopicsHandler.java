@@ -278,15 +278,10 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
 
         @Override
         public void onClick(View v) {
-            //判断content_type
-            if(likeBean.content_type == 40){
-                rewardCommendClick();
-            }else{
                 topicCommendClick();
-            }
         }
 
-        private void rewardCommendClick() {
+/*        private void rewardCommendClick() {
             if (likeBean.comments_count == 0) {
 
                 if (UIUtils.iStartLoginActivity(mContext)) {
@@ -298,7 +293,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
                 //need fix
                 TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
             }
-        }
+        }*/
 
         private void topicCommendClick(){
             if (likeBean.comments_count == 0) {
@@ -306,8 +301,11 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
                 if (UIUtils.iStartLoginActivity(mContext)) {
                     return;
                 }
-                UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_TOPIC, likeBean.id + "", likeBean.user.getUsername()));
-
+                if(likeBean.content_type == TopicsDetailActivity.TYPE_REWARD){
+                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_REWARD, likeBean.id + "", likeBean.user.getUsername()));
+                }else{
+                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_TOPIC, likeBean.id + "", likeBean.user.getUsername()));
+                }
             } else {
                 TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
             }
