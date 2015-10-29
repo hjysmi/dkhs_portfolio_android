@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.WithDrawResBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
@@ -33,6 +34,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -65,6 +67,29 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private TextView sendCodeTv;
     @ViewInject(R.id.rlbutton)
     private Button  rlBtn;
+
+    private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
+
+
+        @Override
+        protected List<BindThreePlat> parseDateTask(String jsonData) {
+            return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<BindThreePlat> entity) {
+            if (!entity.isEmpty()) {
+                for (int i = 0; i < entity.size(); i++) {
+                    BindThreePlat palt = entity.get(i);
+                    if (palt.isStatus() && palt.getProvider().contains("mobile")) {
+                        hideMobile(palt.getUsername());
+                    }
+
+                }
+            }
+
+        }
+    };
 
     @Override
     public int setContentLayoutId() {
@@ -128,12 +153,20 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
         String availHint = String.format(getString(R.string.with_draw_available),avail);
         String mobile = GlobalParams.MOBILE;
         if(!TextUtils.isEmpty(mobile)){//不显示完整号码　用****替换中间数字
-            String src = mobile.substring(4,8);
-            String newMobile = mobile.replace(src,"****");
-            String sendCodeMsg = String.format(getString(R.string.msg_send_post), newMobile);
-            sendCodeTv.setText(sendCodeMsg);
+            hideMobile(mobile);
         }
         amountEt.setHint(availHint);
+    }
+
+    /**
+     * 不显示完整号码　用****替换中间数字
+     * @param mobile
+     */
+    private void hideMobile(String mobile) {
+        String src = mobile.substring(4,8);
+        String newMobile = mobile.replace(src,"****");
+        String sendCodeMsg = String.format(getString(R.string.msg_send_post), newMobile);
+        sendCodeTv.setText(sendCodeMsg);
     }
 
     private void initView(){
@@ -154,7 +187,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
-                    getCodeBtn.setText("重新发送("+(60 - count)+")s");
+                    getCodeBtn.setText("重新发送("+(60 - count)+"s)");
 //                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
                     getCodeBtn.setTextColor(getResources().getColor(R.color.text_content_color));
                     getCodeBtn.setEnabled(false);
