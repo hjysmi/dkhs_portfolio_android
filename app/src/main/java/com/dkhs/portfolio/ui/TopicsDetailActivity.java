@@ -418,7 +418,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             break;
                         }
                         if (null != mTopicsBean && null != mTopicsBean.user) {
-                            //TODO 判断content_type 或者  发表悬赏，话题合成一个
                             if (mTopicsBean.content_type == TYPE_REWARD) {
                                 startActivity(PostTopicActivity.getIntent(TopicsDetailActivity.this,
                                         PostTopicActivity.TYPE_COMMENT_REWARD, mTopicsBean.id + "", mTopicsBean.user.getUsername()));
@@ -770,7 +769,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mTopicsBean.attitudes_count += 1;
             addLikePeople(UserEngineImpl.getUserEntity());
             mAdapter.notifyDataSetChanged();
-
+            setTopicsDetail();
         }
 
     }
@@ -780,6 +779,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mTopicsBean.attitudes_count -= 1;
             removeLikePeople(UserEngineImpl.getUserEntity());
             mAdapter.notifyDataSetChanged();
+            setTopicsDetail();
         }
     }
 
