@@ -52,7 +52,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
@@ -206,7 +205,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         mRewardAdoptedHandler = new RewardAdoptedHandler(TopicsDetailActivity.this, true, true);
                     }
                     mRewardAdoptedHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.adopt_reply_rl)), comment, 0);
-                    LogUtils.d("wys", "adopted height" + findViewById(R.id.adopt_reply_rl).getHeight());
                 }
 
                 @Override

@@ -17,7 +17,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -143,8 +142,6 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_recharge) {
-            LogUtils.d("wys","onclick");
-
             String amountText = etPayNum.getText().toString();
             if (TextUtils.isEmpty(amountText)) {
                 PromptManager.showToast("请输入有效金额");
