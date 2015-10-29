@@ -52,8 +52,7 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getCursorB() {
         DbUtils db = AppConfig.getDBUtils();
         try {
-            db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
-            return db.findAllCursor(SelectStockBean.class);
+            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
         } catch (DbException e) {
 
         }
@@ -63,7 +62,7 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getCursorC() {
         DbUtils db = AppConfig.getDBUtils();
         try {
-            return db.findAllCursor(SelectStockBean.class);
+            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
         } catch (DbException e) {
 
         }
