@@ -74,6 +74,20 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
      */
     public static final int TYPE_TOPIC = 0;
     /**
+     *新闻类型
+     */
+    public static final int TYPE_NEWS = 10;
+    /**
+     * 公告类型
+     */
+    public static final int TYPE_ANNOUNCE = 20;
+
+    /**
+     * 研报类型
+     */
+    public static final int TYPE_REPORT = 30;
+
+    /**
      * 悬赏类型
      */
     public static final int TYPE_REWARD = 40;
@@ -609,13 +623,13 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             case TYPE_TOPIC:
                 setTitle("话题正文");
                 break;
-            case 10:
+            case TYPE_NEWS:
                 setTitle("新闻正文");
                 break;
-            case 20:
+            case TYPE_ANNOUNCE:
                 setTitle("公告正文");
                 break;
-            case 30:
+            case TYPE_REPORT:
                 setTitle("研报正文");
                 break;
             case TYPE_REWARD:
@@ -679,7 +693,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 if (mTopicsCommendEngine.isLikes()) {
                     noDataBean.noData = "暂无人点赞";
                 } else {
-                    noDataBean.noData = "暂无评论";
+                    if(mTopicsBean.content_type == TYPE_REWARD){
+                        noDataBean.noData = "暂无回答";
+                    }else{
+                        noDataBean.noData = "暂无评论";
+                    }
                 }
                 mDataList.add(noDataBean);
             }

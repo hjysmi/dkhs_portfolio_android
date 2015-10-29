@@ -152,7 +152,7 @@
     <View
         android:id="@+id/bottom"
         android:layout_width="fill_parent"
-        android:layout_height="16dp"
+        android:layout_height="@dimen/combin_horSpacing"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/line"
         android:background="@color/person_setting_backgroud" />

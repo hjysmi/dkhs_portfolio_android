@@ -596,8 +596,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         dialog.show();
     }
 
+    /**
+     * 发布悬赏或者发布话题可以添加９张图片　其他类型只能添加1张图片
+     * @return
+     */
     private boolean isTopicType() {
-        return curType == TYPE_POST_TOPIC;
+        return curType == TYPE_POST_TOPIC || curType == TYPE_POST_REWARD;
     }
 
 
@@ -908,16 +912,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     private static final float MAX_AMOUNT = 99999.99f;
     private float minAmount = 10.00f;
-    /**
-     * 限制悬赏金额  大于指定最小金额，小于99999.99
-     */
-
-    private boolean checkAmountLegal(float amount){
-        if(amount < minAmount || amount > MAX_AMOUNT){
-            return false;
-        }
-        return true;
-    }
 
     private static final int DECIMAL_DIGITS = 2;
     /**
@@ -972,6 +966,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 UIUtils.startAnimationActivity(PostTopicActivity.this, new Intent(PostTopicActivity.this, RechargeActivity.class));
+                dialog.dismiss();
             }
         }).setNegativeButton(R.string.cancel, null);
         builder.show();

@@ -339,7 +339,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
     private void showAdoptDialog(LikeBean comment) {
         MAlertDialog builder = PromptManager.getAlertDialog(mContext);
         final int commentId =  comment.getId();
-        builder.setMessage(mContext.getString(R.string.msg_adopt_reply)).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setMessage(mContext.getString(R.string.msg_adopt_reply)).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 StatusEngineImpl.adoptReply(String.valueOf(commentId), new ParseHttpListener() {
@@ -358,7 +358,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
                 }.setLoadingDialog(mContext,false));
                 dialog.dismiss();
             }
-        }).setNegativeButton("取消",null);
+        }).setNegativeButton(R.string.cancel,null);
         builder.show();
     }
 

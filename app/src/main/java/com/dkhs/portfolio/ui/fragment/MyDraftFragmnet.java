@@ -238,7 +238,7 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
             final DraftBean item = mDataList.get(position);
 
             String title = item.getSimpleTitle();
-            if (TextUtils.isEmpty(title) || title.equals(getString(R.string.post_reward))) {
+            if (TextUtils.isEmpty(title)) {
                 holder.tvTitle.setVisibility(View.GONE);
             } else {
                 holder.tvTitle.setVisibility(View.VISIBLE);
