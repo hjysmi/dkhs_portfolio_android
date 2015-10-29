@@ -189,6 +189,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
     private void initViews() {
+        setBackBtn();
         mPicAdapter = new SelectPicAdapter(this, mSelectPohotos);
         gvSelectPic = (GridViewEx) findViewById(R.id.gv_pic);
         gvSelectPic.isExpanded();
@@ -320,21 +321,18 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private void setupViewData() {
         switch (curType){
             case TYPE_REPLY_TOPIC:
-                setBackBtn();
                 setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
                 ibImg.setVisibility(View.VISIBLE);
                 etTitle.setVisibility(View.GONE);
                 llRewardInfo.setVisibility(View.GONE);
             break;
             case TYPE_COMMENT_TOPIC:
-                setBackBtn();
                 setTitle(String.format(getResources().getString(R.string.blank_comment), userName));
                 ibImg.setVisibility(View.VISIBLE);
                 etTitle.setVisibility(View.GONE);
                 llRewardInfo.setVisibility(View.GONE);
                 break;
             case TYPE_POST_TOPIC:
-                setBackBtn();
                 setTitle(R.string.post_topic);
                 ibImg.setVisibility(View.VISIBLE);
                 etTitle.setVisibility(View.VISIBLE);
