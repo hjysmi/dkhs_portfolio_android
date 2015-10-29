@@ -118,6 +118,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      * 可用金额
      */
     private String available = "0.00";
+    /**
+     * 是否成功获取账号信息
+     */
+    private boolean getAccountSuccess = false;
 
 
     /**
@@ -408,8 +412,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
     private boolean checkSendButtonEnable() {
-
-        boolean enAble = !TextUtils.isEmpty(etTitle.getText()) || !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
+        String content = etContent.getText().toString();
+        boolean enAble = !TextUtils.isEmpty(etTitle.getText()) || !TextUtils.isEmpty(content.trim()) || mSelectPohotos.size() > 0;
+        if(curType == TYPE_POST_REWARD){
+            enAble = enAble && getAccountSuccess && !TextUtils.isEmpty(amountEt.getText());
+        }
         btnSend.setEnabled(enAble);
         btnSend.setClickable(enAble);
 
@@ -899,8 +906,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
                 minAmount = object.getMin_reward();
                 amountEt.setHint(String.format(getString(R.string.reward_lower_limit), String.valueOf(minAmount)));
-                btnSend.setClickable(true);
-                btnSend.setEnabled(true);
+                getAccountSuccess = true;
             }
 
             @Override
