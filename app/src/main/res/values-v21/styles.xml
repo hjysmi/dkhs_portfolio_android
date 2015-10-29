@@ -2,8 +2,8 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="colorAccent">@color/title_color</item>
-        <item name="colorPrimary">@color/title_color</item>
+        <item name="colorAccent">@color/theme_color</item>
+        <item name="colorPrimary">@color/theme_color</item>
         <item name="colorPrimaryDark">@color/theme_color</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

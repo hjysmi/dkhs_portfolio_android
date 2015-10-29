@@ -32,7 +32,7 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getOptionalStockCursor() {
         DbUtils db = AppConfig.getDBUtils();
         try {
-            return db.findAllCursor(SelectStockBean.class);
+            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
         } catch (DbException e) {
 
         }
@@ -52,6 +52,7 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getCursorB() {
         DbUtils db = AppConfig.getDBUtils();
         try {
+            db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
             return db.findAllCursor(SelectStockBean.class);
         } catch (DbException e) {
 
@@ -85,7 +86,8 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
                             .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                     .or("stock_code", "LIKE", "%" + key + "%")
                                     .or("stock_symbol", "LIKE", "%" + key + "%")
-                                    .or("chi_spell", "LIKE", "%" + key + "%")));
+                                    .or("chi_spell", "LIKE", "%" + key + "%"))
+                            .limit(20));
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -120,7 +122,8 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
                             .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                     .or("stock_code", "LIKE", "%" + key + "%")
                                     .or("stock_symbol", "LIKE", "%" + key + "%")
-                                    .or("chi_spell", "LIKE", "%" + key + "%")));
+                                    .or("chi_spell", "LIKE", "%" + key + "%"))
+                            .limit(20));
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -139,7 +142,9 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
                             .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                     .or("stock_code", "LIKE", "%" + key + "%")
                                     .or("stock_symbol", "LIKE", "%" + key + "%")
-                                    .or("chi_spell", "LIKE", "%" + key + "%")));
+                                    .or("chi_spell", "LIKE", "%" + key + "%"))
+                            .limit(20));
+
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
