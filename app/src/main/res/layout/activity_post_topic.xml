@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:textSize="@dimen/edittext_content_size"
+            android:textColor="@color/text_hint_color"
             android:textColorHint="@color/text_hint_color"
             android:text="--"/>
     </LinearLayout>
@@ -98,7 +99,7 @@
                     android:paddingBottom="@dimen/widget_padding_medium"
                     android:paddingLeft="@dimen/widget_padding_medium"
                     android:paddingTop="@dimen/widget_padding_normal"
-                    android:textSize="@dimen/edittext_content_size">
+                    android:textSize="@dimen/text_status_title">
 
                     <requestFocus />
                 </com.dkhs.portfolio.ui.widget.DKHSEditText>
