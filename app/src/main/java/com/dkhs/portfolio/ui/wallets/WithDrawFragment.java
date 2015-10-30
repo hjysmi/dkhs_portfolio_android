@@ -165,7 +165,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
      * @param mobile
      */
     private void hideMobile(String mobile) {
-        String src = mobile.substring(4,8);
+        String src = mobile.substring(3,7);
         String newMobile = mobile.replace(src,"****");
         String sendCodeMsg = String.format(getString(R.string.msg_send_post), newMobile);
         sendCodeTv.setText(sendCodeMsg);

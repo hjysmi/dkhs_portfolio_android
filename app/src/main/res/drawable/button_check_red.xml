@@ -4,7 +4,7 @@
     <item android:state_pressed="true"><shape>
             <stroke android:width="0px" android:color="#00acec" />
 
-            <gradient android:angle="0" android:endColor="#00acec" android:startColor="@color/blue" />
+            <gradient android:angle="0" android:endColor="#00acec" android:startColor="@color/theme_gray_press" />
 
             <corners android:bottomLeftRadius="3dip" android:bottomRightRadius="3dip" android:topLeftRadius="3dip" android:topRightRadius="3dip" />
         </shape></item>

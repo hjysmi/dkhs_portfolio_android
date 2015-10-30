@@ -14,6 +14,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserTopicsCommentEngineImpl;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ import java.util.List;
 /**
  * @author zwm
  * @version 2.0
- * @ClassName MyTopicsFrament
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @ClassName UsersTopicsFragment
+ * @Description 我的悬赏，我的话题
  * @date 2015/7/27.
  */
 public class UsersTopicsFragment extends LoadMoreListFragment {
@@ -132,6 +133,10 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
 
     @Override
     public String getEmptyText() {
-        return getResources().getString(R.string.no_bbs_topic);
+        if(mContentType == TopicsDetailActivity.TYPE_TOPIC){
+            return getResources().getString(R.string.no_bbs_topic);
+        }else{
+            return getResources().getString(R.string.no_reward);
+        }
     }
 }

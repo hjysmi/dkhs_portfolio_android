@@ -122,7 +122,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
          (30, '研报'),
          )
          */
-        if (data.content_type != 40) {
+        if (data.content_type != TopicsDetailActivity.TYPE_REWARD && data.content_type != TopicsDetailActivity.TYPE_TOPIC) {
             setRelatedSymbols(vh.getTextView(R.id.relatedSymbolsTV), data.symbols);
             vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at) + getFromOrigin(data.source));
             switch (data.content_type) {

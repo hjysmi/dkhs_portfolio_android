@@ -19,6 +19,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
@@ -39,7 +40,7 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
     private int total_count;
     private int CUR_TYPE;
     private int TYPE_LODAMORE = 1;
-    private List<CommentBean> results = new ArrayList<CommentBean>();
+    private List<CommentBean> results = new ArrayList<>();
 
     private static final String USER_ID = "user_id";
     private static final String CONTENT_TYPE = "content_type";
@@ -55,7 +56,7 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
 
     /**
      * @param userId 帖子id
-     * @return
+     * @return ReplyFragemnt
      */
     public static ReplyFragment getIntent(String userId,String contentType) {
 
@@ -269,6 +270,11 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
     private void updateEmptyView() {
         if (null == results || results.isEmpty()) {
             tvEmpty.setVisibility(View.VISIBLE);
+            if(contentType.equals(String.valueOf(TopicsDetailActivity.TYPE_REWARD))){
+                tvEmpty.setText(R.string.no_activity);
+            }else{
+                tvEmpty.setText(R.string.no_comment);
+            }
         } else {
             tvEmpty.setVisibility(View.GONE);
         }

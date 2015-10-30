@@ -18,6 +18,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
@@ -105,7 +106,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         super.onBindView(vh, comment, position);
         long replyUserId = comment.getUser().getId();
         //判断是否显示采纳按钮
-        if(isShowAdopt(mRewardUserId,replyUserId,mRewardState)){
+        if(isShowAdopt(comment.content_type,replyUserId)){
             vh.getTextView(R.id.tv_adopt).setVisibility(View.VISIBLE);
             vh.get(R.id.view_divider).setVisibility(View.VISIBLE);
         }else{
@@ -324,14 +325,17 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         }
     }
 
-    private boolean isShowAdopt(long rewardUserId,long replyUserId,int rewardState){
-        if(rewardUserId == replyUserId){
+    private boolean isShowAdopt(int contentType,long replyUserId){
+        if(contentType != TopicsDetailActivity.TYPE_REWARD){
             return false;
         }
-        if(rewardState != 0 ){
+        if(mRewardUserId == replyUserId){
             return false;
         }
-        if(GlobalParams.LOGIN_USER == null ||rewardUserId != GlobalParams.LOGIN_USER.getId()){
+        if(mRewardState != 0 ){
+            return false;
+        }
+        if(GlobalParams.LOGIN_USER == null ||mRewardUserId != GlobalParams.LOGIN_USER.getId()){
             return false;
         }
         return true;
