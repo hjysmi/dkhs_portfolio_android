@@ -23,6 +23,7 @@
         android:layout_marginTop="6dp"
         android:enabled="false"
         android:textColor="@color/text_content_color"
+        android:lineSpacingExtra="@dimen/line_space"
         android:textSize="@dimen/text_status_title" />
 
     <ImageView
