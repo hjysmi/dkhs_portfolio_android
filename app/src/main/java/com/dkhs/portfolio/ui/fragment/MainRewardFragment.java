@@ -32,7 +32,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainRewardFragment extends VisiableLoadFragment {
+public class MainRewardFragment extends VisiableLoadFragment implements View.OnClickListener {
 
     @ViewInject(R.id.ll)
     LinearLayout mll;
@@ -148,7 +148,7 @@ public class MainRewardFragment extends VisiableLoadFragment {
     }
 
     @OnClick({R.id.btn_titletab_right,R.id.btn_titletab_left})
-    public void switchTab(View v){
+    public void onClick(View v){
         switch (v.getId()){
             case R.id.btn_titletab_left:
                 mVp.setCurrentItem(0);
