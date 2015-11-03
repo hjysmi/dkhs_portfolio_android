@@ -381,13 +381,14 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                 if (a instanceof CommentBean) {
                     mTopicsBean.comments_count = mDataList.size();
-                    setTopicsDetail();
+                    setReplyBar();
                     switch (a.action) {
 
                         case Add:
                             if (mDataList.size() > 0 && (mDataList.get(0) instanceof NoDataBean)) {
                                 mDataList.remove(0);
                             }
+
 
 
                     }
@@ -398,10 +399,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
             @Override
             public void afterHandleAction(AutoData a) {
-
                 if (a instanceof CommentBean) {
                     mTopicsBean.comments_count = mDataList.size();
-                    setTopicsDetail();
+                    setReplyBar();
                     switch (a.action) {
                         case Delete:
                             if (mDataList.size() == 0) {
