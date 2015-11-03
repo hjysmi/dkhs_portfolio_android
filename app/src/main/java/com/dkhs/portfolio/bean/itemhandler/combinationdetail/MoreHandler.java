@@ -26,9 +26,13 @@ public class MoreHandler extends SimpleItemHandler<MoreBean> implements View.OnC
 
     private Context mContext;
 
-    public MoreHandler(Context context) {
+    private boolean isMyInfo;
+
+    public MoreHandler(Context context, boolean isMyInfo) {
         this.mContext = context;
+        this.isMyInfo = isMyInfo;
     }
+
     @Override
     public int getLayoutResId() {
         return R.layout.item_more_ll;
@@ -70,7 +74,7 @@ public class MoreHandler extends SimpleItemHandler<MoreBean> implements View.OnC
                 break;
             case 1:
                 //他的主贴界面
-                UserTopicsActivity.starActivity(mContext, moreBean.userEntity.getId() + "", moreBean.userEntity.getUsername());
+                UserTopicsActivity.starActivity(mContext, moreBean.userEntity.getId() + "", moreBean.userEntity.getUsername(), isMyInfo);
 
                 break;
             case 2:

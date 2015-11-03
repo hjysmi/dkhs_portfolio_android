@@ -32,8 +32,11 @@ import java.util.List;
  */
 public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapter {
 
-    public CombinationUserAdapter(Context context, List<?> data) {
+    private boolean isMyInfo;
+
+    public CombinationUserAdapter(Context context, List<?> data,boolean isMyInfo) {
         super(context, data);
+        this.isMyInfo = isMyInfo;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
         commentHandler.setReplyComment(true);
         addHandler(3, commentHandler);
         addHandler(4, new LoadingHandler());
-        addHandler(5, new MoreHandler(mContext));
+        addHandler(5, new MoreHandler(mContext,isMyInfo));
         addHandler(6, new MoreFootHandler(mContext));
         addHandler(7, new TopicsHandler(mContext, false));
     }

@@ -736,6 +736,7 @@
     <string name="title_activity_topics_detail">话题正文</string>
     <string name="title_activity_info">资讯</string>
     <string name="title_activity_my_topics">我的主帖</string>
+    <string name="title_activity_his_topics">Ta的主帖</string>
     <string name="title_activity_my_combination_list">我的组合</string>
     <string name="title_activity_ta_combination_list">TA的组合</string>
     <!--我的草稿 end-->
