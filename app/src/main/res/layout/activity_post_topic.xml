@@ -99,6 +99,7 @@
                     android:minHeight="100dp"
                     android:paddingBottom="@dimen/widget_padding_medium"
                     android:paddingLeft="@dimen/widget_padding_medium"
+                    android:paddingRight="@dimen/widget_padding_medium"
                     android:paddingTop="@dimen/widget_padding_normal"
                     android:textColorHint="@color/text_hint_color"
                     android:textSize="@dimen/text_status_title">
