@@ -124,7 +124,7 @@ public class UserHomePageActivity extends ModelAcitivity {
             }
         }
         mRV.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        mAutoRVAdapter = new CombinationUserAdapter(mContext, mData,isMyInfo);
+        mAutoRVAdapter = new CombinationUserAdapter(mContext, mData);
         mRV.setAdapter(mAutoRVAdapter);
         mLocalFloatingActionMenu.attachToRecyclerView(mRV);
         initViews();
