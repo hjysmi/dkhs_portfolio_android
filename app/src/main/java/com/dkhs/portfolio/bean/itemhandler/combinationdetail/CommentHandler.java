@@ -104,7 +104,10 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
     @Override
     public void onBindView(ViewHolder vh, final LikeBean comment, int position) {
         super.onBindView(vh, comment, position);
-        long replyUserId = comment.getUser().getId();
+        long replyUserId = -1;
+        if(comment !=null && comment.getUser() != null){
+            replyUserId = comment.getUser().getId();
+        }
         //判断是否显示采纳按钮
         if(isShowAdopt(comment.content_type,replyUserId)){
             vh.getTextView(R.id.tv_adopt).setVisibility(View.VISIBLE);
@@ -121,12 +124,14 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         }
 
         PeopleBean user = comment.user;
-        if (!TextUtils.isEmpty(user.getAvatar_sm())) {
+        if (user !=null && !TextUtils.isEmpty(user.getAvatar_sm())) {
             ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_head));
         } else {
             vh.getImageView(R.id.iv_head).setImageResource(R.drawable.default_head);
         }
-        vh.getTextView(R.id.tv_username).setText(user.getUsername());
+        if(user != null){
+            vh.getTextView(R.id.tv_username).setText(user.getUsername());
+        }
         vh.getTextView(R.id.tv_text).setText(comment.text);
         ((TextSwitcher) vh.get(R.id.tv_like)).setCurrentText(String.valueOf(comment.attitudes_count));
         vh.getTextView(R.id.tv_time).setText(TimeUtils.getBriefTimeString(comment.created_at));
