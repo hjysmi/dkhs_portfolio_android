@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,7 +34,7 @@ import java.util.List;
 /**
  * 主贴详情
  */
-public class MyPurseActivity extends ModelAcitivity {
+public class MyPurseActivity extends ModelAcitivity implements View.OnClickListener{
 
     private static final int WITH_DRAW_AVAIL = 0;
     private static final int WITH_DRAW_UNAVAIL = 1;
@@ -55,9 +56,8 @@ public class MyPurseActivity extends ModelAcitivity {
         setTitle(R.string.info_title_purse);
         ViewUtils.inject(this);
         BusProvider.getInstance().register(this);
-        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new BalanceChangeFragment()).commitAllowingStateLoss();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new BalanceChangeFragment()).commitAllowingStateLoss();
         getAccountInfo();
-
     }
 
     private void getAccountInfo(){
@@ -77,9 +77,8 @@ public class MyPurseActivity extends ModelAcitivity {
         });
     }
 
-
-    @OnClick({R.id.btn_balance_out, R.id.btn_balance_in})
-    public void changeBalance(View v) {
+    @OnClick({R.id.btn_balance_in,R.id.btn_balance_out})
+    public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.btn_balance_in:
