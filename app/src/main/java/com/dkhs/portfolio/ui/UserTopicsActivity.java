@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.fragment.UsersTopicsFragment;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -33,6 +34,8 @@ public class UserTopicsActivity extends ModelAcitivity {
         setTitle(R.string.title_activity_my_topics);
         String userId = getIntent().getStringExtra(UserTopicsActivity.USER_NAME);
         String userName = getIntent().getStringExtra(UserTopicsActivity.USER_ID);
+        boolean isMyTopic = UserEntity.currentUser(userName);
+        setTitle(isMyTopic?R.string.title_activity_my_topics:R.string.title_activity_his_topics);
         getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, UsersTopicsFragment.newIntent(userId, userName,TopicsDetailActivity.TYPE_TOPIC)).commitAllowingStateLoss();
     }
 
