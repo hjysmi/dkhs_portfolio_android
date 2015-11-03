@@ -490,7 +490,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
                 if(curType == TYPE_POST_REWARD ){
-                    if(checkRewardValid(etContent.getText().toString(),amountEt.getText().toString(),10)){//模拟数据
+                    if(checkRewardValid(etContent.getText().toString(),amountEt.getText().toString(),Float.valueOf(available))){
                         PostTopicService.startPost(this, buildDrafteBean());
                         finish();
                     }
