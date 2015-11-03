@@ -816,6 +816,12 @@
     <string name="btn_bound_mobile">去绑定</string>
     <string name="msg_send_post">向手机%1$s发送验证码</string>
     <string name="msg_balance_insufficient">钱包余额不足，请充值</string>
+    <string name="withdraw_amount_empty">提现金额不能为空</string>
+    <string name="withdraw_account_empty">账号不能为空</string>
+    <string name="withdraw_name_empty">账户实名不能为空</string>
+    <string name="withdraw_validate_code_empty">验证码不能为空</string>
+    <string name="withdraw_success">提现申请成功，预计5个工作日内到账</string>
+    <string name="withdraw_failure">提现失败</string>
 
     <string name="weixinpay_not_support">所安装的微信客户端不支持支付</string>
     <string name="weixin_not_installed">未安装微信客户端</string>
