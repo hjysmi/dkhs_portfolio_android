@@ -46,7 +46,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
     private TextView mBalanceOutTv;
 
     private boolean withDrawAvailable = false;
-    private float available = 0;
+    private double available = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
