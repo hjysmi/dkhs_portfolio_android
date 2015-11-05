@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:gravity="center"
+    android:layout_alignBottom="@id/name"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_money_highlight" />
+
+    <TextView
+        android:id="@+id/tv_reward_amount"
+        style="@style/reward_amount_on_going"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100" />
+
+    <TextView
+        android:id="@+id/tv_reward_amount_unit"
+        style="@style/reward_unit_on_going"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="元" />
+</LinearLayout>

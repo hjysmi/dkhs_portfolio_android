@@ -22,6 +22,8 @@ import com.dkhs.portfolio.engine.UploadImageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
 import com.dkhs.portfolio.ui.eventbus.SendTopicEvent;
@@ -34,6 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by zjz on 2015/8/4.
+ * 话题发布，后台服务
  */
 public class PostTopicService extends IntentService {
     private static final String SERVICE_NAME = PostTopicService.class.getName();
@@ -130,7 +133,7 @@ public class PostTopicService extends IntentService {
                         mediaIDs.append(",");
                     }
                     String ids = mediaIDs.substring(0, mediaIDs.length() - 1);
-                    StatusEngineImpl.postStatus(statusBean.getSimpleTitle(), statusBean.getSimpleContent(), statusBean.getStatusId(), null, 0, 0, ids, new PostTopicListener(statusBean));
+                    StatusEngineImpl.postStatus(statusBean.getSimpleTitle(), statusBean.getSimpleContent(), statusBean.getStatusId(), null, 0, 0, ids,statusBean.getContentType(),statusBean.getRewardAmount(), new PostTopicListener(statusBean));
 
 
                 }
@@ -140,7 +143,7 @@ public class PostTopicService extends IntentService {
 //            saveBitmapAndUpload(statusBean);
 //            StatusEngineImpl.uploadImage(new File(statusBean.getImageFilepath()), new UploadListener(statusBean));
         } else {
-            StatusEngineImpl.postStatus(statusBean.getSimpleTitle(), statusBean.getSimpleContent(), statusBean.getStatusId(), null, 0, 0, "", new PostTopicListener(statusBean));
+            StatusEngineImpl.postStatus(statusBean.getSimpleTitle(), statusBean.getSimpleContent(), statusBean.getStatusId(), null, 0, 0, "", statusBean.getContentType(),statusBean.getRewardAmount(),new PostTopicListener(statusBean));
 
         }
 
@@ -198,7 +201,7 @@ public class PostTopicService extends IntentService {
             if (null != entity && null != mStatusBean) {
                 // 图片上传完毕继续发表主题
 //                PromptManager.showToast("图片上传成功，发表话题");
-                StatusEngineImpl.postStatus(mStatusBean.getSimpleTitle(), mStatusBean.getSimpleContent(), mStatusBean.getStatusId(), null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
+                StatusEngineImpl.postStatus(mStatusBean.getSimpleTitle(), mStatusBean.getSimpleContent(), mStatusBean.getStatusId(), null, 0, 0, entity.getId(),mStatusBean.getContentType(),mStatusBean.getRewardAmount(), new PostTopicListener(mStatusBean));
 //                StatusEngineImpl.postStatus(mStatusBean.getSimpleTitle(), mStatusBean.getSimpleContent(), null, null, 0, 0, entity.getId(), new PostTopicListener(mStatusBean));
 
             }
@@ -258,9 +261,9 @@ public class PostTopicService extends IntentService {
             PromptManager.closeProgressDialog();
 //            UploadImageEngine.uploadMap.clear();
             if (null != entity) {
-                if (mStatusBean.getLabel() == 1) {
-//                    AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);
-//                    BusProvider.getInstance().post(addTopicsEvent);
+                if (mStatusBean.getLabel() == PostTopicActivity.TYPE_POST_TOPIC || mStatusBean.getLabel() == PostTopicActivity.TYPE_POST_REWARD) {
+                    AddTopicsEvent addTopicsEvent = new AddTopicsEvent(entity);
+                    BusProvider.getInstance().post(addTopicsEvent);
                     entity.appleAction(this, AutoData.Action.Add).post();
                 } else {
 //                    PromptManager.showSuccessToast(R.string.msg_post_reply_success);

@@ -129,6 +129,13 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         return selectIndex;
     }
 
+    public void setSelectItem(int index){
+        if(floatMenuAdapter != null){
+            selectItem = data.get(index);
+            floatMenuAdapter.setSelectIndex(index);
+        }
+    }
+
 
     public void setData(List<MenuBean> data) {
 

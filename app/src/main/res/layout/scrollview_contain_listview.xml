@@ -6,6 +6,10 @@
 
     <include
         layout="@layout/layout_topics_detail"/>
+    <include
+        layout="@layout/layout_adopt_reply"/>
+    <include
+        layout="@layout/layout_reward_reply_bar"/>
 
     <com.dkhs.portfolio.ui.widget.TopicsDetailListView
         android:id="@+id/lv"

@@ -260,7 +260,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
         mListView.setEmptyView(emptyview);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mSwipeLayout.setOnRefreshListener(new android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener() {
 
             @Override

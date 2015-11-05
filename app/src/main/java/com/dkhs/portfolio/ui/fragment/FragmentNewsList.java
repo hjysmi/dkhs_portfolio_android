@@ -184,7 +184,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
         });
         mListView.setOnItemClickListener(itemBackClick);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override

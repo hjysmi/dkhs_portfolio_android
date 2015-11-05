@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
+import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
@@ -21,10 +22,19 @@ import java.io.IOException;
 
 /**
  * Created by zjz on 2015/5/27.
+ * App配置相关类
+ * 包含了：
+ * １.数据库是否更新
+ * ２.设置友萌统计的平台名称
+ * 3.图片下载工具类的初始化
+ * 4.启动定时更新数据库的服务类
+ * 5.消息中心模块的初始化
  */
 public final class AppConfig {
 
     public static final boolean isDebug = BuildConfig.isSandbox;
+
+    public static final int VERSION_CURRENT = 3;//当前数据库版本号
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
@@ -52,7 +62,7 @@ public final class AppConfig {
 
         if (isDebug) {
 //            LeakCanary.install((Application) context);
-            CrashHandler.getInstance(context);
+//            CrashHandler.getInstance(context);
 //            StatService.setDebugOn(true);
 //            ANRWatchDog anrWatchDog = new ANRWatchDog();
 //            anrWatchDog.start();
@@ -106,11 +116,20 @@ public final class AppConfig {
 
     public static DbUtils getDBUtils() {
         DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
-        dbConfig.setDbVersion(1);
+        dbConfig.setDbVersion(VERSION_CURRENT);
         dbConfig.setDbUpgradeListener(new DbUtils.DbUpgradeListener() {
             @Override
             public void onUpgrade(DbUtils db, int oldVersion, int newVersion) {
                 Log.e("DBConfig", "oldVersion=" + oldVersion + " newVersion=" + newVersion);
+                switch (newVersion) {
+                    case 2:
+                    case 3:
+                        try {
+                            db.dropTable(DraftBean.class);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                }
 
             }
         });

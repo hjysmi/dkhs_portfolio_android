@@ -40,6 +40,11 @@ public class LikeBean extends AutoData{
     public boolean compact = false;
     public List<UploadImageBean> medias;
 
+    public int content_type;
+    public int reward_state;
+    public int rewarded_type;
+    public String reward_amount;
+
     public int getId() {
         return id;
     }

@@ -67,6 +67,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     private LinkedList<MenuBean> sorts;
 
+    private static final int INDEX_DEFAULT = 1;//默认显示周战斗指数
+
     @Override
     public int setContentLayoutId() {
         return R.layout.fragment_market_funds;
@@ -165,15 +167,16 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         fundTypeMenuChooserL.setData(types, MenuBean.fundManagerFromXml(getActivity()));
         String type = types.getFirst().getValue();
-        String sort = sorts.getFirst().getValue();
+        String sort = sorts.get(INDEX_DEFAULT).getValue();
 
         sortTypeMenuChooserL.setData(sorts);
         setDrawableDown(fundTypeTV);
         setDrawableDown(tvPercentgae);
-        tvPercentgae.setText(R.string.win_rate_day);
+        tvPercentgae.setText(R.string.win_rate_week);
         tvCurrent.setText(R.string.join_time);
         fundTypeTV.setText(R.string.fund_manager_order);
         sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
+        sortTypeMenuChooserL.setSelectItem(INDEX_DEFAULT);
 
 //         mSwitchThreeStateOnClickListener=     new SwitchThreeStateOnClickListener(tvCurrent, new Action1<SwitchThreeStateOnClickListener.Status>() {
 //            @Override

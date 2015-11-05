@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,13 +23,12 @@ import org.json.JSONObject;
 
 /**
  * 个人签名
- * 
+ *
  * @author weiting
- * 
  */
 public class ModifyUserSignActivity extends ModelAcitivity implements OnClickListener {
     // private Button btnCancle;
-    private  TextView btnSave;
+    private TextView btnSave;
     private EditText signText;
     private TextView signVlaue;
     public final static String DESCRIPTION = "Description";
@@ -53,10 +53,16 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
 
         Bundle b = getIntent().getExtras();
         if (null != b) {
-            signText.setHint(b.getString(DESCRIPTION));
-            signText.setSelection(signText.length());
-            int k = 40 - signText.getText().toString().length();
-            signVlaue.setText(k + "");
+            String strRawSigin = b.getString(DESCRIPTION);
+            if (TextUtils.isEmpty(strRawSigin)) {
+                signText.setHint(R.string.desc_def_text);
+            } else {
+                signText.setText(strRawSigin);
+                signText.setSelection(signText.length());
+                int k = 40 - signText.getText().toString().length();
+                signVlaue.setText(k + "");
+            }
+
         }
         // btnCancle.setText("取消");
         // btnCancle.setBackgroundDrawable(null);
@@ -120,7 +126,9 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {

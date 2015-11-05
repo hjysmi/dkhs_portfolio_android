@@ -92,7 +92,7 @@
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppBaseTheme" />
         <activity android:name=".ui.RLFActivity" />
         <activity android:name=".ui.SetPasswordActivity" />
         <activity android:name=".ui.RegisterSuccessActivity" />
@@ -289,8 +289,7 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="${RONG_CLOUD_KEY}"
-            />
+            android:value="${RONG_CLOUD_KEY}" />
 
         <!--
                 <meta-data
@@ -475,6 +474,9 @@
         <activity
             android:name=".ui.pickphoto.PhotoPickerActivity"
             android:label="@string/title_picker_photo" />
+        <activity
+            android:name=".ui.MyTopicActivity"
+            android:label="@string/info_title_mypost" />
         <!--<activity-->
         <!--android:name=".ui.ZWMTestActivity"-->
         <!--android:theme="@style/Theme.AppCompatRed"-->
@@ -484,6 +486,56 @@
         <!--<category android:name="android.intent.category.LAUNCHER" />-->
         <!--</intent-filter>-->
         <!--</activity>-->
+        <activity android:name=".ui.ExchangeHistoryActivity" />
+        <activity
+            android:name=".ui.MyPurseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.MyRewardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.RechargeActivity"
+            android:windowSoftInputMode="adjustPan" >
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <data android:scheme="wx89557ae58e44573a"/>
+        </intent-filter>
+        </activity>
+
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
+
+        <!-- alipay sdk end -->
+
+
+        <receiver
+            android:name="net.sourceforge.simcpux.AppRegister">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+        <!-- weixin callback-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <!-- weixin -->
+
+        <activity android:name=".ui.WithDrawActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

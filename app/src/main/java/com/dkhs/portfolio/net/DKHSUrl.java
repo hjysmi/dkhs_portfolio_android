@@ -178,6 +178,9 @@ public class DKHSUrl {
         String getHotTopicDetail = "/api/v1/statuses/{0}/";
         String star = "/api/v1/statuses/likes/like/";
         String unstar = "/api/v1/statuses/likes/unlike/";
+        String getRewardList = "/api/v1/statuses/public_timeline/";
+        String getUserRewards = "/api/v1/statuses/user_timeline/";
+        String adoptAnswer = "/api/v1/statuses/{0}/reward/";
 
 
     }
@@ -260,6 +263,7 @@ public class DKHSUrl {
         String packages = "/api/v1/coins/exchange/packages/";
         String recharge = "/api/v1/coins/exchange/recharge/";
         String invitecode = "/api/v1/accounts/invitations/invite/";
+        String history = "/api/v1/coins/exchange/history/";
     }
 
 
@@ -269,6 +273,23 @@ public class DKHSUrl {
 
     public interface Plate {
         String hotPlate = "/api/v1/symbols/sectors/?sector_root_id=26";
+    }
+
+
+    public interface Wallets {
+        //GET /api/v1/wallets/account/mine/
+
+        //POST 用户钱包充值
+        // amount (decimal, 充值金额),
+        //  vendor (string, 第三方支付渠道，weixinpay,微信／alipay,支付宝／yibao,易宝)
+        String payment = "/api/v1/wallets/recharge/payment/";
+        /**
+         * 查询余额信息
+         */
+        String account_info = "/api/v1/wallets/account/mine/";
+        String wallet_exchange = "/api/v1/wallets/account/changes/";
+        String rewards_balance = "/api/v1/statuses/rewards/balance/";
+        String withdraw = "/api/v1/wallets/withdraw/";
     }
 
     // DKHSUrl.Portfolio.rankingList,
@@ -306,5 +327,6 @@ public class DKHSUrl {
          */
         String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
     }
+
 
 }

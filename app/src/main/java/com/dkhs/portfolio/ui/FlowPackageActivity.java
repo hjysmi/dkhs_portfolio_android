@@ -59,8 +59,8 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
     private  FlowOverViewBean mOverViewBean;
     public void updateUI(FlowOverViewBean overViewBean) {
         mOverViewBean=overViewBean;
-        tvFlowCout.setText(overViewBean.getTraffic_amount() + "");
-        tvPointCout.setText(getResources().getString(R.string.flow_point, overViewBean.getBalance()));
+        tvFlowCout.setText(overViewBean.getBalance() + "");
+        tvPointCout.setText(getResources().getString(R.string.current_flow, overViewBean.getTraffic_amount()));
         FlowPackAdapter flowPackAdapter = (FlowPackAdapter) lvFlowAction.getAdapter();
         flowPackAdapter.setOverViewBean(overViewBean);
     }

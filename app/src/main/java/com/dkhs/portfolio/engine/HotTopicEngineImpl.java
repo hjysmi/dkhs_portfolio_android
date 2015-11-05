@@ -38,15 +38,42 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
      */
     private static final int pageSize = 20;
     private int responseStatus = 0;
+    private int mSortType = 0;
 
     private BannerTopicsBean mBannerTopicsBean = new BannerTopicsBean();
 
     private List<TopicsBean> mFirstPageTopicsBeans;
+    WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what) {
+                case 7:
+                    MoreDataBean more = getMoreDataBean();
+                    if (more != null) {
+                        setTotalcount(more.getTotalCount());
+                        setTotalpage(more.getTotalPage());
+                        setCurrentpage(more.getCurrentPage());
+                        setStatu(more.getStatu());
+                        List list = new ArrayList();
+                        list.add(mBannerTopicsBean);
+                        if (mFirstPageTopicsBeans != null)
+                            list.addAll(mFirstPageTopicsBeans);
+                        more.setResults(list);
+                        getLoadListener().loadFinish(more);
+                        responseStatus = 0;
+                        mBannerTopicsBean = new BannerTopicsBean();
+                        mFirstPageTopicsBeans = null;
+                    }
+                    break;
+            }
+            return false;
+        }
+    });
+
 
     public HotTopicEngineImpl(ILoadDataBackListener loadListener) {
         super(loadListener);
     }
-
 
     public HttpHandler loadDate() {
         return loadData();
@@ -54,21 +81,45 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
     @Override
     public HttpHandler loadMore() {
-        RequestParams params = new RequestParams();
+        if(mSortType == 0){
+            RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
-        params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        params.addQueryStringParameter("recommend_level", "1");
-        params.addQueryStringParameter("page_size", pageSize + "");
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getHotTopic, params, this);
+            params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+            params.addQueryStringParameter("recommend_level", "1");
+            params.addQueryStringParameter("page_size", pageSize + "");
+            return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getHotTopic, params, this);
+        }else{
+            RequestParams params = new RequestParams();
+//        params.addQueryStringParameter("type", type);
+            params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+            params.addQueryStringParameter("recommend_level", "");
+            params.addQueryStringParameter("page_size", pageSize + "");
+            return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getLatestTopic, params, this);
+        }
+
+    }
+
+    public void loadData(int sort) {
+        mSortType = sort;
+        loadData();
     }
 
     @Override
     public HttpHandler loadData() {
+        String url = "";
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", "1");
-        params.addQueryStringParameter("pageSize", pageSize + "");
-        params.addQueryStringParameter("recommend_level", "1");
-        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getHotTopic, params, new ParseHttpListener<MoreDataBean>() {
+        if(mSortType == 0){
+            url = DKHSUrl.BBS.getHotTopic;
+            params.addQueryStringParameter("page", "1");
+            params.addQueryStringParameter("pageSize", pageSize + "");
+            params.addQueryStringParameter("recommend_level", "1");
+        }else{
+            url = DKHSUrl.BBS.getLatestTopic;
+            params.addQueryStringParameter("page", "1");
+            params.addQueryStringParameter("pageSize", pageSize + "");
+            params.addQueryStringParameter("recommend_level", "");
+        }
+        DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, new ParseHttpListener<MoreDataBean>() {
             @Override
             protected MoreDataBean parseDateTask(String jsonData) {
                 MoreDataBean<TopicsBean> moreBean = null;
@@ -186,35 +237,6 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
 
     }
-
-
-    WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-
-            switch (msg.what) {
-                case 7:
-                    MoreDataBean more = getMoreDataBean();
-                    if (more != null) {
-                        setTotalcount(more.getTotalCount());
-                        setTotalpage(more.getTotalPage());
-                        setCurrentpage(more.getCurrentPage());
-                        setStatu(more.getStatu());
-                        List list = new ArrayList();
-                        list.add(mBannerTopicsBean);
-                        if (mFirstPageTopicsBeans != null)
-                            list.addAll(mFirstPageTopicsBeans);
-                        more.setResults(list);
-                        getLoadListener().loadFinish(more);
-                        responseStatus = 0;
-                        mBannerTopicsBean = new BannerTopicsBean();
-                        mFirstPageTopicsBeans = null;
-                    }
-                    break;
-            }
-            return false;
-        }
-    });
 
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {

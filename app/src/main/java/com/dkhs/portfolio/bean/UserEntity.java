@@ -141,6 +141,10 @@ public class UserEntity {
         return description;
     }
 
+    public String getRawDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -256,8 +260,6 @@ public class UserEntity {
     public void setChi_spell_all(String chi_spell_all) {
         this.chi_spell_all = chi_spell_all;
     }
-
-
 
 
     public static boolean currentUser(String userId) {

@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.app.AppConfig;
 import com.lidroid.xutils.db.sqlite.CursorUtils;
 import com.lidroid.xutils.db.sqlite.DbModelSelector;
 import com.lidroid.xutils.db.sqlite.Selector;
@@ -622,7 +623,7 @@ public class DbUtils {
     public static class DaoConfig {
         private Context context;
         private String dbName = "dkhs_portfolio.db"; // default db name
-        private int dbVersion = 1;
+        private int dbVersion = AppConfig.VERSION_CURRENT;
         private DbUpgradeListener dbUpgradeListener;
 
         private String dbDir;

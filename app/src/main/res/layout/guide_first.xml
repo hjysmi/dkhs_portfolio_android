@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:adjustViewBounds="false"
-        android:background="@drawable/dksh_flash"
+        android:background="@drawable/gif_guide_frist"
         android:focusable="true"
         android:scaleType="centerCrop"
         android:visibility="gone" />
@@ -20,6 +20,6 @@
         android:adjustViewBounds="false"
         android:focusable="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/dksh_flash" />
+        android:src="@drawable/gif_guide_frist" />
 
 </RelativeLayout>

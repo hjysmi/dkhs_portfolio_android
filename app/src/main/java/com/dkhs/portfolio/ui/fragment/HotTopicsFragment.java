@@ -19,8 +19,11 @@ import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
+import com.squareup.otto.Subscribe;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,16 +79,16 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
 
             }
         });
-//        BusProvider.getInstance().register(this);
+        BusProvider.getInstance().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-//
-//
-//    @Override
-//    public void onDestroyView() {
-//        BusProvider.getInstance().unregister(this);
-//        super.onDestroyView();
-//    }
+
+
+    @Override
+    public void onDestroyView() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroyView();
+    }
 
 //    @Subscribe
 //    public void updateList(UpdateTopicsListEvent updateTopicsListEvent) {
@@ -110,6 +113,10 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
 //
 //    }
 
+    @Subscribe
+    public void updateList(TopicSortTypeEvent topicSortTypeEvent){
+        mTopicsEngine.loadData(topicSortTypeEvent.sortType);
+    }
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (mTopicsEngine == null) {
@@ -157,7 +164,6 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
     public void loadData() {
         mSwipeLayout.setRefreshing(true);
         setHttpHandler(getLoadEngine().loadData());
-
         super.loadData();
     }
 

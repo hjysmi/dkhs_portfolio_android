@@ -25,6 +25,7 @@ import java.util.TreeMap;
 
 /**
  * Created by zjz on 2015/7/21.
+ * 网络请求的加密/解密逻辑实现
  */
 public class SecurityUtils {
 
@@ -45,6 +46,9 @@ public class SecurityUtils {
     }
 
 
+    /**
+     * 对包含签名请求的数据参数进行排序后，进行加密后封装成EncryptData数据类型
+     **/
     public static EncryptData requestByEncryp(TreeMap map) throws Exception {
 
 
@@ -72,6 +76,9 @@ public class SecurityUtils {
     }
 
 
+    /**
+     * 解密从服务端返回的数据，并进行验签，返回过滤了签名的数据集
+     **/
     public static String encryptResponeJsonData(String jsonData) {
         try {
 

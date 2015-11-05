@@ -9,6 +9,10 @@ public class CommentBean extends LikeBean {
 
     private List<OptionNewsBean.Symbols> symbol;
     private String recomment_level;
+    public int state;
+    public int rewarded_by_status;
+    public String reward_expired_at;
+    public int rewarded_comment;
 
     public String source;
     public  CommentBean(){
@@ -206,6 +210,9 @@ public class CommentBean extends LikeBean {
         commentBean.setAttitudes_count(topicsBean.attitudes_count);
         commentBean.setCreated_at(topicsBean.created_at);
         commentBean.setMedias(topicsBean.medias);
+        //添加commentHandler需要用到的数据
+        commentBean.content_type = topicsBean.content_type;
+        commentBean.rewarded_type = topicsBean.rewarded_type;
 
         return commentBean;
     }

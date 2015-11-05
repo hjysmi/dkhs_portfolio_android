@@ -29,8 +29,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@drawable/linear_layout_divider"
-                    android:showDividers="middle"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:showDividers="middle">
 
 
                     <include layout="@layout/layout_line" />
@@ -74,7 +74,6 @@
                                 android:textSize="@dimen/setting_text_name" />
                         </RelativeLayout>
                     </RelativeLayout>
-
 
 
                     <LinearLayout
@@ -160,7 +159,6 @@
                         android:background="@drawable/btn_white_selector">
 
 
-
                         <ImageView
                             android:id="@+id/setting_image_password_right"
                             android:layout_width="wrap_content"
@@ -226,7 +224,6 @@
                     </RelativeLayout>
 
 
-
                     <RelativeLayout
                         android:id="@+id/setting_layout_boundphone"
                         android:layout_width="match_parent"
@@ -257,7 +254,6 @@
                     </RelativeLayout>
 
 
-
                     <RelativeLayout
                         android:id="@+id/setting_layout_bound"
                         android:layout_width="match_parent"
@@ -284,6 +280,7 @@
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
                 </LinearLayout>
+
                 <include layout="@layout/layout_line" />
 
             </LinearLayout>
@@ -403,7 +400,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/btn_red_selector"
+                    android:background="@drawable/btn_exit_red_selector"
                     android:text="@string/setting_string_exit"
                     android:textColor="@color/white"
                     android:textSize="@dimen/setting_text_name" />

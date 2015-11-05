@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zjz
@@ -55,7 +54,7 @@ public class AboutUsActivity extends ModelAcitivity {
             PackageManager manager = context.getPackageManager();
             PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
             String version = info.versionName;
-            aboutVersion.setText("谁牛 " + version);
+            aboutVersion.setText("谁牛金融 " + version);
         } catch (NameNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

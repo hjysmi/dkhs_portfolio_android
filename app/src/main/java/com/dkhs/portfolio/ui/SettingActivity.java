@@ -351,7 +351,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent = new Intent(this, ModifyUserSignActivity.class);
                 Bundle b = new Bundle();
                 if (null != ue)
-                    b.putString(ModifyUserSignActivity.DESCRIPTION, ue.getDescription());
+                    b.putString(ModifyUserSignActivity.DESCRIPTION, ue.getRawDescription());
                 intent.putExtras(b);
                 UIUtils.startAnimationActivity(this, intent);
                 break;

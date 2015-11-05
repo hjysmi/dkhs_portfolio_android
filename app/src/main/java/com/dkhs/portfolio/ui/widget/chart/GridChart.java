@@ -23,192 +23,306 @@ import java.util.List;
 
 /**
  * 坐�?轴使用的View
- * 
+ *
  * @author limc
- * 
  */
 public class GridChart extends View implements IViewConst, ITouchEventNotify, ITouchEventResponse {
 
     // ////////////默认值////////////////
     public static int PADDING_LEFT = PortfolioApplication.getInstance().getResources()
             .getDimensionPixelSize(R.dimen.padding_left);
-    /** 默认背景色 */
+    /**
+     * 默认背景色
+     */
     public static final int DEFAULT_BACKGROUD_COLOR = Color.BLACK;
 
-    /** 默认X坐�?轴颜色 */
+    /**
+     * 默认X坐标轴颜色
+     */
     public static final int DEFAULT_AXIS_X_COLOR = Color.RED;
 
-    /** 默认Y坐�?轴颜色 */
+    /**
+     * 默认Y坐标轴颜色
+     */
     public static final int DEFAULT_AXIS_Y_COLOR = Color.RED;
 
-    /** 默认经线颜色 */
+    /**
+     * 默认经线颜色
+     */
     public static final int DEFAULT_LONGITUDE_COLOR = Color.RED;
 
-    /** 默认纬线颜色 */
+    /**
+     * 默认纬线颜色
+     */
     public static final int DEFAULT_LAITUDE_COLOR = Color.RED;
 
-    /** 默认轴线左边�? */
+    /**
+     * 默认轴线左边距
+     */
     public static final float DEFAULT_AXIS_MARGIN_LEFT = 42f;
 
-    /** 默认轴线底边�? */
+    /**
+     * 默认轴线底边距
+     */
     public static final float DEFAULT_AXIS_MARGIN_BOTTOM = 16f;
 
-    /** 默认轴线上边�? */
+    /**
+     * 默认轴线上边距
+     */
     public static final float DEFAULT_AXIS_MARGIN_TOP = 0f;
 
-    /** 默认轴线右边�? */
+    /**
+     * 默认轴线右边距
+     */
     public static final float DEFAULT_AXIS_MARGIN_RIGHT = 4f;
 
-    /** 默认经线是否显示刻度 */
+    /**
+     * 默认经线是否显示刻度
+     */
     public static final boolean DEFAULT_DISPLAY_LONGTITUDE = Boolean.TRUE;
 
-    /** 默认经线是否使用虚线 */
+    /**
+     * 默认经线是否使用虚线
+     */
     public static final boolean DEFAULT_DASH_LONGTITUDE = Boolean.TRUE;
 
-    /** 默认纬线是否显示刻度 */
+    /**
+     * 默认纬线是否显示刻度
+     */
     public static final boolean DEFAULT_DISPLAY_LATITUDE = Boolean.TRUE;
 
-    /** 默认纬线是否使用虚线 */
+    /**
+     * 默认纬线是否使用虚线
+     */
     public static final boolean DEFAULT_DASH_LATITUDE = Boolean.TRUE;
 
-    /** 默认是否显示X轴刻度 */
+    /**
+     * 默认是否显示X轴刻度
+     */
     public static final boolean DEFAULT_DISPLAY_AXIS_X_TITLE = Boolean.TRUE;
 
-    /** 默认是否显示X轴刻度 */
+    /**
+     * 默认是否显示X轴刻度
+     */
     public static final boolean DEFAULT_DISPLAY_AXIS_Y_TITLE = Boolean.TRUE;
 
-    /** 默认是否显示边�? */
+    /**
+     * 默认是否显示边框
+     */
     public static final boolean DEFAULT_DISPLAY_BORDER = Boolean.TRUE;
 
-    /** 默认是否显示边�? */
+    /**
+     * 默认显示边框颜色
+     */
     public static final int DEFAULT_BORDER_COLOR = Color.RED;
 
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色
+     **/
     private int DEFAULT_LONGTITUDE_FONT_COLOR = Color.WHITE;
 
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色
+     **/
     private int DEFAULT_LONGTITUDE_FONT_SIZE = 12;
-    /** 默认XY轴字体大小 **/
+    /**
+     * 默认XY轴字体大小
+     **/
     public static int DEFAULT_AXIS_TITLE_SIZE = PortfolioApplication.getInstance().getResources()
             .getDimensionPixelSize(R.dimen.title_text_font);
-    /** 默认经线刻度字体颜色 **/
-    private int DEFAULT_LATITUDE_FONT_COLOR = Color.RED;;
+    /**
+     * 默认经线刻度字体颜色
+     **/
+    private int DEFAULT_LATITUDE_FONT_COLOR = Color.RED;
+    ;
 
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色
+     **/
     private int DEFAULT_LATITUDE_FONT_SIZE = 12;
 
-    /** 默认Y轴�?��刻度�?��显示长度 */
+    /**
+     * 默认Y轴刻度标题显示长度
+     */
     private int DEFAULT_AXIS_Y_MAX_TITLE_LENGTH = 5;
 
-    /** 默认虚线效果 */
-    public static final PathEffect DEFAULT_DASH_EFFECT = new DashPathEffect(new float[] { 3, 3, 3, 3 }, 1);
+    /**
+     * 默认虚线效果
+     */
+    public static final PathEffect DEFAULT_DASH_EFFECT = new DashPathEffect(new float[]{3, 3, 3, 3}, 1);
 
-    /** 在控件被点击时?�显示十字�?�?��线 */
+    /**
+     * 在控件被点击时显示十字x轴线
+     */
     public static final boolean DEFAULT_DISPLAY_CROSS_X_ON_TOUCH = true;
 
-    /** 在控件被点击时?�显示十字�?�?��线 */
+    /**
+     * 在控件被点击时显示十字Y轴线
+     */
     public static final boolean DEFAULT_DISPLAY_CROSS_Y_ON_TOUCH = true;
 
     /**
-     * // /////////////属�?////////////////
-     * 
      * /** 背景色
      */
     private int backgroudColor = DEFAULT_BACKGROUD_COLOR;
 
-    /** 坐�?轴X颜色 */
+    /**
+     * 坐标轴X颜色
+     */
     private int axisXColor = DEFAULT_AXIS_X_COLOR;
 
-    /** 坐�?轴Y颜色 */
+    /**
+     * 坐标轴Y颜色
+     */
     private int axisYColor = DEFAULT_AXIS_Y_COLOR;
 
-    /** 经线颜色 */
+    /**
+     * 经线颜色
+     */
     private int longitudeColor = DEFAULT_LONGITUDE_COLOR;
 
-    /** 纬线颜色 */
+    /**
+     * 纬线颜色
+     */
     private int latitudeColor = DEFAULT_LAITUDE_COLOR;
 
-    /** 轴线左边�? */
+    /**
+     * 轴线左边距
+     */
     private float axisMarginLeft = DEFAULT_AXIS_MARGIN_LEFT;
 
-    /** 轴线底边�? */
+    /**
+     * 轴线底边距
+     */
     private float axisMarginBottom = DEFAULT_AXIS_MARGIN_BOTTOM;
 
-    /** 轴线上边�? */
+    /**
+     * 轴线上边距
+     */
     private float axisMarginTop = DEFAULT_AXIS_MARGIN_TOP;
 
-    /** 轴线右边�? */
+    /**
+     * 轴线右边距
+     */
     private float axisMarginRight = DEFAULT_AXIS_MARGIN_RIGHT;
 
-    /** 经线是否显示 */
+    /**
+     * 经线是否显示
+     */
     private boolean displayAxisXTitle = DEFAULT_DISPLAY_AXIS_X_TITLE;
 
-    /** 经线是否显示 */
+    /**
+     * 经线是否显示
+     */
     private boolean displayAxisYTitle = DEFAULT_DISPLAY_AXIS_Y_TITLE;
 
-    /** 经线是否显示 */
+    /**
+     * 经线是否显示
+     */
     private boolean displayLongitude = DEFAULT_DISPLAY_LONGTITUDE;
 
-    /** 经线是否使用虚线 */
+    /**
+     * 经线是否使用虚线
+     */
     private boolean dashLongitude = DEFAULT_DASH_LONGTITUDE;
 
-    /** 纬线是否显示 */
+    /**
+     * 纬线是否显示
+     */
     private boolean displayLatitude = DEFAULT_DISPLAY_LATITUDE;
 
-    /** 纬线是否使用虚线 */
+    /**
+     * 纬线是否使用虚线
+     */
     private boolean dashLatitude = DEFAULT_DASH_LATITUDE;
 
-    /** 虚线效果 */
+    /**
+     * 虚线效果
+     */
     private PathEffect dashEffect = DEFAULT_DASH_EFFECT;
 
-    /** 显示边�? */
+    /**
+     * 显示边框
+     */
     private boolean displayBorder = DEFAULT_DISPLAY_BORDER;
 
-    /** 边�?��色 */
+    /**
+     * 边框颜色
+     */
     private int borderColor = DEFAULT_BORDER_COLOR;
 
-    /** 经线刻度字体颜色 **/
+    /**
+     * 经线刻度字体颜色
+     **/
     private int longtitudeFontColor = DEFAULT_LONGTITUDE_FONT_COLOR;
 
-    /** 经线刻度字体颜色 **/
+    /**
+     * 经线刻度字体颜色
+     **/
     private int longtitudeFontSize = DEFAULT_LONGTITUDE_FONT_SIZE;
 
-    /** 经线刻度字体颜色 **/
+    /**
+     * 经线刻度字体颜色
+     **/
     private int latitudeFontColor = DEFAULT_LATITUDE_FONT_COLOR;
 
-    /** 经线刻度字体颜色 **/
+    /**
+     * 经线刻度字体颜色
+     **/
     private int latitudeFontSize = DEFAULT_LATITUDE_FONT_SIZE;
 
-    /** 横轴刻度�?�? */
+    /**
+     * 横轴刻度列表
+     */
     private List<String> axisXTitles;
 
-    /** 纵轴刻度�?�? */
+    /**
+     * 纵轴刻度列表
+     */
     private List<String> axisYTitles;
 
-    /** 纵轴刻度�?��字符数 */
+    /**
+     * 纵轴刻度最大字符数
+     */
     private int axisYMaxTitleLength = DEFAULT_AXIS_Y_MAX_TITLE_LENGTH;
 
-    /** 在控件被点击时?�显示十字竖线 */
+    /**
+     * 在控件被点击时是否显示十字竖线
+     */
     private boolean displayCrossXOnTouch = DEFAULT_DISPLAY_CROSS_X_ON_TOUCH;
 
-    /** 在控件被点击时?�显示十字横线线 */
+    /**
+     * 在控件被点击时是否显示十字横线线
+     */
     private boolean displayCrossYOnTouch = DEFAULT_DISPLAY_CROSS_Y_ON_TOUCH;
 
-    /** 选中位置X坐�? */
+    /**
+     * 选中位置X坐表
+     */
     protected float clickPostX = 0f;
 
-    /** 选中位置X坐�? */
+    /**
+     * 选中位置X坐标
+     */
     protected float clickPostY = 0f;
 
-    /** 通知对象列表 */
+    /**
+     * 通知对象列表
+     */
     private List<ITouchEventResponse> notifyList;
 
-    /** 当前被选中�?�� */
+    /**
+     * 当前被选中坐标点
+     */
     private PointF touchPoint;
 
-    /** 标题高度 */
+    /**
+     * 标题高度
+     */
     public static final int DEFAULT_TITLE_HEIGHT = 14;
-    /** 当前第一个蜡烛所在列表中的位置 */
+    /**
+     * 当前第一个蜡烛所在列表中的位置
+     */
 
     protected float mTitleHeight = DEFAULT_TITLE_HEIGHT; // 标题的高度
     public boolean ismove;
@@ -217,7 +331,6 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     public static final int CHECK_MACD = 1;
     public int checkType = CHECK_COLUME;
 
-    // ////////////�??方�?//////////////
     public GridChart(Context context) {
         super(context);
         init();
@@ -242,7 +355,6 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         PADDING_LEFT = rects.width();
     }
 
-    // //////////////方�?//////////////
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -278,7 +390,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     }
 
     /**
-     * 重新控件大�?
+     * 重新控件大小
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -380,8 +492,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     }
 
     /**
-     * 绘制半�?明文本�?
-     * 
+     * 绘制半透明文本
+     *
      * @param ptStart
      * @param ptEnd
      * @param content
@@ -414,8 +526,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     }
 
     /**
-     * 获取X轴刻度�??,�?�??�最大1
-     * 
+     * 获取X轴刻度间距最大1
+     *
      * @param value
      * @return
      */
@@ -428,8 +540,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     }
 
     /**
-     * 获取Y轴刻度�??,�?�??�最大1
-     * 
+     * 获取Y轴刻度间距最大1
+     *
      * @param value
      * @return
      */
@@ -518,8 +630,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     }
 
     /**
-     * 绘制边�?
-     * 
+     * 绘制边框
+     *
      * @param canvas
      */
     protected void drawBorder(Canvas canvas) {
@@ -538,7 +650,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
 
     /**
      * 绘制X轴
-     * 
+     *
      * @param canvas
      */
     protected void drawXAxis(Canvas canvas) {
@@ -555,7 +667,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
 
     /**
      * 绘制Y轴
-     * 
+     *
      * @param canvas
      */
     protected void drawYAxis(Canvas canvas) {
@@ -571,7 +683,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
 
     /**
      * 绘制经线
-     * 
+     *
      * @param canvas
      */
     protected void drawAxisGridX(Canvas canvas) {
@@ -623,26 +735,26 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                                     super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
                         }
                     } else
-                    // 绘制刻度
-                    if (displayAxisXTitle) {
-                        System.out.println("canvas.drawText(axisXTitles displayAxisXTitle");
-                        // if (i < counts && i > 0) {
-                        if (i == 0) {
-                            canvas.drawText(axisXTitles.get(i), i
-                                    * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
-                                    super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
-                        } else if (i == axisXTitles.size() - 1) {
-                            canvas.drawText(axisXTitles.get(i), i
-                                    * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
-                                    super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
+                        // 绘制刻度
+                        if (displayAxisXTitle) {
+                            System.out.println("canvas.drawText(axisXTitles displayAxisXTitle");
+                            // if (i < counts && i > 0) {
+                            if (i == 0) {
+                                canvas.drawText(axisXTitles.get(i), i
+                                                * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
+                                        super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
+                            } else if (i == axisXTitles.size() - 1) {
+                                canvas.drawText(axisXTitles.get(i), i
+                                                * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
+                                        super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
+                            }
+                            // } else if (0 == i) {
+                            // canvas.drawText(axisXTitles.get(i),
+                            // this.axisMarginLeft + 2f, super.getHeight()
+                            // - axisMarginBottom
+                            // + longtitudeFontSize, mPaintFont);
+                            // }
                         }
-                        // } else if (0 == i) {
-                        // canvas.drawText(axisXTitles.get(i),
-                        // this.axisMarginLeft + 2f, super.getHeight()
-                        // - axisMarginBottom
-                        // + longtitudeFontSize, mPaintFont);
-                        // }
-                    }
                 }
             }
         }
@@ -650,7 +762,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
 
     /**
      * 绘制纬线
-     * 
+     *
      * @param canvas
      */
     protected void drawAxisGridY(Canvas canvas) {
@@ -777,16 +889,16 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
 
     }
 
-    // 获得来自其他图表�??知
+    // 获得来自其他图表更新通知
     public void notifyEvent(GridChart chart) {
         PointF point = chart.getTouchPoint();
-        // 如果没有�?中点
+        // 如果没有中点
         if (null != point) {
-            // 获取点击坐�?
+            // 获取点击坐表
             clickPostX = point.x;
             clickPostY = point.y;
         }
-        // 设置当前控件�?��摸点
+        // 设置当前控件触摸点
         touchPoint = new PointF(clickPostX, clickPostY);
         super.invalidate();
     }
@@ -819,7 +931,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         }
     }
 
-    // /////////属�?getter与setter方�?////////////////
+    // /////////属性getter与setter方法////////////////
 
     public int getBackgroudColor() {
         return backgroudColor;
@@ -868,7 +980,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     public void setAxisMarginLeft(float axisMarginLeft) {
         this.axisMarginLeft = axisMarginLeft;
 
-        // 如果左边距为0?��?不显示Y坐�?轴
+        // 如果左边距为0则不显示Y坐标轴
         if (0f == axisMarginLeft) {
             this.displayAxisYTitle = Boolean.FALSE;
         }
@@ -881,7 +993,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     public void setAxisMarginBottom(float axisMarginBottom) {
         this.axisMarginBottom = axisMarginBottom;
 
-        // 如果下边距为0?��?不显示X坐�?轴
+        // 如果下边距为0则不显示X坐标轴
         if (0f == axisMarginBottom) {
             this.displayAxisXTitle = Boolean.FALSE;
         }

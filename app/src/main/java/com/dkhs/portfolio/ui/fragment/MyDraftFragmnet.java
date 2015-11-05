@@ -162,7 +162,6 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 Intent intent = PostTopicActivity.getIntent(getActivity(), draftBean.getLabel(), draftBean.getStatusId(), draftBean.getReplyUserName());
                 intent.putExtra(PostTopicActivity.ARGUMENT_DRAFT, Parcels.wrap(draftBean));
                 startActivity(intent);
-
             }
         });
     }
@@ -236,8 +235,8 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 new ViewHolder(convertView);
             }
             ViewHolder holder = (ViewHolder) convertView.getTag();
-
             final DraftBean item = mDataList.get(position);
+
             String title = item.getSimpleTitle();
             if (TextUtils.isEmpty(title)) {
                 holder.tvTitle.setVisibility(View.GONE);
@@ -245,9 +244,15 @@ public class MyDraftFragmnet extends VisiableLoadFragment {
                 holder.tvTitle.setVisibility(View.VISIBLE);
                 holder.tvTitle.setText(title);
             }
+
 //            holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getUtcTime()));
             holder.tvEditTime.setText(TimeUtils.getBriefTimeString(item.getEdittime()));
-            String strLabel = item.getLabel() == 1 ? "主贴" : "回复";
+            String strLabel = "";
+            if(item.getContentType() == 0){
+                strLabel = item.getLabel() == PostTopicActivity.TYPE_POST_TOPIC ? "主贴" : "回复";
+            }else if(item.getContentType() == 40){
+                strLabel = item.getLabel() == PostTopicActivity.TYPE_POST_REWARD ? "悬赏" : "回复";
+            }
             holder.tvLabel.setText(strLabel);
 
             String strContent = item.getSimpleContent();

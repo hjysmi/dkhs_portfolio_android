@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/lv_white_selector"
     android:descendantFocusability="blocksDescendants"
-    android:padding="10dp" >
+    android:padding="10dp">
 
     <RelativeLayout
         android:id="@+id/layout_value"
@@ -15,7 +15,7 @@
         android:background="@drawable/bg_order_red"
         android:gravity="center_vertical"
         android:paddingBottom="4dp"
-        android:paddingTop="6dp" >
+        android:paddingTop="6dp">
 
         <TextView
             android:id="@+id/tv_income_text"
@@ -35,7 +35,7 @@
             android:layout_centerHorizontal="true"
             android:text="+19.52"
             android:textColor="@color/white"
-            android:textSize="27sp" />
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/tv_precent"
@@ -45,7 +45,7 @@
             android:layout_toRightOf="@+id/tv_value"
             android:text="%"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <ImageView
@@ -73,7 +73,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="4dp"
         android:layout_toLeftOf="@+id/cb_add_follow"
-        android:layout_toRightOf="@+id/layout_value" >
+        android:layout_toRightOf="@+id/layout_value">
 
         <TextView
             android:id="@+id/tv_create_user"

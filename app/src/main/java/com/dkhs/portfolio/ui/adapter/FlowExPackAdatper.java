@@ -102,7 +102,7 @@ public class FlowExPackAdatper extends BaseAdapter {
             if (selectedIndex == position) {
                 cbFlowPack.setChecked(true);
                 cbFlowPack.setBackgroundResource(R.drawable.dia70_red_circle);
-                cbFlowPack.setTextColor(ColorTemplate.getTextColor(R.color.tag_red));
+                cbFlowPack.setTextColor(ColorTemplate.getTextColor(R.color.theme_blue));
             } else {
                 cbFlowPack.setChecked(false);
                 cbFlowPack.setEnabled(true);
