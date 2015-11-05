@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,23 +24,48 @@ import com.umeng.analytics.MobclickAgent;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
-
+/**
+ * @author zjz
+ * @version 1.0
+ * @ClassName ModelAcitivity
+ * @Description 模板Activity类，实现以下功能
+ * 1.带统一风格的标题栏
+ * 2.实现点击空白区别，隐藏软键盘
+ * 3.在左边100像素范围侧滑后台
+ * 4.进入和退出页面的动画风格
+ * 5.对Activity的出栈入栈管理
+ * 6.添加了友盟/百度统计
+ * @date 2015-4-23 下午2:59:54
+ */
 public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
-    private TextView btnBack;
-    private View mTitleView;
-//    protected UserEngineImpl engine;
-//    protected Activity mActivity;
-
     public boolean hadFragment;
-
+    private TextView btnBack;
+    //    protected UserEngineImpl engine;
+//    protected Activity mActivity;
+    private View mTitleView;
     /**
      * 显示子页面的容器
      */
     private RelativeLayout layoutContent;
+    private OnClickListener clickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            switch (v.getId()) {
+                case BACKBUTTON_ID:
+
+                    onBackPressed();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     /**
      * 返回按钮
@@ -56,8 +83,16 @@ public class ModelAcitivity extends SwipeBackActivity {
         PortfolioApplication.getInstance().addActivity(this);
 //        mActivity = this;
         onCreate(arg0, R.layout.layout_model_default);
+//        setStatusBarColor();
 
+    }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void setStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.theme_color));
+        }
     }
 
     protected void onResume() {
@@ -78,7 +113,6 @@ public class ModelAcitivity extends SwipeBackActivity {
 
         MobclickAgent.onPause(this);
     }
-
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
@@ -119,7 +153,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         setContentView(view, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
-
     public void replaceContentFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.layoutContent, fragment).commitAllowingStateLoss();
@@ -135,7 +168,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
-        mTitleView = findViewById(R.id.tool);
+        mTitleView = findViewById(R.id.view_title);
 
         btnBack = (TextView) findViewById(BACKBUTTON_ID);
         btnBack.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_back_selector),
@@ -146,22 +179,6 @@ public class ModelAcitivity extends SwipeBackActivity {
         btnBack.setOnClickListener(clickListener);
         // llBack.setOnClickListener(clickListener);
     }
-
-    private OnClickListener clickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            switch (v.getId()) {
-                case BACKBUTTON_ID:
-
-                    onBackPressed();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     /**
      * @param @param listener
@@ -209,6 +226,10 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     }
 
+    public void hideBottomLine() {
+        findViewById(R.id.bottom_line).setVisibility(View.GONE);
+    }
+
     /**
      * 动态设置Activity的标题
      *
@@ -254,14 +275,14 @@ public class ModelAcitivity extends SwipeBackActivity {
      * @Description: 隐藏标题栏
      */
     public void hideHead() {
-        View rlHead = findViewById(R.id.tool);
+        View rlHead = findViewById(R.id.view_title);
         if (rlHead.getVisibility() == View.VISIBLE) {
             rlHead.setVisibility(View.GONE);
         }
     }
 
     public void showHead() {
-        View rlHead = findViewById(R.id.tool);
+        View rlHead = findViewById(R.id.view_title);
         if (rlHead.getVisibility() == View.GONE) {
             rlHead.setVisibility(View.VISIBLE);
         }
@@ -305,18 +326,9 @@ public class ModelAcitivity extends SwipeBackActivity {
         this.btnBack = btnBack;
     }
 
-    public void setStatusBarColor(View statusBar, int color) {
-        // if (Build.VERSION.SDK_INT >= 19) {
-        // Window w = getWindow();
-        // w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-        // WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        // // status bar height
-        // int actionBarHeight = getActionBarHeight();
-        // int statusBarHeight = getStatusBarHeight();
-        // // action bar height
-        // statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
-        // statusBar.setBackgroundColor(color);
-        // }
+
+    public void setBackButtonDrawRes(int resId) {
+        btnBack.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
     }
 
     public int getActionBarHeight() {
@@ -354,21 +366,21 @@ public class ModelAcitivity extends SwipeBackActivity {
     public void updateTitleBackgroud(int resId) {
         getTitleView().setBackgroundResource(resId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.getWindow().setStatusBarColor(getResources().getColor(resId));
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
 
 
     }
 
     public void updateTitleBackgroudByValue(float value) {
-        if (value < 0) {
-            updateTitleBackgroud(R.color.tag_green);
-        } else if (value > 0) {
-            updateTitleBackgroud(R.color.tag_red);
-        } else {
-            updateTitleBackgroud(R.color.tag_gray);
-
-        }
+//        if (value < 0) {
+//            updateTitleBackgroud(R.color.theme_blue);
+//        } else if (value > 0) {
+//            updateTitleBackgroud(R.color.tag_red);
+//        } else {
+//            updateTitleBackgroud(R.color.tag_gray);
+//
+//        }
     }
 
 

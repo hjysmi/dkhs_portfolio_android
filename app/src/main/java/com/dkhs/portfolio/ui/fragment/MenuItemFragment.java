@@ -8,27 +8,25 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.MainActivity;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
-import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
-
-import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
-import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.utils.AnimationHelper;
-import com.lidroid.xutils.util.LogUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.squareup.otto.Subscribe;
-
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.MainActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.utils.AnimationHelper;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Subscribe;
 
 /**
  * @author zhoujunzhou
@@ -215,7 +213,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         tabLayout3.setEnabled(true);
         tabLayout4.setEnabled(true);
         tabLayout5.setEnabled(true);
-        ColorStateList cls = getResources().getColorStateList(R.color.compare_select_gray);
+        ColorStateList cls = getResources().getColorStateList(R.color.tab_default);
         tvTab1.setTextColor(cls);
         tvTab2.setTextColor(cls);
         tvTab3.setTextColor(cls);
@@ -256,7 +254,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     }
 
     private void setSelectText(TextView tvSelect) {
-        tvSelect.setTextColor(getResources().getColorStateList(R.color.title_color));
+        tvSelect.setTextColor(getResources().getColorStateList(R.color.theme_blue));
     }
 
     @OnClick({R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4, R.id.tab_5})

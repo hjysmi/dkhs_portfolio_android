@@ -49,7 +49,7 @@ public abstract class BaseTitleFragment extends VisiableLoadFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View wrapper = inflater.inflate(R.layout.layout_model, null);
+        View wrapper = inflater.inflate(R.layout.fragment_layout_model, null);
         wrapper.setBackgroundResource(R.color.person_setting_backgroud);
         RelativeLayout layoutContent = (RelativeLayout) wrapper.findViewById(R.id.layoutContent);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
@@ -63,7 +63,7 @@ public abstract class BaseTitleFragment extends VisiableLoadFragment {
         super.onViewCreated(view, savedInstanceState);
         ViewUtils.inject(this, view); // 注入view和事件
         btnBack = (TextView) view.findViewById(BACKBUTTON_ID);
-        toolBar = view.findViewById(R.id.tool);
+        toolBar = view.findViewById(R.id.view_title);
         btnRight = (TextView) view.findViewById(RIGHTBUTTON_ID);
         btnSecondRight = (TextView) view.findViewById(SECONDRIGHTBUTTON_ID);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);

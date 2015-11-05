@@ -27,11 +27,11 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName HScrollTitleView
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午1:13:32
- * @version 1.0
  */
 public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
@@ -55,7 +55,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     private int indiatorWidth;
 
     /**
-     * 
+     *
      * @param context
      * @param nameListRTl 标题栏的名字
      * @param fragmentList 下面Fragment界面
@@ -72,11 +72,11 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     // }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param context
      * @param attrs
      * @param defStyle
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     public HScrollTitleView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -84,10 +84,10 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param context
      * @param attrs
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     public HScrollTitleView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -95,9 +95,9 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     }
 
     /**
+     * @param context
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @param context
      */
     public HScrollTitleView(Context context) {
         super(context);
@@ -105,9 +105,9 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
      */
     private void init() {
         // nameList = new ArrayList<String>();
@@ -157,7 +157,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             ll.addView(tv);
             tvList[i] = tv;
             if (i == 0) {
-                tv.setTextColor(getContext().getResources().getColor(R.color.tag_red));
+                tv.setTextColor(getContext().getResources().getColor(R.color.theme_blue));
             }
         }
         addView(view);
@@ -196,7 +196,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             ll.addView(tv);
             tvList[i] = tv;
             if (i == 0) {
-                tv.setTextColor(getContext().getResources().getColor(R.color.tag_red));
+                tv.setTextColor(getContext().getResources().getColor(R.color.theme_blue));
             }
         }
         addView(view);
@@ -311,7 +311,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         System.out.println("currentPosition:" + currentPosition);
         System.out.println("hisPosition:" + hisPosition);
 
-        tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.tag_red));
+        tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.theme_blue));
         if (hisPosition != -1) {
             tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
         }
@@ -319,10 +319,9 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     }
 
-    public int getCurrentPosition(){
-        return  currentPosition;
+    public int getCurrentPosition() {
+        return currentPosition;
     }
-
 
 
     // @Override

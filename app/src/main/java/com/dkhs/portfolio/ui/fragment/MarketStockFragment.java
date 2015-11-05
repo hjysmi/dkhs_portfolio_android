@@ -139,7 +139,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         mAdapter = new MarkStockAdatper(mViewBeanList, mViewPool);
         mRecyclerView.setAdapter(mAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override

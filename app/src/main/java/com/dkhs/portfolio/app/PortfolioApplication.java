@@ -10,17 +10,17 @@ package com.dkhs.portfolio.app;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.common.GlobalParams;
-//import com.squareup.leakcanary.LeakCanary;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//import com.squareup.leakcanary.LeakCanary;
 
 /**
  * @author zjz
@@ -29,7 +29,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-2 上午10:26:13
  */
-public class PortfolioApplication extends Application {
+public class PortfolioApplication extends MultiDexApplication {
     private static PortfolioApplication mInstance;
 
 

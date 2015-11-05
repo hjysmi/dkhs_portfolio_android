@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">谁牛</string>
+    <string name="app_name">谁牛金融</string>
     <string name="setting">设置</string>
     <string name="personal_setting">个人设置</string>
     <string name="copyright">Copyright &#169; 2014 DKHS.ALL Rights Reserved</string>
@@ -273,7 +273,7 @@
     <string name="season_income_rate">季收益</string>
     <string name="all_income_rate">累计收益</string>
     <string name="more_combination_tip">最多只能添加20个组合组合</string>
-    <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛</string>
+    <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛金融</string>
     <string name="change_combination_name">修改组合名称</string>
     <string name="change_position">调整仓位</string>
     <string name="privacy_setting">隐私设置</string>
@@ -294,7 +294,7 @@
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
     <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
-    <string name="about_dus_1">谁牛，是一款精心设计，全力打造的专业投资理财平台。
+    <string name="about_dus_1">谁牛金融，是一款精心设计，全力打造的专业投资理财平台。
          提供公募基金实时数据，以及国内首创的基金战胜指数数据，以
 基金经理为导向进行基金产品选购。跟牛人，买牛基，收益更靠谱。
 谁牛社区有更丰富的投资学习和生活的精彩内容。组合管理功能，成
@@ -420,6 +420,7 @@
     <string name="tab_2">行情</string>
     <string name="tab_5">摇一摇</string>
     <string name="tab_3">社区</string>
+    <string name="tab_reward">悬赏</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
@@ -445,6 +446,8 @@
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
     <string name="info_title_mytopic">我的主帖</string>
+    <string name="info_title_purse">我的钱包</string>
+    <string name="info_title_mypost">我的话题</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
     <!-- toast message text -->
@@ -589,9 +592,11 @@
 
 
     <!--流量活动-->
-    <string name="flow_package">流量包</string>
+    <string name="flow_package">我的积分</string>
     <string name="exchange_flow">可兑换流量</string>
+    <string name="current_point">当前积分</string>
     <string name="flow_point">流量积分：%1$d分</string>
+    <string name="current_flow">可换流量：%1$dM</string>
     <string name="bind_now">立即绑定</string>
     <string name="has_done">已经完成</string>
     <string name="invite_now">立即邀请</string>
@@ -606,11 +611,16 @@
     <string name="flow_invite_tip">每邀请1位好友成功注册送50M流量</string>
     <string name="flow_create_tip">首次成功创建组合送50M流量</string>
 
+    <string name="exchange_time_title">时间</string>
+    <string name="exchange_flow_title">流量</string>
+    <string name="exchange_status_title">状态</string>
+
     <string name="title_flow_exchange">流量兑换</string>
     <string name="max_flow_tip">本周可兑换 %1$sM 流量（VIP权限 %2$s 天）</string>
     <string name="prepaid_phone_num">充值手机号：</string>
     <string name="exchange">兑换</string>
     <string name="exchange_tip_title">流量及兑换说明</string>
+    <string name="exchange_history">兑换历史</string>
 
     <string name="exchange_tip">1、用户获得的流量为全国流量，移动、联通、电信全国用户均可使用。
 \n2、流量长期有效，每周可兑换%1$s
@@ -634,7 +644,7 @@
     <string name="nick_name">昵称</string>
     <string name="register_date">注册时间</string>
     <string name="no_invitations_tips">你还没有邀请。</string>
-    <string name="tip_flowpackage">（手机流量疯狂送，抢！抢！抢！）</string>
+    <string name="tip_flowpackage">（千万流量疯狂送！）</string>
     <string name="tip_invite_code">（我的邀请码:%1$s）</string>
     <string name="history">历史</string>
     <string name="invite_success">邀请成功</string>
@@ -671,10 +681,13 @@
     <string name="fund_manager_rankings">基金经理排行</string>
     <string name="fund_rankings">传统基金排行</string>
     <string name="win_rate_day">日战胜指数</string>
+    <string name="win_rate_week">周战胜指数</string>
     <string name="win_rate_format">%s战胜指数</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
     <string name="comment">评论</string>
+    <string name="reply">回复</string>
+    <string name="answer">回答</string>
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
@@ -723,6 +736,7 @@
     <string name="title_activity_topics_detail">话题正文</string>
     <string name="title_activity_info">资讯</string>
     <string name="title_activity_my_topics">我的主帖</string>
+    <string name="title_activity_his_topics">Ta的主帖</string>
     <string name="title_activity_my_combination_list">我的组合</string>
     <string name="title_activity_ta_combination_list">TA的组合</string>
     <!--我的草稿 end-->
@@ -746,6 +760,7 @@
     <string name="no_combination">暂无组合</string>
     <string name="ta_combination">TA的组合</string>
     <string name="no_comment">暂无回复</string>
+    <string name="no_activity">暂无参与</string>
     <string name="no_draft">暂无草稿</string>
     <string name="title_my_home_page">我的主页</string>
     <string name="title_ta_home_page">Ta的主页</string>
@@ -754,6 +769,7 @@
     <string name="delete_comment">删除回复</string>
     <string name="null_stock">当前股票不存在</string>
     <string name="title_activity_comment_me">评论我的</string>
+    <string name="title_activity_reply_me">回复我的</string>
     <string name="title_activity_call_me">提到我的</string>
     <!--举报 end-->
     <string name="title_pickup_user">选择用户</string>
@@ -772,4 +788,45 @@
     <!-- topic text format End -->
 
 
+    <string name="reward_on_going">悬赏中</string>
+    <string name="reward_close">已关闭</string>
+    <string name="reward_finish">已悬赏</string>
+    <string name="info_title_reward">我的悬赏</string>
+    <string name="no_reward">暂无悬赏</string>
+    <string name="reward_comment">回答%1$s</string>
+    <string name="post_reward">发表悬赏</string>
+    <string name="reward_hint">试着将问题尽可能清晰、详尽的描述出来，这样回答者们才能更完整、更高质量的为你解答</string>
+    <string name="reward_reply_hint">说两句吧...</string>
+    <string name="balance">余额:%1$s</string>
+    <string name="reward_lower_limit">%1$s元起</string>
+    <string name="title_recharge">充值</string>
+    <string name="recharge_success">充值成功</string>
+    <string name="msg_adopt_reply">确定采纳TA为最佳回答，并支付赏金？</string>
+    <string name="msg_close_reward">确定无满意答案并关闭该悬赏？</string>
+    <string name="reward_too_low">悬赏金额最低%1$s元起!</string>
+    <string name="reward_success">赏金支付成功!</string>
+    <string name="close_reward_hint">关闭成功，即将退回你的赏金</string>
+
+    <!--wallet-->
+    <string name="balance_hint">现金余额(元)</string>
+    <string name="charge">充值</string>
+    <string name="withdraw">提现</string>
+    <string name="with_draw_available">可提现金额为%1$s元</string>
+    <string name="money_arrive_hint">预计5个工作日内到账</string>
+    <string name="msg_bound_mobile">需要绑定手机号码才可以提现哦</string>
+    <string name="btn_bound_mobile">去绑定</string>
+    <string name="msg_send_post">向手机%1$s发送验证码</string>
+    <string name="msg_balance_insufficient">钱包余额不足，请充值</string>
+    <string name="withdraw_amount_empty">提现金额不能为空</string>
+    <string name="withdraw_account_empty">账号不能为空</string>
+    <string name="withdraw_name_empty">账户实名不能为空</string>
+    <string name="withdraw_validate_code_empty">验证码不能为空</string>
+    <string name="withdraw_success">提现申请成功，预计5个工作日内到账</string>
+    <string name="withdraw_failure">提现失败</string>
+
+    <string name="weixinpay_not_support">所安装的微信客户端不支持支付</string>
+    <string name="weixin_not_installed">未安装微信客户端</string>
+
+    <string name="reward_content_hint">请输入悬赏内容</string>
+    <string name="reward_amount_hint">请输入悬赏金额</string>
 </resources>

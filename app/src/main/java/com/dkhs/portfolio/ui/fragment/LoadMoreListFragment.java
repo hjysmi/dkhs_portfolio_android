@@ -86,7 +86,7 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
     private void initLoadMoreList(View view) {
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
         mProgressView = (RelativeLayout) view.findViewById(android.R.id.progress);
@@ -125,7 +125,7 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
 
     }
 
-    public void postDelayedeData(){
+    public void postDelayedeData() {
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -133,7 +133,7 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
                 loadData();
 
             }
-        },500);
+        }, 500);
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
                     mListView.setOnLoadListener(LoadMoreListFragment.this);
             }
 
-            if (object.getCurrentPage()==1&& object.getResults().size()==0){
+            if (object.getCurrentPage() == 1 && object.getResults().size() == 0) {
                 setEmptyText(getEmptyText());
             }
             // loadFinishUpdateView();
@@ -165,7 +165,7 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
 
     }
 
-    public String getEmptyText(){
+    public String getEmptyText() {
         return "暂无数据";
     }
 

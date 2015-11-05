@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Html;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -23,6 +24,7 @@ import org.parceler.Parcels;
 public class ShakeActivity extends ModelAcitivity {
 
 
+    private final int ALP_DURATION_MILLIS = 3000;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.timeLineTV)
     android.widget.TextView mTimeLineTV;
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.freeFlow)
@@ -36,7 +38,6 @@ public class ShakeActivity extends ModelAcitivity {
     @com.lidroid.xutils.view.annotation.ViewInject(R.id.view_shakecontent)
     View mShakeContent;
     private ShakeBean mShakeBean;
-
     private CountDownTask countDownTask;
 
     public static Intent newIntent(Context context, ShakeBean shakeBean) {
@@ -51,6 +52,7 @@ public class ShakeActivity extends ModelAcitivity {
         super.onCreate(arg0);
         setTitle(getString(R.string.activity_shake));
         setContentView(R.layout.activity_shake);
+        hideBottomLine();
         ViewUtils.inject(this);
         handleIntent();
         getTitleView().setBackgroundColor(getResources().getColor(android.R.color.transparent));
@@ -76,7 +78,6 @@ public class ShakeActivity extends ModelAcitivity {
     public void getDataForNet() {
     }
 
-
     private void handleIntent() {
         if (getIntent().hasExtra("shakeBean")) {
             mShakeBean = Parcels.unwrap(getIntent().getExtras().getParcelable("shakeBean"));
@@ -91,6 +92,7 @@ public class ShakeActivity extends ModelAcitivity {
             mTitleTV.setText(mShakeBean.title);
 
             mContextTV.setText(mShakeBean.content);
+//            mContextTV.setText();
 
             if (null == mShakeBean.symbol) {
                 mSymbolTV.setVisibility(View.INVISIBLE);
@@ -126,14 +128,20 @@ public class ShakeActivity extends ModelAcitivity {
         }
     }
 
-
-    private final int ALP_DURATION_MILLIS = 3000;
-
     private void alpHide() {
         AlphaAnimation animation1 = new AlphaAnimation(1.0f, 0f);
         animation1.setDuration(ALP_DURATION_MILLIS);
         animation1.setFillAfter(true);
         mShakeContent.startAnimation(animation1);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (countDownTask != null) {
+            countDownTask.cancel();
+        }
     }
 
     class CountDownTask extends CountDownTimer {
@@ -157,15 +165,6 @@ public class ShakeActivity extends ModelAcitivity {
         public void onFinish() {
 
             ShakeActivity.this.finish();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (countDownTask != null) {
-            countDownTask.cancel();
         }
     }
 }

@@ -22,40 +22,37 @@ import com.dkhs.portfolio.R;
  */
 public class TopicsDetailListView extends ListView  {
 
+    public boolean isBlock = false;
+    public TopicsDetailScrollView mTopicsDetailScrollView;
     private int mLastMotionY;
     private int mStartMotionY;
-
-    public boolean isBlock = false;
-
     private View mFootView;
     private int mLastItem;
-
-
-    public TopicsDetailScrollView mTopicsDetailScrollView;
+    private OnLoadMoreListener mOnLoadMoreListener;
 
     public TopicsDetailListView(Context context) {
         super(context);
     }
 
+
     public TopicsDetailListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-
     public TopicsDetailListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public TopicsDetailListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-
     private void init() {
         mFootView = LayoutInflater.from(getContext()).inflate(R.layout.pull_to_refresh_load_more, null);
         mFootView.findViewById(R.id.pull_to_refresh_progress).setVisibility(View.VISIBLE);
-        mFootView.setVisibility(VISIBLE);
+        mFootView.setVisibility(GONE);
         addFooterView(mFootView);
         setOnScrollListener(null);
         setDivider(null);
@@ -77,39 +74,6 @@ public class TopicsDetailListView extends ListView  {
     public void setOnScrollListener(OnScrollListener l) {
         super.setOnScrollListener(new OnScrollListenerIMp(l));
     }
-
-    class OnScrollListenerIMp implements OnScrollListener{
-        OnScrollListener l;
-
-        public OnScrollListenerIMp(OnScrollListener l) {
-            this.l = l;
-        }
-
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            if(l!= null){
-                l.onScrollStateChanged(view,scrollState);
-            }
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if(l!= null){
-                l.onScroll(view, firstVisibleItem, visibleItemCount,totalItemCount);
-            }
-            if (getAdapter() != null && mOnLoadMoreListener != null) {
-                int lastItem = firstVisibleItem + visibleItemCount ;
-                if (getAdapter().getCount() == lastItem && mLastItem != lastItem) {
-                    mLastItem = lastItem;
-                    mOnLoadMoreListener.loadMore();
-                }
-            }
-        }
-    }
-
-
-
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -144,14 +108,42 @@ public class TopicsDetailListView extends ListView  {
         super.setAdapter(adapter);
     }
 
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        mOnLoadMoreListener = onLoadMoreListener;
+    }
+
     public interface OnLoadMoreListener {
         void loadMore();
     }
 
-    private OnLoadMoreListener mOnLoadMoreListener;
+    class OnScrollListenerIMp implements OnScrollListener{
+        OnScrollListener l;
 
-    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
-        mOnLoadMoreListener = onLoadMoreListener;
+        public OnScrollListenerIMp(OnScrollListener l) {
+            this.l = l;
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            if(l!= null){
+                l.onScrollStateChanged(view,scrollState);
+            }
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if(l!= null){
+                l.onScroll(view, firstVisibleItem, visibleItemCount,totalItemCount);
+            }
+            if (getAdapter() != null && mOnLoadMoreListener != null) {
+                int lastItem = firstVisibleItem + visibleItemCount ;
+                if (getAdapter().getCount() == lastItem && mLastItem != lastItem) {
+                    mLastItem = lastItem;
+                    mOnLoadMoreListener.loadMore();
+                }
+            }
+        }
     }
 
 

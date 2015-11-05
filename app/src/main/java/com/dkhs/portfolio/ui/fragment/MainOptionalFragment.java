@@ -100,6 +100,34 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
         super.onViewCreated(view, savedInstanceState);
         if (TextUtils.isEmpty(mUserId)) {
             btnLeft.setVisibility(View.GONE);
+            btnLeft.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Fragment tFundFragment = fragments.get(mVp.getCurrentItem());
+
+                    if (tFundFragment instanceof TabFundsFragment) {
+
+                        if (null != tFundFragment && !((TabFundsFragment) tFundFragment).getDataList().isEmpty()) {
+                            Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
+                            startActivityForResult(intent, 888);
+                            UIUtils.setOverridePendingAnin(getActivity());
+                        }
+                    }
+
+                }
+            });
+
+            btnRight.setVisibility(View.VISIBLE);
+            btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);
+            btnRight.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                    UIUtils.startAnimationActivity(getActivity(), intent);
+                }
+            });
         } else {
             setBackTitleBar();
         }
@@ -120,6 +148,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
             }
         });
         mVp.setCurrentItem(0);
+        tabWidget.setSelection(0);
         BusProvider.getInstance().register(this);
         if (getActivity() instanceof MainActivity) {
             Bundle bundle = ((MainActivity) getActivity()).mBundle;

@@ -36,6 +36,9 @@ public class DraftBean {
     public static final String COLUM_PHOTO_PATHS = "photo_paths";
     public static final String COLUM_SIMPLE_CONTENT = "simple_content";
     public static final String COLUM_UPLOAD_MAP = "upload_map";
+    public static final String COLUMN_CONTENT_TYPE = "content_type";
+    public static final String COLUMN_REWARD_AMOUNT = "reward_amount";
+    public static final String COLUMN_REWARD_STATE = "reward_state";
 
 
 //    //保存图片的绝对路径
@@ -72,6 +75,14 @@ public class DraftBean {
     ArrayList<String> photoList;
 
     HashMap<String, PostImageBean> uploadMap;
+    @Column(column = COLUMN_CONTENT_TYPE)
+    int contentType = 0;
+
+    @Column(column = COLUMN_REWARD_AMOUNT)
+    String rewardAmount = "0";
+
+    @Column(column = COLUMN_REWARD_STATE)
+    int rewardState = 0;
 
     public String getPhotoPaths() {
         return photoPaths;
@@ -247,7 +258,31 @@ public class DraftBean {
 
     }
 
-//    public String getHtmlContent() {
+    public int getRewardState() {
+        return rewardState;
+    }
+
+    public void setRewardState(int rewardState) {
+        this.rewardState = rewardState;
+    }
+
+    public String getRewardAmount() {
+        return rewardAmount;
+    }
+
+    public void setRewardAmount(String rewardAmount) {
+        this.rewardAmount = rewardAmount;
+    }
+
+    public int getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(int contentType) {
+        this.contentType = contentType;
+    }
+
+    //    public String getHtmlContent() {
 //        return htmlContent;
 //    }
 //

@@ -22,9 +22,9 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
-import com.dkhs.portfolio.ui.fragment.MainBBSFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
+import com.dkhs.portfolio.ui.fragment.MainRewardFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.ShakeFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
@@ -41,7 +41,8 @@ import io.rong.imlib.model.Message;
  * @author zjz
  * @version 2.0
  * @ClassName NewMainActivity
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 主界面
+ * 对主界面碎片化管理，延迟加载没点击的界面
  * @date 2015-2-5 上午10:26:35
  */
 public class MainActivity extends BaseActivity {
@@ -223,7 +224,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentD = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_D);
         if (null == fragmentD) {
-            fragmentD = new MainBBSFragment();
+            fragmentD = new MainRewardFragment();
         }
         hideAllFragment();
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container

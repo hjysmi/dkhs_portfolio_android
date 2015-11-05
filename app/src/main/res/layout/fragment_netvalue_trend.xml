@@ -12,7 +12,7 @@
         android:id="@+id/tv_combination_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/tag_red"
+        android:background="@color/theme_blue"
         android:paddingBottom="12dp"
         android:paddingLeft="12dp"
         android:paddingRight="8dp"

@@ -116,7 +116,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 
             }
         });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
 
         // mListView.removeFooterView(mFootView);
         // mListView.setOnScrollListener(new OnScrollListener() {

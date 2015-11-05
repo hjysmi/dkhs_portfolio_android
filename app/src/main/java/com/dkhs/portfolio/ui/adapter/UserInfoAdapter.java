@@ -27,12 +27,12 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
-import com.dkhs.portfolio.ui.InviteFriendsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
-import com.dkhs.portfolio.ui.ReplyActivity;
+import com.dkhs.portfolio.ui.MyPurseActivity;
+import com.dkhs.portfolio.ui.MyRewardActivity;
+import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.UserTopicsActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -52,12 +52,21 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
+    private static final int INDEX_MESSAGE = 0;
+    private static final int INDEX_MY_COMBINATION = 1;
+    private static final int INDEX_PURSE = 2;
+    private static final int INDEX_COINS = 3;
+    private static final int INDEX_REWARD = 4;
+    private static final int INDEX_USER_ENTITY = 5;
+    private static final int INDEX_DRAFT = 6;
+
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
 
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private String mInviteCode;
+    private int mUnreadCount;
 
     public UserInfoAdapter(Context context) {
         super();
@@ -77,7 +86,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
     }
-
 
     private void getInviteCode() {
         AdEngineImpl.getInvitingInfo(new SimpleParseHttpListener() {
@@ -125,20 +133,9 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickPosition(position);
+                    clickPosition(itemPosition);
                 }
             });
-            if (itemPosition >= titleTexts.length - 2) {
-                itemHolder.tvTip.setVisibility(View.VISIBLE);
-                if (itemPosition == titleTexts.length - 1) {
-
-                    itemHolder.tvTip.setText(R.string.tip_flowpackage);
-                } else if (itemPosition == titleTexts.length - 2 && !TextUtils.isEmpty(mInviteCode)) {
-                    itemHolder.tvTip.setText(mContext.getString(R.string.tip_invite_code, mInviteCode));
-                }
-            } else {
-                itemHolder.tvTip.setVisibility(View.GONE);
-            }
             if (itemPosition == 0) {
 
                 if (mUnreadCount > 0) {
@@ -159,9 +156,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-
-    private int mUnreadCount;
-
     public void setUnreadCount(int count) {
         this.mUnreadCount = count;
         notifyItemChanged(1);
@@ -173,46 +167,53 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         switch (position) {
 
-            case 1: //消息中心
+            case INDEX_MESSAGE: //消息中心
 
 
                 MessageManager.getInstance().startConversationList(mContext);
 
                 break;
-            case 2: //我的组合
+            case INDEX_MY_COMBINATION: //我的组合
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyCombinationActivity.class));
 
 
                 break;
 
-            case 3://我的话题
+            case INDEX_USER_ENTITY://我的话题
 
                 UserEntity userEntity = UserEngineImpl.getUserEntity();
-                UserTopicsActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
+                MyTopicActivity.starActivity(mContext, userEntity.getId() + "", userEntity.getUsername());
                 break;
-            case 4://我的回复
-                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
-
-                break;
-            case 5://我的草稿
+//            case 4://我的回复
+//                UIUtils.startAnimationActivity((Activity) mContext, ReplyActivity.getIntent(mContext, GlobalParams.LOGIN_USER.getId() + ""));
+//
+//                break;
+            case INDEX_DRAFT://我的草稿
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyDraftActivity.class));
 
                 break;
 
 
-            case 6://邀请好友
+   /*         case 6://邀请好友
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, InviteFriendsActivity.class));
 
 
-                break;
+                break;*/
 
 
-            case 7://流量兑换
+            case INDEX_COINS://流量兑换
 
                 UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, FlowPackageActivity.class));
 
+                break;
+            case INDEX_PURSE:
+                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyPurseActivity.class));
+                break;
+            case INDEX_REWARD:
+                UserEntity entity = UserEngineImpl.getUserEntity();
+                MyRewardActivity.starActivity(mContext, entity.getId() + "", entity.getUsername());
                 break;
         }
     }
@@ -241,7 +242,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
             case 1:
             case 2:
-            case 5:
+            case 4:
             case 7:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 
@@ -287,6 +288,22 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @ViewInject(R.id.tv_following)
         private TextView tvFollowing;
+        ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
+
+            @Override
+            protected UserEntity parseDateTask(String jsonData) {
+
+                return DataParse.parseObjectJson(UserEntity.class, jsonData);
+            }
+
+            @Override
+            protected void afterParseData(UserEntity object) {
+                if (null != object) {
+                    updateUserFollowInfo(object);
+                }
+
+            }
+        };
         private View mView;
 
         public HeadViewHolder(View view) {
@@ -330,7 +347,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-
         private void startUserInfoActivity() {
             Intent intent = UserHomePageActivity.getIntent(mView.getContext(), UserEngineImpl.getUserEntity().getUsername(),
                     UserEngineImpl.getUserEntity().getId() + "");
@@ -370,24 +386,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
         }
-
-
-        ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
-
-            @Override
-            protected UserEntity parseDateTask(String jsonData) {
-
-                return DataParse.parseObjectJson(UserEntity.class, jsonData);
-            }
-
-            @Override
-            protected void afterParseData(UserEntity object) {
-                if (null != object) {
-                    updateUserFollowInfo(object);
-                }
-
-            }
-        };
 
         private void updateUserFollowInfo(UserEntity object) {
             tvFollowers.setText(StringFromatUtils.handleNumber(object.getFollowed_by_count()));

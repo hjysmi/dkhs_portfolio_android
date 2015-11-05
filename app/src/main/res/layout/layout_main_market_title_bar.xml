@@ -3,44 +3,36 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <Button
         android:id="@+id/btn_titletab_left"
-        android:layout_width="55dp"
-        android:layout_height="34dp"
-        android:background="@drawable/btn_titletab_right_selector"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
         android:enabled="false"
         android:gravity="center"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
         android:text="@string/tab_fund"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/btn_titletab_center"
-        android:layout_width="55dp"
-        android:layout_height="34dp"
-        android:background="@drawable/btn_titletab_center_selector"
-        android:layout_marginRight="-1dp"
-        android:layout_marginLeft="-1dp"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
         android:gravity="center"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
         android:singleLine="true"
         android:text="@string/tab_stock"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
-    <Button
 
+    <Button
         android:id="@+id/btn_titletab_right"
-        android:layout_width="55dp"
-        android:layout_height="34dp"
-        android:background="@drawable/btn_titletab_left_selector"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
         android:gravity="center"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
         android:singleLine="true"
         android:text="@string/tab_funds"
         android:textColor="@color/title_tab_textselector"

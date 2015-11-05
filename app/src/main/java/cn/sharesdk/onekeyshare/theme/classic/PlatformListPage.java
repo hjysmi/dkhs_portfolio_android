@@ -8,11 +8,6 @@
 
 package cn.sharesdk.onekeyshare.theme.classic;
 
-import static com.mob.tools.utils.R.getStringRes;
-import static com.mob.tools.utils.R.getBitmapRes;
-
-import java.util.ArrayList;
-
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.util.TypedValue;
@@ -24,7 +19,13 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import java.util.ArrayList;
+
 import cn.sharesdk.onekeyshare.PlatformListFakeActivity;
+
+import static com.mob.tools.utils.R.getBitmapRes;
+import static com.mob.tools.utils.R.getStringRes;
 
 public class PlatformListPage extends PlatformListFakeActivity implements View.OnClickListener {
 	// page container
@@ -109,7 +110,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		int dp_10 = com.mob.tools.utils.R.dipToPx(getContext(), 10);
 		lpBtn.setMargins(dp_10, dp_10, dp_10, dp_10);
 		btnCancel.setLayoutParams(lpBtn);
-		llPage.addView(btnCancel);
+//		llPage.addView(btnCancel);
 	}
 
 	private void initAnim() {

@@ -117,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@null"
+                android:theme="@style/theme_switch_style"
                 app:showText="false" />
         </RelativeLayout>
 
@@ -174,6 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@null"
+                android:theme="@style/theme_switch_style"
                 app:showText="false" />
         </RelativeLayout>
 
@@ -232,6 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@null"
+                android:theme="@style/theme_switch_style"
                 app:showText="false" />
         </RelativeLayout>
     </LinearLayout>
@@ -263,6 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@null"
+            android:theme="@style/theme_switch_style"
             app:showText="false" />
     </RelativeLayout>
 
@@ -292,6 +296,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@null"
+            android:theme="@style/theme_switch_style"
             app:showText="false" />
     </RelativeLayout>
 
@@ -321,6 +326,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@null"
+            android:theme="@style/theme_switch_style"
             app:showText="false" />
     </RelativeLayout>
 
@@ -352,6 +358,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@null"
+            android:theme="@style/theme_switch_style"
             app:showText="false" />
     </RelativeLayout>
 

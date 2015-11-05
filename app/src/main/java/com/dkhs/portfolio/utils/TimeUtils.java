@@ -94,6 +94,7 @@ public class TimeUtils {
     public static final String FORMAT_TEMPLATE_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String FORMAT_TEMPLATE_DAY = "yyyy-MM-dd";
     public static final String FORMAT_TEMPLATE_DAY_MM = "yyyy-MM-dd HH:mm";
+    public static final String FORMAT_TEMPLATE_DAY_MM_WITHOUT_YEAR = "MM-dd HH:mm";
     public static final String TAG = "TimeUtils";
 
 
@@ -120,6 +121,9 @@ public class TimeUtils {
         return new DateTime(iso8601Time).toString(FORMAT_TEMPLATE_DAY_MM, Locale.CHINA);
     }
 
+    public static String getDaySecondWITHOUTYEARString(String iso8601Time) {
+        return new DateTime(iso8601Time).toString(FORMAT_TEMPLATE_DAY_MM_WITHOUT_YEAR, Locale.CHINA);
+    }
 
     public static String getSimpleDay(String iso8601str) {
         return new DateTime(iso8601str).toString(FORMAT_TEMPLATE_DAY, Locale.CHINA);
