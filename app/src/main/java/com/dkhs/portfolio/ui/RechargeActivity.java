@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.dkhs.portfolio.R;
@@ -18,7 +19,11 @@ public class RechargeActivity extends ModelAcitivity {
         super.onCreate(arg0);
         setTitle(R.string.title_recharge);
         BusProvider.getInstance().register(this);
-        float chargeAmount = getIntent().getFloatExtra(RechargeFragment.CHARGE_AMOUNT,0);
+        Intent it = getIntent();
+        float chargeAmount = 0;
+        if(it != null){
+            chargeAmount = it.getFloatExtra(RechargeFragment.CHARGE_AMOUNT,0);
+        }
         replaceContentFragment(RechargeFragment.newInstance(chargeAmount));
     }
 
