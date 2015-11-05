@@ -67,6 +67,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            String FRAGMENTS_TAG = "android:support:fragments";
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         super.onCreate(savedInstanceState);
         // 模拟堆栈管理activity
 
@@ -83,7 +87,7 @@ public class MainActivity extends BaseActivity {
         t.commitAllowingStateLoss();
         displayFragmentB();
         new AppUpdateEngine(mContext).checkVersion();
-        handIntent(false);
+        handIntent();
     }
 
     @Override
@@ -110,10 +114,10 @@ public class MainActivity extends BaseActivity {
 
         super.onNewIntent(intent);
         setIntent(intent);
-        handIntent(false);
+        handIntent();
     }
 
-    private void handIntent(boolean needClick) {
+    private void handIntent() {
         Intent intent = getIntent();
         if (intent == null) {
             return;
@@ -129,9 +133,7 @@ public class MainActivity extends BaseActivity {
         int index = intent.getIntExtra("index", 0);
 
         mBundle = intent.getBundleExtra("arg");
-
-        if(needClick)
-            mMenuFragment.clickTabIndex(index);
+        mMenuFragment.clickTabIndex(index);
 
 
     }
