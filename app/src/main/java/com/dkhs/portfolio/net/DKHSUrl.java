@@ -278,12 +278,18 @@ public class DKHSUrl {
 
     public interface Wallets {
         //GET /api/v1/wallets/account/mine/
-        String myAccount = "/api/v1/wallets/account/mine/";
 
         //POST 用户钱包充值
         // amount (decimal, 充值金额),
         //  vendor (string, 第三方支付渠道，weixinpay,微信／alipay,支付宝／yibao,易宝)
         String payment = "/api/v1/wallets/recharge/payment/";
+        /**
+         * 查询余额信息
+         */
+        String account_info = "/api/v1/wallets/account/mine/";
+        String wallet_exchange = "/api/v1/wallets/account/changes/";
+        String rewards_balance = "/api/v1/statuses/rewards/balance/";
+        String withdraw = "/api/v1/wallets/withdraw/";
     }
 
     // DKHSUrl.Portfolio.rankingList,
@@ -322,25 +328,5 @@ public class DKHSUrl {
         String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
     }
 
-
-    public interface Funds{
-        String verify_identy = "/api/v1/funds/identity_auth/verify/";
-        String bind_bank_card = "/api/v1/funds/bind_bank_card/";
-        String get_banks = "/api/v1/accounts/banks/";
-        String is_trade_password_set = "/api/v1/accounts/is_trade_password_set/";
-        String set_trade_password = "/api/v1/accounts/set_trade_password/";
-        String check_trade_password = "/api/v1/accounts/check_trade_password/";
-        String change_trade_password = "/api/v1/accounts/change_trade_password/";
-        String get_my_bank_cards = "/api/v1/accounts/bank_cards/mine/";
-        String get_my_assests = "/api/v1/funds/assets/mine/";
-        String get_my_funds = "/api/v1/funds/fund/mine/";
-        String get_my_fundinfo = "/api/v1/funds/fund/fund_info/";
-        String get_funds_trades = "/api/v1/funds/trades/";
-        String get_funds_trades_info = "/api/v1/funds/trades/{0}/";
-        String buy_fund = "/api/v1/funds/buy/";
-        String sell_fund = "/api/v1/funds/sell/";
-        String check_bank_card = "/api/v1/accounts/bank_cards/check/";
-
-    }
 
 }
