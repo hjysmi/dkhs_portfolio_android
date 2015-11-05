@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -47,7 +46,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
     private TextView mBalanceOutTv;
 
     private boolean withDrawAvailable = false;
-    private float available = 0;
+    private double available = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
         setTitle(R.string.info_title_purse);
         ViewUtils.inject(this);
         BusProvider.getInstance().register(this);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new BalanceChangeFragment()).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new BalanceChangeFragment()).commitAllowingStateLoss();
         getAccountInfo();
     }
 
