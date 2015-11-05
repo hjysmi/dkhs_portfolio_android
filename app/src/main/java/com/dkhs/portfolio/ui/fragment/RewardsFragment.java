@@ -15,12 +15,14 @@ import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.itemhandler.SpinnerHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.RewardEngineImpl;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
 import com.squareup.otto.Subscribe;
@@ -30,9 +32,22 @@ import com.squareup.otto.Subscribe;
  */
 public class RewardsFragment extends LoadMoreListFragment  {
 
+    /**
+     * 最近发布
+     */
+    public static final int SORT_LATEST = 0;
+    /**
+     * 赏金最高
+     */
+    public static final int SORT_HIGHEST = 1;
+    /**
+     * 悬赏中
+     */
+    public static final int SORT_REWARDING = 2;
     private AutoList<TopicsBean> mDataList = new AutoList<>().applyAction(TopicsBean.class);
     private RewardEngineImpl mRewardEngine = null;
     private BaseAdapter mAdapter;
+    private int mSortType = SORT_LATEST;
 
     public RewardsFragment() {
     }
@@ -46,8 +61,18 @@ public class RewardsFragment extends LoadMoreListFragment  {
     BaseAdapter getListAdapter() {
 
         if (mAdapter == null) {
-            mAdapter = new DKBaseAdapter(mActivity, mDataList).
-                 buildSingleItemView(new TopicsHandler(mActivity));
+            mAdapter = new DKBaseAdapter(mActivity, mDataList){
+                @Override
+                protected int getViewType(int position) {
+                    if(position == 0){
+                        return 0;
+                    }else{
+                        return 1;
+                    }
+                }
+            }.
+                    buildCustonTypeItemView(0,new SpinnerHandler(mActivity,mSortType))
+            .buildCustonTypeItemView(1,new TopicsHandler(mActivity));
         }
         return mAdapter;
     }
@@ -136,7 +161,7 @@ public class RewardsFragment extends LoadMoreListFragment  {
     @Override
     public void loadData() {
         mSwipeLayout.setRefreshing(true);
-        setHttpHandler(getLoadEngine().loadData());
+        setHttpHandler(((RewardEngineImpl)getLoadEngine()).loadData(mSortType));
         super.loadData();
     }
 
@@ -146,6 +171,7 @@ public class RewardsFragment extends LoadMoreListFragment  {
         mSwipeLayout.setRefreshing(false);
         if (mRewardEngine.getCurrentpage() == 1) {
             mDataList.clear();
+            mDataList.add(new TopicsBean());
         }
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
@@ -166,6 +192,11 @@ public class RewardsFragment extends LoadMoreListFragment  {
         }
     }
 
+    @Subscribe
+    public void updateList(TopicSortTypeEvent topicSortTypeEvent){
+        mSortType = topicSortTypeEvent.sortType;
+        loadData();
+    }
     @Override
     public void onDestroyView() {
         BusProvider.getInstance().unregister(this);
