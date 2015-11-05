@@ -197,7 +197,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvUsername = (TextView) findViewById(R.id.tv_username);
         rlfbutton = (Button) findViewById(R.id.login);
-
+        rlfbutton.setEnabled(false);
         ivWeibo = findViewById(R.id.iv_weibo);
         ivQQ = findViewById(R.id.iv_qq);
         ivWeixin = findViewById(R.id.iv_weixin);
@@ -269,7 +269,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     /**
-     * @param string
+     * @param accountText
      * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
