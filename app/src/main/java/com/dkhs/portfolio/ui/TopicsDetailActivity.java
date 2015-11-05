@@ -392,6 +392,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
                     }
+                    if(mSortType == TopicsCommendEngineImpl.SortType.like){//防止当前为赞tab时autoList中再添加commentBean数据
+                        return true;
+                    }
                 }
 
                 return false;
@@ -738,7 +741,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 mDataList.add(0, userEntity);
             }
         }
-        setReplyBar();
+
 
     }
 
@@ -762,7 +765,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 }
             }
         }
-        setReplyBar();
+
 
     }
 
@@ -772,6 +775,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count += 1;
             addLikePeople(UserEngineImpl.getUserEntity());
+            setReplyBar();
+            mAdapter.notifyDataSetChanged();
         }
 
     }
@@ -780,6 +785,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count -= 1;
             removeLikePeople(UserEngineImpl.getUserEntity());
+            setReplyBar();
+            mAdapter.notifyDataSetChanged();
         }
     }
 
