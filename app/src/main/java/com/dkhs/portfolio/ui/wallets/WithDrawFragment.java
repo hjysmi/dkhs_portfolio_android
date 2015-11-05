@@ -304,19 +304,19 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
 
     private boolean checkDataValid(String amount,String account,String name,String verifycode){
         if(TextUtils.isEmpty(amount)){
-            PromptManager.showToast("提取金额不能为空");
+            PromptManager.showToast(R.string.withdraw_amount_empty);
             return false;
         }
         if(TextUtils.isEmpty(account)){
-            PromptManager.showToast("账号不能为空");
+            PromptManager.showToast(R.string.withdraw_account_empty);
             return false;
         }
         if(TextUtils.isEmpty(name)){
-            PromptManager.showToast("账户实名不能为空");
+            PromptManager.showToast(R.string.withdraw_name_empty);
             return false;
         }
         if(TextUtils.isEmpty(verifycode)){
-            PromptManager.showToast("验证码不能为空");
+            PromptManager.showToast(R.string.withdraw_validate_code_empty);
             return false;
         }
         return true;
@@ -333,11 +333,11 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
             @Override
             protected void afterParseData(Object object) {
                 if(object != null){
-                    //TODO 发送提取成功
+                    PromptManager.showToast(R.string.withdraw_success);
                     BusProvider.getInstance().post(new WithDrawEvent(0));
                     getActivity().finish();
                 }else{
-                    PromptManager.showToast("提取失败");
+                    PromptManager.showToast(R.string.withdraw_failure);
                 }
             }
         });

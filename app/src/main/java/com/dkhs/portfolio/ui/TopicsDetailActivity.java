@@ -319,6 +319,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     private void setTopicsDetail() {
         mRewardDetailHandler.onBindView(ViewHolder.newInstant(findViewById(R.id.topicDetailRl)), mTopicsBean, 0);
+        setReplyBar();
+    }
+
+    private void setReplyBar() {
         if (mTopicsBean.content_type == TYPE_REWARD) {
             mRewardReplyBarHandler.setBarType(RewardReplyBarHandler.REWARD_BAR);
         } else {
@@ -377,7 +381,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                 if (a instanceof CommentBean) {
                     mTopicsBean.comments_count = mDataList.size();
-                    setTopicsDetail();
+                    setReplyBar();
                     switch (a.action) {
 
                         case Add:
@@ -386,6 +390,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             }
 
 
+
+                    }
+                    if(mSortType == TopicsCommendEngineImpl.SortType.like){//防止当前为赞tab时autoList中再添加commentBean数据
+                        return true;
                     }
                 }
 
@@ -394,10 +402,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
             @Override
             public void afterHandleAction(AutoData a) {
-
                 if (a instanceof CommentBean) {
                     mTopicsBean.comments_count = mDataList.size();
-                    setTopicsDetail();
+                    setReplyBar();
                     switch (a.action) {
                         case Delete:
                             if (mDataList.size() == 0) {
@@ -734,7 +741,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 mDataList.add(0, userEntity);
             }
         }
-        setTopicsDetail();
+
 
     }
 
@@ -758,7 +765,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 }
             }
         }
-        setTopicsDetail();
+
 
     }
 
@@ -768,8 +775,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count += 1;
             addLikePeople(UserEngineImpl.getUserEntity());
+            setReplyBar();
             mAdapter.notifyDataSetChanged();
-            setTopicsDetail();
         }
 
     }
@@ -778,8 +785,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count -= 1;
             removeLikePeople(UserEngineImpl.getUserEntity());
+            setReplyBar();
             mAdapter.notifyDataSetChanged();
-            setTopicsDetail();
         }
     }
 

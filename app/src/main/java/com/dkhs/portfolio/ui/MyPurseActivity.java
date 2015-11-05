@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * 主贴详情
  */
-public class MyPurseActivity extends ModelAcitivity {
+public class MyPurseActivity extends ModelAcitivity implements View.OnClickListener{
 
     private static final int WITH_DRAW_AVAIL = 0;
     private static final int WITH_DRAW_UNAVAIL = 1;
@@ -46,7 +46,7 @@ public class MyPurseActivity extends ModelAcitivity {
     private TextView mBalanceOutTv;
 
     private boolean withDrawAvailable = false;
-    private float available = 0;
+    private double available = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,6 @@ public class MyPurseActivity extends ModelAcitivity {
         BusProvider.getInstance().register(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new BalanceChangeFragment()).commitAllowingStateLoss();
         getAccountInfo();
-
     }
 
     private void getAccountInfo(){
@@ -77,9 +76,8 @@ public class MyPurseActivity extends ModelAcitivity {
         });
     }
 
-
-    @OnClick({R.id.btn_balance_out, R.id.btn_balance_in})
-    public void changeBalance(View v) {
+    @OnClick({R.id.btn_balance_in,R.id.btn_balance_out})
+    public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.btn_balance_in:

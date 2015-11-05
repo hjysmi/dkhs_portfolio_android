@@ -35,6 +35,8 @@ import com.dkhs.portfolio.service.PostTopicService;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
 import com.dkhs.portfolio.ui.adapter.SelectPicAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
@@ -49,6 +51,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.rockerhieu.emojicon.emoji.Emojicon;
+import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
@@ -145,6 +148,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         super.onCreate(arg0);
 
         setContentView(R.layout.activity_post_topic);
+        BusProvider.getInstance().register(this);
         getSwipeBackLayout().setEnableGesture(false);
         AndroidBugForSpecialPhone.assistActivity(this);
         Bundle extras = getIntent().getExtras();
@@ -980,4 +984,20 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         builder.show();
     }
 
+    /**
+     * 充值结束　刷新金额
+     * @param event
+     */
+    @Subscribe
+    public void updateData(PayResEvent event){
+        if(event.errCode == 0){
+            getAccountInfo();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
 }

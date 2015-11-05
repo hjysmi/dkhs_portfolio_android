@@ -207,14 +207,14 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             @Override
             public void onSuccess(String result) {
 
-                if (isSetPsw) {
-                    startActivityForResult(
-                            SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
-                            RLFActivity.REQUESTCODE_SET_PASSWROD);
-                }else{
-                    setResult(RESULT_OK);
-                    finish();
-                }
+                startActivityForResult(
+                        SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
+                        RLFActivity.REQUESTCODE_SET_PASSWROD);
+//                if (isSetPsw) {
+//                }else{
+//                    setResult(RESULT_OK);
+//                    finish();
+//                }
 
             }
         });

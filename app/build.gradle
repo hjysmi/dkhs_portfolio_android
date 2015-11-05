@@ -45,7 +45,6 @@ android {
             buildConfigField 'boolean', 'isSandbox', 'false'
             signingConfig signingConfigs.release
             minifyEnabled true
-            shrinkResources true
             proguardFiles 'proguard.cfg'
             debuggable false
             zipAlignEnabled true
@@ -56,7 +55,7 @@ android {
             buildConfigField 'boolean', 'isSandbox', 'true'
             signingConfig signingConfigs.release
             minifyEnabled false
-            debuggable false
+            debuggable true
             zipAlignEnabled true
             // 移除无用的resource文件
             shrinkResources true
@@ -109,10 +108,13 @@ android {
 
         classpath = files()
     }
-    android {
-        packagingOptions {
-            exclude 'META-INF/LICENSE.txt'
-        }
+    packagingOptions {
+        exclude '.readme'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
 
 
