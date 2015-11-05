@@ -201,7 +201,7 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
 
 
     @SuppressLint("ValidFragment")
-    class DataFragment extends Fragment {
+    public static class DataFragment extends Fragment {
 
         public  DataFragment(){
 
@@ -210,13 +210,13 @@ public class AutoList<T extends Object> extends ArrayList<T> implements DataObse
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            register();
+            BusProvider.getInstance().register(this);
 
         }
 
         @Override
         public void onDestroy() {
-            unRegister();
+            BusProvider.getInstance().unregister(this);
             super.onDestroy();
         }
 

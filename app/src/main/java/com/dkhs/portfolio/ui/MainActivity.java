@@ -11,8 +11,10 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -35,6 +37,8 @@ import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.parceler.Parcels;
+
 import io.rong.imlib.model.Message;
 
 /**
@@ -53,6 +57,8 @@ public class MainActivity extends BaseActivity {
     private static final String TAG_FRAGMENT_C = "C";
     private static final String TAG_FRAGMENT_D = "D";
     private static final String TAG_FRAGMENT_E = "E";
+    private static final String BOTTOM_TAB_INDEX = "bottom_bat_index";
+    private static final String TOP_TAB_INDEX = "top_tab_index";
 
     private MessageHandler handler;
     private MenuItemFragment mMenuFragment;
@@ -61,6 +67,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            String FRAGMENTS_TAG = "android:support:fragments";
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         super.onCreate(savedInstanceState);
         // 模拟堆栈管理activity
 
@@ -68,19 +78,14 @@ public class MainActivity extends BaseActivity {
         handler = new MessageHandler(this);
         setContentView(R.layout.activity_new_main);
 
-        if (savedInstanceState == null) {
-            FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-            mMenuFragment = new MenuItemFragment();
-            Bundle bunlde = new Bundle();
-            mMenuFragment.setArguments(bunlde);
-            t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
+        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+        mMenuFragment = new MenuItemFragment();
+        Bundle bunlde = new Bundle();
+        mMenuFragment.setArguments(bunlde);
+        t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
 
-            t.commitAllowingStateLoss();
-            displayFragmentB();
-
-        } else {
-            mMenuFragment = (MenuItemFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MENU);
-        }
+        t.commitAllowingStateLoss();
+        displayFragmentB();
         new AppUpdateEngine(mContext).checkVersion();
         handIntent();
     }
@@ -128,7 +133,6 @@ public class MainActivity extends BaseActivity {
         int index = intent.getIntExtra("index", 0);
 
         mBundle = intent.getBundleExtra("arg");
-
         mMenuFragment.clickTabIndex(index);
 
 
@@ -391,4 +395,5 @@ public class MainActivity extends BaseActivity {
         context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
     }
+
 }
