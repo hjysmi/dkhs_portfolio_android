@@ -9,6 +9,7 @@
         style="@style/gray_text_tabline"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:visibility="gone"
         android:weightSum="7" >
 
         <TextView
