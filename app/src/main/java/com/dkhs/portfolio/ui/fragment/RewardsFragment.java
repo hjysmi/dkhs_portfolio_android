@@ -22,6 +22,7 @@ import com.dkhs.portfolio.engine.LocalDataEngine.RewardEngineImpl;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TopicStateEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
@@ -190,6 +191,22 @@ public class RewardsFragment extends LoadMoreListFragment  {
             mDataList.add(0,data);
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     *用于刷新悬赏状态变化
+     */
+    @Subscribe
+    public void updateRewardState(TopicStateEvent event){
+        int topicId = event.id;
+        int state = event.state;
+        for(TopicsBean bean :mDataList){
+            if(bean.id == topicId){
+                bean.reward_state = state;
+                break;
+            }
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Subscribe

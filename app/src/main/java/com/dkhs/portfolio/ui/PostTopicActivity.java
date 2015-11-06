@@ -40,6 +40,7 @@ import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
+import com.dkhs.portfolio.ui.wallets.RechargeFragment;
 import com.dkhs.portfolio.ui.widget.DKHSEditText;
 import com.dkhs.portfolio.ui.widget.GridViewEx;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
@@ -959,7 +960,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             return false;
         }
         if(reward > available){
-            showChargeDialog();
+            showChargeDialog(reward - available);
             return false;
         }
         if(TextUtils.isEmpty(content)){
@@ -969,12 +970,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         return true;
     }
 
-    private void showChargeDialog(){
+    private void showChargeDialog(final float chargeAmount){
         MAlertDialog builder = PromptManager.getAlertDialog(this);
         builder.setMessage(R.string.msg_balance_insufficient).setPositiveButton(R.string.charge, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                UIUtils.startAnimationActivity(PostTopicActivity.this, new Intent(PostTopicActivity.this, RechargeActivity.class));
+                Intent intent = new Intent(PostTopicActivity.this, RechargeActivity.class);
+                intent.putExtra(RechargeFragment.CHARGE_AMOUNT,chargeAmount);
+                UIUtils.startAnimationActivity(PostTopicActivity.this, intent);
                 dialog.dismiss();
             }
         }).setNegativeButton(R.string.cancel, null);

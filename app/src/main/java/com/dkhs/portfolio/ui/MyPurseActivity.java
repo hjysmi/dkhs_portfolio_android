@@ -155,14 +155,14 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
     }.setLoadingDialog(MyPurseActivity.this,false);
 
     private void showBoundMobileDialog(){
-            MAlertDialog builder = PromptManager.getAlertDialog(this);
-            builder.setMessage(R.string.msg_bound_mobile).setPositiveButton(R.string.btn_bound_mobile, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(RLFActivity.bindPhoneIntent(MyPurseActivity.this));
-                    dialog.dismiss();
-                }
-            }).setNegativeButton(R.string.cancel, null);
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.msg_bound_mobile).setPositiveButton(R.string.btn_bound_mobile, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(RLFActivity.bindPhoneIntent(MyPurseActivity.this));
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 }
