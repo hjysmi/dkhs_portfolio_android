@@ -88,7 +88,6 @@ public class RewardsFragment extends LoadMoreListFragment  {
         mDataList.setActionHandler(new AutoList.ActionHandler<AutoData>() {
             @Override
             public boolean beforeHandleAction(AutoData a) {
-
                 if (a.action == AutoData.Action.Update) {
 
                     int index = mDataList.indexOf(a);
@@ -188,7 +187,8 @@ public class RewardsFragment extends LoadMoreListFragment  {
     public void updateRewardList(AddTopicsEvent event){
         TopicsBean data = event.topicsBean;
         if(data != null&&data.content_type == TopicsDetailActivity.TYPE_REWARD){
-            mDataList.add(0,data);
+            //第一个数据为SpinnerHandler处理，所以应该置于索引1
+            mDataList.add(1,data);
             mAdapter.notifyDataSetChanged();
         }
     }
