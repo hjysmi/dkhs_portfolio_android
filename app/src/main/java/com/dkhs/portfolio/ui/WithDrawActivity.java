@@ -22,8 +22,10 @@ public class WithDrawActivity extends ModelAcitivity {
         Intent intent = getIntent();
         if(intent != null){
             float avail = intent.getFloatExtra(MyPurseActivity.AVAIL_AMOUNT,0);
+            String mobile = intent.getStringExtra(MyPurseActivity.MOBILE);
             Bundle bundle = new Bundle();
             bundle.putFloat(MyPurseActivity.AVAIL_AMOUNT,avail);
+            bundle.putString(MyPurseActivity.MOBILE,mobile);
             replaceContentFragment(WithDrawFragment.newInstance(bundle));
         }
     }

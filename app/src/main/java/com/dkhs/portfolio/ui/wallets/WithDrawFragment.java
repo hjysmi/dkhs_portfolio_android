@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.WithDrawResBean;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.WithDrawEngineImpl;
@@ -53,6 +52,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
 
     private float avail;
+    private String mobile;
     @ViewInject(R.id.et_withdraw_amount)
     private EditText amountEt;
     @ViewInject(R.id.et_alipay_account)
@@ -82,7 +82,8 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
                 for (int i = 0; i < entity.size(); i++) {
                     BindThreePlat palt = entity.get(i);
                     if (palt.isStatus() && palt.getProvider().contains("mobile")) {
-                        hideMobile(palt.getUsername());
+                        mobile = palt.getUsername();
+                        hideMobile(mobile);
                     }
 
                 }
@@ -106,6 +107,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
         Bundle bundle = getArguments();
         if(bundle != null){
             avail = bundle.getFloat(MyPurseActivity.AVAIL_AMOUNT);
+            mobile = bundle.getString(MyPurseActivity.MOBILE);
         }
         engine = new UserEngineImpl();
         mSMSBroadcastReceiver = new SMSBroadcastReceiver();
@@ -151,7 +153,6 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private void initData(){
         amountEt.setFilters(new InputFilter[]{lengthfilter});
         String availHint = String.format(getString(R.string.with_draw_available),avail);
-        String mobile = GlobalParams.MOBILE;
         if(!TextUtils.isEmpty(mobile)){//不显示完整号码　用****替换中间数字
             hideMobile(mobile);
         }else{
@@ -216,7 +217,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
 
     private void getVerifyCode() {
         if (NetUtil.checkNetWork()) {
-            engine.getVericode(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
+            engine.getVericode(mobile, new ParseHttpListener<Object>() {
 
                 @Override
                 protected Object parseDateTask(String jsonData) {
