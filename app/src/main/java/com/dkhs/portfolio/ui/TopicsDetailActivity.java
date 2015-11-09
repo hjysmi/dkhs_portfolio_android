@@ -41,6 +41,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RewardDetailRefreshEvent;
+import com.dkhs.portfolio.ui.eventbus.TopicStateEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
@@ -157,6 +158,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            String FRAGMENTS_TAG = "android:support:fragments";
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -253,6 +258,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
             mAdapter.notifyDataSetChanged();
         }
         setRewardAdopted();
+        BusProvider.getInstance().post(new TopicStateEvent(mTopicsBean.id, TopicStateEvent.REWARDED));
     }
 
     @Override
@@ -392,6 +398,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
                     }
+                    if(mSortType == TopicsCommendEngineImpl.SortType.like){//防止当前为赞tab时autoList中再添加commentBean数据
+                        return true;
+                    }
                 }
 
                 return false;
@@ -516,6 +525,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             mAdapter.notifyDataSetChanged();
                             setTopicsDetail();
                             initFloatMenu();
+                            BusProvider.getInstance().post(new TopicStateEvent(mTopicsBean.id, TopicStateEvent.CLOSED));
                         }
                     }
                 }.setLoadingDialog(TopicsDetailActivity.this, false));
@@ -738,7 +748,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 mDataList.add(0, userEntity);
             }
         }
-        setReplyBar();
+
 
     }
 
@@ -762,7 +772,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 }
             }
         }
-        setReplyBar();
+
 
     }
 
@@ -772,6 +782,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count += 1;
             addLikePeople(UserEngineImpl.getUserEntity());
+            setReplyBar();
+            mAdapter.notifyDataSetChanged();
         }
 
     }
@@ -780,6 +792,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         if (mTopicsBean != null) {
             mTopicsBean.attitudes_count -= 1;
             removeLikePeople(UserEngineImpl.getUserEntity());
+            setReplyBar();
+            mAdapter.notifyDataSetChanged();
         }
     }
 

@@ -30,6 +30,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
 
     private static final int ENABLE_STATUS = 0;
     private static final int DISABLE_STATUS = 1;
+    public static final String CHARGE_AMOUNT = "charge_amount";
 
     @ViewInject(R.id.et_play_num)
     private EditText etPayNum;
@@ -52,6 +53,16 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     private String payType;
 
     private ThreePayManager mPayManager;
+
+    private float rechargeAmount;
+
+    public static RechargeFragment newInstance(float amount){
+        RechargeFragment fragment = new RechargeFragment();
+        Bundle args = new Bundle();
+        args.putFloat(CHARGE_AMOUNT,amount);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,8 +92,19 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        rechargeAmount = bundle.getFloat(CHARGE_AMOUNT,0);
+        if(rechargeAmount != 0){//默认充值金额＝悬赏金额－帐户余额， 且必须大于1
+            if(rechargeAmount > 1){
+                etPayNum.setText(String.valueOf(rechargeAmount));
+            }else{
+                etPayNum.setText("1");
+            }
+            changeBtnStatus(ENABLE_STATUS);
+        }else {
+            changeBtnStatus(DISABLE_STATUS);
+        }
         etPayNum.addTextChangedListener(percentTextWatch);
-        changeBtnStatus(DISABLE_STATUS);
 //        btnRecharge.setOnClickListener(this);
     }
 

@@ -390,6 +390,13 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private void updateUserFollowInfo(UserEntity object) {
             tvFollowers.setText(StringFromatUtils.handleNumber(object.getFollowed_by_count()));
             tvFollowing.setText(StringFromatUtils.handleNumber(object.getFriends_count()));
+            //当使用第三方账号第一次登录时，PortfolioPreferenceManager.KEY_USER_HEADER_URL未能保存数据需要通过服务端数据获取用户头像
+            String url = object.getAvatar_md();
+            if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                BitmapUtils bitmapUtils = new BitmapUtils(mView.getContext());
+                bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
+                bitmapUtils.display(settingImageHead, url);
+            }
         }
 
     }

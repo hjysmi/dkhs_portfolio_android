@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -39,6 +38,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
     private static final int WITH_DRAW_AVAIL = 0;
     private static final int WITH_DRAW_UNAVAIL = 1;
     public static final String AVAIL_AMOUNT = "avail_amount";
+    public static final String MOBILE = "mobile";
     @ViewInject(R.id.tv_balance)
     private TextView mBalanceTv;
     @ViewInject(R.id.btn_balance_in)
@@ -47,7 +47,8 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
     private TextView mBalanceOutTv;
 
     private boolean withDrawAvailable = false;
-    private float available = 0;
+    private double available = 0;
+    private String mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +135,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
                 for(BindThreePlat bindThreePlat :entity){
                     if(bindThreePlat.getProvider().equals("mobile")&&bindThreePlat.isStatus()){//取provider为mobile中的status这个值判断当前用户是否绑定过手机号
                         withDrawAvailable = true;
+                        mobile = bindThreePlat.getUsername();
                     }
                 }
                 Message msg = Message.obtain();
@@ -146,6 +148,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
                 if(withDrawAvailable){
                     Intent intent =  new Intent(MyPurseActivity.this,WithDrawActivity.class);
                     intent.putExtra(AVAIL_AMOUNT,available);
+                    intent.putExtra(MOBILE,mobile);
                     startActivity(intent);
                 }else{
                     showBoundMobileDialog();
@@ -156,14 +159,14 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
     }.setLoadingDialog(MyPurseActivity.this,false);
 
     private void showBoundMobileDialog(){
-            MAlertDialog builder = PromptManager.getAlertDialog(this);
-            builder.setMessage(R.string.msg_bound_mobile).setPositiveButton(R.string.btn_bound_mobile, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(RLFActivity.bindPhoneIntent(MyPurseActivity.this));
-                    dialog.dismiss();
-                }
-            }).setNegativeButton(R.string.cancel, null);
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.msg_bound_mobile).setPositiveButton(R.string.btn_bound_mobile, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(RLFActivity.bindPhoneIntent(MyPurseActivity.this));
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.cancel, null);
         builder.show();
     }
 }
