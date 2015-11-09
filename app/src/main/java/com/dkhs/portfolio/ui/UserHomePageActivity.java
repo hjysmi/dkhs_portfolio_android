@@ -136,6 +136,7 @@ public class UserHomePageActivity extends ModelAcitivity {
     }
 
     private void initViews() {
+        findViewById(R.id.bottom_line).setVisibility(View.GONE);
         mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
         ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
         ((TextView) findViewById(R.id.tv_title_info)).setTextColor(getResources().getColor(R.color.white));
