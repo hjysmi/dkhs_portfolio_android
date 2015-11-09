@@ -10,7 +10,6 @@
         android:orientation="horizontal"
         android:visibility="gone"
         android:paddingLeft="15dp"
-        android:visibility="gone"
         android:weightSum="7" >
 
         <TextView
