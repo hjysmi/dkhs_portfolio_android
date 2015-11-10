@@ -8,14 +8,13 @@
         android:id="@id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/person_setting_backgroud">
+        >
 
         <com.dkhs.portfolio.ui.widget.PullToRefreshListView
             android:id="@+id/lv_reply"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/person_setting_backgroud"
-            android:divider="@color/transparent"
+            android:divider="@color/person_setting_backgroud"
             android:dividerHeight="@dimen/divider_height" />
 
 
