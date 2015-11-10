@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -49,8 +50,6 @@ public class AutoScaleImageView extends ImageView {
                     mWidth = bm.getWidth();
                     mHeight = bm.getHeight();
                     ViewGroup.LayoutParams layoutParams = AutoScaleImageView.this.getLayoutParams();
-
-
                     layoutParams.height = (getWidth() - getPaddingLeft() - getPaddingRight()) * bm.getHeight() / bm.getWidth() + getPaddingTop() + getPaddingBottom();
                     setScaleType(ScaleType.FIT_XY);
                     AutoScaleImageView.this.requestFocus();
