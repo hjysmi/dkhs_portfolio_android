@@ -369,4 +369,10 @@
         <item>@string/title_status_report</item>
     </string-array>
 
+    <string-array name="choices_sort_type">
+        <item>最新发布</item>
+        <item>赏金最高</item>
+        <item>悬赏中</item>
+    </string-array>
+
 </resources>

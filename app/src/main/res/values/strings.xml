@@ -812,7 +812,7 @@
     <string name="charge">充值</string>
     <string name="withdraw">提现</string>
     <string name="with_draw_available">可提现金额为%1$s元</string>
-    <string name="money_arrive_hint">预计5个工作日内到账</string>
+    <string name="money_arrive_hint">预计3个工作日内到账，每月提现累计超过1000元部分收取0.6%手续费</string>
     <string name="msg_bound_mobile">需要绑定手机号码才可以提现哦</string>
     <string name="btn_bound_mobile">去绑定</string>
     <string name="msg_send_post">向手机%1$s发送验证码</string>
@@ -821,7 +821,7 @@
     <string name="withdraw_account_empty">账号不能为空</string>
     <string name="withdraw_name_empty">账户实名不能为空</string>
     <string name="withdraw_validate_code_empty">验证码不能为空</string>
-    <string name="withdraw_success">提现申请成功，预计5个工作日内到账</string>
+    <string name="withdraw_success">提现申请成功，预计3个工作日内到账</string>
     <string name="withdraw_failure">提现失败</string>
 
     <string name="weixinpay_not_support">所安装的微信客户端不支持支付</string>

@@ -22,7 +22,7 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FundManagerActivity extends ModelAcitivity {
+public class FundManagerActivity extends ModelAcitivity  implements AchivementAdapter.IRemoveChartViewListener{
 
 
     String id;
@@ -72,7 +72,9 @@ public class FundManagerActivity extends ModelAcitivity {
         mWinRateDayvVlue = (TextView) view.findViewById(R.id.win_rate_day_value);
         lv.addHeaderView(view);
 //        achivementsAdapter = new AchivementAdapter(this, dataL);
-        achivementsAdapter = new DKBaseAdapter(this, dataL).buildSingleItemView(new AchivementAdapter(this, dataL));
+        AchivementAdapter adapter = new AchivementAdapter(this, dataL);
+        adapter.setListener(this);
+        achivementsAdapter = new DKBaseAdapter(this, dataL).buildSingleItemView(adapter);
         lv.setAdapter(achivementsAdapter);
         mWinRateDayvVlue.getScrollX();
 
@@ -114,4 +116,8 @@ public class FundManagerActivity extends ModelAcitivity {
         mWinRateDayvVlue.setText(object.getValueString("-win_rate_day"));
     }
 
+    @Override
+    public void collapseView() {
+        achivementsAdapter.notifyDataSetChanged();
+    }
 }

@@ -804,6 +804,22 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
+    /**
+     * 1,title清空
+     * 2，content清空
+     * 3，图片清空
+     * 如果返回true则显示showDialogs()
+     * @return
+     */
+    private boolean isClearDraftModify() {
+        String inputTitle = etTitle.getText().toString();
+        String inputContent = etContent.getText().toString();
+        ArrayList<String> tempList = new ArrayList<>(mSelectPohotos.size());
+        tempList.addAll(mSelectPohotos);
+        tempList.remove(ADD_PICTURE);
+        return TextUtils.isEmpty(inputTitle)&&TextUtils.isEmpty(inputContent)&&tempList.size()==0;
+    }
+
     private void showAlertDialog() {
 
 
@@ -812,12 +828,23 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 finish();
                 return;
             }
+            if(isClearDraftModify()){
+                showDialogs();
+                return;
+            }
         }
 
         if (!checkSendButtonEnable()) {
             finish();
             return;
         }
+        showDialogs();
+
+
+    }
+
+
+    private void showDialogs() {
         MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.dialog_msg_save_draft)
@@ -843,7 +870,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
         builder.show();
-
     }
 
     private DraftBean buildDrafteBean() {
