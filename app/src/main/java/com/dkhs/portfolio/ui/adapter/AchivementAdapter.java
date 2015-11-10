@@ -45,6 +45,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
     private List<FundManagerInfoBean.AchivementsEntity> mData = new ArrayList<>();
     private Context mContext;
+    private IRemoveChartViewListener mListener;
 
     public AchivementAdapter(Context mContext, List<FundManagerInfoBean.AchivementsEntity> list) {
         mData = list;
@@ -60,6 +61,9 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
     }
 
+    public void setListener(IRemoveChartViewListener listener){
+        mListener = listener;
+    }
 
     private void setText(TextView textView, double value) {
         if (value > 0) {
@@ -238,8 +242,8 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 });
                 ViewGroup chatView = vh.get(R.id.ll_chart);
 
-                addBenefitView(chatView, achivementsEntity, true);
                 AchivementAdapter.this.selectIndex = position;
+                addBenefitView(chatView, achivementsEntity, true);
 //                AchivementAdapter.this.notifyDataSetChanged();
 
 
@@ -257,12 +261,22 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
         if (view.getParent() != null) {
             ViewGroup vG = (ViewGroup) view.getParent();
             vG.removeView(view);
+            if(mListener != null){
+                mListener.collapseView();
+            }
         }
 
         viewGroup.addView(view, params);
         if (reDraw)
             benefitChartView.draw(achivementsEntity);
 
+    }
+
+    public interface IRemoveChartViewListener {
+        /**
+         * 用于收起之前的曲线
+         */
+        void  collapseView();
     }
 
 
