@@ -105,7 +105,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        if(bundle != null){
+        if(bundle != null) {
             avail = bundle.getFloat(MyPurseActivity.AVAIL_AMOUNT);
             mobile = bundle.getString(MyPurseActivity.MOBILE);
         }
