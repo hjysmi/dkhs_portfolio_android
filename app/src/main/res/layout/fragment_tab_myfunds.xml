@@ -8,8 +8,8 @@
         android:id="@+id/view_stock_title"
         style="@style/gray_text_tabline"
         android:orientation="horizontal"
-        android:paddingLeft="15dp"
         android:visibility="gone"
+        android:paddingLeft="15dp"
         android:weightSum="7" >
 
         <TextView
