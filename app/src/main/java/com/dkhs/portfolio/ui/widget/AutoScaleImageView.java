@@ -49,9 +49,18 @@ public class AutoScaleImageView extends ImageView {
                 } else {
                     mWidth = bm.getWidth();
                     mHeight = bm.getHeight();
+                    DisplayMetrics metrics = getResources().getDisplayMetrics();
                     ViewGroup.LayoutParams layoutParams = AutoScaleImageView.this.getLayoutParams();
-                    layoutParams.height = (getWidth() - getPaddingLeft() - getPaddingRight()) * bm.getHeight() / bm.getWidth() + getPaddingTop() + getPaddingBottom();
-                    setScaleType(ScaleType.FIT_XY);
+                    int w = (int) (mWidth * metrics.density);
+                    int h = (int) (mHeight * metrics.density);
+                    int divisor = 1;
+                    while(w/divisor > metrics.widthPixels){
+                        divisor ++;
+                    }
+                    layoutParams.height = h/divisor;
+                    layoutParams.width = w/divisor;
+//                    layoutParams.height = (getWidth() - getPaddingLeft() - getPaddingRight()) * bm.getHeight() / bm.getWidth() + getPaddingTop() + getPaddingBottom();
+                    setScaleType(ScaleType.FIT_CENTER);
                     AutoScaleImageView.this.requestFocus();
 
                     AutoScaleImageView.this.postDelayed(new Runnable() {
