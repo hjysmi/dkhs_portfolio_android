@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * @author zwm
  * @version 2.0
- * @ClassName AchivementsAdapter
+ * @ClassName AchivementAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/6/8.
  */
@@ -101,7 +101,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
 
         if (position > 0) {
-            FundManagerInfoBean.AchivementsEntity preAchivementsEntity = (FundManagerInfoBean.AchivementsEntity) mData.get(position - 1);
+            FundManagerInfoBean.AchivementsEntity preAchivementsEntity = mData.get(position - 1);
 
             if (preAchivementsEntity.getEnd_date() == null && achivementsEntity.getEnd_date() != null) {
                 vh.setTextView(R.id.headTV, mContext.getString(R.string.history_management_of_the_fund));
