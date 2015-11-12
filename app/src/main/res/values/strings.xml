@@ -433,6 +433,7 @@
     <string name="net_value">净值</string>
     <string name="tenthou_unit_incm">万份收益</string>
     <string name="year_yld">七日年化</string>
+    <string name="unit_value">单位净值</string>
     <string name="today_up_ratio">今日涨幅</string>
     <string name="day_income">日收益</string>
     <string name="week_income">周收益</string>
@@ -578,6 +579,12 @@
     <string name="earnings">收益</string>
     <string name="office_day">任职日期</string>
     <string name="current_fund_manager">现任基金经理</string>
+    <string name="win_market">跑赢大盘</string>
+    <string name="week">周</string>
+    <string name="month">月</string>
+    <string name="year">年</string>
+    <string name="this_year">今年</string>
+    <string name="total_rate">总收益率</string>
 
 
     <string name="collapse_benefit_curve">收起收益曲线</string>

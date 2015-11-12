@@ -47,4 +47,6 @@
     <item name="recyclerView" type="id" />
     <item name="floatingMenu" type="id" />
     <item name="swipeRefreshLayout" type="id" />
+    <item name="expandable_text" type="id" />
+    <item name="expand_collapse" type="id" />
 </resources>

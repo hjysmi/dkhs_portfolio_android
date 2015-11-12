@@ -31,8 +31,12 @@ public class StockUitls {
 
     //理财型
     public static final int STYPE_EF = 306;
-    //债券型
+    //货币型
     public static final int STYPE_MBS = 307;
+    //股票型
+    public static final int STYPE_STOCK = 300;
+    //混合型
+    public static final int STYPE_MULTI = 301;
 
     public static final int STYPE_FUND = 3;
 
@@ -67,6 +71,9 @@ public class StockUitls {
 
     public static boolean isSepFund(int stype) {
         return stype == STYPE_EF || stype == STYPE_MBS;
+    }
+    public static boolean isStockType(int stype) {
+        return stype == STYPE_STOCK || stype == STYPE_MULTI;
     }
 
     public static boolean isFundType(String symbolType) {
