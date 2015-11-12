@@ -1,98 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/theme_gray"
-
+    android:layout_height="wrap_content"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:orientation="vertical">
 
-
-    <LinearLayout
-
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:id="@+id/rl_user_info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_white_border_gray"
-        android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:background="@color/theme_blue"
+        android:paddingBottom="@dimen/widget_padding_large">
 
-        <RelativeLayout
 
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/im_avatar"
+            android:layout_width="@dimen/header_avatar_height"
+            android:layout_height="@dimen/header_avatar_height"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="44dp"
+            android:src="@drawable/ic_user_head" />
 
-            <ImageView
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/im_avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-                android:id="@+id/im_avatar"
-                android:layout_width="36dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="10dp"
-                android:layout_height="36dp" />
+        <TextView
+            android:id="@+id/tv_time_com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/widget_margin_large"
+            android:layout_marginRight="@dimen/widget_margin_large"
+            android:layout_marginTop="2dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_win_market"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_time_com"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/widget_margin_medium"
+            android:orientation="vertical">
 
             <TextView
-
-                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="8dp"
-                android:layout_toRightOf="@+id/im_avatar"
-                android:textColor="@color/theme_color"
-                android:textSize="20sp" />
+                android:layout_gravity="center_horizontal"
+                android:text="@string/win_market"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/ll_tool"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-                android:layout_centerVertical="true"
-                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/win_rate_day_name"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/win_rate_day"
+                    android:orientation="vertical">
 
-                    android:visibility="invisible"
-                    android:textColor="@color/tag_gray"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="4dp"
-                    />
+                    <TextView
+                        style="@style/user_tab_title"
+                        android:text="@string/week" />
 
-                <TextView
-                    android:id="@+id/win_rate_day_value"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_week"
+                        style="@style/user_tab_content"
+                        android:text="@string/null_number" />
+                </LinearLayout>
+
+                <View
+                    style="@style/vertical_divider_line"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="20dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="12sp"
-                    />
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/tv_symbols_prompt"
+                        style="@style/user_tab_title"
+                        android:text="@string/month" />
+
+                    <TextView
+                        android:id="@+id/tv_month"
+                        style="@style/user_tab_content"
+                        android:text="@string/null_number" />
+                </LinearLayout>
+
+                <View
+                    style="@style/vertical_divider_line"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="20dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/user_tab_title"
+                        android:text="@string/year" />
+
+                    <TextView
+                        android:id="@+id/tv_year"
+                        style="@style/user_tab_content"
+                        android:text="@string/null_number" />
+                </LinearLayout>
+
+                <View
+                    style="@style/vertical_divider_line"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="20dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/user_tab_title"
+                        android:text="@string/this_year" />
+
+                    <TextView
+                        android:id="@+id/tv_this_year"
+                        style="@style/user_tab_content"
+                        android:text="@string/null_number" />
+                </LinearLayout>
 
             </LinearLayout>
 
+        </LinearLayout>
 
-        </RelativeLayout>
 
+    </RelativeLayout>
 
-        <View
-            style="@style/divider_line"
-            android:layout_marginBottom="8dp" />
+    <LinearLayout
+        android:id="@+id/ll_total_benefit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingBottom="@dimen/widget_padding_normal"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/desc"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:lineSpacingMultiplier="1.4"
-            android:minHeight="72dp"
+            android:background="@color/activity_bg_color"
+            android:gravity="center_vertical"
+            android:padding="@dimen/widget_padding_medium"
+            android:text="@string/total_rate"
             android:textColor="@color/tag_gray"
             android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_profit_chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            />
     </LinearLayout>
 
+    <View
+        style="@style/divider_line"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="@dimen/widget_margin_medium"
+        android:layout_marginRight="@dimen/widget_margin_medium" />
 
+    <com.dkhs.portfolio.ui.widget.ExpandableTextView
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/widget_padding_medium"
+        android:background="@color/white"
+        expandableTextView:maxCollapsedLines="2">
+
+        <TextView
+            android:id="@id/expandable_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textSize="14sp"
+            android:textColor="@color/tag_gray" />
+
+        <TextView
+            android:id="@id/expand_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="展开"
+            android:textColor="@android:color/holo_blue_light"
+            android:layout_gravity="right|top"/>
+    </com.dkhs.portfolio.ui.widget.ExpandableTextView>
+
+    <!--<TextView
+        android:id="@+id/desc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:lineSpacingMultiplier="1.4"
+        android:minHeight="72dp"
+        android:padding="@dimen/widget_padding_medium"
+        android:textColor="@color/tag_gray"
+        android:textSize="14sp" />-->
 
 
 </LinearLayout>

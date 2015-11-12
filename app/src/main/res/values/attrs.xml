@@ -134,5 +134,18 @@
         <!--<attr name="infectParentVisibility" format="boolean"></attr>-->
         <!--<attr name="infectId" format="reference"></attr>-->
     <!--</declare-styleable>-->
+    <declare-styleable name="ExpandableTextView">
+        <attr name="maxCollapsedLines" format="integer"/>
+        <attr name="animDuration" format="integer"/>
+        <attr name="animAlphaStart" format="float"/>
+        <attr name="expandDrawable" format="reference"/>
+        <attr name="collapseDrawable" format="reference"/>
+
+        <attr name="collapse_text" format="string" />
+        <attr name="fold_text" format="string" />
+        <attr name="max_lines" format="integer" />
+        <attr name="additional_text_color" format="color" />
+        <attr name="underlined" format="boolean" />
+    </declare-styleable>
 
 </resources>

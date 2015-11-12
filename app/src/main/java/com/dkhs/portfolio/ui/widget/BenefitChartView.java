@@ -207,12 +207,38 @@ public class BenefitChartView {
 
     private void onRequest() {
         initMaChart(maChartView);
-        if (StockUitls.isSepFund(symbol_stype)) {
-            titleView.setVisibility(View.GONE);
-            requestSepFund();
-        } else {
+        if(StockUitls.isStockType(symbol_stype)){
             tvCombinationName.setText(abbrName);
             requestCompare();
+        }else{
+            titleView.setVisibility(View.GONE);
+            if (StockUitls.isSepFund(symbol_stype)) {
+                requestSepFund();
+            }else{
+                requestElseType();
+            }
+        }
+//        if (StockUitls.isSepFund(symbol_stype)) {
+//            titleView.setVisibility(View.GONE);
+//            requestSepFund();
+//        } else {
+//            tvCombinationName.setText(abbrName);
+//            requestCompare();
+//        }
+    }
+
+    private void requestElseType(){
+        lineEntityList.clear();
+        maxOffsetValue = 0f;
+        if (trendType == FundTrendType.Default) {
+            mCompareEngine.compare(elseTypeListener, fundId, dateStart.toString(TimeUtils.FORMAT_TEMPLATE_DAY),
+                    dateEnd.toString(TimeUtils.FORMAT_TEMPLATE_DAY));
+        } else if (trendType == FundTrendType.OfficeDay) {
+            mCompareEngine.compare(elseTypeListener, fundId, dateStart.toString(TimeUtils.FORMAT_TEMPLATE_DAY),
+                    dateEnd.toString(TimeUtils.FORMAT_TEMPLATE_DAY));
+        } else {
+            mCompareEngine.compareByPeriod(elseTypeListener, fundId, trendType.getValue());
+
         }
     }
 
@@ -274,10 +300,10 @@ public class BenefitChartView {
 
     private void onFinishUpdateUI() {
         if (!mError) {
-            if (StockUitls.isSepFund(symbol_stype)) {
-                titleView.setVisibility(View.GONE);
-            } else {
+            if(StockUitls.isStockType(symbol_stype)){
                 titleView.setVisibility(View.VISIBLE);
+            }else{
+                titleView.setVisibility(View.GONE);
             }
             contentView.setVisibility(View.VISIBLE);
             loadView.setVisibility(View.GONE);
@@ -402,6 +428,55 @@ public class BenefitChartView {
     float minOffsetNetValue;
     float baseNetValue;
 
+
+    public void drawFundIndex(List<FundManagerInfoBean.FundIndexEntity> lists ){
+        initMaChart(maChartView);
+
+        List<LineEntity> linesList = new ArrayList<LineEntity>();
+        LineEntity lineEntity = new LineEntity();
+        lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+        List<SepFundPointEntity> lineDataList = new ArrayList<SepFundPointEntity>();
+        List<String> xtitle = new ArrayList<String>();
+        String startDay = lists.get(0).getTradedate();
+        if (TextUtils.isEmpty(startDay)) {
+            xtitle.add("");
+        } else {
+            xtitle.add(startDay);
+
+        }
+        xtitle.add(lists.get(lists.size() - 1).getTradedate());
+        maChartView.setMaxPointNum(lists.size());
+        maChartView.setAxisXTitles(xtitle);
+        float value = lists.get(0).getPercentage();
+        String firstDay = lists.get(0).getTradedate();
+        maxOffsetValue = value;
+        minOffsetValue = value;
+        for (FundManagerInfoBean.FundIndexEntity entity: lists){
+            SepFundPointEntity pointEntity = new SepFundPointEntity();
+            value = entity.getPercentage();
+            pointEntity.setDesc(entity.getTradedate());
+            pointEntity.setNetvalue(entity.getDay_index());
+            pointEntity.setInfo(getManagerByData(firstDay, entity.getTradedate()));
+            pointEntity.setValue(value);
+            lineDataList.add(pointEntity);
+            if (value > maxOffsetValue) {
+                maxOffsetValue = value;
+            } else if (value < minOffsetValue) {
+                minOffsetValue = value;
+            }
+        }
+        lineEntity.setLineData(lineDataList);
+        linesList.add(lineEntity);
+        if (null != lineEntityList) {
+            lineEntityList.removeAll(compareLinesList);
+
+        }
+        compareLinesList.clear();
+        compareLinesList.addAll(linesList);
+        lineView.setVisibility(View.GONE);
+        setSepFundLineList();
+
+    }
 
     ParseHttpListener sepFundHttpListener = new ParseHttpListener<List<LineEntity>>() {
 
@@ -616,6 +691,100 @@ public class BenefitChartView {
                 compareLinesList.clear();
                 compareLinesList.addAll(object);
                 setCompareLineList();
+            } else {
+                setError();
+            }
+
+        }
+
+
+        // 这个方法不会走
+        @Override
+        public void onHttpFailure(int errCode, Throwable err) {
+            super.onHttpFailure(errCode, err);
+        }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            setError();
+            super.onFailure(errCode, errMsg);
+        }
+
+    };
+    ParseHttpListener elseTypeListener = new ParseHttpListener<List<LineEntity>>() {
+
+
+        @Override
+        protected List<LineEntity> parseDateTask(String jsonData) {
+            List<LineEntity> linesList = new ArrayList<LineEntity>();
+            try {
+//                List<ComparePoint> beanList = DataParse.parseArrayJson(ComparePoint.class, new JSONArray(
+//                        jsonData));
+                JSONArray jsonArray = new JSONArray(jsonData);
+                JSONObject json = jsonArray.getJSONObject(0);
+                String chartlist = json.getString("chartlist");
+                List<ComparePoint> lists = DataParse.parseArrayJson(ComparePoint.class, chartlist);
+
+                LineEntity lineEntity;
+                lineEntity = new DefFundLineEntity();
+                if (mFundQuoteBean != null) {
+                    lineEntity.setTitle(mFundQuoteBean.getSymbol());
+                } else if (achivementsEntity != null) {
+                    if (!TextUtils.isEmpty(achivementsEntity.getFund().getSymbol()))
+                        lineEntity.setTitle(achivementsEntity.getFund().getSymbol());
+                }
+                lineEntity.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+                baseNetValue = lists.get(0).getNetvalue();
+                List<DefFundPointEntity> lineDataList = new ArrayList<DefFundPointEntity>();
+                setXTitleByComparePoint(lists);
+                float net_cumulative = 0;
+                String firstDay = lists.get(0).getDate();
+                for (ComparePoint cPoint : lists) {
+                    DefFundPointEntity pointEntity = new DefFundPointEntity();
+                    float value = cPoint.getPercentage();
+
+                    pointEntity.setDesc(cPoint.getDate());
+                    pointEntity.setValue(value);
+                    lineDataList.add(pointEntity);
+                    if (value > maxOffsetValue) {
+                        maxOffsetValue = value;
+                    } else if (value < minOffsetValue) {
+                        minOffsetValue = value;
+                    }
+//                            net_cumulative = cPoint.getNetvalue();
+                    net_cumulative = cPoint.getNet_cumulative();
+                    pointEntity.setNet_cumulative(net_cumulative);
+                    pointEntity.setNetvalue(cPoint.getNetvalue());
+                    pointEntity.setInfo(getManagerByData(firstDay, cPoint.getDate()));
+                    if (net_cumulative > maxOffsetNetValue) {
+                        maxOffsetNetValue = net_cumulative;
+                    } else if (net_cumulative < minOffsetNetValue) {
+                        minOffsetNetValue = net_cumulative;
+                    }
+
+                }
+                lineEntity.setLineData(lineDataList);
+                linesList.add(lineEntity);
+
+            } catch (JSONException e) {
+
+
+                e.printStackTrace();
+            }
+
+            return linesList;
+        }
+
+        @Override
+        protected void afterParseData(List<LineEntity> object) {
+            if (null != object && object.size() > 0) {
+
+                if (null != lineEntityList) {
+                    lineEntityList.removeAll(compareLinesList);
+                }
+                compareLinesList.clear();
+                compareLinesList.addAll(object);
+                setSepFundLineList();
             } else {
                 setError();
             }
