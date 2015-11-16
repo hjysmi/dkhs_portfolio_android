@@ -42,7 +42,7 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
 
     private List<TopicsBean> mFirstPageTopicsBeans;
     /**
-     * 0 最新发布，1 悬赏最高，2 悬赏中
+     * 0 最新发布，1 悬赏最高，2 悬赏中,3已悬赏
      */
     private int mSortType;
     WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
