@@ -22,11 +22,8 @@ import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.adapter.AchivementAdapter;
 import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.dkhs.portfolio.ui.widget.ExpandableTextView;
-import com.dkhs.portfolio.ui.widget.ExpandableTextView1;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-
-import org.parceler.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
