@@ -205,6 +205,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
     class OnItemClick implements View.OnClickListener {
         FundManagerInfoBean.AchivementsEntity achivementsEntity;
+        long lastClick;
 
         public OnItemClick(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
             this.achivementsEntity = achivementsEntity;
@@ -212,8 +213,10 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
         @Override
         public void onClick(View v) {
-            mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
-
+            if ((System.currentTimeMillis() - lastClick) > 2000) {
+                mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
+            }
+            lastClick = System.currentTimeMillis();
         }
     }
 
