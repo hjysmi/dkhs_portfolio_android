@@ -25,8 +25,6 @@ import com.dkhs.portfolio.ui.widget.ExpandableTextView;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
-import org.parceler.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +85,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
         View view = LayoutInflater.from(FundManagerActivity.this).inflate(R.layout.layout_head_fund_manager, null);
         mName = (TextView) view.findViewById(R.id.name);
         mDesc = (ExpandableTextView) view.findViewById(R.id.desc);
+        mDesc.setCollapseUpAble(false);
         mSeniority = (TextView) view.findViewById(R.id.tv_time_com);
         mAvatarIm = (ImageView) view.findViewById(R.id.im_avatar);
         mWinMarket = view.findViewById(R.id.ll_win_market);
@@ -139,8 +138,8 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
         dataL.addAll(object.getAchivements());
         achivementsAdapter.notifyDataSetChanged();
         mName.setText(object.getName());
-        mDesc.setText(object.getResume());
-        mSeniority.setText(object.work_seniority + "，"+ object.getFund_company());
+        mDesc.setText(String.format(getResources().getString(R.string.blank_intro),object.getResume().trim()));
+        mSeniority.setText(String.format(getResources().getString(R.string.blank_work_time),object.work_seniority , object.getFund_company()));
 //        mWinRateDayName.setVisibility(View.VISIBLE);
         ImageLoaderUtils.setHeanderImage(object.avatar_md, mAvatarIm);
 //        mWinRateDayvVlue.setText(object.getValueString("-win_rate_day"));
