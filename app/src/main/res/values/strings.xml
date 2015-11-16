@@ -562,6 +562,8 @@
     <string name="office_tenure">任职起</string>
     <string name="net_cumulative">累计收益</string>
     <string name="title_activity_fund_manager">基金经理</string>
+    <string name="blank_work_time">从业%1$s&#160;%2$s</string>
+    <string name="blank_intro">简介：%1$s</string>
 
 
     <string name="wanshou">万份收益</string>

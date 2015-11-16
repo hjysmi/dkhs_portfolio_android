@@ -193,6 +193,16 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="@dimen/widget_margin_medium"
         android:layout_marginRight="@dimen/widget_margin_medium" />
+    <!--<com.dkhs.portfolio.ui.widget.ExpandableTextView1
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/widget_margin_medium"
+        android:background="@color/white"
+        expandableTextView:max_lines="2"
+        expandableTextView:additional_text_color="@android:color/holo_blue_light"
+        expandableTextView:underlined="false"
+        expandableTextView:maxCollapsedLines="2"/>-->
 
     <com.dkhs.portfolio.ui.widget.ExpandableTextView
         android:id="@+id/desc"
@@ -214,9 +224,10 @@
             android:id="@id/expand_collapse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/expandable_text"
+            android:layout_alignParentRight="true"
             android:text="展开"
-            android:textColor="@android:color/holo_blue_light"
-            android:layout_gravity="right|top"/>
+            android:textColor="@color/theme_blue" />
     </com.dkhs.portfolio.ui.widget.ExpandableTextView>
 
     <!--<TextView
