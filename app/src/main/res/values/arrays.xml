@@ -373,6 +373,7 @@
         <item>最新发布</item>
         <item>赏金最高</item>
         <item>悬赏中</item>
+        <item>已悬赏</item>
     </string-array>
 
 </resources>
