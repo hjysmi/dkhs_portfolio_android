@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/person_setting_backgroud"
+            android:footerDividersEnabled="false"
             android:dividerHeight="@dimen/divider_height" />
 
 
