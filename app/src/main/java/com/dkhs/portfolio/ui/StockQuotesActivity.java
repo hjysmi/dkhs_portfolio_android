@@ -357,6 +357,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
         @Override
         public void onChange(SelectStockBean stockBean) {
+            mQuotesEngine.quotes(mStockBean.symbol,quoteListener);
+
             mStockQuotesBean.setFollowed(stockBean.isFollowed());
             if (!PortfolioApplication.hasUserLogin()) {
 //                localList = mVisitorDataEngine.getOptionalStockList();

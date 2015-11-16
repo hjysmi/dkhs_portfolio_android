@@ -107,6 +107,13 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 vh.setTextView(R.id.headTV, mContext.getString(R.string.history_management_of_the_fund));
                 vh.get(R.id.headTV).setVisibility(View.VISIBLE);
             } else {
+                if(position + 1 < mData.size()){
+                    FundManagerInfoBean.AchivementsEntity nextAchivementsEntity = mData.get(position + 1);
+                    if(achivementsEntity.getEnd_date() == null && nextAchivementsEntity.getEnd_date() != null){
+                        vh.get(R.id.view_divider).setVisibility(View.GONE);
+                    }
+                }
+
                 vh.get(R.id.headTV).setVisibility(View.GONE);
             }
 
@@ -205,6 +212,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
     class OnItemClick implements View.OnClickListener {
         FundManagerInfoBean.AchivementsEntity achivementsEntity;
+        long lastClick;
 
         public OnItemClick(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
             this.achivementsEntity = achivementsEntity;
@@ -212,8 +220,10 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
         @Override
         public void onClick(View v) {
-            mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
-
+            if ((System.currentTimeMillis() - lastClick) > 2000) {
+                mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
+            }
+            lastClick = System.currentTimeMillis();
         }
     }
 
