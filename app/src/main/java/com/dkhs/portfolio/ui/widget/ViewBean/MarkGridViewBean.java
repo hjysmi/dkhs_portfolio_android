@@ -12,7 +12,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -67,7 +66,7 @@ public class MarkGridViewBean extends ViewBean {
             tvCurrentValue = (TextView) itemView.findViewById(R.id.tv_main_value);
             tvIncrease = (TextView) itemView.findViewById(R.id.tv_incease_value);
             tvPercent = (TextView) itemView.findViewById(R.id.tv_incease_ratio);
-            AnimationHelper.rotate90Animation(itemView);
+//            AnimationHelper.rotate90Animation(itemView);
         }
 
 
