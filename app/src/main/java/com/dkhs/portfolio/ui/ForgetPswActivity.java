@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui;
 
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,10 +29,12 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.receiver.SMSBroadcastReceiver;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +79,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
         btn_get_code = (TextView) findViewById(R.id.btn_getCode);
         btn_get_code.setOnClickListener(this);
-        btn_get_code.setEnabled(false);
+        btn_get_code.setEnabled(true);
         // 生成广播处理
         mSMSBroadcastReceiver = new SMSBroadcastReceiver();
 
@@ -246,7 +249,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
-                    btn_get_code.setText("重新发送("+(60 - count)+"s)");
+                    btn_get_code.setText("重新发送(" + (60 - count) + "s)");
 //                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
                     btn_get_code.setTextColor(getResources().getColor(R.color.text_content_color));
                     btn_get_code.setEnabled(false);
@@ -334,4 +337,29 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_forget_psd);
 
+    @Override
+    public void onBackPressed() {
+        if(btn_get_code.isEnabled()){
+            super.onBackPressed();
+        }else{
+            showAlertDialog();
+        }
+    }
+
+    private void showAlertDialog(){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.get_code_hint).setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        }).setNegativeButton(R.string.wait, null);
+        builder.show();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        UIUtils.outAnimationActivity(this);
+    }
 }
