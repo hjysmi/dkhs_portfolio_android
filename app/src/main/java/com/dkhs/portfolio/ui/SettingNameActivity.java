@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -24,10 +25,11 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.umeng.analytics.MobclickAgent;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -513,6 +515,29 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showRestartDialog();
+    }
+
+    private void showRestartDialog(){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.get_code_hint).setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UIUtils.startAnimationActivity(SettingNameActivity.this,RLFActivity.registerIntent(SettingNameActivity.this));
+                finish();
+            }
+        }).setNegativeButton(R.string.cancel, null);
+        builder.show();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        UIUtils.outAnimationActivity(this);
     }
 
 

@@ -192,6 +192,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                         } else {
                             startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
                                     verifyCode, false));
+                            finish();
                         }
 
                     } else {
