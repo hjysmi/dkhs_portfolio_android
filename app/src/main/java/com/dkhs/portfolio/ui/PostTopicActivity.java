@@ -1026,4 +1026,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        UIUtils.outAnimationActivity(this);
+    }
 }
