@@ -134,8 +134,17 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
     }
 
     private void updateUI(FundManagerInfoBean object) {
-
-        dataL.addAll(object.getAchivements());
+        List<FundManagerInfoBean.AchivementsEntity> curList = new ArrayList<>();
+        List<FundManagerInfoBean.AchivementsEntity> hisList = new ArrayList<>();
+        for(FundManagerInfoBean.AchivementsEntity entity : object.getAchivements()){
+            if(entity.getEnd_date() == null){
+                curList.add(entity);
+            }else{
+                hisList.add(entity);
+            }
+        }
+        dataL.addAll(curList);
+        dataL.addAll(hisList);
         achivementsAdapter.notifyDataSetChanged();
         mName.setText(object.getName());
         mDesc.setText(String.format(getResources().getString(R.string.blank_intro),object.getResume().trim()));
