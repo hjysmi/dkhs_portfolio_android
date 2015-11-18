@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,10 +30,13 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -395,7 +399,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // };
 
         public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
+            //TODO:服务端能不能返回账号未注册的code
+            if(errCode == 777&& ("账号未注册").equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorMessage())&&SIMCardInfo.isMobileNO(userName)){
+                showRegisterAlreadyDialog();
+            }else{
+                super.onFailure(errCode, errMsg);
+            }
             PromptManager.closeProgressDialog();
         }
 
@@ -698,5 +707,15 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
-
+    private void showRegisterAlreadyDialog(){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.register_hint).setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UIUtils.startAnimationActivity(LoginActivity.this,RLFActivity.registerIntent(LoginActivity.this));
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.wait, null);
+        builder.show();
+    }
 }
