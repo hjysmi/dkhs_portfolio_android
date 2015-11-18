@@ -82,10 +82,10 @@
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBackgroud">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <!-- <activity android:name="com.dkhs.portfolio.ui.MainActivity" /> -->
         <activity
@@ -113,6 +113,9 @@
         <activity
             android:name=".ui.PositionAdjustActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <!--综合搜索-->
+        <activity android:name=".ui.SelectGeneralActivity" />
+
         <activity android:name=".ui.SelectStockActivity" />
         <activity android:name=".ui.SelectFundActivity" />
         <activity android:name=".ui.OptionalStockListActivity" />
@@ -495,12 +498,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.RechargeActivity"
-            android:windowSoftInputMode="adjustPan" >
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-            <data android:scheme="wx89557ae58e44573a"/>
-        </intent-filter>
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="wx89557ae58e44573a" />
+            </intent-filter>
         </activity>
 
         <!-- alipay sdk begin -->
@@ -521,8 +524,7 @@
         <!-- alipay sdk end -->
 
 
-        <receiver
-            android:name="net.sourceforge.simcpux.AppRegister">
+        <receiver android:name="net.sourceforge.simcpux.AppRegister">
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
@@ -531,11 +533,12 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <!-- weixin -->
 
-        <activity android:name=".ui.WithDrawActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.WithDrawActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

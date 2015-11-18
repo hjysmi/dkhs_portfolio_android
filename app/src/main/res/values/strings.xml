@@ -536,7 +536,7 @@
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>
     <string name="edit_success">设置成功</string>
-
+    <string name="search_general">股票/基金/用户/悬赏/话题</string>
     <string name="search_stockandfunds">股票、基金简称/代码/拼音</string>
     <string name="search_stock">股票简称/代码/拼音</string>
     <string name="search_friend">输入昵称</string>

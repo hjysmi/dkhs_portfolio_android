@@ -119,6 +119,12 @@ android {
 
 
 }
+tasks.whenTaskAdded { task ->
+    if (task.name.startsWith(":photobrowser:") || task.name.startsWith(":slider:")||
+            task.name.startsWith(":photopicker:")||task.name.startsWith(":emoji:")||task.name.startsWith(":rongim:")||task.name.startsWith(":autolist:")) {
+        task.enabled = false
+    }
+}
 dependencies {
 
     //
@@ -142,7 +148,7 @@ dependencies {
     compile files('libs/ShareSDK-SinaWeibo-2.6.0.jar')
     compile files('libs/MobTools.jar')
     compile files('libs/ShareSDK-QQ-2.6.0.jar')
-    compile 'com.android.support:percent:22.2.0'
+    //compile 'com.android.support:percent:22.2.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
@@ -155,3 +161,4 @@ dependencies {
     compile files('libs/alipaySDK-20150818.jar')
     compile files('libs/libammsdk.jar')
 }
+
