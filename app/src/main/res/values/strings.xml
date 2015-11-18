@@ -842,6 +842,7 @@
     <!--register-->
     <string name="register_hint">该手机号码未注册，是否直接注册</string>
     <string name="psw_setting_hint">请设置6-16位的密码，建议数字、字母、符号组合</string>
+    <string name="register_already">该手机号码已注册，是否直接登录</string>
 
     <!--forgetPsw-->
     <string name="get_code_hint"> 验证码短信可能略有延迟，确定取消并重新开始?</string>

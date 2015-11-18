@@ -139,8 +139,8 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         isLoginByCaptcha = true;
         final MAlertDialog dpg = PromptManager.getAlertDialog(this);
         dpg.setCancelable(false);
-        dpg.setMessage(R.string.login_by_captcha);
-        dpg.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+        dpg.setMessage(R.string.register_already);
+        dpg.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
