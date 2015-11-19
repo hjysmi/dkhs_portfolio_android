@@ -64,14 +64,25 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private TextView rltAgreement;
 
     private boolean isSettingPsw;
+    private boolean isRegisterThreePlatform;
     public static final String EXTRA_SETTING_PASSWORD = "extra_setting_password";
     public static final String EXTRA_ACTIVITY_TYPE = "activity_type";
+    public static final String EXTRA_REGISTER_THREE_PLATFORM = "register_three_platform";
     public static final int REQUESTCODE_SET_PASSWROD = 999;
+    public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
 
 
     public static Intent bindPhoneIntent(Context context) {
         Intent intent = new Intent(context, RLFActivity.class);
         intent.putExtra(EXTRA_SETTING_PASSWORD, true);
+        intent.putExtra(EXTRA_ACTIVITY_TYPE, SETTING_PASSWORD_TYPE);
+        return intent;
+    }
+
+    public static Intent registerThreePlatform(Context context) {
+        Intent intent = new Intent(context, RLFActivity.class);
+        intent.putExtra(EXTRA_SETTING_PASSWORD, true);
+        intent.putExtra(EXTRA_REGISTER_THREE_PLATFORM,true);
         intent.putExtra(EXTRA_ACTIVITY_TYPE, SETTING_PASSWORD_TYPE);
         return intent;
     }
@@ -132,6 +143,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private void handleExtras(Bundle extras) {
         isSettingPsw = extras.getBoolean(EXTRA_SETTING_PASSWORD);
         current_type = getIntent().getIntExtra(EXTRA_ACTIVITY_TYPE, REGIST_TYPE);
+        isRegisterThreePlatform = extras.getBoolean(EXTRA_REGISTER_THREE_PLATFORM);
     }
 
     private void showCaptchaLoginDailog() {
@@ -370,7 +382,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(Boolean object) {
             if (!object) {
-                if (isSettingPsw) {
+                if(isRegisterThreePlatform){
+                    startActivityForResult((VerificationActivity.newThreePlatformIntent(RLFActivity.this, etPhoneNum
+                            .getText().toString(), null)), REQUEST_BOUND_THREE_PLATFORM);
+                }else if (isSettingPsw) {
                     startActivityForResult(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
                             null, false), REQUESTCODE_SET_PASSWROD);
                 } else {
@@ -382,7 +397,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
                 // startActivity(i);
                 // finish();
-                if (isSettingPsw) {
+                if (isSettingPsw) {//手机号已经绑定，不可再绑定
                     showHasBindnDailog();
                 } else {
 
@@ -544,8 +559,15 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 }
 
                 break;
+                case REQUEST_BOUND_THREE_PLATFORM:
+                    //返回数据给LoginActivity　并关闭本界面
+                    setResult(RESULT_OK,data);
+                    finish();
+                    break;
             }
         }
+
+
     }
 
 }

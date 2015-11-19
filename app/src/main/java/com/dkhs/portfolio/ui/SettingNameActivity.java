@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
@@ -33,6 +34,8 @@ import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cn.sharesdk.framework.Platform;
 
 public class SettingNameActivity extends ModelAcitivity implements OnClickListener {
     private EditText etPassword;
@@ -49,6 +52,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     private UserEngineImpl engine;
     private boolean isResetPsw;
     private boolean isSetPsw;
+    private boolean isRegisterThreePlatform;
 
     public static Intent newIntent(Context context, String phoneNum, String code, boolean resetPsw) {
         Intent intent = new Intent(context, SettingNameActivity.class);
@@ -66,12 +70,24 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         return intent;
     }
 
+    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code,boolean resetPsw) {
+        Intent intent = new Intent(context, SettingNameActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_ISSETPSW, resetPsw);
+        intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM,true);
+        intent.putExtra(EXTRA_ISRESETPSW, resetPsw);
+        intent.putExtra(EXTRA_CODE, code);
+        return intent;
+    }
+
     private void handleExtras(Bundle extras) {
 
         phoneNum = extras.getString(EXTRA_PHONENUM);
         code = extras.getString(EXTRA_CODE);
         isResetPsw = extras.getBoolean(EXTRA_ISRESETPSW);
         isSetPsw = extras.getBoolean(EXTRA_ISSETPSW);
+        isRegisterThreePlatform = extras.getBoolean(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM);
+
 
     }
 
@@ -328,7 +344,20 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                     } else {
 
                     }
-                } else {
+                } else if(isRegisterThreePlatform){
+                    //返回信息并关闭该界面
+//                    Intent data = new Intent();
+//                    data.putExtra("psw",etPassword.getText().toString());
+//                    data.putExtra("name",etUserName.getText().toString());
+//                    data.putExtra("code",code);
+//                    data.putExtra("mobile",phoneNum);
+//                    setResult(RESULT_OK, data);
+//                    finish();
+                    Platform plat = GlobalParams.plat;
+                    engine.registerThreePlatform(phoneNum, etPassword.getText().toString(), code,etUserName.getText().toString(), plat.getDb().getUserId(), GlobalParams.platname,
+                            GlobalParams.platData, registerListener.setLoadingDialog(SettingNameActivity.this, false));
+                    GlobalParams.clearUserInfo();
+                } else{
                     engine.register(phoneNum, etPassword.getText().toString(), code, etUserName.getText().toString(),
                             registerListener.setLoadingDialog(this, "正在注册", false));
                 }

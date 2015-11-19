@@ -83,6 +83,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_LOGINANNOY = "extra_loginannoy";
 
     private boolean isLoginByAnnoy = false;
+    private Platform plat;
+    private String platname;
+    private ThreePlatform platData;
     WeakHandler weakHandler = new WeakHandler() {
 
     };
@@ -481,9 +484,16 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (requestCode == REQUEST_REGIST && resultCode == RESPONSE_REGIST) {
             finish();
         }
-        if(requestCode == REQUEST_BOUND_THREE_PLATFORM){
+        if(requestCode == REQUEST_BOUND_THREE_PLATFORM && resultCode == RESULT_OK){
             //TODO 获取返回的昵称，绑定手机
-
+            String psw = data.getStringExtra("psw");
+            String name = data.getStringExtra("name");
+            String code = data.getStringExtra("code");
+            String mobile = data.getStringExtra("mobile");
+            LogUtils.d("wys","psw"+psw+"name"+name+"code"+code+"mobile"+mobile);
+            //调用登录方法
+            engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
+                    platData, registerListener.setLoadingDialog(LoginActivity.this, false));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -554,11 +564,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 case 1: {
                     HashMap<String, Object> res = (HashMap<String, Object>) msg.obj;
                     // Platform plat = (Platform) msg.obj;
-                    Platform plat = (Platform) (res.containsKey("plat") ? res.get("plat") : null);
+                    plat = (Platform) (res.containsKey("plat") ? res.get("plat") : null);
 
                     if (null != plat) {
 
-                        String platname = plat.getName();
+                        platname = plat.getName();
                         String imageUrl = "";
                         // Toast.makeText(getApplicationContext(), "platname:" + platname, Toast.LENGTH_SHORT).show();
                         if (platname.contains(SinaWeibo.NAME)) {
@@ -570,7 +580,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                             platname = "qq";
                             imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");
                         }
-                        ThreePlatform platData = new ThreePlatform();
+                        platData = new ThreePlatform();
                         platData.setAccess_token(plat.getDb().getToken());
                         platData.setOpenid(plat.getDb().getUserId());
                         platData.setAvatar(imageUrl);
@@ -578,6 +588,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         phoneNum = "";
                         engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
                                 platData, registerListener.setLoadingDialog(LoginActivity.this, false));
+                        GlobalParams.platData = platData;
+                        GlobalParams.platname = platname;
+                        GlobalParams.plat = plat;
                     }
                 }
                 break;
@@ -619,7 +632,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         public void onFailure(int errCode, String errMsg) {
             //未绑定时需要绑定
-            if((MOBILE_UNBOUND).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey()) || (SOCIAL_UNBOUND).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey())){
+            LogUtils.d("wys",""+MOBILE_UNBOUND.equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey()));
+            String errorKey = ErrorBundle.parseToErrorBundle(errMsg).getErrorKey().trim();
+            if((MOBILE_UNBOUND).equals(errorKey) || (SOCIAL_UNBOUND).equals(errorKey)){
                 startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this), REQUEST_BOUND_THREE_PLATFORM);
             }else{
                 super.onFailure(errCode, errMsg);

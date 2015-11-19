@@ -42,6 +42,8 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     public static final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
     public static final String EXTRA_SETPSW = "extra_set_psw";
+
+    public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
     private String phoneNum;
     private String mVerifyCode;
     private Button rlfbutton;
@@ -51,6 +53,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
     private boolean isSetPsw;
+    private boolean isRegisterThreePlatform;
 
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
@@ -70,10 +73,19 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         intent.putExtra(EXTRA_CODE, code);
         return intent;
     }
+    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code) {
+        Intent intent = new Intent(context, VerificationActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_SETPSW, true);
+        intent.putExtra(EXTRA_CODE, code);
+        intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM,true);
+        return intent;
+    }
 
     private void handleExtras(Bundle extras) {
         phoneNum = extras.getString(EXTRA_PHONENUM);
         isSetPsw = extras.getBoolean(EXTRA_SETPSW);
+        isRegisterThreePlatform = extras.getBoolean(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM);
     }
 
     String strBefore;
@@ -189,7 +201,11 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     if (object) {
                         if (!isSetPsw) {
                             bindMobile();
-                        } else {
+                        }else if(isRegisterThreePlatform){
+                                startActivityForResult(
+                                        SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false),
+                                        REQUEST_BOUND_THREE_PLATFORM);
+                        }else{
                             startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
                                     verifyCode, false));
                             finish();
@@ -212,17 +228,11 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             @Override
             public void onSuccess(String result) {
 
-                startActivityForResult(
-                        SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
-                        RLFActivity.REQUESTCODE_SET_PASSWROD);
-//                if (isSetPsw) {
-//                }else{
-//                    setResult(RESULT_OK);
-//                    finish();
-//                }
-
-            }
-        });
+                    startActivityForResult(
+                            SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
+                            RLFActivity.REQUESTCODE_SET_PASSWROD);
+        }
+    });
     }
 
     public Timer mTimer = new Timer();// 定时器
@@ -343,6 +353,11 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 }
 
                 break;
+                case REQUEST_BOUND_THREE_PLATFORM:
+                    //返回昵称，密码，并关闭本界面
+                    setResult(RESULT_OK,data);
+                    finish();
+                    break;
             }
         }
     }
