@@ -98,7 +98,12 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
             vh.setTextView(R.id.headTV, mContext.getString(R.string.history_management_of_the_fund));
             vh.get(R.id.headTV).setVisibility(View.VISIBLE);
         }
-
+        if(position + 1 < mData.size()){
+            FundManagerInfoBean.AchivementsEntity nextAchivementsEntity = mData.get(position + 1);
+            if(achivementsEntity.getEnd_date() == null && nextAchivementsEntity.getEnd_date() != null){
+                vh.get(R.id.view_divider).setVisibility(View.GONE);
+            }
+        }
 
         if (position > 0) {
             FundManagerInfoBean.AchivementsEntity preAchivementsEntity = mData.get(position - 1);
@@ -107,12 +112,6 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 vh.setTextView(R.id.headTV, mContext.getString(R.string.history_management_of_the_fund));
                 vh.get(R.id.headTV).setVisibility(View.VISIBLE);
             } else {
-                if(position + 1 < mData.size()){
-                    FundManagerInfoBean.AchivementsEntity nextAchivementsEntity = mData.get(position + 1);
-                    if(achivementsEntity.getEnd_date() == null && nextAchivementsEntity.getEnd_date() != null){
-                        vh.get(R.id.view_divider).setVisibility(View.GONE);
-                    }
-                }
 
                 vh.get(R.id.headTV).setVisibility(View.GONE);
             }
@@ -220,10 +219,10 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
         @Override
         public void onClick(View v) {
-            if ((System.currentTimeMillis() - lastClick) > 2000) {
+            if ((System.currentTimeMillis() - lastClick) > 500) {
                 mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
+                lastClick = System.currentTimeMillis();
             }
-            lastClick = System.currentTimeMillis();
         }
     }
 

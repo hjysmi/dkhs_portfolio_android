@@ -25,6 +25,12 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     private Context mContext;
     private String msg;
+    private static HandlerThread thread;
+    static {
+        thread = new HandlerThread("HttpListenerThread");
+        LogUtils.customTagPrefix = "HandlerThread";
+        thread.start();
+    }
     private boolean isHideDialog = true;
 
     public ParseHttpListener setLoadingDialog(Context context, int msgid) {
@@ -101,8 +107,8 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     }
 
     public ParseHttpListener() {
-        HandlerThread thread = new HandlerThread("HttpListenerThread");
-        thread.start();
+//        HandlerThread thread = new HandlerThread("HttpListenerThread");
+        LogUtils.i("thread的地址是" + thread.hashCode());
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);
         mMainHandler = new ServiceHandler(Looper.getMainLooper());
