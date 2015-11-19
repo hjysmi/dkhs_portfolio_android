@@ -20,7 +20,7 @@
     <string name="tv_forget_password"><u>忘记密码</u></string>
     <string name="tv_register_now"><u>立即注册</u></string>
     <string name="account">邮箱/手机号</string>
-    <string name="password">请输入密码</string>
+    <string name="password">请输入密码,不少于6位</string>
     <string name="phone">手机号码</string>
     <string name="nickname">您的昵称</string>
     <string name="nickname_hint">中英文、数字或-、_</string>

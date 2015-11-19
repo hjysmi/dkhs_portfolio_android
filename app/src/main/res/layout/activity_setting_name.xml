@@ -29,7 +29,7 @@
             android:layout_marginRight="20dp"
             android:layout_toRightOf="@+id/tv_name"
             android:background="@null"
-            android:hint="4-20个中英文字符"
+            android:hint="例如&quot;苏菲&quot;"
             android:maxLength="22"
             android:singleLine="true"
             android:textSize="14sp" />
@@ -71,7 +71,7 @@
             android:layout_toRightOf="@+id/tv_psw"
             android:background="@null"
             android:digits="@string/password_digts"
-            android:hint="不少于6位"
+            android:hint="6-16位,包含数字和字母"
             android:inputType="textPassword"
             android:maxLength="16"
             android:singleLine="true"
