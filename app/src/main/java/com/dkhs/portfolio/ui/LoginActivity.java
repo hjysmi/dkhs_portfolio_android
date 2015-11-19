@@ -62,6 +62,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public static final int RESPONSE_REGIST = 1;
 
     private static final String ACCOUNT_UNREGISTERED = "account_unregistered";
+    private static final String MOBILE_UNBOUND = "mobile_unbound";
+    private static final String SOCIAL_UNBOUND = "social_unbound";
+    public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
     private EditText etUserName;
     private EditText etPassword;
     private TextView tvRegister;
@@ -478,7 +481,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (requestCode == REQUEST_REGIST && resultCode == RESPONSE_REGIST) {
             finish();
         }
-        //TODO 获取返回的昵称，绑定手机
+        if(requestCode == REQUEST_BOUND_THREE_PLATFORM){
+            //TODO 获取返回的昵称，绑定手机
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -612,7 +618,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
         public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
+            //未绑定时需要绑定
+            if((MOBILE_UNBOUND).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey()) || (SOCIAL_UNBOUND).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey())){
+                startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this), REQUEST_BOUND_THREE_PLATFORM);
+            }else{
+                super.onFailure(errCode, errMsg);
+            }
         }
 
         ;
