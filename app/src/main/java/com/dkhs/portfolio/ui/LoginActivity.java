@@ -60,6 +60,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     public static final int REQUEST_REGIST = 0;
     public static final int RESPONSE_REGIST = 1;
+
+    private static final String ACCOUNT_UNREGISTERED = "account_unregistered";
     private EditText etUserName;
     private EditText etPassword;
     private TextView tvRegister;
@@ -399,8 +401,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // };
 
         public void onFailure(int errCode, String errMsg) {
-            //TODO:服务端能不能返回账号未注册的code
-            if(errCode == 777&& ("账号未注册").equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorMessage())&&SIMCardInfo.isMobileNO(userName)){
+            if((ACCOUNT_UNREGISTERED).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey())&&SIMCardInfo.isMobileNO(userName)){
                 showRegisterAlreadyDialog();
             }else{
                 super.onFailure(errCode, errMsg);
@@ -477,6 +478,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (requestCode == REQUEST_REGIST && resultCode == RESPONSE_REGIST) {
             finish();
         }
+        //TODO 获取返回的昵称，绑定手机
         super.onActivityResult(requestCode, resultCode, data);
     }
 
