@@ -149,6 +149,11 @@ public class UserEngineImpl {
 
     public void registerThreePlatform(String username, String openid, String provider, ThreePlatform extraData,
                                       ParseHttpListener<UserEntity> listener) {
+        this.registerThreePlatform("","","",username,openid,provider,extraData,listener);
+
+    }
+    public void registerThreePlatform(String mobile, String password, String captha,String username, String openid, String provider, ThreePlatform extraData,
+                                      ParseHttpListener<UserEntity> listener) {
 //        RequestParams params = new RequestParams();
 //
 //        params.addBodyParameter("provider", provider);
@@ -161,6 +166,9 @@ public class UserEngineImpl {
 
         TreeMap<String, String> paramsMap = new TreeMap<String, String>();
 
+        paramsMap.put("mobile", mobile);
+        paramsMap.put("captcha", captha);
+        paramsMap.put("password", password);
         paramsMap.put("provider", provider);
         paramsMap.put("openid", openid);
         paramsMap.put("username", username);

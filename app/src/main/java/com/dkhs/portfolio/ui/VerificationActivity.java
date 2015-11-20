@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -23,9 +24,11 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.receiver.SMSBroadcastReceiver;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +42,8 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     public static final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
     public static final String EXTRA_SETPSW = "extra_set_psw";
+
+    public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
     private String phoneNum;
     private String mVerifyCode;
     private Button rlfbutton;
@@ -48,6 +53,8 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
     private boolean isSetPsw;
+    private boolean isRegisterThreePlatform;
+    private boolean isForgetPsw;
 
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
@@ -67,10 +74,27 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         intent.putExtra(EXTRA_CODE, code);
         return intent;
     }
+    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code) {
+        Intent intent = new Intent(context, VerificationActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_SETPSW, true);
+        intent.putExtra(EXTRA_CODE, code);
+        intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM,true);
+        return intent;
+    }
+
+    public static Intent newForgetPswIntent(Context context, String phoneNum) {
+        Intent intent = new Intent(context, VerificationActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(RLFActivity.EXTRA_FORGET_PSW,true);
+        return intent;
+    }
 
     private void handleExtras(Bundle extras) {
         phoneNum = extras.getString(EXTRA_PHONENUM);
         isSetPsw = extras.getBoolean(EXTRA_SETPSW);
+        isRegisterThreePlatform = extras.getBoolean(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM);
+        isForgetPsw = extras.getBoolean(RLFActivity.EXTRA_FORGET_PSW);
     }
 
     String strBefore;
@@ -93,6 +117,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
         btn_get_code = (TextView) findViewById(R.id.btn_getCode);
         btn_get_code.setOnClickListener(this);
+        btn_get_code.setEnabled(true);
         // 生成广播处理
         mSMSBroadcastReceiver = new SMSBroadcastReceiver();
 
@@ -185,9 +210,17 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     if (object) {
                         if (!isSetPsw) {
                             bindMobile();
-                        } else {
+                        }else if(isForgetPsw){
+                            startActivity(SetPasswordActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode));
+                            finish();
+                        } else if(isRegisterThreePlatform){
+                                startActivity(
+                                        SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false));
+                                finish();
+                        }else{
                             startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
                                     verifyCode, false));
+                            finish();
                         }
 
                     } else {
@@ -207,17 +240,11 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             @Override
             public void onSuccess(String result) {
 
-                startActivityForResult(
-                        SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
-                        RLFActivity.REQUESTCODE_SET_PASSWROD);
-//                if (isSetPsw) {
-//                }else{
-//                    setResult(RESULT_OK);
-//                    finish();
-//                }
-
-            }
-        });
+                    startActivityForResult(
+                            SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
+                            RLFActivity.REQUESTCODE_SET_PASSWROD);
+        }
+    });
     }
 
     public Timer mTimer = new Timer();// 定时器
@@ -338,7 +365,37 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 }
 
                 break;
+                case REQUEST_BOUND_THREE_PLATFORM:
+                    setResult(RESULT_OK, new Intent());
+                    finish();
+                    break;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(btn_get_code.isEnabled()){
+            super.onBackPressed();
+        }else{
+            showAlertDialog();
+        }
+    }
+
+    private void showAlertDialog(){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.get_code_hint).setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        }).setNegativeButton(R.string.wait, null);
+        builder.show();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        UIUtils.outAnimationActivity(this);
     }
 }

@@ -20,7 +20,7 @@
     <string name="tv_forget_password"><u>忘记密码</u></string>
     <string name="tv_register_now"><u>立即注册</u></string>
     <string name="account">邮箱/手机号</string>
-    <string name="password">请输入密码</string>
+    <string name="password">请输入密码,不少于6位</string>
     <string name="phone">手机号码</string>
     <string name="nickname">您的昵称</string>
     <string name="nickname_hint">中英文、数字或-、_</string>
@@ -181,7 +181,7 @@
     <string name="get_code_success">获取验证码成功</string>
     <string name="forget_password">忘记密码</string>
     <string name="login_by_captcha">该手机号已经注册过,是否直接登录?</string>
-    <string name="has_bind_message">该手机号已经绑定过</string>
+    <string name="has_bind_message">该手机号码已经注册，请更换号码</string>
     <string name="success_desc_f">恭喜您 , 注册成功 !</string>
     <string name="success_desc_s">系统为您生成的用户名:</string>
     <string name="success_desc_t">可通过设置个人帐号信息修改并完善您的个人资料!</string>
@@ -840,4 +840,18 @@
 
     <string name="reward_content_hint">请输入悬赏内容</string>
     <string name="reward_amount_hint">请输入悬赏金额</string>
+
+    <!--register-->
+    <string name="register_hint">该手机号码未注册，是否直接注册</string>
+    <string name="psw_setting_hint">6-16位，包含数字和字母</string>
+    <string name="register_already">该手机号码已注册，是否直接登录</string>
+    <string name="restart_register">取消注册并重新开始？</string>
+    <string name="verify_phone">验证手机号</string>
+    <string name="bind_phone_hint">为确保帐户安全，请绑定手机号验证身份</string>
+
+    <!--forgetPsw-->
+    <string name="get_code_hint"> 验证码短信可能略有延迟，确定取消并重新开始?</string>
+    <string name="restart">重新开始</string>
+    <string name="wait">等待</string>
+    <string name="write_phone">填写手机号</string>
 </resources>

@@ -1,6 +1,9 @@
 package com.dkhs.portfolio.common;
 
+import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
+
+import cn.sharesdk.framework.Platform;
 
 /**
  * 全局静态变量存储
@@ -40,11 +43,21 @@ public class GlobalParams {
     public static boolean IS_CONFERENCE_CONNECTED = false;
     public static boolean IS_APP_SHOWING = false;
 
+    public static  Platform plat;
+    public static  String platname;
+    public static  ThreePlatform platData;
+
 
     public static void clearUserInfo() {
         GlobalParams.ACCESS_TOCKEN = null;
         GlobalParams.MOBILE = null;
         GlobalParams.LOGIN_USER = null;
+    }
+
+    public static void clearPlatformInfo(){
+        plat = null;
+        platname = "";
+        platData = null;
     }
 
 }
