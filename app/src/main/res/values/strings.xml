@@ -700,6 +700,24 @@
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
+    <!--在线搜索-->
+    <string name="select_title_stock">股票</string>
+    <string name="select_title_fund">基金</string>
+    <string name="select_title_fund_manager">基金经理</string>
+    <string name="select_title_user">用户</string>
+    <string name="select_title_combination">组合</string>
+    <string name="select_more_stock">查看更多股票</string>
+    <string name="select_more_fund">查看更多基金</string>
+    <string name="select_more_fund_manager">查看更多基金经理</string>
+    <string name="select_more_user">查看更多用户</string>
+    <string name="select_more_combination">查看更多组合</string>
+    <string name="select_related_reward">搜索相关悬赏</string>
+    <string name="select_related_topic">搜索相关话题</string>
+    <string name="select_no_desc">暂无描述</string>
+    <string name="select_clear_history">清空全部记录</string>
+    <string name="select_show_history">全部搜索记录</string>
+
+    <!--在线搜索-->
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
     <string name="dialog_msg_invitecode_success">邀请码提交成功，赠送流量已入库，您也可以发出好友邀请，邀请好友越多，流量送越多!</string>

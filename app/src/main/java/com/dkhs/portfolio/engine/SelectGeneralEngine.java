@@ -12,7 +12,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
  */
 public class SelectGeneralEngine {
 
-    public void searchBygeneral(IHttpListener listener,String params){
+    public void searchBygeneral(String params,IHttpListener listener){
         RequestParams requestParams = new RequestParams();
         requestParams.addQueryStringParameter("q",params);
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Search.search_general,requestParams,listener);

@@ -17,7 +17,9 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.db.table.DbModel;
 import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,14 +34,52 @@ public class VisitorDataEngine {
     // public VisitorDataEngine()
 
 
+    public static void deleteHistory(SearchHistoryBean bean){
+        DbUtils db = AppConfig.getDBUtils();
+        try {
+            db.deleteById(SearchHistoryBean.class,bean.getId());
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
+    public static List<SelectStockBean> getHistory(){
+        List<SelectStockBean> listAll = new ArrayList<>();
+        DbUtils db = AppConfig.getDBUtils();
+        try {
+            List<SearchHistoryBean> lists = db.findAll(Selector.from(SearchHistoryBean.class).orderBy("saveTime", true));
+            if (null != lists) {
+                for (SearchHistoryBean searchBean : lists) {
+                    listAll.add(SelectStockBean.copy(searchBean));
+                }
+                LogUtils.d(" searchHistoryStock size:" + lists.size());
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        return listAll;
+    }
+
     public static void saveHistory(final SearchHistoryBean stockbean) {
         new Thread() {
             public void run() {
                 DbUtils db = AppConfig.getDBUtils();
                 try {
-
+                    List<SearchHistoryBean> listAll = db.findAll(Selector.from(SearchHistoryBean.class).orderBy("saveTime", true));
+                    int i = 0;
+                    if(listAll != null && listAll.size() > 0){
+                        i = listAll.size() - 1;
+                        while(i > 9){
+                            db.delete(listAll.get(i));
+                            i--;
+                        }
+                    }
+                    SearchHistoryBean his = db.findById(SearchHistoryBean.class, stockbean.getId());
                     stockbean.setSaveTime(System.currentTimeMillis() / 1000);
+                    if(his != null){
+                        db.delete(listAll.get(i));
+                    }
                     db.saveOrUpdate(stockbean);
+
                 } catch (DbException e) {
                     e.printStackTrace();
                 }

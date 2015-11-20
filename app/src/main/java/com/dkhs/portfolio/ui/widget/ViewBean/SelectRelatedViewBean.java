@@ -13,75 +13,55 @@ import com.dkhs.portfolio.bean.SearchStockBean;
  * Created by zhangcm on 2015/11/18.
  */
 public class SelectRelatedViewBean extends ViewBean {
-    private static final int TYPE = 3;
+    private static final int TYPE = 6;
 
+    private int relatedTitle;
     private String searchString;
-    private String moreTitle;
-    private MoreType moreType;
+    private RelatedType relatedTypeType;
+
+    public SelectRelatedViewBean() {
+    }
 
     public SelectRelatedViewBean(SparseArray<ViewBean> viewDatas) {
         super(viewDatas);
     }
 
-    public SelectRelatedViewBean(String searchString, String moreTitle, MoreType moreType) {
+    public SelectRelatedViewBean(String searchString, int relatedTitle, RelatedType relatedTypeType) {
         this.searchString = searchString;
-        this.moreTitle = moreTitle;
-        this.moreType = moreType;
+        this.relatedTitle = relatedTitle;
+        this.relatedTypeType = relatedTypeType;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container, MarkIndexViewPool mViewPool) {
-        return new ViewHolder(inflate(container, R.layout.item_select_more));
+        return new ViewHolder(inflate(container, R.layout.item_select_related));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder itemHolder) {
-        ((ViewHolder) itemHolder).bindView(moreTitle, searchString, moreType);
+        ((ViewHolder) itemHolder).bindView(searchString, relatedTitle, relatedTypeType);
         ViewUitls.fullSpanView(itemHolder);
     }
 
-    public enum MoreType {
-        //更多股票
-        MORE_STOCK,
-        //更多基金
-        MORE_FUND,
-        //更多基金经理
-        MORE_FUND_MANAGER,
-        //更多用户
-        MORE_USER,
-        //更多组合
-        MORE_COMBINATION
+    public enum RelatedType {
+        //搜索相关悬赏
+        RELATED_REWARD,
+        //搜索相关话题
+        RELATED_TOPIC
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
-        TextView tv_stock_name;
-        View view_divider;
+        TextView tv_related;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            tv_stock_name = (TextView) itemView.findViewById(R.id.tv_stock_name);
-            view_divider = itemView.findViewById(R.id.view_divider);
-
-
+            tv_related = (TextView) itemView.findViewById(R.id.tv_related);
         }
 
-        public void bindView(SearchStockBean mSearchStockBean) {
-        }
-
-        public void bindView(String moreTitle, String searchString, MoreType moreType) {
-            switch (moreType) {
-                case MORE_STOCK:
-                case MORE_FUND:
-                case MORE_COMBINATION:
-                    view_divider.setVisibility(View.GONE);
-                    break;
-                case MORE_FUND_MANAGER:
-                case MORE_USER:
-                    view_divider.setVisibility(View.VISIBLE);
-                    break;
-            }
+        public void bindView(String searchString, int relatedTitle, RelatedType relatedTypeType) {
+            tv_related.setText(relatedTitle);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

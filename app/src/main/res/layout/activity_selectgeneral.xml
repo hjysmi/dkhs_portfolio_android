@@ -3,18 +3,14 @@
     xmlns:dkhs="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_search_stock"
+        style="@style/item_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/theme_gray"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp">
+        android:background="@color/theme_gray">
 
         <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_search_key"
@@ -28,6 +24,7 @@
             android:drawableLeft="@drawable/search_gray"
             android:drawablePadding="10dp"
             android:hint="@string/search_general"
+            android:maxLength="50"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:singleLine="true"
@@ -41,16 +38,29 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_medium"
             android:text="@string/cancel"
             android:textColor="@color/balance"
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rl_search_stock"
-        android:id="@+id/lv_search"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/lv_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/theme_gray"/>
+        android:layout_below="@+id/rl_search_stock"
+        android:background="@color/activity_bg_color"
+        android:listSelector="@color/transparent"
+        android:divider="@color/theme_gray"
+        android:dividerHeight="1px"
+
+        />
 
 </RelativeLayout>
