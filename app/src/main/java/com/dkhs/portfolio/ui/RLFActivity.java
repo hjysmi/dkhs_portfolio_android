@@ -272,7 +272,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         setRegistAble();
 
         if (current_type == REGIST_TYPE) {
-            setTitle("注册账号");
+            setTitle("填写手机号");
             rlfbutton.setText("下一步");
             tvHint.setVisibility(View.INVISIBLE);
         } else if (current_type == FORGET_PSW_TYPE) {
