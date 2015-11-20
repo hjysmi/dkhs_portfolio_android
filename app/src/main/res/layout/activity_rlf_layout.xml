@@ -14,7 +14,7 @@
     android:background="#f2f2f2"
     android:visibility="invisible"
     android:id="@+id/tv_hint"
-    android:text="为确保帐户安全，请绑定手机号验证身份"
+    android:text="@string/bind_phone_hint"
     />
     <RelativeLayout
         android:id="@+id/rl_phone"

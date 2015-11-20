@@ -847,6 +847,7 @@
     <string name="register_already">该手机号码已注册，是否直接登录</string>
     <string name="restart_register">取消注册并重新开始？</string>
     <string name="verify_phone">验证手机号</string>
+    <string name="bind_phone_hint">为确保帐户安全，请绑定手机号验证身份</string>
 
     <!--forgetPsw-->
     <string name="get_code_hint"> 验证码短信可能略有延迟，确定取消并重新开始?</string>
