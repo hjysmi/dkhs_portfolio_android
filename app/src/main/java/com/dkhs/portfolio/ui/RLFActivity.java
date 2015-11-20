@@ -52,6 +52,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public static final int REGIST_TYPE = 1001;
     public static final int FORGET_PSW_TYPE = 1002;
     public static final int SETTING_PASSWORD_TYPE = 1003;
+    public static final int REGIST_THREE_PLAT = 1004;
     private boolean isLoginByCaptcha = false;
 
     private static final int GET_CODE_UNABLE = 0;
@@ -85,7 +86,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         Intent intent = new Intent(context, RLFActivity.class);
         intent.putExtra(EXTRA_SETTING_PASSWORD, true);
         intent.putExtra(EXTRA_REGISTER_THREE_PLATFORM,true);
-        intent.putExtra(EXTRA_ACTIVITY_TYPE, SETTING_PASSWORD_TYPE);
+        intent.putExtra(EXTRA_ACTIVITY_TYPE, REGIST_THREE_PLAT);
         return intent;
     }
 
@@ -287,8 +288,14 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             setTitle("绑定手机号");
             rlfbutton.setText("下一步");
             tvHint.setVisibility(View.VISIBLE);
+        }else if(current_type == REGIST_THREE_PLAT){
+            setTitle(R.string.verify_phone);
+            rlfbutton.setText("下一步");
+            tvHint.setVisibility(View.VISIBLE);
+            cbAgree.setVisibility(View.GONE);
+            rltAgreement.setVisibility(View.INVISIBLE);
         }
-        //添加忘记密码　转到验证码界面时　需要有个变量能判断是忘记密码界面
+
 
         cbAgree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
