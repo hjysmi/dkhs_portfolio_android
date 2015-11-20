@@ -62,6 +62,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private boolean mobileAble = false;
     private boolean codeAble = false;
     private TextView rltAgreement;
+    private TextView tvHint;
 
     private boolean isSettingPsw;
     private boolean isRegisterThreePlatform;
@@ -254,6 +255,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
         rltAgreement = (TextView) findViewById(R.id.rlt_agreement);
+        tvHint = (TextView) findViewById(R.id.tv_hint);
         rlfbutton.setEnabled(false);
         // code = (EditText) findViewById(R.id.et_verifycode);
         // tvMessage = (TextView) findViewById(R.id.tv_agree_info);
@@ -263,14 +265,17 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         if (current_type == REGIST_TYPE) {
             setTitle("注册账号");
             rlfbutton.setText("下一步");
+            tvHint.setVisibility(View.INVISIBLE);
         } else if (current_type == FORGET_PSW_TYPE) {
             setTitle(R.string.forget_password);
             rlfbutton.setText(R.string.confirm);
             cbAgree.setVisibility(View.GONE);
+            tvHint.setVisibility(View.INVISIBLE);
 
         } else if (current_type == SETTING_PASSWORD_TYPE) {
-            setTitle("绑定");
+            setTitle("绑定手机号");
             rlfbutton.setText("下一步");
+            tvHint.setVisibility(View.VISIBLE);
         }
 
         cbAgree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
