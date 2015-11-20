@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.widget.ViewBean;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SearchStockBean;
+import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreType;
+import com.dkhs.portfolio.ui.SelectSearchMoreLoadMoreListActivity;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * Created by zhangcm on 2015/11/18.
@@ -71,7 +75,7 @@ public class SelectMoreViewBean extends ViewBean {
         public void bindView(SearchStockBean mSearchStockBean) {
         }
 
-        public void bindView(int moreTitle, String searchString, MoreType moreType) {
+        public void bindView(int moreTitle, final String searchString, final MoreType moreType) {
             switch (moreType) {
                 case MORE_STOCK:
                 case MORE_FUND:
@@ -87,7 +91,23 @@ public class SelectMoreViewBean extends ViewBean {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    UIUtils.startAnimationActivity((Activity)itemView.getContext());
+                    switch (moreType) {
+                        case MORE_STOCK:
+                            UIUtils.startAnimationActivity((Activity)itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(),searchString, SearchMoreType.MORE_STOCK));
+                            break;
+                        case MORE_FUND:
+                            UIUtils.startAnimationActivity((Activity)itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(),searchString, SearchMoreType.MORE_FUND));
+                            break;
+                        case MORE_COMBINATION:
+                            UIUtils.startAnimationActivity((Activity)itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(),searchString, SearchMoreType.MORE_COMBINATION));
+                            break;
+                        case MORE_FUND_MANAGER:
+                            UIUtils.startAnimationActivity((Activity)itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(),searchString, SearchMoreType.MORE_FUND_MANAGER));
+                        case MORE_USER:
+                            UIUtils.startAnimationActivity((Activity)itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(),searchString, SearchMoreType.MORE_USER));
+                            view_divider.setVisibility(View.VISIBLE);
+                            break;
+                    }
                 }
             });
         }

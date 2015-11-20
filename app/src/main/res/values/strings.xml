@@ -716,6 +716,13 @@
     <string name="select_no_desc">暂无描述</string>
     <string name="select_clear_history">清空全部记录</string>
     <string name="select_show_history">全部搜索记录</string>
+    <string name="blank_select_search_more_stock">找到%1$d只股票</string>
+    <string name="blank_select_search_more_fund">找到%1$d只基金</string>
+    <string name="blank_select_search_more_fund_manager">找到%1$d个基金经理</string>
+    <string name="blank_select_search_more_user">找到%1$d个用户</string>
+    <string name="blank_select_search_more_combination">找到%1$d个组合</string>
+    <string name="blank_select_search_more_reward">找到%1$d个悬赏</string>
+    <string name="blank_select_search_more_topic">找到%1$d个话题</string>
 
     <!--在线搜索-->
 

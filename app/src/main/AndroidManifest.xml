@@ -82,10 +82,10 @@
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoBackgroud">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <!-- <activity android:name="com.dkhs.portfolio.ui.MainActivity" /> -->
         <activity
@@ -115,6 +115,9 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <!--综合搜索-->
         <activity android:name=".ui.SelectGeneralActivity" />
+        <activity
+            android:name=".ui.SelectSearchMoreLoadMoreListActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity android:name=".ui.SelectStockActivity" />
         <activity android:name=".ui.SelectFundActivity" />

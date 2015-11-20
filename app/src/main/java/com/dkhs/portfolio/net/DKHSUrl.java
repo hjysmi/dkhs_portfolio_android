@@ -331,6 +331,16 @@ public class DKHSUrl {
     public interface Search {
         /**综合搜索*/
         String search_general = "/api/v1/search/suggestions/";
+        /**搜索股票和基金*/
+        String search_symools = "/api/v1/search/symbols/";
+        /**搜索组合*/
+        String search_portfolios = "/api/v1/search/portfolios/";
+        /**搜索基金经理*/
+        String search_fund_managers = "/api/v1/search/fund_managers/";
+        /**搜索用户*/
+        String search_users = "/api/v1/search/users/";
+        /**搜索悬赏和话题*/
+        String search_statues = "/api/v1/search/statues/";
     }
 
 }
