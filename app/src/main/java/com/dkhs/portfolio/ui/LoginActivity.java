@@ -485,15 +485,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             finish();
         }
         if(requestCode == REQUEST_BOUND_THREE_PLATFORM && resultCode == RESULT_OK){
-            //TODO 获取返回的昵称，绑定手机
-            String psw = data.getStringExtra("psw");
-            String name = data.getStringExtra("name");
-            String code = data.getStringExtra("code");
-            String mobile = data.getStringExtra("mobile");
-            LogUtils.d("wys","psw"+psw+"name"+name+"code"+code+"mobile"+mobile);
-            //调用登录方法
-            engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
-                    platData, registerListener.setLoadingDialog(LoginActivity.this, false));
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -354,9 +354,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
 
                 break;
                 case REQUEST_BOUND_THREE_PLATFORM:
-                    //返回昵称，密码，并关闭本界面
-                    setResult(RESULT_OK,data);
-                    finish();
+
                     break;
             }
         }

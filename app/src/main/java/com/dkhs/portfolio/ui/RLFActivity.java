@@ -560,9 +560,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
                 break;
                 case REQUEST_BOUND_THREE_PLATFORM:
-                    //返回数据给LoginActivity　并关闭本界面
-                    setResult(RESULT_OK,data);
-                    finish();
+
                     break;
             }
         }
