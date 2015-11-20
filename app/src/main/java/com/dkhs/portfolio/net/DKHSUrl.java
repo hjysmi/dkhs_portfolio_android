@@ -328,5 +328,9 @@ public class DKHSUrl {
         String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
     }
 
+    public interface Search {
+        /**综合搜索*/
+        String search_general = "/api/v1/search/suggestions/";
+    }
 
 }

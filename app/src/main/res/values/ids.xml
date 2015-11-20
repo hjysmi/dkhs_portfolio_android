@@ -49,4 +49,7 @@
     <item name="swipeRefreshLayout" type="id" />
     <item name="expandable_text" type="id" />
     <item name="expand_collapse" type="id" />
+    <!--综合搜索-->
+    <item name="Tag_type_title" type="id"></item>
+    <item name="Tag_type_type" type="id"></item>
 </resources>
