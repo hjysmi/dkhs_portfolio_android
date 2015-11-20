@@ -408,7 +408,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         public void onFailure(int errCode, String errMsg) {
             if((ACCOUNT_UNREGISTERED).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey())&&SIMCardInfo.isMobileNO(userName)){
-                showRegisterAlreadyDialog();
+                showUnRegisterDialog();
             }else{
                 super.onFailure(errCode, errMsg);
             }
@@ -623,8 +623,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
         public void onFailure(int errCode, String errMsg) {
-            //未绑定时需要绑定
-            LogUtils.d("wys",""+MOBILE_UNBOUND.equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey()));
             String errorKey = ErrorBundle.parseToErrorBundle(errMsg).getErrorKey().trim();
             if((MOBILE_UNBOUND).equals(errorKey) || (SOCIAL_UNBOUND).equals(errorKey)){
                 startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this), REQUEST_BOUND_THREE_PLATFORM);
@@ -727,7 +725,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
-    private void showRegisterAlreadyDialog(){
+    private void showUnRegisterDialog(){
         MAlertDialog builder = PromptManager.getAlertDialog(this);
         builder.setMessage(R.string.register_hint).setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
             @Override

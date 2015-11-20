@@ -345,14 +345,6 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
                     }
                 } else if(isRegisterThreePlatform){
-                    //返回信息并关闭该界面
-//                    Intent data = new Intent();
-//                    data.putExtra("psw",etPassword.getText().toString());
-//                    data.putExtra("name",etUserName.getText().toString());
-//                    data.putExtra("code",code);
-//                    data.putExtra("mobile",phoneNum);
-//                    setResult(RESULT_OK, data);
-//                    finish();
                     Platform plat = GlobalParams.plat;
                     engine.registerThreePlatform(phoneNum, etPassword.getText().toString(), code,etUserName.getText().toString(), plat.getDb().getUserId(), GlobalParams.platname,
                             GlobalParams.platData, registerListener.setLoadingDialog(SettingNameActivity.this, false));
