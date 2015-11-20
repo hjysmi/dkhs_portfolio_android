@@ -556,8 +556,6 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         builder.setMessage(R.string.restart_register).setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                UIUtils.startAnimationActivity(SettingNameActivity.this,RLFActivity.registerIntent(SettingNameActivity.this));
-                setResult(RESULT_OK);
                 finish();
             }
         }).setNegativeButton(R.string.cancel, null);

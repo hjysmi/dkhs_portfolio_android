@@ -202,9 +202,9 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                         if (!isSetPsw) {
                             bindMobile();
                         }else if(isRegisterThreePlatform){
-                                startActivityForResult(
-                                        SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false),
-                                        REQUEST_BOUND_THREE_PLATFORM);
+                                startActivity(
+                                        SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false));
+                                finish();
                         }else{
                             startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
                                     verifyCode, false));
@@ -354,7 +354,8 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
 
                 break;
                 case REQUEST_BOUND_THREE_PLATFORM:
-
+                    setResult(RESULT_OK, new Intent());
+                    finish();
                     break;
             }
         }
