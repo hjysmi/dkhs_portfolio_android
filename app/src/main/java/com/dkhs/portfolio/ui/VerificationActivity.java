@@ -54,6 +54,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
     private boolean isSetPsw;
     private boolean isRegisterThreePlatform;
+    private boolean isForgetPsw;
 
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
@@ -82,10 +83,18 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         return intent;
     }
 
+    public static Intent newForgetPswIntent(Context context, String phoneNum) {
+        Intent intent = new Intent(context, VerificationActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(RLFActivity.EXTRA_FORGET_PSW,true);
+        return intent;
+    }
+
     private void handleExtras(Bundle extras) {
         phoneNum = extras.getString(EXTRA_PHONENUM);
         isSetPsw = extras.getBoolean(EXTRA_SETPSW);
         isRegisterThreePlatform = extras.getBoolean(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM);
+        isForgetPsw = extras.getBoolean(RLFActivity.EXTRA_FORGET_PSW);
     }
 
     String strBefore;
@@ -201,7 +210,10 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     if (object) {
                         if (!isSetPsw) {
                             bindMobile();
-                        }else if(isRegisterThreePlatform){
+                        }else if(isForgetPsw){
+                            startActivity(SetPasswordActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode));
+                            finish();
+                        } else if(isRegisterThreePlatform){
                                 startActivity(
                                         SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false));
                                 finish();

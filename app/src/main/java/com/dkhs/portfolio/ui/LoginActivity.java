@@ -303,9 +303,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 login();
                 break;
             case R.id.tv_forget:
-                Intent intent = new Intent(LoginActivity.this, ForgetPswActivity.class);
+//                Intent intent = new Intent(LoginActivity.this, ForgetPswActivity.class);
                 // intent.putExtra("activity_type", RLFActivity.FORGET_PSW_TYPE);
-                startActivity(intent);
+                startActivity(RLFActivity.forgetPswIntent(LoginActivity.this));
                 break;
             case R.id.tv_register: {
 
@@ -732,7 +732,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         builder.setMessage(R.string.register_hint).setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                UIUtils.startAnimationActivity(LoginActivity.this,RLFActivity.registerIntent(LoginActivity.this));
+                UIUtils.startAnimationActivity(LoginActivity.this, RLFActivity.registerIntent(LoginActivity.this));
                 dialog.dismiss();
             }
         }).setNegativeButton(R.string.wait, null);

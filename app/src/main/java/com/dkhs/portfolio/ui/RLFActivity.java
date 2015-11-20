@@ -69,6 +69,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_SETTING_PASSWORD = "extra_setting_password";
     public static final String EXTRA_ACTIVITY_TYPE = "activity_type";
     public static final String EXTRA_REGISTER_THREE_PLATFORM = "register_three_platform";
+    public static final String EXTRA_FORGET_PSW = "extra_forget_psw";
     public static final int REQUESTCODE_SET_PASSWROD = 999;
     public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
 
@@ -91,6 +92,13 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public static Intent registerIntent(Context context) {
         Intent intent = new Intent(context, RLFActivity.class);
         intent.putExtra(EXTRA_ACTIVITY_TYPE, REGIST_TYPE);
+        return intent;
+    }
+
+    public static Intent forgetPswIntent(Context context) {
+        Intent intent = new Intent(context, RLFActivity.class);
+        intent.putExtra(EXTRA_SETTING_PASSWORD, true);
+        intent.putExtra(EXTRA_ACTIVITY_TYPE, FORGET_PSW_TYPE);
         return intent;
     }
 //    public static Intent bindPhoneIntent(Context context) {
@@ -267,16 +275,20 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             rlfbutton.setText("下一步");
             tvHint.setVisibility(View.INVISIBLE);
         } else if (current_type == FORGET_PSW_TYPE) {
-            setTitle(R.string.forget_password);
-            rlfbutton.setText(R.string.confirm);
+            setTitle(R.string.write_phone);
+            rlfbutton.setText("下一步");
+//            rlfbutton.setText(R.string.confirm);
             cbAgree.setVisibility(View.GONE);
+            rltAgreement.setVisibility(View.INVISIBLE);
             tvHint.setVisibility(View.INVISIBLE);
+
 
         } else if (current_type == SETTING_PASSWORD_TYPE) {
             setTitle("绑定手机号");
             rlfbutton.setText("下一步");
             tvHint.setVisibility(View.VISIBLE);
         }
+        //添加忘记密码　转到验证码界面时　需要有个变量能判断是忘记密码界面
 
         cbAgree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -352,6 +364,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                     // code.getText().toString(), true));
                     // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
                     // PromptManager.showProgressDialog(this, "正在登录...", false);
+                    startActivity(VerificationActivity.newForgetPswIntent(RLFActivity.this, etPhoneNum
+                            .getText().toString()));
+                    finish();
                 }
 
                 break;

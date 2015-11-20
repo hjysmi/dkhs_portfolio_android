@@ -71,7 +71,7 @@
             android:layout_toRightOf="@+id/tv_psw"
             android:background="@null"
             android:digits="@string/password_digts"
-            android:hint="6-16位,包含数字和字母"
+            android:hint="@string/psw_setting_hint"
             android:inputType="textPassword"
             android:maxLength="16"
             android:singleLine="true"
