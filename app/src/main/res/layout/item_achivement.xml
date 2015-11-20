@@ -63,6 +63,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:singleLine="true"
                 android:textColor="@color/tag_gray"
                 android:textSize="10sp" />
 
