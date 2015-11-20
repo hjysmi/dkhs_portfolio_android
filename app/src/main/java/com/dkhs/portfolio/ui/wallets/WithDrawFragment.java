@@ -51,7 +51,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
 
-    private float avail;
+    private double avail;
     private String mobile;
     @ViewInject(R.id.et_withdraw_amount)
     private EditText amountEt;
@@ -106,7 +106,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if(bundle != null) {
-            avail = bundle.getFloat(MyPurseActivity.AVAIL_AMOUNT);
+            avail = bundle.getDouble(MyPurseActivity.AVAIL_AMOUNT);
             mobile = bundle.getString(MyPurseActivity.MOBILE);
         }
         engine = new UserEngineImpl();
@@ -152,7 +152,12 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
 
     private void initData(){
         amountEt.setFilters(new InputFilter[]{lengthfilter});
-        String availHint = String.format(getString(R.string.with_draw_available),avail);
+        String availHint;
+        if(avail == 0){
+            availHint = String.format(getString(R.string.with_draw_available),"0.00");
+        }else{
+            availHint = String.format(getString(R.string.with_draw_available),avail);
+        }
         if(!TextUtils.isEmpty(mobile)){//不显示完整号码　用****替换中间数字
             hideMobile(mobile);
         }else{

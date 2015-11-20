@@ -219,10 +219,10 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
         @Override
         public void onClick(View v) {
-            if ((System.currentTimeMillis() - lastClick) > 2000) {
+            if ((System.currentTimeMillis() - lastClick) > 500) {
                 mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
+                lastClick = System.currentTimeMillis();
             }
-            lastClick = System.currentTimeMillis();
         }
     }
 

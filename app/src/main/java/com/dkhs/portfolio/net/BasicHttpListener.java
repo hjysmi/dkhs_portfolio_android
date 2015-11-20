@@ -1,8 +1,15 @@
 package com.dkhs.portfolio.net;
 
+import android.content.Intent;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.ui.LoginActivity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 
 import org.json.JSONException;
@@ -100,6 +107,26 @@ public abstract class BasicHttpListener implements IHttpListener {
      */
     public void onFailure(int errCode, String errMsg) {
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
+        if(errCode == 401 || errCode == 403){//token过期
+            new Thread() {
+                public void run() {
+                    DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+
+                    try {
+                        dbUtils.deleteAll(UserEntity.class);
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                ;
+            }.start();
+            GlobalParams.clearUserInfo();
+            Intent it = new Intent(PortfolioApplication.getInstance(), LoginActivity.class);
+            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PortfolioApplication.getInstance().startActivity(it);
+            return;
+        }
         if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
             ErrorBundle errorBundle = ErrorBundle.parseToErrorBundle(errMsg);
             if (null != errorBundle) {

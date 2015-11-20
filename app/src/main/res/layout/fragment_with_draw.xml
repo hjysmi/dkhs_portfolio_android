@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:textSize="@dimen/with_draw_hint"
             android:textColorHint="@color/text_hint_color"
-            android:hint="输入支付宝账号"
+            android:hint="请输入支付宝账号"
             />
     </LinearLayout>
 
@@ -68,7 +68,7 @@
             android:layout_weight="1"
             android:textSize="@dimen/with_draw_hint"
             android:textColorHint="@color/text_hint_color"
-            android:hint="输入支付宝实名"/>
+            android:hint="@string/account_name_hint"/>
     </LinearLayout>
 
     <LinearLayout
