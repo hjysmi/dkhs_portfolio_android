@@ -358,7 +358,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // return;
                 // }
 
-                if (current_type == REGIST_TYPE || current_type == SETTING_PASSWORD_TYPE) {
+                if (current_type == REGIST_TYPE || current_type == SETTING_PASSWORD_TYPE ||current_type == REGIST_THREE_PLAT) {
                     // // engine.register(telephone, verify_code, listener);
                     //
                     // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
