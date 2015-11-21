@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.widget.ViewBean;
 
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -7,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.SearchStockBean;
+import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreType;
+import com.dkhs.portfolio.ui.SelectSearchMoreLoadMoreListActivity;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * Created by zhangcm on 2015/11/18.
@@ -60,12 +63,19 @@ public class SelectRelatedViewBean extends ViewBean {
             tv_related = (TextView) itemView.findViewById(R.id.tv_related);
         }
 
-        public void bindView(String searchString, int relatedTitle, RelatedType relatedTypeType) {
+        public void bindView(final String searchString, int relatedTitle, final RelatedType relatedTypeType) {
             tv_related.setText(relatedTitle);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    UIUtils.startAnimationActivity((Activity)itemView.getContext());
+                    switch (relatedTypeType){
+                        case RELATED_REWARD:
+                        UIUtils.startAnimationActivity((Activity) itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(), searchString, SearchMoreType.MORE_REWARD));
+                            break;
+                        case RELATED_TOPIC:
+                            UIUtils.startAnimationActivity((Activity) itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(), searchString, SearchMoreType.MORE_TOPIC));
+                            break;
+                    }
                 }
             });
         }

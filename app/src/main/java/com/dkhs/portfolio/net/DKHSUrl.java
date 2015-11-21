@@ -340,7 +340,7 @@ public class DKHSUrl {
         /**搜索用户*/
         String search_users = "/api/v1/search/users/";
         /**搜索悬赏和话题*/
-        String search_statues = "/api/v1/search/statues/";
+        String search_statues = "/api/v1/search/statuses/";
     }
 
 }

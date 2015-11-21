@@ -1,13 +1,13 @@
 package com.dkhs.portfolio.engine;
 
+import android.content.Context;
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.CombinationsBean;
 import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.QuotesBean;
+import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreType;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -29,9 +29,11 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
     private static final int pageSize = 20;
 
     private SearchMoreType searchMoreType;
-    public SelectGeneralSearchMoreEngineImpl(ILoadDataBackListener loadListener,SearchMoreType searchMoreType) {
+    private Context mContext;
+    public SelectGeneralSearchMoreEngineImpl(ILoadDataBackListener loadListener,SearchMoreType searchMoreType,Context context) {
         super(loadListener);
         this.searchMoreType = searchMoreType;
+        this.mContext = context;
     }
     private String searchString;
     public void setSearchString(String searchString){
@@ -62,7 +64,7 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
         String url = getSearchUrl(params);
         if(TextUtils.isEmpty(url))
             return null;
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this.setLoadingDialog(PortfolioApplication.getInstance()));
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this.setLoadingDialog(mContext,false));
 
     }
 
@@ -129,8 +131,9 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
                         }.getType());
                         break;
                     case MORE_REWARD:
-                        break;
                     case MORE_TOPIC:
+                        moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
+                        }.getType());
                         break;
                 }
             } catch (Exception e) {
