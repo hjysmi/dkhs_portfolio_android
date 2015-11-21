@@ -265,4 +265,32 @@ public class UserEntity {
     public static boolean currentUser(String userId) {
         return null != UserEngineImpl.getUserEntity() && (UserEngineImpl.getUserEntity().getId() + "").equals(userId);
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "access_token='" + access_token + '\'' +
+                ", id=" + id +
+                ", username='" + username + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", isFirstRegister=" + isFirstRegister +
+                ", gender='" + gender + '\'' +
+                ", description='" + description + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", followed_by_count=" + followed_by_count +
+                ", friends_count=" + friends_count +
+                ", status_count=" + status_count +
+                ", symbols_count=" + symbols_count +
+                ", avatar_xs='" + avatar_xs + '\'' +
+                ", avatar_md='" + avatar_md + '\'' +
+                ", avatar_sm='" + avatar_sm + '\'' +
+                ", avatar_lg='" + avatar_lg + '\'' +
+                ", chi_spell='" + chi_spell + '\'' +
+                ", chi_spell_all='" + chi_spell_all + '\'' +
+                ", date_joined='" + date_joined + '\'' +
+                ", me_follow=" + me_follow +
+                ", portfolios_following_count=" + portfolios_following_count +
+                '}';
+    }
 }

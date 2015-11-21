@@ -138,7 +138,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
                 break;
             case MORE_USER:
                 mAdapter.buildMultiItemView(UserEntity.class, new SearchMoreUserHandler());
-                //基金经理
+                //用户
                 break;
             case MORE_COMBINATION:
                 //组合

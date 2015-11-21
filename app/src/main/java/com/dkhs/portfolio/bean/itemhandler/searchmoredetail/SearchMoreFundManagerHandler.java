@@ -19,7 +19,7 @@ public class SearchMoreFundManagerHandler extends SimpleItemHandler<FundManagerB
 
     @Override
     public int getLayoutResId() {
-        return R.layout.item_select_user_manager_detail;
+        return R.layout.item_select_fund_manager_detail;
     }
     @Override
     public void onBindView(final ViewHolder vh, final FundManagerBean mFundManagerBean, int position) {

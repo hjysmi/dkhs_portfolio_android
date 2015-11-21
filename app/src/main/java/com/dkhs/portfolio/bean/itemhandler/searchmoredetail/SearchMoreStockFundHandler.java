@@ -12,7 +12,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.QuotesBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.widget.ChangeFollowView;
@@ -29,7 +28,7 @@ public class SearchMoreStockFundHandler extends SimpleItemHandler<QuotesBean>{
     private ChangeFollowView changeFollowView;
 
     public SearchMoreStockFundHandler(Context context){
-        this.changeFollowView = new ChangeFollowView(context);;
+        this.changeFollowView = new ChangeFollowView(context);
     }
     CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
