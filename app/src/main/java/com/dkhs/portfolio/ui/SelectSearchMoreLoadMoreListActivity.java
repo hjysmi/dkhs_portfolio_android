@@ -91,9 +91,39 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
             handleExtras(extras);
         }
         initView();
+        initSearchHint();
         initLoadMoreList();
         BusProvider.getInstance().register(this);
         postDelayedeData();
+    }
+
+    private void initSearchHint() {
+        switch (searchType){
+            case MORE_STOCK:
+                etSearch.setHint(R.string.search_stock_hint);
+                break;
+            case MORE_FUND:
+                etSearch.setHint(R.string.search_fund_hint_other);
+                break;
+            case MORE_FUND_MANAGER:
+                etSearch.setHint(R.string.search_fund_manger_hint);
+                break;
+            case MORE_USER:
+                etSearch.setHint(R.string.search_user_hint);
+                //用户
+                break;
+            case MORE_COMBINATION:
+                //组合
+                etSearch.setHint(R.string.search_com_hint);
+                break;
+            case MORE_REWARD:
+                etSearch.setHint(R.string.search_reward_hint);
+                break;
+                //悬赏
+            case MORE_TOPIC:
+                etSearch.setHint(R.string.search_topic_hint);
+                break;
+        }
     }
 
     private void handleExtras(Bundle extras) {
