@@ -233,16 +233,20 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
             if (getLoadEngine().getCurrentpage() == 1)
                 mListView.setOnLoadListener(this);
         }
-        if (object.getCurrentPage() == 1 && object.getResults().size() == 0) {
-            setEmptyText(getEmptyText());
-        }
-        if (getLoadEngine().getCurrentpage() == 1) {
+//        if (object.getCurrentPage() == 1 && object.getResults().size() == 0) {
+//            setEmptyText(getEmptyText());
+//        }
+        if (getLoadEngine().getCurrentpage() == 1 || getLoadEngine().getCurrentpage() == 0) {
             mDataList.clear();
         } else if (mDataList.size() > 0){
             mDataList.remove(0);
         }
-        addTitle();
         mDataList.addAll(object.getResults());
+        if(mDataList.size() > 0){
+            addTitle();
+        }else{
+            setEmptyText(getEmptyText());
+        }
         mAdapter.notifyDataSetChanged();
     }
 
