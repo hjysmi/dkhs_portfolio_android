@@ -193,7 +193,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
 
     private SelectGeneralSearchMoreEngineImpl getLoadEngine(){
         if(mLoadMoreDataEngine == null)
-            mLoadMoreDataEngine = new SelectGeneralSearchMoreEngineImpl(this,searchType);
+            mLoadMoreDataEngine = new SelectGeneralSearchMoreEngineImpl(this,searchType,SelectSearchMoreLoadMoreListActivity.this);
         mLoadMoreDataEngine.setSearchString(searchString);
         return mLoadMoreDataEngine;
     }

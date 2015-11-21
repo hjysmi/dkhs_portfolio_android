@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.engine;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -28,9 +29,11 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
     private static final int pageSize = 20;
 
     private SearchMoreType searchMoreType;
-    public SelectGeneralSearchMoreEngineImpl(ILoadDataBackListener loadListener,SearchMoreType searchMoreType) {
+    private Context mContext;
+    public SelectGeneralSearchMoreEngineImpl(ILoadDataBackListener loadListener,SearchMoreType searchMoreType,Context context) {
         super(loadListener);
         this.searchMoreType = searchMoreType;
+        this.mContext = context;
     }
     private String searchString;
     public void setSearchString(String searchString){
@@ -61,7 +64,7 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
         String url = getSearchUrl(params);
         if(TextUtils.isEmpty(url))
             return null;
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this.setLoadingDialog(mContext,false));
 
     }
 
