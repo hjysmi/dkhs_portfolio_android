@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -87,6 +88,17 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
         mDataList.addAll(history);
         hisAdapter = new MyHistoryAdapter();
         mHistoryView.setAdapter(hisAdapter);
+        mHistoryView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SelectStockBean itemStock = mDataList.get(position);
+                if (StockUitls.isFundType(itemStock.symbol_type)) {
+                    startActivity(FundDetailActivity.newIntent(SelectGeneralActivity.this, itemStock));
+                } else {
+                    startActivity(StockQuotesActivity.newIntent(SelectGeneralActivity.this, itemStock));
+                }
+            }
+        });
 //        hisAdapter.notifyDataSetChanged();
     }
 
