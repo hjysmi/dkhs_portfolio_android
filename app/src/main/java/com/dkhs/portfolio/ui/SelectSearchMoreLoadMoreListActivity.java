@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.QuotesBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreCombinationHandler;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreFundManagerHandler;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreStockFundHandler;
@@ -130,15 +133,17 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
                 break;
             case MORE_FUND_MANAGER:
                 //基金经理
-                mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreUserHandler());
+             //   mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreUserHandler());
+                mAdapter.buildMultiItemView(FundManagerBean.class, new SearchMoreFundManagerHandler());
                 break;
             case MORE_USER:
-                mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreFundManagerHandler());
+                mAdapter.buildMultiItemView(UserEntity.class, new SearchMoreUserHandler());
                 //基金经理
                 break;
             case MORE_COMBINATION:
                 //组合
-                mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreCombinationHandler(mContext));
+                mAdapter.buildMultiItemView(CombinationBean.class, new SearchMoreCombinationHandler(mContext));
+              //  mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreCombinationHandler(mContext));
                 break;
             case MORE_REWARD:
                 //悬赏

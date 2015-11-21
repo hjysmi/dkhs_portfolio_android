@@ -1,14 +1,10 @@
 package com.dkhs.portfolio.bean;
 
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 
 import com.dkhs.portfolio.common.Spanny;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.google.gson.annotations.SerializedName;
-
-import org.parceler.apache.commons.lang.StringUtils;
 
 /**
  * @author zwm
@@ -87,6 +83,24 @@ public class FundManagerBean {
 
     }
 
-
-
+    @Override
+    public String toString() {
+        return "FundManagerBean{" +
+                "avatar_lg='" + avatar_lg + '\'' +
+                ", win_rate_tyear=" + win_rate_tyear +
+                ", work_seniority='" + work_seniority + '\'' +
+                ", avatar_sm='" + avatar_sm + '\'' +
+                ", avatar_md='" + avatar_md + '\'' +
+                ", avatar_xs='" + avatar_xs + '\'' +
+                ", win_rate_day=" + win_rate_day +
+                ", win_rate_month=" + win_rate_month +
+                ", win_rate_year=" + win_rate_year +
+                ", id=" + id +
+                ", win_rate_six_month=" + win_rate_six_month +
+                ", name='" + name + '\'' +
+                ", win_rate_week=" + win_rate_week +
+                ", win_rate_season=" + win_rate_season +
+                ", win_rate_twyear=" + win_rate_twyear +
+                '}';
+    }
 }

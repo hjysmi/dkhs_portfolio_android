@@ -233,23 +233,24 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
             searchString = s.toString().trim();
             if (!TextUtils.isEmpty(searchString)) {
                 showSearchResult(searchString);
-            }else{
+            } else {
                 showSearchHistory();
             }
         }
     };
 
-    private class MyHistoryAdapter extends BaseAdapter{
+    private class MyHistoryAdapter extends BaseAdapter {
         private final int TYPE_NORMAL = 0;
         private final int TYPE_BOTTOM = 1;
         private int viewTypeCount = 2;
         private boolean isDeleteallShowing = false;
-        public MyHistoryAdapter(){
+
+        public MyHistoryAdapter() {
             super();
-            if(mDataList != null){
-                if(mDataList.size() > 3){
+            if (mDataList != null) {
+                if (mDataList.size() > 3) {
                     isDeleteallShowing = false;
-                }else{
+                } else {
                     isDeleteallShowing = true;
                 }
             }
@@ -262,10 +263,10 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
 
         @Override
         public int getItemViewType(int position) {
-            if(mDataList != null){
-                if(position != getCount() - 1){
+            if (mDataList != null) {
+                if (position != getCount() - 1) {
                     return TYPE_NORMAL;
-                }else {
+                } else {
                     return TYPE_BOTTOM;
                 }
             }
@@ -274,18 +275,18 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
 
         @Override
         public int getCount() {
-            if(mDataList != null){
-                if(isDeleteallShowing){
+            if (mDataList != null) {
+                if (isDeleteallShowing) {
                     return mDataList.size() + 1;
-                }else {
+                } else {
                     int i = 0;
                     //TODO 教训：不能在getCount方法里做while循环，否则半天你都可能找不到bug
 //                    while(mDataList.size() - i > 3){
 //                        i--;
 //                    }
-                    if(mDataList.size() > 3){
+                    if (mDataList.size() > 3) {
                         return 4;
-                    }else {
+                    } else {
                         return mDataList.size() + 1;
                     }
                 }
@@ -307,17 +308,17 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             int itemViewType = getItemViewType(position);
-            switch (itemViewType){
+            switch (itemViewType) {
                 case TYPE_NORMAL:
                     ViewHolder holder;
-                    if(convertView == null){
-                        convertView = View.inflate(mContext,R.layout.item_select_history,null);
+                    if (convertView == null) {
+                        convertView = View.inflate(mContext, R.layout.item_select_history, null);
                         holder = new ViewHolder();
                         holder.iv_item_del = (ImageView) convertView.findViewById(R.id.iv_item_del);
                         holder.tv_stock_name = (TextView) convertView.findViewById(R.id.tv_stock_name);
                         holder.tv_stock_num = (TextView) convertView.findViewById(R.id.tv_stock_num);
                         convertView.setTag(holder);
-                    }else{
+                    } else {
                         holder = (ViewHolder) convertView.getTag();
                     }
                     holder.iv_item_del.setTag(position);
@@ -336,22 +337,22 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                 case TYPE_BOTTOM:
                     convertView = View.inflate(mContext, R.layout.item_select_history_bottom, null);
                     View rl_history = convertView.findViewById(R.id.rl_history);
-                    if(mDataList.size() == 0){
+                    if (mDataList.size() == 0) {
                         rl_history.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         rl_history.setVisibility(View.VISIBLE);
                         TextView tv_history = (TextView) convertView.findViewById(R.id.tv_history);
-                        if(isDeleteallShowing){
+                        if (isDeleteallShowing) {
                             tv_history.setText(R.string.select_clear_history);
-                        }else{
+                        } else {
                             tv_history.setText(R.string.select_show_history);
                         }
                         rl_history.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(isDeleteallShowing){
+                                if (isDeleteallShowing) {
                                     showDelDialog();
-                                }else{
+                                } else {
                                     isDeleteallShowing = true;
                                     notifyDataSetChanged();
                                 }
@@ -363,31 +364,33 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
             return convertView;
         }
 
-        private class ViewHolder{
+        private class ViewHolder {
             ImageView iv_item_del;
             TextView tv_stock_name;
             TextView tv_stock_num;
         }
     }
 
-    private void showSearchResult(String searchString){
-        if(mHistoryView.getVisibility() != View.GONE){
+    private void showSearchResult(String searchString) {
+        if (mHistoryView.getVisibility() != View.GONE) {
             mHistoryView.setVisibility(View.GONE);
         }
-        if(mRecyclerView.getVisibility() != View.VISIBLE){
+        if (mRecyclerView.getVisibility() != View.VISIBLE) {
             mRecyclerView.setVisibility(View.VISIBLE);
         }
         engine.searchBygeneral(searchString, parseHttpListener);
     }
-    private void showSearchHistory(){
-        if(mRecyclerView.getVisibility() != View.GONE){
+
+    private void showSearchHistory() {
+        if (mRecyclerView.getVisibility() != View.GONE) {
             mRecyclerView.setVisibility(View.GONE);
         }
-        if(mHistoryView.getVisibility() != View.VISIBLE){
+        if (mHistoryView.getVisibility() != View.VISIBLE) {
             mHistoryView.setVisibility(View.VISIBLE);
 
         }
     }
+
     private void showDelDialog() {
 
         MAlertDialog builder = PromptManager.getAlertDialog(this);
@@ -413,6 +416,7 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
 
         builder.show();
     }
+
     private void clickDelHistory() {
         mDataList.clear();
         hisAdapter.notifyDataSetChanged();
