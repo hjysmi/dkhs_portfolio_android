@@ -244,6 +244,8 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         mDataList.addAll(object.getResults());
         if(mDataList.size() > 0){
             addTitle();
+            mListView.setVisibility(View.VISIBLE);
+            tvEmptyText.setVisibility(View.GONE);
         }else{
             setEmptyText(getEmptyText());
         }
