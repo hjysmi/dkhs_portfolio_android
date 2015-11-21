@@ -49,14 +49,14 @@ public class SearchMoreUserHandler extends SimpleItemHandler<UserEntity> {
         cb_select_stock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (user.isMe_follow()) {
-                    //我已关注
-                    unFollowAction(itemView,user);
-                    cb_select_stock.setChecked(false);
-                } else {
+                if(isChecked){
+                    //已关注
                     followAction(itemView, user);
-                    cb_select_stock.setChecked(true);
+                }else{
+                    //没关注
+                    unFollowAction(itemView,user);
                 }
+
             }
         });
 
