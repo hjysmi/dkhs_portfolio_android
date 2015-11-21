@@ -4,6 +4,9 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.QuotesBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -25,7 +29,9 @@ import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreUserHandle
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.SelectGeneralSearchMoreEngineImpl;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.widget.ClearableEditText;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -36,7 +42,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/11/20.
  */
-public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener {
+public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener,View.OnClickListener {
 
     private static String SEARCH_STRING = "search_string";
     private static String SEARCH_TYPE = "search_type";
@@ -47,6 +53,12 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
     PullToRefreshListView mListView;
     @ViewInject(android.R.id.empty)
     private TextView tvEmptyText;
+    @ViewInject(R.id.tv_search)
+    private TextView tvCancel;
+    @ViewInject(R.id.et_search_key)
+    private ClearableEditText etSearch;
+    @ViewInject(R.id.btn_search_back)
+    private ImageButton btnBack;
 
     private HttpHandler mHttpHandler;
     @ViewInject(android.R.id.progress)
@@ -75,6 +87,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         if (extras != null) {
             handleExtras(extras);
         }
+        initView();
         initLoadMoreList();
         BusProvider.getInstance().register(this);
         postDelayedeData();
@@ -91,6 +104,30 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
             return;
         mListView.setVisibility(View.VISIBLE);
         tvEmptyText.setVisibility(View.GONE);
+    }
+
+    public void initView(){
+        etSearch.setText(searchString);
+        if(searchType == SearchMoreType.MORE_REWARD ||searchType == SearchMoreType.MORE_TOPIC){
+            tvCancel.setVisibility(View.VISIBLE);
+            tvCancel.setText(R.string.search);
+            tvCancel.setOnClickListener(this);
+        }else{
+            tvCancel.setVisibility(View.GONE);
+            etSearch.addTextChangedListener(new MyTextWatcher());
+        }
+        btnBack.setOnClickListener(this);
+
+    }
+
+    private void search(boolean show) {
+        searchString = etSearch.getText().toString();
+        if (show && TextUtils.isEmpty(searchString.trim())) {
+            PromptManager.showToast("请输入搜索内容");
+            return;
+        }
+        getLoadEngine().setSearchString(searchString);
+        getLoadEngine().loadData();
     }
 
     // add by zcm -----2014.12.15
@@ -201,7 +238,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         }
         if (getLoadEngine().getCurrentpage() == 1) {
             mDataList.clear();
-        } else {
+        } else if (mDataList.size() > 0){
             mDataList.remove(0);
         }
         addTitle();
@@ -281,6 +318,36 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_search_back:
+                finish();
+                break;
+            case R.id.tv_search:
+                search(true);
+                break;
+        }
+    }
+
+    private  class MyTextWatcher implements TextWatcher{
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            search(false);
+        }
     }
 }
 
