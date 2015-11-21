@@ -14,6 +14,8 @@ import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.QuotesBean;
+import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreCombinationHandler;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreFundManagerHandler;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreStockFundHandler;
@@ -142,12 +144,9 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
                 break;
             case MORE_REWARD:
                 //悬赏
-                // TODO: 2015/11/20
-
-                break;
             case MORE_TOPIC:
                 //话题
-                // TODO: 2015/11/20
+                mAdapter.buildMultiItemView(TopicsBean.class, new TopicsHandler(mContext));
                 break;
         }
         return mAdapter;
