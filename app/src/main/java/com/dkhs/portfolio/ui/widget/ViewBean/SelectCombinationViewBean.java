@@ -14,13 +14,10 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.fragment.MarketCombinationFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -88,7 +85,10 @@ public class SelectCombinationViewBean extends ViewBean{
                 CombinationBean csBean = (CombinationBean) buttonView.getTag();
                 if (!isChecked) {
                     buttonView.setChecked(true);
-                    showDelDialog(buttonView, isChecked);
+//                    showDelDialog(buttonView, isChecked);
+                    csBean.setFollowed(false);
+                    bindView(csBean);
+                    delFollowCombinatio(csBean);
                 } else {
                     csBean.setFollowed(isChecked);
                     bindView(csBean);

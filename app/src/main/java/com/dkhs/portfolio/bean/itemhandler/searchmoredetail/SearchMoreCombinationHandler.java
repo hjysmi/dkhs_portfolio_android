@@ -14,14 +14,11 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -73,8 +70,11 @@ public class SearchMoreCombinationHandler extends SimpleItemHandler<CombinationB
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             CombinationBean csBean = (CombinationBean) buttonView.getTag();
             if (!isChecked) {
-                buttonView.setChecked(true);
-                showDelDialog(buttonView, isChecked);
+//                buttonView.setChecked(true);
+                csBean.setFollowed(false);
+                onBindView(vh,csBean,position);
+                delFollowCombinatio(csBean);
+//                showDelDialog(buttonView, isChecked);
             } else {
                 csBean.setFollowed(isChecked);
                 onBindView(vh,csBean,position);
