@@ -103,6 +103,7 @@ public class SelectMoreViewBean extends ViewBean {
                             break;
                         case MORE_FUND_MANAGER:
                             UIUtils.startAnimationActivity((Activity)itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(),searchString, SearchMoreType.MORE_FUND_MANAGER));
+                            break;
                         case MORE_USER:
                             UIUtils.startAnimationActivity((Activity)itemView.getContext(), SelectSearchMoreLoadMoreListActivity.getIntent(itemView.getContext(),searchString, SearchMoreType.MORE_USER));
                             view_divider.setVisibility(View.VISIBLE);
