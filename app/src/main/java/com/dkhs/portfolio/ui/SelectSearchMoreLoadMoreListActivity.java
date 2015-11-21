@@ -241,7 +241,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         if (object.getCurrentPage() == 1 && object.getResults().size() == 0) {
             setEmptyText(getEmptyText());
         }
-        if (getLoadEngine().getCurrentpage() == 1) {
+        if (getLoadEngine().getCurrentpage() == 1 || getLoadEngine().getCurrentpage() == 0) {
             mDataList.clear();
         } else if (mDataList.size() > 0){
             mDataList.remove(0);
@@ -282,7 +282,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
                 titleId = R.string.blank_select_search_more_topic;
                 break;
         }
-        mDataList.add(0,String.format(getResources().getString(titleId), getLoadEngine().getTotalcount()));
+        mDataList.add(0, String.format(getResources().getString(titleId), getLoadEngine().getTotalcount()));
     }
 
     @Override
