@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dkhs="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_search_stock"
+        style="@style/item_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_gray">
+
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
+            android:id="@+id/et_search_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/tv_cancel"
+            android:background="@drawable/search_bg_selector"
+            android:drawableLeft="@drawable/search_gray"
+            android:drawablePadding="10dp"
+            android:hint="@string/search_general"
+            android:maxLength="50"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:textColorHint="#999999"
+            android:textSize="16sp"
+            dkhs:needVisible="true" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_medium"
+            android:text="@string/cancel"
+            android:textColor="@color/balance"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_search_stock"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/lv_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_search_stock"
+        android:background="@color/activity_bg_color"
+        android:listSelector="@color/transparent"
+        android:divider="@color/theme_gray"
+        android:dividerHeight="1px"
+
+        />
+
+</RelativeLayout>

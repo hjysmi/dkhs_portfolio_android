@@ -19,6 +19,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.adapter.MarkStockAdatper;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
@@ -277,7 +278,8 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
                 break;
             case R.id.btn_search:
-                intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                intent = new Intent(getActivity(), SelectGeneralActivity.class);
+               // intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 break;
 
             default:

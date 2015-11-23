@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lv_white_selector"
+    android:descendantFocusability="blocksDescendants">
+
+    <ImageView
+        android:id="@+id/user_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_user_head"
+        app:layout_heightPercent="10%w"
+        app:layout_marginBottomPercent="3%w"
+        app:layout_marginLeftPercent="5%w"
+        app:layout_marginTopPercent="3%w"
+        app:layout_widthPercent="10%w" />
+
+    <com.android.percent.PercentRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/user_head"
+        app:layout_heightPercent="10%w"
+        app:layout_marginLeftPercent="3%w"
+        app:layout_widthPercent="60%w">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            app:layout_textSizePercent="6%w" />
+
+        <TextView
+            android:id="@+id/tv_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:singleLine="true"
+            android:textColor="@color/gray_textcolor"
+            app:layout_textSizePercent="6%w"
+            app:layout_widthPercent="35%w" />
+
+        <TextView
+            android:id="@+id/tv_fans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/gray_textcolor"
+            app:layout_marginLeftPercent="35%w"
+            app:layout_textSizePercent="6%w"
+            app:layout_widthPercent="35%w" />
+    </com.android.percent.PercentRelativeLayout>
+
+
+    <CheckBox
+        android:id="@+id/cb_select_stock"
+        style="@style/hw_wrap"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/cb_add_item_selector"
+        app:layout_marginRightPercent="5%w"
+       />
+
+    <View style="@style/divider_line" />
+</com.android.percent.PercentRelativeLayout>

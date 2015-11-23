@@ -537,7 +537,7 @@
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>
     <string name="edit_success">设置成功</string>
-
+    <string name="search_general">股票/基金/用户/悬赏/话题</string>
     <string name="search_stockandfunds">股票、基金简称/代码/拼音</string>
     <string name="search_stock">股票简称/代码/拼音</string>
     <string name="search_friend">输入昵称</string>
@@ -700,6 +700,31 @@
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
+    <!--在线搜索-->
+    <string name="select_title_stock">股票</string>
+    <string name="select_title_fund">基金</string>
+    <string name="select_title_fund_manager">基金经理</string>
+    <string name="select_title_user">用户</string>
+    <string name="select_title_combination">组合</string>
+    <string name="select_more_stock">查看更多股票</string>
+    <string name="select_more_fund">查看更多基金</string>
+    <string name="select_more_fund_manager">查看更多基金经理</string>
+    <string name="select_more_user">查看更多用户</string>
+    <string name="select_more_combination">查看更多组合</string>
+    <string name="select_related_reward">搜索相关悬赏</string>
+    <string name="select_related_topic">搜索相关话题</string>
+    <string name="select_no_desc">暂无描述</string>
+    <string name="select_clear_history">清空全部记录</string>
+    <string name="select_show_history">全部搜索记录</string>
+    <string name="blank_select_search_more_stock">找到%1$d只股票</string>
+    <string name="blank_select_search_more_fund">找到%1$d只基金</string>
+    <string name="blank_select_search_more_fund_manager">找到%1$d个基金经理</string>
+    <string name="blank_select_search_more_user">找到%1$d个用户</string>
+    <string name="blank_select_search_more_combination">找到%1$d个组合</string>
+    <string name="blank_select_search_more_reward">找到%1$d个悬赏</string>
+    <string name="blank_select_search_more_topic">找到%1$d个话题</string>
+
+    <!--在线搜索-->
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
     <string name="dialog_msg_invitecode_success">邀请码提交成功，赠送流量已入库，您也可以发出好友邀请，邀请好友越多，流量送越多!</string>
@@ -854,4 +879,13 @@
     <string name="restart">重新开始</string>
     <string name="wait">等待</string>
     <string name="write_phone">填写手机号</string>
+
+    <!--search hint-->
+    <string name="search_stock_hint">股票</string>
+    <string name="search_fund_hint_other">基金</string>
+    <string name="search_user_hint">用户</string>
+    <string name="search_reward_hint">悬赏</string>
+    <string name="search_topic_hint">话题</string>
+    <string name="search_fund_manger_hint">基金经理</string>
+    <string name="search_com_hint">组合</string>
 </resources>

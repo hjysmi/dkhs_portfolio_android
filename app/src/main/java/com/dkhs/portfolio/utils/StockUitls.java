@@ -82,5 +82,11 @@ public class StockUitls {
         }
         return symbolType.equalsIgnoreCase(SYMBOLTYPE_FUND);
     }
+    public static boolean isStockType(String symbolType) {
+        if (TextUtils.isEmpty(symbolType)) {
+            return false;
+        }
+        return symbolType.equalsIgnoreCase(SYMBOLTYPE_STOCK) || symbolType.equalsIgnoreCase(SYMBOLTYPE_INDEX);
+    }
 
 }

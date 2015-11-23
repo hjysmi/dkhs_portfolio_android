@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.TopicsDetailScrollView;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -545,7 +544,7 @@ public class FloatingActionView extends LinearLayout {
 
         @Override
         public void onScrollDown() {
-            show();
+            hide();
             if (mScrollDirectionListener != null) {
                 mScrollDirectionListener.onScrollDown();
             }
@@ -553,7 +552,7 @@ public class FloatingActionView extends LinearLayout {
 
         @Override
         public void onScrollUp() {
-            hide();
+            show();
             if (mScrollDirectionListener != null) {
                 mScrollDirectionListener.onScrollUp();
             }
