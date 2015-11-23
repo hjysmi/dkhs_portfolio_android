@@ -42,6 +42,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     public static final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
     public static final String EXTRA_SETPSW = "extra_set_psw";
+    public static final String EXTRA_NAME = "extra_name";
 
     public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
     private String phoneNum;
@@ -55,6 +56,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private boolean isSetPsw;
     private boolean isRegisterThreePlatform;
     private boolean isForgetPsw;
+    private String name;
 
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
@@ -74,11 +76,12 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         intent.putExtra(EXTRA_CODE, code);
         return intent;
     }
-    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code) {
+    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code,String name) {
         Intent intent = new Intent(context, VerificationActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
         intent.putExtra(EXTRA_SETPSW, true);
         intent.putExtra(EXTRA_CODE, code);
+        intent.putExtra(EXTRA_NAME,name);
         intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM,true);
         return intent;
     }
@@ -95,6 +98,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         isSetPsw = extras.getBoolean(EXTRA_SETPSW);
         isRegisterThreePlatform = extras.getBoolean(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM);
         isForgetPsw = extras.getBoolean(RLFActivity.EXTRA_FORGET_PSW);
+        name = extras.getString(EXTRA_NAME);
     }
 
     String strBefore;
@@ -215,7 +219,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                             finish();
                         } else if(isRegisterThreePlatform){
                                 startActivity(
-                                        SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false));
+                                        SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false,name));
                                 finish();
                         }else{
                             startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
