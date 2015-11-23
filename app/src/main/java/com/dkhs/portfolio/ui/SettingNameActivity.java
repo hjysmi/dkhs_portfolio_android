@@ -45,6 +45,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     public static final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
     public static final String EXTRA_ISSETPSW = "extra_issetpsw";
+    public static final String EXTRA_NAME = "extra_name";
     private String phoneNum;
     private String code;
     private Button rlfbutton;
@@ -53,6 +54,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     private boolean isResetPsw;
     private boolean isSetPsw;
     private boolean isRegisterThreePlatform;
+    private String name;
 
     public static Intent newIntent(Context context, String phoneNum, String code, boolean resetPsw) {
         Intent intent = new Intent(context, SettingNameActivity.class);
@@ -70,13 +72,14 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         return intent;
     }
 
-    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code,boolean resetPsw) {
+    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code,boolean resetPsw,String name) {
         Intent intent = new Intent(context, SettingNameActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
         intent.putExtra(EXTRA_ISSETPSW, resetPsw);
         intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM,true);
         intent.putExtra(EXTRA_ISRESETPSW, resetPsw);
         intent.putExtra(EXTRA_CODE, code);
+        intent.putExtra(EXTRA_NAME,name);
         return intent;
     }
 
@@ -88,7 +91,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         isSetPsw = extras.getBoolean(EXTRA_ISSETPSW);
         isRegisterThreePlatform = extras.getBoolean(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM);
 
-
+        name = extras.getString(EXTRA_NAME);
     }
 
     String strBefore;
@@ -294,6 +297,9 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             setTitle("填写昵称");
             rlfbutton.setText("完成");
 
+        }
+        if(!TextUtils.isEmpty(name)){
+            etUserName.setText(name);
         }
 
     }
