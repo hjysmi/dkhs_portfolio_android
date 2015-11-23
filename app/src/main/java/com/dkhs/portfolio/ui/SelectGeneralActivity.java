@@ -246,6 +246,7 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
             if (!TextUtils.isEmpty(searchString)) {
                 showSearchResult(searchString);
             } else {
+                notifyHistoryData();
                 showSearchHistory();
             }
         }
@@ -434,4 +435,13 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
         hisAdapter.notifyDataSetChanged();
         VisitorDataEngine.clearHistoryStock();
     }
+
+    private void notifyHistoryData(){
+        mDataList.clear();
+        history = VisitorDataEngine.getHistory();
+        mDataList.addAll(history);
+        hisAdapter.notifyDataSetChanged();
+    }
+
+
 }
