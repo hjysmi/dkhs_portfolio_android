@@ -285,13 +285,13 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             findViewById(R.id.rl_repassword).setVisibility(View.VISIBLE);
 
         } else if (isSetPsw) {
-            setTitle("设置密码");
+            setTitle("设置新密码");
             findViewById(R.id.ll_name).setVisibility(View.GONE);
             TextView tvPsw = (TextView) findViewById(R.id.tv_psw);
-            tvPsw.setText("密码");
+            tvPsw.setText("新密码");
 
         } else {
-            setTitle("设置昵称和密码");
+            setTitle("填写昵称");
             rlfbutton.setText("完成");
 
         }
@@ -390,7 +390,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             etUserName.requestFocus();
         } else if (StringFromatUtils.getStringRealLength(text) < 4) {
             isValid = false;
-            etUserName.setError(Html.fromHtml("<font color='red'>昵称不能小于4个字符</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>昵称不符合规范，请填写4-20个字符，支持中英文、数字、\"_\"或减号</font>"));
             etUserName.requestFocus();
         }
         return isValid;
