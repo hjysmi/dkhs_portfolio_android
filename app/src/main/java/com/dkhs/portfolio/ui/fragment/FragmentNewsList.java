@@ -377,7 +377,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
 //                    }
 //                }
 //            }
-
+            getadle = true;
             if (getView() != null) {
                 isViewShown = true;
 
