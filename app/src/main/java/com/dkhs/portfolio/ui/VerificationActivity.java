@@ -86,6 +86,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     public static Intent newForgetPswIntent(Context context, String phoneNum) {
         Intent intent = new Intent(context, VerificationActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_SETPSW, true);
         intent.putExtra(RLFActivity.EXTRA_FORGET_PSW,true);
         return intent;
     }
