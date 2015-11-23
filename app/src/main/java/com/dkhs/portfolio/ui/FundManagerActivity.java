@@ -64,7 +64,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
 
     public static Intent newIntent(Context ctx, FundManagerBean fundManagerBean) {
         Intent intent = new Intent(ctx, FundManagerActivity.class);
-        intent.putExtra("pk", fundManagerBean.id);
+        intent.putExtra("pk", String.valueOf(fundManagerBean.id));
         intent.putExtra("name", fundManagerBean.name);
         intent.putExtra("win_rate_day", fundManagerBean.win_rate_day);
         intent.putExtra("avatar_md", fundManagerBean.avatar_md);
