@@ -394,7 +394,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             engine.login(userName, passWord, ConstantValue.IS_MOBILE, listener);
         } else {
             // Toast.makeText(this, "请输入手机号或者邮箱", Toast.LENGTH_SHORT).show();
-            etUserName.setError(Html.fromHtml("<font color='red'>请输入手机号或者邮箱</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>请填写正确的手机号</font>"));
             etUserName.requestFocus();
         }
     }
@@ -625,7 +625,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         public void onFailure(int errCode, String errMsg) {
             String errorKey = ErrorBundle.parseToErrorBundle(errMsg).getErrorKey().trim();
             if((MOBILE_UNBOUND).equals(errorKey) || (SOCIAL_UNBOUND).equals(errorKey)){
-                startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this), REQUEST_BOUND_THREE_PLATFORM);
+                startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this,plat.getDb().getUserName()), REQUEST_BOUND_THREE_PLATFORM);
             }else{
                 super.onFailure(errCode, errMsg);
             }

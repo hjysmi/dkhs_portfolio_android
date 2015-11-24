@@ -67,10 +67,13 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
     private boolean isSettingPsw;
     private boolean isRegisterThreePlatform;
+    private String name;
     public static final String EXTRA_SETTING_PASSWORD = "extra_setting_password";
     public static final String EXTRA_ACTIVITY_TYPE = "activity_type";
     public static final String EXTRA_REGISTER_THREE_PLATFORM = "register_three_platform";
     public static final String EXTRA_FORGET_PSW = "extra_forget_psw";
+    public static final String EXTRA_NAME = "extra_name";
+
     public static final int REQUESTCODE_SET_PASSWROD = 999;
     public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
 
@@ -82,11 +85,12 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         return intent;
     }
 
-    public static Intent registerThreePlatform(Context context) {
+    public static Intent registerThreePlatform(Context context,String name) {
         Intent intent = new Intent(context, RLFActivity.class);
         intent.putExtra(EXTRA_SETTING_PASSWORD, true);
         intent.putExtra(EXTRA_REGISTER_THREE_PLATFORM,true);
         intent.putExtra(EXTRA_ACTIVITY_TYPE, REGIST_THREE_PLAT);
+        intent.putExtra(EXTRA_NAME,name);
         return intent;
     }
 
@@ -154,6 +158,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         isSettingPsw = extras.getBoolean(EXTRA_SETTING_PASSWORD);
         current_type = getIntent().getIntExtra(EXTRA_ACTIVITY_TYPE, REGIST_TYPE);
         isRegisterThreePlatform = extras.getBoolean(EXTRA_REGISTER_THREE_PLATFORM);
+        name = extras.getString(EXTRA_NAME);
     }
 
     private void showCaptchaLoginDailog() {
@@ -411,7 +416,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             if (!object) {
                 if(isRegisterThreePlatform){
                     startActivityForResult((VerificationActivity.newThreePlatformIntent(RLFActivity.this, etPhoneNum
-                            .getText().toString(), null)), REQUEST_BOUND_THREE_PLATFORM);
+                            .getText().toString(), null,name)), REQUEST_BOUND_THREE_PLATFORM);
                 }else if (isSettingPsw) {
                     startActivityForResult(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
                             null, false), REQUESTCODE_SET_PASSWROD);
