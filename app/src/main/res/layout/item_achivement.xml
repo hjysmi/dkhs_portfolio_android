@@ -22,8 +22,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_white_border_gray"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:paddingTop="16dp">
 
 
@@ -31,6 +29,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:paddingLeft="@dimen/widget_padding_medium"
+            android:paddingRight="@dimen/widget_padding_medium"
             android:orientation="horizontal">
 
             <TextView
@@ -72,7 +72,9 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:paddingLeft="@dimen/widget_padding_medium"
+            android:paddingRight="@dimen/widget_padding_medium">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -183,11 +185,10 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_width="24dp"
+                android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:scaleType="center"
                 android:src="@drawable/setting_image_right" />
         </RelativeLayout>
 
