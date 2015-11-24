@@ -12,8 +12,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.QuotesBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -62,6 +65,8 @@ public class SearchMoreStockFundHandler extends SimpleItemHandler<QuotesBean>{
             @Override
             public void onClick(View v) {
                 SelectStockBean itemStock = SelectStockBean.copy(mQuotesBean);
+                VisitorDataEngine.saveHistory(itemStock.parseHistoryBean());
+                BusProvider.getInstance().post(itemStock);
                 if (StockUitls.isFundType(itemStock.symbol_type)) {
                     UIUtils.startAnimationActivity((Activity) itemView.getContext(), FundDetailActivity.newIntent((Activity) itemView.getContext(), itemStock));
                 } else {

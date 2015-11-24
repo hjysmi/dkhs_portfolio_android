@@ -385,4 +385,11 @@ public class SelectStockBean extends DragListItem {
         return this.alertSetBean != null;
     }
 
+    public boolean equals(SelectStockBean obj) {
+        if (obj instanceof SelectStockBean) {
+            SelectStockBean stock = (SelectStockBean) obj;
+            return this.id == stock.id;
+        }
+        return super.equals(obj);
+    }
 }

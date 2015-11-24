@@ -25,6 +25,7 @@ import com.dkhs.portfolio.bean.FundTypeMenuBean;
 import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
@@ -225,7 +226,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             }
             break;
             case R.id.btn_search:
-                UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), SelectAddOptionalActivity.class));
+                UIUtils.startAnimationActivity(getActivity(),  new Intent(getActivity(), SelectGeneralActivity.class));
+//                UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), SelectAddOptionalActivity.class));
                 break;
             default:
                 break;
