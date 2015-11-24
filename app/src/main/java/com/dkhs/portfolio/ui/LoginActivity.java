@@ -277,6 +277,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 }
             }
         });
+        //防止获取父控件的焦点
+        findViewById(R.id.tv_three_login_text).setOnClickListener(this);
 
     }
 
