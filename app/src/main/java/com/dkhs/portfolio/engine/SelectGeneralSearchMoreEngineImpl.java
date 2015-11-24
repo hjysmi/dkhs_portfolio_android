@@ -64,7 +64,7 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
         String url = getSearchUrl(params);
         if(TextUtils.isEmpty(url))
             return null;
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this.setLoadingDialog(mContext));
 
     }
 

@@ -33,11 +33,22 @@
         android:paddingBottom="@dimen/widget_padding_medium"
         android:background="@color/white"
         >
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_status_content"
+            android:textColor="@color/gray"
+            android:text="@string/select_search_desc"
+            />
         <ImageView
             android:id="@+id/search_bg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_below="@id/tv_desc"
+            android:layout_marginTop="@dimen/widget_margin_medium"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/general_search_bg"
             />
     </RelativeLayout>

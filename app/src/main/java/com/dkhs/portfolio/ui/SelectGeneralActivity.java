@@ -27,6 +27,7 @@ import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.SelectGeneralAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.ClearableEditText;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ViewBean.SelectCombinationViewBean;
@@ -43,6 +44,7 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,15 +93,30 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
         mHistoryView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SelectStockBean itemStock = mDataList.get(position);
-                if (StockUitls.isFundType(itemStock.symbol_type)) {
-                    startActivity(FundDetailActivity.newIntent(SelectGeneralActivity.this, itemStock));
-                } else {
-                    startActivity(StockQuotesActivity.newIntent(SelectGeneralActivity.this, itemStock));
+                if (hisAdapter.getItemViewType(position) != hisAdapter.TYPE_BOTTOM) {
+                    SelectStockBean itemStock = mDataList.get(position);
+                    if (StockUitls.isFundType(itemStock.symbol_type)) {
+                        startActivity(FundDetailActivity.newIntent(SelectGeneralActivity.this, itemStock));
+                    } else {
+                        startActivity(StockQuotesActivity.newIntent(SelectGeneralActivity.this, itemStock));
+                    }
                 }
             }
         });
 //        hisAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
     }
 
     private void initViews() {
@@ -436,12 +453,18 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
         VisitorDataEngine.clearHistoryStock();
     }
 
-    private void notifyHistoryData(){
+    private void notifyHistoryData() {
         mDataList.clear();
         history = VisitorDataEngine.getHistory();
         mDataList.addAll(history);
         hisAdapter.notifyDataSetChanged();
     }
-
+    @Subscribe
+    public void receiveData(SelectStockBean itemStock){
+        if(!mDataList.contains(itemStock)){
+            mDataList.add(0,itemStock);
+            hisAdapter.notifyDataSetChanged();
+        }
+    }
 
 }
