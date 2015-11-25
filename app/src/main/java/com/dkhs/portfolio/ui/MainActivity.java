@@ -11,10 +11,8 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -24,11 +22,11 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
+import com.dkhs.portfolio.ui.fragment.HomePageFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MainRewardFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
-import com.dkhs.portfolio.ui.fragment.ShakeFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
@@ -36,8 +34,6 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import org.parceler.Parcels;
 
 import io.rong.imlib.model.Message;
 
@@ -212,7 +208,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {
-            fragmentC = new ShakeFragment();
+            fragmentC = new HomePageFragment();
         }
         hideAllFragment();
         if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
