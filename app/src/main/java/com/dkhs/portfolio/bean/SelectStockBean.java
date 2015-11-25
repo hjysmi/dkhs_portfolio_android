@@ -10,6 +10,7 @@ package com.dkhs.portfolio.bean;
 
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.ui.widget.ViewBean.SelectStockFundViewBean;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
@@ -235,11 +236,14 @@ public class SelectStockBean extends DragListItem {
 
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof SelectStockBean)) {
-            return false;
+        if (obj instanceof SelectStockBean) {
+            SelectStockBean param = (SelectStockBean) obj;
+            return this.id == param.id || this.code.equals(param.code);
+        }else if(obj instanceof SelectStockFundViewBean){
+            QuotesBean quotesBean = ((SelectStockFundViewBean) obj).getmQuotesBean();
+            return this.id == quotesBean.id || this.code == quotesBean.code;
         }
-        SelectStockBean param = (SelectStockBean) obj;
-        return this.id == param.id || this.code.equals(param.code);
+        return super.equals(obj);
     }
 
     public long getSortId() {

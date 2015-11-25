@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.ui.widget.ViewBean.SelectCombinationViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.SelectDividerViewBean;
@@ -30,6 +32,12 @@ public class SelectGeneralAdapter extends RecyclerView.Adapter<RecyclerView.View
     public SelectGeneralAdapter(List<ViewBean> items,Context context) {
         mItems = items;
         changeFollowView = new ChangeFollowView(context);
+        changeFollowView.setmChangeListener(new ChangeFollowView.IChangeSuccessListener() {
+            @Override
+            public void onChange(SelectStockBean stockBean) {
+                BusProvider.getInstance().post(stockBean);
+            }
+        });
         new SelectTitleViewBean(viewDatas);
         new SelectStockFundViewBean(viewDatas,changeFollowView);
         new SelectMoreViewBean(viewDatas);

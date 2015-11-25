@@ -30,6 +30,7 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
 
     private SearchMoreType searchMoreType;
     private Context mContext;
+    private boolean isFirstTimeLoad = true;
     public SelectGeneralSearchMoreEngineImpl(ILoadDataBackListener loadListener,SearchMoreType searchMoreType,Context context) {
         super(loadListener);
         this.searchMoreType = searchMoreType;
@@ -64,7 +65,10 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
         String url = getSearchUrl(params);
         if(TextUtils.isEmpty(url))
             return null;
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this.setLoadingDialog(mContext));
+        if(isFirstTimeLoad){
+            setLoadingDialog(mContext);
+        }
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, this);
 
     }
 
@@ -107,6 +111,10 @@ public class SelectGeneralSearchMoreEngineImpl extends LoadMoreDataEngine{
 
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
+        if(isFirstTimeLoad){
+            cancelLoadingDialog();
+            isFirstTimeLoad = false;
+        }
         MoreDataBean<Object> moreBean = null;
         if (!TextUtils.isEmpty(jsonData)) {
 
