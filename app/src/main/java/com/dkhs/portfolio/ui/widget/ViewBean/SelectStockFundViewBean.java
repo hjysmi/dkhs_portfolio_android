@@ -32,6 +32,14 @@ public class SelectStockFundViewBean extends ViewBean {
     private static ChangeFollowView changeFollowView;
     private QuotesBean mQuotesBean;
 
+    public QuotesBean getmQuotesBean() {
+        return mQuotesBean;
+    }
+
+    public void setmQuotesBean(QuotesBean mQuotesBean) {
+        this.mQuotesBean = mQuotesBean;
+    }
+
     public SelectStockFundViewBean() {
     }
 
@@ -109,4 +117,5 @@ public class SelectStockFundViewBean extends ViewBean {
     public int getViewType() {
         return TYPE;
     }
+
 }

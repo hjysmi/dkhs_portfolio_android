@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -22,12 +23,15 @@ import com.dkhs.portfolio.bean.QuotesBean;
 import com.dkhs.portfolio.bean.SearchGeneralBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
+import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
 import com.dkhs.portfolio.engine.SelectGeneralEngine;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.SelectGeneralAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.ClearableEditText;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ViewBean.SelectCombinationViewBean;
@@ -86,6 +90,8 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
     }
 
     private void initData() {
+        if(!PortfolioApplication.hasUserLogin())
+            loadVisitorData();
         history = VisitorDataEngine.getHistory();
         mDataList.addAll(history);
         hisAdapter = new MyHistoryAdapter();
@@ -104,19 +110,6 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
             }
         });
 //        hisAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BusProvider.getInstance().register(this);
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        BusProvider.getInstance().unregister(this);
-        super.onDestroy();
     }
 
     private void initViews() {
@@ -164,6 +157,12 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                         if (list_stock.size() > 0) {
                             dataList.add(new SelectTitleViewBean(R.string.select_title_stock));
                             for (QuotesBean stockQuotes : list_stock) {
+                                if(!PortfolioApplication.hasUserLogin() && !stockQuotes.isFollowed()){
+                                    int index = mFollowList.indexOf(stockQuotes);
+                                    if(index != -1){
+                                        stockQuotes.setFollowed(mFollowList.get(index).isFollowed);
+                                    }
+                                }
                                 dataList.add(new SelectStockFundViewBean(stockQuotes));
                             }
                             if (list_stock.size() == 3) {
@@ -175,6 +174,12 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                         if (list_fund.size() > 0) {
                             dataList.add(new SelectTitleViewBean(R.string.select_title_fund));
                             for (QuotesBean fundQuotes : list_fund) {
+                                if(!PortfolioApplication.hasUserLogin() && !fundQuotes.isFollowed()){
+                                    int index = mFollowList.indexOf(fundQuotes);
+                                    if(index != -1){
+                                        fundQuotes.setFollowed(mFollowList.get(index).isFollowed);
+                                    }
+                                }
                                 dataList.add(new SelectStockFundViewBean(fundQuotes));
                             }
                             if (list_fund.size() == 3) {
@@ -215,6 +220,12 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                     if (combinationBeans != null && combinationBeans.size() > 0) {
                         dataList.add(new SelectTitleViewBean(R.string.select_title_combination));
                         for (CombinationBean combinationBean : combinationBeans) {
+                            if(!PortfolioApplication.hasUserLogin() && !combinationBean.isFollowed()){
+                                int index = mFollowCombinationList.indexOf(combinationBean);
+                                if(index != -1){
+                                    combinationBean.setFollowed(mFollowCombinationList.get(index).isFollowed());
+                                }
+                            }
                             dataList.add(new SelectCombinationViewBean(combinationBean));
                         }
                         if (combinationBeans.size() == 3) {
@@ -459,11 +470,92 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
         mDataList.addAll(history);
         hisAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
+    private List<SelectStockBean> mFollowList = new ArrayList<>();
+    private List<CombinationBean> mFollowCombinationList = new ArrayList<>();
+
+    private void loadVisitorData() {
+        mFollowList.clear();
+        mFollowCombinationList.clear();
+        VisitorDataSource.getOptionalStockList(this, new IResultCallback<SelectStockBean>() {
+            @Override
+            public void onResultCallback(List<SelectStockBean> resultList) {
+                mFollowList.addAll(resultList);
+            }
+        });
+        mFollowCombinationList.addAll(new VisitorDataEngine().getCombinationBySort());
+
+    }
+
     @Subscribe
-    public void receiveData(SelectStockBean itemStock){
-        if(!mDataList.contains(itemStock)){
+    public void receiveStockData(SelectStockBean itemStock){
+        int dataIndex = mDataList.indexOf(itemStock);
+        if(dataIndex == -1){
             mDataList.add(0,itemStock);
             hisAdapter.notifyDataSetChanged();
+        }
+        int viewBeanIndex = mViewBeanList.indexOf(itemStock);
+        if(viewBeanIndex != -1 ){
+            ViewBean viewBean = mViewBeanList.get(viewBeanIndex);
+            if(viewBean instanceof SelectStockFundViewBean){
+                SelectStockFundViewBean sViewBean = (SelectStockFundViewBean) viewBean;
+                QuotesBean quotesBean = sViewBean.getmQuotesBean();
+                quotesBean.setFollowed(itemStock.isFollowed);
+                sViewBean.setmQuotesBean(quotesBean);
+                adapter.notifyDataSetChanged();
+            }
+        }
+        if(!PortfolioApplication.hasUserLogin()){
+            int index = mFollowList.indexOf(itemStock);
+            if(index != -1){
+                mFollowList.remove(index);
+                if(itemStock.isFollowed()){
+                    mFollowList.add(itemStock);
+                }
+            }else {
+                if(itemStock.isFollowed())
+                    mFollowList.add(itemStock);
+            }
+        }
+    }
+    @Subscribe
+    public void receiveCombinationData(UpdateCombinationEvent updateCombination) {
+        CombinationBean combinationBean = updateCombination.mCombinationBean;
+        int index = mViewBeanList.indexOf(combinationBean);
+        if (index != -1) {
+            Object o = mViewBeanList.get(index);
+            if (o instanceof SelectCombinationViewBean) {
+                SelectCombinationViewBean combinationViewBean = (SelectCombinationViewBean) o;
+                CombinationBean mCombinationBean = combinationViewBean.getmCombinationBean();
+                mCombinationBean.setFollowed(combinationBean.isFollowed());
+                combinationViewBean.setmCombinationBean(mCombinationBean);
+                adapter.notifyDataSetChanged();
+            }
+        }
+        if (!PortfolioApplication.hasUserLogin()) {
+            index = mFollowCombinationList.indexOf(combinationBean);
+            if (index != -1) {
+                mFollowCombinationList.remove(index);
+                if (combinationBean.isFollowed()) {
+                    mFollowCombinationList.add(combinationBean);
+                }
+            }else{
+                if (combinationBean.isFollowed()) {
+                    mFollowCombinationList.add(combinationBean);
+                }
+            }
         }
     }
 

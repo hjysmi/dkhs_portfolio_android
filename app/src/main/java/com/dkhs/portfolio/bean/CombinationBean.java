@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.widget.ViewBean.SelectCombinationViewBean;
 import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 import com.lidroid.xutils.db.annotation.Transient;
@@ -339,12 +340,15 @@ public class CombinationBean extends DragListItem {
     public boolean equals(Object obj) {
         if (obj == this)
             return true; // 如果是自己equals自己的话，这里就可以直接返回true，避免了后面可能的大量比较
-        if (!(obj instanceof CombinationBean))
-            return false;
-
-        CombinationBean other = (CombinationBean) obj;
-        return id.equals(other.id) && name.equals(other.name);
-
+        if (obj instanceof CombinationBean){
+            CombinationBean other = (CombinationBean) obj;
+            return id.equals(other.id) && name.equals(other.name);
+        } else if(obj instanceof SelectCombinationViewBean){
+            SelectCombinationViewBean combinationViewBean = (SelectCombinationViewBean) obj;
+            CombinationBean other = combinationViewBean.getmCombinationBean();
+            return id.equals(other.id) && name.equals(other.name);
+        }
+        return super.equals(obj);
     }
 
     @Override
