@@ -190,7 +190,6 @@
 
     <View
         style="@style/divider_line"
-        android:layout_marginBottom="8dp"
         android:layout_marginLeft="@dimen/widget_margin_medium"
         android:layout_marginRight="@dimen/widget_margin_medium" />
     <!--<com.dkhs.portfolio.ui.widget.ExpandableTextView1
@@ -217,6 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
+            android:lineSpacingExtra="5dp"
             android:textSize="14sp"
             android:textColor="@color/tag_gray" />
 

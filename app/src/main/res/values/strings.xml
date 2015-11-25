@@ -723,6 +723,7 @@
     <string name="blank_select_search_more_combination">找到%1$d个组合</string>
     <string name="blank_select_search_more_reward">找到%1$d个悬赏</string>
     <string name="blank_select_search_more_topic">找到%1$d个话题</string>
+    <string name="select_search_desc">在谁牛金融上可以找到</string>
 
     <!--在线搜索-->
 
