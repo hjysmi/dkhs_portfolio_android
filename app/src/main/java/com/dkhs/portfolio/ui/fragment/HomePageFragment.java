@@ -27,15 +27,15 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.mingle.autolist.AutoList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomePageFragment extends VisiableLoadFragment implements BannerHandler.RefreshEnable {
-    private AutoList<Object> mDataList = new AutoList<>().applyAction(Object.class);
-    private AutoList<RecommendFund> recommendFunds = new AutoList<>().applyAction(RecommendFund.class);
-    private AutoList<RecommendFundManager> recommendFundManagers = new AutoList<>().applyAction(RecommendFundManager.class);
+    private ArrayList<Object> mDataList = new ArrayList<>();
+    private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
+    private ArrayList<RecommendFundManager> recommendFundManagers = new ArrayList<>();
     private HomePageEngine mEngine = null;
     private BaseAdapter mAdapter;
 
@@ -86,8 +86,6 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mEngine = new HomePageEngine(getActivity());
-        mDataList.setup(this);
-        mDataList.setAdapter(getListAdapter());
         BusProvider.getInstance().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
