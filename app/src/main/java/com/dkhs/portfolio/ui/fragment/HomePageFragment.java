@@ -13,8 +13,12 @@ import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.HomeMoreBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.RecommendFundBean;
+import com.dkhs.portfolio.bean.RecommendFundManager;
 import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
+import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundHandler;
+import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundManagerHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.mingle.autolist.AutoList;
@@ -34,7 +38,9 @@ public class HomePageFragment extends AutoListLoadMoreListFragment implements Ba
 
         if (mAdapter == null) {
             mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HomePageFragment.this))
-            .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity));
+            .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
+            .buildMultiItemView(RecommendFundManager.class,new RecommendFundManagerHandler(mActivity))
+            .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity));
         }
         return mAdapter;
     }
