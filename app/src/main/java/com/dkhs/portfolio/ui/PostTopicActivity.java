@@ -251,10 +251,27 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 return onTouchEvent(event);
             }
         });
+        amountEt.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //隐藏表情
+                if (isShowingEmotionView) {
+                    hideEmotionView();
+                    isShowingEmotionView = !isShowingEmotionView;
+                }
+                if (curEt != amountEt)
+                    curEt = amountEt;
+                return onTouchEvent(event);
+            }
+        });
         etTitle.clearFocus();
         curEt = etContent;
         etTitle.setFocusable(false);
         etTitle.setFocusableInTouchMode(false);
+        amountEt.clearFocus();
+        amountEt.setFocusable(false);
+        amountEt.setFocusableInTouchMode(false);
         etContent.requestFocus();
         etTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +280,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     etTitle.setFocusable(true);
                     etTitle.setFocusableInTouchMode(true);
                     etTitle.requestFocus();
+                }
+            }
+        });
+        amountEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!amountEt.isFocusable()) {
+                    amountEt.setFocusable(true);
+                    amountEt.setFocusableInTouchMode(true);
+                    amountEt.requestFocus();
                 }
             }
         });

@@ -10,11 +10,10 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -36,8 +35,6 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import org.parceler.Parcels;
 
 import io.rong.imlib.model.Message;
 
@@ -88,6 +85,7 @@ public class MainActivity extends BaseActivity {
         displayFragmentB();
         new AppUpdateEngine(mContext).checkVersion();
         handIntent();
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.person_setting_backgroud)));
     }
 
     @Override

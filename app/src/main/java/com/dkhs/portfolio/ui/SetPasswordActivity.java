@@ -18,10 +18,19 @@ import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.ConstantValue;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SetPasswordActivity extends ModelAcitivity implements OnClickListener {
 
@@ -202,8 +211,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSuccess(String result) {
-            startActivity(LoginActivity.getLoginActivity(SetPasswordActivity.this, phoneNum));
-            finish();
+            engine.login(phoneNum,etPassword.getText().toString(), ConstantValue.IS_MOBILE,listener.setLoadingDialog(SetPasswordActivity.this,false));
 
         }
 
@@ -229,4 +237,61 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_resetting_password);
 
 
+    private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
+
+        // public void onHttpFailure(int errCode, String errMsg) {
+        // PromptManager.closeProgressDialog();
+        // super.onHttpFailure(errCode, errMsg);
+        // };
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            PromptManager.closeProgressDialog();
+            startActivity(LoginActivity.getLoginActivity(SetPasswordActivity.this, phoneNum));
+            finish();
+        }
+
+
+        @Override
+        protected UserEntity parseDateTask(String jsonData) {
+            if (TextUtils.isEmpty(jsonData)) {
+                return null;
+            }
+            try {
+                JSONObject json = new JSONObject(jsonData);
+                UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
+                String token = (String) json.getJSONObject("token").get("access_token");
+                entity.setAccess_token(token);
+                if (SIMCardInfo.isMobileNO(phoneNum)) {
+                    GlobalParams.MOBILE = phoneNum;
+                    entity.setMobile(phoneNum);
+                }
+                engine.saveLoginUserInfo(entity);
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
+                return entity;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(UserEntity entity) {
+            if (null != entity) {
+                PromptManager.closeProgressDialog();
+                PortfolioApplication.getInstance().exitApp();
+                PortfolioApplication.getInstance().setLogin(true);
+                goMainPage();
+            }
+        }
+    };
+
+    private void goMainPage() {
+
+        // 设置小红点可以出现
+        PortfolioApplication.getInstance().exitApp();
+        Intent intent = new Intent(SetPasswordActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
