@@ -23,17 +23,26 @@ import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundManagerHandler;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.HomePageEngine;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomePageFragment extends VisiableLoadFragment implements BannerHandler.RefreshEnable {
-    private ArrayList<Object> mDataList = new ArrayList<>();
+
+    private static final int MSG_FUND = 0;
+    private static final int MSG_FUND_MANAGER = 1;
+
+    private ArrayList mDataList = new ArrayList<>();
     private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
     private ArrayList<RecommendFundManager> recommendFundManagers = new ArrayList<>();
     private HomePageEngine mEngine = null;
@@ -45,18 +54,76 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         protected List<RecommendFund> parseDateTask(String jsonData) {
             //缓存
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON,jsonData);
+            try {
+                JSONObject jsonObject = new JSONObject(jsonData);
+                JSONArray results = jsonObject.getJSONArray("results");
+                List<RecommendFund> list = DataParse.parseArrayJson(RecommendFund.class, results);
+                return list;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
         protected void afterParseData(List<RecommendFund> object) {
-
+            Message msg = Message.obtain();
+            msg.what = MSG_FUND;
+            msg.obj = object;
+            mHandler.sendMessage(msg);
         }
     };
+
+
+    private ParseHttpListener<List<RecommendFundManager>> fundManagerListener = new ParseHttpListener<List<RecommendFundManager>>() {
+
+
+        @Override
+        protected List<RecommendFundManager> parseDateTask(String jsonData) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonData);
+                JSONArray results = jsonObject.getJSONArray("results");
+                List<RecommendFundManager> list = DataParse.parseArrayJson(RecommendFundManager.class, results);
+                return list;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(List<RecommendFundManager> object) {
+            Message msg = Message.obtain();
+            msg.what = MSG_FUND_MANAGER;
+            msg.obj = object;
+            mHandler.sendMessage(msg);
+        }
+    };
+
+
 
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
+            mSwipeLayout.setRefreshing(false);
+            switch (msg.what){
+                case MSG_FUND:
+                    ArrayList<RecommendFund> list = (ArrayList<RecommendFund>) msg.obj;
+                    RecommendFundBean bean = new RecommendFundBean(list);
+                    mDataList.clear();
+                    mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
+                    mDataList.add(bean);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                case MSG_FUND_MANAGER:
+                    ArrayList<RecommendFundManager> managers = (ArrayList<RecommendFundManager>) msg.obj;
+                    mDataList.clear();
+                    mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
+                    mDataList.addAll(managers);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+            }
             return false;
         }
     });
@@ -69,7 +136,6 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
 
     BaseAdapter getListAdapter() {
-
         if (mAdapter == null) {
             mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HomePageFragment.this))
             .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
@@ -107,7 +173,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
     @Override
     public void requestData() {
         getCache();
-//        getNetData();
+        getNetData();
     }
 
     /**
@@ -121,8 +187,9 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
      * 获取网络数据
      */
     private void getNetData(){
+//        mSwipeLayout.setRefreshing(true);
         HomePageEngine.getRecommendFund(recommendFundListener);
-        HomePageEngine.getRecommendFundManager(null);
+//        HomePageEngine.getRecommendFundManager(fundManagerListener);
     }
 
     @Override
@@ -147,7 +214,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                getNetData();
             }
         });
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
