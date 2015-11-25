@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="13dp"
+    android:paddingBottom="13dp"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="基金经理"/>
+    <TextView
+        android:layout_alignParentRight="true"
+        android:id="@+id/more"
+        android:gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/setting_image_right"
+        android:text="更多"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:id="@+id/divider"
+        style="@style/divider_line"/>
+</RelativeLayout>

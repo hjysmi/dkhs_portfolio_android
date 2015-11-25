@@ -1,0 +1,24 @@
+package com.dkhs.portfolio.bean;
+
+/**
+ * Created by wuyongsen on 2015/11/25.
+ */
+public class HomeMoreBean {
+    public static final int TYPE_FUND_MANAGER = 0;
+    private int type;
+    public HomeMoreBean(int type){
+        this.type = type;
+    }
+
+    public String getTitle(){
+        String title = "";
+        switch (type){
+            case TYPE_FUND_MANAGER:
+                title = "基金经理";
+                break;
+            default:
+                break;
+        }
+        return title;
+    }
+}
