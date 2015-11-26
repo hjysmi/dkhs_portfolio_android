@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
@@ -30,9 +32,11 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.HomePageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 
 import org.json.JSONArray;
@@ -249,6 +253,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
     });
     private SwipeRefreshLayout mSwipeLayout;
     private PullToRefreshListView mListView;
+    private EditText mSearchEt;
 
     public HomePageFragment() {
 
@@ -336,6 +341,14 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     private void initLoadMoreList(View view) {
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSearchEt = (EditText) view.findViewById(R.id.et_search_key);
+        mSearchEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
+                UIUtils.startAnimationActivity(getActivity(),intent);
+            }
+        });
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
