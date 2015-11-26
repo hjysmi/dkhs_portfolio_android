@@ -3,6 +3,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingTop="13dp"
+    android:id="@+id/rootView"
     android:paddingBottom="13dp"
     android:gravity="center">
     <TextView

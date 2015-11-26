@@ -7,7 +7,7 @@ public class HomeMoreBean {
     public static final int TYPE_FUND = 0;
     public static final int TYPE_FUND_MANAGER = 1;
     public static final int TYPE_PORTFOLIO = 2;
-    private int type;
+    public int type;
     public HomeMoreBean(int type){
         this.type = type;
     }
@@ -29,4 +29,6 @@ public class HomeMoreBean {
         }
         return title;
     }
+
+
 }
