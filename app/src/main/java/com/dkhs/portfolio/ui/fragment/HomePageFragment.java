@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
@@ -255,6 +256,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private SwipeRefreshLayout mSwipeLayout;
     private PullToRefreshListView mListView;
     private EditText mSearchEt;
+    private LinearLayout mSearchLl;
 
     public HomePageFragment() {
 
@@ -349,9 +351,10 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
-                UIUtils.startAnimationActivity(getActivity(),intent);
+                UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
+        mSearchLl = (LinearLayout) view.findViewById(R.id.ll_search);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -431,16 +434,16 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 if (top <= headerHeight && top >= 0) {
                     // 获取当前位置占头布局高度的百分比
                     float f = (float) top / (float) headerHeight;
-                    LogUtils.d("wys","alaph"+f);
-                    mSearchEt.setAlpha(0.5f+f/2);
+                    LogUtils.d("wys", "alaph" + f+"top"+top);
+                    mSearchLl.setAlpha(0.5f + f / 2);
                     // 通知标题栏刷新显示
-                    mSearchEt.invalidate();
+                    mSearchLl.invalidate();
                 }
             }
         } else if (firstVisibleItem > 1) {
-            mSearchEt.setAlpha(1);
+            mSearchLl.setAlpha(1);
         } else {
-            mSearchEt.setAlpha(0.5f);
+            mSearchLl.setAlpha(0.5f);
         }
     }
 }
