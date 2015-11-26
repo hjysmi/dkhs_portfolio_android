@@ -495,7 +495,13 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                 mFollowList.addAll(resultList);
             }
         });
-        mFollowCombinationList.addAll(new VisitorDataEngine().getCombinationBySort());
+        VisitorDataSource.getOptionalStockList(this, new IResultCallback<CombinationBean>() {
+            @Override
+            public void onResultCallback(List<CombinationBean> resultList) {
+                mFollowCombinationList.addAll(resultList);
+            }
+        });
+//        mFollowCombinationList.addAll(new VisitorDataEngine().getCombinationBySort());
 
     }
 

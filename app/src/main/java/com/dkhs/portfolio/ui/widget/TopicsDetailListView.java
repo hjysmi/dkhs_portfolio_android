@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @author zwm
@@ -133,6 +134,7 @@ public class TopicsDetailListView extends ListView  {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            TopicsDetailListView.this.firstVisibleItem = firstVisibleItem;
             if(l!= null){
                 l.onScroll(view, firstVisibleItem, visibleItemCount,totalItemCount);
             }
@@ -146,7 +148,9 @@ public class TopicsDetailListView extends ListView  {
         }
     }
 
+    private int firstVisibleItem = -1;
 
-
-
+    public int getFirstVisibleItem() {
+        return firstVisibleItem;
+    }
 }
