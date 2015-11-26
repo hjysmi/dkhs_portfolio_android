@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="65dp"
     android:gravity="center_vertical"
+    style="@style/home_page_item_style"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal">
     <ImageView

@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="13dp"
     android:id="@+id/rootView"
-    android:paddingBottom="13dp"
+    style="@style/home_page_item_style"
+    android:background="@color/white"
     android:gravity="center">
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:text="基金经理"/>
     <TextView
         android:layout_alignParentRight="true"
@@ -18,6 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableRight="@drawable/setting_image_right"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
         android:text="更多"/>
     <View
         android:layout_alignParentBottom="true"
