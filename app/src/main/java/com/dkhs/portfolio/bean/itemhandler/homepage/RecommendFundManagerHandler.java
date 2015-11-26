@@ -7,6 +7,7 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.RecommendFundManager;
+import com.dkhs.portfolio.ui.FundManagerActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
@@ -24,7 +25,7 @@ public class RecommendFundManagerHandler extends SimpleItemHandler<RecommendFund
     }
 
     @Override
-    public void onBindView(ViewHolder vh, RecommendFundManager data, int position) {
+    public void onBindView(ViewHolder vh,final  RecommendFundManager data, int position) {
         vh.getTextView(R.id.tv_name).setText(data.getName());
         vh.getTextView(R.id.tv_company).setText(data.getRecommend_title());
         vh.getTextView(R.id.tv_week_win_rate).setText(StringFromatUtils.getPercentSpan(data.getWin_rate_week()));
@@ -33,7 +34,7 @@ public class RecommendFundManagerHandler extends SimpleItemHandler<RecommendFund
         vh.get(R.id.rootView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mContext.startActivity(FundManagerActivity.newIntent(mContext, data.id + ""));
+                mContext.startActivity(FundManagerActivity.newIntent(mContext, data.getId() + ""));
             }
         });
         super.onBindView(vh, data, position);

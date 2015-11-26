@@ -4,11 +4,20 @@ package com.dkhs.portfolio.bean;
  * Created by wuyongsen on 2015/11/25.
  */
 public class RecommendFundManager {
+    private int id;
     private String avatar_sm;
     private String name;
     private String recommend_title;
     private String index_rate_week;
     private String win_rate_week;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getAvatar_sm() {
         return avatar_sm;

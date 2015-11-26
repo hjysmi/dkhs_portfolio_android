@@ -30,6 +30,12 @@ public class RecomendPortfolioHandler extends SimpleItemHandler<RecommendPortfol
         vh.getTextView(R.id.tv_company).setText(data.getRecommend_title());
         vh.getTextView(R.id.tv_week_profit_rate).setText(StringFromatUtils.getPercentSpan(data.getChng_pct_week()));
         ImageLoaderUtils.setHeanderImage(data.getAvatar_sm(), vh.getImageView(R.id.iv_avatar));
+        vh.get(R.id.rootView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mContext.startActivity(CombinationDetailActivity.newIntent(mContext, data.getId() + ""));
+            }
+        });
         super.onBindView(vh, data, position);
     }
 }

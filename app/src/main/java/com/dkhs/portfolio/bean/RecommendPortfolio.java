@@ -4,10 +4,19 @@ package com.dkhs.portfolio.bean;
  * Created by wuyongsen on 2015/11/26.
  */
 public class RecommendPortfolio {
+    private int id;
     private String name;
     private String avatar_sm;
     private String chng_pct_week;
     private String recommend_title;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
