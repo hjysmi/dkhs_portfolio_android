@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
-        android:color="@android:color/white"
+        android:color="@color/person_setting_backgroud"
         />
     <stroke
         android:width="1px"
-        android:color="@color/drivi_line"
+        android:color="@color/red"
         />
 </shape>

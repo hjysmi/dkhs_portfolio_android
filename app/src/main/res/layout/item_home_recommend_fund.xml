@@ -6,7 +6,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="17dp"
         android:paddingBottom="17dp"
-        android:background="@drawable/item_border"
+        android:background="@drawable/grid_selector"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
         <TextView

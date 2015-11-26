@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.bean.itemhandler.homepage;
 
 import android.content.Context;
+import android.view.View;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
@@ -28,6 +29,12 @@ public class RecommendFundManagerHandler extends SimpleItemHandler<RecommendFund
         vh.getTextView(R.id.tv_week_win_rate).setText(data.getWin_rate_week());
         vh.getTextView(R.id.tv_week_profit_rate).setText(data.getIndex_rate_week());
         ImageLoaderUtils.setHeanderImage(data.getAvatar_sm(), vh.getImageView(R.id.iv_avatar));
+        vh.get(R.id.rootView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mContext.startActivity(FundManagerActivity.newIntent(mContext, data.id + ""));
+            }
+        });
         super.onBindView(vh, data, position);
     }
 }
