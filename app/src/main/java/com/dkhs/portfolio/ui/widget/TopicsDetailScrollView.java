@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dkhs.portfolio.R;
+import com.lidroid.xutils.util.LogUtils;
 import com.melnykov.fab.ObservableScrollView;
 
 /**
@@ -100,17 +101,14 @@ public class TopicsDetailScrollView extends NestedScrollView {
 
                 break;
             case MotionEvent.ACTION_MOVE:
-
-                if (mTopicsDetailListView.getChildAt(0).getTop() == 0 ) {
+                if (mTopicsDetailListView.getFirstVisiblePosition() == 0 && mTopicsDetailListView.getChildAt(0).getTop() == 0 ) {
                     if (mTopicsDetailListView.getTop() - mTopStickyHeight > getScrollY() && ev.getRawY() - LastY < -12  ) {
                         LastY = (int) ev.getRawY();
-
                         return true;
                     }
                     if (mTopicsDetailListView.getChildCount() > 0  && ev.getRawY() - LastY > 12) {
 
                         LastY = (int) ev.getRawY();
-
                         return true;
                     }
                 }
