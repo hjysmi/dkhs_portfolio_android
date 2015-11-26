@@ -42,17 +42,12 @@ public class BannerHandler extends SimpleItemHandler<BannerTopicsBean> implement
 
     private int mSortType = 0;
     private OnSliderClickListenerImp mOnSliderClickListenerImp;
-    private boolean mHide;
 
 
-    public BannerHandler(Context context, RefreshEnable refreshEnable){
-        this(context,refreshEnable,false);
-    }
-    public BannerHandler(Context context, RefreshEnable refreshEnable,boolean hide) {
+    public BannerHandler(Context context, RefreshEnable refreshEnable) {
         mContext = context;
         mRefreshEnable = refreshEnable;
         mOnSliderClickListenerImp = new OnSliderClickListenerImp(mContext);
-        mHide = hide;
     }
 
     @Override
@@ -183,11 +178,6 @@ public class BannerHandler extends SimpleItemHandler<BannerTopicsBean> implement
             spinner.setSelection(0);
         }else if(mSortType == 1){
             spinner.setSelection(1);
-        }
-
-        if(mHide){
-            vh.get(R.id.top_sticky).setVisibility(View.GONE);
-            vh.get(R.id.bottom).setVisibility(View.GONE);
         }
     }
 
