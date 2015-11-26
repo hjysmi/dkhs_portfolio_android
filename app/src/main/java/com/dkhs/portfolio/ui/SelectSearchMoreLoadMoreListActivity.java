@@ -15,11 +15,13 @@ import android.widget.TextView;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.QuotesBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
@@ -30,14 +32,19 @@ import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreTitleHandl
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreType;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreUserHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
+import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
 import com.dkhs.portfolio.engine.SelectGeneralSearchMoreEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.ClearableEditText;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +52,12 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/11/20.
  */
-public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener,View.OnClickListener {
+public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener, View.OnClickListener {
 
     private static String SEARCH_STRING = "search_string";
     private static String SEARCH_TYPE = "search_type";
     private String searchString;
-    private SearchMoreType  searchType;
+    private SearchMoreType searchType;
     @ViewInject(android.R.id.list)
 
     PullToRefreshListView mListView;
@@ -98,7 +105,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
     }
 
     private void initSearchHint() {
-        switch (searchType){
+        switch (searchType) {
             case MORE_STOCK:
                 etSearch.setHint(R.string.search_stock_hint);
                 break;
@@ -119,7 +126,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
             case MORE_REWARD:
                 etSearch.setHint(R.string.search_reward_hint);
                 break;
-                //悬赏
+            //悬赏
             case MORE_TOPIC:
                 etSearch.setHint(R.string.search_topic_hint);
                 break;
@@ -139,13 +146,13 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         tvEmptyText.setVisibility(View.GONE);
     }
 
-    public void initView(){
+    public void initView() {
         etSearch.setText(searchString);
-        if(searchType == SearchMoreType.MORE_REWARD ||searchType == SearchMoreType.MORE_TOPIC){
+        if (searchType == SearchMoreType.MORE_REWARD || searchType == SearchMoreType.MORE_TOPIC) {
             tvCancel.setVisibility(View.VISIBLE);
             tvCancel.setText(R.string.search);
             tvCancel.setOnClickListener(this);
-        }else{
+        } else {
             tvCancel.setVisibility(View.GONE);
             etSearch.addTextChangedListener(new MyTextWatcher());
         }
@@ -202,7 +209,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
                 break;
             case MORE_FUND_MANAGER:
                 //基金经理
-             //   mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreUserHandler());
+                //   mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreUserHandler());
                 mAdapter.buildMultiItemView(FundManagerBean.class, new SearchMoreFundManagerHandler());
                 break;
             case MORE_USER:
@@ -212,7 +219,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
             case MORE_COMBINATION:
                 //组合
                 mAdapter.buildMultiItemView(CombinationBean.class, new SearchMoreCombinationHandler(mContext));
-              //  mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreCombinationHandler(mContext));
+                //  mAdapter.buildMultiItemView(QuotesBean.class, new SearchMoreCombinationHandler(mContext));
                 break;
             case MORE_REWARD:
                 //悬赏
@@ -226,15 +233,12 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
 
     private SelectGeneralSearchMoreEngineImpl mLoadMoreDataEngine;
 
-    private SelectGeneralSearchMoreEngineImpl getLoadEngine(){
-        if(mLoadMoreDataEngine == null)
-            mLoadMoreDataEngine = new SelectGeneralSearchMoreEngineImpl(this,searchType,SelectSearchMoreLoadMoreListActivity.this);
+    private SelectGeneralSearchMoreEngineImpl getLoadEngine() {
+        if (mLoadMoreDataEngine == null)
+            mLoadMoreDataEngine = new SelectGeneralSearchMoreEngineImpl(this, searchType, SelectSearchMoreLoadMoreListActivity.this);
         mLoadMoreDataEngine.setSearchString(searchString);
         return mLoadMoreDataEngine;
     }
-
-
-
 
 
     public void setListViewInit(ListView listview) {
@@ -242,6 +246,8 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
     }
 
     public void postDelayedeData() {
+        if (!PortfolioApplication.hasUserLogin())
+            loadVisitorData();
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -272,16 +278,40 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
             setEmptyText(getEmptyText());
         }
         if (getLoadEngine().getCurrentpage() == 1 || getLoadEngine().getCurrentpage() == 0) {
+            mListView.smoothScrollToPosition(0);
             mDataList.clear();
-        } else if (mDataList.size() > 0){
+        } else if (mDataList.size() > 0) {
             mDataList.remove(0);
         }
         mDataList.addAll(object.getResults());
-        if(mDataList.size() > 0){
+        if (mDataList.size() > 0) {
+            if(!PortfolioApplication.hasUserLogin()){
+                switch (searchType) {
+                    case MORE_STOCK:
+                    case MORE_FUND:
+                    case MORE_COMBINATION:
+                        for (Object o : mDataList) {
+                            if(o instanceof QuotesBean){
+                                int index = mFollowStockList.indexOf(o);
+                                if(index != -1){
+                                    QuotesBean quotesBean = (QuotesBean) o;
+                                    quotesBean.setFollowed(mFollowStockList.get(index).isFollowed);
+                                }
+                            }else if(o instanceof CombinationBean){
+                                int index = mFollowCombinationList.indexOf(o);
+                                if(index != -1){
+                                    CombinationBean combinationBean = (CombinationBean) o;
+                                    combinationBean.setFollowed(mFollowCombinationList.get(index).isFollowed());
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
             addTitle();
             mListView.setVisibility(View.VISIBLE);
             tvEmptyText.setVisibility(View.GONE);
-        }else{
+        } else {
             setEmptyText(getEmptyText());
         }
         mAdapter.notifyDataSetChanged();
@@ -356,14 +386,8 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
     }
 
     @Override
-    protected void onDestroy() {
-        BusProvider.getInstance().unregister(this);
-        super.onDestroy();
-    }
-
-    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_search_back:
                 finish();
                 break;
@@ -373,7 +397,7 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         }
     }
 
-    private  class MyTextWatcher implements TextWatcher{
+    private class MyTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -388,6 +412,78 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         @Override
         public void afterTextChanged(Editable s) {
             search(false);
+        }
+    }
+
+    private List<SelectStockBean> mFollowStockList = new ArrayList<>();
+    private List<CombinationBean> mFollowCombinationList = new ArrayList<>();
+
+    private void loadVisitorData() {
+        mFollowCombinationList.clear();
+        mFollowStockList.clear();
+        VisitorDataSource.getOptionalStockList(this, new IResultCallback<SelectStockBean>() {
+            @Override
+            public void onResultCallback(List<SelectStockBean> resultList) {
+                mFollowStockList.addAll(resultList);
+            }
+        });
+        mFollowCombinationList.addAll(new VisitorDataEngine().getCombinationBySort());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe
+    public void receiveStockData(SelectStockBean itemStock) {
+        int index = mDataList.indexOf(itemStock);
+        if (index != -1) {
+            Object o = mDataList.get(index);
+            if (o instanceof QuotesBean) {
+                QuotesBean mQuotesBean = (QuotesBean) o;
+                ((QuotesBean) o).setFollowed(itemStock.isFollowed);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+        if (!PortfolioApplication.hasUserLogin()) {
+            index = mFollowStockList.indexOf(itemStock);
+            if (index != -1) {
+                mFollowStockList.remove(index);
+                if (itemStock.isFollowed()) {
+                    mFollowStockList.add(itemStock);
+                }
+            }
+        }
+    }
+    @Subscribe
+    public void receiveCombinationData(UpdateCombinationEvent updateCombination) {
+        CombinationBean combinationBean = updateCombination.mCombinationBean;
+        int index = mDataList.indexOf(combinationBean);
+        if (index != -1) {
+            Object o = mDataList.get(index);
+            if (o instanceof CombinationBean) {
+                CombinationBean mCombinationBean = (CombinationBean) o;
+                mCombinationBean.setFollowed(combinationBean.isFollowed());
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+        if (!PortfolioApplication.hasUserLogin()) {
+            index = mFollowCombinationList.indexOf(combinationBean);
+            if (index != -1) {
+                mFollowCombinationList.remove(index);
+                if (combinationBean.isFollowed()) {
+                    mFollowCombinationList.add(combinationBean);
+                }
+            }
         }
     }
 }

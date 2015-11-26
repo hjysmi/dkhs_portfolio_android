@@ -42,6 +42,7 @@ import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.PagerFragmentAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
 import com.dkhs.portfolio.ui.fragment.FragmentForStockSHC;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
@@ -365,6 +366,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 getLocalOptionList();
             }
             setAddOptionalButton();
+            BusProvider.getInstance().post(stockBean);
         }
     };
 

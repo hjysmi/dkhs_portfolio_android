@@ -3,7 +3,6 @@ package com.dkhs.portfolio.bean.itemhandler.searchmoredetail;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -18,6 +17,8 @@ import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -46,13 +47,10 @@ public class SearchMoreCombinationHandler extends SimpleItemHandler<CombinationB
         this.position = position;
         final View itemView = vh.getConvertView();
         TextView tv_combination_name = vh.getTextView(R.id.tv_combination_name);
-        TextView tv_combination_desc = vh.getTextView(R.id.tv_combination_desc);;
+        TextView tv_combination_builder = vh.getTextView(R.id.tv_combination_builder);;
         CheckBox cb_select_combin= vh.getCheckBox(R.id.cb_select_combin);
         tv_combination_name.setText(mCombinationBean.getName());
-        String desc = mCombinationBean.getDescription();
-        if(!TextUtils.isEmpty(desc)){
-            tv_combination_desc.setText(desc);
-        }
+        tv_combination_builder.setText(mCombinationBean.getUser().getUsername());
         cb_select_combin.setOnCheckedChangeListener(null);
         cb_select_combin.setTag(mCombinationBean);
         cb_select_combin.setChecked(mCombinationBean.isFollowed());
@@ -65,6 +63,8 @@ public class SearchMoreCombinationHandler extends SimpleItemHandler<CombinationB
             }
         });
     }
+    private CombinationBean mCombinationBean;
+
     private CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -112,7 +112,7 @@ public class SearchMoreCombinationHandler extends SimpleItemHandler<CombinationB
     }
     private void delFollowCombinatio(CombinationBean mCombinationBean) {
         if (PortfolioApplication.hasUserLogin()) {
-
+            this.mCombinationBean = mCombinationBean;
             if (mCombinationBean.isFollowed()) {
                 new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
             } else {
@@ -127,6 +127,7 @@ public class SearchMoreCombinationHandler extends SimpleItemHandler<CombinationB
                 new VisitorDataEngine().delCombinationBean(mCombinationBean);
                 PromptManager.showDelFollowToast();
             }
+            BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
         }
     }
 
@@ -138,6 +139,7 @@ public class SearchMoreCombinationHandler extends SimpleItemHandler<CombinationB
 
         @Override
         protected void afterParseData(Object object) {
+            BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
             PromptManager.showDelFollowToast();
         }
     };
@@ -149,6 +151,7 @@ public class SearchMoreCombinationHandler extends SimpleItemHandler<CombinationB
 
         @Override
         protected void afterParseData(Object object) {
+            BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
             PromptManager.showFollowToast();
         }
     };

@@ -18,6 +18,8 @@ import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -28,6 +30,15 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class SelectCombinationViewBean extends ViewBean{
     private static final int TYPE = 5;
     private CombinationBean mCombinationBean;
+
+    public CombinationBean getmCombinationBean() {
+        return mCombinationBean;
+    }
+
+    public void setmCombinationBean(CombinationBean mCombinationBean) {
+        this.mCombinationBean = mCombinationBean;
+    }
+
     public SelectCombinationViewBean(){}
     public SelectCombinationViewBean(SparseArray<ViewBean> viewDatas) {
         super(viewDatas);
@@ -46,27 +57,24 @@ public class SelectCombinationViewBean extends ViewBean{
         ViewUitls.fullSpanView(itemHolder);
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    private class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
         TextView tv_combination_name;
-        TextView tv_combination_desc;
+        TextView tv_combination_builder;
         CheckBox cb_select_combin;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             tv_combination_name = (TextView) itemView.findViewById(R.id.tv_combination_name);
-            tv_combination_desc = (TextView) itemView.findViewById(R.id.tv_combination_desc);
+            tv_combination_builder = (TextView) itemView.findViewById(R.id.tv_combination_builder);
             cb_select_combin = (CheckBox) itemView.findViewById(R.id.cb_select_combin);
 
         }
 
         public void bindView(final CombinationBean mCombinationBean) {
             tv_combination_name.setText(mCombinationBean.getName());
-            String desc = mCombinationBean.getDescription();
-            if(!TextUtils.isEmpty(desc)){
-                tv_combination_desc.setText(desc);
-            }
+            tv_combination_builder.setText(mCombinationBean.getUser().getUsername());
             cb_select_combin.setOnCheckedChangeListener(null);
             cb_select_combin.setTag(mCombinationBean);
             cb_select_combin.setChecked(mCombinationBean.isFollowed());
@@ -141,6 +149,7 @@ public class SelectCombinationViewBean extends ViewBean{
                     new VisitorDataEngine().delCombinationBean(mCombinationBean);
                     PromptManager.showDelFollowToast();
                 }
+                BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
             }
         }
 
@@ -152,6 +161,7 @@ public class SelectCombinationViewBean extends ViewBean{
 
             @Override
             protected void afterParseData(Object object) {
+                BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
                 PromptManager.showDelFollowToast();
             }
         };
@@ -163,6 +173,7 @@ public class SelectCombinationViewBean extends ViewBean{
 
             @Override
             protected void afterParseData(Object object) {
+                BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
                 PromptManager.showFollowToast();
             }
         };
