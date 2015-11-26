@@ -346,6 +346,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(getListAdapter());
+        mListView.setDivider(null);
     }
 
     private void generateData(){
@@ -370,7 +371,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         }
         //推荐基金
         if(recommendFunds != null && recommendFunds.size() > 0){
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND,true));
             RecommendFundBean bean = new RecommendFundBean(recommendFunds);
             mDataList.add(bean);
         }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON))){

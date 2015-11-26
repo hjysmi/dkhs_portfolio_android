@@ -8,8 +8,14 @@ public class HomeMoreBean {
     public static final int TYPE_FUND_MANAGER = 1;
     public static final int TYPE_PORTFOLIO = 2;
     public int type;
+    public boolean hide;
     public HomeMoreBean(int type){
         this.type = type;
+    }
+
+    public HomeMoreBean(int type,boolean hide){
+        this.type = type;
+        this.hide = hide;
     }
 
     public String getTitle(){

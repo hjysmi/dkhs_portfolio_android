@@ -26,19 +26,22 @@ public class HomeMoreHandler extends SimpleItemHandler<HomeMoreBean> {
         vh.get(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (data.type){
+                switch (data.type) {
                     case HomeMoreBean.TYPE_FUND_MANAGER:
 
-                    break;
+                        break;
                     case HomeMoreBean.TYPE_FUND:
 
-                    break;
+                        break;
                     case HomeMoreBean.TYPE_PORTFOLIO:
 
-                    break;
+                        break;
                 }
             }
         });
         vh.getTextView(R.id.title).setText(data.getTitle());
+        if(data.hide){
+            vh.get(R.id.divider).setVisibility(View.GONE);
+        }
     }
 }
