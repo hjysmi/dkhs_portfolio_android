@@ -19,11 +19,11 @@ import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.HomeMoreBean;
 import com.dkhs.portfolio.bean.RecommendFund;
 import com.dkhs.portfolio.bean.RecommendFundBean;
-import com.dkhs.portfolio.bean.RecommendPortfolio;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomePageBannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecomendPortfolioHandler;
@@ -58,7 +58,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     //网络数据
     private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
     private ArrayList<FundManagerBean> recommendFundManagers = new ArrayList<>();
-    private ArrayList<RecommendPortfolio> recommendPortfolios = new ArrayList<>();
+    private ArrayList<CombinationBean> recommendPortfolios = new ArrayList<>();
     private BannerTopicsBean bean;
 
     private BaseAdapter mAdapter;
@@ -146,7 +146,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         return null;
     }
 
-    private ParseHttpListener<List<RecommendPortfolio>> portfolioListener = new ParseHttpListener<List<RecommendPortfolio>>() {
+    private ParseHttpListener<List<CombinationBean>> portfolioListener = new ParseHttpListener<List<CombinationBean>>() {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
@@ -161,25 +161,25 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }
 
         @Override
-        protected List<RecommendPortfolio> parseDateTask(String jsonData) {
+        protected List<CombinationBean> parseDateTask(String jsonData) {
             return parsePortfolio(jsonData);
         }
 
         @Override
-        protected void afterParseData(List<RecommendPortfolio> object) {
-            recommendPortfolios = (ArrayList<RecommendPortfolio>) object;
+        protected void afterParseData(List<CombinationBean> object) {
+            recommendPortfolios = (ArrayList<CombinationBean>) object;
             HomePageFragment.this.mWhat = mWhat | 4;
             mHandler.sendEmptyMessage(mWhat);
         }
     };
 
     @Nullable
-    private List<RecommendPortfolio> parsePortfolio(String jsonData) {
+    private List<CombinationBean> parsePortfolio(String jsonData) {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonData);
             JSONArray results = jsonObject.getJSONArray("results");
-            List<RecommendPortfolio> list = DataParse.parseArrayJson(RecommendPortfolio.class, results);
+            List<CombinationBean> list = DataParse.parseArrayJson(CombinationBean.class, results);
             return list;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -267,7 +267,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
             .buildMultiItemView(FundManagerBean.class,new RecommendFundManagerHandler(mActivity))
             .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity))
-            .buildMultiItemView(RecommendPortfolio.class,new RecomendPortfolioHandler(mActivity));
+            .buildMultiItemView(CombinationBean.class,new RecomendPortfolioHandler(mActivity));
         }
         return mAdapter;
     }
@@ -404,7 +404,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.addAll(recommendPortfolios);
         }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON))){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_PORTFOLIO));
-            ArrayList<RecommendPortfolio> portfolios = (ArrayList<RecommendPortfolio>) parsePortfolio(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON));
+            ArrayList<CombinationBean> portfolios = (ArrayList<CombinationBean>) parsePortfolio(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON));
             mDataList.addAll(portfolios);
         }
         mAdapter.notifyDataSetChanged();
