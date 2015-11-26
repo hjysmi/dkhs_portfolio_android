@@ -278,8 +278,8 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
                 break;
             case R.id.btn_search:
-                intent = new Intent(getActivity(), SelectGeneralActivity.class);
-               // intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+//                intent = new Intent(getActivity(), SelectGeneralActivity.class);
+                intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 break;
 
             default:
