@@ -438,9 +438,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 }
             }
         } else if (firstVisibleItem > 1) {
-            mSearchEt.getBackground().setAlpha(255);
-        } else {
             mSearchEt.getBackground().setAlpha(0);
+        } else {
+            mSearchEt.getBackground().setAlpha(255);
         }
     }
 }

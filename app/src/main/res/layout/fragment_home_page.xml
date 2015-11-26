@@ -58,14 +58,13 @@
 
     </RelativeLayout>
     <EditText
-        android:alpha="0.5"
         android:id="@+id/et_search_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:background="@drawable/search_bg_selector"
+        android:background="@color/white"
         android:drawableLeft="@drawable/search_gray"
         android:drawablePadding="10dp"
         android:hint="@string/search_general"
