@@ -19,6 +19,7 @@
             android:src="@drawable/default_head" />
 
         <LinearLayout
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -29,8 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="王亚伟"
-                android:textColor="#262932"
-                android:textSize="13sp" />
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_company"
@@ -39,7 +40,7 @@
                 android:singleLine="true"
                 android:text="华夏基金管理有限公司"
                 android:textColor="#969696"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
