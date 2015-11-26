@@ -22,8 +22,8 @@ import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FundManagerBean;
+import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.HomeMoreBean;
-import com.dkhs.portfolio.bean.RecommendFund;
 import com.dkhs.portfolio.bean.RecommendFundBean;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomePageBannerHandler;
@@ -57,14 +57,14 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
     private ArrayList mDataList = new ArrayList<>();
     //网络数据
-    private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
+    private ArrayList<FundPriceBean> recommendFunds = new ArrayList<>();
     private ArrayList<FundManagerBean> recommendFundManagers = new ArrayList<>();
     private ArrayList<CombinationBean> recommendPortfolios = new ArrayList<>();
     private BannerTopicsBean bean;
 
     private BaseAdapter mAdapter;
 
-    private ParseHttpListener<List<RecommendFund>> recommendFundListener = new ParseHttpListener<List<RecommendFund>>() {
+    private ParseHttpListener<List<FundPriceBean>> recommendFundListener = new ParseHttpListener<List<FundPriceBean>>() {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
@@ -80,24 +80,24 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }
 
         @Override
-        protected List<RecommendFund> parseDateTask(String jsonData) {
+        protected List<FundPriceBean> parseDateTask(String jsonData) {
             return parseFund(jsonData);
         }
 
         @Override
-        protected void afterParseData(List<RecommendFund> object) {
-            recommendFunds = (ArrayList<RecommendFund>) object;
+        protected void afterParseData(List<FundPriceBean> object) {
+            recommendFunds = (ArrayList<FundPriceBean>) object;
             HomePageFragment.this.mWhat = mWhat | 1;
             mHandler.sendEmptyMessage(mWhat);
         }
     };
 
     @Nullable
-    private List<RecommendFund> parseFund(String jsonData) {
+    private List<FundPriceBean> parseFund(String jsonData) {
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
             JSONArray results = jsonObject.getJSONArray("results");
-            List<RecommendFund> list = DataParse.parseArrayJson(RecommendFund.class, results);
+            List<FundPriceBean> list = DataParse.parseArrayJson(FundPriceBean.class, results);
             return list;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -396,7 +396,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(bean);
         }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON))){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
-            ArrayList<RecommendFund> fundBeans = (ArrayList<RecommendFund>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
+            ArrayList<FundPriceBean> fundBeans = (ArrayList<FundPriceBean>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
             RecommendFundBean bean = new RecommendFundBean(fundBeans);
             mDataList.add(bean);
         }
@@ -434,7 +434,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 if (top <= headerHeight && top >= 0) {
                     // 获取当前位置占头布局高度的百分比
                     float f = (float) top / (float) headerHeight;
-                    LogUtils.d("wys", "alaph" + f+"top"+top);
+                    LogUtils.d("wys", "alaph" + f + "top" + top);
                     mSearchLl.setAlpha(0.5f + f / 2);
                     // 通知标题栏刷新显示
                     mSearchLl.invalidate();
