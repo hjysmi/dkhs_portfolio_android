@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 
@@ -47,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomePageFragment extends VisiableLoadFragment implements HomePageBannerHandler.RefreshEnable {
+public class HomePageFragment extends VisiableLoadFragment implements HomePageBannerHandler.RefreshEnable,AbsListView.OnScrollListener {
 
     private static final int REQUEST_SUCCESS = 15;
     private static final int REQUESS_FAIL = -1;
@@ -342,6 +343,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private void initLoadMoreList(View view) {
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSearchEt = (EditText) view.findViewById(R.id.et_search_key);
+        mSearchEt.setFocusable(false);
+        mSearchEt.setFocusableInTouchMode(false);
         mSearchEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -352,7 +355,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LogUtils.d("wys","onRefresh");
+                LogUtils.d("wys", "onRefresh");
                 getNetData();
             }
         });
@@ -360,6 +363,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(getListAdapter());
         mListView.setDivider(null);
+        mListView.setOnScrollListener(this);
     }
 
     private void generateData(){
@@ -406,4 +410,37 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         mAdapter.notifyDataSetChanged();
     }
 
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+// 判断当前最上面显示的是不是头布局，因为Xlistview有刷新控件，所以头布局的位置是1，即第二个
+        if (firstVisibleItem == 1) {
+            // 获取头布局
+            View v = mListView.getChildAt(0);
+            if (v != null) {
+                // 获取头布局现在的最上部的位置的相反数
+                int top = -v.getTop();
+                // 获取头布局的高度
+                int headerHeight = v.getHeight();
+                // 满足这个条件的时候，是头布局在XListview的最上面第一个控件的时候，只有这个时候，我们才调整透明度
+                if (top <= headerHeight && top >= 0) {
+                    // 获取当前位置占头布局高度的百分比
+                    float f = (float) top / (float) headerHeight;
+                    LogUtils.d("wys","alaph"+f);
+                    mSearchEt.getBackground().setAlpha((int) (f * 255));
+                    // 通知标题栏刷新显示
+                    mSearchEt.invalidate();
+                }
+            }
+        } else if (firstVisibleItem > 1) {
+            mSearchEt.getBackground().setAlpha(255);
+        } else {
+            mSearchEt.getBackground().setAlpha(0);
+        }
+    }
 }
