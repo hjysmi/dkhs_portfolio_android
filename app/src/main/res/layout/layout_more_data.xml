@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:id="@+id/rootView"
-    style="@style/home_page_item_style"
-    android:background="@color/white"
-    android:gravity="center">
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="基金经理"/>
-    <TextView
-        android:layout_alignParentRight="true"
-        android:id="@+id/more"
-        android:gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableRight="@drawable/setting_image_right"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp"
-        android:text="更多"/>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
     <View
-        android:layout_alignParentBottom="true"
+        android:id="@+id/top_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/person_setting_backgroud" />
+
+    <LinearLayout
+        style="@style/home_page_item_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_divider"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="基金经理" />
+
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/setting_image_right"
+            android:gravity="right"
+            android:text="更多" />
+    </LinearLayout>
+
+    <View
         android:id="@+id/divider"
-        style="@style/divider_line"/>
+        style="@style/divider_line"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
