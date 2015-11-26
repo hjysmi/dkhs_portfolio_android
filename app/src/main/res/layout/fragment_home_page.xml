@@ -67,6 +67,8 @@
         android:background="@drawable/edittext_search_white_bg"
         android:drawableLeft="@drawable/search_gray"
         android:drawablePadding="10dp"
+
+
         android:hint="@string/search_general"
         android:maxLength="50"
         android:paddingBottom="5dp"

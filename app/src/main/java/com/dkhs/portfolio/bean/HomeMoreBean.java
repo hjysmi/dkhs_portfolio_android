@@ -7,6 +7,8 @@ public class HomeMoreBean {
     public static final int TYPE_FUND = 0;
     public static final int TYPE_FUND_MANAGER = 1;
     public static final int TYPE_PORTFOLIO = 2;
+    public static final int TYPE_TOPIC = 3;
+    public static final int TYPE_REWARD = 4;
     public int type;
     public boolean hide;
     public HomeMoreBean(int type){
@@ -29,6 +31,12 @@ public class HomeMoreBean {
                 break;
             case TYPE_PORTFOLIO:
                 title = "推荐组合";
+                break;
+            case TYPE_REWARD:
+                title = "推荐悬赏";
+                break;
+            case TYPE_TOPIC:
+                title = "推荐话题";
                 break;
             default:
                 break;
