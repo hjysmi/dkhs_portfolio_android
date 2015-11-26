@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
@@ -61,7 +62,16 @@ public class RecommendFundHandler extends SimpleItemHandler<RecommendFundBean> {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View v = View.inflate(mContext,R.layout.item_home_recommend_fund,null);
+            RecommendFund fund = mData.get(position);
+            View v = View.inflate(mContext, R.layout.item_home_recommend_fund, null);
+            TextView fundName = (TextView) v.findViewById(R.id.tv_fund_name);
+            TextView porfitRate = (TextView) v.findViewById(R.id.tv_profit_rate);
+            TextView recommendTitle = (TextView) v.findViewById(R.id.tv_recommend_title);
+            TextView desc = (TextView) v.findViewById(R.id.tv_fund_desc);
+            fundName.setText(fund.getAbbr_name());
+            porfitRate.setText(fund.getPercent_six_month());
+            recommendTitle.setText(fund.getRecommend_title());
+            desc.setText(fund.getRecommend_desc());
             return v;
         }
     }
