@@ -19,10 +19,10 @@ import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
+import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.HomeMoreBean;
 import com.dkhs.portfolio.bean.RecommendFund;
 import com.dkhs.portfolio.bean.RecommendFundBean;
-import com.dkhs.portfolio.bean.RecommendFundManager;
 import com.dkhs.portfolio.bean.RecommendPortfolio;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomePageBannerHandler;
@@ -57,7 +57,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private ArrayList mDataList = new ArrayList<>();
     //网络数据
     private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
-    private ArrayList<RecommendFundManager> recommendFundManagers = new ArrayList<>();
+    private ArrayList<FundManagerBean> recommendFundManagers = new ArrayList<>();
     private ArrayList<RecommendPortfolio> recommendPortfolios = new ArrayList<>();
     private BannerTopicsBean bean;
 
@@ -105,7 +105,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     }
 
 
-    private ParseHttpListener<List<RecommendFundManager>> fundManagerListener = new ParseHttpListener<List<RecommendFundManager>>() {
+    private ParseHttpListener<List<FundManagerBean>> fundManagerListener = new ParseHttpListener<List<FundManagerBean>>() {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
@@ -120,25 +120,25 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }
 
         @Override
-        protected List<RecommendFundManager> parseDateTask(String jsonData) {
+        protected List<FundManagerBean> parseDateTask(String jsonData) {
             return parseFundManager(jsonData);
         }
 
         @Override
-        protected void afterParseData(List<RecommendFundManager> object) {
-            recommendFundManagers = (ArrayList<RecommendFundManager>) object;
+        protected void afterParseData(List<FundManagerBean> object) {
+            recommendFundManagers = (ArrayList<FundManagerBean>) object;
             HomePageFragment.this.mWhat = mWhat | 2;
             mHandler.sendEmptyMessage(mWhat);
         }
     };
 
     @Nullable
-    private List<RecommendFundManager> parseFundManager(String jsonData) {
+    private List<FundManagerBean> parseFundManager(String jsonData) {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonData);
             JSONArray results = jsonObject.getJSONArray("results");
-            List<RecommendFundManager> list = DataParse.parseArrayJson(RecommendFundManager.class, results);
+            List<FundManagerBean> list = DataParse.parseArrayJson(FundManagerBean.class, results);
             return list;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -265,7 +265,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         if (mAdapter == null) {
             mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new HomePageBannerHandler(mActivity,HomePageFragment.this))
             .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
-            .buildMultiItemView(RecommendFundManager.class,new RecommendFundManagerHandler(mActivity))
+            .buildMultiItemView(FundManagerBean.class,new RecommendFundManagerHandler(mActivity))
             .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity))
             .buildMultiItemView(RecommendPortfolio.class,new RecomendPortfolioHandler(mActivity));
         }
@@ -383,7 +383,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON))){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
             String fundManagerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON);
-            List<RecommendFundManager> fundManagers = parseFundManager(fundManagerJson);
+            List<FundManagerBean> fundManagers = parseFundManager(fundManagerJson);
             mDataList.addAll(fundManagers);
         }
         //推荐基金
