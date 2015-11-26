@@ -6,6 +6,7 @@ package com.dkhs.portfolio.bean;
 public class HomeMoreBean {
     public static final int TYPE_FUND = 0;
     public static final int TYPE_FUND_MANAGER = 1;
+    public static final int TYPE_PORTFOLIO = 2;
     private int type;
     public HomeMoreBean(int type){
         this.type = type;
@@ -19,6 +20,9 @@ public class HomeMoreBean {
                 break;
             case TYPE_FUND:
                 title = "推荐基金";
+                break;
+            case TYPE_PORTFOLIO:
+                title = "推荐组合";
                 break;
             default:
                 break;

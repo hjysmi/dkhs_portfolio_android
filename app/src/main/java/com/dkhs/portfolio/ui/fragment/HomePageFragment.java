@@ -17,8 +17,10 @@ import com.dkhs.portfolio.bean.HomeMoreBean;
 import com.dkhs.portfolio.bean.RecommendFund;
 import com.dkhs.portfolio.bean.RecommendFundBean;
 import com.dkhs.portfolio.bean.RecommendFundManager;
+import com.dkhs.portfolio.bean.RecommendPortfolio;
 import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
+import com.dkhs.portfolio.bean.itemhandler.homepage.RecomendPortfolioHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundManagerHandler;
 import com.dkhs.portfolio.common.WeakHandler;
@@ -45,6 +47,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
     private ArrayList mDataList = new ArrayList<>();
     private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
     private ArrayList<RecommendFundManager> recommendFundManagers = new ArrayList<>();
+    private ArrayList<RecommendPortfolio> recommendPortfolios = new ArrayList<>();
     private HomePageEngine mEngine = null;
     private BaseAdapter mAdapter;
 
@@ -67,10 +70,8 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
         @Override
         protected void afterParseData(List<RecommendFund> object) {
-            Message msg = Message.obtain();
-            msg.what = MSG_FUND;
-            msg.obj = object;
-            mHandler.sendMessage(msg);
+            recommendFunds = (ArrayList<RecommendFund>) object;
+            mHandler.sendEmptyMessage(mWhat | 1);
         }
     };
 
@@ -94,34 +95,45 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
         @Override
         protected void afterParseData(List<RecommendFundManager> object) {
-            Message msg = Message.obtain();
-            msg.what = MSG_FUND_MANAGER;
-            msg.obj = object;
-            mHandler.sendMessage(msg);
+            recommendFundManagers = (ArrayList<RecommendFundManager>) object;
+            mHandler.sendEmptyMessage(mWhat | 2);
+        }
+    };
+
+    private ParseHttpListener<List<RecommendPortfolio>> portfolioListener = new ParseHttpListener<List<RecommendPortfolio>>() {
+
+
+        @Override
+        protected List<RecommendPortfolio> parseDateTask(String jsonData) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonData);
+                JSONArray results = jsonObject.getJSONArray("results");
+                List<RecommendPortfolio> list = DataParse.parseArrayJson(RecommendPortfolio.class, results);
+                return list;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(List<RecommendPortfolio> object) {
+            recommendPortfolios = (ArrayList<RecommendPortfolio>) object;
+            mHandler.sendEmptyMessage(mWhat | 4);
         }
     };
 
 
-
+    private int mWhat = 0;
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            mSwipeLayout.setRefreshing(false);
             switch (msg.what){
-                case MSG_FUND:
-                    ArrayList<RecommendFund> list = (ArrayList<RecommendFund>) msg.obj;
-                    RecommendFundBean bean = new RecommendFundBean(list);
-                    mDataList.clear();
-                    mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
-                    mDataList.add(bean);
-                    mAdapter.notifyDataSetChanged();
-                    break;
-                case MSG_FUND_MANAGER:
-                    ArrayList<RecommendFundManager> managers = (ArrayList<RecommendFundManager>) msg.obj;
-                    mDataList.clear();
-                    mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
-                    mDataList.addAll(managers);
-                    mAdapter.notifyDataSetChanged();
+                case 7:
+                    mSwipeLayout.setRefreshing(false);
+                default:
+                    generateData();
                     break;
             }
             return false;
@@ -140,7 +152,8 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
             mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HomePageFragment.this))
             .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
             .buildMultiItemView(RecommendFundManager.class,new RecommendFundManagerHandler(mActivity))
-            .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity));
+            .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity))
+            .buildMultiItemView(RecommendPortfolio.class,new RecomendPortfolioHandler(mActivity));
         }
         return mAdapter;
     }
@@ -187,9 +200,10 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
      * 获取网络数据
      */
     private void getNetData(){
-//        mSwipeLayout.setRefreshing(true);
+        mSwipeLayout.setRefreshing(true);
         HomePageEngine.getRecommendFund(recommendFundListener);
-//        HomePageEngine.getRecommendFundManager(fundManagerListener);
+        HomePageEngine.getRecommendFundManager(fundManagerListener);
+        HomePageEngine.getRecommendPortfolio(portfolioListener);
     }
 
     @Override
@@ -220,6 +234,28 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(getListAdapter());
+    }
+
+    private void generateData(){
+        mDataList.clear();
+        //推荐基金经理
+        if(recommendFundManagers != null && recommendFundManagers.size() > 0){
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
+            mDataList.addAll(recommendFundManagers);
+        }
+        //推荐基金
+        if(recommendFunds != null && recommendFunds.size() > 0){
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
+            RecommendFundBean bean = new RecommendFundBean(recommendFunds);
+            mDataList.add(bean);
+        }
+
+        //推荐组合
+        if(recommendPortfolios != null && recommendPortfolios.size() > 0){
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_PORTFOLIO));
+            mDataList.addAll(recommendPortfolios);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
 }
