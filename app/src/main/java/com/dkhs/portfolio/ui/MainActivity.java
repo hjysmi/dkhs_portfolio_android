@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity {
         t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
 
         t.commitAllowingStateLoss();
-        displayFragmentB();
+        displayFragmentC();
         new AppUpdateEngine(mContext).checkVersion();
         handIntent();
         getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.person_setting_backgroud)));
