@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    compile files('libs/universal-image-loader-1.9.3.jar')
+    compile files('libs/universal-image-loader-1.9.4.jar')
     compile 'com.android.support:appcompat-v7:22.2.0'
     //    compile 'com.android.support:design:22.2.0'
     compile 'com.android.support:support-v4:22.2.0'
