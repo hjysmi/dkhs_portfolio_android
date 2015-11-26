@@ -36,9 +36,9 @@ public class HomePageEngine {
      */
     public static void getRecommendRewardAndTopic(String type, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("content_type", type);
-        params.addBodyParameter("page", "1");
-        params.addBodyParameter("page_size", "6");
+        params.addQueryStringParameter("content_type", type);
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("page_size", "6");
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.GET_RECOMMEND, params, listener);
     }
 
@@ -49,7 +49,7 @@ public class HomePageEngine {
      */
     public static void getRecommendFundManager(IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("page_size", "3");
+        params.addQueryStringParameter("page_size", "3");
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.StockSymbol.RECOMMEND_FUND_MANAGER, params, listener);
     }
 
@@ -60,7 +60,7 @@ public class HomePageEngine {
      */
     public static void getRecommendFund(IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("page_size", "2");
+        params.addQueryStringParameter("page_size", "2");
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.StockSymbol.RECOMMEND_FUND, params, listener);
     }
 
@@ -70,7 +70,7 @@ public class HomePageEngine {
      */
     public static void getRecommendPortfolio(IHttpListener listener){
         RequestParams params = new RequestParams();
-        params.addBodyParameter("page_size", "3");
+        params.addQueryStringParameter("page_size", "3");
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Portfolio.RECOMMEND_PROTFOLIO, params, listener);
     }
 }
