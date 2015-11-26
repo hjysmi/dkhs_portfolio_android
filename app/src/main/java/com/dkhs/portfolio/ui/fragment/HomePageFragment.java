@@ -23,8 +23,8 @@ import com.dkhs.portfolio.bean.RecommendFund;
 import com.dkhs.portfolio.bean.RecommendFundBean;
 import com.dkhs.portfolio.bean.RecommendFundManager;
 import com.dkhs.portfolio.bean.RecommendPortfolio;
-import com.dkhs.portfolio.bean.itemhandler.BannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
+import com.dkhs.portfolio.bean.itemhandler.homepage.HomePageBannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecomendPortfolioHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundManagerHandler;
@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomePageFragment extends VisiableLoadFragment implements BannerHandler.RefreshEnable {
+public class HomePageFragment extends VisiableLoadFragment implements HomePageBannerHandler.RefreshEnable {
 
     private static final int REQUEST_SUCCESS = 15;
     private static final int REQUESS_FAIL = -1;
@@ -262,7 +262,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     BaseAdapter getListAdapter() {
         if (mAdapter == null) {
-            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HomePageFragment.this,true))
+            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new HomePageBannerHandler(mActivity,HomePageFragment.this))
             .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
             .buildMultiItemView(RecommendFundManager.class,new RecommendFundManagerHandler(mActivity))
             .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity))
