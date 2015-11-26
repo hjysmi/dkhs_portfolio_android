@@ -22,7 +22,7 @@
                 android:id="@+id/btn_tab3"
                 style="@style/bottom_tab_button"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/cb_bar_shake" />
+                android:background="@drawable/cb_bar_home" />
 
             <TextView
                 android:id="@+id/tv_tab3"
