@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,8 @@ import java.util.List;
 
 public class HomePageFragment extends VisiableLoadFragment implements BannerHandler.RefreshEnable {
 
-    private static final int MSG_FUND = 0;
-    private static final int MSG_FUND_MANAGER = 1;
+    private static final int REQUEST_SUCCESS = 15;
+    private static final int REQUESS_FAIL = -1;
 
 
     private ArrayList mDataList = new ArrayList<>();
@@ -60,8 +61,13 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
     private ParseHttpListener<List<RecommendFund>> recommendFundListener = new ParseHttpListener<List<RecommendFund>>() {
 
         @Override
+        public void onFailure(int errCode, String errMsg) {
+            mHandler.sendEmptyMessage(REQUESS_FAIL);
+            super.onFailure(errCode, errMsg);
+        }
+
+        @Override
         public void onSuccess(String jsonObject) {
-            LogUtils.d("wys","success");
             //缓存
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON,jsonObject);
             super.onSuccess(jsonObject);
@@ -75,7 +81,8 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         @Override
         protected void afterParseData(List<RecommendFund> object) {
             recommendFunds = (ArrayList<RecommendFund>) object;
-            mHandler.sendEmptyMessage(mWhat | 1);
+            HomePageFragment.this.mWhat = mWhat | 1;
+            mHandler.sendEmptyMessage(mWhat);
         }
     };
 
@@ -95,6 +102,11 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     private ParseHttpListener<List<RecommendFundManager>> fundManagerListener = new ParseHttpListener<List<RecommendFundManager>>() {
 
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            mHandler.sendEmptyMessage(REQUESS_FAIL);
+            super.onFailure(errCode, errMsg);
+        }
 
         @Override
         public void onSuccess(String jsonObject) {
@@ -110,7 +122,8 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         @Override
         protected void afterParseData(List<RecommendFundManager> object) {
             recommendFundManagers = (ArrayList<RecommendFundManager>) object;
-            mHandler.sendEmptyMessage(mWhat | 2);
+            HomePageFragment.this.mWhat = mWhat | 2;
+            mHandler.sendEmptyMessage(mWhat);
         }
     };
 
@@ -130,6 +143,11 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     private ParseHttpListener<List<RecommendPortfolio>> portfolioListener = new ParseHttpListener<List<RecommendPortfolio>>() {
 
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            mHandler.sendEmptyMessage(REQUESS_FAIL);
+            super.onFailure(errCode, errMsg);
+        }
 
         @Override
         public void onSuccess(String jsonObject) {
@@ -145,7 +163,8 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         @Override
         protected void afterParseData(List<RecommendPortfolio> object) {
             recommendPortfolios = (ArrayList<RecommendPortfolio>) object;
-            mHandler.sendEmptyMessage(mWhat | 4);
+            HomePageFragment.this.mWhat = mWhat | 4;
+            mHandler.sendEmptyMessage(mWhat);
         }
     };
 
@@ -165,6 +184,11 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     private ParseHttpListener<BannerTopicsBean> bannerListener = new ParseHttpListener<BannerTopicsBean>() {
 
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            mHandler.sendEmptyMessage(REQUESS_FAIL);
+            super.onFailure(errCode, errMsg);
+        }
 
         @Override
         public void onSuccess(String jsonObject) {
@@ -180,7 +204,8 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         @Override
         protected void afterParseData(BannerTopicsBean object) {
             bean = object;
-            mHandler.sendEmptyMessage(mWhat | 8);
+            HomePageFragment.this.mWhat = mWhat | 8;
+            mHandler.sendEmptyMessage(mWhat);
         }
     };
 
@@ -205,10 +230,16 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
+            Log.d("wys", "msg" + msg.what);
             switch (msg.what){
-                case 15:
+                case REQUESS_FAIL:
+                    mSwipeLayout.setRefreshing(false);
+                    mWhat = 0;
+                    break;
+                case REQUEST_SUCCESS:
                     LogUtils.d("wys","swipe close refresh");
                     mSwipeLayout.setRefreshing(false);
+                    mWhat = 0;
                 default:
                     generateData();
                     break;
@@ -261,6 +292,8 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     @Override
     public void requestData() {
+//        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
+//        mSwipeLayout.setRefreshing(true);
         getCache();
         getNetData();
     }
@@ -276,7 +309,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
      * 获取网络数据
      */
     private void getNetData(){
-        mSwipeLayout.setRefreshing(true);
+        mWhat = 0;
         HomePageEngine.getRecommendFund(recommendFundListener);
         HomePageEngine.getRecommendFundManager(fundManagerListener);
         HomePageEngine.getRecommendPortfolio(portfolioListener);
@@ -292,19 +325,21 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     @Override
     public void enable() {
-
+        mSwipeLayout.setEnabled(true);
     }
 
     @Override
     public void disEnable() {
-
+        mSwipeLayout.setEnabled(false);
     }
+
 
     private void initLoadMoreList(View view) {
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                LogUtils.d("wys","onRefresh");
                 getNetData();
             }
         });
