@@ -12,6 +12,7 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.RecommendFund;
 import com.dkhs.portfolio.bean.RecommendFundBean;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 import java.util.ArrayList;
 
@@ -69,7 +70,7 @@ public class RecommendFundHandler extends SimpleItemHandler<RecommendFundBean> {
             TextView recommendTitle = (TextView) v.findViewById(R.id.tv_recommend_title);
             TextView desc = (TextView) v.findViewById(R.id.tv_fund_desc);
             fundName.setText(fund.getAbbr_name());
-            porfitRate.setText(fund.getPercent_six_month());
+            porfitRate.setText(StringFromatUtils.getPercentSpan(fund.getPercent_six_month()));
             recommendTitle.setText(fund.getRecommend_title());
             desc.setText(fund.getRecommend_desc());
             return v;
