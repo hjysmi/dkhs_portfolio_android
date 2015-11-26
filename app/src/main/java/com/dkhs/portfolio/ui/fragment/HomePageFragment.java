@@ -257,7 +257,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     BaseAdapter getListAdapter() {
         if (mAdapter == null) {
-            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HomePageFragment.this))
+            mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new BannerHandler(mActivity, HomePageFragment.this,true))
             .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
             .buildMultiItemView(RecommendFundManager.class,new RecommendFundManagerHandler(mActivity))
             .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity))
