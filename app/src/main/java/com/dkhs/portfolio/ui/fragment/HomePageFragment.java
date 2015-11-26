@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.HomeMoreBean;
 import com.dkhs.portfolio.bean.RecommendFund;
@@ -30,6 +31,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.util.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +50,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
     private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
     private ArrayList<RecommendFundManager> recommendFundManagers = new ArrayList<>();
     private ArrayList<RecommendPortfolio> recommendPortfolios = new ArrayList<>();
-    private HomePageEngine mEngine = null;
+    private BannerTopicsBean bean;
     private BaseAdapter mAdapter;
 
     private ParseHttpListener<List<RecommendFund>> recommendFundListener = new ParseHttpListener<List<RecommendFund>>() {
@@ -124,13 +126,40 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         }
     };
 
+    private ParseHttpListener<BannerTopicsBean> bannerListener = new ParseHttpListener<BannerTopicsBean>() {
+
+
+        @Override
+        protected BannerTopicsBean parseDateTask(String jsonData) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonData);
+                AdBean ad = DataParse.parseObjectJson(AdBean.class, jsonObject);
+                BannerTopicsBean bean = new BannerTopicsBean();
+                bean.hotTopicsBeans = null;
+                bean.adBean = ad;
+                return bean;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(BannerTopicsBean object) {
+            bean = object;
+            mHandler.sendEmptyMessage(mWhat | 8);
+        }
+    };
+
 
     private int mWhat = 0;
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what){
-                case 7:
+                case 15:
+                    LogUtils.d("wys","swipe close refresh");
                     mSwipeLayout.setRefreshing(false);
                 default:
                     generateData();
@@ -164,7 +193,6 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mEngine = new HomePageEngine(getActivity());
         BusProvider.getInstance().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -204,6 +232,7 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
         HomePageEngine.getRecommendFund(recommendFundListener);
         HomePageEngine.getRecommendFundManager(fundManagerListener);
         HomePageEngine.getRecommendPortfolio(portfolioListener);
+        HomePageEngine.getBanner(bannerListener);
     }
 
     @Override
@@ -238,6 +267,10 @@ public class HomePageFragment extends VisiableLoadFragment implements BannerHand
 
     private void generateData(){
         mDataList.clear();
+        //banner广告栏
+        if(bean != null){
+            mDataList.add(bean);
+        }
         //推荐基金经理
         if(recommendFundManagers != null && recommendFundManagers.size() > 0){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
