@@ -432,15 +432,15 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                     // 获取当前位置占头布局高度的百分比
                     float f = (float) top / (float) headerHeight;
                     LogUtils.d("wys","alaph"+f);
-                    mSearchEt.setAlpha(f);
+                    mSearchEt.setAlpha(0.5f+f/2);
                     // 通知标题栏刷新显示
                     mSearchEt.invalidate();
                 }
             }
         } else if (firstVisibleItem > 1) {
-            mSearchEt.setAlpha(0);
-        } else {
             mSearchEt.setAlpha(1);
+        } else {
+            mSearchEt.setAlpha(0.5f);
         }
     }
 }
