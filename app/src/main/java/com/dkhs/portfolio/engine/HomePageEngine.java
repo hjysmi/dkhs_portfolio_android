@@ -36,9 +36,9 @@ public class HomePageEngine {
      */
     public static void getRecommendRewardAndTopic(String type, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("content_type", type);
-        params.addBodyParameter("page", "1");
-        params.addBodyParameter("page_size", "6");
+        params.addQueryStringParameter("content_type", type);
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("page_size", "6");
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.GET_RECOMMEND, params, listener);
     }
 

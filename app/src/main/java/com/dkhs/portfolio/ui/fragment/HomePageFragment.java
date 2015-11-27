@@ -62,7 +62,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
     private ArrayList<RecommendFundManager> recommendFundManagers = new ArrayList<>();
     private ArrayList<RecommendPortfolio> recommendPortfolios = new ArrayList<>();
-    private List<TopicsBean> topicsBeans = new ArrayList<>();
+    private List<TopicsBean> recommendRewards = new ArrayList<>();
+    private List<TopicsBean> recommendTopics = new ArrayList<>();
     private BannerTopicsBean bean;
 
     private BaseAdapter mAdapter;
@@ -84,25 +85,32 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected List<TopicsBean> parseDateTask(String jsonData) {
+            if(jsonData==null){
+                return null;
+            }else{
+                return parseRewards(jsonData);
+            }
 
-            return parseRewards(jsonData);
         }
 
         @Override
         protected void afterParseData(List<TopicsBean> object) {
-            topicsBeans = object;
+            recommendRewards = object;
             HomePageFragment.this.mWhat = mWhat | 6;
             mHandler.sendEmptyMessage(mWhat);
         }
     };
 
-    //解析悬赏
+    //解析悬赏,话题
     private List<TopicsBean> parseRewards(String jsonData) {
         try {
-            JSONObject jsonObject = new JSONObject(jsonData);
-            JSONArray results = jsonObject.getJSONArray("results");
-            List<TopicsBean> list = DataParse.parseArrayJson(TopicsBean.class, results);
-            return list;
+            if(jsonData!=null){
+                JSONObject jsonObject = new JSONObject(jsonData);
+                JSONArray results = jsonObject.getJSONArray("results");
+                List<TopicsBean> list = DataParse.parseArrayJson(TopicsBean.class, results);
+                return list;
+            }
+            return null;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -113,14 +121,36 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     //推荐话题
     private ParseHttpListener<List<TopicsBean>> topicsListener = new ParseHttpListener<List<TopicsBean>>() {
         @Override
-        protected List<TopicsBean> parseDateTask(String jsonData) {
+        public void onSuccess(String jsonObject) {
+            System.out.println(">>>>>>>>>ok");
+            //缓存
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON, jsonObject);
+            super.onSuccess(jsonObject);
+        }
 
-            return null;
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            System.out.println(">>>>>>>>>ok errCode"+errCode+" errMsg= "+errMsg);
+            mHandler.sendEmptyMessage(REQUESS_FAIL);
+            super.onFailure(errCode, errMsg);
+
+        }
+
+        @Override
+        protected List<TopicsBean> parseDateTask(String jsonData) {
+           if(null==jsonData){
+               return null;
+           }else{
+               return parseRewards(jsonData);
+           }
+
         }
 
         @Override
         protected void afterParseData(List<TopicsBean> object) {
-
+            recommendTopics = object;
+            HomePageFragment.this.mWhat = mWhat | 7;
+            mHandler.sendEmptyMessage(mWhat);
         }
     };
     private ParseHttpListener<List<RecommendFund>> recommendFundListener = new ParseHttpListener<List<RecommendFund>>() {
@@ -380,7 +410,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         //推荐悬赏
         HomePageEngine.getRecommendRewardAndTopic("40", rewardsListener);
         //推荐话题
-        //    HomePageEngine.getRecommendRewardAndTopic("40",topicsListener);
+        HomePageEngine.getRecommendRewardAndTopic(String.valueOf(0),topicsListener);
     }
 
     @Override
@@ -438,9 +468,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(banner);
         }
         //推荐悬赏
-        if (topicsBeans != null && topicsBeans.size() > 0) {
+        if (recommendRewards != null && recommendRewards.size() > 0) {
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD));
-            RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(topicsBeans);
+            RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(recommendRewards);
             mDataList.add(recommendRewardBean);
         } else if (TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_REWARD_JSON))) {
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD));
@@ -450,6 +480,21 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(recommendRewardBean);
           //  mDataList.addAll(topicsBeans);
         }
+        //推荐话题
+        if (recommendTopics != null && recommendTopics.size() > 0) {
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC));
+            RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(recommendTopics);
+            mDataList.add(recommendRewardBean);
+        } else if (TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON))) {
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC));
+            String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON);
+            // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
+            RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(parseRewards(rewardsJson));
+            mDataList.add(recommendRewardBean);
+            //  mDataList.addAll(topicsBeans);
+        }
+
+
         //推荐基金经理
         if (recommendFundManagers != null && recommendFundManagers.size() > 0) {
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));

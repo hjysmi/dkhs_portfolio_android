@@ -43,16 +43,22 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
         super.onBindView(vh, data, position);
         LinearLayout ll = vh.get(R.id.ll_gallery);
         List<TopicsBean> topicsBeans = data.getTopicsBeans();
-        for(TopicsBean topicsBean : topicsBeans){
-            View view = inflater.inflate(R.layout.layout_home_recommend_reward, null);
-            view.findViewById(R.id.fm).setLayoutParams(params);
-            DKHSTextView textView = (DKHSTextView) view.findViewById(R.id.tv_title);
-            ImageView imageView = (ImageView) view.findViewById(R.id.iv_bg);
-            textView.setText(topicsBean.recommend_title);
-
-            ImageLoaderUtils.setImagDefault(topicsBean.recommend_image_md,imageView);
-            ll.addView(view);
+        if(null!=topicsBeans&&topicsBeans.size()>0){
+            for(TopicsBean topicsBean : topicsBeans){
+                View view = inflater.inflate(R.layout.layout_home_recommend_reward, null);
+                view.findViewById(R.id.fm).setLayoutParams(params);
+                DKHSTextView textView = (DKHSTextView) view.findViewById(R.id.tv_title);
+                ImageView imageView = (ImageView) view.findViewById(R.id.iv_bg);
+                if(topicsBean.content_type == 40){
+                    textView.setRewardValue(String.format(context.getString(R.string.blank_comment_count),topicsBean.rewarded_comment));
+                }
+                textView.setLineSpacing(5,1);
+                textView.setText(topicsBean.recommend_title);
+                ImageLoaderUtils.setImagDefault(topicsBean.recommend_image_md,imageView);
+                ll.addView(view);
+            }
         }
+
     }
 
     @Override
