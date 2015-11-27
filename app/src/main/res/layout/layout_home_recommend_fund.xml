@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridView
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gv_fund"
-    style="@style/home_page_item_style"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/home_page_item_style"
     android:horizontalSpacing="22dp"
-    android:numColumns="2" />
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:numColumns="2"/>
 

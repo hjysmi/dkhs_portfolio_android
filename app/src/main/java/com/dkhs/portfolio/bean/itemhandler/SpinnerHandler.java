@@ -19,10 +19,18 @@ import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 public class SpinnerHandler extends SimpleItemHandler<TopicsBean>{
     private Context mContext;
     private int mSortType;
+    private Spinner mSpinner;
     public SpinnerHandler(Context context,int sortType){
         mContext = context;
         mSortType = sortType;
     }
+
+    public void setSelection(int pos){
+        if(mSpinner != null && mSpinner.getAdapter() != null){
+            mSpinner.setSelection(pos);
+        }
+    }
+
     @Override
     public int getLayoutResId() {
         return R.layout.layout_spinner_rewards;
@@ -30,10 +38,10 @@ public class SpinnerHandler extends SimpleItemHandler<TopicsBean>{
 
     @Override
     public void onBindView(ViewHolder vh, TopicsBean data, int position) {
-        Spinner spinner = vh.get(R.id.spinner);
-        if(spinner.getAdapter() == null){
-            spinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.choices_sort_type)));
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinner = vh.get(R.id.spinner);
+        if(mSpinner.getAdapter() == null){
+            mSpinner.setAdapter(new ArrayAdapter<String>(mContext, R.layout.item_spinner, mContext.getResources().getStringArray(R.array.choices_sort_type)));
+            mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     postRefreshEvent(position);

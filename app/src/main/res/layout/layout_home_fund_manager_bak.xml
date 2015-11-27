@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/rootView">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         style="@style/home_page_item_style"
         android:layout_width="match_parent"
         android:layout_height="65dp"
@@ -13,20 +13,17 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:layout_alignParentLeft="true"
             android:id="@+id/iv_avatar"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:src="@drawable/default_head" />
 
-        <LinearLayout
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
 
             <TextView
+                android:layout_toRightOf="@id/iv_avatar"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,15 +39,11 @@
                 android:text="华夏基金管理有限公司"
                 android:textColor="#969696"
                 android:textSize="12sp" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="vertical">
 
             <TextView
+                android:layout_toLeftOf="@+id/tv_name"
+                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="周收益率"
@@ -61,21 +54,14 @@
                 android:id="@+id/tv_week_profit_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:text="10.15%"
                 android:textColor="#FF6363"
                 android:textSize="15sp" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_week_win_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:gravity="right"
-            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_week_win_rate_title"
+                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="周跑赢大盘"
@@ -86,12 +72,10 @@
                 android:id="@+id/tv_week_win_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:text="10.15%"
                 android:textColor="#FF6363"
                 android:textSize="15sp" />
-        </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:id="@+id/divider"

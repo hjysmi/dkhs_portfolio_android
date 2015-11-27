@@ -344,7 +344,11 @@ public class MainActivity extends BaseActivity {
     public static void gotoTopicsHome(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("index", 3);
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("order_index", 1);
+        intent.putExtra("arg", newIntent.bundle);
         context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
     }
 
     public static void gotoCombinationRankingActivity(Context context) {

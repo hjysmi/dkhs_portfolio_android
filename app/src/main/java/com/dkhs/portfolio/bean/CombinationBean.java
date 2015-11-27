@@ -62,6 +62,9 @@ public class CombinationBean extends DragListItem {
     @SerializedName("alert_settings")
     PortfolioAlertBean alertBean;
 
+    String avatar_sm;
+    String recommend_title;
+
     public CombinationBean() {
     }
 
@@ -349,6 +352,22 @@ public class CombinationBean extends DragListItem {
             return id.equals(other.id) && name.equals(other.name);
         }
         return super.equals(obj);
+    }
+
+    public String getRecommend_title() {
+        return recommend_title;
+    }
+
+    public void setRecommend_title(String recommend_title) {
+        this.recommend_title = recommend_title;
+    }
+
+    public String getAvatar_sm() {
+        return avatar_sm;
+    }
+
+    public void setAvatar_sm(String avatar_sm) {
+        this.avatar_sm = avatar_sm;
     }
 
     @Override

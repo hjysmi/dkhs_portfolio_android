@@ -570,6 +570,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                             imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
                         } else if (platname.contains(Wechat.NAME)) {
                             platname = "weixin";
+                            imageUrl = (String) (res.containsKey("headimgurl") ? res.get("headimgurl") : "");
                         } else {
                             platname = "qq";
                             imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true">
-
 
 
     <RelativeLayout
@@ -57,22 +55,32 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-    <EditText
-        android:alpha="0.5"
-        android:id="@+id/et_search_key"
+
+    <RelativeLayout
+        android:id="@+id/ll_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/search_bg_selector"
-        android:drawableLeft="@drawable/search_gray"
-        android:drawablePadding="10dp"
-        android:hint="@string/search_general"
-        android:maxLength="50"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:singleLine="true"
-        android:textColorHint="#999999"
-        android:textSize="16sp" />
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        >
+
+        <EditText
+            android:id="@+id/et_search_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_medium"
+            android:layout_marginRight="@dimen/widget_margin_medium"
+            android:background="@drawable/home_page_search_bg"
+            android:drawableLeft="@drawable/search_gray"
+            android:drawablePadding="10dp"
+            android:hint="@string/search_general"
+            android:textColorHint="#c8c8c8"
+            android:textSize="16sp" />
+        <View
+            android:layout_alignParentBottom="true"
+            android:id="@+id/divider"
+            style="@style/divider_line"/>
+    </RelativeLayout>
 </FrameLayout>

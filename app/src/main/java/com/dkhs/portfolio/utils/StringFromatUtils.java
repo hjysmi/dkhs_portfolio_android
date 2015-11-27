@@ -8,6 +8,11 @@
  */
 package com.dkhs.portfolio.utils;
 
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+
+import com.dkhs.portfolio.common.Spanny;
+
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -200,6 +205,15 @@ public class StringFromatUtils {
         }
 
         return dateFormatStr;
+    }
+
+    public static CharSequence getPercentSpan(String value) {
+        if (!TextUtils.isEmpty(value)) {
+            return new Spanny().append(StringFromatUtils.get2PointPercent(Float.valueOf(value)), new ForegroundColorSpan(ColorTemplate.getPercentColor(value)));
+        } else {
+            return new Spanny().append("--", new ForegroundColorSpan(ColorTemplate.DEF_GRAY));
+        }
+
     }
 
 

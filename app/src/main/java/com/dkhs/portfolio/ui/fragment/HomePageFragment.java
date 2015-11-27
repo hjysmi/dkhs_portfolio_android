@@ -17,18 +17,18 @@ import android.widget.EditText;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.FundManagerBean;
+import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.HomeMoreBean;
-import com.dkhs.portfolio.bean.RecommendFund;
 import com.dkhs.portfolio.bean.RecommendFundBean;
-import com.dkhs.portfolio.bean.RecommendFundManager;
-import com.dkhs.portfolio.bean.RecommendPortfolio;
 import com.dkhs.portfolio.bean.RecommendRewardBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomePageBannerHandler;
-import com.dkhs.portfolio.bean.itemhandler.homepage.HomeRewardHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecomendPortfolioHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundManagerHandler;
@@ -59,15 +59,16 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
     private ArrayList mDataList = new ArrayList<>();
     //网络数据
-    private ArrayList<RecommendFund> recommendFunds = new ArrayList<>();
-    private ArrayList<RecommendFundManager> recommendFundManagers = new ArrayList<>();
-    private ArrayList<RecommendPortfolio> recommendPortfolios = new ArrayList<>();
+    private ArrayList<FundPriceBean> recommendFunds = new ArrayList<>();
+    private ArrayList<FundManagerBean> recommendFundManagers = new ArrayList<>();
+    private ArrayList<CombinationBean> recommendPortfolios = new ArrayList<>();
     private List<TopicsBean> recommendRewards = new ArrayList<>();
     private List<TopicsBean> recommendTopics = new ArrayList<>();
     private BannerTopicsBean bean;
 
     private BaseAdapter mAdapter;
 
+    private ParseHttpListener<List<FundPriceBean>> recommendFundListener = new ParseHttpListener<List<FundPriceBean>>() {
     //推荐悬赏
     private ParseHttpListener<List<TopicsBean>> rewardsListener = new ParseHttpListener<List<TopicsBean>>() {
         @Override
@@ -169,13 +170,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }
 
         @Override
-        protected List<RecommendFund> parseDateTask(String jsonData) {
+        protected List<FundPriceBean> parseDateTask(String jsonData) {
             return parseFund(jsonData);
         }
 
         @Override
-        protected void afterParseData(List<RecommendFund> object) {
-            recommendFunds = (ArrayList<RecommendFund>) object;
+        protected void afterParseData(List<FundPriceBean> object) {
+            recommendFunds = (ArrayList<FundPriceBean>) object;
             HomePageFragment.this.mWhat = mWhat | 1;
             mHandler.sendEmptyMessage(mWhat);
         }
@@ -195,7 +196,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     }
 
 
-    private ParseHttpListener<List<RecommendFundManager>> fundManagerListener = new ParseHttpListener<List<RecommendFundManager>>() {
+    private ParseHttpListener<List<FundManagerBean>> fundManagerListener = new ParseHttpListener<List<FundManagerBean>>() {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
@@ -205,30 +206,30 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         public void onSuccess(String jsonObject) {
-            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON, jsonObject);
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON,jsonObject);
             super.onSuccess(jsonObject);
         }
 
         @Override
-        protected List<RecommendFundManager> parseDateTask(String jsonData) {
+        protected List<FundManagerBean> parseDateTask(String jsonData) {
             return parseFundManager(jsonData);
         }
 
         @Override
-        protected void afterParseData(List<RecommendFundManager> object) {
-            recommendFundManagers = (ArrayList<RecommendFundManager>) object;
+        protected void afterParseData(List<FundManagerBean> object) {
+            recommendFundManagers = (ArrayList<FundManagerBean>) object;
             HomePageFragment.this.mWhat = mWhat | 2;
             mHandler.sendEmptyMessage(mWhat);
         }
     };
 
     @Nullable
-    private List<RecommendFundManager> parseFundManager(String jsonData) {
+    private List<FundManagerBean> parseFundManager(String jsonData) {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonData);
             JSONArray results = jsonObject.getJSONArray("results");
-            List<RecommendFundManager> list = DataParse.parseArrayJson(RecommendFundManager.class, results);
+            List<FundManagerBean> list = DataParse.parseArrayJson(FundManagerBean.class, results);
             return list;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -236,7 +237,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         return null;
     }
 
-    private ParseHttpListener<List<RecommendPortfolio>> portfolioListener = new ParseHttpListener<List<RecommendPortfolio>>() {
+    private ParseHttpListener<List<CombinationBean>> portfolioListener = new ParseHttpListener<List<CombinationBean>>() {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
@@ -246,30 +247,30 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         public void onSuccess(String jsonObject) {
-            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON, jsonObject);
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON,jsonObject);
             super.onSuccess(jsonObject);
         }
 
         @Override
-        protected List<RecommendPortfolio> parseDateTask(String jsonData) {
+        protected List<CombinationBean> parseDateTask(String jsonData) {
             return parsePortfolio(jsonData);
         }
 
         @Override
-        protected void afterParseData(List<RecommendPortfolio> object) {
-            recommendPortfolios = (ArrayList<RecommendPortfolio>) object;
+        protected void afterParseData(List<CombinationBean> object) {
+            recommendPortfolios = (ArrayList<CombinationBean>) object;
             HomePageFragment.this.mWhat = mWhat | 4;
             mHandler.sendEmptyMessage(mWhat);
         }
     };
 
     @Nullable
-    private List<RecommendPortfolio> parsePortfolio(String jsonData) {
+    private List<CombinationBean> parsePortfolio(String jsonData) {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonData);
             JSONArray results = jsonObject.getJSONArray("results");
-            List<RecommendPortfolio> list = DataParse.parseArrayJson(RecommendPortfolio.class, results);
+            List<CombinationBean> list = DataParse.parseArrayJson(CombinationBean.class, results);
             return list;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -287,7 +288,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         public void onSuccess(String jsonObject) {
-            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOME_BANNER_JSON, jsonObject);
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOME_BANNER_JSON,jsonObject);
             super.onSuccess(jsonObject);
         }
 
@@ -326,13 +327,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         @Override
         public boolean handleMessage(Message msg) {
             Log.d("wys", "msg" + msg.what);
-            switch (msg.what) {
+            switch (msg.what){
                 case REQUESS_FAIL:
                     mSwipeLayout.setRefreshing(false);
                     mWhat = 0;
                     break;
                 case REQUEST_SUCCESS:
-                    LogUtils.d("wys", "swipe close refresh");
+                    LogUtils.d("wys","swipe close refresh");
                     mSwipeLayout.setRefreshing(false);
                     mWhat = 0;
                 default:
@@ -345,6 +346,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private SwipeRefreshLayout mSwipeLayout;
     private PullToRefreshListView mListView;
     private EditText mSearchEt;
+    private RelativeLayout mSearchLl;
+    private View divider;
 
     public HomePageFragment() {
 
@@ -356,12 +359,15 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(BannerTopicsBean.class, new HomePageBannerHandler(mActivity, HomePageFragment.this))
                     .buildMultiItemView(HomeMoreBean.class, new HomeMoreHandler(mActivity))
                     .buildMultiItemView(RecommendRewardBean.class, new HomeRewardHandler(mActivity))
-                    .buildMultiItemView(RecommendFundManager.class, new RecommendFundManagerHandler(mActivity))
+                    .buildMultiItemView(FundManagerBean.class, new RecommendFundManagerHandler(mActivity))
                     .buildMultiItemView(RecommendFundBean.class, new RecommendFundHandler(mActivity))
-                    .buildMultiItemView(RecommendPortfolio.class, new RecomendPortfolioHandler(mActivity));
+                    .buildMultiItemView(CombinationBean.class, new RecomendPortfolioHandler(mActivity));
         }
         return mAdapter;
     }
+
+
+
 
 
     @Override
@@ -383,6 +389,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     }
 
 
+
     @Override
     public void requestData() {
 //        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
@@ -394,14 +401,14 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     /**
      * 获取缓存
      */
-    private void getCache() {
+    private void getCache(){
         generateData();
     }
 
     /**
      * 获取网络数据
      */
-    private void getNetData() {
+    private void getNetData(){
         mWhat = 0;
         HomePageEngine.getRecommendFund(recommendFundListener);
         HomePageEngine.getRecommendFundManager(fundManagerListener);
@@ -440,9 +447,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
-                UIUtils.startAnimationActivity(getActivity(), intent);
+                UIUtils.startAnimationActivity(getActivity(),intent);
             }
         });
+        mSearchLl = (RelativeLayout) view.findViewById(R.id.ll_search);
+        divider = view.findViewById(R.id.divider);
+        mSearchLl.setBackgroundColor(Color.WHITE);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -452,17 +462,18 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         });
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
+        mListView.setCanRefresh(false);
         mListView.setAdapter(getListAdapter());
         mListView.setDivider(null);
         mListView.setOnScrollListener(this);
     }
 
-    private void generateData() {
+    private void generateData(){
         mDataList.clear();
         //banner广告栏
-        if (bean != null) {
+        if(bean != null){
             mDataList.add(bean);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_BANNER_JSON))) {
+        }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_BANNER_JSON))){
             String bannerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_BANNER_JSON);
             BannerTopicsBean banner = parseBanner(bannerJson);
             mDataList.add(banner);
@@ -495,35 +506,36 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }
 
 
+        mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD));
         //推荐基金经理
-        if (recommendFundManagers != null && recommendFundManagers.size() > 0) {
+        if(recommendFundManagers != null && recommendFundManagers.size() > 0){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
             mDataList.addAll(recommendFundManagers);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON))) {
+        }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON))){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
             String fundManagerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON);
-            List<RecommendFundManager> fundManagers = parseFundManager(fundManagerJson);
+            List<FundManagerBean> fundManagers = parseFundManager(fundManagerJson);
             mDataList.addAll(fundManagers);
         }
         //推荐基金
-        if (recommendFunds != null && recommendFunds.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND, true));
+        if(recommendFunds != null && recommendFunds.size() > 0){
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND,true));
             RecommendFundBean bean = new RecommendFundBean(recommendFunds);
             mDataList.add(bean);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON))) {
+        }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON))){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
-            ArrayList<RecommendFund> fundBeans = (ArrayList<RecommendFund>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
+            ArrayList<FundPriceBean> fundBeans = (ArrayList<FundPriceBean>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
             RecommendFundBean bean = new RecommendFundBean(fundBeans);
             mDataList.add(bean);
         }
 
         //推荐组合
-        if (recommendPortfolios != null && recommendPortfolios.size() > 0) {
+        if(recommendPortfolios != null && recommendPortfolios.size() > 0){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_PORTFOLIO));
             mDataList.addAll(recommendPortfolios);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON))) {
+        }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON))){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_PORTFOLIO));
-            ArrayList<RecommendPortfolio> portfolios = (ArrayList<RecommendPortfolio>) parsePortfolio(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON));
+            ArrayList<CombinationBean> portfolios = (ArrayList<CombinationBean>) parsePortfolio(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON));
             mDataList.addAll(portfolios);
         }
         mAdapter.notifyDataSetChanged();
@@ -538,7 +550,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 // 判断当前最上面显示的是不是头布局，因为Xlistview有刷新控件，所以头布局的位置是1，即第二个
-        if (firstVisibleItem == 1) {
+        ColorDrawable colorDrawable = new ColorDrawable(Color.WHITE);
+        if (firstVisibleItem == 0) {
             // 获取头布局
             View v = mListView.getChildAt(0);
             if (v != null) {
@@ -550,16 +563,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 if (top <= headerHeight && top >= 0) {
                     // 获取当前位置占头布局高度的百分比
                     float f = (float) top / (float) headerHeight;
-                    LogUtils.d("wys","alaph"+f);
-                    mSearchEt.getBackground().setAlpha((int) (f * 255));
-                    // 通知标题栏刷新显示
-                    mSearchEt.invalidate();
+                    divider.getBackground().setAlpha((int) (f * 230));
+                    mSearchLl.getBackground().setAlpha((int) (f * 180));
                 }
             }
-        } else if (firstVisibleItem > 1) {
-            mSearchEt.getBackground().setAlpha(255);
-        } else {
-            mSearchEt.getBackground().setAlpha(0);
+        } else if (firstVisibleItem > 0) {
+            divider.getBackground().setAlpha(230);
+            mSearchLl.getBackground().setAlpha(180);
         }
     }
 }
