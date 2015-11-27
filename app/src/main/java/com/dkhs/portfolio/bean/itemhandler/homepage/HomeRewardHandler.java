@@ -56,6 +56,9 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
             View leftView = new View(context);
             leftView.setLayoutParams(new ViewGroup.LayoutParams(context.getResources().getDimensionPixelOffset(R.dimen.widget_margin_medium),1));
             ll.addView(leftView);
+            if(topicsBeans == null){
+                return;
+            }
             for (int i=0;i<topicsBeans.size();i++) {
                 TopicsBean topicsBean=topicsBeans.get(i);
                 View view = inflater.inflate(R.layout.layout_home_recommend_reward, null);
