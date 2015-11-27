@@ -49,6 +49,8 @@ public class HomeMoreHandler extends SimpleItemHandler<HomeMoreBean> {
         vh.getTextView(R.id.title).setText(data.getTitle());
         if(data.hide){
             vh.get(R.id.divider).setVisibility(View.GONE);
+        }else{
+            vh.get(R.id.divider).setVisibility(View.VISIBLE);
         }
     }
 }
