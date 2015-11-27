@@ -15,11 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.RelativeLayout;
+import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -390,7 +390,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     });
     private SwipeRefreshLayout mSwipeLayout;
     private PullToRefreshListView mListView;
-    private EditText mSearchEt;
+    private TextView mSearchTv;
     private RelativeLayout mSearchLl;
     private View divider;
 
@@ -463,7 +463,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         //推荐悬赏
         HomePageEngine.getRecommendRewardAndTopic("40", rewardsListener);
         //推荐话题
-        HomePageEngine.getRecommendRewardAndTopic(String.valueOf(0),topicsListener);
+        HomePageEngine.getRecommendRewardAndTopic(String.valueOf(0), topicsListener);
         HomePageEngine.getSubBanner(subBannerListener);
     }
 
@@ -487,14 +487,14 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
     private void initLoadMoreList(View view) {
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSearchEt = (EditText) view.findViewById(R.id.et_search_key);
-        mSearchEt.setFocusable(false);
-        mSearchEt.setFocusableInTouchMode(false);
-        mSearchEt.setOnClickListener(new View.OnClickListener() {
+        mSearchTv = (TextView) view.findViewById(R.id.tv_search_key);
+        mSearchTv.setFocusable(false);
+        mSearchTv.setFocusableInTouchMode(false);
+        mSearchTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
-                UIUtils.startAnimationActivity(getActivity(),intent);
+                UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
         mSearchLl = (RelativeLayout) view.findViewById(R.id.ll_search);
