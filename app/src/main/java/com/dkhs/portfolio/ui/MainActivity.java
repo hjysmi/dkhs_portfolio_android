@@ -311,8 +311,7 @@ public class MainActivity extends BaseActivity {
 
 
     public static void gotoShakeActivity(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 2);
+        Intent intent = new Intent(context, ShakeDetectorActivity.class);
         context.startActivity(intent);
     }
 
@@ -335,7 +334,7 @@ public class MainActivity extends BaseActivity {
 
 
         NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("bbs_index", 0);
+        newIntent.bundle.putInt("bbs_index", 1);
         intent.putExtra("arg", newIntent.bundle);
         context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);

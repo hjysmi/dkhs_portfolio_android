@@ -46,6 +46,9 @@ public class PortfolioPreferenceManager {
     public static final String KEY_HOME_BANNER_JSON = "key_home_banner_json";
     public static final String KEY_HOME_REWARD_JSON = "key_home_reward_json";
     public static final String KEY_HOME_TOPIC_JSON = "key_home_topic_json";
+    public static final String KEY_HOME_SUB_BANNER_JSON = "key_home_sub_banner_json";
+
+
     /**
      * app 显示新消息的key
      */
