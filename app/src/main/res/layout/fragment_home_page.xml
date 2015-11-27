@@ -60,11 +60,11 @@
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:gravity="center_vertical"
         android:background="@color/white"
         >
 
         <EditText
+            android:layout_centerInParent="true"
             android:id="@+id/et_search_key"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +73,6 @@
             android:layout_marginLeft="@dimen/widget_margin_medium"
             android:layout_marginRight="@dimen/widget_margin_medium"
             android:background="@drawable/home_page_search_bg"
-            android:drawableLeft="@drawable/search_gray"
             android:drawablePadding="10dp"
             android:hint="@string/search_general"
             android:textColorHint="#c8c8c8"
