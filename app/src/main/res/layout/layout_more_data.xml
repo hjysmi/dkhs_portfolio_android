@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/top_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/combin_horSpacing"
+        android:layout_alignParentTop="true"
+        android:background="@color/person_setting_backgroud" />
+
+    <LinearLayout
+        android:paddingLeft="@dimen/widget_margin_medium"
+        android:paddingRight="@dimen/widget_margin_medium"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_divider"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="基金经理" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/setting_image_right"
+            android:drawablePadding="5dp"
+            android:textColor="@color/gray_textcolor"
+            android:text="更多" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/divider_line"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>
