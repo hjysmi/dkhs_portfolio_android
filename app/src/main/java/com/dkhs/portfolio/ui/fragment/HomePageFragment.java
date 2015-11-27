@@ -364,6 +364,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         });
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
+        mListView.setCanRefresh(false);
         mListView.setAdapter(getListAdapter());
         mListView.setDivider(null);
         mListView.setOnScrollListener(this);
@@ -423,6 +424,11 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     }
 
     @Override
+    public void onViewShow() {
+        super.onViewShow();
+    }
+
+    @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 // 判断当前最上面显示的是不是头布局，因为Xlistview有刷新控件，所以头布局的位置是1，即第二个
         if (firstVisibleItem == 1) {
@@ -438,15 +444,15 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                     // 获取当前位置占头布局高度的百分比
                     float f = (float) top / (float) headerHeight;
                     LogUtils.d("wys", "alaph" + f + "top" + top);
-                    mSearchLl.setAlpha(0.5f + f / 2);
+                    mSearchLl.getBackground().setAlpha((int) f * 255);
                     // 通知标题栏刷新显示
                     mSearchLl.invalidate();
                 }
             }
         } else if (firstVisibleItem > 1) {
-            mSearchLl.setAlpha(1);
+            mSearchLl.getBackground().setAlpha(255);
         } else {
-            mSearchLl.setAlpha(0.5f);
+            mSearchLl.getBackground().setAlpha(0);
         }
     }
 }

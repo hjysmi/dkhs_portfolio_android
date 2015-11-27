@@ -72,7 +72,7 @@ public class RecommendFundHandler extends SimpleItemHandler<RecommendFundBean> {
             TextView recommendTitle = (TextView) v.findViewById(R.id.tv_recommend_title);
             TextView desc = (TextView) v.findViewById(R.id.tv_fund_desc);
             fundName.setText(fund.getAbbrname());
-            porfitRate.setText(StringFromatUtils.getPercentSpan(String.valueOf(fund.getPercent_six_month())));
+            porfitRate.setText(StringFromatUtils.get2PointPercent(fund.getPercent_six_month()));
             recommendTitle.setText(fund.getRecommend_title());
             desc.setText(fund.getRecommend_desc());
             v.findViewById(R.id.rootView).setOnClickListener(new View.OnClickListener() {
