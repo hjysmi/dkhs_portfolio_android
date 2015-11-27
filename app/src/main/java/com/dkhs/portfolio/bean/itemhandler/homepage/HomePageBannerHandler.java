@@ -64,13 +64,13 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                 scaleLayout.setInterceptTouch(true);
                 slider.stopAutoCycle();
                 slider.removeAllSliders();
-                slider.setVisibility(View.INVISIBLE);
-                slider.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        slider.setVisibility(View.VISIBLE);
-                    }
-                }, 600);
+//                slider.setVisibility(View.INVISIBLE);
+//                slider.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        slider.setVisibility(View.VISIBLE);
+//                    }
+//                }, 600);
                 if (mRefreshEnable != null) {
                     slider.setOnTouchListener(new View.OnTouchListener() {
                         @Override

@@ -1,6 +1,9 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +21,7 @@ import android.widget.LinearLayout;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.bean.AdBean;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -256,7 +260,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private SwipeRefreshLayout mSwipeLayout;
     private PullToRefreshListView mListView;
     private EditText mSearchEt;
-    private LinearLayout mSearchLl;
+    private RelativeLayout mSearchLl;
+    private View divider;
 
     public HomePageFragment() {
 
@@ -354,7 +359,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 UIUtils.startAnimationActivity(getActivity(), intent);
             }
         });
-        mSearchLl = (LinearLayout) view.findViewById(R.id.ll_search);
+        mSearchLl = (RelativeLayout) view.findViewById(R.id.ll_search);
+        divider = view.findViewById(R.id.divider);
+        mSearchLl.setBackgroundColor(Color.WHITE);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -431,7 +438,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 // 判断当前最上面显示的是不是头布局，因为Xlistview有刷新控件，所以头布局的位置是1，即第二个
-        if (firstVisibleItem == 1) {
+        ColorDrawable colorDrawable = new ColorDrawable(Color.WHITE);
+        if (firstVisibleItem == 0) {
             // 获取头布局
             View v = mListView.getChildAt(0);
             if (v != null) {
@@ -443,16 +451,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 if (top <= headerHeight && top >= 0) {
                     // 获取当前位置占头布局高度的百分比
                     float f = (float) top / (float) headerHeight;
-                    LogUtils.d("wys", "alaph" + f + "top" + top);
-                    mSearchLl.getBackground().setAlpha((int) f * 255);
-                    // 通知标题栏刷新显示
-                    mSearchLl.invalidate();
+                    divider.getBackground().setAlpha((int) (f * 230));
+                    mSearchLl.getBackground().setAlpha((int) (f * 180));
                 }
             }
-        } else if (firstVisibleItem > 1) {
-            mSearchLl.getBackground().setAlpha(255);
-        } else {
-            mSearchLl.getBackground().setAlpha(0);
+        } else if (firstVisibleItem > 0) {
+            divider.getBackground().setAlpha(230);
+            mSearchLl.getBackground().setAlpha(180);
         }
     }
 }
