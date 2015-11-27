@@ -147,7 +147,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
 
         sensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
         sd = new ShakeDetector(this);
-
+        onViewShow();
     }
 
     @Override
