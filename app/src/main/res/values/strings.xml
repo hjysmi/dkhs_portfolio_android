@@ -889,4 +889,6 @@
     <string name="search_topic_hint">话题</string>
     <string name="search_fund_manger_hint">基金经理</string>
     <string name="search_com_hint">组合</string>
+
+    <string name="account_format">账号：%1$s</string>
 </resources>

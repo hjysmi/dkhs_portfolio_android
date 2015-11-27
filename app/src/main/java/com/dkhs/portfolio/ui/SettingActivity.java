@@ -207,7 +207,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
 
             findViewById(R.id.setting_layout_sign).setVisibility(View.GONE);
-            settingAccountLayout.setVisibility(View.VISIBLE);
+            //需求取消该行
+            settingAccountLayout.setVisibility(View.GONE);
 
             findViewById(R.id.setting_layout_icon).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_username).setVisibility(View.GONE);
@@ -512,7 +513,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
             }
             if (login) {
-                settingAccountLayout.setVisibility(View.VISIBLE);
+                settingAccountLayout.setVisibility(View.GONE);
             } else {
                 settingAccountLayout.setVisibility(View.GONE);
             }
