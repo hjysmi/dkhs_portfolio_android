@@ -30,6 +30,7 @@ import com.dkhs.portfolio.bean.itemhandler.homepage.HomePageBannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecomendPortfolioHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundManagerHandler;
+import com.dkhs.portfolio.bean.itemhandler.homepage.SubBannerHandler;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.HomePageEngine;
 import com.dkhs.portfolio.net.DataParse;
@@ -51,7 +52,7 @@ import java.util.List;
 
 public class HomePageFragment extends VisiableLoadFragment implements HomePageBannerHandler.RefreshEnable,AbsListView.OnScrollListener {
 
-    private static final int REQUEST_SUCCESS = 15;
+    private static final int REQUEST_SUCCESS = 31;
     private static final int REQUESS_FAIL = -1;
 
 
@@ -61,6 +62,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private ArrayList<FundManagerBean> recommendFundManagers = new ArrayList<>();
     private ArrayList<CombinationBean> recommendPortfolios = new ArrayList<>();
     private BannerTopicsBean bean;
+    private AdBean subAd;
 
     private BaseAdapter mAdapter;
 
@@ -231,6 +233,47 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         return null;
     }
 
+    private ParseHttpListener<AdBean> subBannerListener = new ParseHttpListener<AdBean>() {
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            mHandler.sendEmptyMessage(REQUESS_FAIL);
+            super.onFailure(errCode, errMsg);
+        }
+
+        @Override
+        public void onSuccess(String jsonObject) {
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOME_SUB_BANNER_JSON,jsonObject);
+            super.onSuccess(jsonObject);
+        }
+
+        @Override
+        protected AdBean parseDateTask(String jsonData) {
+            return parseSubBanner(jsonData);
+        }
+
+        @Override
+        protected void afterParseData(AdBean object) {
+            subAd = object;
+            HomePageFragment.this.mWhat = mWhat | 16;
+            mHandler.sendEmptyMessage(mWhat);
+        }
+    };
+
+    @Nullable
+    private AdBean parseSubBanner(String jsonData) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(jsonData);
+            AdBean ad = DataParse.parseObjectJson(AdBean.class, jsonObject);
+            return ad;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     private int mWhat = 0;
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
@@ -269,7 +312,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             .buildMultiItemView(HomeMoreBean.class,new HomeMoreHandler(mActivity))
             .buildMultiItemView(FundManagerBean.class,new RecommendFundManagerHandler(mActivity))
             .buildMultiItemView(RecommendFundBean.class,new RecommendFundHandler(mActivity))
-            .buildMultiItemView(CombinationBean.class,new RecomendPortfolioHandler(mActivity));
+            .buildMultiItemView(CombinationBean.class,new RecomendPortfolioHandler(mActivity))
+            .buildMultiItemView(AdBean.class,new SubBannerHandler(mActivity,HomePageFragment.this));
         }
         return mAdapter;
     }
@@ -322,6 +366,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         HomePageEngine.getRecommendFundManager(fundManagerListener);
         HomePageEngine.getRecommendPortfolio(portfolioListener);
         HomePageEngine.getBanner(bannerListener);
+        HomePageEngine.getSubBanner(subBannerListener);
     }
 
     @Override
@@ -382,7 +427,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             BannerTopicsBean banner = parseBanner(bannerJson);
             mDataList.add(banner);
         }
-        mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD));
         //推荐基金经理
         if(recommendFundManagers != null && recommendFundManagers.size() > 0){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
@@ -403,6 +447,15 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             ArrayList<FundPriceBean> fundBeans = (ArrayList<FundPriceBean>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
             RecommendFundBean bean = new RecommendFundBean(fundBeans);
             mDataList.add(bean);
+        }
+
+
+        if(subAd != null){
+            mDataList.add(subAd);
+        }else if(!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_SUB_BANNER_JSON))){
+            String bannerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_SUB_BANNER_JSON);
+            AdBean banner = parseSubBanner(bannerJson);
+            mDataList.add(banner);
         }
 
         //推荐组合

@@ -159,6 +159,7 @@ public class DKHSUrl {
          * 获取主页广告
          */
         String GET_HOME_BANNER = "/api/v1/ads/area/home_banner/";
+        String GET_SUB_HOME_BANNER = "/api/v1/ads/area/home_sub_banner";
 
     }
 

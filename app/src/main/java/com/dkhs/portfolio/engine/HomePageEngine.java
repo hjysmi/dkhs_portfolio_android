@@ -27,6 +27,13 @@ public class HomePageEngine {
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Ads.GET_HOME_BANNER, null, listener);
     }
 
+    /**
+     * 获取子广告栏信息
+     */
+    public static void getSubBanner(IHttpListener listener){
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Ads.GET_SUB_HOME_BANNER, null, listener);
+    }
+
 
     /**
      * 获取推荐悬赏/话题
