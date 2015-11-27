@@ -10,7 +10,7 @@ public class HomeMoreBean {
     public static final int TYPE_REWARD = 3;
     public static final int TYPE_TOPIC = 4;
     public int type;
-    public boolean hide;
+    public boolean hide = false;
 
     public HomeMoreBean(int type) {
         this.type = type;

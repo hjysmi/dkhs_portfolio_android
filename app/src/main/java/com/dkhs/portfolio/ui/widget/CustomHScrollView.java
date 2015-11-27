@@ -29,6 +29,7 @@ public class CustomHScrollView extends HorizontalScrollView {
         super(context);
 // TODO Auto-generated constructor stub
         mGestureDetector = new GestureDetector(new HScrollDetector());
+        setSmoothScrollingEnabled(true);
         setFadingEdgeLength(0);
     }
 
@@ -39,6 +40,7 @@ public class CustomHScrollView extends HorizontalScrollView {
      */
     public CustomHScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setSmoothScrollingEnabled(true);
 // TODO Auto-generated constructor stub
         mGestureDetector = new GestureDetector(new HScrollDetector());
         setFadingEdgeLength(0);
@@ -54,13 +56,41 @@ public class CustomHScrollView extends HorizontalScrollView {
                              int defStyle) {
         super(context, attrs, defStyle);
 // TODO Auto-generated constructor stub
+        setSmoothScrollingEnabled(true);
         mGestureDetector = new GestureDetector(new HScrollDetector());
         setFadingEdgeLength(0);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return super.onInterceptTouchEvent(ev) && mGestureDetector.onTouchEvent(ev);
+        return true;
+    }
+
+    private float lastX;
+    private float lastY;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+
+        return super.onTouchEvent(ev);
+       /* float rawX;
+        float rawY;
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                lastX = ev.getX();
+                lastY = ev.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                rawX = ev.getX();
+                rawY = ev.getY();
+                if(Math.abs(rawX-lastX) > Math.abs(rawY-lastY)) {
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                return true;
+        }
+        return super.onTouchEvent(ev);*/
     }
 
     // Return false if we're scrolling in the y direction
