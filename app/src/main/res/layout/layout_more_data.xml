@@ -27,15 +27,21 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="基金经理" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/more"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableRight="@drawable/setting_image_right"
-            android:gravity="right"
+            android:drawablePadding="5dp"
+            android:textColor="@color/gray_textcolor"
             android:text="更多" />
     </LinearLayout>
 

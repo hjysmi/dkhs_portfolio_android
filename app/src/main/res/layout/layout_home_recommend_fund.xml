@@ -6,5 +6,6 @@
     style="@style/home_page_item_style"
     android:horizontalSpacing="22dp"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingBottom="10dp"
     android:numColumns="2"/>
 

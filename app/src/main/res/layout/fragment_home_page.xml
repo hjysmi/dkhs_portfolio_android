@@ -57,22 +57,24 @@
             android:visibility="gone" />
 
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
     <EditText
-        android:alpha="0.5"
         android:id="@+id/et_search_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/search_bg_selector"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/home_page_search_bg"
         android:drawableLeft="@drawable/search_gray"
         android:drawablePadding="10dp"
         android:hint="@string/search_general"
-        android:maxLength="50"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:singleLine="true"
-        android:textColorHint="#999999"
+        android:textColorHint="#c8c8c8"
         android:textSize="16sp" />
+    </LinearLayout>
 </FrameLayout>
