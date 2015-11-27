@@ -371,6 +371,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
     private void generateData(){
         mDataList.clear();
+
+
         //banner广告栏
         if(bean != null){
             mDataList.add(bean);
@@ -379,6 +381,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             BannerTopicsBean banner = parseBanner(bannerJson);
             mDataList.add(banner);
         }
+        mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD));
         //推荐基金经理
         if(recommendFundManagers != null && recommendFundManagers.size() > 0){
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
