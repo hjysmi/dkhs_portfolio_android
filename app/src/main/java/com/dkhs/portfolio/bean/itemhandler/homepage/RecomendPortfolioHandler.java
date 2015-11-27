@@ -29,7 +29,7 @@ public class RecomendPortfolioHandler extends SimpleItemHandler<CombinationBean>
         vh.get(R.id.ll_week_win_rate).setVisibility(View.GONE);
         vh.getTextView(R.id.tv_name).setText(data.getName());
         vh.getTextView(R.id.tv_company).setText(data.getRecommend_title());
-        vh.getTextView(R.id.tv_week_profit_rate).setText(StringFromatUtils.getPercentSpan(String.valueOf(data.getChng_pct_week())));
+        vh.getTextView(R.id.tv_week_profit_rate).setText(StringFromatUtils.getPercentSpan(String.valueOf(data.getChng_pct_month())));
         vh.getTextView(R.id.tv_profit_title).setText(mContext.getText(R.string.month_profit_rate));
         ImageLoaderUtils.setHeanderImage(data.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_avatar));
         vh.get(R.id.rootView).setOnClickListener(new View.OnClickListener() {
