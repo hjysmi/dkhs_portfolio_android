@@ -133,17 +133,17 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
         switch (index) {
             case 0: {
-                id = MenuItemFragment.TABINDEX_2;
+                id = MenuItemFragment.TABINDEX_3;
 
             }
             break;
             case 1: {
-                id = MenuItemFragment.TABINDEX_1;
+                id = MenuItemFragment.TABINDEX_2;
 
             }
             break;
             case 2: {
-                id = MenuItemFragment.TABINDEX_3;
+                id = MenuItemFragment.TABINDEX_1;
 
             }
             break;
