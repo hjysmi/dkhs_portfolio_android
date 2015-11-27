@@ -155,7 +155,6 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtils.d("wys","1111111");
                 getActivity().finish();
             }
         });
