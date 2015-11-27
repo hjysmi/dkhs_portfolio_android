@@ -160,6 +160,7 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
             }
         });
 
+        onViewShow();
     }
 
     @Override
