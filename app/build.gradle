@@ -160,5 +160,6 @@ dependencies {
     compile 'com.android.support:multidex:'
     compile files('libs/alipaySDK-20150818.jar')
     compile files('libs/libammsdk.jar')
+    compile files('libs/logger.jar')
 }
 

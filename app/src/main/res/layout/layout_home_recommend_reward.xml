@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="@dimen/widget_padding_normal"
+    >
+
+    <FrameLayout
+        android:id="@+id/fm"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <ImageView
+            android:id="@+id/iv_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#b3000000"
+            android:visibility="visible"
+            />
+        <com.dkhs.portfolio.ui.widget.DKHSTextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/item_padding"
+            android:text="@string/add_text"
+            android:textColor="@color/white"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
+    </FrameLayout>
+</RelativeLayout>
