@@ -7,22 +7,23 @@ public class HomeMoreBean {
     public static final int TYPE_FUND = 0;
     public static final int TYPE_FUND_MANAGER = 1;
     public static final int TYPE_PORTFOLIO = 2;
-    public static final int TYPE_TOPIC = 3;
-    public static final int TYPE_REWARD = 4;
+    public static final int TYPE_REWARD = 3;
+    public static final int TYPE_TOPIC = 4;
     public int type;
     public boolean hide;
-    public HomeMoreBean(int type){
+
+    public HomeMoreBean(int type) {
         this.type = type;
     }
 
-    public HomeMoreBean(int type,boolean hide){
+    public HomeMoreBean(int type, boolean hide) {
         this.type = type;
         this.hide = hide;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         String title = "";
-        switch (type){
+        switch (type) {
             case TYPE_FUND_MANAGER:
                 title = "基金经理";
                 break;
