@@ -60,8 +60,6 @@
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:gravity="center_vertical"
-        android:background="@color/white"
         >
 
         <EditText

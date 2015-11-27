@@ -46,7 +46,7 @@ public class LikeBean extends AutoData {
     public String recommend_desc;
     public String recommend_image_sm;
     public String recommend_image_md;
-
+    public String created_at_relative;
     public int getId() {
         return id;
     }

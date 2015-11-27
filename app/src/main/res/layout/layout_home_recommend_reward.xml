@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/widget_padding_normal"
@@ -7,34 +8,72 @@
 
     <FrameLayout
         android:id="@+id/fm"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:background="@color/white">
+       >
 
         <ImageView
             android:id="@+id/iv_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
         <ImageView
             android:id="@+id/iv_mask"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#b3000000"
-            android:visibility="visible"
-            />
+            android:visibility="gone" />
+
         <com.dkhs.portfolio.ui.widget.DKHSTextView
             android:id="@+id/tv_title"
+            style="@style/item_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/item_padding"
-            android:text="@string/add_text"
-            android:textColor="@color/white"
-            android:maxLines="2"
             android:ellipsize="end"
-            />
+            android:maxLines="2"
+            android:text="@string/add_text"
+            android:textColor="@color/white" />
+
+        <com.android.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                style="@style/lv_avatar_style"
+                android:layout_centerVertical="true"
+                app:layout_heightPercent="15%w"
+                app:layout_marginLeftPercent="5%w"
+                app:layout_widthPercent="15%w" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                app:layout_heightPercent="15%w"
+                app:layout_marginLeftPercent="23%w"
+                app:layout_textSizePercent="4.5%w"
+                app:layout_widthPercent="40%w" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                app:layout_marginRightPercent="5%w"
+                app:layout_textSizePercent="4.5%w" />
+        </com.android.percent.PercentRelativeLayout>
+
     </FrameLayout>
 </RelativeLayout>
