@@ -335,7 +335,7 @@ public class MainActivity extends BaseActivity {
 
 
         NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("bbs_index", 0);
+        newIntent.bundle.putInt("bbs_index", 1);
         intent.putExtra("arg", newIntent.bundle);
         context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
