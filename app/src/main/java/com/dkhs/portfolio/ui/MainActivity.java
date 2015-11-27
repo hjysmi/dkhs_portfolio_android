@@ -311,8 +311,7 @@ public class MainActivity extends BaseActivity {
 
 
     public static void gotoShakeActivity(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 2);
+        Intent intent = new Intent(context, ShakeDetectorActivity.class);
         context.startActivity(intent);
     }
 
