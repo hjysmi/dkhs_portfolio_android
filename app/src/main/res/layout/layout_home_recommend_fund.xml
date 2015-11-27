@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView
+    android:id="@+id/gv_fund"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/home_page_item_style"
+    android:horizontalSpacing="22dp"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:numColumns="2"/>
+

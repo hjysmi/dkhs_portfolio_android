@@ -40,6 +40,11 @@ public class PortfolioPreferenceManager {
     public static final String KEY_VERSIONY = "key_version";
     public static final String KEY_CLICK_TIME = "key_click_time";
     public static final String KEY_APP_UPDATE_INFO = "key_app_update_info";
+    public static final String KEY_RECOMMEND_FUND_JSON = "key_recommend_fund_json";
+    public static final String KEY_RECOMMEND_FUND_MANAGER_JSON = "key_recommend_fund_manager_json";
+    public static final String KEY_RECOMMEND_PORTFOLIO_JSON = "key_recommend_portfolio_json";
+    public static final String KEY_HOME_BANNER_JSON = "key_home_banner_json";
+
 
     /**
      * app 显示新消息的key
