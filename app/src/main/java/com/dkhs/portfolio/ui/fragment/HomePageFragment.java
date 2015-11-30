@@ -438,7 +438,11 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
     @Override
     public void requestData() {
-//        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
+
+    }
+
+    private void loadData() {
+        //        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
 //        mSwipeLayout.setRefreshing(true);
         getCache();
         getNetData();
@@ -470,6 +474,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initLoadMoreList(view);
+        mListView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+            }
+        }, 500);
+
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -529,11 +540,11 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }
         //推荐悬赏
         if (recommendRewards != null && recommendRewards.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD));
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD,true));
             RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(recommendRewards);
             mDataList.add(recommendRewardBean);
         } else if (TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_REWARD_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD));
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD,true));
             String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_REWARD_JSON);
             // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
             RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(parseRewards(rewardsJson));
@@ -542,11 +553,11 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         }
         //推荐话题
         if (recommendTopics != null && recommendTopics.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC));
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC,true));
             RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(recommendTopics);
             mDataList.add(recommendRewardBean);
         } else if (TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC));
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC,true));
             String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON);
             // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
             RecommendRewardBean recommendRewardBean  = new RecommendRewardBean(parseRewards(rewardsJson));
