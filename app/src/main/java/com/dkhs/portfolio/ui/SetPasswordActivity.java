@@ -155,7 +155,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
                     rlfbutton.setEnabled(false);
 
                 }
-//                // 一定要加上此判断，否则会进入死循环
+                // 一定要加上此判断，否则会进入死循环
 //                if (s.toString().equals(strBefore)) {
 //                    return;
 //                }

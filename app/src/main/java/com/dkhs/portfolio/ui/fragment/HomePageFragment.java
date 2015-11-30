@@ -381,8 +381,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                     LogUtils.d("wys","swipe close refresh");
                     mSwipeLayout.setRefreshing(false);
                     mWhat = 0;
-                default:
                     generateData();
+                default:
                     break;
             }
             return false;
@@ -438,7 +438,11 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
     @Override
     public void requestData() {
-//        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
+
+    }
+
+    private void loadData() {
+        //        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
 //        mSwipeLayout.setRefreshing(true);
         getCache();
         getNetData();
@@ -470,6 +474,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initLoadMoreList(view);
+        mListView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+            }
+        }, 500);
+
         super.onViewCreated(view, savedInstanceState);
     }
 
