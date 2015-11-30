@@ -381,8 +381,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                     LogUtils.d("wys","swipe close refresh");
                     mSwipeLayout.setRefreshing(false);
                     mWhat = 0;
-                default:
                     generateData();
+                default:
                     break;
             }
             return false;
