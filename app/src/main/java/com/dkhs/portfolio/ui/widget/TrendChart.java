@@ -961,31 +961,44 @@ public class TrendChart extends TrendGridChart {
                 }
 
 
-            } else {
-
-
+            } else if (data instanceof DefFundPointEntity) {
                 selectPaint.setColor(lineentity.getLineColor());
+
+                Log.e("TTTTT", "  pointEntity instanceof DefFundPointEntity");
+
+                String valueText = ((DefFundPointEntity) data).getNetvalue() + "";
                 preYpoint += textMargin + floatTextHeight;
-                String text = "";
-                if (TextUtils.isEmpty(lineentity.getTitle())) {
+                firtLineText = "单位净值：";
+                canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 
-                    if (null != pointTitleList && pointTitleList.size() > 1) {
-                        text = pointTitleList.get(1)
-                                + "："
-                                + StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
-                                .getValue());
-                    } else {
-                        text = StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
-                                .getValue());
-                    }
+                float valueWidth = selectPaint.measureText(valueText);
+                canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
 
+                valueText = ((DefFundPointEntity) data).getNet_cumulative() + "";
+                preYpoint += textMargin + floatTextHeight;
+                firtLineText = "累计净值：";
+                canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
+
+                valueWidth = selectPaint.measureText(valueText);
+                canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
+
+                if (!TextUtils.isEmpty(lineentity.getTitle())) {
+                    String text = lineentity.getTitle()
+                            + "：";
+
+
+                    valueText = StringFromatUtils.get2PointPercent(((LinePointEntity) lineentity.getLineData()
+                            .get(pointIndex)).getValue());
+                    valueWidth = selectPaint.measureText(valueText);
+                    preYpoint += textMargin + floatTextHeight;
+                    canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+                    canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
                 }
 
-
-                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
 
         }
+
 
     }
 
