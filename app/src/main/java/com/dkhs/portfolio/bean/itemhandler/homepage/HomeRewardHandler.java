@@ -67,9 +67,12 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
                 final ImageView imageView = (ImageView) view.findViewById(R.id.iv_bg);
                 if (topicsBean.content_type == 40) {
                     textView.setRewardValue(String.format(context.getString(R.string.blank_comment_count), topicsBean.reward_amount));
+                    textView.setLineSpacing(5, 1);
+                    textView.setText("&nbsp;" + topicsBean.recommend_title);
+                }else{
+                    textView.setText(topicsBean.recommend_title);
                 }
-                textView.setLineSpacing(5, 1);
-                textView.setText(topicsBean.recommend_title);
+
                 ImageView iv_user = (ImageView) view.findViewById(R.id.iv_avatar);
                 final ImageView iv_mask = (ImageView) view.findViewById(R.id.iv_mask);
 
