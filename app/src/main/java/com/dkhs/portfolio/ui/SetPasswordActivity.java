@@ -149,31 +149,31 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
+                if (s.length() > 6) {
                     rlfbutton.setEnabled(true);
                 } else {
                     rlfbutton.setEnabled(false);
 
                 }
-                // 一定要加上此判断，否则会进入死循环
-                if (s.toString().equals(strBefore)) {
-                    return;
-                }
-                int editStart = etPassword.getSelectionStart();
-                // 注意：这里一定要用偏移量，而不是写死用1，因为要考虑到复制粘贴的情况下，不一定是一个个输入的
-                int offset = s.toString().length() - strBefore.length();
-                if (StringFromatUtils.isCN(s.toString())) {// 判断是否为中文符号，是中文符号则剪掉偏移量，再赋值
-                    PromptManager.showToast("不可以输入中文符号");
-                    s.delete(s.toString().length() - offset, s.toString().length());
-                    int tempSelection = editStart - offset;
-                    etPassword.setText(s);
-                    etPassword.setSelection(tempSelection);
-
-                } else {
-                    strBefore = s.toString();// 不是中文符号则进行赋值
-                    etPassword.setText(s);
-                    etPassword.setSelection(editStart);
-                }
+//                // 一定要加上此判断，否则会进入死循环
+//                if (s.toString().equals(strBefore)) {
+//                    return;
+//                }
+//                int editStart = etPassword.getSelectionStart();
+//                // 注意：这里一定要用偏移量，而不是写死用1，因为要考虑到复制粘贴的情况下，不一定是一个个输入的
+//                int offset = s.toString().length() - strBefore.length();
+//                if (StringFromatUtils.isCN(s.toString())) {// 判断是否为中文符号，是中文符号则剪掉偏移量，再赋值
+//                    PromptManager.showToast("不可以输入中文符号");
+//                    s.delete(s.toString().length() - offset, s.toString().length());
+//                    int tempSelection = editStart - offset;
+//                    etPassword.setText(s);
+//                    etPassword.setSelection(tempSelection);
+//
+//                } else {
+//                    strBefore = s.toString();// 不是中文符号则进行赋值
+//                    etPassword.setText(s);
+//                    etPassword.setSelection(editStart);
+//                }
 
                 // if (s.length() > 5) {
                 //
