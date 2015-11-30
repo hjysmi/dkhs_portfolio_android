@@ -27,6 +27,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -210,7 +211,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSuccess(String result) {
-            engine.login(phoneNum,etPassword.getText().toString(), ConstantValue.IS_MOBILE,listener.setLoadingDialog(SetPasswordActivity.this,false));
+            engine.login(phoneNum, etPassword.getText().toString(), ConstantValue.IS_MOBILE, listener.setLoadingDialog(SetPasswordActivity.this, false));
 
         }
 
