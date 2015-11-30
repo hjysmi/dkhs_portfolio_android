@@ -21,6 +21,8 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.listener.OnSliderClickListenerImp;
 import com.dkhs.portfolio.ui.widget.ScaleLayout;
 
+import java.util.List;
+
 /**
  * @author zwm
  * @version 2.0
@@ -63,14 +65,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                 ScaleLayout scaleLayout = vh.get(R.id.sliderSL);
                 scaleLayout.setInterceptTouch(true);
                 slider.stopAutoCycle();
-                slider.removeAllSliders();
-//                slider.setVisibility(View.INVISIBLE);
-//                slider.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        slider.setVisibility(View.VISIBLE);
-//                    }
-//                }, 600);
+//                slider.removeAllSliders();
                 if (mRefreshEnable != null) {
                     slider.setOnTouchListener(new View.OnTouchListener() {
                         @Override
@@ -86,20 +81,99 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                         }
                     });
                 }
-                for (AdBean.AdsEntity item : adBean.getAds()) {
-                    TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
-                    textSliderView
-                            .description(item.getTitle())
-                            .image(item.getImage())
-                            .setScaleType(BaseSliderView.ScaleType.Fit)
-                    ;
-                    duration = item.getDisplay_time();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("redirect_url", item.getRedirect_url());
-                    textSliderView.bundle(bundle);
-                    textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
-                    slider.addSlider(textSliderView);
+                List<BaseSliderView> allSliders = slider.getAllSliders();
+                if (allSliders != null && allSliders.size() > 0) {
+                    if (allSliders.size() <= adBean.getAds().size()) {
+                        for (int j = 0; j < allSliders.size(); j++) {
+                            BaseSliderView baseSliderView = allSliders.get(j);
+                            if (baseSliderView instanceof TextSliderView) {
+                                TextSliderView textSliderView = (TextSliderView) baseSliderView;
+                                AdBean.AdsEntity item = adBean.getAds().get(j);
+                                if(!textSliderView.getUrl().equals(item.getImage())){
+                                    slider.removeSliderAt(j);
+                                    textSliderView = new TextSliderView(vh.getConvertView().getContext());
+                                    slider.addSliderAt(j,textSliderView);
+                                }
+                                textSliderView
+                                        .description(item.getTitle())
+                                        .image(item.getImage())
+                                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                                ;
+                                duration = item.getDisplay_time();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("redirect_url", item.getRedirect_url());
+                                textSliderView.bundle(bundle);
+                                textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                            }
+                        }
+                        for (int k = allSliders.size(); k < adBean.getAds().size(); k++) {
+                            TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
+                            AdBean.AdsEntity item = adBean.getAds().get(k);
+                            textSliderView
+                                    .description(item.getTitle())
+                                    .image(item.getImage())
+                                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                            ;
+                            duration = item.getDisplay_time();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("redirect_url", item.getRedirect_url());
+                            textSliderView.bundle(bundle);
+                            textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                            slider.addSlider(textSliderView);
+                        }
+                    } else {
+                        for (int j = 0; j < adBean.getAds().size(); j++) {
+                            BaseSliderView baseSliderView = allSliders.get(j);
+                            if (baseSliderView instanceof TextSliderView) {
+                                TextSliderView textSliderView = (TextSliderView) baseSliderView;
+                                AdBean.AdsEntity item = adBean.getAds().get(j);
+                                if(!textSliderView.getUrl().equals(item.getImage())){
+                                    slider.removeSliderAt(j);
+                                    textSliderView = new TextSliderView(vh.getConvertView().getContext());
+                                    slider.addSliderAt(j,textSliderView);
+                                }
+                                textSliderView
+                                        .description(item.getTitle())
+                                        .image(item.getImage())
+                                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                                ;
+                                duration = item.getDisplay_time();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("redirect_url", item.getRedirect_url());
+                                textSliderView.bundle(bundle);
+                                textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                            }
+                        }
+                        if (adBean.getAds().size() < allSliders.size()) {
+                            int count = allSliders.size() - adBean.getAds().size();
+                            for(int i = 0; i < count; i++){
+                                slider.removeSliderAt(adBean.getAds().size());
+                            }
+                        }
+                    }
+                } else {
+                    for (AdBean.AdsEntity item : adBean.getAds()) {
+                        TextSliderView textSliderView = new TextSliderView(vh.getConvertView().getContext());
+                        textSliderView
+                                .description(item.getTitle())
+                                .image(item.getImage())
+                                .setScaleType(BaseSliderView.ScaleType.Fit)
+                        ;
+                        duration = item.getDisplay_time();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("redirect_url", item.getRedirect_url());
+                        textSliderView.bundle(bundle);
+                        textSliderView.setOnSliderClickListener(mOnSliderClickListenerImp);
+                        slider.addSlider(textSliderView);
+                    }
                 }
+//                slider.setVisibility(View.INVISIBLE);
+//                slider.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        slider.setVisibility(View.VISIBLE);
+//                    }
+//                }, 600);
 
                 slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
                 slider.setPresetTransformer(SliderLayout.Transformer.Default);
@@ -126,6 +200,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
             TopicsDetailActivity.startActivity(mContext, topicsBean);
         }
     }
+
     public interface RefreshEnable {
         void enable();
 

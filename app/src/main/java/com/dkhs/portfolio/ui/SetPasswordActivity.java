@@ -211,7 +211,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSuccess(String result) {
-            engine.login(phoneNum,etPassword.getText().toString(), ConstantValue.IS_MOBILE,listener.setLoadingDialog(SetPasswordActivity.this,false));
+            engine.login(phoneNum, etPassword.getText().toString(), ConstantValue.IS_MOBILE, listener.setLoadingDialog(SetPasswordActivity.this, false));
 
         }
 

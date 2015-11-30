@@ -37,6 +37,8 @@ import com.daimajia.slider.library.Tricks.InfiniteViewPager;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -247,6 +249,9 @@ public class SliderLayout extends RelativeLayout {
 
     public <T extends BaseSliderView> void addSlider(T imageContent) {
         mSliderAdapter.addSlider(imageContent);
+    }
+    public <T extends BaseSliderView> void addSliderAt(int index,T imageContent) {
+        mSliderAdapter.addSliderAt(index,imageContent);
     }
 
     private android.os.Handler mh = new android.os.Handler() {
@@ -674,6 +679,36 @@ public class SliderLayout extends RelativeLayout {
             //bug: when remove adapter's all the sliders.some caching slider still alive.
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + count, false);
         }
+    }
+    public void removeSlider(int position) {
+        if (getRealAdapter() != null) {
+            int count = getRealAdapter().getCount();
+            getRealAdapter().removeSliderAt(position);
+            //a small bug, but fixed by this trick.
+            //bug: when remove adapter's all the sliders.some caching slider still alive.
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + count, false);
+        }
+    }
+    /**
+     * remove all the sliders. Notice: It's a not perfect method, a very small bug still exists.
+     */
+    public List<BaseSliderView> getAllSliders() {
+        List<BaseSliderView> lists = null;
+        try {
+            if (getRealAdapter() != null) {
+                int count = getRealAdapter().getCount();
+                if(count > 0){
+                    lists = new ArrayList<>();
+                    for (int i = 0; i < count;i++){
+                        BaseSliderView sliderView = getRealAdapter().getSliderView(i);
+                        lists.add(sliderView);
+                    }
+                }
+            }
+        }catch (Exception e){
+
+        }
+        return lists;
     }
 
     /**
