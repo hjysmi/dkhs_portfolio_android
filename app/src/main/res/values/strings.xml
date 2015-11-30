@@ -738,6 +738,7 @@
     <!--发表帖子-->
     <string name="post_topic">发表帖子</string>
     <string name="blank_comment">评论%1$s</string>
+    <string name="blank_comment_count">￥%1$s元</string>
     <string name="blank_reply">回复%1$s</string>
     <string name="send">发送</string>
     <string name="hint_topic_title">标题(可不填)</string>
@@ -889,4 +890,8 @@
     <string name="search_topic_hint">话题</string>
     <string name="search_fund_manger_hint">基金经理</string>
     <string name="search_com_hint">组合</string>
+
+    <string name="home_page">首页</string>
+    <string name="title_activity_shake_detector">ShakeDetectorActivity</string>
+    <string name="month_profit_rate">月收益率</string>
 </resources>

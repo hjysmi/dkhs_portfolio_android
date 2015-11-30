@@ -161,6 +161,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
             mWinRatYear.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_year")));
             mWinRatTyear.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_tyear")));
             BenefitChartView benefitChartView = new BenefitChartView(mContext);
+            benefitChartView.setCanTouable(false);
             mProfitChart.removeAllViews();
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 

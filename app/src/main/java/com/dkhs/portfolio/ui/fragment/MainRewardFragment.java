@@ -142,8 +142,8 @@ public class MainRewardFragment extends VisiableLoadFragment implements View.OnC
     private void setSelectTextSize(Button button) {
         int smallSize = button.getResources().getDimensionPixelSize(R.dimen.text_tab_normal);
         LogUtils.d("smallSize:" + smallSize);
-        mLeftBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        mRightBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        mLeftBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        mRightBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
     }
 

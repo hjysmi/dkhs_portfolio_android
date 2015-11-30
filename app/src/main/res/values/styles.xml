@@ -642,6 +642,11 @@
         <item name="android:paddingLeft">30dp</item>
     </style>
 
+    <style name="home_page_item_style">
+        <item name="android:paddingLeft">@dimen/widget_margin_medium</item>
+        <item name="android:paddingRight">@dimen/widget_margin_medium</item>
+        <item name="android:background">@drawable/lv_white_selector</item>
+    </style>
 
 
 </resources>

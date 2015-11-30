@@ -119,6 +119,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
             if (mStockList.contains(stockBean)) {
                 int position = mStockList.indexOf(stockBean);
                 mStockList.get(position).alertSetBean = stockBean.alertSetBean;
+                mStockList.get(position).is_alert = stockBean.is_alert;
             }
         }
     }
