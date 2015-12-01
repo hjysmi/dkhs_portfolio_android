@@ -231,7 +231,7 @@
                             android:paddingBottom="10dp"
                             android:paddingLeft="20dp"
                             android:paddingTop="10dp"
-                            android:text="修改密码"
+                            android:text="密码修改"
                             android:textColor="@color/black"
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
