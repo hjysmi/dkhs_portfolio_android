@@ -150,7 +150,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
         mName.setText(object.getName());
         mDesc.setText(String.format(getResources().getString(R.string.blank_intro),object.getResume().trim()));
         if(TextUtils.isEmpty(object.getFund_company())){
-            mSeniority.setText(String.format(getResources().getString(R.string.blank_work_time),object.work_seniority , "-"));
+            mSeniority.setText(String.format(getResources().getString(R.string.blank_work_time),object.work_seniority , ""));
         }else{
             mSeniority.setText(String.format(getResources().getString(R.string.blank_work_time),object.work_seniority , object.getFund_company()));
         }
