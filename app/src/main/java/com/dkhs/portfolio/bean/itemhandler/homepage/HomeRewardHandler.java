@@ -37,10 +37,11 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
     private int height;
     private RelativeLayout.LayoutParams params;
     private static String[] colorRandom = new String[]{"#70aba0", "#e4b524", "#86b2f6", "#f77d7b", "#f4ad56", "#f9760b"};
-
+    int index=0;
     public HomeRewardHandler(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
+        index = (int) (Math.random() * colorRandom.length);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         width = displayMetrics.widthPixels * 5 / 8;
         height = width / 2;
@@ -96,12 +97,11 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
                     @Override
                     public void onLoadingStarted(String s, View view) {
                         iv_mask.setVisibility(View.GONE);
-                        imageView.setBackgroundResource(R.color.theme_gray);
+                        imageView.setBackgroundColor(Color.parseColor(colorRandom[index]));
                     }
 
                     @Override
                     public void onLoadingFailed(String s, View view, FailReason failReason) {
-                        int index = (int) (Math.random() * colorRandom.length);
                         iv_mask.setVisibility(View.GONE);
                         imageView.setBackgroundColor(Color.parseColor(colorRandom[index]));
 
@@ -113,7 +113,6 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
                             iv_mask.setVisibility(View.VISIBLE);
                             imageView.setImageBitmap(bitmap);
                         } else {
-                            int index = (int) (Math.random() * colorRandom.length);
                             iv_mask.setVisibility(View.GONE);
                             imageView.setBackgroundColor(Color.parseColor(colorRandom[index]));
                         }
@@ -121,7 +120,6 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
 
                     @Override
                     public void onLoadingCancelled(String s, View view) {
-                        int index = (int) (Math.random() * colorRandom.length);
                         iv_mask.setVisibility(View.GONE);
                         imageView.setBackgroundColor(Color.parseColor(colorRandom[index]));
 

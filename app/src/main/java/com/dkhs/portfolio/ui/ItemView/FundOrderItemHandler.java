@@ -57,6 +57,7 @@ public class FundOrderItemHandler extends SimpleItemHandler<FundPriceBean> {
          */
         vh.get(R.id.ll_percent_value).setBackgroundColor(0);
         vh.getTextView(R.id.tv_percent_value).setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+//        vh.getTextView(R.id.tv_percent_value).setPadding(0, 0, mContext.getResources().getDimensionPixelOffset(R.dimen.padding_kline), 0);
         vh.getTextView(R.id.tv_percent_value).setPadding(0, 0, mContext.getResources().getDimensionPixelOffset(R.dimen.padding_kline), 0);
 
         if (!TextUtils.isEmpty(fundBean.getAbbrname()) && fundBean.getAbbrname().length() > 8) {

@@ -136,6 +136,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         tvDesc.setText(item.getItemDesc());
         cbAlert.setOnCheckedChangeListener(null);
         cbAlert.setTag(position);
+
         if (item.isItemTixing()) {
             cbAlert.setChecked(true);
         } else {

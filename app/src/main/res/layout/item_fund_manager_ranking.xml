@@ -18,6 +18,7 @@
 
         <ImageView
             android:id="@+id/im_avatar"
+            android:layout_marginLeft="5dp"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_centerVertical="true" />
@@ -56,10 +57,10 @@
             android:id="@+id/tv_percent_value"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="right|center_vertical"
             android:paddingLeft="@dimen/text_drawable_margin"
+            android:paddingRight="@dimen/padding_kline"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
