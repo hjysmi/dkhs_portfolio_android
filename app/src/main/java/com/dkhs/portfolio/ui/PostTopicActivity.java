@@ -37,6 +37,8 @@ import com.dkhs.portfolio.ui.adapter.EmojiData;
 import com.dkhs.portfolio.ui.adapter.SelectPicAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PayResEvent;
+import com.dkhs.portfolio.ui.eventbus.PostTopComletedEvent;
+import com.dkhs.portfolio.ui.eventbus.SendTopicEvent;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
@@ -108,10 +110,23 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
      */
     public static final int TYPE_REPLY_REWARD = 6;
 
+    /**
+     * 来源正文
+     */
+    public static final int SOURCE_DETAIL = 0;
+    /**
+     * 来源列表
+     */
+    public static final int SOURCE_LIST = 1;
+
     public static final String REPLIED_STATUS = "replied_status";
     public static final String USER_NAME = "user_name";
+    public static final String SOURCE = "source";
+
     private String repliedStatus;
     private String userName;
+    //打开来源　0正文　1列表
+    private int source;
     public static final String ARGUMENT_DRAFT = "argument_draft";
 
     private static final String TYPE = "type";
@@ -128,18 +143,23 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private boolean getAccountSuccess = false;
 
 
+    public static Intent getIntent(Context context, int type, String repliedStatus, String userName) {
+        return getIntent(context,type,repliedStatus,userName,SOURCE_DETAIL);
+    }
+
     /**
      * @param context
      * @param type
      * @param repliedStatus
      * @return
      */
-    public static Intent getIntent(Context context, int type, String repliedStatus, String userName) {
+    public static Intent getIntent(Context context, int type, String repliedStatus, String userName,int source) {
 
         Intent intent = new Intent(context, PostTopicActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(REPLIED_STATUS, repliedStatus);
         intent.putExtra(USER_NAME, userName);
+        intent.putExtra(SOURCE,source);
         return intent;
     }
 
@@ -166,7 +186,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         userName = extras.getString(USER_NAME);
         mDraftBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_DRAFT));
         repliedStatus = extras.getString(REPLIED_STATUS);
-
+        source = extras.getInt(SOURCE);
     }
 
     private void initEmoji() {
@@ -522,7 +542,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                         PostTopicService.startPost(this, buildDrafteBean());
                         finish();
                     }
-                }else{
+                }else if (source == SOURCE_LIST && (curType == TYPE_COMMENT_REWARD || curType == TYPE_COMMENT_TOPIC)){
+                    //从列表直接进行回答，评论时，回答/评论结束时　直接进入评论项的正文
+                    PostTopicService.startPost(this, buildDrafteBean());
+                }
+                else{
                     PostTopicService.startPost(this, buildDrafteBean());
                     finish();
                 }
@@ -1058,5 +1082,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void finish() {
         super.finish();
         UIUtils.outAnimationActivity(this);
+    }
+
+    @Subscribe
+    public void postSuccess( PostTopComletedEvent event){
+        finish();
+        TopicsDetailActivity.startActivity(PostTopicActivity.this, repliedStatus);
+    }
+
+    @Subscribe
+    public void postFail(SendTopicEvent event){
+        finish();
     }
 }
