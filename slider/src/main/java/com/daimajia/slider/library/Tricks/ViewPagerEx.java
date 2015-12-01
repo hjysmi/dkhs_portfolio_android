@@ -568,7 +568,6 @@ public class ViewPagerEx extends ViewGroup{
     private void scrollToItem(int item, boolean smoothScroll, int velocity,
                               boolean dispatchSelected) {
 
-        Log.e("scrollToItem",""+item);
         final ItemInfo curInfo = infoForPosition(item);
         int destX = 0;
         if (curInfo != null) {

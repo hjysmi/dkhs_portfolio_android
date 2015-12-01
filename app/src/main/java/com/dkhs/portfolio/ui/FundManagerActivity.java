@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,7 +149,12 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
         achivementsAdapter.notifyDataSetChanged();
         mName.setText(object.getName());
         mDesc.setText(String.format(getResources().getString(R.string.blank_intro),object.getResume().trim()));
-        mSeniority.setText(String.format(getResources().getString(R.string.blank_work_time),object.work_seniority , object.getFund_company()));
+        if(TextUtils.isEmpty(object.getFund_company())){
+            mSeniority.setText(String.format(getResources().getString(R.string.blank_work_time),object.work_seniority , "-"));
+        }else{
+            mSeniority.setText(String.format(getResources().getString(R.string.blank_work_time),object.work_seniority , object.getFund_company()));
+        }
+
 //        mWinRateDayName.setVisibility(View.VISIBLE);
         ImageLoaderUtils.setHeanderImage(object.avatar_md, mAvatarIm);
 //        mWinRateDayvVlue.setText(object.getValueString("-win_rate_day"));
@@ -161,6 +167,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
             mWinRatYear.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_year")));
             mWinRatTyear.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_tyear")));
             BenefitChartView benefitChartView = new BenefitChartView(mContext);
+            benefitChartView.setCanTouable(false);
             mProfitChart.removeAllViews();
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 

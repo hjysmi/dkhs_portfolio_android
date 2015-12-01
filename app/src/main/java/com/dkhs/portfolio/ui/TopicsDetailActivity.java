@@ -177,7 +177,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
 
             initData();
-            setTopicsDetail();
+//            setTopicsDetail();
             ignoreTV.setText(mTopicsBean.text);
             mSwitchLikeStateHandler = new SwitchLikeStateHandler(mTopicsBean);
             mSwitchLikeStateHandler.setStatusChangeI(this);

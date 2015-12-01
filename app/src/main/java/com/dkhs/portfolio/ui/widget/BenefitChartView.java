@@ -279,6 +279,7 @@ public class BenefitChartView {
         machart.setMinValue(0);
         maChartView.setYlineCounts(2);
         maChartView.setFromCompare(true);
+        maChartView.setCanTouable(canTouchable);
     }
 
     List<LineEntity> compareLinesList = new ArrayList<LineEntity>();
@@ -806,5 +807,9 @@ public class BenefitChartView {
 
     };
 
+    private boolean canTouchable = true;
+    public void setCanTouable(boolean canTouchable){
+        this.canTouchable = canTouchable;
+    }
 
 }

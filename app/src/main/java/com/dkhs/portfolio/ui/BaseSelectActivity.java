@@ -334,12 +334,12 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         public void onClick(View v) {
             // TODO Auto-generated method stub
             // add by zcm --- 2014.12.16
-            if (!TextUtils.isEmpty(etSearchKey.getText().toString())) {
-                etSearchKey.setText("");
-                etSearchKey.requestFocus();
-                etSearchKey.clearFocus();
-                return;
-            }
+//            if (!TextUtils.isEmpty(etSearchKey.getText().toString())) {
+//                etSearchKey.setText("");
+//                etSearchKey.requestFocus();
+//                etSearchKey.clearFocus();
+//                return;
+//            }
             // add by zcm --- 2014.12.16
             if (null != fromCreate) {
                 Intent intent = new Intent();
