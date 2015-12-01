@@ -894,4 +894,6 @@
     <string name="home_page">首页</string>
     <string name="title_activity_shake_detector">ShakeDetectorActivity</string>
     <string name="month_profit_rate">月收益率</string>
+
+    <string name="account_format">账号：%1$s</string>
 </resources>

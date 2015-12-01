@@ -113,7 +113,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new ItemViewHolder(view);
         } else if (viewType == TYPE_HEADER) {
             view = mLayoutInflater.inflate(R.layout.layout_userinfo_header, parent, false);
-            return new HeadViewHolder(view);
+            return new HeadViewHolder(view,mContext);
         }
 
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -305,12 +305,16 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         };
         private View mView;
+        private Context mContext;
 
-        public HeadViewHolder(View view) {
+        public HeadViewHolder(View view,Context context) {
             super(view);
             this.mView = view;
+            mContext = context;
             ViewUtils.inject(this, view); // 注入view和事件
         }
+
+
 
         @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers})
         public void onClick(View v) {
@@ -359,7 +363,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewUserInfo.setVisibility(View.VISIBLE);
                 String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
                 if (!TextUtils.isEmpty(account)) {
-                    settingTextAccountText.setText(account);
+                    settingTextAccountText.setText(String.format(mContext.getString(R.string.account_format),account));
                 }
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
