@@ -192,91 +192,91 @@ public class TrendChart extends TrendGridChart {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (canTouchable) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    moves = true;
+                    timeX = event.getX();
+                    timeY = event.getY();
+                    getParent().requestDisallowInterceptTouchEvent(true);
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                moves = true;
-                timeX = event.getX();
-                timeY = event.getY();
-                getParent().requestDisallowInterceptTouchEvent(true);
+                    Thread t = new Thread(new Runnable() {
 
-                Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(300);
+                                if (moves) {
+                                    mCounter++;
+                                    isTouch = true;
+                                    moves = false;
+                                    getParent().requestDisallowInterceptTouchEvent(true);
+                                }
+                            } catch (Exception e) {
 
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(300);
-                            if (moves) {
-                                mCounter++;
-                                isTouch = true;
-                                moves = false;
-                                getParent().requestDisallowInterceptTouchEvent(true);
-                            }
-                        } catch (Exception e) {
-
-                        }
-                    }
-                });
-                t.start();
-
-                if (event.getPointerCount() == 1) {
-                    // 如果第二次点击 距离第一次点击时间过长 那么将第二次点击看为第一次点击
-                    if (firstClick != 0 && System.currentTimeMillis() - firstClick > 300) {
-                        count = 0;
-                    }
-
-                    count++;
-                    if (count == 1) {
-                        firstClick = System.currentTimeMillis();
-                    } else if (count == 2) {
-                        lastClick = System.currentTimeMillis();
-                        // 两次点击小于300ms 也就是连续点击
-                        if (lastClick - firstClick < 300) {// 判断是否是执行了双击事件
-                            if (null != mDoubleClicklistener) {
-                                mDoubleClicklistener.OnDoubleClick(this);
                             }
                         }
-                    }
-                }
+                    });
+                    t.start();
 
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float horizontalSpacing = event.getX() - timeX;
-                float hor = event.getY() - timeY;
-                if (Math.abs(horizontalSpacing) > 15 || Math.abs(hor) > 15 && !isTouch) {
+                    if (event.getPointerCount() == 1) {
+                        // 如果第二次点击 距离第一次点击时间过长 那么将第二次点击看为第一次点击
+                        if (firstClick != 0 && System.currentTimeMillis() - firstClick > 300) {
+                            count = 0;
+                        }
+
+                        count++;
+                        if (count == 1) {
+                            firstClick = System.currentTimeMillis();
+                        } else if (count == 2) {
+                            lastClick = System.currentTimeMillis();
+                            // 两次点击小于300ms 也就是连续点击
+                            if (lastClick - firstClick < 300) {// 判断是否是执行了双击事件
+                                if (null != mDoubleClicklistener) {
+                                    mDoubleClicklistener.OnDoubleClick(this);
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    float horizontalSpacing = event.getX() - timeX;
+                    float hor = event.getY() - timeY;
+                    if (Math.abs(horizontalSpacing) > 15 || Math.abs(hor) > 15 && !isTouch) {
+                        moves = false;
+                        // if (null != mTouchListener) {
+                        // mTouchListener.loseTouching();
+                        // }
+                        // mScrollview.setIsfocus(false);
+                        getParent().requestDisallowInterceptTouchEvent(false);
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (moves && !isTouch) {
+                        // Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, 0);
+                        // context.startActivity(intent);
+                        if (null != callBack) {
+                            callBack.stockMarkShow();
+                        }
+                    }
+                    isTouch = false;
                     moves = false;
+                    // 释放了
+                    isReleased = true;
                     // if (null != mTouchListener) {
                     // mTouchListener.loseTouching();
                     // }
                     // mScrollview.setIsfocus(false);
                     getParent().requestDisallowInterceptTouchEvent(false);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (moves && !isTouch) {
-                    // Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, 0);
-                    // context.startActivity(intent);
-                    if (null != callBack) {
-                        callBack.stockMarkShow();
-                    }
-                }
-                isTouch = false;
-                moves = false;
-                // 释放了
-                isReleased = true;
-                // if (null != mTouchListener) {
-                // mTouchListener.loseTouching();
-                // }
-                // mScrollview.setIsfocus(false);
-                getParent().requestDisallowInterceptTouchEvent(false);
-                removeCallbacks(mLongPressRunnable);
+                    removeCallbacks(mLongPressRunnable);
 
-                break;
+                    break;
 
-            default:
-                break;
-        }
-        if (isTouch) {
+                default:
+                    break;
+            }
+            if (isTouch) {
             /*
              * if (event.getY() > 0 && event.getY() < super.getBottom() - getAxisMarginBottom()
              * && event.getX() > super.getLeft() + getAxisMarginLeft() && event.getX() < super.getRight()) {
@@ -285,26 +285,27 @@ public class TrendChart extends TrendGridChart {
             /*
              * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
              */
-            if (event.getPointerCount() == 1) {
-                // if (null != mTouchListener) {
-                // mTouchListener.chartTounching();
+                if (event.getPointerCount() == 1) {
+                    // if (null != mTouchListener) {
+                    // mTouchListener.chartTounching();
+                    // }
+                    // mScrollview.setIsfocus(true);
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                    // 获取点击坐标
+                    clickPostX = event.getX();
+                    clickPostY = event.getY();
+
+                    touchPoint = new PointF(clickPostX, clickPostY);
+                    // super.invalidate();
+                    super.invalidate();
+
+                    // 通知�?��其他�?联Chart
+                    // notifyEventAll(this);
+
+                } else if (event.getPointerCount() == 2) {
+                }
                 // }
-                // mScrollview.setIsfocus(true);
-                getParent().requestDisallowInterceptTouchEvent(true);
-                // 获取点击坐标
-                clickPostX = event.getX();
-                clickPostY = event.getY();
-
-                touchPoint = new PointF(clickPostX, clickPostY);
-                // super.invalidate();
-                super.invalidate();
-
-                // 通知�?��其他�?联Chart
-                // notifyEventAll(this);
-
-            } else if (event.getPointerCount() == 2) {
             }
-            // }
         }
 
         // return super.onTouchEvent(event);
@@ -960,31 +961,44 @@ public class TrendChart extends TrendGridChart {
                 }
 
 
-            } else {
-
-
+            } else if (data instanceof DefFundPointEntity) {
                 selectPaint.setColor(lineentity.getLineColor());
+
+                Log.e("TTTTT", "  pointEntity instanceof DefFundPointEntity");
+
+                String valueText = ((DefFundPointEntity) data).getNetvalue() + "";
                 preYpoint += textMargin + floatTextHeight;
-                String text = "";
-                if (TextUtils.isEmpty(lineentity.getTitle())) {
+                firtLineText = "单位净值：";
+                canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 
-                    if (null != pointTitleList && pointTitleList.size() > 1) {
-                        text = pointTitleList.get(1)
-                                + "："
-                                + StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
-                                .getValue());
-                    } else {
-                        text = StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
-                                .getValue());
-                    }
+                float valueWidth = selectPaint.measureText(valueText);
+                canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
 
+                valueText = ((DefFundPointEntity) data).getNet_cumulative() + "";
+                preYpoint += textMargin + floatTextHeight;
+                firtLineText = "累计净值：";
+                canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
+
+                valueWidth = selectPaint.measureText(valueText);
+                canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
+
+                if (!TextUtils.isEmpty(lineentity.getTitle())) {
+                    String text = lineentity.getTitle()
+                            + "：";
+
+
+                    valueText = StringFromatUtils.get2PointPercent(((LinePointEntity) lineentity.getLineData()
+                            .get(pointIndex)).getValue());
+                    valueWidth = selectPaint.measureText(valueText);
+                    preYpoint += textMargin + floatTextHeight;
+                    canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+                    canvas.drawText(valueText, borderEnd - valueWidth, preYpoint, selectPaint);
                 }
 
-
-                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
 
         }
+
 
     }
 
@@ -1348,4 +1362,9 @@ public class TrendChart extends TrendGridChart {
         this.callBack = callBack;
     }
 
+    private boolean canTouchable = true;
+
+    public void setCanTouable(boolean canTouchable) {
+        this.canTouchable = canTouchable;
+    }
 }

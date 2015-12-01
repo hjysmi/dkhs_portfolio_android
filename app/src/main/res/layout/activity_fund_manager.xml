@@ -10,7 +10,7 @@
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:divider="@color/theme_gray"
-        android:dividerHeight="8dp"
+        android:dividerHeight="1px"
         android:layout_height="fill_parent"/>
 
 </RelativeLayout>

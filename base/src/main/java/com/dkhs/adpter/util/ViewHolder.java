@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -46,6 +47,10 @@ public class ViewHolder {
     }
 
     public TextView getTextView(int id) {
+
+        return get(id);
+    }
+    public CheckBox getCheckBox(int id) {
 
         return get(id);
     }

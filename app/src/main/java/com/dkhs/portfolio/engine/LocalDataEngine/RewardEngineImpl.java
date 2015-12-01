@@ -41,6 +41,10 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
     private BannerTopicsBean mBannerTopicsBean = new BannerTopicsBean();
 
     private List<TopicsBean> mFirstPageTopicsBeans;
+    /**
+     * 0 最新发布，1 悬赏最高，2 悬赏中,3已悬赏
+     */
+    private int mSortType;
     WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -82,11 +86,20 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
         params.addQueryStringParameter("recommend_level", "");
         params.addQueryStringParameter("page_size", pageSize + "");
+        params.addQueryStringParameter("reward_order",String.valueOf(mSortType));
         params.addQueryStringParameter("content_type","40");
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getRewardList, params, this);
 
     }
 
+    /**
+     *
+     * @param sortType　排序方式
+     */
+    public HttpHandler loadData(int sortType){
+        mSortType = sortType;
+        return loadData();
+    }
 
     @Override
     public HttpHandler loadData() {
@@ -94,6 +107,7 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
         params.addQueryStringParameter("recommend_level", "");
+        params.addQueryStringParameter("reward_order",String.valueOf(mSortType));
         params.addQueryStringParameter("content_type","40");
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getRewardList, params, new ParseHttpListener<MoreDataBean>() {
             @Override

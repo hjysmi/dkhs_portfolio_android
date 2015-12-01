@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,17 +21,21 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.umeng.analytics.MobclickAgent;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cn.sharesdk.framework.Platform;
 
 public class SettingNameActivity extends ModelAcitivity implements OnClickListener {
     private EditText etPassword;
@@ -40,6 +45,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     public static final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
     public static final String EXTRA_ISSETPSW = "extra_issetpsw";
+    public static final String EXTRA_NAME = "extra_name";
     private String phoneNum;
     private String code;
     private Button rlfbutton;
@@ -47,6 +53,8 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     private UserEngineImpl engine;
     private boolean isResetPsw;
     private boolean isSetPsw;
+    private boolean isRegisterThreePlatform;
+    private String name;
 
     public static Intent newIntent(Context context, String phoneNum, String code, boolean resetPsw) {
         Intent intent = new Intent(context, SettingNameActivity.class);
@@ -64,13 +72,26 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         return intent;
     }
 
+    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code,boolean resetPsw,String name) {
+        Intent intent = new Intent(context, SettingNameActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_ISSETPSW, resetPsw);
+        intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM,true);
+        intent.putExtra(EXTRA_ISRESETPSW, resetPsw);
+        intent.putExtra(EXTRA_CODE, code);
+        intent.putExtra(EXTRA_NAME,name);
+        return intent;
+    }
+
     private void handleExtras(Bundle extras) {
 
         phoneNum = extras.getString(EXTRA_PHONENUM);
         code = extras.getString(EXTRA_CODE);
         isResetPsw = extras.getBoolean(EXTRA_ISRESETPSW);
         isSetPsw = extras.getBoolean(EXTRA_ISSETPSW);
+        isRegisterThreePlatform = extras.getBoolean(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM);
 
+        name = extras.getString(EXTRA_NAME);
     }
 
     String strBefore;
@@ -267,15 +288,18 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             findViewById(R.id.rl_repassword).setVisibility(View.VISIBLE);
 
         } else if (isSetPsw) {
-            setTitle("设置密码");
+            setTitle("设置新密码");
             findViewById(R.id.ll_name).setVisibility(View.GONE);
             TextView tvPsw = (TextView) findViewById(R.id.tv_psw);
-            tvPsw.setText("密码");
+            tvPsw.setText("新密码");
 
         } else {
-            setTitle("设置昵称和密码");
+            setTitle("填写昵称");
             rlfbutton.setText("完成");
 
+        }
+        if(!TextUtils.isEmpty(name)){
+            etUserName.setText(name);
         }
 
     }
@@ -326,7 +350,12 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                     } else {
 
                     }
-                } else {
+                } else if(isRegisterThreePlatform){
+                    Platform plat = GlobalParams.plat;
+                    engine.registerThreePlatform(phoneNum, etPassword.getText().toString(), code,etUserName.getText().toString(), plat.getDb().getUserId(), GlobalParams.platname,
+                            GlobalParams.platData, registerListener.setLoadingDialog(SettingNameActivity.this, false));
+                    GlobalParams.clearUserInfo();
+                } else{
                     engine.register(phoneNum, etPassword.getText().toString(), code, etUserName.getText().toString(),
                             registerListener.setLoadingDialog(this, "正在注册", false));
                 }
@@ -367,7 +396,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             etUserName.requestFocus();
         } else if (StringFromatUtils.getStringRealLength(text) < 4) {
             isValid = false;
-            etUserName.setError(Html.fromHtml("<font color='red'>昵称不能小于4个字符</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>昵称不符合规范，请填写4-20个字符，支持中英文、数字、\"_\"或减号</font>"));
             etUserName.requestFocus();
         }
         return isValid;
@@ -513,6 +542,28 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        showRestartDialog();
+    }
+
+    private void showRestartDialog(){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.restart_register).setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        }).setNegativeButton(R.string.cancel, null);
+        builder.show();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        UIUtils.outAnimationActivity(this);
     }
 
 

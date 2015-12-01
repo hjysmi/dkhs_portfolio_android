@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_stock_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lv_white_selector"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_margin_medium"
+        android:layout_marginRight="@dimen/widget_margin_medium"
+        android:layout_marginTop="@dimen/widget_margin_normal"
+        android:layout_marginBottom="@dimen/widget_margin_normal"
+        android:weightSum="4"
+        >
+
+        <CheckBox
+            android:id="@+id/cb_select_stock"
+            style="@style/hw_wrap"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:button="@drawable/cb_add_item_selector" />
+
+        <TextView
+            android:id="@+id/tv_suspend"
+            style="@style/hw_wrap"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:text="停牌"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/tv_stock_num"
+            style="@style/hw_wrap"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/gray_textcolor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_stock_name"
+            style="@style/hw_wrap"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toLeftOf="@+id/cb_select_stock"
+            android:layout_toRightOf="@+id/tv_stock_num"
+            android:singleLine="true"
+            android:textSize="@dimen/text_status_content" />
+    </RelativeLayout>
+    <View style="@style/divider_line" />
+
+</LinearLayout>

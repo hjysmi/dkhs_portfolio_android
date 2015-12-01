@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * @author zwm
  * @version 2.0
- * @ClassName AchivementsAdapter
+ * @ClassName AchivementAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/6/8.
  */
@@ -45,6 +45,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
     private List<FundManagerInfoBean.AchivementsEntity> mData = new ArrayList<>();
     private Context mContext;
+    private IRemoveChartViewListener mListener;
 
     public AchivementAdapter(Context mContext, List<FundManagerInfoBean.AchivementsEntity> list) {
         mData = list;
@@ -60,6 +61,9 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
     }
 
+    public void setListener(IRemoveChartViewListener listener){
+        mListener = listener;
+    }
 
     private void setText(TextView textView, double value) {
         if (value > 0) {
@@ -94,15 +98,21 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
             vh.setTextView(R.id.headTV, mContext.getString(R.string.history_management_of_the_fund));
             vh.get(R.id.headTV).setVisibility(View.VISIBLE);
         }
-
+        if(position + 1 < mData.size()){
+            FundManagerInfoBean.AchivementsEntity nextAchivementsEntity = mData.get(position + 1);
+            if(achivementsEntity.getEnd_date() == null && nextAchivementsEntity.getEnd_date() != null){
+                vh.get(R.id.view_divider).setVisibility(View.GONE);
+            }
+        }
 
         if (position > 0) {
-            FundManagerInfoBean.AchivementsEntity preAchivementsEntity = (FundManagerInfoBean.AchivementsEntity) mData.get(position - 1);
+            FundManagerInfoBean.AchivementsEntity preAchivementsEntity = mData.get(position - 1);
 
             if (preAchivementsEntity.getEnd_date() == null && achivementsEntity.getEnd_date() != null) {
                 vh.setTextView(R.id.headTV, mContext.getString(R.string.history_management_of_the_fund));
                 vh.get(R.id.headTV).setVisibility(View.VISIBLE);
             } else {
+
                 vh.get(R.id.headTV).setVisibility(View.GONE);
             }
 
@@ -150,6 +160,8 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
         TextView shRateTV = vh.getTextView(R.id.sh_rate);
         TextView sh300TV = vh.getTextView(R.id.sh300);
+        TextView shMarketTV = vh.getTextView(R.id.win_market);
+        TextView shMarketRateTV = vh.getTextView(R.id.win_rate);
 
         if (StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())) {
 
@@ -161,9 +173,34 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
         } else {
 
             shRateTV.setText(R.string.null_number);
+            shMarketTV.setText(R.string.null_number);
             shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
             sh300TV.setVisibility(View.VISIBLE);
-            setText(vh.getTextView(R.id.sh_rate), achivementsEntity.getSh300_rate());
+            switch (achivementsEntity.getFund().getSymbol_stype()) {
+                case 300:
+                case 301:
+                    //股票、混合型
+                    shRateTV.setText(R.string.sh300);
+                    shMarketTV.setText(R.string.win_market);
+                    setText(shRateTV, achivementsEntity.getSh300_rate());
+                    setText(shMarketRateTV, achivementsEntity.getCp_rate() -achivementsEntity.getSh300_rate());
+                    break;
+                case 306:
+                case 307:
+                    //货币、理财型
+                    shRateTV.setText(R.string.wanshou);
+                    shMarketTV.setText(R.string.qirinianhua);
+                    setText(shRateTV, achivementsEntity.getSh300_rate());
+                    setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
+                    break;
+                default:
+                    //指数、其他型
+                    shRateTV.setText(R.string.unit_value);
+                    shMarketTV.setText(R.string.rate);
+                    setText(shRateTV, achivementsEntity.getSh300_rate());
+                    setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
+                    break;
+            }
         }
 
 
@@ -174,6 +211,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
     class OnItemClick implements View.OnClickListener {
         FundManagerInfoBean.AchivementsEntity achivementsEntity;
+        long lastClick;
 
         public OnItemClick(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
             this.achivementsEntity = achivementsEntity;
@@ -181,8 +219,10 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
 
         @Override
         public void onClick(View v) {
-            mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
-
+            if ((System.currentTimeMillis() - lastClick) > 500) {
+                mContext.startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(achivementsEntity)));
+                lastClick = System.currentTimeMillis();
+            }
         }
     }
 
@@ -238,8 +278,8 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 });
                 ViewGroup chatView = vh.get(R.id.ll_chart);
 
-                addBenefitView(chatView, achivementsEntity, true);
                 AchivementAdapter.this.selectIndex = position;
+                addBenefitView(chatView, achivementsEntity, true);
 //                AchivementAdapter.this.notifyDataSetChanged();
 
 
@@ -257,12 +297,22 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
         if (view.getParent() != null) {
             ViewGroup vG = (ViewGroup) view.getParent();
             vG.removeView(view);
+            if(mListener != null){
+                mListener.collapseView();
+            }
         }
 
         viewGroup.addView(view, params);
         if (reDraw)
             benefitChartView.draw(achivementsEntity);
 
+    }
+
+    public interface IRemoveChartViewListener {
+        /**
+         * 用于收起之前的曲线
+         */
+        void  collapseView();
     }
 
 

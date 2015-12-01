@@ -231,4 +231,13 @@ public class QuotesBean {
         return stypeText;
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof SelectStockBean){
+            SelectStockBean stockBean = (SelectStockBean) o;
+            return stockBean.id == this.id && stockBean.code.equals(this.code);
+        }
+        return super.equals(o);
+    }
 }

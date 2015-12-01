@@ -96,6 +96,18 @@
         <item name="android:layout_height">0.5px</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
+    <style name="item_margin">
+        <item name="android:layout_marginLeft">@dimen/widget_margin_medium</item>
+        <item name="android:layout_marginRight">@dimen/widget_margin_medium</item>
+        <item name="android:layout_marginTop">@dimen/widget_margin_normal</item>
+        <item name="android:layout_marginBottom">@dimen/widget_margin_normal</item>
+    </style>
+    <style name="item_padding">
+        <item name="android:paddingLeft">@dimen/widget_padding_medium</item>
+        <item name="android:paddingRight">@dimen/widget_padding_medium</item>
+        <item name="android:paddingTop">@dimen/widget_padding_normal</item>
+        <item name="android:paddingBottom">@dimen/widget_padding_normal</item>
+    </style>
 
     <style name="inset_divider_line">
         <item name="android:layout_width">match_parent</item>
@@ -630,6 +642,11 @@
         <item name="android:paddingLeft">30dp</item>
     </style>
 
+    <style name="home_page_item_style">
+        <item name="android:paddingLeft">@dimen/widget_margin_medium</item>
+        <item name="android:paddingRight">@dimen/widget_margin_medium</item>
+        <item name="android:background">@drawable/lv_white_selector</item>
+    </style>
 
 
 </resources>

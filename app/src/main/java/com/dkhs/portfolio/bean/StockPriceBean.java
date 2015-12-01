@@ -25,7 +25,7 @@ public class StockPriceBean {
     @SerializedName("symbol")
     private String symbol;
 
-
+    public boolean is_alert;
     private String code;
     @SerializedName("current")
     private float current;

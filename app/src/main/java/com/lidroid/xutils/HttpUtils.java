@@ -20,6 +20,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.*;
 import com.lidroid.xutils.http.callback.HttpRedirectHandler;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.DKHSSSLSocketFactory;
 import com.lidroid.xutils.http.client.DefaultSSLSocketFactory;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.RetryHandler;
@@ -91,7 +92,14 @@ public class HttpUtils {
 
         SchemeRegistry schemeRegistry = new SchemeRegistry();
         schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-        schemeRegistry.register(new Scheme("https", DefaultSSLSocketFactory.getSocketFactory(), 443));
+        DKHSSSLSocketFactory f = DKHSSSLSocketFactory.getSocketFactory();
+//        schemeRegistry.register(new Scheme("https", DefaultSSLSocketFactory.getSocketFactory(), 443));
+        if(f == null){
+            schemeRegistry.register(new Scheme("https", DefaultSSLSocketFactory.getSocketFactory(), 443));
+        }else{
+            schemeRegistry.register(new Scheme("https", f, 443));
+
+        }
 
         httpClient = new DefaultHttpClient(new ThreadSafeClientConnManager(params, schemeRegistry), params);
 

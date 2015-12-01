@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_history"
+        style="@style/item_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
+        android:descendantFocusability="blocksDescendants"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_centerInParent="true"
+            android:textColor="@color/theme_blue"
+            android:textSize="@dimen/text_status_content"
+            android:text="@string/select_more_combination"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/widget_margin_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/widget_padding_medium"
+        android:paddingBottom="@dimen/widget_padding_medium"
+        android:background="@color/white"
+        >
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_status_content"
+            android:textColor="@color/gray"
+            android:text="@string/select_search_desc"
+            />
+        <ImageView
+            android:id="@+id/search_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_desc"
+            android:layout_marginTop="@dimen/widget_margin_medium"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/general_search_bg"
+            />
+    </RelativeLayout>
+</LinearLayout>

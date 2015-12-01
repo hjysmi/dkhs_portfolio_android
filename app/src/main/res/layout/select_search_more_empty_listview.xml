@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:dkhs="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_search_stock"
+        style="@style/item_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_gray">
+
+        <ImageButton
+            android:id="@+id/btn_search_back"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/btn_back_selector"/>
+
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
+            android:id="@+id/et_search_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/btn_search_back"
+            android:layout_toLeftOf="@+id/tv_search"
+            android:background="@drawable/search_bg_selector"
+            android:drawableLeft="@drawable/search_gray"
+            android:drawablePadding="10dp"
+            android:hint="@string/search_general"
+            android:maxLength="50"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:textColorHint="#999999"
+            android:textSize="16sp"
+            dkhs:needVisible="true" />
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_medium"
+            android:text="@string/search"
+            android:textColor="@color/balance"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@id/rl_search_stock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.dkhs.portfolio.ui.widget.PullToRefreshListView
+            android:id="@android:id/list"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false"
+            android:smoothScrollbar="true" />
+
+        <TextView
+            android:id="@android:id/empty"
+            style="@style/gray_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/add_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawablePadding="6dp"
+            android:drawableTop="@drawable/btn_tianjia"
+            android:gravity="center_horizontal"
+            android:text="@string/click_add_stock"
+            android:textColor="@color/position_text_lgray"
+            android:visibility="gone" />
+
+        <include
+            android:id="@android:id/progress"
+            layout="@layout/progressbar"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

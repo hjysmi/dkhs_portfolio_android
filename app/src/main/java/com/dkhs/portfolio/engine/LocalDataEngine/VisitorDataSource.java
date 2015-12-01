@@ -16,5 +16,10 @@ public class VisitorDataSource {
         args.putInt(VisitorCursorCreateImpl.TYPE, VisitorCursorCreateImpl.VALUE_A);
         LoaderHelper.initCursorLoader(activity, args, resultCallback);
     }
+    public static void getOptionalCombinationList(FragmentActivity activity, IResultCallback resultCallback) {
+        Bundle args = new Bundle();
+        args.putInt(VisitorCursorCreateImpl.TYPE, VisitorCursorCreateImpl.VALUE_B);
+        LoaderHelper.initCursorLoader(activity, args, resultCallback);
+    }
 
 }

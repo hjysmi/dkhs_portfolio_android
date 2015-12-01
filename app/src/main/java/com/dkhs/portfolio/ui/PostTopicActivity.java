@@ -251,10 +251,27 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 return onTouchEvent(event);
             }
         });
+        amountEt.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //隐藏表情
+                if (isShowingEmotionView) {
+                    hideEmotionView();
+                    isShowingEmotionView = !isShowingEmotionView;
+                }
+                if (curEt != amountEt)
+                    curEt = amountEt;
+                return onTouchEvent(event);
+            }
+        });
         etTitle.clearFocus();
         curEt = etContent;
         etTitle.setFocusable(false);
         etTitle.setFocusableInTouchMode(false);
+        amountEt.clearFocus();
+        amountEt.setFocusable(false);
+        amountEt.setFocusableInTouchMode(false);
         etContent.requestFocus();
         etTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,6 +280,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     etTitle.setFocusable(true);
                     etTitle.setFocusableInTouchMode(true);
                     etTitle.requestFocus();
+                }
+            }
+        });
+        amountEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!amountEt.isFocusable()) {
+                    amountEt.setFocusable(true);
+                    amountEt.setFocusableInTouchMode(true);
+                    amountEt.requestFocus();
                 }
             }
         });
@@ -804,6 +831,22 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
+    /**
+     * 1,title清空
+     * 2，content清空
+     * 3，图片清空
+     * 如果返回true则显示showDialogs()
+     * @return
+     */
+    private boolean isClearDraftModify() {
+        String inputTitle = etTitle.getText().toString();
+        String inputContent = etContent.getText().toString();
+        ArrayList<String> tempList = new ArrayList<>(mSelectPohotos.size());
+        tempList.addAll(mSelectPohotos);
+        tempList.remove(ADD_PICTURE);
+        return TextUtils.isEmpty(inputTitle)&&TextUtils.isEmpty(inputContent)&&tempList.size()==0;
+    }
+
     private void showAlertDialog() {
 
 
@@ -812,12 +855,23 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 finish();
                 return;
             }
+            if(isClearDraftModify()){
+                showDialogs();
+                return;
+            }
         }
 
         if (!checkSendButtonEnable()) {
             finish();
             return;
         }
+        showDialogs();
+
+
+    }
+
+
+    private void showDialogs() {
         MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.dialog_msg_save_draft)
@@ -843,7 +897,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
         builder.show();
-
     }
 
     private DraftBean buildDrafteBean() {
@@ -999,5 +1052,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        UIUtils.outAnimationActivity(this);
     }
 }
