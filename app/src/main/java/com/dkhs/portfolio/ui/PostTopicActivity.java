@@ -544,6 +544,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                     }
                 }else if (source == SOURCE_LIST && (curType == TYPE_COMMENT_REWARD || curType == TYPE_COMMENT_TOPIC)){
                     //从列表直接进行回答，评论时，回答/评论结束时　直接进入评论项的正文
+                    PromptManager.showProgressDialog(PostTopicActivity.this,"",false);
                     PostTopicService.startPost(this, buildDrafteBean());
                 }
                 else{
@@ -1086,12 +1087,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     @Subscribe
     public void postSuccess( PostTopComletedEvent event){
+        PromptManager.closeProgressDialog();
         finish();
         TopicsDetailActivity.startActivity(PostTopicActivity.this, repliedStatus);
     }
 
     @Subscribe
     public void postFail(SendTopicEvent event){
+        PromptManager.closeProgressDialog();
         finish();
     }
 }
