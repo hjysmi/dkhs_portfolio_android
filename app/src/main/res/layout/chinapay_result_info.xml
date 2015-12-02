@@ -114,7 +114,7 @@
 
     <!-- 商品信息 -->
 
-    <!-- <LinearLayout
+    <LinearLayout
         android:id="@+id/oauth_result_info_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -257,7 +257,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
- -->
+
     <Button
         android:id="@+id/btn_return"
         android:layout_width="match_parent"

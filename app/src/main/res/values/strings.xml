@@ -932,7 +932,7 @@
     <string name="cp_shenfen_type">证件类型:</string>
     <string name="cp_shenfen_info">身份信息</string>
     <string name="cp_zhengjian_number">证件号码:</string>
-    <string name="cp_phone_hint">请输入您的手机号码</string>
+    <string name="cp_phone_hint">请输入您的手机号码(必填)</string>
     <string name="cp_phone">手机号码:</string>
     <string name="cp_email_hint">请输入您的邮箱(必填)</string>
     <string name="cp_email">电子邮箱:</string>
@@ -945,8 +945,8 @@
     <string name="cp_faile_reason">失败原因:</string>
     <string name="cp_oauth_failed">认证失败</string>
     <string name="cp_oauth_sucess">认证成功</string>
-    <string name="cp_auth_failed">认证失败</string>
-    <string name="cp_auth_sucess">认证成功</string>
+    <string name="cp_pay_failed">支付失败</string>
+    <string name="cp_pay_sucess">支付成功</string>
     <string name="cp_loading">初始化,请稍后</string>
     <!--  <string name="cp_version">版本</string>
      <string name="cp_right">上海银联电子支付服务有限公司 版权所有</string> -->
@@ -979,9 +979,6 @@
     <string name="cpay_keyboard_number">数字</string>
     <string name="cpay_keyboard_letter">字母</string>
     <string name="cpay_keyboard_symbol">符号</string>
-    <string name="cp_hint_bankcard">请输入您的银行卡号</string>
-    <string name="cp_txt_getSupportBank"><u>查看支持银行列表</u></string>
-    <string name="cp_btn_nextstep">下一步</string>
     <!--Chinapay plugin end-->
 
     <string name="reward_on_going">悬赏中</string>

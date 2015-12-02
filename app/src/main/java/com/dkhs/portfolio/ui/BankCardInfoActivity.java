@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chinapay.authplugin.activity.Initialize;
-import com.chinapay.authplugin.util.CPGlobaInfo;
-import com.chinapay.authplugin.util.Utils;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.Bank;
@@ -25,6 +21,9 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.hxcr.chinapay.activity.Initialize;
+import com.hxcr.chinapay.util.CPGlobaInfo;
+import com.hxcr.chinapay.util.Utils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -38,7 +37,7 @@ import java.io.StringWriter;
 /**
  * Created by zhangcm on 2015/9/16.15:02
  */
-public class BankCardInfoActivity extends ModelAcitivity {
+public class BankCardInfoActivity extends ModelAcitivity implements View.OnClickListener{
 
     public static String BANK = "bank";
     private Bank bank;
@@ -109,7 +108,6 @@ public class BankCardInfoActivity extends ModelAcitivity {
         ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
             @Override
             protected Bank parseDateTask(String jsonData) {
-                Bank bank = null;
                 try{
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
                     bank = DataParse.parseObjectJson(Bank.class, jsonData);
@@ -153,7 +151,7 @@ public class BankCardInfoActivity extends ModelAcitivity {
     private TradeEngineImpl tradeEngine  = new TradeEngineImpl();;
     private String mobile;
     @OnClick({R.id.ll_choose_bank_type, R.id.btn_bind_bank_card})
-    private void onclick(View v) {
+    public void onClick(View v) {
         //TODO 点击下一步
         if (v.getId() == R.id.ll_choose_bank_type) {
             //TODO 选择银行卡
@@ -205,33 +203,27 @@ public class BankCardInfoActivity extends ModelAcitivity {
             se.text(bean.env.toUpperCase());
             se.endTag("", "env");
 
-            se.startTag("", "appSysId");
-            se.text(bean.appSysId);
-            se.endTag("", "appSysId");
+            se.startTag("", "merchantId");
+            se.text(bean.merchantId);
+            se.endTag("", "merchantId");
 
-            se.startTag("", "cardNo");
-            se.text(bean.cardNo);
-            se.endTag("", "cardNo");
+            se.startTag("", "merchantOrderId");
+            se.text(bean.merchantOrderId);
+            se.endTag("", "merchantOrderId");
 
-            se.startTag("", "cerType");
-            se.text(bean.cerType);
-            se.endTag("", "cerType");
+            se.startTag("", "merchantOrderTime");
+            se.text(bean.merchantOrderTime);
+            se.endTag("", "merchantOrderTime");
 
-            se.startTag("", "cerNo");
-            se.text(bean.cerNo);
-            se.endTag("", "cerNo");
-
-            se.startTag("", "cerName");
-            se.text(bean.cerName);
-            se.endTag("", "cerName");
-
-            se.startTag("", "cardMobile");
-            se.text(bean.cardMobile);
-            se.endTag("", "cardMobile");
+            se.startTag("", "orderKey");
+            se.text(bean.orderKey);
+            se.endTag("", "orderKey");
 
             se.startTag("", "sign");
-            se.text(bean.signature);
+            se.text(bean.sign);
             se.endTag("", "sign");
+
+
             se.endTag("", "CpPay");
             se.endDocument();
         } catch (Exception e) {
@@ -305,13 +297,6 @@ public class BankCardInfoActivity extends ModelAcitivity {
             //根据返回码做出相应处理
             if (Utils.getPayResult().indexOf("0000") > -1) {
                 //认证成功，返回卡信息及用户信息
-                Log.i("AuthSDK", "姓名：" + Utils.getCerName()
-                        + "\n身份证类型：" + Utils.getCerType()
-                        + "\n身份证号：" + Utils.getCerNo()
-                        + "\n卡号：" + Utils.getCardNo()
-                        + "\n手机号：" + Utils.getMobile()
-                        + "\n签名：" + Utils.getRespSign());
-                //为CP签名值，仅当认证成功时，才有签名，具体规则见下方2.4节
                 final ParseHttpListener<Boolean> isTradePwdSetListener = new ParseHttpListener<Boolean>() {
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
@@ -337,40 +322,13 @@ public class BankCardInfoActivity extends ModelAcitivity {
                             }else{
                                 //TODO 没设置过交易密码
                                 PromptManager.showToast("没有设置过交易密码");
-                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext),0);
+                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 0);
                             }
                         }
                     }
                 };
-                //TODO 绑卡开户
-                ParseHttpListener<Boolean> bindCardListener = new ParseHttpListener<Boolean>() {
-                    @Override
-                    protected Boolean parseDateTask(String jsonData) {
-                        try{
-                            JSONObject json = new JSONObject(jsonData);
-                            if(json.has("status")){
-                                return json.getBoolean("status");
-                            }
-
-                        }catch (Exception e){
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(Boolean object) {
-                        if(null != object){
-                            if(object){
-                               //TODO 绑卡成功，判断是否设置过交易密码
-                                PromptManager.showToast("绑卡成功，判断是否设置过交易密码");
-                                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
-                            }else{
-                                PromptManager.showToast(R.string.bind_card_fail);
-                            }
-                        }
-                    }
-                };
-                tradeEngine.bindBankCard(bank.getId(), Utils.getCardNo(), Utils.getCerName(), Utils.getCerNo(), mobile, Utils.getRespSign(), bindCardListener.setLoadingDialog(this));
+                PromptManager.showToast("绑卡成功，判断是否设置过交易密码");
+                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
             } else {//认证失败
             }
 

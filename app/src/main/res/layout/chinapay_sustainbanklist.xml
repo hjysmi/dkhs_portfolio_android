@@ -75,28 +75,28 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="90dip"
-            android:text="@string/cp_card_type_1"
-            android:textColor="#666666"
-            android:textSize="13sp" />
-
-        <!-- <ImageView
-            android:layout_width="0.5dip"
-            android:layout_height="20dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="70dip"
-            android:background="#bdbdbd" /> -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="34dip"
             android:text="@string/cp_card_type_0"
             android:textColor="#666666"
             android:textSize="13sp" />
+
+<!--         <ImageView -->
+<!--             android:layout_width="0.5dip" -->
+<!--             android:layout_height="20dip" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:layout_marginRight="60dip" -->
+<!--             android:background="#bdbdbd" /> -->
+
+<!--         <TextView -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:layout_marginRight="70dip" -->
+<!--             android:text="@string/cp_card_type_1" -->
+<!--             android:textColor="#666666" -->
+<!--             android:textSize="13sp" /> -->
     </RelativeLayout>
 
     <ListView

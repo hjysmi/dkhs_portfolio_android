@@ -5,12 +5,10 @@ package com.dkhs.portfolio.bean;
  */
 public class IdentityAuthBean {
 
-    public String cerType;
-    public String cerName;
-    public String appSysId;
+    public String merchantOrderTime;
+    public String sign;
+    public String merchantOrderId;
+    public String orderKey;
     public String env;
-    public String cardNo;
-    public String cerNo;
-    public String signature;
-    public String cardMobile;
+    public String merchantId;
 }

@@ -8,7 +8,7 @@
         android:id="@+id/img_log"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/cpay_auth_loading_bg" />
+        android:background="@drawable/cpay_loading_bg" />
 
     <!--
     <LinearLayout

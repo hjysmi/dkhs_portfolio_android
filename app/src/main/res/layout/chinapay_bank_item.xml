@@ -27,14 +27,14 @@
             android:layout_marginRight="45dip"
             android:background="@drawable/chinapay_help_bank_list_icon2" />
 
-        <ImageView
-            android:id="@+id/ig_xin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="98dip"
-            android:background="@drawable/chinapay_help_bank_list_icon2" />
+<!--         <ImageView -->
+<!--             android:id="@+id/ig_xin" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentRight="true" -->
+<!--             android:layout_centerVertical="true" -->
+<!--             android:layout_marginRight="78dip" -->
+<!--             android:background="@drawable/chinapay_help_bank_list_icon2" /> -->
     </RelativeLayout>
 
 </RelativeLayout>

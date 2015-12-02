@@ -165,6 +165,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
                 holder = new ViewHolder();
                 holder.ll_bank = (View)convertView.findViewById(R.id.ll_bank);
                 holder.ll_fund_supervision_bank = (View)convertView.findViewById(R.id.ll_fund_supervision_bank);
+                holder.seperate = (View)convertView.findViewById(R.id.seperate);
                 holder.iv_bank_logo = (ImageView)convertView.findViewById(R.id.iv_bank_logo);
                 holder.tv_addbank = (TextView)convertView.findViewById(R.id.tv_addbank);
                 holder.tv_bank_name = (TextView)convertView.findViewById(R.id.tv_bank_name);
@@ -176,6 +177,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
             }
             if(position == myCards.size()){
                 holder.tv_addbank.setVisibility(View.VISIBLE);
+                holder.seperate.setVisibility(View.GONE);
                 holder.ll_bank.setVisibility(View.GONE);
                 holder.tv_addbank.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -185,6 +187,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
                 });
             }else{
                 holder.tv_addbank.setVisibility(View.GONE);
+                holder.seperate.setVisibility(View.VISIBLE);
                 holder.ll_bank.setVisibility(View.VISIBLE);
             }
 
@@ -214,6 +217,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
         private class ViewHolder{
             View ll_fund_supervision_bank;
             View ll_bank;
+            View seperate;
             ImageView iv_bank_logo;
             TextView tv_addbank;
             TextView tv_bank_name;

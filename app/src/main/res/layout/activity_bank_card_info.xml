@@ -152,8 +152,6 @@
                 android:layout_weight="2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/widget_margin_normal"
-                android:inputType="number"
-                android:digits="0123456789xyzXYZ"
                 android:text="@string/id_card_no"
                 android:textSize="@dimen/widget_text_16sp"/>
 
@@ -165,9 +163,9 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:hint="@string/hint_id_card_no"
-                android:singleLine="true"
                 android:inputType="number"
-                android:maxLength="11"
+                android:digits="0123456789xyzXYZ"
+                android:singleLine="true"
                 android:textSize="@dimen/widget_text_14sp"/>
         </LinearLayout>
 
@@ -204,6 +202,8 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:hint="@string/hint_bank_card_mobile"
+                android:inputType="number"
+                android:maxLength="11"
                 android:singleLine="true"
                 android:textSize="@dimen/widget_text_14sp"/>
         </LinearLayout>

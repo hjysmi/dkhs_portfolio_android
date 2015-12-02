@@ -76,6 +76,10 @@
 
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:id="@+id/seperate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_margin_medium"/>
     <TextView
         android:id="@+id/tv_addbank"
         android:layout_width="match_parent"
@@ -84,7 +88,6 @@
         android:background="@drawable/bg_white_gray_selector"
         android:layout_marginLeft="@dimen/widget_margin_medium"
         android:layout_marginRight="@dimen/widget_margin_medium"
-        android:layout_marginTop="@dimen/widget_margin_medium"
         android:text="+添加银行卡"
         android:textColor="@color/edit_textcolor"
         android:textSize="20sp"
