@@ -24,6 +24,7 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
+import com.dkhs.portfolio.ui.eventbus.ReConNetEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicStateEvent;
 import com.mingle.autolist.AutoData;
@@ -229,6 +230,14 @@ public class RewardsFragment extends LoadMoreListFragment  {
         mSortType = topicSortTypeEvent.sortType;
         loadData();
     }
+
+    @Subscribe
+    public void netChange(ReConNetEvent event) {
+        if(mDataList == null || mDataList.size() == 0){
+            loadData();
+        }
+    }
+
     @Override
     public void onDestroyView() {
         BusProvider.getInstance().unregister(this);
