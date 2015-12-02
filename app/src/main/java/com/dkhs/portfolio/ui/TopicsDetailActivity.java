@@ -204,6 +204,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                 @Override
                 protected void afterParseData(Object object) {
+                    if(object == null)
+                        return;
                     findViewById(R.id.adopt_reply_rl).setVisibility(View.VISIBLE);
                     CommentBean comment = (CommentBean) object;
                     if (mRewardAdoptedHandler == null) {
@@ -226,7 +228,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             e.printStackTrace();
                         }
                     }
-                    return moreBean.getResults().get(0);
+                    if(moreBean != null && moreBean.getResults()!= null && moreBean.getResults().size() > 0){
+                        return moreBean.getResults().get(0);
+                    }
+                    return null;
                 }
 
                 @Override

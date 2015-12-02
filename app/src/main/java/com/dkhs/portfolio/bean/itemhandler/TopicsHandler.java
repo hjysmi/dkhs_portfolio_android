@@ -302,9 +302,9 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
                     return;
                 }
                 if(likeBean.content_type == TopicsDetailActivity.TYPE_REWARD){
-                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_REWARD, likeBean.id + "", likeBean.user.getUsername()));
+                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_REWARD, likeBean.id + "", likeBean.user.getUsername(),PostTopicActivity.SOURCE_LIST));
                 }else{
-                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_TOPIC, likeBean.id + "", likeBean.user.getUsername()));
+                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_TOPIC, likeBean.id + "", likeBean.user.getUsername(),PostTopicActivity.SOURCE_LIST));
                 }
             } else {
                 TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
