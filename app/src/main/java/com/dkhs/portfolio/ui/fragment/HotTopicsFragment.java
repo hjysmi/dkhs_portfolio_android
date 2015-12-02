@@ -20,6 +20,7 @@ import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.ReConNetEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
@@ -117,6 +118,14 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
     public void updateList(TopicSortTypeEvent topicSortTypeEvent){
         mTopicsEngine.loadData(topicSortTypeEvent.sortType);
     }
+
+    @Subscribe
+    public void netChange(ReConNetEvent event) {
+        if(mDataList == null || mDataList.size() == 0){
+            loadData();
+        }
+    }
+
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (mTopicsEngine == null) {
