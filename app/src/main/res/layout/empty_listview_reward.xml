@@ -2,17 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/person_setting_backgroud"
     android:orientation="vertical" >
 
-    <View
-        android:id="@+id/top"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/def_item_pading"
-        android:layout_alignParentTop="true"
-         />
+
     <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_below="@id/top"
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
