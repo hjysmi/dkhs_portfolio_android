@@ -67,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
                     style="@style/state_rewarding"
+                    android:visibility="gone"
                     />
 
             </RelativeLayout>
