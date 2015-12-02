@@ -18,7 +18,7 @@ import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.listener.RewardReplyItemClick;
+import com.dkhs.portfolio.ui.listener.CommentItemClick;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -77,14 +77,16 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
         setClickListener(vh.get(R.id.adopt_iv_image), comment);
         if (comment.attitudes_count > 0) {
             ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setCurrentText(StringFromatUtils.handleNumber(comment.attitudes_count));
+            ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setVisibility(View.VISIBLE);
         } else {
             ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setCurrentText("");
+            ((TextSwitcher) vh.get(R.id.adopt_tv_like)).setVisibility(View.GONE);
         }
 
 
         if (comment.medias != null && comment.medias.size() > 0) {
             vh.get(R.id.adopt_iv_image).setVisibility(View.VISIBLE);
-            ImageLoaderUtils.setImagDefault(comment.medias.get(0).getImage_sm(), vh.getImageView(R.id.iv_image));
+            ImageLoaderUtils.setImagDefault(comment.medias.get(0).getImage_sm(), vh.getImageView(R.id.adopt_iv_image));
         } else {
             vh.get(R.id.adopt_iv_image).setVisibility(View.GONE);
         }
@@ -102,13 +104,13 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RewardReplyItemClick mCommentClick;
+                CommentItemClick mCommentClick;
                 if (null != GlobalParams.LOGIN_USER) {
-                    mCommentClick = new RewardReplyItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
+                    mCommentClick = new CommentItemClick(GlobalParams.LOGIN_USER.getId() + "", v.getContext());
                 } else {
-                    mCommentClick = new RewardReplyItemClick("", v.getContext());
+                    mCommentClick = new CommentItemClick("", v.getContext());
                 }
-                mCommentClick.clickFromMyTopic(comment);
+                    mCommentClick.clickFromMyTopic(comment);
             }
         });
 
@@ -179,8 +181,10 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
             if (mLikeBean.getAttitudes_count() > 0) {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
+                likeTV.setVisibility(View.VISIBLE);
             } else {
                 likeTV.setText("");
+                likeTV.setVisibility(View.GONE);
             }
         }
 
@@ -191,8 +195,10 @@ public class RewardAdoptedHandler extends SimpleItemHandler<CommentBean> {
             if (mLikeBean.getAttitudes_count() > 0) {
 
                 likeTV.setText(StringFromatUtils.handleNumber(mLikeBean.getAttitudes_count()));
+                likeTV.setVisibility(View.VISIBLE);
             } else {
                 likeTV.setText("");
+                likeTV.setVisibility(View.GONE);
             }
 
         }

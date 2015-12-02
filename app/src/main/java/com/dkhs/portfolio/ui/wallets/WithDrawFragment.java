@@ -15,8 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.WithDrawResBean;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.WithDrawEngineImpl;
@@ -30,10 +30,10 @@ import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,7 +51,8 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
 
-    private float avail;
+    private double avail;
+    private String mobile;
     @ViewInject(R.id.et_withdraw_amount)
     private EditText amountEt;
     @ViewInject(R.id.et_alipay_account)
@@ -67,6 +68,30 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     @ViewInject(R.id.rlbutton)
     private Button  rlBtn;
 
+    private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
+
+
+        @Override
+        protected List<BindThreePlat> parseDateTask(String jsonData) {
+            return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<BindThreePlat> entity) {
+            if (!entity.isEmpty()) {
+                for (int i = 0; i < entity.size(); i++) {
+                    BindThreePlat palt = entity.get(i);
+                    if (palt.isStatus() && palt.getProvider().contains("mobile")) {
+                        mobile = palt.getUsername();
+                        hideMobile(mobile);
+                    }
+
+                }
+            }
+
+        }
+    };
+
     @Override
     public int setContentLayoutId() {
         return R.layout.fragment_with_draw;
@@ -80,8 +105,9 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        if(bundle != null){
-            avail = bundle.getFloat(MyPurseActivity.AVAIL_AMOUNT);
+        if(bundle != null) {
+            avail = bundle.getDouble(MyPurseActivity.AVAIL_AMOUNT);
+            mobile = bundle.getString(MyPurseActivity.MOBILE);
         }
         engine = new UserEngineImpl();
         mSMSBroadcastReceiver = new SMSBroadcastReceiver();
@@ -126,16 +152,29 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
 
     private void initData(){
         amountEt.setFilters(new InputFilter[]{lengthfilter});
-        String availHint = String.format(getString(R.string.with_draw_available),avail);
-        String mobile = GlobalParams.MOBILE;
+        String availHint;
+        if(avail == 0){
+            availHint = String.format(getString(R.string.with_draw_available),"0.00");
+        }else{
+            availHint = String.format(getString(R.string.with_draw_available),avail);
+        }
         if(!TextUtils.isEmpty(mobile)){//不显示完整号码　用****替换中间数字
-            String src = mobile.substring(4,8);
-            String newMobile = mobile.replace(src,"****");
-            LogUtils.d("wys",newMobile);
-            String sendCodeMsg = String.format(getString(R.string.msg_send_post), newMobile);
-            sendCodeTv.setText(sendCodeMsg);
+            hideMobile(mobile);
+        }else{
+            UserEngineImpl.queryThreePlatBind(bindsListener);
         }
         amountEt.setHint(availHint);
+    }
+
+    /**
+     * 不显示完整号码　用****替换中间数字
+     * @param mobile
+     */
+    private void hideMobile(String mobile) {
+        String src = mobile.substring(3,7);
+        String newMobile = mobile.replace(src,"****");
+        String sendCodeMsg = String.format(getString(R.string.msg_send_post), newMobile);
+        sendCodeTv.setText(sendCodeMsg);
     }
 
     private void initView(){
@@ -156,7 +195,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
-                    getCodeBtn.setText("重新发送("+(60 - count)+")s");
+                    getCodeBtn.setText("重新发送("+(60 - count)+"s)");
 //                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
                     getCodeBtn.setTextColor(getResources().getColor(R.color.text_content_color));
                     getCodeBtn.setEnabled(false);
@@ -183,7 +222,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
 
     private void getVerifyCode() {
         if (NetUtil.checkNetWork()) {
-            engine.getVericode(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
+            engine.getVericode(mobile, new ParseHttpListener<Object>() {
 
                 @Override
                 protected Object parseDateTask(String jsonData) {
@@ -231,7 +270,6 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
         if(v.getId() == R.id.btn_getCode){
             getVerifyCode();
         }else if(v.getId() == R.id.rlbutton){
-            LogUtils.d("wys","onclick");
             String amount = amountEt.getText().toString();
             String account = accountEt.getText().toString();
             String name = boundNameEt.getText().toString();
@@ -272,19 +310,19 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
 
     private boolean checkDataValid(String amount,String account,String name,String verifycode){
         if(TextUtils.isEmpty(amount)){
-            PromptManager.showToast("提取金额不能为空");
+            PromptManager.showToast(R.string.withdraw_amount_empty);
             return false;
         }
         if(TextUtils.isEmpty(account)){
-            PromptManager.showToast("账号不能为空");
+            PromptManager.showToast(R.string.withdraw_account_empty);
             return false;
         }
         if(TextUtils.isEmpty(name)){
-            PromptManager.showToast("账户实名不能为空");
+            PromptManager.showToast(R.string.withdraw_name_empty);
             return false;
         }
         if(TextUtils.isEmpty(verifycode)){
-            PromptManager.showToast("验证码不能为空");
+            PromptManager.showToast(R.string.withdraw_validate_code_empty);
             return false;
         }
         return true;
@@ -301,11 +339,11 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
             @Override
             protected void afterParseData(Object object) {
                 if(object != null){
-                    //TODO 发送提取成功
+                    PromptManager.showToast(R.string.withdraw_success);
                     BusProvider.getInstance().post(new WithDrawEvent(0));
                     getActivity().finish();
                 }else{
-                    PromptManager.showToast("提取失败");
+                    PromptManager.showToast(R.string.withdraw_failure);
                 }
             }
         });

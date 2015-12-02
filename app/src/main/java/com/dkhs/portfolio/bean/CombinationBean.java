@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.widget.ViewBean.SelectCombinationViewBean;
 import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 import com.lidroid.xutils.db.annotation.Transient;
@@ -60,6 +61,9 @@ public class CombinationBean extends DragListItem {
 
     @SerializedName("alert_settings")
     PortfolioAlertBean alertBean;
+
+    String avatar_sm;
+    String recommend_title;
 
     public CombinationBean() {
     }
@@ -339,12 +343,31 @@ public class CombinationBean extends DragListItem {
     public boolean equals(Object obj) {
         if (obj == this)
             return true; // 如果是自己equals自己的话，这里就可以直接返回true，避免了后面可能的大量比较
-        if (!(obj instanceof CombinationBean))
-            return false;
+        if (obj instanceof CombinationBean){
+            CombinationBean other = (CombinationBean) obj;
+            return id.equals(other.id) && name.equals(other.name);
+        } else if(obj instanceof SelectCombinationViewBean){
+            SelectCombinationViewBean combinationViewBean = (SelectCombinationViewBean) obj;
+            CombinationBean other = combinationViewBean.getmCombinationBean();
+            return id.equals(other.id) && name.equals(other.name);
+        }
+        return super.equals(obj);
+    }
 
-        CombinationBean other = (CombinationBean) obj;
-        return id.equals(other.id) && name.equals(other.name);
+    public String getRecommend_title() {
+        return recommend_title;
+    }
 
+    public void setRecommend_title(String recommend_title) {
+        this.recommend_title = recommend_title;
+    }
+
+    public String getAvatar_sm() {
+        return avatar_sm;
+    }
+
+    public void setAvatar_sm(String avatar_sm) {
+        this.avatar_sm = avatar_sm;
     }
 
     @Override

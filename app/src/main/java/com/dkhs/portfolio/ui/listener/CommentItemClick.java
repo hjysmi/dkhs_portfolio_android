@@ -15,8 +15,6 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StatusReportActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TextModifyUtil;
@@ -49,6 +47,14 @@ public class CommentItemClick {
         }
     }
 
+    public void clickFromMyReply(LikeBean bean,boolean rewarded) {
+        if (isCurrentUser(bean.user.getId() + "")) {//当前用户
+            showMineReplyDialog(bean,rewarded);
+        } else { // TA的回复
+            showOtherReplyDialog(bean);
+        }
+    }
+
     public void clickFromMyTopic(LikeBean bean) {
         if (isCurrentUser(bean.user.getId() + "")) {//当前用户
             showTopicMineReplyDialog(bean);
@@ -69,7 +75,12 @@ public class CommentItemClick {
     private void showTopicOtherReplyDialog(final LikeBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
-        String[] choice = mContext.getResources().getStringArray(R.array.choices_topic_othereply);
+        String[] choice = null;
+        if(commentBean.content_type == TopicsDetailActivity.TYPE_REWARD){
+            choice = mContext.getResources().getStringArray(R.array.choices_reward_othereply);
+        }else{
+            choice = mContext.getResources().getStringArray(R.array.choices_topic_othereply);
+        }
         dialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -93,7 +104,12 @@ public class CommentItemClick {
     private void showTopicMineReplyDialog(final  LikeBean commentBean) {
 
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
-        String[] choice = mContext.getResources().getStringArray(R.array.choices_topic_minereply);
+        String[] choice = null;
+        if(commentBean.content_type == TopicsDetailActivity.TYPE_REWARD){
+            choice = mContext.getResources().getStringArray(R.array.choices_reward_minereply);
+        }else{
+            choice = mContext.getResources().getStringArray(R.array.choices_topic_minereply);
+        }
         dialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -142,8 +158,17 @@ public class CommentItemClick {
     }
 
     private void showMineReplyDialog(final LikeBean commentBean) {
+        this.showMineReplyDialog(commentBean,false);
+    }
+
+    private void showMineReplyDialog(final LikeBean commentBean,boolean rewarded) {
         MAlertDialog dialog = PromptManager.getAlertDialog(mContext);
-        String[] choice = mContext.getResources().getStringArray(R.array.choices_mine_reply);
+        String[] choice = null;
+        if(commentBean.content_type == TopicsDetailActivity.TYPE_REWARD){
+            choice = mContext.getResources().getStringArray(rewarded? R.array.reward_reply_op_rewarded:R.array.reward_reply_op);
+        }else{
+            choice = mContext.getResources().getStringArray(R.array.choices_mine_reply);
+        }
         dialog = dialog.setSingleChoiceItems(choice, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -180,7 +205,11 @@ public class CommentItemClick {
 
 
         if (null != commentBean.user) {
-            mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY, commentBean.getId() + "", commentBean.user.getUsername()));
+            if(commentBean.content_type == TopicsDetailActivity.TYPE_REWARD){
+                mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY_REWARD, commentBean.getId() + "", commentBean.user.getUsername()));
+            }else{
+                mContext.startActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_REPLY_TOPIC, commentBean.getId() + "", commentBean.user.getUsername()));
+            }
         } else {
             Log.e(TAG, "comment user is null;");
         }

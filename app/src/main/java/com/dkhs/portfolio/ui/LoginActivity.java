@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,10 +30,13 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -56,6 +60,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     public static final int REQUEST_REGIST = 0;
     public static final int RESPONSE_REGIST = 1;
+
+    private static final String ACCOUNT_UNREGISTERED = "account_unregistered";
+    private static final String MOBILE_UNBOUND = "mobile_unbound";
+    private static final String SOCIAL_UNBOUND = "social_unbound";
+    public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
     private EditText etUserName;
     private EditText etPassword;
     private TextView tvRegister;
@@ -74,6 +83,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public static final String EXTRA_LOGINANNOY = "extra_loginannoy";
 
     private boolean isLoginByAnnoy = false;
+    private Platform plat;
+    private String platname;
+    private ThreePlatform platData;
     WeakHandler weakHandler = new WeakHandler() {
 
     };
@@ -197,7 +209,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvUsername = (TextView) findViewById(R.id.tv_username);
         rlfbutton = (Button) findViewById(R.id.login);
-
+        rlfbutton.setEnabled(false);
         ivWeibo = findViewById(R.id.iv_weibo);
         ivQQ = findViewById(R.id.iv_qq);
         ivWeixin = findViewById(R.id.iv_weixin);
@@ -265,11 +277,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 }
             }
         });
+        //防止获取父控件的焦点
+        findViewById(R.id.tv_three_login_text).setOnClickListener(this);
 
     }
 
     /**
-     * @param string
+     * @param accountText
      * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -291,9 +305,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 login();
                 break;
             case R.id.tv_forget:
-                Intent intent = new Intent(LoginActivity.this, ForgetPswActivity.class);
+//                Intent intent = new Intent(LoginActivity.this, ForgetPswActivity.class);
                 // intent.putExtra("activity_type", RLFActivity.FORGET_PSW_TYPE);
-                startActivity(intent);
+                startActivity(RLFActivity.forgetPswIntent(LoginActivity.this));
                 break;
             case R.id.tv_register: {
 
@@ -382,7 +396,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             engine.login(userName, passWord, ConstantValue.IS_MOBILE, listener);
         } else {
             // Toast.makeText(this, "请输入手机号或者邮箱", Toast.LENGTH_SHORT).show();
-            etUserName.setError(Html.fromHtml("<font color='red'>请输入手机号或者邮箱</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>请填写正确的手机号</font>"));
             etUserName.requestFocus();
         }
     }
@@ -395,7 +409,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // };
 
         public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
+            if((ACCOUNT_UNREGISTERED).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey())&&SIMCardInfo.isMobileNO(userName)){
+                showUnRegisterDialog();
+            }else{
+                super.onFailure(errCode, errMsg);
+            }
             PromptManager.closeProgressDialog();
         }
 
@@ -468,6 +486,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (requestCode == REQUEST_REGIST && resultCode == RESPONSE_REGIST) {
             finish();
         }
+        if(requestCode == REQUEST_BOUND_THREE_PLATFORM && resultCode == RESULT_OK){
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -537,11 +558,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 case 1: {
                     HashMap<String, Object> res = (HashMap<String, Object>) msg.obj;
                     // Platform plat = (Platform) msg.obj;
-                    Platform plat = (Platform) (res.containsKey("plat") ? res.get("plat") : null);
+                    plat = (Platform) (res.containsKey("plat") ? res.get("plat") : null);
 
                     if (null != plat) {
 
-                        String platname = plat.getName();
+                        platname = plat.getName();
                         String imageUrl = "";
                         // Toast.makeText(getApplicationContext(), "platname:" + platname, Toast.LENGTH_SHORT).show();
                         if (platname.contains(SinaWeibo.NAME)) {
@@ -549,11 +570,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                             imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
                         } else if (platname.contains(Wechat.NAME)) {
                             platname = "weixin";
+                            imageUrl = (String) (res.containsKey("headimgurl") ? res.get("headimgurl") : "");
                         } else {
                             platname = "qq";
                             imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");
                         }
-                        ThreePlatform platData = new ThreePlatform();
+                        platData = new ThreePlatform();
                         platData.setAccess_token(plat.getDb().getToken());
                         platData.setOpenid(plat.getDb().getUserId());
                         platData.setAvatar(imageUrl);
@@ -561,6 +583,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         phoneNum = "";
                         engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
                                 platData, registerListener.setLoadingDialog(LoginActivity.this, false));
+                        GlobalParams.platData = platData;
+                        GlobalParams.platname = platname;
+                        GlobalParams.plat = plat;
                     }
                 }
                 break;
@@ -601,7 +626,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
         public void onFailure(int errCode, String errMsg) {
-            super.onFailure(errCode, errMsg);
+            String errorKey = ErrorBundle.parseToErrorBundle(errMsg).getErrorKey().trim();
+            if((MOBILE_UNBOUND).equals(errorKey) || (SOCIAL_UNBOUND).equals(errorKey)){
+                startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this,plat.getDb().getUserName()), REQUEST_BOUND_THREE_PLATFORM);
+            }else{
+                super.onFailure(errCode, errMsg);
+            }
         }
 
         ;
@@ -698,5 +728,15 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
-
+    private void showUnRegisterDialog(){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.register_hint).setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UIUtils.startAnimationActivity(LoginActivity.this, RLFActivity.registerIntent(LoginActivity.this));
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.wait, null);
+        builder.show();
+    }
 }

@@ -83,6 +83,11 @@ public class DKHSUrl {
         //持仓明细
         String portfolio_detail = "/api/v1/portfolio/%s/";
 
+        /**
+         * 推荐组合
+         */
+        String RECOMMEND_PROTFOLIO = "/api/v1/portfolio/recommend/";
+
     }
 
     public interface StockSymbol {
@@ -128,6 +133,15 @@ public class DKHSUrl {
 //        注：symbol为股票代码 如SZ000880
         String F10_FINANCE = "/api/v1/symbols/{0}/finance_index/";
 
+        /**
+         * 推荐基金经理
+         */
+        String RECOMMEND_FUND_MANAGER = "/api/v1/symbols/funds/managers/recommend/";
+        /**
+         * 推荐基金
+         */
+        String RECOMMEND_FUND = "/api/v1/symbols/recommend/";
+
 
     }
 
@@ -141,6 +155,11 @@ public class DKHSUrl {
         String getSignUp = "/api/v1/ads/area/signup/";
         String getInvite = "/api/v1/ads/area/Invite/";
         String getRechargeBanner = "/api/v1/ads/area/recharge_banner/";
+        /**
+         * 获取主页广告
+         */
+        String GET_HOME_BANNER = "/api/v1/ads/area/home_banner/";
+        String GET_SUB_HOME_BANNER = "/api/v1/ads/area/home_sub_banner";
 
     }
 
@@ -278,12 +297,18 @@ public class DKHSUrl {
 
     public interface Wallets {
         //GET /api/v1/wallets/account/mine/
-        String myAccount = "/api/v1/wallets/account/mine/";
 
         //POST 用户钱包充值
         // amount (decimal, 充值金额),
         //  vendor (string, 第三方支付渠道，weixinpay,微信／alipay,支付宝／yibao,易宝)
         String payment = "/api/v1/wallets/recharge/payment/";
+        /**
+         * 查询余额信息
+         */
+        String account_info = "/api/v1/wallets/account/mine/";
+        String wallet_exchange = "/api/v1/wallets/account/changes/";
+        String rewards_balance = "/api/v1/statuses/rewards/balance/";
+        String withdraw = "/api/v1/wallets/withdraw/";
     }
 
     // DKHSUrl.Portfolio.rankingList,
@@ -320,16 +345,26 @@ public class DKHSUrl {
          * 举报
          */
         String abuse_reports = "/api/v1/statuses/abuse_reports/report/";
+
+        /**
+         * 获取推荐悬赏/话题
+         */
+        String GET_RECOMMEND = "/api/v1/statuses/recommend/";
     }
 
-    public interface Wallet{
-        /**
-         * 查询余额信息
-         */
-        String account_info = "/api/v1/wallets/account/mine/";
-        String wallet_exchange = "/api/v1/wallets/account/changes/";
-        String rewards_balance = "/api/v1/statuses/rewards/balance/";
-        String withdraw = "/api/v1/wallets/withdraw/";
+    public interface Search {
+        /**综合搜索*/
+        String search_general = "/api/v1/search/suggestions/";
+        /**搜索股票和基金*/
+        String search_symools = "/api/v1/search/symbols/";
+        /**搜索组合*/
+        String search_portfolios = "/api/v1/search/portfolios/";
+        /**搜索基金经理*/
+        String search_fund_managers = "/api/v1/search/fund_managers/";
+        /**搜索用户*/
+        String search_users = "/api/v1/search/users/";
+        /**搜索悬赏和话题*/
+        String search_statues = "/api/v1/search/statuses/";
     }
 
     public interface Funds{

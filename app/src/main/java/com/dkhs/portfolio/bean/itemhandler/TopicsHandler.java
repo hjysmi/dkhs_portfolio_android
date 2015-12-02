@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
@@ -95,12 +96,12 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         }
 
 
-        TopicsImageViewHandler topicsImageViewHandler = (TopicsImageViewHandler) vh.get(R.id.titleTV).getTag();
+        TopicsImageViewHandler topicsImageViewHandler = (TopicsImageViewHandler) vh.get(R.id.content).getTag();
 
 
         if (topicsImageViewHandler == null) {
             topicsImageViewHandler = new TopicsImageViewHandler();
-            vh.get(R.id.titleTV).setTag(topicsImageViewHandler);
+            vh.get(R.id.content).setTag(topicsImageViewHandler);
         }
 
         topicsImageViewHandler.handleMedias(vh, data, false);
@@ -122,7 +123,9 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
 
         if (data.comments_count > 0) {
             vh.setTextView(R.id.tv_commend, StringFromatUtils.handleNumber(data.comments_count));
-        } else {
+        } else if ((data.content_type == 40)){
+            vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.answer));
+        } else{
             vh.setTextView(R.id.tv_commend, vh.getConvertView().getContext().getString(R.string.comment));
         }
 
@@ -131,7 +134,48 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         } else {
             vh.get(R.id.bottom).setVisibility(View.VISIBLE);
         }
+        if(data.content_type == 40){
+            vh.get(R.id.layout_reward_status).setVisibility(View.VISIBLE);
+            vh.getTextView(R.id.tv_reward_state).setVisibility(View.VISIBLE);
+            showRewardState(vh, data);
+        }else{
+            vh.get(R.id.layout_reward_status).setVisibility(View.GONE);
+            vh.getTextView(R.id.tv_reward_state).setVisibility(View.GONE);
+        }
+    }
 
+    private void showRewardState(ViewHolder vh, LikeBean data) {
+        TextView stateTv = vh.getTextView(R.id.tv_reward_state);
+        TextView amountTv = vh.getTextView(R.id.tv_reward_amount);
+        TextView amountUnit = vh.getTextView(R.id.tv_reward_amount_unit);
+        int state;
+        int amountStyle;
+        int unitStyle;
+        int leftDrawable;
+        if(data.reward_state == 0){
+            state = R.string.reward_on_going;
+            amountStyle = R.style.reward_amount_on_going;
+            unitStyle = R.style.reward_unit_on_going;
+            leftDrawable = R.drawable.ic_money_highlight;
+            stateTv.setBackgroundResource(R.drawable.bg_reward_on_going);
+        }else if(data.reward_state == 1){
+            state = R.string.reward_close;
+            amountStyle = R.style.reward_amount_finish;
+            unitStyle = R.style.reward_unit_finish;
+            leftDrawable = R.drawable.ic_money_normal;
+            stateTv.setBackgroundResource(R.drawable.bg_reward_finish);
+        }else {
+            state =  R.string.reward_finish;
+            amountStyle = R.style.reward_amount_finish;
+            unitStyle = R.style.reward_unit_finish;
+            leftDrawable = R.drawable.ic_money_normal;
+            stateTv.setBackgroundResource(R.drawable.bg_reward_finish);
+        }
+        stateTv.setText(state);
+        amountTv.setTextAppearance(mContext, amountStyle);
+        amountUnit.setTextAppearance(mContext, unitStyle);
+        vh.getImageView(R.id.iv_money).setImageResource(leftDrawable);
+        amountTv.setText(data.reward_amount);
     }
 
 
@@ -234,14 +278,34 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
 
         @Override
         public void onClick(View v) {
+                topicCommendClick();
+        }
 
+/*        private void rewardCommendClick() {
             if (likeBean.comments_count == 0) {
 
                 if (UIUtils.iStartLoginActivity(mContext)) {
                     return;
                 }
-                UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT, likeBean.id + "", likeBean.user.getUsername()));
+                UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_REWARD, likeBean.id + "", likeBean.user.getUsername()));
 
+            } else {
+                //need fix
+                TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
+            }
+        }*/
+
+        private void topicCommendClick(){
+            if (likeBean.comments_count == 0) {
+
+                if (UIUtils.iStartLoginActivity(mContext)) {
+                    return;
+                }
+                if(likeBean.content_type == TopicsDetailActivity.TYPE_REWARD){
+                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_REWARD, likeBean.id + "", likeBean.user.getUsername()));
+                }else{
+                    UIUtils.startAnimationActivity((Activity) mContext, PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_COMMENT_TOPIC, likeBean.id + "", likeBean.user.getUsername()));
+                }
             } else {
                 TopicsDetailActivity.startActivity(mContext, likeBean.toTopicsBean(), true);
             }

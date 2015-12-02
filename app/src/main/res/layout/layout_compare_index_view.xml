@@ -17,7 +17,8 @@
             android:layout_height="32dp"
             android:layout_centerInParent="true"
             android:alpha="0.5"
-            app:circular_progress_color="@color/tag_red" />
+            android:visibility="gone"
+            app:circular_progress_color="@color/theme_blue" />
         <RelativeLayout
             android:id="@+id/rl_empty"
             android:visibility="gone"
@@ -51,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <RelativeLayout
@@ -105,7 +106,7 @@
         </RelativeLayout>
     </RelativeLayout>
     <View
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/line"
         android:layout_alignParentBottom="true"
         style="@style/divider_line"

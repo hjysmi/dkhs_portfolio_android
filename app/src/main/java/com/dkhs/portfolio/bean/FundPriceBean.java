@@ -34,6 +34,8 @@ public class FundPriceBean extends StockPriceBean {
     private float percent_year;
     private float latest_cp_rate;
     private String chi_spell = "";
+    private String recommend_title;
+    private String recommend_desc;
 
 
 
@@ -142,6 +144,22 @@ public class FundPriceBean extends StockPriceBean {
     }
 //    private String tradedate;
 
+
+    public String getRecommend_title() {
+        return recommend_title;
+    }
+
+    public void setRecommend_title(String recommend_title) {
+        this.recommend_title = recommend_title;
+    }
+
+    public String getRecommend_desc() {
+        return recommend_desc;
+    }
+
+    public void setRecommend_desc(String recommend_desc) {
+        this.recommend_desc = recommend_desc;
+    }
 
     public float getValue(String key) {
         float value = 0;

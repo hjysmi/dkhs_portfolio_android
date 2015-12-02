@@ -3,6 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        />
     <FrameLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
@@ -13,7 +16,8 @@
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_layout" />
+        android:layout_above="@+id/bottom_layout"
+        android:layout_below="@id/toolbar"/>
 
 
 

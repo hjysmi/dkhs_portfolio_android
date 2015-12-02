@@ -20,7 +20,7 @@
     <string name="tv_forget_password"><u>忘记密码</u></string>
     <string name="tv_register_now"><u>立即注册</u></string>
     <string name="account">邮箱/手机号</string>
-    <string name="password">请输入密码</string>
+    <string name="password">请输入密码,不少于6位</string>
     <string name="phone">手机号码</string>
     <string name="nickname">您的昵称</string>
     <string name="nickname_hint">中英文、数字或-、_</string>
@@ -183,7 +183,7 @@
     <string name="get_code_success">获取验证码成功</string>
     <string name="forget_password">忘记密码</string>
     <string name="login_by_captcha">该手机号已经注册过,是否直接登录?</string>
-    <string name="has_bind_message">该手机号已经绑定过</string>
+    <string name="has_bind_message">该手机号码已经注册，请更换号码</string>
     <string name="success_desc_f">恭喜您 , 注册成功 !</string>
     <string name="success_desc_s">系统为您生成的用户名:</string>
     <string name="success_desc_t">可通过设置个人帐号信息修改并完善您的个人资料!</string>
@@ -435,6 +435,7 @@
     <string name="net_value">净值</string>
     <string name="tenthou_unit_incm">万份收益</string>
     <string name="year_yld">七日年化</string>
+    <string name="unit_value">单位净值</string>
     <string name="today_up_ratio">今日涨幅</string>
     <string name="day_income">日收益</string>
     <string name="week_income">周收益</string>
@@ -539,7 +540,7 @@
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>
     <string name="edit_success">设置成功</string>
-
+    <string name="search_general">股票/基金/用户/悬赏/话题</string>
     <string name="search_stockandfunds">股票、基金简称/代码/拼音</string>
     <string name="search_stock">股票简称/代码/拼音</string>
     <string name="search_friend">输入昵称</string>
@@ -564,6 +565,8 @@
     <string name="office_tenure">任职起</string>
     <string name="net_cumulative">累计收益</string>
     <string name="title_activity_fund_manager">基金经理</string>
+    <string name="blank_work_time">从业%1$s&#160;%2$s</string>
+    <string name="blank_intro">简介：%1$s</string>
 
 
     <string name="wanshou">万份收益</string>
@@ -581,6 +584,12 @@
     <string name="earnings">收益</string>
     <string name="office_day">任职日期</string>
     <string name="current_fund_manager">现任基金经理</string>
+    <string name="win_market">跑赢大盘</string>
+    <string name="week">周</string>
+    <string name="month">月</string>
+    <string name="year">年</string>
+    <string name="this_year">今年</string>
+    <string name="total_rate">总收益率</string>
 
 
     <string name="collapse_benefit_curve">收起收益曲线</string>
@@ -683,9 +692,9 @@
     <string name="join_time">从业时间</string>
     <string name="fund_manager_rankings">基金经理排行</string>
     <string name="fund_rankings">传统基金排行</string>
-    <string name="win_rate_day">日战胜指数</string>
-    <string name="win_rate_week">周战胜指数</string>
-    <string name="win_rate_format">%s战胜指数</string>
+    <string name="win_rate_day">日跑赢大盘</string>
+    <string name="win_rate_week">周跑赢大盘</string>
+    <string name="win_rate_format">%s跑赢大盘</string>
     <string name="current_management_of_the_fund">当前管理的基金</string>
     <string name="history_management_of_the_fund">历史管理的基金</string>
     <string name="comment">评论</string>
@@ -694,6 +703,32 @@
     <string name="like">赞</string>
     <string name="title_activity_bbs">BBSActivity</string>
 
+    <!--在线搜索-->
+    <string name="select_title_stock">股票</string>
+    <string name="select_title_fund">基金</string>
+    <string name="select_title_fund_manager">基金经理</string>
+    <string name="select_title_user">用户</string>
+    <string name="select_title_combination">组合</string>
+    <string name="select_more_stock">查看更多股票</string>
+    <string name="select_more_fund">查看更多基金</string>
+    <string name="select_more_fund_manager">查看更多基金经理</string>
+    <string name="select_more_user">查看更多用户</string>
+    <string name="select_more_combination">查看更多组合</string>
+    <string name="select_related_reward">搜索相关悬赏</string>
+    <string name="select_related_topic">搜索相关话题</string>
+    <string name="select_no_desc">暂无描述</string>
+    <string name="select_clear_history">清空全部记录</string>
+    <string name="select_show_history">全部搜索记录</string>
+    <string name="blank_select_search_more_stock">找到%1$d只股票</string>
+    <string name="blank_select_search_more_fund">找到%1$d只基金</string>
+    <string name="blank_select_search_more_fund_manager">找到%1$d个基金经理</string>
+    <string name="blank_select_search_more_user">找到%1$d个用户</string>
+    <string name="blank_select_search_more_combination">找到%1$d个组合</string>
+    <string name="blank_select_search_more_reward">找到%1$d个悬赏</string>
+    <string name="blank_select_search_more_topic">找到%1$d个话题</string>
+    <string name="select_search_desc">在谁牛金融上可以找到</string>
+
+    <!--在线搜索-->
 
     <string name="dialog_msg_del_history">确定删除搜索历史记录?</string>
     <string name="dialog_msg_invitecode_success">邀请码提交成功，赠送流量已入库，您也可以发出好友邀请，邀请好友越多，流量送越多!</string>
@@ -706,6 +741,7 @@
     <!--发表帖子-->
     <string name="post_topic">发表帖子</string>
     <string name="blank_comment">评论%1$s</string>
+    <string name="blank_comment_count">￥%1$s元</string>
     <string name="blank_reply">回复%1$s</string>
     <string name="send">发送</string>
     <string name="hint_topic_title">标题(可不填)</string>
@@ -739,6 +775,7 @@
     <string name="title_activity_topics_detail">话题正文</string>
     <string name="title_activity_info">资讯</string>
     <string name="title_activity_my_topics">我的主帖</string>
+    <string name="title_activity_his_topics">Ta的主帖</string>
     <string name="title_activity_my_combination_list">我的组合</string>
     <string name="title_activity_ta_combination_list">TA的组合</string>
     <!--我的草稿 end-->
@@ -762,6 +799,7 @@
     <string name="no_combination">暂无组合</string>
     <string name="ta_combination">TA的组合</string>
     <string name="no_comment">暂无回复</string>
+    <string name="no_activity">暂无参与</string>
     <string name="no_draft">暂无草稿</string>
     <string name="title_my_home_page">我的主页</string>
     <string name="title_ta_home_page">Ta的主页</string>
@@ -770,6 +808,7 @@
     <string name="delete_comment">删除回复</string>
     <string name="null_stock">当前股票不存在</string>
     <string name="title_activity_comment_me">评论我的</string>
+    <string name="title_activity_reply_me">回复我的</string>
     <string name="title_activity_call_me">提到我的</string>
     <!--举报 end-->
     <string name="title_pickup_user">选择用户</string>
@@ -1005,12 +1044,52 @@
     <string name="charge">充值</string>
     <string name="withdraw">提现</string>
     <string name="with_draw_available">可提现金额为%1$s元</string>
-    <string name="money_arrive_hint">预计5个工作日内到账</string>
+    <string name="money_arrive_hint">预计3个工作日内到账，每月提现累计超过1000元部分收取0.6%手续费</string>
     <string name="msg_bound_mobile">需要绑定手机号码才可以提现哦</string>
     <string name="btn_bound_mobile">去绑定</string>
-    <string name="msg_send_post">向手机%1$s发送验证码</string>
+    <string name="msg_send_post">将向手机%1$s发送验证码</string>
     <string name="msg_balance_insufficient">钱包余额不足，请充值</string>
+    <string name="withdraw_amount_empty">提现金额不能为空</string>
+    <string name="withdraw_account_empty">账号不能为空</string>
+    <string name="withdraw_name_empty">账户实名不能为空</string>
+    <string name="withdraw_validate_code_empty">验证码不能为空</string>
+    <string name="withdraw_success">提现申请成功，预计3个工作日内到账</string>
+    <string name="withdraw_failure">提现失败</string>
+    <string name="account_hint">请输入支付宝账号</string>
+    <string name="account_name_hint">请输入支付宝实名</string>
 
     <string name="weixinpay_not_support">所安装的微信客户端不支持支付</string>
     <string name="weixin_not_installed">未安装微信客户端</string>
+
+    <string name="reward_content_hint">请输入悬赏内容</string>
+    <string name="reward_amount_hint">请输入悬赏金额</string>
+
+    <!--register-->
+    <string name="register_hint">该手机号码未注册，是否直接注册</string>
+    <string name="psw_setting_hint">6-16位，包含数字和字母</string>
+    <string name="register_already">该手机号码已注册，是否直接登录</string>
+    <string name="restart_register">取消注册并重新开始？</string>
+    <string name="verify_phone">验证手机号</string>
+    <string name="bind_phone_hint">为确保帐户安全，请绑定手机号验证身份</string>
+
+    <!--forgetPsw-->
+    <string name="get_code_hint"> 验证码短信可能略有延迟，确定取消并重新开始?</string>
+    <string name="restart">重新开始</string>
+    <string name="wait">等待</string>
+    <string name="write_phone">填写手机号</string>
+
+    <!--search hint-->
+    <string name="search_stock_hint">股票</string>
+    <string name="search_fund_hint_other">基金</string>
+    <string name="search_user_hint">用户</string>
+    <string name="search_reward_hint">悬赏</string>
+    <string name="search_topic_hint">话题</string>
+    <string name="search_fund_manger_hint">基金经理</string>
+    <string name="search_com_hint">组合</string>
+
+    <string name="home_page">首页</string>
+    <string name="title_activity_shake_detector">ShakeDetectorActivity</string>
+    <string name="month_profit_rate">月收益率</string>
+
+    <string name="account_format">账号：%1$s</string>
 </resources>

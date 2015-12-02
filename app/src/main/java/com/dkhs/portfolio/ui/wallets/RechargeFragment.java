@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.base.widget.Button;
 import com.dkhs.portfolio.bean.PaymentBean;
 import com.dkhs.portfolio.engine.WalletsEngine;
@@ -18,7 +17,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -32,6 +30,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
 
     private static final int ENABLE_STATUS = 0;
     private static final int DISABLE_STATUS = 1;
+    public static final String CHARGE_AMOUNT = "charge_amount";
 
     @ViewInject(R.id.et_play_num)
     private EditText etPayNum;
@@ -54,6 +53,16 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     private String payType;
 
     private ThreePayManager mPayManager;
+
+    private float rechargeAmount;
+
+    public static RechargeFragment newInstance(float amount){
+        RechargeFragment fragment = new RechargeFragment();
+        Bundle args = new Bundle();
+        args.putFloat(CHARGE_AMOUNT,amount);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,8 +92,19 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        rechargeAmount = bundle.getFloat(CHARGE_AMOUNT,0);
+        if(rechargeAmount != 0){//默认充值金额＝悬赏金额－帐户余额， 且必须大于1
+            if(rechargeAmount > 1){
+                etPayNum.setText(String.valueOf(rechargeAmount));
+            }else{
+                etPayNum.setText("1");
+            }
+            changeBtnStatus(ENABLE_STATUS);
+        }else {
+            changeBtnStatus(DISABLE_STATUS);
+        }
         etPayNum.addTextChangedListener(percentTextWatch);
-        changeBtnStatus(DISABLE_STATUS);
 //        btnRecharge.setOnClickListener(this);
     }
 
@@ -144,15 +164,13 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_recharge) {
-            LogUtils.d("wys","onclick");
-
             String amountText = etPayNum.getText().toString();
             if (TextUtils.isEmpty(amountText)) {
                 PromptManager.showToast("请输入有效金额");
                 return;
             }
             float amout = Float.valueOf(amountText);
-            if (amout < 1 && !AppConfig.isDebug) {
+            if (amout < 1 ) {
                 PromptManager.showToast("充值金额不能小于1元！");
                 return;
             }

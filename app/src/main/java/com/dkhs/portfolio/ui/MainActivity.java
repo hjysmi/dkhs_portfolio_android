@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -22,11 +23,11 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
+import com.dkhs.portfolio.ui.fragment.HomePageFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MainRewardFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
-import com.dkhs.portfolio.ui.fragment.ShakeFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
@@ -53,6 +54,8 @@ public class MainActivity extends BaseActivity {
     private static final String TAG_FRAGMENT_C = "C";
     private static final String TAG_FRAGMENT_D = "D";
     private static final String TAG_FRAGMENT_E = "E";
+    private static final String BOTTOM_TAB_INDEX = "bottom_bat_index";
+    private static final String TOP_TAB_INDEX = "top_tab_index";
 
     private MessageHandler handler;
     private MenuItemFragment mMenuFragment;
@@ -61,6 +64,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            String FRAGMENTS_TAG = "android:support:fragments";
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         super.onCreate(savedInstanceState);
         // 模拟堆栈管理activity
 
@@ -68,21 +75,17 @@ public class MainActivity extends BaseActivity {
         handler = new MessageHandler(this);
         setContentView(R.layout.activity_new_main);
 
-        if (savedInstanceState == null) {
-            FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-            mMenuFragment = new MenuItemFragment();
-            Bundle bunlde = new Bundle();
-            mMenuFragment.setArguments(bunlde);
-            t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
+        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+        mMenuFragment = new MenuItemFragment();
+        Bundle bunlde = new Bundle();
+        mMenuFragment.setArguments(bunlde);
+        t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
 
-            t.commitAllowingStateLoss();
-            displayFragmentB();
-
-        } else {
-            mMenuFragment = (MenuItemFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_MENU);
-        }
+        t.commitAllowingStateLoss();
+        displayFragmentC();
         new AppUpdateEngine(mContext).checkVersion();
         handIntent();
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.person_setting_backgroud)));
     }
 
     @Override
@@ -128,7 +131,6 @@ public class MainActivity extends BaseActivity {
         int index = intent.getIntExtra("index", 0);
 
         mBundle = intent.getBundleExtra("arg");
-
         mMenuFragment.clickTabIndex(index);
 
 
@@ -208,7 +210,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentC = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_C);
         if (null == fragmentC) {
-            fragmentC = new ShakeFragment();
+            fragmentC = new HomePageFragment();
         }
         hideAllFragment();
         if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
@@ -309,8 +311,7 @@ public class MainActivity extends BaseActivity {
 
 
     public static void gotoShakeActivity(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 2);
+        Intent intent = new Intent(context, ShakeDetectorActivity.class);
         context.startActivity(intent);
     }
 
@@ -333,7 +334,7 @@ public class MainActivity extends BaseActivity {
 
 
         NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("bbs_index", 0);
+        newIntent.bundle.putInt("bbs_index", 1);
         intent.putExtra("arg", newIntent.bundle);
         context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
@@ -342,7 +343,11 @@ public class MainActivity extends BaseActivity {
     public static void gotoTopicsHome(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("index", 3);
+        NewIntent newIntent = new NewIntent();
+        newIntent.bundle.putInt("order_index", 1);
+        intent.putExtra("arg", newIntent.bundle);
         context.startActivity(intent);
+        BusProvider.getInstance().post(newIntent);
     }
 
     public static void gotoCombinationRankingActivity(Context context) {
@@ -391,4 +396,5 @@ public class MainActivity extends BaseActivity {
         context.startActivity(intent);
         BusProvider.getInstance().post(newIntent);
     }
+
 }

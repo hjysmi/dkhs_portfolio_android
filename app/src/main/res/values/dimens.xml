@@ -44,7 +44,7 @@
     <dimen name="float_view_hight">60dp</dimen>
     <dimen name="float_view_top_margin">14dp</dimen>
     <dimen name="float_text_margin">4dp</dimen>
-    <dimen name="padding_kline">8dp</dimen>
+    <dimen name="padding_kline">15dp</dimen>
     <dimen name="text_drawable_margin">4dp</dimen>
     <dimen name="line_stroke_width">1dp</dimen>
     <dimen name="line_ten_width">1dp</dimen>
@@ -157,5 +157,8 @@
     <dimen name="edittext_content_size">14sp</dimen>
     <!--输入框上下间距-->
     <dimen name="edittext_padding">14dp</dimen>
-
+    <!--悬赏话题　文字行间距-->
+    <dimen name="line_space">5dp</dimen>
+    <!--点赞与右边缘间距-->
+    <dimen name="like_maring_right">10dp</dimen>
 </resources>

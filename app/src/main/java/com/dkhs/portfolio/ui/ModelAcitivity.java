@@ -168,7 +168,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
-        mTitleView = findViewById(R.id.tool);
+        mTitleView = findViewById(R.id.view_title);
 
         btnBack = (TextView) findViewById(BACKBUTTON_ID);
         btnBack.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_back_selector),
@@ -275,14 +275,14 @@ public class ModelAcitivity extends SwipeBackActivity {
      * @Description: 隐藏标题栏
      */
     public void hideHead() {
-        View rlHead = findViewById(R.id.tool);
+        View rlHead = findViewById(R.id.view_title);
         if (rlHead.getVisibility() == View.VISIBLE) {
             rlHead.setVisibility(View.GONE);
         }
     }
 
     public void showHead() {
-        View rlHead = findViewById(R.id.tool);
+        View rlHead = findViewById(R.id.view_title);
         if (rlHead.getVisibility() == View.GONE) {
             rlHead.setVisibility(View.VISIBLE);
         }
@@ -377,7 +377,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     public void updateTitleBackgroud(int resId) {
         getTitleView().setBackgroundResource(resId);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.getWindow().setStatusBarColor(getResources().getColor(resId));
+            this.getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
 
 

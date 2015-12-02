@@ -89,6 +89,7 @@ public class ImageLoaderUtils {
 
     }
 
+
     public static void loadImage(String url) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()

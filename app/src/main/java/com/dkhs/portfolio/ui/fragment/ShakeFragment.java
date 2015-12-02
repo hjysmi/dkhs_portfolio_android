@@ -55,6 +55,8 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
     ImageView mShakeIv;
     @ViewInject(R.id.ribbonIV)
     ImageView ribbonIV;
+    @ViewInject(R.id.btn_back)
+    TextView backBtn;
     private AnimationDrawable animationDrawable;
     private AnimationDrawable mLoadingRibbonAD;
 
@@ -148,6 +150,16 @@ public class ShakeFragment extends VisiableLoadFragment implements ShakeDetector
         sensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
         sd = new ShakeDetector(this);
 
+        backBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_back_selector),
+                null, null, null);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+        onViewShow();
     }
 
     @Override

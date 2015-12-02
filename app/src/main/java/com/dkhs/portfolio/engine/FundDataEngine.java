@@ -117,6 +117,7 @@ public class FundDataEngine extends LoadMoreDataEngine {
             parseMoreBean.setResults(new ArrayList<SelectStockBean>());
             for (FundPriceBean priceBean : dataMoreBean.getResults()) {
                 SelectStockBean selectBean = new SelectStockBean();
+                selectBean.is_alert = priceBean.is_alert;
                 selectBean.id = priceBean.getId();
                 selectBean.name = priceBean.getAbbrname();
                 // selectBean.currentValue = stockBean.getCurrent();

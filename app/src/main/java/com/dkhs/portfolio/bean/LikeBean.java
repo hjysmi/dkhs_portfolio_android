@@ -11,13 +11,11 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/8/3.
  */
-public class LikeBean extends AutoData{
+public class LikeBean extends AutoData {
 
 
-
-
-    public  int  id;
-    public  boolean like;
+    public int id;
+    public boolean like;
     public String title;
     public String text;
     public boolean truncated;
@@ -43,7 +41,12 @@ public class LikeBean extends AutoData{
     public int content_type;
     public int reward_state;
     public int rewarded_type;
-
+    public String reward_amount;
+    public String recommend_title;
+    public String recommend_desc;
+    public String recommend_image_sm;
+    public String recommend_image_md;
+    public String created_at_relative;
     public int getId() {
         return id;
     }
@@ -64,34 +67,34 @@ public class LikeBean extends AutoData{
     public TopicsBean toTopicsBean() {
 
 
-        if(this instanceof  TopicsBean){
-            return (TopicsBean)this;
-        }else{
+        if (this instanceof TopicsBean) {
+            return (TopicsBean) this;
+        } else {
 
 
-            TopicsBean topicsBean=new TopicsBean();
-            topicsBean.id=id;
-            topicsBean.like=like;
-            topicsBean.title=title;
-            topicsBean.text=text;
-            topicsBean.truncated=truncated;
-            topicsBean.user=user;
-            topicsBean.replied_status=replied_status;
-            topicsBean.replied_comment=replied_comment;
-            topicsBean.retweeted_status=retweeted_status;
-            topicsBean.status_type=status_type;
-            topicsBean.retweets_count=retweets_count;
-            topicsBean.comments_count=comments_count;
-            topicsBean.favorites_count=favorites_count;
-            topicsBean.attitudes_count=attitudes_count;
-            topicsBean.content_count=content_count;
-            topicsBean.publish_at=publish_at;
-            topicsBean.created_at=created_at;
-            topicsBean.modified_at=modified_at;
-            topicsBean.lat=lat;
-            topicsBean.lon=lon;
-            topicsBean.medias=medias;
-            topicsBean.compact=compact;
+            TopicsBean topicsBean = new TopicsBean();
+            topicsBean.id = id;
+            topicsBean.like = like;
+            topicsBean.title = title;
+            topicsBean.text = text;
+            topicsBean.truncated = truncated;
+            topicsBean.user = user;
+            topicsBean.replied_status = replied_status;
+            topicsBean.replied_comment = replied_comment;
+            topicsBean.retweeted_status = retweeted_status;
+            topicsBean.status_type = status_type;
+            topicsBean.retweets_count = retweets_count;
+            topicsBean.comments_count = comments_count;
+            topicsBean.favorites_count = favorites_count;
+            topicsBean.attitudes_count = attitudes_count;
+            topicsBean.content_count = content_count;
+            topicsBean.publish_at = publish_at;
+            topicsBean.created_at = created_at;
+            topicsBean.modified_at = modified_at;
+            topicsBean.lat = lat;
+            topicsBean.lon = lon;
+            topicsBean.medias = medias;
+            topicsBean.compact = compact;
 
             return topicsBean;
 
@@ -262,6 +265,6 @@ public class LikeBean extends AutoData{
 
     @Override
     public String getIdentifies() {
-        return id+"";
+        return id + "";
     }
 }

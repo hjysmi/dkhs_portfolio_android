@@ -426,8 +426,8 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
             // System.out.println("set defalut order");
             setDefType(viewLastClick);
             viewLastClick = null;
-            reloadData();
         }
+        reloadData();
     }
 
     public List<SelectStockBean> getDataList() {

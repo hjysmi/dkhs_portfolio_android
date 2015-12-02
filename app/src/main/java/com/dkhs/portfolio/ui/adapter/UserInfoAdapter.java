@@ -120,7 +120,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new ItemViewHolder(view);
         } else if (viewType == TYPE_HEADER) {
             view = mLayoutInflater.inflate(R.layout.layout_userinfo_header, parent, false);
-            return new HeadViewHolder(view);
+            return new HeadViewHolder(view,mContext);
         }
 
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -373,12 +373,16 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         };
         private View mView;
+        private Context mContext;
 
-        public HeadViewHolder(View view) {
+        public HeadViewHolder(View view,Context context) {
             super(view);
             this.mView = view;
+            mContext = context;
             ViewUtils.inject(this, view); // 注入view和事件
         }
+
+
 
         @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers})
         public void onClick(View v) {
@@ -427,7 +431,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewUserInfo.setVisibility(View.VISIBLE);
                 String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
                 if (!TextUtils.isEmpty(account)) {
-                    settingTextAccountText.setText(account);
+                    settingTextAccountText.setText(String.format(mContext.getString(R.string.account_format),account));
                 }
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
@@ -458,6 +462,13 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private void updateUserFollowInfo(UserEntity object) {
             tvFollowers.setText(StringFromatUtils.handleNumber(object.getFollowed_by_count()));
             tvFollowing.setText(StringFromatUtils.handleNumber(object.getFriends_count()));
+            //当使用第三方账号第一次登录时，PortfolioPreferenceManager.KEY_USER_HEADER_URL未能保存数据需要通过服务端数据获取用户头像
+            String url = object.getAvatar_md();
+            if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                BitmapUtils bitmapUtils = new BitmapUtils(mView.getContext());
+                bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
+                bitmapUtils.display(settingImageHead, url);
+            }
         }
 
     }

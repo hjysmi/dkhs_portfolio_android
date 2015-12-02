@@ -29,16 +29,6 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <!-- ChinaPay plugin begin -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- ChinaPay plugin end -->
-
     <application
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
@@ -122,6 +112,11 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.PositionAdjustActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <!-- 综合搜索 -->
+        <activity android:name=".ui.SelectGeneralActivity" />
+        <activity
+            android:name=".ui.SelectSearchMoreLoadMoreListActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".ui.SelectStockActivity" />
         <activity android:name=".ui.SelectFundActivity" />
@@ -506,11 +501,13 @@
         <activity
             android:name=".ui.RechargeActivity"
             android:windowSoftInputMode="adjustPan" >
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-            <data android:scheme="wx89557ae58e44573a"/>
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx89557ae58e44573a" />
+            </intent-filter>
         </activity>
 
         <!-- alipay sdk begin -->
@@ -529,17 +526,13 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
 
         <!-- alipay sdk end -->
-        <activity android:name=".ui.PostRewardActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.RewardDetailActivity" android:screenOrientation="portrait"/>
 
-
-        <receiver
-            android:name="net.sourceforge.simcpux.AppRegister">
+        <receiver android:name="net.sourceforge.simcpux.AppRegister" >
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
         </receiver>
-        <!-- weixin callback-->
+        <!-- weixin callback -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -643,8 +636,17 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- Chinapay plugin end -->
 
-        <activity android:name=".ui.WithDrawActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.WithDrawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.ShakeDetectorActivity"
+            android:label="@string/title_activity_shake_detector"
+            android:parentActivityName=".ui.BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dkhs.portfolio.ui.BaseActivity" />
+        </activity>
     </application>
 
 </manifest>

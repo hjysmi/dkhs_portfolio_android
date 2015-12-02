@@ -87,7 +87,7 @@
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="60dp" />
+                android:layout_height="@dimen/floating_action_menu_item_height" />
         </LinearLayout>
 
     </com.dkhs.portfolio.ui.widget.InterceptScrollView>

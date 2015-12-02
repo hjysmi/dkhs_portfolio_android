@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.ui.widget.ViewBean.SelectStockFundViewBean;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
@@ -36,7 +38,7 @@ public class SelectStockBean extends DragListItem {
     public float change;
     public boolean isFollowed;
     public boolean isStop;
-    // public boolean is_alert;
+     public boolean is_alert;
 
     public AlertSetBean alertSetBean;
 
@@ -139,6 +141,7 @@ public class SelectStockBean extends DragListItem {
         selectBean.list_status = stockBean.getList_status();
         selectBean.total_capital = stockBean.getTotal_capital();
         selectBean.alertSetBean = stockBean.getAlertBean();
+        selectBean.is_alert = stockBean.is_alert;
         // selectBean.symbol = stockBean.getSymbol();
         return selectBean;
     }
@@ -164,6 +167,7 @@ public class SelectStockBean extends DragListItem {
         selectBean.tenthou_unit_incm = stockBean.getTenthou_unit_incm();
         selectBean.year_yld = stockBean.getYear_yld();
         selectBean.tradeDay = stockBean.getTradedate();
+        selectBean.is_alert = stockBean.is_alert;
         return selectBean;
     }
 
@@ -235,11 +239,14 @@ public class SelectStockBean extends DragListItem {
 
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof SelectStockBean)) {
-            return false;
+        if (obj instanceof SelectStockBean) {
+            SelectStockBean param = (SelectStockBean) obj;
+            return this.id == param.id || this.code.equals(param.code);
+        } else if (obj instanceof SelectStockFundViewBean) {
+            QuotesBean quotesBean = ((SelectStockFundViewBean) obj).getmQuotesBean();
+            return this.id == quotesBean.id || this.code == quotesBean.code;
         }
-        SelectStockBean param = (SelectStockBean) obj;
-        return this.id == param.id || this.code.equals(param.code);
+        return super.equals(obj);
     }
 
     public long getSortId() {
@@ -382,7 +389,25 @@ public class SelectStockBean extends DragListItem {
 
     @Override
     public boolean isItemTixing() {
-        return this.alertSetBean != null;
+//        if (this.alertSetBean != null) {
+//            if (StockUitls.isFundType(symbol_type)) {
+//                return this.alertSetBean.isFundNetvalueRemind();
+//            } else {
+//                this.alertSetBean.isFund7dayRemind();
+//                this.alertSetBean.isFundNetvalueRemind();
+//                this.alertSetBean.isNoticeRemind();
+//                this.alertSetBean.isYanbaoRemind();
+//                return this.alertSetBean.isNoticeRemind()||this.alertSetBean.isYanbaoRemind()||this.alertSetBean.isFund7dayRemind()||this.alertSetBean.isFundNetvalueRemind();
+//            }
+//        }
+        return is_alert;
     }
 
+    public boolean equals(SelectStockBean obj) {
+        if (obj instanceof SelectStockBean) {
+            SelectStockBean stock = (SelectStockBean) obj;
+            return this.id == stock.id;
+        }
+        return super.equals(obj);
+    }
 }

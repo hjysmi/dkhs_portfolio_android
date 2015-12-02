@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -22,16 +24,23 @@ import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.DraftBean;
+import com.dkhs.portfolio.bean.RewardInfoBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.DraftEngine;
 import com.dkhs.portfolio.engine.UploadImageEngine;
+import com.dkhs.portfolio.engine.WalletEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.PostTopicService;
 import com.dkhs.portfolio.ui.adapter.DKHSEmojisPagerAdapter;
 import com.dkhs.portfolio.ui.adapter.EmojiData;
 import com.dkhs.portfolio.ui.adapter.SelectPicAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.PayResEvent;
 import com.dkhs.portfolio.ui.fragment.DKHSEmojiFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
+import com.dkhs.portfolio.ui.wallets.RechargeFragment;
 import com.dkhs.portfolio.ui.widget.DKHSEditText;
 import com.dkhs.portfolio.ui.widget.GridViewEx;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
@@ -39,8 +48,10 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog.SheetItem;
 import com.dkhs.portfolio.utils.DKHtml;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.rockerhieu.emojicon.emoji.Emojicon;
+import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
@@ -50,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 /**
  * Created by zhangcm on 2015/7/16.
@@ -72,17 +84,30 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private ArrayList<String> mSelectPohotos = new ArrayList<>();
 
     /**
-     * 发表
+     * 发表话题
      */
-    public static final int TYPE_POST = 1;
+    public static final int TYPE_POST_TOPIC = 1;
     /**
-     * 评论
+     * 评论话题
      */
-    public static final int TYPE_COMMENT = 2;
+    public static final int TYPE_COMMENT_TOPIC = 2;
     /**
-     * 回复
+     * 回复话题
      */
-    public static final int TYPE_REPLY = 3;
+    public static final int TYPE_REPLY_TOPIC = 3;
+    /**
+     * 发表悬赏
+     */
+    public static final int TYPE_POST_REWARD = 4;
+    /**
+     * 回答悬赏
+     */
+    public static final int TYPE_COMMENT_REWARD = 5;
+    /**
+     * 回复悬赏
+     */
+    public static final int TYPE_REPLY_REWARD = 6;
+
     public static final String REPLIED_STATUS = "replied_status";
     public static final String USER_NAME = "user_name";
     private String repliedStatus;
@@ -93,11 +118,19 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     private static final String TAG = "PostTopicActivity";
     private int curType;
     private DraftBean mDraftBean;
+    /**
+     * 可用金额
+     */
+    private String available = "0.00";
+    /**
+     * 是否成功获取账号信息
+     */
+    private boolean getAccountSuccess = false;
 
 
     /**
      * @param context
-     * @param type          TYPE_POST:发表话题，TYPE_COMMENT:评论话题
+     * @param type
      * @param repliedStatus
      * @return
      */
@@ -115,6 +148,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         super.onCreate(arg0);
 
         setContentView(R.layout.activity_post_topic);
+        BusProvider.getInstance().register(this);
         getSwipeBackLayout().setEnableGesture(false);
         AndroidBugForSpecialPhone.assistActivity(this);
         Bundle extras = getIntent().getExtras();
@@ -153,9 +187,14 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     //    private ImageView ivPhoto;
     private View ibImg;
     private TextView btnSend;
+    private LinearLayout llRewardInfo;
+    private DKHSEditText amountEt;
+    private TextView balanceTv;
+    private LinearLayout rewardInfoLl;
 
 
     private void initViews() {
+        setBackBtn();
         mPicAdapter = new SelectPicAdapter(this, mSelectPohotos);
         gvSelectPic = (GridViewEx) findViewById(R.id.gv_pic);
         gvSelectPic.isExpanded();
@@ -163,13 +202,16 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         mPicAdapter.setDeletePicListenr(this);
         etTitle = (DKHSEditText) findViewById(R.id.et_title);
         etContent = (DKHSEditText) findViewById(R.id.et_content);
+        llRewardInfo = (LinearLayout)findViewById(R.id.ll_reward_info);
+        amountEt = (DKHSEditText)findViewById(R.id.et_reward);
+        balanceTv = (TextView)findViewById(R.id.tv_balance);
+        rewardInfoLl = (LinearLayout)findViewById(R.id.ll_reward_info);
+        rewardInfoLl.setOnClickListener(this);
+
         ibEmoji = (ImageButton) findViewById(R.id.ib_emoji);
         ibStock = (ImageButton) findViewById(R.id.ib_dollar);
 //        ivPhoto = (ImageView) findViewById(R.id.iv_photo);
         ibImg = findViewById(R.id.ib_img);
-        TextView backBtn = (TextView) getBtnBack();
-        backBtn.setCompoundDrawables(null, null, null, null);
-        backBtn.setText(R.string.cancel);
         btnSend = (TextView) getRightButton();
         btnSend.setCompoundDrawables(null, null, null, null);
         btnSend.setText(R.string.send);
@@ -209,10 +251,27 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 return onTouchEvent(event);
             }
         });
+        amountEt.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //隐藏表情
+                if (isShowingEmotionView) {
+                    hideEmotionView();
+                    isShowingEmotionView = !isShowingEmotionView;
+                }
+                if (curEt != amountEt)
+                    curEt = amountEt;
+                return onTouchEvent(event);
+            }
+        });
         etTitle.clearFocus();
         curEt = etContent;
         etTitle.setFocusable(false);
         etTitle.setFocusableInTouchMode(false);
+        amountEt.clearFocus();
+        amountEt.setFocusable(false);
+        amountEt.setFocusableInTouchMode(false);
         etContent.requestFocus();
         etTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,11 +283,22 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 }
             }
         });
+        amountEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!amountEt.isFocusable()) {
+                    amountEt.setFocusable(true);
+                    amountEt.setFocusableInTouchMode(true);
+                    amountEt.requestFocus();
+                }
+            }
+        });
         MyTextWatcher watcher = new MyTextWatcher();
-//        etTitle.addTextChangedListener(watcher);
         etContent.addTextChangedListener(watcher);
+        amountEt.addTextChangedListener(watcher);
         //初始化软键盘
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        amountEt.setFilters(new InputFilter[]{lengthfilter});
     }
 
     private List<DKHSEmojiFragment> views;
@@ -275,24 +345,61 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
 
+    public void setBackBtn(){
+        TextView backBtn = (TextView) getBtnBack();
+        backBtn.setCompoundDrawables(null, null, null, null);
+        backBtn.setText(R.string.cancel);
+    }
     private void setupViewData() {
-        if (curType == TYPE_REPLY) {
+        switch (curType){
+            case TYPE_REPLY_TOPIC:
+                setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
+                ibImg.setVisibility(View.VISIBLE);
+                etTitle.setVisibility(View.GONE);
+                llRewardInfo.setVisibility(View.GONE);
+            break;
+            case TYPE_COMMENT_TOPIC:
+                setTitle(String.format(getResources().getString(R.string.blank_comment), userName));
+                ibImg.setVisibility(View.VISIBLE);
+                etTitle.setVisibility(View.GONE);
+                llRewardInfo.setVisibility(View.GONE);
+                break;
+            case TYPE_POST_TOPIC:
+                setTitle(R.string.post_topic);
+                ibImg.setVisibility(View.VISIBLE);
+                etTitle.setVisibility(View.VISIBLE);
+                llRewardInfo.setVisibility(View.GONE);
+            break;
 
-            setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
-            ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.GONE);
-        } else if (curType == TYPE_COMMENT) {
-            setTitle(String.format(getResources().getString(R.string.blank_comment), userName));
-            ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.GONE);
-        } else if (curType == TYPE_POST) {
-            setTitle(R.string.post_topic);
-            ibImg.setVisibility(View.VISIBLE);
-            etTitle.setVisibility(View.VISIBLE);
+            case TYPE_REPLY_REWARD:
+                setTitle(String.format(getResources().getString(R.string.blank_reply), userName));
+                ibImg.setVisibility(View.VISIBLE);
+                etContent.setHint(R.string.reward_reply_hint);
+                llRewardInfo.setVisibility(View.GONE);
+                etTitle.setVisibility(View.GONE);
+                break;
+            case TYPE_COMMENT_REWARD:
+                setTitle(String.format(getResources().getString(R.string.reward_comment), userName));
+                ibImg.setVisibility(View.VISIBLE);
+                etContent.setHint(R.string.reward_reply_hint);
+                llRewardInfo.setVisibility(View.GONE);
+                etTitle.setVisibility(View.GONE);
+                break;
+            case TYPE_POST_REWARD:
+                getAccountInfo();
+                setTitle(R.string.post_reward);
+                ibImg.setVisibility(View.VISIBLE);
+                etContent.setHint(R.string.reward_hint);
+                llRewardInfo.setVisibility(View.VISIBLE);
+                etTitle.setVisibility(View.GONE);
+                amountEt.requestFocus();
+                break;
+            default:
         }
+
         if (null != mDraftBean) {
 
-
+            amountEt.insertHtmlText(mDraftBean.getRewardAmount());
             etTitle.insertHtmlText((mDraftBean.getTitle()));
             etContent.insertHtmlText((mDraftBean.getContent()));
             etContent.setSelection(etContent.getText().length());
@@ -335,8 +442,11 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     }
 
     private boolean checkSendButtonEnable() {
-
-        boolean enAble = !TextUtils.isEmpty(etTitle.getText()) || !TextUtils.isEmpty(etContent.getText()) || mSelectPohotos.size() > 0;
+        String content = etContent.getText().toString();
+        boolean enAble = !TextUtils.isEmpty(etTitle.getText()) || !TextUtils.isEmpty(content.trim()) || mSelectPohotos.size() > 0;
+        if(curType == TYPE_POST_REWARD){
+            enAble = enAble && getAccountSuccess && !TextUtils.isEmpty(amountEt.getText());
+        }
         btnSend.setEnabled(enAble);
         btnSend.setClickable(enAble);
 
@@ -407,10 +517,15 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
     public void onClick(View v) {
         switch (v.getId()) {
             case RIGHTBUTTON_ID:
-
-                PostTopicService.startPost(this, buildDrafteBean());
-                finish();
-
+                if(curType == TYPE_POST_REWARD ){
+                    if(checkRewardValid(etContent.getText().toString(),amountEt.getText().toString(),Float.valueOf(available))){
+                        PostTopicService.startPost(this, buildDrafteBean());
+                        finish();
+                    }
+                }else{
+                    PostTopicService.startPost(this, buildDrafteBean());
+                    finish();
+                }
                 break;
             case BACKBUTTON_ID:
                 showAlertDialog();
@@ -435,6 +550,9 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 break;
             case R.id.ib_friend:
                 pickupFriend();
+                break;
+            case R.id.ll_reward_info:
+                amountEt.requestFocus();
                 break;
         }
     }
@@ -515,8 +633,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         dialog.show();
     }
 
+    /**
+     * 发布悬赏或者发布话题可以添加９张图片　其他类型只能添加1张图片
+     * @return
+     */
     private boolean isTopicType() {
-        return curType == TYPE_POST;
+        return curType == TYPE_POST_TOPIC || curType == TYPE_POST_REWARD;
     }
 
 
@@ -709,6 +831,22 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
+    /**
+     * 1,title清空
+     * 2，content清空
+     * 3，图片清空
+     * 如果返回true则显示showDialogs()
+     * @return
+     */
+    private boolean isClearDraftModify() {
+        String inputTitle = etTitle.getText().toString();
+        String inputContent = etContent.getText().toString();
+        ArrayList<String> tempList = new ArrayList<>(mSelectPohotos.size());
+        tempList.addAll(mSelectPohotos);
+        tempList.remove(ADD_PICTURE);
+        return TextUtils.isEmpty(inputTitle)&&TextUtils.isEmpty(inputContent)&&tempList.size()==0;
+    }
+
     private void showAlertDialog() {
 
 
@@ -717,12 +855,23 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 finish();
                 return;
             }
+            if(isClearDraftModify()){
+                showDialogs();
+                return;
+            }
         }
 
         if (!checkSendButtonEnable()) {
             finish();
             return;
         }
+        showDialogs();
+
+
+    }
+
+
+    private void showDialogs() {
         MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.dialog_msg_save_draft)
@@ -748,7 +897,6 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
 
         builder.show();
-
     }
 
     private DraftBean buildDrafteBean() {
@@ -770,6 +918,12 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         mDraftBean.setSimpleTitle(etTitle.getText().toString());
         mSelectPohotos.remove(ADD_PICTURE);
         mDraftBean.setPhotoList(mSelectPohotos);
+        if(curType == TYPE_POST_TOPIC || curType == TYPE_COMMENT_TOPIC || curType == TYPE_REPLY_TOPIC){
+            mDraftBean.setContentType(TopicsDetailActivity.TYPE_TOPIC);
+        }else{
+            mDraftBean.setContentType(TopicsDetailActivity.TYPE_REWARD);
+        }
+        mDraftBean.setRewardAmount(amountEt.getText().toString());
         mDraftBean.setUploadMap(uploadImageEngine.getUploadMap());
         uploadImageEngine.cancelUpload();
         return mDraftBean;
@@ -781,5 +935,128 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
 
     }
 
+    /**
+     * 获取悬赏金额信息
+     */
+    private void getAccountInfo(){
+        WalletEngineImpl.getWalletBalance(new ParseHttpListener<RewardInfoBean>() {
 
+            @Override
+            protected RewardInfoBean parseDateTask(String jsonData) {
+                if (TextUtils.isEmpty(jsonData)) {
+                    return null;
+                }
+                try {
+                    RewardInfoBean entity = DataParse.parseObjectJson(RewardInfoBean.class, jsonData);
+                    return entity;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void afterParseData(RewardInfoBean object) {
+                available = object.getAvailable();
+                balanceTv.setText(String.format(getString(R.string.balance), available));
+
+                minAmount = object.getMin_reward();
+                amountEt.setHint(String.format(getString(R.string.reward_lower_limit), String.valueOf(minAmount)));
+                getAccountSuccess = true;
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+            }
+        });
+    }
+
+    private static final float MAX_AMOUNT = 99999.99f;
+    private float minAmount = 10.00f;
+
+    private static final int DECIMAL_DIGITS = 2;
+    /**
+     * 限制小数位数
+     */
+    InputFilter lengthfilter = new InputFilter() {
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
+            // 删除等特殊字符，直接返回
+            if ("".equals(source.toString())) {
+                return null;
+            }
+            String dValue = dest.toString();
+            String[] splitArray = dValue.split("\\.");
+            if (splitArray.length > 1) {
+                String dotValue = splitArray[1];
+                int diff = dotValue.length() + 1 - DECIMAL_DIGITS;
+                if (diff > 0) {
+                    return source.subSequence(start, end - diff);
+                }
+            }
+            return null;
+        }
+    };
+
+    /**
+     * 发布悬赏前进行检查
+     */
+    private boolean checkRewardValid(String content,String rewardAmount,float available){
+        if(TextUtils.isEmpty(rewardAmount)){
+            PromptManager.showToast(R.string.reward_amount_hint);
+            return false;
+        }
+        float reward  = Float.valueOf(rewardAmount);
+        if(reward < minAmount){
+            PromptManager.showToast(String.format(getString(R.string.reward_too_low),minAmount));
+            return false;
+        }
+        if(reward > available){
+            showChargeDialog(reward - available);
+            return false;
+        }
+        if(TextUtils.isEmpty(content)){
+            PromptManager.showToast(R.string.reward_content_hint);
+            return false;
+        }
+        return true;
+    }
+
+    private void showChargeDialog(final float chargeAmount){
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.msg_balance_insufficient).setPositiveButton(R.string.charge, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(PostTopicActivity.this, RechargeActivity.class);
+                intent.putExtra(RechargeFragment.CHARGE_AMOUNT,chargeAmount);
+                UIUtils.startAnimationActivity(PostTopicActivity.this, intent);
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.cancel, null);
+        builder.show();
+    }
+
+    /**
+     * 充值结束　刷新金额
+     * @param event
+     */
+    @Subscribe
+    public void updateData(PayResEvent event){
+        if(event.errCode == 0){
+            getAccountInfo();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        UIUtils.outAnimationActivity(this);
+    }
 }

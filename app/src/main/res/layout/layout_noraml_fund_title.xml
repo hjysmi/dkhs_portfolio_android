@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:singleLine="true"
-            android:text="1.2963"
+            android:text="--"
             android:textSize="34sp" />
 
 

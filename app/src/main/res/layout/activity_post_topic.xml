@@ -4,8 +4,49 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <LinearLayout android:id="@+id/ll_reward_info"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="@dimen/edittext_padding"
+        android:paddingBottom="@dimen/edittext_padding"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/edittext_title_size"
+            android:textColor="@color/black"
+            android:text="悬赏金额"/>
+        <com.dkhs.portfolio.ui.widget.DKHSEditText
+            android:id="@+id/et_reward"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="@dimen/edittext_content_size"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:background="@null"
+            android:inputType="numberDecimal"
+            android:textColorHint="@color/text_hint_color"
+            android:hint="--"/>
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textSize="@dimen/edittext_content_size"
+            android:textColor="@color/text_hint_color"
+            android:textColorHint="@color/text_hint_color"
+            android:text="--"/>
+    </LinearLayout>
+
     <com.dkhs.portfolio.ui.widget.DKHSEditText
         android:id="@+id/et_title"
+        android:layout_below="@id/ll_reward_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -13,8 +54,9 @@
         android:paddingBottom="@dimen/widget_padding_medium"
         android:paddingLeft="@dimen/widget_padding_medium"
         android:paddingTop="@dimen/widget_padding_medium"
+        android:textColorHint="@color/text_hint_color"
         android:singleLine="true"
-        android:textSize="@dimen/text_status_title" />
+        android:textSize="@dimen/edittext_title_size" />
 
     <include
         android:id="@+id/ll_bottom"
@@ -57,8 +99,10 @@
                     android:minHeight="100dp"
                     android:paddingBottom="@dimen/widget_padding_medium"
                     android:paddingLeft="@dimen/widget_padding_medium"
+                    android:paddingRight="@dimen/widget_padding_medium"
                     android:paddingTop="@dimen/widget_padding_normal"
-                    android:textSize="@dimen/topic_content">
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/text_status_title">
 
                     <requestFocus />
                 </com.dkhs.portfolio.ui.widget.DKHSEditText>

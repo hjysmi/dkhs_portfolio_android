@@ -96,6 +96,18 @@
         <item name="android:layout_height">0.5px</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
+    <style name="item_margin">
+        <item name="android:layout_marginLeft">@dimen/widget_margin_medium</item>
+        <item name="android:layout_marginRight">@dimen/widget_margin_medium</item>
+        <item name="android:layout_marginTop">@dimen/widget_margin_normal</item>
+        <item name="android:layout_marginBottom">@dimen/widget_margin_normal</item>
+    </style>
+    <style name="item_padding">
+        <item name="android:paddingLeft">@dimen/widget_padding_medium</item>
+        <item name="android:paddingRight">@dimen/widget_padding_medium</item>
+        <item name="android:paddingTop">@dimen/widget_padding_normal</item>
+        <item name="android:paddingBottom">@dimen/widget_padding_normal</item>
+    </style>
 
     <style name="inset_divider_line">
         <item name="android:layout_width">match_parent</item>
@@ -568,9 +580,9 @@
     <style name="btn_change_balance">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_content_color</item>
-        <item name="android:background">@drawable/btn_white_selector</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
+        <item name="android:background">@drawable/btn_white_grayborder_selector</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
     <style name="state_rewarding">
@@ -611,7 +623,7 @@
     <style name="recharge_pay_layout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/btn_white_selector</item>
+        <item name="android:background">@drawable/btn_white_grayborder_selector</item>
         <item name="android:paddingBottom">@dimen/edittext_padding</item>
         <item name="android:paddingLeft">32dp</item>
         <item name="android:paddingRight">35dp</item>
@@ -641,6 +653,11 @@
         <item name="android:paddingLeft">30dp</item>
     </style>
 
+    <style name="home_page_item_style">
+        <item name="android:paddingLeft">@dimen/widget_margin_medium</item>
+        <item name="android:paddingRight">@dimen/widget_margin_medium</item>
+        <item name="android:background">@drawable/lv_white_selector</item>
+    </style>
 
 
     <!-- ChinaPay plugin begin -->

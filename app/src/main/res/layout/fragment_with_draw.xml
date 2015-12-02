@@ -5,9 +5,11 @@
     tools:context="com.dkhs.portfolio.ui.wallets.WithDrawFragment"
     android:orientation="vertical"
     >
-
+    <View
+        style="@style/divider_line"/>
     <LinearLayout
         style="@style/with_draw_ll"
+        android:paddingRight="30dp"
         android:layout_marginTop="8dp"
         >
         <TextView
@@ -48,7 +50,7 @@
             android:layout_weight="1"
             android:textSize="@dimen/with_draw_hint"
             android:textColorHint="@color/text_hint_color"
-            android:hint="输入支付宝账号"
+            android:hint="请输入支付宝账号"
             />
     </LinearLayout>
 
@@ -66,7 +68,7 @@
             android:layout_weight="1"
             android:textSize="@dimen/with_draw_hint"
             android:textColorHint="@color/text_hint_color"
-            android:hint="输入支付宝实名"/>
+            android:hint="@string/account_name_hint"/>
     </LinearLayout>
 
     <LinearLayout
@@ -128,6 +130,7 @@
     <TextView
         android:layout_marginTop="8dp"
         android:layout_marginLeft="31dp"
+        android:layout_marginRight="31dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/with_draw_default"

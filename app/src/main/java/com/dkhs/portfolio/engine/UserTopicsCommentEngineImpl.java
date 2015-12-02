@@ -31,6 +31,7 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
 
     private String userId;
     private StatusType statusType;
+    private int contentType;
 
 
     public enum StatusType {
@@ -46,10 +47,11 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
         }
     }
 
-    public UserTopicsCommentEngineImpl(ILoadDataBackListener loadListener, String userId, StatusType statusType) {
+    public UserTopicsCommentEngineImpl(ILoadDataBackListener loadListener, String userId, StatusType statusType,int contentType) {
         super(loadListener);
         this.userId = userId;
         this.statusType = statusType;
+        this.contentType = contentType;
     }
 
     public HttpHandler loadDate() {
@@ -66,6 +68,7 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
 //        params.addQueryStringParameter("username", userName );
         params.addQueryStringParameter("status_type", statusType.getValue() + "");
         params.addQueryStringParameter("page_size", pageSize + "");
+        params.addQueryStringParameter("content_type",String.valueOf(contentType));
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
     }
 
@@ -77,6 +80,7 @@ public class UserTopicsCommentEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("user_pk", userId);
 //        params.addQueryStringParameter("username", userName );
         params.addQueryStringParameter("status_type", statusType.getValue() + "");
+        params.addQueryStringParameter("content_type",String.valueOf(contentType));
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getUserTopics, params, this);
 
     }

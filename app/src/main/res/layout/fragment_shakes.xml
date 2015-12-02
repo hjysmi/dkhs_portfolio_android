@@ -6,33 +6,9 @@
     android:background="@color/title_color"
     tools:context="com.dkhs.portfolio.ui.fragment.ShakeFragment">
 
-    <RelativeLayout
-        android:id="@+id/rl_header_title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/title_color">
 
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingTop="@dimen/tool_bar_top_padding"
-            android:singleLine="true"
-            android:text="@string/shakeItOff"
-            android:textColor="@color/theme_color"
-            android:textSize="18sp" />
-
-
-        <View
-            style="@style/title_bottom_line"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:alpha="0.7" />
-    </RelativeLayout>
-
-    <android.support.percent.PercentRelativeLayout
+    <com.android.percent.PercentRelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:clickable="true">
@@ -44,7 +20,7 @@
             android:layout_centerInParent="true"
             android:scaleType="fitStart"
             android:src="@drawable/shake_02"
-            app:layout_widthPercent="50%" />
+            app:layout_widthPercent="50%w" />
 
         <ImageView
             android:id="@+id/ribbonIV"
@@ -53,7 +29,7 @@
             android:layout_centerInParent="true"
             android:scaleType="fitStart"
             android:src="@drawable/loading_ribbon_1"
-            app:layout_widthPercent="80%" />
+            app:layout_widthPercent="80%w" />
 
         <ImageView
             android:id="@+id/activitySloganTv"
@@ -67,6 +43,42 @@
             android:src="@drawable/bg_before_shake" />
 
 
-    </android.support.percent.PercentRelativeLayout>
+    </com.android.percent.PercentRelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_header_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/title_color">
+
+
+        <TextView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:textColor="@color/nav_right_text" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:text="@string/shakeItOff"
+            android:textColor="@color/theme_color"
+            android:textSize="18sp" />
+
+
+        <View
+            style="@style/title_bottom_line"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:alpha="0.7" />
+    </RelativeLayout>
 
 </FrameLayout>

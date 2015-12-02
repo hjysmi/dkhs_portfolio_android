@@ -13,6 +13,39 @@
         android:paddingTop="4dp"
         android:weightSum="5">
 
+
+        <RelativeLayout
+            android:id="@+id/tab_3"
+            style="@style/bottom_tab_layout">
+
+            <ImageView
+                android:id="@+id/btn_tab3"
+                style="@style/bottom_tab_button"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/cb_bar_home" />
+
+            <TextView
+                android:id="@+id/tv_tab3"
+                style="@style/bottom_tab_text"
+                android:layout_below="@+id/btn_tab3"
+                android:text="@string/home_page" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/tab_4"
+            style="@style/bottom_tab_layout">
+
+            <ImageView
+                android:id="@+id/btn_tab4"
+                style="@style/bottom_tab_button"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/ic_reward" />
+
+            <TextView
+                android:id="@+id/tv_tab4"
+                style="@style/bottom_tab_text"
+                android:layout_below="@+id/btn_tab4"
+                android:text="@string/tab_reward" />
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/tab_2"
 
@@ -61,39 +94,6 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/tab_3"
-            style="@style/bottom_tab_layout">
-
-            <ImageView
-                android:id="@+id/btn_tab3"
-                style="@style/bottom_tab_button"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/cb_bar_shake" />
-
-            <TextView
-                android:id="@+id/tv_tab3"
-                style="@style/bottom_tab_text"
-                android:layout_below="@+id/btn_tab3"
-                android:text="@string/tab_5" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/tab_4"
-            style="@style/bottom_tab_layout">
-
-            <ImageView
-                android:id="@+id/btn_tab4"
-                style="@style/bottom_tab_button"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/ic_reward" />
-
-            <TextView
-                android:id="@+id/tv_tab4"
-                style="@style/bottom_tab_text"
-                android:layout_below="@+id/btn_tab4"
-                android:text="@string/tab_reward" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/tab_5"
@@ -132,6 +132,6 @@
         style="@style/divider_line"
         android:layout_height="0.5dp"
         android:layout_alignParentTop="true"
-        android:background="@color/compare_select_gray" />
+        android:background="@color/title_tab_def_color" />
 
 </RelativeLayout>

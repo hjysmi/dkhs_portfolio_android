@@ -356,6 +356,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
         @Override
         public void onChange(SelectStockBean stockBean) {
+            mQuotesEngine.quotes(mFundBean.symbol, quoteListener);
             mFundQuoteBean.setFollowed(stockBean.isFollowed());
 
             if (!PortfolioApplication.hasUserLogin() && localList != null) {
@@ -368,11 +369,11 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
             }
 
-
             setAddOptionalButton();
             if (!PortfolioApplication.hasUserLogin()) {
                 getLocalOptionList();
             }
+            BusProvider.getInstance().post(stockBean);
         }
     };
 
@@ -424,7 +425,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void requestData() {
         if (null != mQuotesEngine && mFundBean != null) {
             rotateRefreshButton();
-            mQuotesEngine.quotes(mFundBean.symbol, quoteListener);
+            mQuotesEngine.quotes(mFundBean.symbol, quoteListener.setLoadingDialog(this,false));
         }
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.app.AppConfig;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SearchHistoryBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -13,6 +14,9 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.db.sqlite.WhereBuilder;
 import com.lidroid.xutils.exception.DbException;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by zjz on 2015/9/10.
@@ -32,7 +36,16 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getOptionalStockCursor() {
         DbUtils db = AppConfig.getDBUtils();
         try {
-            return db.findAllCursor(SelectStockBean.class);
+            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
+        } catch (DbException e) {
+
+        }
+        return null;
+    }
+    private Cursor getOptionalCombinationCursor() {
+        DbUtils db = AppConfig.getDBUtils();
+        try {
+            return db.findSelectorAllCursor(Selector.from(CombinationBean.class).orderBy("sortId"));
         } catch (DbException e) {
 
         }
@@ -52,7 +65,7 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getCursorB() {
         DbUtils db = AppConfig.getDBUtils();
         try {
-            return db.findAllCursor(SelectStockBean.class);
+            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
         } catch (DbException e) {
 
         }
@@ -62,7 +75,7 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getCursorC() {
         DbUtils db = AppConfig.getDBUtils();
         try {
-            return db.findAllCursor(SelectStockBean.class);
+            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
         } catch (DbException e) {
 
         }
@@ -85,7 +98,8 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
                             .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                     .or("stock_code", "LIKE", "%" + key + "%")
                                     .or("stock_symbol", "LIKE", "%" + key + "%")
-                                    .or("chi_spell", "LIKE", "%" + key + "%")));
+                                    .or("chi_spell", "LIKE", "%" + key + "%"))
+                            .limit(20));
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -120,7 +134,8 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
                             .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                     .or("stock_code", "LIKE", "%" + key + "%")
                                     .or("stock_symbol", "LIKE", "%" + key + "%")
-                                    .or("chi_spell", "LIKE", "%" + key + "%")));
+                                    .or("chi_spell", "LIKE", "%" + key + "%"))
+                            .limit(20));
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -139,7 +154,9 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
                             .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                     .or("stock_code", "LIKE", "%" + key + "%")
                                     .or("stock_symbol", "LIKE", "%" + key + "%")
-                                    .or("chi_spell", "LIKE", "%" + key + "%")));
+                                    .or("chi_spell", "LIKE", "%" + key + "%"))
+                            .limit(20));
+
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -169,6 +186,8 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
             String searchKey = args.getString(TYPE_SEARCH);
             if (typeIndex == VALUE_A) {
                 return getOptionalStockCursor();
+            } else if(typeIndex == VALUE_B){
+                return getOptionalCombinationCursor();
             } else if (typeIndex == VALUE_SEARCH_STOCK && !TextUtils.isEmpty(searchKey)) {
 
                 return searchStock(searchKey);

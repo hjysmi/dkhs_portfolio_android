@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
+    android:id="@+id/rootView"
     tools:context="com.dkhs.portfolio.ui.TopicsDetailActivity">
 
     <com.dkhs.portfolio.ui.widget.DKHSTextView
@@ -15,10 +16,10 @@
         android:layout_width="fill_parent"
         android:id="@+id/srl"
         android:layout_height="fill_parent">
-    <com.dkhs.portfolio.ui.widget.TopicsDetailScrollView
-        android:layout_width="fill_parent"
-        android:id="@+id/tsv"
-        android:layout_height="fill_parent"/>
+        <com.dkhs.portfolio.ui.widget.TopicsDetailScrollView
+            android:layout_width="fill_parent"
+            android:id="@+id/tsv"
+            android:layout_height="fill_parent"/>
     </android.support.v4.widget.SwipeRefreshLayout>
     <com.dkhs.portfolio.ui.FloatingActionMenu
         android:id="@+id/floating_action_view"

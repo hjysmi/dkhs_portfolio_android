@@ -51,7 +51,7 @@ public class WalletExchangeEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
         params.addQueryStringParameter("page_size", pageSize + "");
-            return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallet.wallet_exchange, params, this);
+            return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallets.wallet_exchange, params, this);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class WalletExchangeEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", pageSize + "");
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallet.wallet_exchange, params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Wallets.wallet_exchange, params, this);
     }
 
     @Override

@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
-import com.dkhs.portfolio.ui.PostRewardActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainRewardFragment extends VisiableLoadFragment {
+public class MainRewardFragment extends VisiableLoadFragment implements View.OnClickListener {
 
     @ViewInject(R.id.ll)
     LinearLayout mll;
@@ -119,9 +118,9 @@ public class MainRewardFragment extends VisiableLoadFragment {
                     return;
                 }
                 if(mCurFragment == 0){
-                    getActivity().startActivity(PostRewardActivity.getIntent(getActivity(), PostRewardActivity.TYPE_POST, "", ""));
+                    getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST_REWARD, "", ""));
                 }else if(mCurFragment == 1){
-                    getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST, "", ""));
+                    getActivity().startActivity(PostTopicActivity.getIntent(getActivity(), PostTopicActivity.TYPE_POST_TOPIC, "", ""));
                 }
             }
         });
@@ -143,13 +142,13 @@ public class MainRewardFragment extends VisiableLoadFragment {
     private void setSelectTextSize(Button button) {
         int smallSize = button.getResources().getDimensionPixelSize(R.dimen.text_tab_normal);
         LogUtils.d("smallSize:" + smallSize);
-        mLeftBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        mRightBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        mLeftBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        mRightBtn.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
     }
 
     @OnClick({R.id.btn_titletab_right,R.id.btn_titletab_left})
-    public void switchTab(View v){
+    public void onClick(View v){
         switch (v.getId()){
             case R.id.btn_titletab_left:
                 mVp.setCurrentItem(0);
@@ -187,6 +186,7 @@ public class MainRewardFragment extends VisiableLoadFragment {
             }
 
         }
+
 
         @Override
         public void onPageScrollStateChanged(int i) {

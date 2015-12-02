@@ -66,7 +66,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
     private static final String TAG = "FragmentNewsList";
     private NewsforModel vo;
     private TextView tv;
-    private boolean getadle = false;
+    private boolean getadle = true;
     private OptionForOnelistAdapter mOptionlistAdapter;
     private RelativeLayout pb;
     public SwipeRefreshLayout mSwipeLayout;
@@ -377,7 +377,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
 //                    }
 //                }
 //            }
-
+            getadle = true;
             if (getView() != null) {
                 isViewShown = true;
 

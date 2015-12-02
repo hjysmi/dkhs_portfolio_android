@@ -52,6 +52,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public static final int REGIST_TYPE = 1001;
     public static final int FORGET_PSW_TYPE = 1002;
     public static final int SETTING_PASSWORD_TYPE = 1003;
+    public static final int REGIST_THREE_PLAT = 1004;
     private boolean isLoginByCaptcha = false;
 
     private static final int GET_CODE_UNABLE = 0;
@@ -62,11 +63,19 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private boolean mobileAble = false;
     private boolean codeAble = false;
     private TextView rltAgreement;
+    private TextView tvHint;
 
     private boolean isSettingPsw;
+    private boolean isRegisterThreePlatform;
+    private String name;
     public static final String EXTRA_SETTING_PASSWORD = "extra_setting_password";
     public static final String EXTRA_ACTIVITY_TYPE = "activity_type";
+    public static final String EXTRA_REGISTER_THREE_PLATFORM = "register_three_platform";
+    public static final String EXTRA_FORGET_PSW = "extra_forget_psw";
+    public static final String EXTRA_NAME = "extra_name";
+
     public static final int REQUESTCODE_SET_PASSWROD = 999;
+    public static final int REQUEST_BOUND_THREE_PLATFORM = 2;
 
 
     public static Intent bindPhoneIntent(Context context) {
@@ -76,9 +85,25 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         return intent;
     }
 
+    public static Intent registerThreePlatform(Context context,String name) {
+        Intent intent = new Intent(context, RLFActivity.class);
+        intent.putExtra(EXTRA_SETTING_PASSWORD, true);
+        intent.putExtra(EXTRA_REGISTER_THREE_PLATFORM,true);
+        intent.putExtra(EXTRA_ACTIVITY_TYPE, REGIST_THREE_PLAT);
+        intent.putExtra(EXTRA_NAME,name);
+        return intent;
+    }
+
     public static Intent registerIntent(Context context) {
         Intent intent = new Intent(context, RLFActivity.class);
         intent.putExtra(EXTRA_ACTIVITY_TYPE, REGIST_TYPE);
+        return intent;
+    }
+
+    public static Intent forgetPswIntent(Context context) {
+        Intent intent = new Intent(context, RLFActivity.class);
+        intent.putExtra(EXTRA_SETTING_PASSWORD, true);
+        intent.putExtra(EXTRA_ACTIVITY_TYPE, FORGET_PSW_TYPE);
         return intent;
     }
 //    public static Intent bindPhoneIntent(Context context) {
@@ -132,6 +157,8 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private void handleExtras(Bundle extras) {
         isSettingPsw = extras.getBoolean(EXTRA_SETTING_PASSWORD);
         current_type = getIntent().getIntExtra(EXTRA_ACTIVITY_TYPE, REGIST_TYPE);
+        isRegisterThreePlatform = extras.getBoolean(EXTRA_REGISTER_THREE_PLATFORM);
+        name = extras.getString(EXTRA_NAME);
     }
 
     private void showCaptchaLoginDailog() {
@@ -139,8 +166,8 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         isLoginByCaptcha = true;
         final MAlertDialog dpg = PromptManager.getAlertDialog(this);
         dpg.setCancelable(false);
-        dpg.setMessage(R.string.login_by_captcha);
-        dpg.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+        dpg.setMessage(R.string.register_already);
+        dpg.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -242,6 +269,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
         rltAgreement = (TextView) findViewById(R.id.rlt_agreement);
+        tvHint = (TextView) findViewById(R.id.tv_hint);
         rlfbutton.setEnabled(false);
         // code = (EditText) findViewById(R.id.et_verifycode);
         // tvMessage = (TextView) findViewById(R.id.tv_agree_info);
@@ -249,17 +277,30 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         setRegistAble();
 
         if (current_type == REGIST_TYPE) {
-            setTitle("注册账号");
-            rlfbutton.setText("下一步");
+            setTitle("填写手机号");
+            rlfbutton.setText(R.string.register);
+            tvHint.setVisibility(View.INVISIBLE);
         } else if (current_type == FORGET_PSW_TYPE) {
-            setTitle(R.string.forget_password);
-            rlfbutton.setText(R.string.confirm);
+            setTitle(R.string.write_phone);
+            rlfbutton.setText("下一步");
+//            rlfbutton.setText(R.string.confirm);
             cbAgree.setVisibility(View.GONE);
+            rltAgreement.setVisibility(View.INVISIBLE);
+            tvHint.setVisibility(View.INVISIBLE);
+
 
         } else if (current_type == SETTING_PASSWORD_TYPE) {
-            setTitle("绑定");
+            setTitle("绑定手机号");
             rlfbutton.setText("下一步");
+            tvHint.setVisibility(View.VISIBLE);
+        }else if(current_type == REGIST_THREE_PLAT){
+            setTitle(R.string.verify_phone);
+            rlfbutton.setText("下一步");
+            tvHint.setVisibility(View.VISIBLE);
+            cbAgree.setVisibility(View.GONE);
+            rltAgreement.setVisibility(View.INVISIBLE);
         }
+
 
         cbAgree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -322,7 +363,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // return;
                 // }
 
-                if (current_type == REGIST_TYPE || current_type == SETTING_PASSWORD_TYPE) {
+                if (current_type == REGIST_TYPE || current_type == SETTING_PASSWORD_TYPE ||current_type == REGIST_THREE_PLAT) {
                     // // engine.register(telephone, verify_code, listener);
                     //
                     // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
@@ -335,6 +376,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                     // code.getText().toString(), true));
                     // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
                     // PromptManager.showProgressDialog(this, "正在登录...", false);
+                    startActivity(VerificationActivity.newForgetPswIntent(RLFActivity.this, etPhoneNum
+                            .getText().toString()));
+                    finish();
                 }
 
                 break;
@@ -370,7 +414,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(Boolean object) {
             if (!object) {
-                if (isSettingPsw) {
+                if(isRegisterThreePlatform){
+                    startActivityForResult((VerificationActivity.newThreePlatformIntent(RLFActivity.this, etPhoneNum
+                            .getText().toString(), null,name)), REQUEST_BOUND_THREE_PLATFORM);
+                }else if (isSettingPsw) {
                     startActivityForResult(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
                             null, false), REQUESTCODE_SET_PASSWROD);
                 } else {
@@ -382,7 +429,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
                 // startActivity(i);
                 // finish();
-                if (isSettingPsw) {
+                if (isSettingPsw) {//手机号已经绑定，不可再绑定
                     showHasBindnDailog();
                 } else {
 
@@ -545,8 +592,13 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 }
 
                 break;
+                case REQUEST_BOUND_THREE_PLATFORM:
+
+                    break;
             }
         }
+
+
     }
 
 }

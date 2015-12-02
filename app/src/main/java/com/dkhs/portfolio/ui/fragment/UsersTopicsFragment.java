@@ -14,6 +14,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserTopicsCommentEngineImpl;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserTopicsActivity;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ import java.util.List;
 /**
  * @author zwm
  * @version 2.0
- * @ClassName MyTopicsFrament
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @ClassName UsersTopicsFragment
+ * @Description 我的悬赏，我的话题
  * @date 2015/7/27.
  */
 public class UsersTopicsFragment extends LoadMoreListFragment {
@@ -31,14 +32,16 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
     private List<Object> mDataList = new ArrayList<>();
     private UserTopicsCommentEngineImpl mTopicsEngine = null;
     private BaseAdapter mAdapter;
+    private int mContentType;
 
 
-    public static UsersTopicsFragment newIntent(String userId, String userName) {
+    public static UsersTopicsFragment newIntent(String userId, String userName,int contentType) {
         UsersTopicsFragment usersTopicsFragment = new UsersTopicsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString(UserTopicsActivity.USER_NAME, userId);
         bundle.putString(UserTopicsActivity.USER_ID, userName);
+        bundle.putInt(UserTopicsActivity.CONTENT_TYPE, contentType);
         usersTopicsFragment.setArguments(bundle);
         return usersTopicsFragment;
     }
@@ -47,6 +50,7 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListView.setDivider(null);
+        mContentType = getArguments().getInt(UserTopicsActivity.CONTENT_TYPE);
         loadData();
     }
 
@@ -69,7 +73,7 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (mTopicsEngine == null) {
-            mTopicsEngine = new UserTopicsCommentEngineImpl(this, getArguments().getString(UserTopicsActivity.USER_ID), UserTopicsCommentEngineImpl.StatusType.Topics);
+            mTopicsEngine = new UserTopicsCommentEngineImpl(this, getArguments().getString(UserTopicsActivity.USER_ID), UserTopicsCommentEngineImpl.StatusType.Topics,mContentType);
         }
         return mTopicsEngine;
     }
@@ -129,6 +133,10 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
 
     @Override
     public String getEmptyText() {
-        return getResources().getString(R.string.no_bbs_topic);
+        if(mContentType == TopicsDetailActivity.TYPE_TOPIC){
+            return getResources().getString(R.string.no_bbs_topic);
+        }else{
+            return getResources().getString(R.string.no_reward);
+        }
     }
 }

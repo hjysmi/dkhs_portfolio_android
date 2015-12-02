@@ -136,6 +136,7 @@ public class UserHomePageActivity extends ModelAcitivity {
     }
 
     private void initViews() {
+        findViewById(R.id.bottom_line).setVisibility(View.GONE);
         mLocalFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
         ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
         ((TextView) findViewById(R.id.tv_title_info)).setTextColor(getResources().getColor(R.color.white));
@@ -221,7 +222,7 @@ public class UserHomePageActivity extends ModelAcitivity {
             public void loadFail() {
 
             }
-        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Topics).loadData();
+        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Topics,TopicsDetailActivity.TYPE_TOPIC).loadData();
         new UserTopicsCommentEngineImpl(new LoadMoreDataEngine.ILoadDataBackListener() {
             @Override
             public void loadFinish(MoreDataBean object) {
@@ -252,7 +253,7 @@ public class UserHomePageActivity extends ModelAcitivity {
             public void loadFail() {
 
             }
-        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Comment).loadData();
+        }, mUserId, UserTopicsCommentEngineImpl.StatusType.Comment,TopicsDetailActivity.TYPE_TOPIC).loadData();
     }
 
     private void updateUI() {
