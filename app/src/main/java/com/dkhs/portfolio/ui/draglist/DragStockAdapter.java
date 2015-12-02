@@ -36,6 +36,7 @@ public class DragStockAdapter extends DragListAdapter {
 
     private QuotesEngineImpl mQuotesEngine;
     private boolean isLoadByFund;
+
     public DragStockAdapter(Context context, DragListView mDragListView) {
         super(context, mDragListView);
         mQuotesEngine = new QuotesEngineImpl();
@@ -81,8 +82,13 @@ public class DragStockAdapter extends DragListAdapter {
                 @Override
                 public void run() {
                     PromptManager.closeProgressDialog();
-                    getDataList().remove(position);
-                    notifyDataSetChanged();
+                    if (getDataList().size() == 1 && mDelCallBack != null) {
+                        mDelCallBack.removeLast();
+                    } else {
+                        getDataList().remove(position);
+                        notifyDataSetChanged();
+                    }
+
                 }
             }, 200);
         }

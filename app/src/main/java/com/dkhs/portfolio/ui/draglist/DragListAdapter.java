@@ -29,6 +29,7 @@ import com.dkhs.portfolio.bean.DragListItem;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
     // private ArrayList<Integer> arrayDrawables;
     public Context context;
     public boolean isHidden;
+    protected IDelCallBack mDelCallBack;
+
 
     private int station = 0;
     private DragListView mDragListView;
@@ -69,6 +72,11 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     }
 
+    public void setDelCallBack(IDelCallBack callBack) {
+        mDelCallBack = callBack;
+        LogUtils.d("wys","delCallBack"+(mDelCallBack == null));
+    }
+
     public void showDropItem(boolean showItem) {
         this.ShowItem = showItem;
     }
@@ -83,8 +91,12 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         public void onSuccess(String result) {
             try {
                 PromptManager.closeProgressDialog();
-                dataList.remove(station);
-                notifyDataSetChanged();
+                if (dataList.size() == 1 && mDelCallBack != null) {
+                    mDelCallBack.removeLast();
+                } else {
+                    dataList.remove(station);
+                    notifyDataSetChanged();
+                }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -427,5 +439,9 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public void setDataList(List<DataEntry> dataList) {
         this.dataList = dataList;
+    }
+
+    public interface IDelCallBack {
+        void removeLast();
     }
 }
