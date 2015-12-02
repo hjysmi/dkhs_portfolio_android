@@ -85,7 +85,7 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1 && resultCode ==0){
-            setResult(0);
+            setResult(1);
             manualFinish();
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -32,6 +32,10 @@ public class GlobalParams {
      * 用户打开我的资产是否需要输入手势密码的标记
      */
     public static boolean needShowGesture = true;
+    /**
+     * 用户打开我的资产是否需要输入手势密码的标记
+     */
+    public static boolean isGestureOpen = false;
 //    /**
 //     * 用户打开我的资产是否需要输入手势密码的标记
 //     */

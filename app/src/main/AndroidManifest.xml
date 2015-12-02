@@ -500,7 +500,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.RechargeActivity"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -527,7 +527,7 @@
 
         <!-- alipay sdk end -->
 
-        <receiver android:name="net.sourceforge.simcpux.AppRegister" >
+        <receiver android:name="net.sourceforge.simcpux.AppRegister">
             <intent-filter>
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
@@ -536,7 +536,7 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <!-- weixin -->
 
         <activity
@@ -545,93 +545,63 @@
         <activity
             android:name=".ui.BankCardNoActivity"
             android:label="@string/my_assets" />
-        <activity
-            android:name=".ui.MyBankCardsActivity" />
+        <activity android:name=".ui.MyBankCardsActivity" />
         <activity
             android:name=".ui.BankCardInfoActivity"
-            android:windowSoftInputMode="adjustPan"
-            />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.TradePasswordSettingActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"
-            />
-        <activity
-            android:name=".ui.TradeRecordActivity"
-            />
-        <activity
-            android:name=".ui.MyFundsActivity"
-            />
-        <activity
-            android:name=".ui.FundInfoActivity"
-            />
-        <activity
-            android:name=".ui.BuyFundActivity"
-            />
-        <activity
-            android:name=".ui.SellFundActivity"
-            />
-        <activity
-            android:name=".ui.SellFundInfoActivity"
-            />
-        <activity
-            android:name=".ui.BuyFundInfoActivity"
-            />
-        <activity
-            android:name=".ui.TradeSettingActivity"
-            />
-        <activity
-            android:name=".ui.ResetTradePasswordActivity"
-            />
-        <activity
-            android:name=".ui.ForgetTradePasswordActivity"
-            />
-        <activity
-            android:name=".ui.ChooseBankActivity"
-            />
-        <activity
-            android:name=".ui.GesturePasswordActivity"
-            />
-        <activity
-            android:name=".ui.VerifyLoginPasswordActivity"
-            />
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity android:name=".ui.TradeRecordActivity" />
+        <activity android:name=".ui.MyFundsActivity" />
+        <activity android:name=".ui.FundInfoActivity" />
+        <activity android:name=".ui.BuyFundActivity" />
+        <activity android:name=".ui.SellFundActivity" />
+        <activity android:name=".ui.SellFundInfoActivity" />
+        <activity android:name=".ui.BuyFundInfoActivity" />
+        <activity android:name=".ui.TradeSettingActivity" />
+        <activity android:name=".ui.ResetTradePasswordActivity" />
+        <activity android:name=".ui.ForgetTradePasswordActivity" />
+        <activity android:name=".ui.ChooseBankActivity" />
+        <activity android:name=".ui.GesturePasswordActivity" />
+        <activity android:name=".ui.VerifyLoginPasswordActivity" />
 
         <!-- ChinaPay plugin begin -->
         <activity
             android:name="com.hxcr.chinapay.activity.Initialize"
-            android:screenOrientation="portrait"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:theme="@style/cp_Animation" >
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/cp_Animation"></activity>
         <activity
 
             android:name="com.hxcr.chinapay.activity.InfoMain"
-            android:screenOrientation="portrait"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:theme="@style/cp_Animation"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.hxcr.chinapay.activity.ResultInfo"
-            android:screenOrientation="portrait"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:theme="@style/cp_Animation"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name="com.hxcr.chinapay.activity.HelpMain"
-            android:screenOrientation="portrait"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:theme="@style/cp_Animation"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name="com.hxcr.chinapay.activity.SustainBankList"
-            android:screenOrientation="portrait"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:theme="@style/cp_Animation"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name="com.hxcr.chinapay.activity.SubmitSujestion"
-            android:screenOrientation="portrait"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:theme="@style/cp_Animation"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- Chinapay plugin end -->
@@ -642,7 +612,7 @@
         <activity
             android:name=".ui.ShakeDetectorActivity"
             android:label="@string/title_activity_shake_detector"
-            android:parentActivityName=".ui.BaseActivity" >
+            android:parentActivityName=".ui.BaseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dkhs.portfolio.ui.BaseActivity" />

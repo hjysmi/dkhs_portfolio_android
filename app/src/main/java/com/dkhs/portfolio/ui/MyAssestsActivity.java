@@ -221,11 +221,13 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     @Override
     protected void onResume() {
         super.onResume();
-        if(GlobalParams.needShowGesture){
-            startActivityForResult(GesturePasswordActivity.verifyPasswordIntent(this, true), 100);
-            GlobalParams.needShowGesture = false;
+        if(GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext,GlobalParams.MOBILE)){
+            if(GlobalParams.needShowGesture){
+                startActivityForResult(GesturePasswordActivity.verifyPasswordIntent(this, true), 100);
+                GlobalParams.needShowGesture = false;
+            }
+            onUserInteraction();
         }
-        onUserInteraction();
         new TradeEngineImpl().getMyAssests(new ParseHttpListener<String>() {
             @Override
             protected String parseDateTask(String jsonData) {
