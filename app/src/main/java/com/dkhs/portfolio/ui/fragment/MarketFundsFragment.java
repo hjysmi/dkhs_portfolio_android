@@ -265,7 +265,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 //            mSwitchThreeStateOnClickListener.updateState(SwitchThreeStateOnClickListener.Status.NORMAL,false);
             tvCurrent.setClickable(true);
             sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
-            tvPercentgae.setText(R.string.win_rate_day);
+            tvPercentgae.setText(R.string.win_rate_week);
             sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity));
         } else {
             tvPercentgae.setText(String.format(sortKeyFormatStr, menuBean.getKey()));

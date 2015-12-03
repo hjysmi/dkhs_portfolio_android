@@ -110,8 +110,8 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     public void notifyDataSetChanged(List<MenuBean> data) {
         this.data.clear();
         this.data.addAll(data);
-        selectItem = data.get(0);
-        floatMenuAdapter.setSelectIndex(selectIndex);
+        selectItem = data.get(1);
+        floatMenuAdapter.setSelectIndex(1);
         floatMenuAdapter.notifyDataSetChanged();
 
     }
