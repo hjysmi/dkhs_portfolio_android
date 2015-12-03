@@ -20,14 +20,14 @@ public class DKHSUrl {
     // 测试
 //    public static final String BASE_TEST_URL = "http://192.168.107.90:8010";
 //    public static final String BASE_TEST_URL = "http://192.168.107.76:8010";
-    public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
+    public static final String BASE_TEST_URL = "http://test.dev.dkhs.com";
 
     // 开发
-    public static final String BASE_DEV_URL = "http://121.41.25.170:8010";
+    public static final String BASE_DEV_URL = "http://dev.dev.dkhs.com";
     // 正式
     public static final String BASE_DEV_MAIN = "https://www.dkhs.com";
     // 服务器
-    public static final String BASE_DEV_TAG = "http://121.41.25.170:8050";
+    public static final String BASE_DEV_TAG = "http://staging.dev.dkhs.com";
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
     // public static final String BASE_URL = "http://58.23.5.117:8030";
