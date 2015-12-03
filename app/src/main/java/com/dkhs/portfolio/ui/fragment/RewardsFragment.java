@@ -187,7 +187,9 @@ public class RewardsFragment extends LoadMoreListFragment  {
         mSwipeLayout.setRefreshing(false);
         if (mRewardEngine.getCurrentpage() == 1) {
             mDataList.clear();
-            mDataList.add(new TopicsBean());
+            if(object.getResults().size() > 0){
+                mDataList.add(new TopicsBean());
+            }
         }
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
