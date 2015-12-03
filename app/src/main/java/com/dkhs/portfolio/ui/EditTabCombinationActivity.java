@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragCombinationAdapter;
+import com.dkhs.portfolio.ui.draglist.DragListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.utils.PromptManager;
 
@@ -46,7 +46,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-9 下午1:27:54
  */
-public class EditTabCombinationActivity extends ModelAcitivity implements OnClickListener {
+public class EditTabCombinationActivity extends ModelAcitivity implements OnClickListener,DragListAdapter.IDelCallBack {
 
     private DragListView optionEditList;
     LoadMoreDataEngine mLoadDataEngine;
@@ -145,6 +145,7 @@ public class EditTabCombinationActivity extends ModelAcitivity implements OnClic
         // mdateList.clear();
         // mdateList.addAll(object.getResults());
         adapter = new DragCombinationAdapter(EditTabCombinationActivity.this, optionEditList);
+        adapter.setDelCallBack(this);
         // adapter.setAdapterData(mdateList);
         optionEditList.setAdapter(adapter);
 
@@ -217,4 +218,8 @@ public class EditTabCombinationActivity extends ModelAcitivity implements OnClic
         }
     };
 
+    @Override
+    public void removeLast() {
+        finish();
+    }
 }
