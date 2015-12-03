@@ -29,7 +29,6 @@ import com.dkhs.portfolio.bean.DragListItem;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +73,6 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public void setDelCallBack(IDelCallBack callBack) {
         mDelCallBack = callBack;
-        LogUtils.d("wys","delCallBack"+(mDelCallBack == null));
     }
 
     public void showDropItem(boolean showItem) {
