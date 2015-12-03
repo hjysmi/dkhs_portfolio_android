@@ -125,8 +125,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-//                    Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
+                    Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
                     UIUtils.startAnimationActivity(getActivity(), intent);
                 }
             });
