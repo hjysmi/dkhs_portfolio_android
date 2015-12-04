@@ -15,7 +15,7 @@
         android:visibility="gone" />
 
 
-    <ListView
+    <com.dkhs.portfolio.ui.widget.PullToRefreshListView
         android:id="@android:id/list"
         style="@style/listViewStyle"
         android:layout_width="match_parent"
