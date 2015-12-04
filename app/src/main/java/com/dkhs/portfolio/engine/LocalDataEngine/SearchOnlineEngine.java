@@ -54,6 +54,9 @@ public class SearchOnlineEngine {
 
             @Override
             protected void afterParseData(MoreDataBean<SelectStockBean> object) {
+                if(object == null){
+                    return;
+                }
                 currentPage = object.getCurrentPage();
                 if (mCallBack != null) {
                     mCallBack.loadFinish(object);

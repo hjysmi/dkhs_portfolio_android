@@ -78,7 +78,7 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         // System.out.println("SelectStockBean list status:" + item.list_status);
         if (isCombination) {
-            if (item.isStop) {
+            if (item.is_stop == 1) {
                 viewHolder.tvSuspend.setVisibility(View.VISIBLE);
                 viewHolder.tvSuspend.setText("停牌");
                 viewHolder.mCheckbox.setVisibility(View.GONE);
