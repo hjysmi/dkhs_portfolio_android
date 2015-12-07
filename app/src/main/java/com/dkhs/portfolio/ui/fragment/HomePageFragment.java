@@ -434,8 +434,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     }
 
     private void loadData() {
-        //        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
-//        mSwipeLayout.setRefreshing(true);
         getCache();
         getNetData();
     }
@@ -466,6 +464,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initLoadMoreList(view);
+        //加载数据前,启动下拉动画
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+            }
+        });
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -506,7 +511,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNetData();
+                mSwipeLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        getNetData();
+                    }
+                });
             }
         });
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
