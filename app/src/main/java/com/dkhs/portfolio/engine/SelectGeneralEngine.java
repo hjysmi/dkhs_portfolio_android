@@ -19,4 +19,15 @@ public class SelectGeneralEngine {
     }
 
 
+    public static void searchStockFund(String symbolType,String symbolSType,String key,int page,int pageSize,IHttpListener listener){
+        RequestParams requestParams = new RequestParams();
+        requestParams.addQueryStringParameter("symbol_type",symbolType);
+        requestParams.addQueryStringParameter("symbol_stype",symbolSType);
+        requestParams.addQueryStringParameter("page", String.valueOf(page));
+        requestParams.addQueryStringParameter("pageSize", pageSize + "");
+        requestParams.addQueryStringParameter("q",key);
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Search.search_symools,requestParams,listener);
+    }
+
+
 }

@@ -15,7 +15,7 @@
         android:visibility="gone" />
 
 
-    <ListView
+    <com.dkhs.portfolio.ui.widget.PullToRefreshListView
         android:id="@android:id/list"
         style="@style/listViewStyle"
         android:layout_width="match_parent"
@@ -25,5 +25,13 @@
         android:fastScrollEnabled="false"
         android:footerDividersEnabled="false"
         android:smoothScrollbar="true" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/search_no_result"
+        android:visibility="gone" />
 
 </RelativeLayout>

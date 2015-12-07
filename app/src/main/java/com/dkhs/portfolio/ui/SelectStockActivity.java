@@ -49,7 +49,7 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
 
     @Override
     protected FragmentSearchStockFund getSearchFragment() {
-        return FragmentSearchStockFund.getStockFragment();
+        return FragmentSearchStockFund.getStockFragment(true);
     }
 
     @Override
