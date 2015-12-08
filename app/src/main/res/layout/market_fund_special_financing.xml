@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/item_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="@string/special_financing"
+        android:textColor="@color/black" />
+
+    <View style="@style/divider_line" />
+
+    <com.android.percent.PercentRelativeLayout
+        android:id="@+id/rl_financing1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
+        android:clickable="true"
+        android:paddingLeft="@dimen/widget_padding_medium"
+        app:layout_heightPercent="20.31%w"
+        app:layout_widthPercent="100%w">
+
+        <com.android.percent.PercentRelativeLayout
+            android:id="@+id/rl_special_financing1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:layout_heightPercent="13.75%w"
+            app:layout_widthPercent="13.75%w">
+
+            <ImageView
+                android:id="@+id/iv_special_financing1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/red" />
+
+            <TextView
+                android:id="@+id/tv_special_financing1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="锅盖"
+                android:textColor="@color/white"
+                app:layout_textSizePercent="31.8%w" />
+        </com.android.percent.PercentRelativeLayout>
+
+        <com.android.percent.PercentLinearLayout
+            android:id="@+id/ll_special_financing1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/rl_special_financing1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/widget_padding_medium">
+
+            <TextView
+                android:id="@+id/tv_special_financing_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="过期改革起飞"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="23%h" />
+
+            <TextView
+                android:id="@+id/tv_special_financing_percent1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/widget_margin_small"
+                android:text="暴涨50%"
+                android:textColor="@color/gray_textcolor"
+                app:layout_textSizePercent="17%h" />
+        </com.android.percent.PercentLinearLayout>
+
+        <TextView
+            android:id="@+id/tv_special_financing_desc1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/widget_margin_medium"
+            android:layout_toRightOf="@id/ll_special_financing1"
+            android:gravity="end"
+            android:text="国改引领蛮牛"
+            android:textColor="@color/fund_special_ads"
+            app:layout_textSizePercent="4.375%w" />
+    </com.android.percent.PercentRelativeLayout>
+
+    <View style="@style/divider_line" />
+
+    <com.android.percent.PercentRelativeLayout
+        android:id="@+id/rl_financing2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
+        android:clickable="true"
+        android:paddingLeft="@dimen/widget_padding_medium"
+        app:layout_heightPercent="20.31%w"
+        app:layout_widthPercent="100%w">
+
+        <com.android.percent.PercentRelativeLayout
+            android:id="@+id/rl_special_financing2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:layout_heightPercent="13.75%w"
+            app:layout_widthPercent="13.75%w">
+
+            <ImageView
+                android:id="@+id/iv_special_financing2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/red" />
+
+            <TextView
+                android:id="@+id/tv_special_financing2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="锅盖"
+                android:textColor="@color/white"
+                app:layout_textSizePercent="31.8%w" />
+        </com.android.percent.PercentRelativeLayout>
+
+        <com.android.percent.PercentLinearLayout
+            android:id="@+id/ll_special_financing2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/rl_special_financing2"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/widget_padding_medium">
+
+            <TextView
+                android:id="@+id/tv_special_financing_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="过期改革起飞"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="23%h" />
+
+            <TextView
+                android:id="@+id/tv_special_financing_percent2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/widget_margin_small"
+                android:text="暴涨50%"
+                android:textColor="@color/gray_textcolor"
+                app:layout_textSizePercent="17%h" />
+        </com.android.percent.PercentLinearLayout>
+
+        <TextView
+            android:id="@+id/tv_special_financing_desc2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/widget_margin_medium"
+            android:layout_toRightOf="@id/ll_special_financing2"
+            android:gravity="end"
+            android:text="国改引领蛮牛"
+            android:textColor="@color/fund_special_ads"
+            app:layout_textSizePercent="4.375%w" />
+    </com.android.percent.PercentRelativeLayout>
+
+    <View style="@style/divider_line" />
+
+    <com.android.percent.PercentRelativeLayout
+        android:id="@+id/rl_financing3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
+        android:clickable="true"
+        android:paddingLeft="@dimen/widget_padding_medium"
+        app:layout_heightPercent="20.31%w"
+        app:layout_widthPercent="100%w">
+
+        <com.android.percent.PercentRelativeLayout
+            android:id="@+id/rl_special_financing3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:layout_heightPercent="13.75%w"
+            app:layout_widthPercent="13.75%w">
+
+            <ImageView
+                android:id="@+id/iv_special_financing3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/red" />
+
+            <TextView
+                android:id="@+id/tv_special_financing3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="锅盖"
+                android:textColor="@color/white"
+                app:layout_textSizePercent="31.8%w" />
+        </com.android.percent.PercentRelativeLayout>
+
+        <com.android.percent.PercentLinearLayout
+            android:id="@+id/ll_special_financing3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/rl_special_financing3"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/widget_padding_medium">
+
+            <TextView
+                android:id="@+id/tv_special_financing_title3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="过期改革起飞"
+                android:textColor="@color/black"
+                app:layout_textSizePercent="23%h" />
+
+            <TextView
+                android:id="@+id/tv_special_financing_percent3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/widget_margin_small"
+                android:text="暴涨50%"
+                android:textColor="@color/gray_textcolor"
+                app:layout_textSizePercent="17%h" />
+        </com.android.percent.PercentLinearLayout>
+
+        <TextView
+            android:id="@+id/tv_special_financing_desc3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/widget_margin_medium"
+            android:layout_toRightOf="@id/ll_special_financing3"
+            android:gravity="end"
+            android:text="国改引领蛮牛"
+            android:textColor="@color/fund_special_ads"
+            app:layout_textSizePercent="4.375%w" />
+    </com.android.percent.PercentRelativeLayout>
+
+</com.android.percent.PercentLinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/person_setting_backgroud">
+
+    <FrameLayout
+        android:id="@+id/tool"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_header_title"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/title_color"
+            >
+
+            <TextView
+                android:id="@+id/left_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_info"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:textColor="@color/nav_right_text" />
+
+
+            <include
+                android:id="@+id/titletab_view"
+                layout="@layout/layout_main_market_title_bar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+
+                android:layout_toRightOf="@+id/titletab_view">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/btn_refresh"
+                    style="@style/tool_bar_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" />
+
+                <TextView
+                    android:id="@+id/btn_search"
+                    style="@style/tool_bar_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            style="@style/title_bottom_line"
+            android:layout_gravity="bottom" />
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tool" />
+
+</RelativeLayout>

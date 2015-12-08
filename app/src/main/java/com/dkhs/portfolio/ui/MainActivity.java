@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.fragment.HomePageFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
+import com.dkhs.portfolio.ui.fragment.MainMarketFragment1;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MainRewardFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
@@ -191,7 +192,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
-            fragmentB = new MainMarketFragment();
+            fragmentB = new MainMarketFragment1();
         }
         hideAllFragment();
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container

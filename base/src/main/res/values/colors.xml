@@ -166,5 +166,12 @@
     <color name="draft_error">#e9b700</color>
     <color name="tab_default">#464646</color>
 
+    <color name="fund_special_green">#70A8A0</color>
+    <color name="fund_special_yellow">#F4AD56</color>
+    <color name="fund_special_red">#FF6363</color>
+    <color name="fund_special_ads">#FA6739</color>
+    <color name="fund_special_green_translation">#1A70A8A0</color>
+    <color name="fund_special_yellow_translation">#0DF4AD56</color>
+    <color name="fund_special_red_translation">#0DFF6363</color>
 
 </resources>

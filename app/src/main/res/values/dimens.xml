@@ -109,6 +109,17 @@
     <dimen name="widget_margin_large">20dp</dimen>
     <dimen name="widget_margin_xlarge">30dp</dimen>
     <dimen name="widget_margin_xxlarge">40dp</dimen>
+    <dimen name="widget_text_8sp">8sp</dimen>
+    <dimen name="widget_text_10sp">10sp</dimen>
+    <dimen name="widget_text_12sp">12sp</dimen>
+    <dimen name="widget_text_14sp">14sp</dimen>
+    <dimen name="widget_text_16sp">16sp</dimen>
+    <dimen name="widget_text_18sp">18sp</dimen>
+    <dimen name="widget_text_20sp">20sp</dimen>
+    <dimen name="widget_text_24sp">24sp</dimen>
+    <dimen name="widget_text_26sp">26sp</dimen>
+    <dimen name="widget_text_28sp">28sp</dimen>
+    <dimen name="widget_text_30sp">30sp</dimen>
 
     <dimen name="actionsheet_seperated_height">5dp</dimen>
     <dimen name="text_status_content">18sp</dimen>

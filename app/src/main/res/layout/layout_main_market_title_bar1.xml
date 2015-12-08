@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/btn_titletab_left"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/tab_fund"
+        android:textColor="@color/title_tab_textselector"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_titletab_center"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/tab_stock"
+        android:textColor="@color/title_tab_textselector"
+        android:textSize="16sp" />
+    <Button
+        android:id="@+id/btn_titletab_right"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/tab_funds"
+        android:textColor="@color/title_tab_textselector"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+</LinearLayout>
