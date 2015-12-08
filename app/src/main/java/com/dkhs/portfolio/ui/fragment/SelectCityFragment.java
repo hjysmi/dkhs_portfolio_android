@@ -135,7 +135,7 @@ public class SelectCityFragment extends BaseFragment {
         //直辖市或者城市点击时返回到选择页
         if (city.isMunicipality() || mCityType == CITY_TYPE) {
             String comName;
-            if (TextUtils.isEmpty(mParentName)) {
+            if (!TextUtils.isEmpty(mParentName)) {
                 comName = mParentName + " " + city.name;
             } else {
                 comName = city.name;
