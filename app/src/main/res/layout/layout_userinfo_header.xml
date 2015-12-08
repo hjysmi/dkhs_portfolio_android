@@ -50,7 +50,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/setting_image_right" />
 
-            <ImageView
+            <com.dkhs.portfolio.ui.widget.WaterMarkImageView
                 android:id="@+id/setting_image_head"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
