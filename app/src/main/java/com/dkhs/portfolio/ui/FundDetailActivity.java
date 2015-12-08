@@ -330,7 +330,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void handFollowOrUnfollowAction() {
         final SelectStockBean selectBean = SelectStockBean.copy(mFundQuoteBean);
         if (null != changeFollowView && null != selectBean) {
-            changeFollowView.changeFollow(selectBean);
+            changeFollowView.changeFollowNoDialog(selectBean);
         }
     }
 
