@@ -34,6 +34,7 @@ import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.ui.BetterRecruitActivity;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -316,7 +317,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
 
-        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers})
+        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers,R.id.tv_auth_status})
         public void onClick(View v) {
             int id = v.getId();
 
@@ -344,6 +345,10 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     intent1.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FOLLOWER);
                     intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
+                    break;
+                case R.id.tv_auth_status:
+                    Intent intent = new Intent(mContext,BetterRecruitActivity.class);
+                    mContext.startActivity(intent);
                     break;
 
             }

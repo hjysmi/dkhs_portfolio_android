@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/ll"
+    android:background="@drawable/but_qualification_item"
+    >
+
+    <ImageView
+        android:id="@+id/iv_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:background="@drawable/ic_qualification_better"
+        app:layout_widthPercent="50%w"
+        app:layout_heightPercent="50%w"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_below="@+id/iv_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="投资牛人"
+        android:textColor="@color/black"
+        app:layout_textSizePercent="12%w"
+        app:layout_heightPercent="16%w"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        />
+
+</com.android.percent.PercentRelativeLayout>
