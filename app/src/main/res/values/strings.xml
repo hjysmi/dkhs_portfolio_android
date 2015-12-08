@@ -897,4 +897,6 @@
     <string name="month_profit_rate">月收益率</string>
 
     <string name="account_format">账号:%1$s</string>
+    <string name="title_activity_select_city">SelectCityActivity</string>
+    <string name="title_activity_select_provice">SelectProviceActivity</string>
 </resources>

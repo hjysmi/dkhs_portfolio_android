@@ -9,26 +9,25 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.base.widget.ImageView;
-import com.dkhs.portfolio.bean.SortUserEntity;
+import com.dkhs.portfolio.bean.CityBean;
 import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
 
 public class SelectCityAdapter extends BaseAdapter implements SectionIndexer {
 
-    private List<SortUserEntity> list = null;
+    private List<CityBean> list = null;
 
     private Context mContext;
     private final BitmapUtils bitmapUtils;
 
-    public SelectCityAdapter(Context mContext, List<SortUserEntity> list) {
+    public SelectCityAdapter(Context mContext, List<CityBean> list) {
         this.mContext = mContext;
         this.list = list;
         bitmapUtils = new BitmapUtils(mContext);
     }
 
-    public void updateListView(List<SortUserEntity> list) {
+    public void updateListView(List<CityBean> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -53,13 +52,12 @@ public class SelectCityAdapter extends BaseAdapter implements SectionIndexer {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder = null;
-        final SortUserEntity mContent = list.get(position);
+        final CityBean mContent = list.get(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_select_friend, null);
-            viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_select_city, null);
+            viewHolder.tvCityName = (TextView) convertView.findViewById(R.id.tv_city);
             viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.catalog);
-            viewHolder.ivAvater = (ImageView) convertView.findViewById(R.id.iv_avatar);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -69,23 +67,11 @@ public class SelectCityAdapter extends BaseAdapter implements SectionIndexer {
         //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
         if (position == getPositionForSection(section)) {
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
-            if (mContent.getSortLetters().equals("*")) {
-                viewHolder.tvLetter.setText(R.string.last_contact_friend);
-            } else {
-
-                viewHolder.tvLetter.setText(mContent.getSortLetters());
-            }
+            viewHolder.tvLetter.setText(mContent.pinyin.substring(0,1));
         } else {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
-        viewHolder.tvUserName.setText(mContent.getUsername());
-
-        if (null != mContent.getAvatar_md() && mContent.getAvatar_md().length() > 35) {
-            bitmapUtils.display(viewHolder.ivAvater, mContent.getAvatar_md(), R.drawable.ic_user_head, R.drawable.ic_user_head);
-        } else {
-            viewHolder.ivAvater.setImageResource(R.drawable.ic_user_head);
-        }
-
+        viewHolder.tvCityName.setText(mContent.name);
         return convertView;
     }
 
@@ -100,7 +86,7 @@ public class SelectCityAdapter extends BaseAdapter implements SectionIndexer {
     @Override
     public int getPositionForSection(int sectionIndex) {
         for (int i = 0; i < getCount(); i++) {
-            String sortStr = list.get(i).getSortLetters();
+            String sortStr = list.get(i).pinyin;
             char firstChar = sortStr.toUpperCase().charAt(0);
             if (firstChar == sectionIndex) {
                 return i;
@@ -115,14 +101,13 @@ public class SelectCityAdapter extends BaseAdapter implements SectionIndexer {
      */
     @Override
     public int getSectionForPosition(int position) {
-        return list.get(position).getSortLetters().charAt(0);
+        return list.get(position).pinyin.charAt(0);
     }
 
 
     final static class ViewHolder {
         TextView tvLetter;
-        TextView tvUserName;
-        ImageView ivAvater;
+        TextView tvCityName;
     }
 
     /**

@@ -548,6 +548,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dkhs.portfolio.ui.BaseActivity" />
         </activity>
+        <activity
+            android:name=".ui.city.SelectCityActivity"
+            android:label="@string/title_activity_select_city"
+            android:parentActivityName=".ui.ModelAcitivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dkhs.portfolio.ui.ModelAcitivity" />
+        </activity>
+        <activity
+            android:name=".ui.city.SelectProviceActivity"
+            android:label="@string/title_activity_select_provice"
+            android:parentActivityName=".ui.ModelAcitivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dkhs.portfolio.ui.ModelAcitivity" />
+        </activity>
     </application>
 
 </manifest>
