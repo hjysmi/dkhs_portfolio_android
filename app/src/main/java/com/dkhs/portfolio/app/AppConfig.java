@@ -13,7 +13,6 @@ import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -131,22 +130,22 @@ public final class AppConfig {
                             e.printStackTrace();
                         }
                     case 4:
-                        try {
-                            db.dropDb();
-                            final DataBaseUtil util = new DataBaseUtil(PortfolioApplication.getInstance());
-                            new Thread() {
-                                public void run() {
-                                    try {
-                                        util.copyDataBase();
-                                        PortfolioPreferenceManager.setLoadSearchStock();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }.start();
-                        } catch (DbException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            db.dropDb();
+//                            final DataBaseUtil util = new DataBaseUtil(PortfolioApplication.getInstance());
+//                            new Thread() {
+//                                public void run() {
+//                                    try {
+//                                        util.copyDataBase();
+//                                        PortfolioPreferenceManager.setLoadSearchStock();
+//                                    } catch (IOException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }.start();
+//                        } catch (DbException e) {
+//                            e.printStackTrace();
+//                        }
                 }
 
             }
