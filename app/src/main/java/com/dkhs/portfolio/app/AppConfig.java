@@ -13,6 +13,7 @@ import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -34,7 +35,7 @@ public final class AppConfig {
 
     public static final boolean isDebug = BuildConfig.isSandbox;
 
-    public static final int VERSION_CURRENT = 3;//当前数据库版本号
+    public static final int VERSION_CURRENT = 4;//当前数据库版本号
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
@@ -127,6 +128,23 @@ public final class AppConfig {
                         try {
                             db.dropTable(DraftBean.class);
                         } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    case 4:
+                        try {
+                            db.dropDb();
+                            final DataBaseUtil util = new DataBaseUtil(PortfolioApplication.getInstance());
+                            new Thread() {
+                                public void run() {
+                                    try {
+                                        util.copyDataBase();
+                                        PortfolioPreferenceManager.setLoadSearchStock();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }.start();
+                        } catch (DbException e) {
                             e.printStackTrace();
                         }
                 }
