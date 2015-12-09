@@ -10,6 +10,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 
 /**
  * Created by wuyongsen on 2015/11/26.
@@ -32,6 +33,8 @@ public class RecomendPortfolioHandler extends SimpleItemHandler<CombinationBean>
         vh.getTextView(R.id.tv_week_profit_rate).setText(StringFromatUtils.get2PointPercent(data.getChng_pct_month()));
         vh.getTextView(R.id.tv_profit_title).setText(mContext.getText(R.string.month_profit_rate));
         ImageLoaderUtils.setHeanderImage(data.getUser().getAvatar_sm(), vh.getImageView(R.id.iv_avatar));
+        //TODO 根据返回值判断加V图片的显示隐藏
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), true, WaterMarkUtil.TYPE_RED);
         vh.get(R.id.rootView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
