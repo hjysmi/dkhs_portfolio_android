@@ -3,62 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@+id/line">
-
-    <RelativeLayout
-        android:id="@+id/rl_et"
+    android:background="@color/theme_gray">
+    <com.android.percent.PercentLinearLayout
+        android:id="@+id/ll_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
-
-        <TextView
-            android:id="@+id/tv_title"
+        android:background="@color/white"
+        app:layout_marginTopPercent="5%w"
+        android:orientation="vertical">
+        <com.android.percent.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="介绍下自己"
-            android:textColor="@color/black"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            />
-        <com.dkhs.portfolio.ui.widget.DKHSEditText
-            android:layout_below="@+id/tv_title"
+            android:orientation="horizontal"
+            app:layout_marginTopPercent="3%w"
+            >
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_heightPercent="5%w"
+                app:layout_widthPercent="5%w" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|bottom"
+                android:text="介绍下自己"
+                android:textColor="@color/black"
+                app:layout_heightPercent="5%w"
+                app:layout_textSizePercent="4.5%w" />
+        </com.android.percent.PercentLinearLayout>
+        <EditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:fadingEdge="none"
-            android:gravity="top"
+            app:layout_heightPercent="60%w"
             android:hint="为给投资人提供更好的服务,请填写能证明您投资能力的资料"
-            android:imeOptions="actionSend|flagNoEnterAction"
-            android:lineSpacingExtra="3.0dip"
-            android:minHeight="100dp"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            android:textColorHint="#c8c8c8"
-            android:textSize="16sp">
+            android:gravity="top"
+            android:background="@null"
+            app:layout_textSizePercent="3.5%w"/>
 
-            <requestFocus />
-        </com.dkhs.portfolio.ui.widget.DKHSEditText>
 
-        <com.dkhs.portfolio.ui.widget.GridViewEx
-            android:id="@+id/gv_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_content"
-            android:layout_margin="5dp"
-            android:horizontalSpacing="5dp"
-            android:numColumns="3"
-            android:verticalSpacing="5dp" />
-
-    </RelativeLayout>
+    </com.android.percent.PercentLinearLayout>
 
     <com.android.percent.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_et"
+        android:id="@+id/ll_limit"
+       android:layout_below="@+id/ll_top"
         android:orientation="vertical">
 
         <TextView
@@ -118,4 +110,16 @@
 
 
     </com.android.percent.PercentLinearLayout>
+    <Button
+        android:id="@+id/but_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一步"
+        android:background="@color/blue"
+        android:layout_below="@+id/ll_limit"
+        app:layout_heightPercent="10%w"
+        app:layout_marginTopPercent="5%w"
+        app:layout_widthPercent="90%w"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/theme_gray"/>
 </com.android.percent.PercentRelativeLayout>

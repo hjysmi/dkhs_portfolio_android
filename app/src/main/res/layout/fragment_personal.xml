@@ -78,7 +78,15 @@
         <com.android.percent.PercentFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_marginLeftPercent="5%w">
+            android:background="@drawable/lv_white_selector"
+            android:clickable="true">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                app:layout_heightPercent="12%w"
+                app:layout_widthPercent="5%w" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,6 +95,7 @@
                 android:text="所在城市"
                 android:textColor="@color/black"
                 app:layout_heightPercent="12%w"
+                app:layout_marginLeftPercent="5%w"
                 app:layout_textSizePercent="4%w"
                 app:layout_widthPercent="20%w" />
 
@@ -98,7 +107,7 @@
                 android:gravity="center|left"
                 android:hint="请选择所在城市"
                 app:layout_heightPercent="12%w"
-                app:layout_marginLeftPercent="20%w"
+                app:layout_marginLeftPercent="25%w"
                 app:layout_textSizePercent="4%w" />
 
             <ImageView
@@ -118,9 +127,18 @@
         </com.android.percent.PercentFrameLayout>
 
         <com.android.percent.PercentFrameLayout
+            android:id="@+id/fm_introduce"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_marginLeftPercent="5%w">
+            android:background="@drawable/lv_white_selector"
+            android:clickable="true">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                app:layout_heightPercent="12%w"
+                app:layout_widthPercent="5%w" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -129,19 +147,22 @@
                 android:text="简介(选填)"
                 android:textColor="@color/black"
                 app:layout_heightPercent="12%w"
+                app:layout_marginLeftPercent="5%w"
                 app:layout_textSizePercent="4%w"
                 app:layout_widthPercent="20%w" />
 
             <TextView
-                android:id="@+id/et_"
+                android:id="@+id/tv_introduce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="center|left"
                 android:hint="介绍下自己"
+                android:singleLine="true"
                 app:layout_heightPercent="12%w"
-                app:layout_marginLeftPercent="20%w"
-                app:layout_textSizePercent="4%w" />
+                app:layout_marginLeftPercent="25%w"
+                app:layout_textSizePercent="4%w"
+                app:layout_widthPercent="65%w" />
 
             <ImageView
                 android:layout_width="wrap_content"
