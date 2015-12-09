@@ -56,6 +56,7 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.http.HttpHandler;
 import com.squareup.otto.Subscribe;
 
@@ -156,6 +157,8 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
 
             UserEntity user = mCombinationBean.getUser();
             ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), ivUserheader);
+            //TODO 根据返回值判断加V图片的显示隐藏
+            WaterMarkUtil.calWaterMarkImage(ivWaterMark, true, WaterMarkUtil.TYPE_RED);
 //                    if (null != user.getAvatar_md() && user.getAvatar_md().length() > 35) {
 ////                        bitmapUtils.display(ivUserheader, user.getAvatar_md());
 //                    }
@@ -217,6 +220,7 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
     }
 
     private ImageView ivUserheader;
+    private ImageView ivWaterMark;
     private TextView tvUserDesc;
 
     @Override
@@ -232,7 +236,8 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
         tvFollowCount = (TextView) view.findViewById(R.id.tv_follow_num);
         tvComDesc = (TextView) view.findViewById(R.id.tv_desc_text);
         tvUserDesc = (TextView) view.findViewById(R.id.tv_user_desc);
-        ivUserheader = (ImageView) view.findViewById(R.id.im_avatar);
+        ivUserheader = (ImageView) view.findViewById(R.id.iv_avatar);
+        ivWaterMark = (ImageView)view.findViewById(R.id.iv_water_mark);
 
         tvNetvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
         // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
