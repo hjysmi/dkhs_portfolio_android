@@ -9,12 +9,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.percent.PercentFrameLayout;
@@ -59,7 +61,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private Button but_next;
     private PercentFrameLayout fm_organization;
     private int width;
-    private boolean isExpand = false;
+    private boolean isExpand = true;
     private SelectQualificationAdapter mPicAdapter;
     private GridViewEx gvSelectPic;
     private LinearLayout ll_footer;
@@ -68,6 +70,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     public final static int RCODE_PICK_PICTURE = 700;
     public final static int RCODE_TAKE_PHOTO = 800;
     public static int MAX_TOPIC_PICSIZE = 6;
+    private ScrollView sc_content;
     private List<MyActionSheetDialog.SheetItem> items = new ArrayList<MyActionSheetDialog.SheetItem>();
 
     @Override
@@ -92,6 +95,13 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         ll_footer = (LinearLayout) view.findViewById(R.id.ll_footer);
         but_next = (Button) view.findViewById(R.id.but_next);
         but_next.setOnClickListener(this);
+        sc_content = (ScrollView) view.findViewById(R.id.sc_content);
+       /* View head = new View(getActivity());
+        head.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (0.01 * width)));*/
+        // gv.addHeaderView(head);
+
+        //gv.addFooterView(footer);
+        //   fm_main.setPadding((int) (0.05 * width), 0, (int) (0.05 * width), 0);
         gv.setVerticalSpacing((int) (0.03 * width));
         mSelectPohotos.add(ADD_PICTURE);
         mPicAdapter = new SelectQualificationAdapter(getActivity(), mSelectPohotos);
@@ -171,6 +181,36 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_right:
+
+             /*   if (isExpand) {
+                    //展开
+                    ObjectAnimator.ofFloat(gv, "translationY", 0, (int) (1 * width)).setDuration(200).start();
+                    iv_right.setImageResource(R.drawable.ic_qualification_up);
+                    isExpand = false;
+                 //   fm_main.requestLayout();
+                  //  gv.requestLayout();
+                } else {
+                    //收缩
+                    ObjectAnimator.ofFloat(gv, "translationY", 0, -(int) (1 * width)).setDuration(200).start();
+                    iv_right.setImageResource(R.drawable.ic_qualification_down);
+                    isExpand = true;
+                  //  fm_main.requestLayout();
+                 //   gv.requestLayout();
+                }*/
+                if (isExpand) {
+                    TranslateAnimation animation = new TranslateAnimation(0,0,0,-gv.getHeight());
+                    animation.setDuration(300);
+                    animation.setFillAfter(true);
+                    sc_content.startAnimation(animation);
+                    isExpand = false;
+                } else {
+                    TranslateAnimation animation = new TranslateAnimation(0,0,-gv.getHeight(),0);
+                    animation.setDuration(300);
+                    animation.setFillAfter(true);
+                    sc_content.startAnimation(animation);
+                    isExpand = true;
+                }
+
                 break;
             case R.id.but_next:
                 BusProvider.getInstance().post(new QualificationToPersonalEvent());
