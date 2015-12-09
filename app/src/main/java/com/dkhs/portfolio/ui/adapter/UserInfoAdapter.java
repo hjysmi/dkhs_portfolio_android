@@ -33,6 +33,7 @@ import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.city.SelectProviceActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.BetterRecruitActivity;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
@@ -326,7 +327,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.iStartLoginActivity(mView.getContext());
                     break;
                 case R.id.setting_layout_icon:
-                    startUserInfoActivity();
+//                    startUserInfoActivity();
+                    UIUtils.startAnimationActivity((Activity) mView.getContext(), new Intent(mView.getContext(), SelectProviceActivity.class));
                     break;
                 case R.id.user_myfunds_layout:
                     if (!UIUtils.iStartLoginActivity(mView.getContext())) {
