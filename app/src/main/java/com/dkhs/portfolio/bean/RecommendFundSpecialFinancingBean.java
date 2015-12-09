@@ -7,4 +7,5 @@ import com.dkhs.portfolio.RecommendFundSpecialBean;
  * Created by zhangcm on 2015/12/8.
  */
 public class RecommendFundSpecialFinancingBean extends RecommendFundSpecialBean {
+    public boolean isFirstTimeLoad = true;
 }

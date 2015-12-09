@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.messagecenter;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,12 +24,15 @@ import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.FundManagerActivity;
 import com.dkhs.portfolio.ui.InfoActivity;
 import com.dkhs.portfolio.ui.MainActivity;
+import com.dkhs.portfolio.ui.MarketSubpageActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.fragment.MarketSubpageFragment;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -220,12 +224,14 @@ public class MessageHandler {
     }
 
     private void gotoFundsRanking() {
-        MainActivity.gotoFundsRanking(mContext);
+//        MainActivity.gotoFundsRanking(mContext);
+        UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH));
     }
 
 
     private void gotoCombinationRankingActivity() {
-        MainActivity.gotoCombinationRankingActivity(mContext);
+//        MainActivity.gotoCombinationRankingActivity(mContext);
+        UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_COMBINATION));
     }
 
     private void gotoMainInfoActivity() {
@@ -243,7 +249,8 @@ public class MessageHandler {
             //基金经理排行
             //基金经理
 //           mContext.startActivity(FundManagerActivity.newIntent(mContext, pk ));
-            MainActivity.gotoFundManagerRanking(mContext);
+//            MainActivity.gotoFundManagerRanking(mContext);
+            UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK));
 
         } else {
 

@@ -31,4 +31,14 @@ public class FundHomeEngineImpl {
         params.addQueryStringParameter("content_subtype", "503");
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.get_recommend, params, listener);
     }
+    /**
+     * 获取推荐基金经理
+     *
+     * @param listener
+     */
+    public static void getRecommendFundManager(IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page_size", "3");
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.StockSymbol.RECOMMEND_FUND_MANAGER, params, listener);
+    }
 }

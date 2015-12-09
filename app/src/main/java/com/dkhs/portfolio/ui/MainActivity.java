@@ -25,7 +25,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.fragment.HomePageFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
-import com.dkhs.portfolio.ui.fragment.MainMarketFragment1;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MainRewardFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
@@ -192,7 +191,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragmentB = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_B);
         if (null == fragmentB) {
-            fragmentB = new MainMarketFragment1();
+            fragmentB = new MainMarketFragment();
         }
         hideAllFragment();
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
@@ -351,40 +350,40 @@ public class MainActivity extends BaseActivity {
         BusProvider.getInstance().post(newIntent);
     }
 
-    public static void gotoCombinationRankingActivity(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 1);
-        NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 2);
-        intent.putExtra("arg", newIntent.bundle);
-        context.startActivity(intent);
-        BusProvider.getInstance().post(newIntent);
-    }
+//    public static void gotoCombinationRankingActivity(Context context) {
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.putExtra("index", 1);
+//        NewIntent newIntent = new NewIntent();
+//        newIntent.bundle.putInt("fund_index", 2);
+//        intent.putExtra("arg", newIntent.bundle);
+//        context.startActivity(intent);
+//        BusProvider.getInstance().post(newIntent);
+//    }
 
-    public static void gotoFundManagerRanking(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 1);
-        NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 0);
-        newIntent.bundle.putBoolean("fund_manager_ranking", true);
-        intent.putExtra("arg", newIntent.bundle);
-        context.startActivity(intent);
-        BusProvider.getInstance().post(newIntent);
-    }
+//    public static void gotoFundManagerRanking(Context context) {
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.putExtra("index", 1);
+//        NewIntent newIntent = new NewIntent();
+//        newIntent.bundle.putInt("fund_index", 0);
+//        newIntent.bundle.putBoolean("fund_manager_ranking", true);
+//        intent.putExtra("arg", newIntent.bundle);
+//        context.startActivity(intent);
+//        BusProvider.getInstance().post(newIntent);
+//    }
 
-    public static void gotoFundsRanking(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 1);
-
-
-        NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 0);
-        newIntent.bundle.putBoolean("fund_manager_ranking", false);
-        intent.putExtra("arg", newIntent.bundle);
-        context.startActivity(intent);
-        BusProvider.getInstance().post(newIntent);
-
-    }
+//    public static void gotoFundsRanking(Context context) {
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.putExtra("index", 1);
+//
+//
+//        NewIntent newIntent = new NewIntent();
+//        newIntent.bundle.putInt("fund_index", 0);
+//        newIntent.bundle.putBoolean("fund_manager_ranking", false);
+//        intent.putExtra("arg", newIntent.bundle);
+//        context.startActivity(intent);
+//        BusProvider.getInstance().post(newIntent);
+//
+//    }
 
     public static void gotoSHActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);

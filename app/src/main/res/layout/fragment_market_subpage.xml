@@ -29,7 +29,7 @@
 
             <include
                 android:id="@+id/titletab_view"
-                layout="@layout/layout_main_market_title_bar1"
+                layout="@layout/layout_main_market_title_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true" />
@@ -67,8 +67,8 @@
             android:layout_gravity="bottom" />
     </FrameLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp"
+    <FrameLayout
+        android:id="@+id/view_datalist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tool" />

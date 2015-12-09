@@ -12,61 +12,99 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.InfoActivity;
 import com.dkhs.portfolio.ui.MainActivity;
-import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
-import com.dkhs.portfolio.ui.widget.TabWidget;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
-
 /**
- * @author zjz
+ * @author zcm
  * @version 1.0
- * @ClassName MainMarketFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @date 2015-2-6 上午9:46:52
+ * @date 2015-12-9 下午13:56:52
  */
-public class MainMarketFragment1 extends VisiableLoadFragment implements ViewPager.OnPageChangeListener {
+public class MarketSubpageFragment extends VisiableLoadFragment implements View.OnClickListener {
 
     @ViewInject(R.id.rl_header_title)
     RelativeLayout mRlheadertitle;
-    @ViewInject(R.id.vp)
-    ViewPager vp;
+    //基金
+    @ViewInject(R.id.btn_titletab_left)
+    Button mBtntitletableft;
+    //股票
+    @ViewInject(R.id.btn_titletab_center)
+    Button mBtntitletabcenter;
+    //组合
+    @ViewInject(R.id.btn_titletab_right)
+    Button mBtntitletabright;
+
     @ViewInject(R.id.btn_refresh)
     TextView mBtnrefresh;
     @ViewInject(R.id.btn_search)
     TextView mBtnsearch;
     @ViewInject(R.id.left_btn)
     TextView mLeftBtn;
-    BasePagerFragmentAdapter mAdapter;
-    private TabWidget tabWidget;
-    private ArrayList<Fragment> fragmentList;
 
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.fragment_main_market1;
+        return R.layout.fragment_market_subpage;
     }
+
+    private static final String MARKET_TYPE = "market_type";
+    public static final int TYPE_FUND = 1;
+    public static final int TYPE_COMBINATION = 2;
+    private MarketFundsFragment fundsFragment;
+    private MarketCombinationFragment combinationFragment;
+
+    public static MarketSubpageFragment getFundFragment() {
+        MarketSubpageFragment fragment = new MarketSubpageFragment();
+        Bundle args = new Bundle();
+        args.putInt(MARKET_TYPE, TYPE_FUND);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static MarketSubpageFragment getFragment(int type) {
+        MarketSubpageFragment fragment = new MarketSubpageFragment();
+        Bundle args = new Bundle();
+        args.putInt(MARKET_TYPE, type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static MarketSubpageFragment getCombinationFragment() {
+        MarketSubpageFragment fragment = new MarketSubpageFragment();
+        Bundle args = new Bundle();
+        args.putInt(MARKET_TYPE, TYPE_COMBINATION);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private SubpageType curType;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (null != bundle) {
+            curType = SubpageType.valueOf(bundle.getInt(MARKET_TYPE));
+        }
     }
 
     @Override
@@ -78,30 +116,13 @@ public class MainMarketFragment1 extends VisiableLoadFragment implements ViewPag
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentList = new ArrayList<>();
         mRlheadertitle.setClickable(true);
-        fragmentList.add(new MarketFundsFragment1());
-        fragmentList.add(new MarketStockFragment());
-        mAdapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList);
-        vp.setAdapter(mAdapter);
-        vp.setOnPageChangeListener(this);
-        tabWidget = new TabWidget(view);
         mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                 null, null, null);
         mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);
-        tabWidget.setOnSelectListener(new TabWidget.OnSelectListener() {
-            @Override
-            public void onSelect(int position) {
-                vp.setCurrentItem(position);
-            }
-        });
-        tabWidget.setSelection(0);
 
-        vp.setCurrentItem(0);
-        mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
-        mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
-        vp.setOffscreenPageLimit(2);
+        mLeftBtn.setVisibility(View.GONE);
         mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,15 +130,28 @@ public class MainMarketFragment1 extends VisiableLoadFragment implements ViewPag
             }
         });
         BusProvider.getInstance().register(this);
+        mBtntitletabcenter.setVisibility(View.GONE);
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        Fragment fragment = null;
 
-
-        if (mActivity instanceof MainActivity) {
-            Bundle bundle = ((MainActivity) mActivity).mBundle;
-            if (bundle != null)
-                handIntent(bundle);
+        switch (curType) {
+            case TYPE_COMBINATION:
+                combinationFragment = new MarketCombinationFragment();
+                fragment = combinationFragment;
+                mBtntitletabright.setTextColor(getResources().getColor(R.color.black));
+                mBtntitletableft.setVisibility(View.GONE);
+                break;
+            default:
+                fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
+                fragment = fundsFragment;
+                mBtntitletableft.setTextColor(getResources().getColor(R.color.black));
+                mBtntitletabright.setVisibility(View.GONE);
+                break;
         }
-
-
+        ft.replace(R.id.view_datalist,fragment);
+        ft.commit();
+        mBtnrefresh.setOnClickListener((View.OnClickListener) fragment);
+        mBtnsearch.setOnClickListener((View.OnClickListener) fragment);
     }
 
     @Override
@@ -136,7 +170,6 @@ public class MainMarketFragment1 extends VisiableLoadFragment implements ViewPag
 
         if (bundle.containsKey("fund_index")) {
             int index = bundle.getInt("fund_index", 0);
-            vp.setCurrentItem(index);
         }
     }
 
@@ -146,70 +179,8 @@ public class MainMarketFragment1 extends VisiableLoadFragment implements ViewPag
     }
 
 
-    @Override
-    public void onViewHide() {
+    private static final String TAG = MarketSubpageFragment.class.getSimpleName();
 
-        if (null != mAdapter && null != vp) {
-            Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
-            if (fragment instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragment).onViewHide();
-            }
-        }
-    }
-
-    @Override
-    public void onViewShow() {
-
-        if (null != mAdapter && null != vp) {
-
-            Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
-            if (fragment instanceof VisiableLoadFragment) {
-                ((VisiableLoadFragment) fragment).onViewShow();
-            } else {
-                fragment.onResume();
-            }
-        }
-    }
-
-
-    private static final String TAG = MainMarketFragment1.class.getSimpleName();
-
-    @Override
-    public void onPageScrolled(int i, float v, int i2) {
-
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-        Fragment f = fragmentList.get(i);
-        tabWidget.setSelection(i);
-        switch (i) {
-            case 0:
-                mLeftBtn.setVisibility(View.GONE);
-                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
-                        null, null, null);
-                mBtnsearch.setVisibility(View.VISIBLE);
-                mBtnrefresh.setVisibility(View.VISIBLE);
-                mBtnsearch.setOnClickListener((View.OnClickListener) f);
-                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-                break;
-            case 1:
-                mLeftBtn.setVisibility(View.VISIBLE);
-                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
-                        null, null, null);
-                mBtnrefresh.setVisibility(View.VISIBLE);
-                mBtnsearch.setVisibility(View.VISIBLE);
-                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-                mBtnsearch.setOnClickListener((View.OnClickListener) f);
-                break;
-        }
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-
-    }
     @Subscribe
     public void rotateRefreshButton(RotateRefreshEvent rotateRefreshEvent) {
         if (isAdded() && !isHidden()) {
@@ -219,12 +190,38 @@ public class MainMarketFragment1 extends VisiableLoadFragment implements ViewPag
             mBtnrefresh.startAnimation(animation);
         }
     }
+
     @Subscribe
     public void stopRefreshAnimation(StopRefreshEvent stopRefreshEvent) {
         if (isAdded() && !isHidden()) {
             mBtnrefresh.clearAnimation();
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                     null, null, null);
+        }
+    }
+
+    @OnClick({R.id.btn_titletab_left, R.id.btn_titletab_right})
+    public void onClick(View v) {
+
+    }
+
+    public enum SubpageType {
+        TYPE_FUND_MANAGER_RANKING_WEEK(0),
+        TYPE_FUND_ALL_RANKING_MONTH(1),
+        TYPE_FUND_ALL_RANKING_YEAR(2),
+        TYPE_FUND_MIXED_MONTH(3),
+        TYPE_COMBINATION(4);
+        private int value;
+
+        private SubpageType(int var) {
+            value = var;
+        }
+
+        public static SubpageType valueOf(int ordinal) {
+            if (ordinal < 0 || ordinal >= values().length) {
+                throw new IndexOutOfBoundsException("Invalid ordinal");
+            }
+            return values()[ordinal];
         }
     }
 }

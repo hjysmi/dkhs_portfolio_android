@@ -5,14 +5,18 @@
     android:layout_height="match_parent"
     android:paddingRight="@dimen/widget_padding_normal">
 
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black" />
+
     <com.android.percent.PercentLinearLayout
         android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        android:background="@color/black"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_title"
@@ -30,7 +34,6 @@
             android:textColor="@color/white"
             app:layout_marginTopPercent="5%w"
             app:layout_textSizePercent="6%w" />
-
     </com.android.percent.PercentLinearLayout>
 
 </com.android.percent.PercentRelativeLayout>
