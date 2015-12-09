@@ -143,6 +143,7 @@ public class SelectCityFragment extends BaseFragment {
             LogUtils.d("wys", "cityName" + comName);
             BusProvider.getInstance().post(new BackCityEvent(comName));
             getActivity().finish();
+            UIUtils.outAnimationActivity(getActivity());
         } else {
             UIUtils.startAnimationActivity(getActivity(), SelectCityActivity.getItent(getActivity(), city.name, city.id));
             getActivity().finish();
