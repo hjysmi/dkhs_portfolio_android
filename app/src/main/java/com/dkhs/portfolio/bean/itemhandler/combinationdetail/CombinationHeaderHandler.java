@@ -3,8 +3,6 @@ package com.dkhs.portfolio.bean.itemhandler.combinationdetail;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.adpter.handler.ItemHandler;
@@ -14,6 +12,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.OptionalTabActivity;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.BitmapUtils;
 
 /**
@@ -39,8 +38,10 @@ public class CombinationHeaderHandler implements ItemHandler<UserEntity> ,View.O
         bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
         userEntity=data;
         if (null != data.getAvatar_md() && data.getAvatar_md().length() > 35) {
-            bitmapUtils.display(vh.getImageView(R.id.iv_uheader), data.getAvatar_md());
+            bitmapUtils.display(vh.getImageView(R.id.iv_avatar), data.getAvatar_md());
         }
+        //TODO 根据返回值判断加V图片的显示隐藏
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),true,WaterMarkUtil.TYPE_RED);
         vh.getTextView(R.id.tv_user_name).setText(data.getUsername());
         if (TextUtils.isEmpty(data.getDescription())) {
             vh.getTextView(R.id.tv_user_desc).setText(vh.getContext().getResources().getString(R.string.nodata_user_description));
