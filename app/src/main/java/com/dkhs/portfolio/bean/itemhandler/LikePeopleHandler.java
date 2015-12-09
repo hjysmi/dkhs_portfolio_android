@@ -9,6 +9,7 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 
 /**
  * @author zwm
@@ -42,6 +43,9 @@ public class LikePeopleHandler extends SimpleItemHandler<UserEntity> {
         } else {
             com.dkhs.portfolio.utils.ImageLoaderUtils.setHeanderImage(data.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         }
+
+        //TODO 根据返回值判断加V图片的显示隐藏
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), true, WaterMarkUtil.TYPE_RED);
 
         vh.getTextView(R.id.flowedCount).setText("粉丝:" + data.getFollowed_by_count());
         vh.getTextView(R.id.flowingCount).setText("关注:" + data.getFriends_count());
