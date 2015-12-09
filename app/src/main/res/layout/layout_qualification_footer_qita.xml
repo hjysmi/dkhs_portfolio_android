@@ -28,9 +28,9 @@
             android:background="@null"
             android:gravity="center|left"
             android:hint="请输入执业编号"
-            app:layout_textSizePercent="3.5%w"
             app:layout_heightPercent="15%w"
             app:layout_marginLeftPercent="25%w"
+            app:layout_textSizePercent="3.5%w"
             app:layout_widthPercent="75%w" />
 
         <View
@@ -42,8 +42,11 @@
     </com.android.percent.PercentFrameLayout>
 
     <com.android.percent.PercentFrameLayout
+        android:id="@+id/fm_organization"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,19 +66,19 @@
             android:background="@null"
             android:gravity="center|left"
             android:hint="选择所属机构"
-            app:layout_textSizePercent="3.5%w"
             app:layout_heightPercent="15%w"
             app:layout_marginLeftPercent="25%w"
+            app:layout_textSizePercent="3.5%w"
             app:layout_widthPercent="75%w" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_fundarrowright"
             android:layout_gravity="right|center_vertical"
-            app:layout_widthPercent="5%w"
+            android:background="@drawable/ic_fundarrowright"
             app:layout_heightPercent="5%w"
-            app:layout_marginRightPercent="5%w"/>
+            app:layout_marginRightPercent="5%w"
+            app:layout_widthPercent="5%w" />
         <!--<View
             android:layout_width="wrap_content"
             android:layout_height="1px"

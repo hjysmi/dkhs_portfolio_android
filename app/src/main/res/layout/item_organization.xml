@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/catalog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:background="#f5f5f5"
+        android:gravity="center_vertical"
+        android:textColor="#454545"
+        app:layout_heightPercent="6%w"
+        app:layout_textSizePercent="3%w"
+        tools:text="A" />
+
+    <com.android.percent.PercentLinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/catalog"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_organization"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            tools:text="国金证券" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_textcolor" />
+    </com.android.percent.PercentLinearLayout>
+
+
+</com.android.percent.PercentRelativeLayout>

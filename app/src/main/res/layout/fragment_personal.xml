@@ -32,6 +32,8 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="请输入姓名"
+                android:singleLine="true"
+                android:maxLength="20"
                 app:layout_heightPercent="12%w"
                 app:layout_marginLeftPercent="20%w"
                 app:layout_textSizePercent="4%w" />
@@ -64,6 +66,8 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="请输入身份证"
+                android:digits="1234567890Xx"
+                android:maxLength="18"
                 app:layout_heightPercent="12%w"
                 app:layout_marginLeftPercent="20%w"
                 app:layout_textSizePercent="4%w" />
@@ -193,6 +197,7 @@
             app:layout_widthPercent="5%w" />
 
         <ImageView
+            android:id="@+id/iv_upbg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -202,6 +207,7 @@
             app:layout_widthPercent="12%w" />
 
         <TextView
+            android:id="@+id/tv_upimgintroduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -212,6 +218,7 @@
             app:layout_widthPercent="40%w" />
 
         <Button
+            android:id="@+id/but_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -223,6 +230,7 @@
             app:layout_widthPercent="20%w" />
 
         <ImageView
+            android:id="@+id/iv_upimg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

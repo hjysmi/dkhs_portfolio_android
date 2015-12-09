@@ -17,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.percent.PercentFrameLayout;
 import com.dkhs.adpter.adapter.SingleItemAdapter;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.QualificationEventBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
+import com.dkhs.portfolio.ui.OrganizationActivity;
 import com.dkhs.portfolio.ui.adapter.SelectQualificationAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
@@ -55,6 +57,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private EditText et_num;
     private TextView tv_organization;
     private Button but_next;
+    private PercentFrameLayout fm_organization;
     private int width;
     private boolean isExpand = false;
     private SelectQualificationAdapter mPicAdapter;
@@ -89,12 +92,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         ll_footer = (LinearLayout) view.findViewById(R.id.ll_footer);
         but_next = (Button) view.findViewById(R.id.but_next);
         but_next.setOnClickListener(this);
-       /* View head = new View(getActivity());
-        head.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (0.01 * width)));*/
-        // gv.addHeaderView(head);
-
-        //gv.addFooterView(footer);
-        //   fm_main.setPadding((int) (0.05 * width), 0, (int) (0.05 * width), 0);
         gv.setVerticalSpacing((int) (0.03 * width));
         mSelectPohotos.add(ADD_PICTURE);
         mPicAdapter = new SelectQualificationAdapter(getActivity(), mSelectPohotos);
@@ -120,9 +117,11 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         ll_footer.setPadding(0, 0, 0, 0);
         et_num = (EditText) footer_qita.findViewById(R.id.et_num);
         tv_organization = (TextView) footer_qita.findViewById(R.id.tv_organization);
+        fm_organization = (PercentFrameLayout) footer_qita.findViewById(R.id.fm_organization);
         //  gvSelectPic = (GridViewEx) footer_qita.findViewById(R.id.gv_pic);
         et_num.setPadding((int) (0.05 * width), 0, 0, 0);
         tv_organization.setPadding((int) (0.05 * width), 0, 0, 0);
+        fm_organization.setOnClickListener(this);
     }
 
     private void initValues() {
@@ -172,26 +171,12 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_right:
-
-             /*   if (isExpand) {
-                    //展开
-                    ObjectAnimator.ofFloat(gv, "translationY", 0, (int) (1 * width)).setDuration(200).start();
-                    iv_right.setImageResource(R.drawable.ic_qualification_up);
-                    isExpand = false;
-                 //   fm_main.requestLayout();
-                  //  gv.requestLayout();
-                } else {
-                    //收缩
-                    ObjectAnimator.ofFloat(gv, "translationY", 0, -(int) (1 * width)).setDuration(200).start();
-                    iv_right.setImageResource(R.drawable.ic_qualification_down);
-                    isExpand = true;
-                  //  fm_main.requestLayout();
-                 //   gv.requestLayout();
-                }*/
-
                 break;
             case R.id.but_next:
                 BusProvider.getInstance().post(new QualificationToPersonalEvent());
+                break;
+            case R.id.fm_organization:
+                UIUtils.startAnimationActivity(getActivity(),new Intent(getActivity(),OrganizationActivity.class));
                 break;
         }
     }

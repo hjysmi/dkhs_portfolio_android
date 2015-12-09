@@ -347,8 +347,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
                 case R.id.tv_auth_status:
-                    Intent intent = new Intent(mContext, BetterRecruitActivity.class);
-                    mContext.startActivity(intent);
+                    UIUtils.startAnimationActivity((Activity) mView.getContext(), new Intent(mView.getContext(), BetterRecruitActivity.class));
                     break;
 
             }

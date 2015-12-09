@@ -41,6 +41,7 @@
             android:hint="为给投资人提供更好的服务,请填写能证明您投资能力的资料"
             android:gravity="top"
             android:background="@null"
+            android:maxLength="200"
             app:layout_textSizePercent="3.5%w"/>
 
 

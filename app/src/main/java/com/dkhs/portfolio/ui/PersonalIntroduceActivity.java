@@ -2,8 +2,6 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +37,7 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         but_next = (Button) findViewById(R.id.but_next);
         int padding_left = (int) (0.05 * width);
         et_content.setPadding(padding_left, 0, padding_left, padding_left);
-        et_content.addTextChangedListener(et_content_textwatcher);
+     //   et_content.addTextChangedListener(et_content_textwatcher);
     }
 
     private void initValues() {
@@ -50,7 +48,7 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         but_next.setOnClickListener(this);
     }
 
-    TextWatcher et_content_textwatcher = new TextWatcher() {
+   /* TextWatcher et_content_textwatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -64,11 +62,11 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         @Override
         public void afterTextChanged(Editable s) {
             String str = s.toString().trim();
-           /* if (str.length() >= 200) {
-                et_content.setText(str.split(str,200)[0]);
-            }*/
+            if (str.length() >= 10) {
+                et_content.setText(str.substring(10));
+            }
         }
-    };
+    };*/
 
     @Override
     public void onClick(View v) {
