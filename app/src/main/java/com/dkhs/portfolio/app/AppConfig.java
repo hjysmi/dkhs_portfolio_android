@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.bean.DraftBean;
+import com.dkhs.portfolio.engine.LocalDataEngine.CityEngine;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
@@ -159,6 +160,12 @@ public final class AppConfig {
 
             }
         });
+        return DbUtils.create(dbConfig);
+    }
+
+    public static DbUtils getCityDBUtils() {
+        DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
+        dbConfig.setDbName(CityEngine.CITYDBNAME);
         return DbUtils.create(dbConfig);
     }
 

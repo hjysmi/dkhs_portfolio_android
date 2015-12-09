@@ -16,6 +16,8 @@ import java.util.List;
  */
 public class CityEngine {
 
+    public static String CITYDBNAME = "city_portfolio.db";// 数据库的名字
+
     /**
      * 获取城市列表
      */
@@ -23,7 +25,7 @@ public class CityEngine {
         new Thread() {
             @Override
             public void run() {
-                DbUtils dbUtils = AppConfig.getDBUtils();
+                DbUtils dbUtils = AppConfig.getCityDBUtils();
                 List<CityBean> cityBeans = new ArrayList<CityBean>();
                 try {
 
@@ -44,17 +46,17 @@ public class CityEngine {
      * @param parentCode
      */
     public static void getCity(final String parentCode) {
+
         new Thread() {
             @Override
             public void run() {
-                DbUtils dbUtils = AppConfig.getDBUtils();
+                DbUtils dbUtils = AppConfig.getCityDBUtils();
                 List<CityBean> cityBeans = new ArrayList<CityBean>();
                 try {
 
                     cityBeans = dbUtils
-                            .findAll(Selector.from(CityBean.class).where(CityBean.TYPE, "=", "2").and(CityBean.PARENT_CODE, "=", parentCode).orderBy(CityBean.PINYIN, false)
+                            .findAll(Selector.from(CityBean.class).where(CityBean.TYPE, "=", "2").and(CityBean.PARENT_CODE,"=",parentCode).orderBy(CityBean.PINYIN, false)
                             );
-
                     BusProvider.getInstance().post(new QueryCityEvent(cityBeans));
 
                 } catch (DbException e) {
