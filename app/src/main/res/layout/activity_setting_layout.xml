@@ -50,19 +50,20 @@
                             android:paddingRight="30dp"
                             android:src="@drawable/setting_image_right" />
 
-                        <ImageView
-                            android:id="@+id/setting_image_head"
-                            android:layout_width="72dp"
-                            android:layout_height="72dp"
+                        <include
+                            android:id="@+id/ll_image_head"
+                            layout="@layout/layout_avatar_mark_v"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
                             android:layout_toLeftOf="@id/setting_image_right"
-                            android:padding="10dp"
+                            android:layout_margin="10dp"
                             android:src="@drawable/ic_launcher" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/setting_image_head"
+                            android:layout_toLeftOf="@id/ll_image_head"
                             android:paddingLeft="20dp">
 
                             <TextView

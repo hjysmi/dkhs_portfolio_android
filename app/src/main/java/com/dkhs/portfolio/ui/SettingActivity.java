@@ -34,6 +34,7 @@ import com.dkhs.portfolio.ui.widget.UpdateDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -60,6 +61,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
     private Context context;
     private ImageView settingImageHead;
+    private ImageView watermarkIv;
     private TextView settingTextNameText;
     // private Button btnLogin;
     // private View viewLogin;
@@ -173,7 +175,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         View viewUserInfo = findViewById(R.id.person_setting_parent);
         // viewLogin = findViewById(R.id.ll_login_layout);
         LinearLayout settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
-        settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
+        settingImageHead = (ImageView) findViewById(R.id.iv_avatar);
+        watermarkIv = (ImageView) findViewById(R.id.iv_water_mark);
         TextView settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
         settingTextNameText = (TextView) findViewById(R.id.setting_text_name_text);
         settingAccountLayout = (LinearLayout) findViewById(R.id.setting_account_layout);
@@ -230,6 +233,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 settingImageHead.setImageBitmap(b);
 
             }
+            //TODO 根据返回值判断加V图片的显示隐藏
+            WaterMarkUtil.calWaterMarkImage(watermarkIv, true, WaterMarkUtil.TYPE_RED);
         } else {
             // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.GONE);
