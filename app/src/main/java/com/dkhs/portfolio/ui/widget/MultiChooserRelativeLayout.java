@@ -270,13 +270,20 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
 
     }
 
-    public void setFundsRanking() {
+    public void setFundsAllRanking() {
         floatMenuAdapter.setSelectIndex(data.get(0));
         floatMenuAdapter2.setSelectIndex(data.get(0));
         selectItem=data.get(0);
         notifyDataSetChanged();
         BusProvider.getInstance().post(selectItem);
 
+    }
+    public void setFundsMixedRanking() {
+        floatMenuAdapter.setSelectIndex(data.get(2));
+        floatMenuAdapter2.setSelectIndex(data.get(2));
+        selectItem=data.get(2);
+        notifyDataSetChanged();
+        BusProvider.getInstance().post(selectItem);
 
     }
 

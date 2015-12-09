@@ -131,7 +131,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
 
         mViewBeanList = new ArrayList<ViewBean>(defViewCount);
-        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_index));
+//        mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_index));
         mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_hot));
         mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_up));
         mViewBeanList.add(new MarkTitleViewBean(R.string.market_title_down));
@@ -191,7 +191,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
             List<ViewBean> dataList = null;
 
             dataList = new ArrayList<ViewBean>();
-            dataList.add(new MarkTitleViewBean(R.string.market_title_index));
+//            dataList.add(new MarkTitleViewBean(R.string.market_title_index));
 
             if (null != mAllMarketBean.getMidx_data()) {
 

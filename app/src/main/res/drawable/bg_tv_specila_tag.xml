@@ -3,7 +3,7 @@
 
     <corners
         android:radius="8dp"/>
-    <solid android:color="@color/theme_blue"/>
+    <solid android:color="@color/fund_special_green_translation"/>
     <padding android:bottom="1dp"
         android:top="1dp"
         android:right="8dp"
