@@ -7,6 +7,7 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.BitmapUtils;
 
 /**
@@ -37,10 +38,12 @@ public class FollowerItemHandler extends SimpleItemHandler<PeopleBean> {
         PeopleBean peopleBean = data;
 
         if (null != peopleBean.getAvatar_md() && peopleBean.getAvatar_md().length() > 35) {
-            bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md(), R.drawable.ic_user_head, R.drawable.ic_user_head);
+            bitmapUtils.display(vh.getImageView(R.id.iv_avatar), peopleBean.getAvatar_md(), R.drawable.ic_user_head, R.drawable.ic_user_head);
         } else {
-            vh.getImageView(R.id.im_avatar).setImageResource(R.drawable.ic_user_head);
+            vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
+        //TODO 根据返回值判断加V图片的显示隐藏
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), true, WaterMarkUtil.TYPE_RED);
 
         vh.setTextView(R.id.tv_user_name, peopleBean.getUsername());
         vh.setTextView(R.id.tv_followers, mContext.getResources().getString(R.string.followers) + ":"
