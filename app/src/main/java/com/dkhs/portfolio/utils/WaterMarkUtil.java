@@ -14,8 +14,6 @@ public class WaterMarkUtil {
     public static void calWaterMarkImage(ImageView iv,boolean isShow,int type){
         if(isShow){
             iv.setVisibility(View.VISIBLE);
-        }else{
-            iv.setVisibility(View.GONE);
             switch (type){
                 case TYPE_BLUE:
                     iv.setImageResource(R.drawable.water_mark_blue);
@@ -24,6 +22,8 @@ public class WaterMarkUtil {
                     iv.setImageResource(R.drawable.water_mark_red);
                     break;
             }
+        }else{
+            iv.setVisibility(View.GONE);
         }
     }
 }

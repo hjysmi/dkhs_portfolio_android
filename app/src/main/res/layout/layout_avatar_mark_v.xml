@@ -15,6 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="bottom|right"
+        android:visibility="gone"
         android:src="@drawable/water_mark_blue"
         app:layout_heightPercent="35%"
         app:layout_widthPercent="35%" />
