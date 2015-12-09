@@ -37,6 +37,7 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -71,6 +72,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private TextView tvUsername;
     private Button rlfbutton;
     private ImageView ivHeader;
+    private ImageView ivWaterMark;
     private String phoneNum;
     // private CheckBox cbRequestTestServer;
     private TextView tvAnnoyLogin;
@@ -171,6 +173,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (!TextUtils.isEmpty(url)) {
             // url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils.display(ivHeader, url);
+            //TODO 根据返回值判断加V图片的显示隐藏
+            WaterMarkUtil.calWaterMarkImage(ivWaterMark, true, WaterMarkUtil.TYPE_RED);
         }
     }
 
@@ -203,8 +207,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // }
 
         etUserName = (EditText) findViewById(R.id.username);
-        ivHeader = (ImageView) findViewById(R.id.iv_header);
-
+        ivHeader = (ImageView) findViewById(R.id.iv_avatar);
+        ivHeader.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ivWaterMark = (ImageView) findViewById(R.id.iv_water_mark);
         etPassword = (EditText) findViewById(R.id.password);
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvUsername = (TextView) findViewById(R.id.tv_username);
