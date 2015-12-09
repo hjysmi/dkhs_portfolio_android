@@ -25,6 +25,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.ui.BetterRecruitActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -33,9 +34,7 @@ import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
-import com.dkhs.portfolio.ui.city.SelectProviceActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.ui.BetterRecruitActivity;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -115,7 +114,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new ItemViewHolder(view);
         } else if (viewType == TYPE_HEADER) {
             view = mLayoutInflater.inflate(R.layout.layout_userinfo_header, parent, false);
-            return new HeadViewHolder(view,mContext);
+            return new HeadViewHolder(view, mContext);
         }
 
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -309,7 +308,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private View mView;
         private Context mContext;
 
-        public HeadViewHolder(View view,Context context) {
+        public HeadViewHolder(View view, Context context) {
             super(view);
             this.mView = view;
             mContext = context;
@@ -317,8 +316,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-
-        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers,R.id.tv_auth_status})
+        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers, R.id.tv_auth_status})
         public void onClick(View v) {
             int id = v.getId();
 
@@ -327,8 +325,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.iStartLoginActivity(mView.getContext());
                     break;
                 case R.id.setting_layout_icon:
-//                    startUserInfoActivity();
-                    UIUtils.startAnimationActivity((Activity) mView.getContext(), new Intent(mView.getContext(), SelectProviceActivity.class));
+                    startUserInfoActivity();
+
                     break;
                 case R.id.user_myfunds_layout:
                     if (!UIUtils.iStartLoginActivity(mView.getContext())) {
@@ -349,7 +347,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
                 case R.id.tv_auth_status:
-                    Intent intent = new Intent(mContext,BetterRecruitActivity.class);
+                    Intent intent = new Intent(mContext, BetterRecruitActivity.class);
                     mContext.startActivity(intent);
                     break;
 
@@ -370,7 +368,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewUserInfo.setVisibility(View.VISIBLE);
                 String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
                 if (!TextUtils.isEmpty(account)) {
-                    settingTextAccountText.setText(String.format(mContext.getString(R.string.account_format),account));
+                    settingTextAccountText.setText(String.format(mContext.getString(R.string.account_format), account));
                 }
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));

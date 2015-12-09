@@ -76,6 +76,7 @@
         </com.android.percent.PercentFrameLayout>
 
         <com.android.percent.PercentFrameLayout
+            android:id="@+id/fm_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/lv_white_selector"
@@ -100,7 +101,7 @@
                 app:layout_widthPercent="20%w" />
 
             <TextView
-                android:id="@+id/et_city"
+                android:id="@+id/tv_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
