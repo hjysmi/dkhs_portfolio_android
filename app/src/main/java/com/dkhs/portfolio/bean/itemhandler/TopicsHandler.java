@@ -81,6 +81,11 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
 
+        //TODO 根据字段判断是否显示加V, 加V是蓝色或红色
+        if(true){
+            vh.getImageView(R.id.iv_water_mark).setVisibility(View.VISIBLE);
+        }
+
 
         if (TextUtils.isEmpty(data.text)) {
             vh.get(R.id.content).setVisibility(View.GONE);
