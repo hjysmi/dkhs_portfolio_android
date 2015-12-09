@@ -11,7 +11,7 @@ package com.dkhs.portfolio.bean;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.ui.widget.ViewBean.SelectStockFundViewBean;
-import com.dkhs.portfolio.utils.StockUitls;
+import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
@@ -26,6 +26,7 @@ import org.parceler.Parcel;
 @Parcel
 public class SelectStockBean extends DragListItem {
 
+    @SerializedName("abbr_name")
     public String name;
     public float currentValue;
     public float percentage;
@@ -37,8 +38,11 @@ public class SelectStockBean extends DragListItem {
     public String symbol;
     public float change;
     public boolean isFollowed;
+    //对应数据库的停牌
     public boolean isStop;
      public boolean is_alert;
+    //对应网络数据的停牌
+    public int is_stop;
 
     public AlertSetBean alertSetBean;
 

@@ -46,7 +46,7 @@ public class SelectStatusStockActivity extends BaseSelectActivity implements OnC
 
     @Override
     protected FragmentSearchStockFund getSearchFragment() {
-        return FragmentSearchStockFund.getItemClickBackFragment(true);
+        return FragmentSearchStockFund.getItemClickBackFragment(true,true);
     }
 
     @Override

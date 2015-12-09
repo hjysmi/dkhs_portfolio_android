@@ -351,7 +351,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void handFollowOrUnfollowAction() {
         final SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
         if (null != changeFollowView && null != selectBean) {
-            changeFollowView.changeFollow(selectBean);
+            changeFollowView.changeFollowNoDialog(selectBean);
         }
     }
 

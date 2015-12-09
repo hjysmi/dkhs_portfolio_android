@@ -133,7 +133,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
             btnOrder.setVisibility(View.GONE);
-            setTitle(R.string.title_search_stock);
+            setTitle(R.string.select_stock);
             gvSelctStock.setNumColumns(3);
             etSearchKey.setHint(R.string.search_stockandfunds);
 
