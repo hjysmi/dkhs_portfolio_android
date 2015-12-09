@@ -34,7 +34,7 @@ public final class AppConfig {
 
     public static final boolean isDebug = BuildConfig.isSandbox;
 
-    public static final int VERSION_CURRENT = 4;//当前数据库版本号
+    public static final int VERSION_CURRENT = 3;//当前数据库版本号
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
@@ -57,6 +57,7 @@ public final class AppConfig {
         if (hasReplaceRawDB || !PortfolioPreferenceManager.hasLoadSearchStock()) {
             copyDataBaseToPhone();
         }
+        copyCityDbToPhone();
 
         // 注册crashHandler，程序异常的日志管理工具
 
@@ -114,6 +115,31 @@ public final class AppConfig {
         }
     }
 
+    private void copyCityDbToPhone() {
+
+        final DataBaseUtil util = new DataBaseUtil(mContext);
+        // 判断数据库是否存在
+        boolean dbExist = util.checkCityDataBase();
+
+        if (dbExist) {
+            Log.i("tag", "The database is exist.");
+        } else {// 不存在就把raw里的数据库写入手机
+
+            new Thread() {
+                public void run() {
+
+                    try {
+                        util.copyCityDataBase();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }.start();
+
+        }
+    }
+
     public static DbUtils getDBUtils() {
         DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
         dbConfig.setDbVersion(VERSION_CURRENT);
@@ -129,23 +155,6 @@ public final class AppConfig {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    case 4:
-//                        try {
-//                            db.dropDb();
-//                            final DataBaseUtil util = new DataBaseUtil(PortfolioApplication.getInstance());
-//                            new Thread() {
-//                                public void run() {
-//                                    try {
-//                                        util.copyDataBase();
-//                                        PortfolioPreferenceManager.setLoadSearchStock();
-//                                    } catch (IOException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }.start();
-//                        } catch (DbException e) {
-//                            e.printStackTrace();
-//                        }
                 }
 
             }
