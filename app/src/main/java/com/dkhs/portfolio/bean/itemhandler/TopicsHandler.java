@@ -23,6 +23,7 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
@@ -82,9 +83,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         }
 
         //TODO 根据字段判断是否显示加V, 加V是蓝色或红色
-        if(true){
-            vh.getImageView(R.id.iv_water_mark).setVisibility(View.VISIBLE);
-        }
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),true,WaterMarkUtil.TYPE_RED);
 
 
         if (TextUtils.isEmpty(data.text)) {
