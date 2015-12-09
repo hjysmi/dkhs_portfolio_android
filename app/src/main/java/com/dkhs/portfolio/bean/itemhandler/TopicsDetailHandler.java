@@ -37,6 +37,7 @@ import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
@@ -145,6 +146,8 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
             } else {
                 vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
             }
+            //TODO 根据返回值判断加V图片的显示隐藏
+            WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), true, WaterMarkUtil.TYPE_RED);
         }
 
         if(data.content_type == 40){
