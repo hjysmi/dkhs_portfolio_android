@@ -20,6 +20,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,12 +55,12 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
 
     private ThreePayManager mPayManager;
 
-    private float rechargeAmount;
+    private BigDecimal rechargeAmount;
 
-    public static RechargeFragment newInstance(float amount){
+    public static RechargeFragment newInstance(String amount){
         RechargeFragment fragment = new RechargeFragment();
         Bundle args = new Bundle();
-        args.putFloat(CHARGE_AMOUNT,amount);
+        args.putString(CHARGE_AMOUNT, amount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,9 +94,14 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        rechargeAmount = bundle.getFloat(CHARGE_AMOUNT,0);
-        if(rechargeAmount != 0){//默认充值金额＝悬赏金额－帐户余额， 且必须大于1
-            if(rechargeAmount > 1){
+        String chargeStr  = bundle.getString(CHARGE_AMOUNT);
+        if(!TextUtils.isEmpty(chargeStr)){
+            rechargeAmount = new BigDecimal(chargeStr);
+        }else{
+            rechargeAmount = new BigDecimal("0");
+        }
+        if(!rechargeAmount.equals(new BigDecimal("0"))){//默认充值金额＝悬赏金额－帐户余额， 且必须大于1
+            if(rechargeAmount.compareTo(new BigDecimal("1")) == 1){
                 etPayNum.setText(String.valueOf(rechargeAmount));
             }else{
                 etPayNum.setText("1");
@@ -133,6 +139,9 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
                 return;
             }
 
+            if(!isAllowPercentInputText(strBefore)){
+                return;
+            }
             int editStart = etPayNum.getSelectionStart();
             if (!isAllowPercentInputText(textString)) {
                 etPayNum.setText(strBefore);
