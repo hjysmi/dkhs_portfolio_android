@@ -2,6 +2,8 @@ package com.dkhs.portfolio.ui.wallets;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -111,6 +113,7 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
             changeBtnStatus(DISABLE_STATUS);
         }
         etPayNum.addTextChangedListener(percentTextWatch);
+        etPayNum.setFilters(new InputFilter[]{lengthfilter});
 //        btnRecharge.setOnClickListener(this);
     }
 
@@ -138,21 +141,6 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
             if (textString.equals(strBefore)) {
                 return;
             }
-
-            if(!isAllowPercentInputText(strBefore)){
-                return;
-            }
-            int editStart = etPayNum.getSelectionStart();
-            if (!isAllowPercentInputText(textString)) {
-                etPayNum.setText(strBefore);
-                etPayNum.setSelection(strBefore.length());
-
-            } else {
-                strBefore = s.toString();
-                etPayNum.setText(s);
-                etPayNum.setSelection(editStart);
-            }
-
         }
     };
 
@@ -167,6 +155,36 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
         Matcher m = p.matcher(str);
         return m.matches();
     }
+
+    private static final int DECIMAL_DIGITS = 2;
+    /**
+     * 限制小数位数
+     */
+    InputFilter lengthfilter = new InputFilter() {
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
+            // 删除等特殊字符，直接返回
+            if ("".equals(source.toString())) {
+                return null;
+            }
+            String dValue = dest.toString();
+            String[] splitArray = dValue.split("\\.");
+            if (splitArray.length > 1) {
+                String dotValue = splitArray[1];
+                int diff = dotValue.length() + 1 - DECIMAL_DIGITS;
+                if (diff > 0) {
+                    return source.subSequence(start, end - diff);
+                }
+            }else if(splitArray.length == 1){
+                String intValue = splitArray[0];
+                int diff = intValue.length() + 1 - 9;
+                if(diff > 0){
+                    return source.subSequence(start, end - diff);
+                }
+            }
+            return null;
+        }
+    };
 
     @OnClick({R.id.btn_recharge, R.id.rl_alipay, R.id.rl_wechatpay, R.id.rl_cardpay})
     @Override
