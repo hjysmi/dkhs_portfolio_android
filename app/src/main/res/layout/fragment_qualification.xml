@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/ic_qualification_up"
+            android:src="@drawable/ic_qualification_down"
             app:layout_heightPercent="6%w"
             app:layout_marginRightPercent="5%w"
             app:layout_widthPercent="6%w" />
@@ -49,6 +49,7 @@
         android:id="@+id/fm_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ScrollView
             android:id="@+id/sc_content"

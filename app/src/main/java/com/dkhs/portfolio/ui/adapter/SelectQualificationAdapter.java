@@ -3,7 +3,6 @@ package com.dkhs.portfolio.ui.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -35,7 +34,6 @@ public class SelectQualificationAdapter extends SingleItemAdapter<String> {
 
     @Override
     public void onBindView(ViewHolder vh, final String data, int position) {
-        Log.e("xue","pos= "+position+"  data= "+data);
         if (!TextUtils.isEmpty(data) && data.equals(QualificationFragment.ADD_PICTURE)) {
             android.widget.ImageView icMore = vh.getImageView(R.id.iv_additem);
             icMore.setVisibility(View.VISIBLE);

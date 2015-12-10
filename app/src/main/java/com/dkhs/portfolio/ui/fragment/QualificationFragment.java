@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -160,6 +162,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 adapter.setSelectedPosition(position);
                 adapter.notifyDataSetChanged();
                 tv_type.setText(list.get(position));
+                initAnimation();
                 if (position == 0) {
                     //投资牛人
                     View footer0 = LayoutInflater.from(getActivity()).inflate(R.layout.layout_qualification_footer, null);
@@ -182,42 +185,85 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         switch (v.getId()) {
             case R.id.iv_right:
 
-             /*   if (isExpand) {
-                    //展开
-                    ObjectAnimator.ofFloat(gv, "translationY", 0, (int) (1 * width)).setDuration(200).start();
-                    iv_right.setImageResource(R.drawable.ic_qualification_up);
-                    isExpand = false;
-                 //   fm_main.requestLayout();
-                  //  gv.requestLayout();
-                } else {
-                    //收缩
-                    ObjectAnimator.ofFloat(gv, "translationY", 0, -(int) (1 * width)).setDuration(200).start();
-                    iv_right.setImageResource(R.drawable.ic_qualification_down);
-                    isExpand = true;
-                  //  fm_main.requestLayout();
-                 //   gv.requestLayout();
-                }*/
-                if (isExpand) {
-                    TranslateAnimation animation = new TranslateAnimation(0,0,0,-gv.getHeight());
-                    animation.setDuration(300);
-                    animation.setFillAfter(true);
-                    sc_content.startAnimation(animation);
-                    isExpand = false;
-                } else {
-                    TranslateAnimation animation = new TranslateAnimation(0,0,-gv.getHeight(),0);
-                    animation.setDuration(300);
-                    animation.setFillAfter(true);
-                    sc_content.startAnimation(animation);
-                    isExpand = true;
-                }
+                initAnimation();
 
                 break;
             case R.id.but_next:
                 BusProvider.getInstance().post(new QualificationToPersonalEvent());
                 break;
             case R.id.fm_organization:
-                UIUtils.startAnimationActivity(getActivity(),new Intent(getActivity(),OrganizationActivity.class));
+                UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), OrganizationActivity.class));
                 break;
+        }
+    }
+
+    int scrollY = 0;
+
+    private void initAnimation() {
+        Log.e("xue", "gv.getHeight()=" +gv.getHeight());
+        Log.e("xue", "scrollY=" + sc_content.getScrollY());
+        if (isExpand) {
+            //收缩
+            scrollY = sc_content.getScrollY();
+
+            TranslateAnimation animation = new TranslateAnimation(0, 0, 0, -(gv.getHeight() - scrollY));
+            Log.e("xue1", "gv.getHeight()=" +gv.getHeight());
+            Log.e("xue1", "scrollY=" + sc_content.getScrollY());
+            animation.setDuration(300);
+            animation.setFillAfter(true);
+            sc_content.startAnimation(animation);
+            isExpand = false;
+            iv_right.setImageResource(R.drawable.ic_qualification_up);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    gv.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+        } else {
+            //展开
+            Log.e("xue2", "gv.getHeight()=" +gv.getHeight());
+            Log.e("xue2", "scrollY=" + sc_content.getScrollY());
+           /* ObjectAnimator animator = ObjectAnimator.ofFloat(sc_content, "translationY", 0, 0);
+            animator.setDuration(200);
+            animator.start();*/
+            TranslateAnimation animation = new TranslateAnimation(0, 0, -(gv.getHeight() -scrollY), 0);
+            animation.setDuration(300);
+            animation.setFillAfter(true);
+            sc_content.startAnimation(animation);
+
+            isExpand = true;
+            iv_right.setImageResource(R.drawable.ic_qualification_down);
+
+
+
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    gv.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
         }
     }
 
