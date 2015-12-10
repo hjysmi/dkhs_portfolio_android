@@ -256,6 +256,12 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                 adapter.notifyDataSetChanged();
             }
         }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            mViewBeanList.clear();
+            super.onFailure(errCode, errMsg);
+        }
     };
     TextWatcher mTextWatcher = new TextWatcher() {
         @Override
