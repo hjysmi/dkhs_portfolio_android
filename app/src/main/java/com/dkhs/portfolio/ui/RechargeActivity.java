@@ -20,9 +20,9 @@ public class RechargeActivity extends ModelAcitivity {
         setTitle(R.string.title_recharge);
         BusProvider.getInstance().register(this);
         Intent it = getIntent();
-        float chargeAmount = 0;
+        String  chargeAmount = "";
         if(it != null){
-            chargeAmount = it.getFloatExtra(RechargeFragment.CHARGE_AMOUNT,0);
+            chargeAmount = it.getStringExtra(RechargeFragment.CHARGE_AMOUNT);
         }
         replaceContentFragment(RechargeFragment.newInstance(chargeAmount));
     }
