@@ -105,6 +105,16 @@ public class SelectStockBean extends DragListItem {
         return bean;
     }
 
+    public static SelectStockBean copy(TopicsBean.SymbolsBean symbolsBean) {
+        SelectStockBean bean = new SelectStockBean();
+        bean.name = symbolsBean.abbr_name;
+        bean.id = symbolsBean.id;
+        bean.symbol = symbolsBean.symbol;
+        bean.symbol_stype = symbolsBean.symbol_stype;
+        bean.list_status = symbolsBean.list_status;
+        return bean;
+    }
+
     public static SelectStockBean copy(SearchStockBean stockBean) {
 
         SelectStockBean bean = new SelectStockBean();
@@ -414,4 +424,5 @@ public class SelectStockBean extends DragListItem {
         }
         return super.equals(obj);
     }
+
 }

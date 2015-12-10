@@ -13,10 +13,14 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.adpter.handler.ItemHandlerClickListenerImp;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
@@ -32,6 +36,7 @@ import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.adapter.SpecialFundAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
@@ -122,7 +127,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
          (30, '研报'),
          )
          */
-        if (data.content_type != TopicsDetailActivity.TYPE_REWARD && data.content_type != TopicsDetailActivity.TYPE_TOPIC) {
+        if (data.content_type != TopicsDetailActivity.TYPE_REWARD && data.content_type != TopicsDetailActivity.TYPE_TOPIC  && data.content_type != TopicsDetailActivity.TYPE_SPECIAL) {
             setRelatedSymbols(vh.getTextView(R.id.relatedSymbolsTV), data.symbols);
             vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at) + getFromOrigin(data.source));
             switch (data.content_type) {
@@ -138,12 +143,21 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
                     break;
             }
         } else {
-            vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
             vh.getTextView(R.id.relatedSymbolsTV).setVisibility(View.GONE);
-            if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
-                ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
-            } else {
-                vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
+            if(data.content_type == TopicsDetailActivity.TYPE_SPECIAL){
+                vh.get(R.id.rl_header).setVisibility(View.GONE);
+                vh.get(R.id.titleTV).setVisibility(View.GONE);
+                vh.get(R.id.top_divider).setVisibility(View.VISIBLE);
+                vh.get(R.id.content_divider).setVisibility(View.VISIBLE);
+            }else{
+                vh.get(R.id.top_divider).setVisibility(View.GONE);
+                vh.get(R.id.content_divider).setVisibility(View.GONE);
+                vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
+                if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+                    ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+                } else {
+                    vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
+                }
             }
         }
 
@@ -154,6 +168,12 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
         }else{
             vh.get(R.id.layout_reward_status).setVisibility(View.GONE);
             vh.getTextView(R.id.tv_reward_state).setVisibility(View.GONE);
+            if (data.content_type == 50 && data.symbols != null && data.symbols.size() > 0){
+                //专题理财，需要显示基金
+                ListView lv_funds = vh.get(R.id.lv_funds);
+                SpecialFundAdapter adapter = new SpecialFundAdapter(mContext);
+                lv_funds.setAdapter(new DKBaseAdapter(mContext, data.symbols).buildSingleItemView(adapter));
+            }
         }
     }
 

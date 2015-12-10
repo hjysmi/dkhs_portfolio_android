@@ -18,6 +18,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.RecommendFundSpecialBannerBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class FundSpecialBannerHandler extends SimpleItemHandler<Message> {
             View leftView = new View(mContext);
             leftView.setLayoutParams(new ViewGroup.LayoutParams(mContext.getResources().getDimensionPixelOffset(R.dimen.widget_margin_medium), 1));
             ll.addView(leftView);
-            for(RecommendFundSpecialBannerBean item : lists){
+            for(final RecommendFundSpecialBannerBean item : lists){
                 View bannerItem =  View.inflate(mContext, R.layout.item_market_fund_banner, null);;
                 bannerItem.setLayoutParams(params);
                 if(item.isFirstTimeLoad){
@@ -74,7 +75,8 @@ public class FundSpecialBannerHandler extends SimpleItemHandler<Message> {
                 bannerItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO 开启专题详情
+                        TopicsDetailActivity.startActivity(mContext, item.getId());
+
                     }
                 });
                 ll.addView(bannerItem);

@@ -13,7 +13,9 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.RecommendFundSpecialLineBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class FundSpecialHandler extends SimpleItemHandler<RecommendFundSpecialLi
         vh.get(R.id.fl_sepcial_feature).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2015/12/8
+                TopicsDetailActivity.startActivity(mContext,item.getId());
             }
         });
     }

@@ -32,18 +32,21 @@ public class FundSpecialTitleHandler extends SimpleItemHandler<FundSpecialTitleT
     public void onBindView(ViewHolder vh, final FundSpecialTitleType data, int position) {
         switch (data) {
             case TITLE_FUND_MARKET:
+                vh.get(R.id.rootView).setBackgroundResource(R.drawable.lv_white_selector);
                 vh.getTextView(R.id.title).setText(R.string.fund_market);
                 vh.getTextView(R.id.more).setText(R.string.look_at_all);
                 vh.getTextView(R.id.more).setVisibility(View.VISIBLE);
                 vh.get(R.id.divider).setVisibility(View.GONE);
                 break;
             case TITLE_FUND_MANAGER:
+                vh.get(R.id.rootView).setBackgroundColor(mContext.getResources().getColor(R.color.white));
                 vh.getTextView(R.id.title).setText(R.string.fund_manager);
 //                vh.getTextView(R.id.more).setText(R.string.more);
                 vh.getTextView(R.id.more).setVisibility(View.GONE);
                 vh.get(R.id.divider).setVisibility(View.GONE);
                 break;
             case TITLE_SPECIAL:
+                vh.get(R.id.rootView).setBackgroundColor(mContext.getResources().getColor(R.color.white));
                 vh.getTextView(R.id.title).setText(R.string.special_financing);
                 vh.getTextView(R.id.more).setVisibility(View.GONE);
                 vh.get(R.id.divider).setVisibility(View.VISIBLE);
