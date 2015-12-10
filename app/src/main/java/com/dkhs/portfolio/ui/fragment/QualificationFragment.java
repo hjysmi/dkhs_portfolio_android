@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,7 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -172,37 +174,93 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     }
 
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_right:
 
-             /*   if (isExpand) {
-                    //展开
-                    ObjectAnimator.ofFloat(gv, "translationY", 0, (int) (1 * width)).setDuration(200).start();
+                if (isExpand) {
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(sc_content, "translationY", 0, -(gv.getHeight()-sc_content.getScrollY())).setDuration(200);
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            gv.setVisibility(View.GONE);
+                            sc_content.setTranslationY(0);
+                            sc_content.setScrollY(0);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float interpolatedTime = animation.getAnimatedFraction();
+                            gv.getLayoutParams().height = gv.getHeight()
+                                    - (int) (gv.getHeight() * interpolatedTime);
+                            gv.requestLayout();
+                        }
+                    });
+                    animator.start();
+
                     iv_right.setImageResource(R.drawable.ic_qualification_up);
                     isExpand = false;
-                 //   fm_main.requestLayout();
-                  //  gv.requestLayout();
                 } else {
-                    //收缩
-                    ObjectAnimator.ofFloat(gv, "translationY", 0, -(int) (1 * width)).setDuration(200).start();
+
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(sc_content, "translationY", -(gv.getHeight() - sc_content.getScrollY()), 0).setDuration(200);
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            gv.setVisibility(View.VISIBLE);
+                            sc_content.setTranslationY(0);
+                            sc_content.setScrollY(0);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float interpolatedTime = animation.getAnimatedFraction();
+                            if (interpolatedTime == 1) {
+                                gv.setVisibility(View.VISIBLE);
+                            } else {
+                                gv.getLayoutParams().height = (int) (gv.getHeight() * interpolatedTime);
+                                gv.requestLayout();
+                                gv.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    animator.start();
+
                     iv_right.setImageResource(R.drawable.ic_qualification_down);
-                    isExpand = true;
-                  //  fm_main.requestLayout();
-                 //   gv.requestLayout();
-                }*/
-                if (isExpand) {
-                    TranslateAnimation animation = new TranslateAnimation(0,0,0,-gv.getHeight());
-                    animation.setDuration(300);
-                    animation.setFillAfter(true);
-                    sc_content.startAnimation(animation);
-                    isExpand = false;
-                } else {
-                    TranslateAnimation animation = new TranslateAnimation(0,0,-gv.getHeight(),0);
-                    animation.setDuration(300);
-                    animation.setFillAfter(true);
-                    sc_content.startAnimation(animation);
                     isExpand = true;
                 }
 
