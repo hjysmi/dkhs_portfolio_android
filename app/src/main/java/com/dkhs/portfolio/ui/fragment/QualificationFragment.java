@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,8 +13,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +28,6 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.QualificationEventBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
-import com.dkhs.portfolio.ui.OrganizationActivity;
 import com.dkhs.portfolio.ui.adapter.SelectQualificationAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
@@ -162,7 +162,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 adapter.setSelectedPosition(position);
                 adapter.notifyDataSetChanged();
                 tv_type.setText(list.get(position));
-                initAnimation();
                 if (position == 0) {
                     //投资牛人
                     View footer0 = LayoutInflater.from(getActivity()).inflate(R.layout.layout_qualification_footer, null);
@@ -180,12 +179,95 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     }
 
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_right:
 
-                initAnimation();
+                if (isExpand) {
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(sc_content, "translationY", 0, -(gv.getHeight()-sc_content.getScrollY())).setDuration(200);
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            gv.setVisibility(View.GONE);
+                            sc_content.setTranslationY(0);
+                            sc_content.setScrollY(0);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float interpolatedTime = animation.getAnimatedFraction();
+                            gv.getLayoutParams().height = gv.getHeight()
+                                    - (int) (gv.getHeight() * interpolatedTime);
+                            gv.requestLayout();
+                        }
+                    });
+                    animator.start();
+
+                    iv_right.setImageResource(R.drawable.ic_qualification_up);
+                    isExpand = false;
+                } else {
+
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(sc_content, "translationY", -(gv.getHeight() - sc_content.getScrollY()), 0).setDuration(200);
+                    animator.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            gv.setVisibility(View.VISIBLE);
+                            sc_content.setTranslationY(0);
+                            sc_content.setScrollY(0);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float interpolatedTime = animation.getAnimatedFraction();
+                            if (interpolatedTime == 1) {
+                                gv.setVisibility(View.VISIBLE);
+                            } else {
+                                gv.getLayoutParams().height = (int) (gv.getHeight() * interpolatedTime);
+                                gv.requestLayout();
+                                gv.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    animator.start();
+
+                    iv_right.setImageResource(R.drawable.ic_qualification_down);
+                    isExpand = true;
+                }
 
                 break;
             case R.id.but_next:
