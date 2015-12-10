@@ -22,7 +22,8 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="土豪年底收益X2"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/white"
             app:layout_textSizePercent="10%w" />
 
@@ -30,7 +31,8 @@
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="大金库豪翻12月"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/white"
             app:layout_marginTopPercent="5%w"
             app:layout_textSizePercent="6%w" />

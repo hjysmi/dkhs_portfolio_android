@@ -67,7 +67,16 @@ public class TopicsBean extends LikeBean {
          */
         public int id;
         public String symbol;
+        public String symbol_type;
+        public int symbol_stype;
+        public String recommend_desc;
         public String abbr_name;
+        public double percent_six_month;
+        public String net_value;
+        public String net_cumulative;
+        public String year_yld;
+        public String tenthou_unit_incm;
+        public String list_status;
     }
 
     @Parcel

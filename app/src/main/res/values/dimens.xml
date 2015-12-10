@@ -161,4 +161,6 @@
     <dimen name="line_space">5dp</dimen>
     <!--点赞与右边缘间距-->
     <dimen name="like_maring_right">10dp</dimen>
+
+    <dimen name="ll_tag_height">20dp</dimen>
 </resources>

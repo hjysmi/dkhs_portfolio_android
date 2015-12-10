@@ -17,6 +17,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.bean.RecommendFundSpecialFinancingBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
@@ -78,7 +79,7 @@ public class FundSpecialFinancingHandler extends SimpleItemHandler<RecommendFund
         vh.get(R.id.rl_financing).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2015/12/8
+                TopicsDetailActivity.startActivity(mContext, item.getId());
             }
         });
     }

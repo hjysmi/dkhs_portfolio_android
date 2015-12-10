@@ -119,9 +119,6 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
         mRlheadertitle.setClickable(true);
         mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                 null, null, null);
-        mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
-                null, null, null);
-
         mLeftBtn.setVisibility(View.GONE);
         mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,12 +133,16 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
 
         switch (curType) {
             case TYPE_COMBINATION:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add),
+                        null, null, null);
                 combinationFragment = new MarketCombinationFragment();
                 fragment = combinationFragment;
                 mBtntitletabright.setTextColor(getResources().getColor(R.color.black));
                 mBtntitletableft.setVisibility(View.GONE);
                 break;
             default:
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                        null, null, null);
                 fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
                 fragment = fundsFragment;
                 mBtntitletableft.setTextColor(getResources().getColor(R.color.black));
