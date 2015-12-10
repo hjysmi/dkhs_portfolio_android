@@ -5,18 +5,17 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.daimajia.slider.library.R;
-import com.dkhs.drawable.IndeterminateProgressDrawable;
 import com.dkhs.utils.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
+import java.io.File;
+
 //import com.squareup.picasso.Callback;
 //import com.squareup.picasso.Picasso;
 //import com.squareup.picasso.RequestCreator;
-
-import java.io.File;
 
 /**
  * When you want to make your own slider view, you must extends from this class.
@@ -62,6 +61,12 @@ public abstract class BaseSliderView {
 
     public enum ScaleType{
         CenterCrop, CenterInside, Fit, FitCenterCrop
+    }
+
+    private boolean mHideLoadingImageBar = false;
+
+    public void setHideLoadingImageBar(boolean hide) {
+        mHideLoadingImageBar = hide;
     }
 
     protected BaseSliderView(Context context) {
@@ -255,8 +260,10 @@ public abstract class BaseSliderView {
         ImageLoaderUtils.setImage(mUrl, targetImageView, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
-                if(v.findViewById(R.id.loading_bar) != null){
+                if(!mHideLoadingImageBar && v.findViewById(R.id.loading_bar) != null){
                             v.findViewById(R.id.loading_bar).setVisibility(View.VISIBLE);
+                }else {
+                    v.findViewById(R.id.loading_bar).setVisibility(View.INVISIBLE);
                 }
             }
 
