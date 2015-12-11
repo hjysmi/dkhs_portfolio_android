@@ -14,6 +14,7 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -82,8 +83,8 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
 
-        //TODO 根据字段判断是否显示加V, 加V是蓝色或红色
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),true,WaterMarkUtil.TYPE_RED);
+        UserEntity user = data.getUser();
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),user.verified,user.verified_type == 0? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
 
 
         if (TextUtils.isEmpty(data.text)) {
