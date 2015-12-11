@@ -119,6 +119,8 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
             String[] tags = data.recommend_desc.split(",");
             if(tags != null && tags.length > 0){
                 for(String tag : tags){
+                    if(TextUtils.isEmpty(tag))
+                        break;
                     View child = View.inflate(mContext, R.layout.layout_special_tag, null);
                     TextView tv_tag = (TextView) child.findViewById(R.id.tv_tag);
                     tv_tag.setText(tag);

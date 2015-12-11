@@ -36,6 +36,8 @@ public class FundSpecialMainValueHandler extends SimpleItemHandler<List<StockQuo
 
     @Override
     public void onBindView(ViewHolder vh, final List<StockQuotesBean> lists, int position) {
+        if(lists == null || lists.size() == 0)
+            return;
         SelectStockBean item1 = SelectStockBean.copy(lists.get(0));
         final View itemView1 = vh.get(R.id.item_content_view1);
         float change1 = item1.percentage;

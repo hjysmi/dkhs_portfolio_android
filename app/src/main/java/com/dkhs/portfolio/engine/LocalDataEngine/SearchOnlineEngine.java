@@ -75,9 +75,9 @@ public class SearchOnlineEngine {
 
     public void searchByKey(String key) {
         if (mSearchType.equalsIgnoreCase(FragmentSearchStockFund.SEARCH_TYPE_STOCK)) {
-            searchStockFund(SYMBOL_TYPE_STOCK, SYMBOL_STYPE_STOCK, currentPage + 1, key);
+            searchStockFund(SYMBOL_TYPE_STOCK, SYMBOL_STYPE_STOCK, 1, key);
         } else if (mSearchType.equalsIgnoreCase(FragmentSearchStockFund.SEARCH_TYPE_STOCKANDINDEX)) {
-            searchStockFund(SYMBOL_TYPE_STOCKANDINDEX, "", currentPage + 1, key);
+            searchStockFund(SYMBOL_TYPE_STOCKANDINDEX, "", 1, key);
         }
     }
 

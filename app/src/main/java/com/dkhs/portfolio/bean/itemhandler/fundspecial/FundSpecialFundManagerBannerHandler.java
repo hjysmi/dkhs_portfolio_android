@@ -23,6 +23,8 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -77,7 +79,16 @@ public class FundSpecialFundManagerBannerHandler extends SimpleItemHandler<Recom
                 }
                 String[] tags = item.recommend_desc.split(",");
                 if(tags != null && tags.length > 0){
+                    if(tags.length > 3){
+                        List<String> arrayList = new ArrayList();
+                        for(int i = 0; i < 3; i++){
+                            arrayList.add(tags[i]);
+                        }
+                        tags = arrayList.toArray(new String[]{});
+                    }
                     for(String tag : tags){
+                        if(TextUtils.isEmpty(tag))
+                            break;
                         View child = View.inflate(mContext, R.layout.layout_special_fundmanager_tag, null);
                         TextView tv_tag = (TextView) child.findViewById(R.id.tv_tag);
                         tv_tag.setText(tag);
