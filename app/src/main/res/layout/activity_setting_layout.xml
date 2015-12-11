@@ -417,6 +417,8 @@
                 android:text="设置密码"
                 android:textColor="@color/white"
                 android:visibility="gone" />
+
+            <include layout="@layout/layout_pro_verification"/>
         </LinearLayout>
     </ScrollView>
 
