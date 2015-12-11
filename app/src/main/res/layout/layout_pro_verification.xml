@@ -17,6 +17,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_white_selector">
 
+        <View
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:background="@color/person_setting_line"/>
+
         <TextView
             android:id="@+id/tv_real_name_title"
             android:layout_width="wrap_content"
@@ -49,6 +55,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_white_selector">
+
+        <View
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:background="@color/person_setting_line"/>
 
         <TextView
             android:id="@+id/tv_id_card_title"
@@ -83,6 +95,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_white_selector">
 
+        <View
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:background="@color/person_setting_line"/>
+
         <TextView
             android:id="@+id/tv_city_title"
             android:layout_width="wrap_content"
@@ -115,6 +133,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_white_selector">
+
+        <View
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:background="@color/person_setting_line"/>
 
         <TextView
             android:id="@+id/tv_verified_type_title"
@@ -149,6 +173,12 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_white_selector">
 
+        <View
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:background="@color/person_setting_line"/>
+
         <TextView
             android:id="@+id/tv_cert_no_title"
             android:layout_width="wrap_content"
@@ -181,6 +211,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_white_selector">
+
+        <View
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:background="@color/person_setting_line"/>
 
         <TextView
             android:id="@+id/tv_organize_title"
