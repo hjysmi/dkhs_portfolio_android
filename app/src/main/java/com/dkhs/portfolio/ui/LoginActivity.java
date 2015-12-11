@@ -173,9 +173,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (!TextUtils.isEmpty(url)) {
             // url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils.display(ivHeader, url);
-            //TODO 根据返回值判断加V图片的显示隐藏
-            WaterMarkUtil.calWaterMarkImage(ivWaterMark, true, WaterMarkUtil.TYPE_RED);
         }
+        boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
+        int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
+        WaterMarkUtil.calWaterMarkImage(ivWaterMark, isVerified, verifiedType == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
     }
 
     private void setupDefalutUserInfo() {
