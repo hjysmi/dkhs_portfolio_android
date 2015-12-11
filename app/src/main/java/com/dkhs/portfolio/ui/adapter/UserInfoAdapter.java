@@ -370,7 +370,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
                 int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
-                if(isVerified){
+                if(!isVerified){
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.nothing);
                 }else if(verifiedType == 0){
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.red);
