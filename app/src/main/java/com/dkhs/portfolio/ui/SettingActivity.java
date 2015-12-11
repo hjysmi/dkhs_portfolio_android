@@ -22,11 +22,14 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.bean.BindThreePlat;
+import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.AppUpdateEngine;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
@@ -196,6 +199,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.line7).setVisibility(View.GONE);
             findViewById(R.id.line8).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_boundphone).setVisibility(View.GONE);
+            getProVerificationInfo();
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
         } else {
             setTitle(R.string.setting);
@@ -526,5 +530,19 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public boolean getEditModeEnable() {
 
         return getIntent().getBooleanExtra(EDIT_MODE, false);
+    }
+
+    private void getProVerificationInfo(){
+        DKHSClient.requestByGet(new ParseHttpListener<ProVerificationBean>() {
+            @Override
+            protected ProVerificationBean parseDateTask(String jsonData) {
+                return DataParse.parseObjectJson(ProVerificationBean.class, jsonData);
+            }
+
+            @Override
+            protected void afterParseData(ProVerificationBean bean) {
+
+            }
+        }, DKHSUrl.User.get_pro_verification);
     }
 }
