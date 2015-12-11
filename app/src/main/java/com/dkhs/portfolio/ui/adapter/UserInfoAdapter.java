@@ -368,8 +368,16 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
+                boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
+                int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
+                if(isVerified){
+                    settingImageHead.setType(WaterMarkImageView.TypeEnum.nothing);
+                }else if(verifiedType == 0){
+                    settingImageHead.setType(WaterMarkImageView.TypeEnum.red);
+                }else{
+                    settingImageHead.setType(WaterMarkImageView.TypeEnum.blue);
+                }
                 String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-                settingImageHead.setType(WaterMarkImageView.TypeEnum.blue);
                 if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
                     BitmapUtils bitmapUtils = new BitmapUtils(mView.getContext());
                     bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
