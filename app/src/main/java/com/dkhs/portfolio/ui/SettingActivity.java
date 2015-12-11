@@ -375,6 +375,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             case R.id.tv_boundphone:
                 startActivity(RLFActivity.bindPhoneIntent(this));
                 break;
+            case R.id.setting_material:
+
+                break;
             default:
                 break;
         }
@@ -563,9 +566,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         if (pro.verified_type == 0) {
             findViewById(R.id.setting_cert_no).setVisibility(View.GONE);
             findViewById(R.id.setting_organize).setVisibility(View.GONE);
+            findViewById(R.id.setting_material).setVisibility(View.VISIBLE);
+            ((TextView)findViewById(R.id.tv_material_value)).setText(pro.cert_description);
+            findViewById(R.id.setting_material).setOnClickListener(this);
         } else {
             ((TextView) findViewById(R.id.tv_cert_no_value)).setText(pro.cert_no);
             ((TextView) findViewById(R.id.tv_organize_value)).setText(pro.org_profile.name);
+            findViewById(R.id.setting_cert_no).setVisibility(View.VISIBLE);
+            findViewById(R.id.setting_organize).setVisibility(View.VISIBLE);
+            findViewById(R.id.setting_material).setVisibility(View.GONE);
         }
     }
 
