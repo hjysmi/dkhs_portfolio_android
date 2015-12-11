@@ -17,6 +17,7 @@
         app:layout_widthPercent="50%w"
         app:layout_heightPercent="50%w"
         android:layout_centerHorizontal="true"
+        app:layout_marginTopPercent="8%w"
         />
     <TextView
         android:id="@+id/tv_name"
@@ -29,6 +30,8 @@
         app:layout_heightPercent="16%w"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        app:layout_marginTopPercent="4%w"
+        app:layout_marginBottomPercent="8%w"
         />
 
 </com.android.percent.PercentRelativeLayout>

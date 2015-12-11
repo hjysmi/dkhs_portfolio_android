@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_below="@+id/line">
 
-    <RelativeLayout
+    <com.android.percent.PercentRelativeLayout
         android:id="@+id/rl_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,45 +15,72 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
             android:text="介绍下自己"
             android:textColor="@color/black"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            />
-        <com.dkhs.portfolio.ui.widget.DKHSEditText
+            app:layout_heightPercent="12%w"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_textSizePercent="4%w" />
+
+        <com.android.percent.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
-            android:id="@+id/et_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:fadingEdge="none"
-            android:gravity="top"
-            android:hint="为给投资人提供更好的服务,请填写能证明您投资能力的资料"
-            android:imeOptions="actionSend|flagNoEnterAction"
-            android:lineSpacingExtra="3.0dip"
-            android:minHeight="100dp"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
-            android:textColorHint="#c8c8c8"
-            android:textSize="16sp">
+            android:orientation="horizontal">
 
-            <requestFocus />
-        </com.dkhs.portfolio.ui.widget.DKHSEditText>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_minHeightPercent="50%w"
+                app:layout_widthPercent="5%w" />
 
-        <com.dkhs.portfolio.ui.widget.GridViewEx
-            android:id="@+id/gv_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_content"
-            android:layout_margin="5dp"
-            android:horizontalSpacing="5dp"
-            android:numColumns="3"
-            android:verticalSpacing="5dp" />
+            <com.android.percent.PercentRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:layout_widthPercent="90%w">
 
-    </RelativeLayout>
+                <EditText
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_title"
+                    android:background="@null"
+                    android:fadingEdge="none"
+                    android:gravity="top"
+                    android:hint="为给投资人提供更好的服务,请填写能证明您投资能力的资料"
+                    android:imeOptions="actionSend|flagNoEnterAction"
+                    android:lineSpacingExtra="3.0dip"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="16sp"
+                    app:layout_minHeightPercent="50%w"
+                    app:layout_textSizePercent="4%w">
+
+                </EditText>
+
+                <com.dkhs.portfolio.ui.widget.GridViewEx
+                    android:id="@+id/gv_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_content"
+                    android:horizontalSpacing="5dp"
+                    android:numColumns="3"
+                    android:verticalSpacing="5dp"
+                    app:layout_marginBottomPercent="5%w" />
+            </com.android.percent.PercentRelativeLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_minHeightPercent="50%w"
+                app:layout_widthPercent="5%w" />
+        </com.android.percent.PercentLinearLayout>
+
+
+    </com.android.percent.PercentRelativeLayout>
 
     <com.android.percent.PercentLinearLayout
         android:layout_width="match_parent"
@@ -66,55 +93,55 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="包括且不限于:"
-            android:textColor="@color/title_tab_def_color"
+            android:textColor="@color/gray_textcolor"
             app:layout_marginLeftPercent="5%w"
             app:layout_marginTopPercent="5%w"
-            app:layout_textSizePercent="3.5%w" />
+            app:layout_textSizePercent="4%w" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="1﹑私募基金管理人员证书;"
-            android:textColor="@color/title_tab_def_color"
+            android:textColor="@color/gray_textcolor"
             app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w" />
+            app:layout_textSizePercent="4%w" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="2﹑投资经历(附个人实盘战绩截图,获奖证明);"
-            android:textColor="@color/title_tab_def_color"
+            android:textColor="@color/gray_textcolor"
             app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w" />
+            app:layout_textSizePercent="4%w" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="3﹑个人博客﹑微博链接;"
-            android:textColor="@color/title_tab_def_color"
+            android:textColor="@color/gray_textcolor"
             app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w" />
+            app:layout_textSizePercent="4%w" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="4﹑电视节目段﹑视频链接;"
-            android:textColor="@color/title_tab_def_color"
+            android:textColor="@color/gray_textcolor"
             app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w" />
+            app:layout_textSizePercent="4%w" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="5﹑其他平台个人战绩﹑账号截图。"
-            android:textColor="@color/title_tab_def_color"
+            android:textColor="@color/gray_textcolor"
             app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w" />
+            app:layout_textSizePercent="4%w" />
 
 
     </com.android.percent.PercentLinearLayout>

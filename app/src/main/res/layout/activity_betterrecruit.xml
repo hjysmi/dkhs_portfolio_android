@@ -5,25 +5,28 @@
     android:layout_height="match_parent"
     android:background="@color/theme_gray"
     android:orientation="vertical">
-
-    <com.android.percent.PercentRelativeLayout
-        android:id="@+id/top"
+    <com.android.percent.PercentFrameLayout
+        android:id="@+id/fm_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/theme_blue">
-
-        <TextView
-            android:id="@+id/tv_qualification"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.android.percent.PercentRelativeLayout
+            android:id="@+id/top"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="资质资料"
-            android:textColor="@color/theme_gray"
-            app:layout_heightPercent="12%w"
-            app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w"
-            app:layout_widthPercent="20%w" />
+            android:background="@color/theme_blue">
+
+            <TextView
+                android:id="@+id/tv_qualification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="资质资料"
+                android:textColor="@color/theme_gray"
+                app:layout_heightPercent="12%w"
+                app:layout_marginLeftPercent="5%w"
+                app:layout_textSizePercent="3.5%w"
+                app:layout_widthPercent="20%w" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,45 +35,58 @@
                 app:layout_widthPercent="5%w"
                 app:layout_heightPercent="5%w"
                 app:layout_marginLeftPercent="30%w"/>
-        <TextView
-            android:id="@+id/tv_personal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="个人资料"
-            android:textColor="@color/theme_gray"
-            app:layout_heightPercent="12%w"
-            app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w"
-            app:layout_widthPercent="20%w" />
+            <TextView
+                android:id="@+id/tv_personal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="个人资料"
+                android:textColor="@color/theme_gray"
+                app:layout_heightPercent="12%w"
+                app:layout_marginLeftPercent="5%w"
+                app:layout_textSizePercent="3.5%w"
+                app:layout_widthPercent="20%w" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_betterrecruit_right"
+                android:layout_centerVertical="true"
+                app:layout_widthPercent="5%w"
+                app:layout_heightPercent="5%w"
+                android:layout_alignParentRight="true"
+                app:layout_marginRightPercent="30%w"/>
+            <TextView
+                android:id="@+id/tv_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="提交成功"
+                android:textColor="@color/theme_gray"
+                app:layout_heightPercent="12%w"
+                app:layout_marginRightPercent="5%w"
+                app:layout_textSizePercent="3.5%w"
+                app:layout_widthPercent="20%w" />
+        </com.android.percent.PercentRelativeLayout>
         <ImageView
+            android:id="@+id/iv_jt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_betterrecruit_right"
-            android:layout_centerVertical="true"
+            android:background="@drawable/ic_betterrecruit_jt"
             app:layout_widthPercent="5%w"
-            app:layout_heightPercent="5%w"
-            android:layout_alignParentRight="true"
-            app:layout_marginRightPercent="30%w"/>
-        <TextView
-            android:id="@+id/tv_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="提交成功"
-            android:textColor="@color/theme_gray"
-            app:layout_heightPercent="12%w"
-            app:layout_marginRightPercent="5%w"
-            app:layout_textSizePercent="3.5%w"
-            app:layout_widthPercent="20%w" />
-    </com.android.percent.PercentRelativeLayout>
+            app:layout_heightPercent="2.14%w"
+            android:scaleType="fitStart"
+            android:layout_gravity="bottom"
+            app:layout_marginLeftPercent="12.5%w"
+            />
+    </com.android.percent.PercentFrameLayout>
+
 
     <FrameLayout
-        android:layout_below="@+id/top"
+        android:layout_below="@+id/fm_top"
         android:id="@+id/fm_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

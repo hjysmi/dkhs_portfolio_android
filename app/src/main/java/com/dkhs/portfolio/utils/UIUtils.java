@@ -486,6 +486,12 @@ public class UIUtils {
         setOverridePendingAnin(context);
     }
 
+    public static void startAnimationActivityForResult(Activity context, Intent intent, int requestCode) {
+        context.startActivityForResult(intent, requestCode);
+        // mContext.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+        setOverridePendingAnin(context);
+    }
+
     public static void setOverridePendingAnin(Activity activity) {
         activity.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
     }

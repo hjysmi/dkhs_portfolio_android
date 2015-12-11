@@ -2,15 +2,20 @@ package com.dkhs.portfolio.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.OrganizationEventBean;
+import com.dkhs.portfolio.engine.OrganizationEngine;
 import com.dkhs.portfolio.ui.adapter.SortAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
 import com.dkhs.portfolio.utils.CharacterParser;
 import com.dkhs.portfolio.utils.PinyinComparator;
 import com.dkhs.portfolio.utils.SortModel;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +29,8 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
     private ListView lv_organization;
     private TextView tv_center_index;
     private SideBar sidrbar;
+    public static final String KEY_TYPE = "type";
+    private int type = 0;
     /**
      * 汉字转换成拼音的类
      */
@@ -34,6 +41,7 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
      * 根据拼音来排列ListView里面的数据类
      */
     private PinyinComparator pinyinComparator;
+    private OrganizationEngine engine;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -43,12 +51,14 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
         characterParser = CharacterParser.getInstance();
         setContentView(R.layout.activity_organization);
         initViews();
-        initData();
         initValues();
         initEvents();
+        initData();
     }
 
     private void initData() {
+        engine = new OrganizationEngine(this);
+        //engine.getOrg(listener);
         List<String> list = new ArrayList<>();
         list.add("中信证券");
         list.add("海通证券");
@@ -57,6 +67,7 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
         list.add("华泰证券");
         list.add("招商证券");
         list.add("银河证券");
+        list.add("厦门");
         list.add("国信证券");
         list.add("申万宏源");
         list.add("中信建投");
@@ -100,17 +111,40 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
     }
 
     private void initValues() {
-
+        type = getIntent().getIntExtra(KEY_TYPE, 0);
         //实例化汉字转拼音类
         //  characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
         Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(this);
-        adapter.bindData(SourceDateList);
+        adapter = new SortAdapter(this, SourceDateList);
+        // adapter.bindData(SourceDateList);
         lv_organization.setAdapter(adapter);
     }
 
     private void initEvents() {
+        lv_organization.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BusProvider.getInstance().post(new OrganizationEventBean(SourceDateList.get(position).getName()));
+                finish();
+                UIUtils.outAnimationActivity(OrganizationActivity.this);
+
+            }
+        });
+        sidrbar.setTextView(tv_center_index);
+        //设置右侧触摸监听
+        sidrbar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                //该字母首次出现的位置
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if (position != -1) {
+                    lv_organization.setSelection(position);
+                }
+
+            }
+        });
 
     }
 

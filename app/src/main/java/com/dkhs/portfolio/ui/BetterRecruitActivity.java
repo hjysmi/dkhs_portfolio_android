@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.FrameLayout;
+import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.PersonalFragment;
@@ -32,6 +34,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     QualificationFragment qualificationFragment;
     SubmitFragment submitFragment;
     PersonalFragment personalFragment;
+    private ImageView iv_jt;
     private static final int index1 = 1;
     private static final int index2 = 2;
     private static final int index3 = 3;
@@ -53,6 +56,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         iv_right = (ImageView) findViewById(R.id.iv_right);
         tv_submit = (TextView) findViewById(R.id.tv_submit);
         tv_personal = (TextView) findViewById(R.id.tv_personal);
+        iv_jt = (ImageView) findViewById(R.id.iv_jt);
         fm = getSupportFragmentManager();
         width = UIUtils.getDisplayMetrics().widthPixels;
     }
@@ -66,6 +70,9 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         tv_personal.setOnClickListener(this);
         tv_submit.setOnClickListener(this);
         tv_qualification.setOnClickListener(this);
+        tv_qualification.setEnabled(false);
+        tv_personal.setEnabled(false);
+        tv_submit.setEnabled(false);
     }
 
     private void showFragment(int i) {
@@ -115,20 +122,36 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_qualification:
+                ObjectAnimator.ofFloat(iv_jt, "translationX", 0).setDuration(200).start();
                 showFragment(index1);
                 break;
             case R.id.tv_personal:
+                ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.375 * width)).setDuration(200).start();
                 showFragment(index2);
                 break;
             case R.id.tv_submit:
-                showFragment(index3);
+                //   showFragment(index3);
                 break;
         }
     }
 
     @Subscribe
     public void toPersonalFragment(QualificationToPersonalEvent event) {
+        // TranslateAnimation animation
+        ObjectAnimator.ofFloat(iv_jt, "translationX", 0, (int) (0.35 * width)).setDuration(200).start();
+        tv_qualification.setEnabled(true);
+        tv_personal.setEnabled(true);
         showFragment(index2);
+    }
+
+    @Subscribe
+    public void tosubmitFragment(PersonalEventBean event) {
+        ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.7 * width)).setDuration(200).start();
+        showFragment(index3);
+        tv_qualification.setEnabled(false);
+        tv_personal.setEnabled(false);
+        tv_submit.setEnabled(false);
+        // ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.5 * width), (int) (0.7 * width)).setDuration(200).start();
     }
 
     @Override

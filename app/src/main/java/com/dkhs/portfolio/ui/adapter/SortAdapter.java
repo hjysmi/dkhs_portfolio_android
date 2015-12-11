@@ -1,99 +1,82 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.android.percent.PercentLinearLayout;
+import com.dkhs.adpter.adapter.SingleItemAdapter;
+import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.SortModel;
-import com.dkhs.portfolio.utils.UIUtils;
 
 import java.util.List;
 
-public class SortAdapter extends BaseAdapter implements SectionIndexer {
-    private List<SortModel> list = null;
-    private Context mContext;
-    private int width;
-    //  private RequestManager requestManager;
+public class SortAdapter extends SingleItemAdapter<SortModel> implements SectionIndexer {
+    List<SortModel> list;
 
-    public SortAdapter(Context mContext) {
-        this.mContext = mContext;
+    public SortAdapter(Context context, List<SortModel> data) {
+        super(context, data);
+        this.list = data;
 
-        width = UIUtils.getDisplayMetrics().widthPixels;
-        //  requestManager = Glide.with(mContext);
     }
 
-    public void bindData(List<SortModel> sourceDateList) {
-        this.list = sourceDateList;
+    @Override
+    public int getLayoutResId() {
+        return R.layout.item_organization;
     }
 
-    /**
-     * 当ListView数据发生变化时,调用此方法来更新ListView
-     *
-     * @param list
-     */
-    public void updateListView(List<SortModel> list) {
+    @Override
+    public Object[] getSections() {
+        return null;
+    }
+
+    @Override
+    public void onBindView(ViewHolder vh, SortModel data, int position) {
+        super.onBindView(vh, data, position);
+        TextView tvTitle = vh.get(R.id.tv_organization);
+        TextView tvLetter = vh.get(R.id.catalog);
+        PercentLinearLayout ll_top = vh.get(R.id.ll_top);
+        View line = vh.get(R.id.line);
+        //根据position获取分类的首字母的Char ascii值
+        int section = getSectionForPosition(position);
+        // viewHolder.tvLetter.setPadding((int) (0.02 * width), 0, 0, 0);
+        //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
+        if (position == getPositionForSection(section)) {
+
+            ll_top.setVisibility(View.VISIBLE);
+            tvLetter.setText(list.get(position).getSortLetters());
+        } else {
+            ll_top.setVisibility(View.GONE);
+        }
+
+        if (position == getLastPositionForSection(section)) {
+            //字母的最后一行
+            line.setVisibility(View.INVISIBLE);
+        } else {
+            line.setVisibility(View.VISIBLE);
+        }
+
+        tvTitle.setText(this.list.get(position).getName());
+
+      /*  vh.get(R.id.fl_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
+    }
+
+
+    // 当ListView数据发生变化时,调用此方法来更新ListView
+
+    /* public void updateListView(List<SortModel> list) {
         this.list = list;
         notifyDataSetChanged();
 
-    }
-
-    public int getCount() {
-        return this.list.size();
-    }
-
-    public Object getItem(int position) {
-        return list.get(position);
-    }
-
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public View getView(final int position, View view, ViewGroup arg2) {
-        ViewHolder viewHolder = null;
-        final SortModel mContent = list.get(position);
-        if (view == null) {
-            viewHolder = new ViewHolder();
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_organization, null);
-            viewHolder.tvTitle = (TextView) view.findViewById(R.id.tv_organization);
-            viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
-            viewHolder.ll_top = (PercentLinearLayout) view.findViewById(R.id.ll_top);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
-
-        //根据position获取分类的首字母的Char ascii值
-        int section = getSectionForPosition(position);
-       // viewHolder.tvLetter.setPadding((int) (0.02 * width), 0, 0, 0);
-        //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
-        if (position == getPositionForSection(section)) {
-            viewHolder.tvLetter.setVisibility(View.VISIBLE);
-            viewHolder.tvLetter.setText(mContent.getSortLetters());
-        } else {
-            viewHolder.ll_top.setVisibility(View.GONE);
-        }
-        //得到联系人头像Bitamp
-
-        viewHolder.tvTitle.setText(this.list.get(position).getName());
-      //  viewHolder.phone.setText(this.list.get(position).getPhoneNum());
-        return view;
-
-    }
-
-
-    final static class ViewHolder {
-        TextView tvLetter;
-        TextView tvTitle;
-        PercentLinearLayout ll_top;
-        // ImageView RoundImageViewByXfermode;
-    }
+    }*/
 
 
     /**
@@ -119,6 +102,24 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
     }
 
     /**
+     * 根据分类的首字母的Char ascii值获取其最后一次出现该首字母的位置
+     */
+
+    public int getLastPositionForSection(int section) {
+        for (int i = getCount() - 1; i < getCount(); i--) {
+            String sortStr = list.get(i).getSortLetters();
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == section) {
+                char x = (char) section;
+                Log.e("xue", "firstChar = " + firstChar + " " + "section = " + x + " name= " + list.get(i).getName());
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * 提取英文的首字母，非英文字母用#代替。
      *
      * @param str
@@ -134,8 +135,5 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
         }
     }
 
-    @Override
-    public Object[] getSections() {
-        return null;
-    }
+
 }

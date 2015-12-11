@@ -10,12 +10,16 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.percent.PercentFrameLayout;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.PersonalEventBean;
+import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.ui.AgreementTextActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
 import com.dkhs.portfolio.ui.city.SelectProviceActivity;
@@ -23,6 +27,7 @@ import com.dkhs.portfolio.ui.eventbus.BackCityEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
 
@@ -32,6 +37,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 牛人招募之个人资料
@@ -46,10 +53,13 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private TextView tv_city;
     private TextView et_name;
     private Button but_update;
+    private Button but_submit;
     private ImageView iv_upimg;
     private ImageView iv_upbg;
     private TextView tv_upimgintroduce;
     private EditText et_id;
+    private CheckBox cb_agree;
+    private boolean hasphotos = false;
     private List<MyActionSheetDialog.SheetItem> items = new ArrayList<MyActionSheetDialog.SheetItem>();
 
     @Override
@@ -87,10 +97,13 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         et_name = (TextView) view.findViewById(R.id.et_name);
         iv_upimg = (ImageView) view.findViewById(R.id.iv_upimg);
         iv_upbg = (ImageView) view.findViewById(R.id.iv_upbg);
+        but_submit = (Button) view.findViewById(R.id.but_submit);
         tv_upimgintroduce = (TextView) view.findViewById(R.id.tv_upimgintroduce);
         et_id = (EditText) view.findViewById(R.id.et_id);
-       // et_id.addTextChangedListener(et_id_textwatcher);
+        cb_agree = (CheckBox) view.findViewById(R.id.cb_agree);
+        // et_id.addTextChangedListener(et_id_textwatcher);
         et_name.addTextChangedListener(et_name_textwatcher);
+        et_id.addTextChangedListener(et_id_textwatcher);
     }
 
     private void initEvents() {
@@ -98,8 +111,32 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         fm_introduce.setOnClickListener(this);
         fm_city.setOnClickListener(this);
         but_update.setOnClickListener(this);
+        but_submit.setOnClickListener(this);
+        but_submit.setEnabled(false);
+        cb_agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               checkSubmit();
+            }
+        });
     }
 
+    TextWatcher et_id_textwatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            checkSubmit();
+        }
+    };
     TextWatcher et_name_textwatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,18 +150,68 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void afterTextChanged(Editable s) {
-            try {
-                String temp = s.toString();
-                String tem = temp.substring(temp.length() - 1, temp.length());
-                char[] temC = tem.toCharArray();
-                // int mid = temC[0];
-                if (!UIUtils.isChinese(temC[0])) {
-                    s.delete(temp.length() - 1, temp.length());
-                }
-            } catch (Exception e) {
-            }
+            checkSubmit();
         }
     };
+
+    /**
+     * 验证身份证
+     *
+     * @param str_id
+     * @return
+     */
+    private boolean checkId(String str_id) {
+        boolean flag = false;
+        try {
+            String check = "^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$";
+            Pattern regex = Pattern.compile(check);
+            Matcher matcher = regex.matcher(str_id);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
+        }
+
+        return flag;
+    }
+
+    /**
+     * 验证中文
+     *
+     * @param str_id
+     * @return
+     */
+    private boolean checkName(String str_id) {
+        boolean flag = false;
+        try {
+            String check = "^([\\u4e00-\\u9fa5]+)$";
+            Pattern regex = Pattern.compile(check);
+            Matcher matcher = regex.matcher(str_id);
+            flag = matcher.matches();
+        } catch (Exception e) {
+            flag = false;
+        }
+
+        return flag;
+    }
+
+    private void checkSubmit() {
+        if (!TextUtils.isEmpty(et_name.getText().toString().trim()) && !TextUtils.isEmpty(et_id.getText().toString().trim())
+                && !TextUtils.isEmpty(tv_city.getText().toString().trim())
+                && !TextUtils.isEmpty(tv_introduce.getText().toString().trim()) && hasphotos
+                && cb_agree.isChecked()) {
+            but_submit.setEnabled(true);
+        } else {
+            but_submit.setEnabled(false);
+        }
+       /* if (checkName(et_name.getText().toString().trim()) && checkId(et_id.getText().toString().trim())
+                && !TextUtils.isEmpty(tv_city.getText().toString().trim())
+                && !TextUtils.isEmpty(tv_introduce.getText().toString().trim()) && !TextUtils.isEmpty(mCurrentPhotoPath)
+                && cb_agree.isChecked()) {
+            but_submit.setEnabled(true);
+        } else {
+            but_submit.setEnabled(false);
+        }*/
+    }
 
     @Subscribe
     public void getCity(BackCityEvent event) {
@@ -140,7 +227,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.fm_introduce:
                 Intent intent_introduce = new Intent(getActivity(), PersonalIntroduceActivity.class);
-                startActivityForResult(intent_introduce, RESULT_INTRODUCE_BACK);
+                intent_introduce.putExtra(PersonalIntroduceActivity.RESULT_CONTENT, tv_introduce.getText().toString().trim());
+                UIUtils.startAnimationActivity(getActivity(), intent_introduce);
+                //   startActivityForResult(intent_introduce, RESULT_INTRODUCE_BACK);
                 break;
             case R.id.fm_city:
                 UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), SelectProviceActivity.class));
@@ -150,6 +239,32 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 items.add(new MyActionSheetDialog.SheetItem(getString(R.string.take_picture), MyActionSheetDialog.SheetItemColor.Black));
                 items.add(new MyActionSheetDialog.SheetItem(getString(R.string.local_image), MyActionSheetDialog.SheetItemColor.Black));
                 showPicDialog();
+                break;
+            case R.id.but_submit:
+                //
+                if (checkName(et_name.getText().toString().trim())) {
+                    //姓名匹配
+                    if (checkId(et_id.getText().toString().trim())) {
+                        //身份证匹配
+                        BusProvider.getInstance().post(new PersonalEventBean());
+                    } else {
+                        //身份证不匹配
+                        PromptManager.showShortToast("请填写正确的身份证号");
+                    }
+                } else {
+                    //姓名不匹配
+                    PromptManager.showShortToast("请填写您的真实姓名");
+                }
+
+   /* if (checkName(et_name.getText().toString().trim()) && checkId(et_id.getText().toString().trim())
+                && !TextUtils.isEmpty(tv_city.getText().toString().trim())
+                && !TextUtils.isEmpty(tv_introduce.getText().toString().trim()) && !TextUtils.isEmpty(mCurrentPhotoPath)
+                && cb_agree.isChecked()) {
+            but_submit.setEnabled(true);
+        } else {
+            but_submit.setEnabled(false);
+        }*/
+
                 break;
         }
 
@@ -244,6 +359,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 but_update.setText("修改");
                 tv_upimgintroduce.setVisibility(View.GONE);
                 iv_upbg.setVisibility(View.GONE);
+                hasphotos = true;
+                checkSubmit();
             }
             //  uploadImage();
         }
@@ -257,8 +374,18 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             but_update.setText("修改");
             tv_upimgintroduce.setVisibility(View.GONE);
             iv_upbg.setVisibility(View.GONE);
+            hasphotos = true;
+            checkSubmit();
         }
         // uploadImage();
+    }
+
+    @Subscribe
+    public void getIntroduce(PersonalQualificationEventBean bean) {
+        if (null != bean.name) {
+            tv_introduce.setText(bean.name);
+            checkSubmit();
+        }
     }
 
     @Override
@@ -273,14 +400,16 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
             }
 
-            if (requestCode == RESULT_INTRODUCE_BACK) {
+           /* if (requestCode == RESULT_INTRODUCE_BACK) {
                 if (null == data) {
                     return;
                 } else {
+                    PromptManager.showShortToast("ok");
                     String content = data.getStringExtra(PersonalIntroduceActivity.RESULT_CONTENT);
                     tv_introduce.setText(content);
+                    checkSubmit();
                 }
-            }
+            }*/
 
         }
         super.onActivityResult(requestCode, resultCode, data);

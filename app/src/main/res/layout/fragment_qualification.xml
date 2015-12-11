@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <com.android.percent.PercentRelativeLayout
+        android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
@@ -19,7 +20,7 @@
             android:textColor="@color/black"
             app:layout_heightPercent="12%w"
             app:layout_marginLeftPercent="5%w"
-            app:layout_textSizePercent="3.5%w" />
+            app:layout_textSizePercent="4%w" />
 
         <TextView
             android:id="@+id/tv_type"
@@ -29,8 +30,9 @@
             android:textColor="@color/black"
             app:layout_heightPercent="12%w"
             app:layout_marginLeftPercent="30%w"
-            app:layout_textSizePercent="3.5%w"
-            tools:text="认证牛人" />
+            app:layout_textSizePercent="4%w"
+            app:layout_widthPercent="30%w"
+            tools:text="期货投资咨询" />
 
         <ImageView
             android:id="@+id/iv_right"
@@ -70,6 +72,7 @@
                     android:choiceMode="singleChoice"
                     android:numColumns="3"
                     android:scrollbars="none"
+                    app:layout_marginTopPercent="5%w"
                     app:layout_marginLeftPercent="5%w"
                     app:layout_marginRightPercent="5%w"/>
 
@@ -88,10 +91,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:background="@color/theme_blue"
+                    android:background="@drawable/btn_blue_selector"
                     android:gravity="center"
                     android:text="下一步"
-                    android:textColor="@color/theme_gray"
+                    android:textColor="@color/btn_blue_textselector"
                     app:layout_heightPercent="12%w"
                     app:layout_widthPercent="90%w"
                     app:layout_marginTopPercent="5%w"
