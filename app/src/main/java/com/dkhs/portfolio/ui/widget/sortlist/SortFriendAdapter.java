@@ -87,8 +87,7 @@ public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
         } else {
             viewHolder.ivAvater.setImageResource(R.drawable.ic_user_head);
         }
-        //TODO 根据返回值判断加V图片的显示隐藏
-        WaterMarkUtil.calWaterMarkImage(viewHolder.ivWaterMark, true, WaterMarkUtil.TYPE_RED);
+        WaterMarkUtil.calWaterMarkImage(viewHolder.ivWaterMark, mContent.verified, mContent.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
 
         return convertView;
     }

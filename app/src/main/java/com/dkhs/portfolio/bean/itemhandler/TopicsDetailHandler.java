@@ -13,10 +13,8 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -160,8 +158,8 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
                     vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
                 }
             }
-            //TODO 根据返回值判断加V图片的显示隐藏
-            WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), true, WaterMarkUtil.TYPE_RED);
+
+            WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
         }
 
         if(data.content_type == 40){

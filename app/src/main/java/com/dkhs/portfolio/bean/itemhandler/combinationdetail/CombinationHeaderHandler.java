@@ -40,8 +40,7 @@ public class CombinationHeaderHandler implements ItemHandler<UserEntity> ,View.O
         if (null != data.getAvatar_md() && data.getAvatar_md().length() > 35) {
             bitmapUtils.display(vh.getImageView(R.id.iv_avatar), data.getAvatar_md());
         }
-        //TODO 根据返回值判断加V图片的显示隐藏
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),true,WaterMarkUtil.TYPE_RED);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), data.verified, data.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
         vh.getTextView(R.id.tv_user_name).setText(data.getUsername());
         if (TextUtils.isEmpty(data.getDescription())) {
             vh.getTextView(R.id.tv_user_desc).setText(vh.getContext().getResources().getString(R.string.nodata_user_description));

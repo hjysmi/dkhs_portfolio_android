@@ -42,8 +42,7 @@ public class FollowerItemHandler extends SimpleItemHandler<PeopleBean> {
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
-        //TODO 根据返回值判断加V图片的显示隐藏
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), true, WaterMarkUtil.TYPE_RED);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), peopleBean.verified, peopleBean.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
 
         vh.setTextView(R.id.tv_user_name, peopleBean.getUsername());
         vh.setTextView(R.id.tv_followers, mContext.getResources().getString(R.string.followers) + ":"

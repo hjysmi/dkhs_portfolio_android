@@ -130,8 +130,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.default_head);
         }
-        //TODO 根据返回值判断加V图片的显示隐藏
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), true, WaterMarkUtil.TYPE_RED);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
         if(user != null){
             vh.getTextView(R.id.tv_username).setText(user.getUsername());
         }

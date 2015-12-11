@@ -157,8 +157,7 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
 
             UserEntity user = mCombinationBean.getUser();
             ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), ivUserheader);
-            //TODO 根据返回值判断加V图片的显示隐藏
-            WaterMarkUtil.calWaterMarkImage(ivWaterMark, true, WaterMarkUtil.TYPE_RED);
+            WaterMarkUtil.calWaterMarkImage(ivWaterMark, user.verified, user.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
 //                    if (null != user.getAvatar_md() && user.getAvatar_md().length() > 35) {
 ////                        bitmapUtils.display(ivUserheader, user.getAvatar_md());
 //                    }
