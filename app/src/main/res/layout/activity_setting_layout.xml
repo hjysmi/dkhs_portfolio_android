@@ -260,7 +260,7 @@
                             android:paddingBottom="10dp"
                             android:paddingLeft="20dp"
                             android:paddingTop="10dp"
-                            android:text="个人签名"
+                            android:text="@string/sign_text_title"
                             android:textColor="@color/black"
                             android:textSize="@dimen/setting_text_name" />
 
@@ -418,6 +418,8 @@
                 android:text="设置密码"
                 android:textColor="@color/white"
                 android:visibility="gone" />
+
+            <include layout="@layout/layout_pro_verification"/>
         </LinearLayout>
     </ScrollView>
 

@@ -21,6 +21,11 @@ public class TabWidget implements View.OnClickListener {
 
     public Button mBtntitletableft;
     public Button mBtntitletabcenter;
+
+    public Button getmBtntitletabright() {
+        return mBtntitletabright;
+    }
+
     public Button mBtntitletabright;
 
     private View view;

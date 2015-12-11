@@ -4,15 +4,13 @@
     android:id="@+id/item_content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg_color"
+    android:background="@drawable/gray_bg_selector"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="0.5px">
+    android:orientation="vertical">
 
     <com.dkhs.portfolio.ui.widget.RatioLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gray_bg_selector"
         android:gravity="center"
         app:height_ratio="0.8"
         app:width_ratio="1.0" />

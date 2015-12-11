@@ -97,7 +97,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                                 textSliderView
                                         .description(item.getTitle())
                                         .image(item.getImage())
-                                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                                        .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true);
                                 ;
                                 duration = item.getDisplay_time();
                                 Bundle bundle = new Bundle();
@@ -135,7 +135,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                                 textSliderView
                                         .description(item.getTitle())
                                         .image(item.getImage())
-                                        .setScaleType(BaseSliderView.ScaleType.Fit)
+                                        .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true)
                                 ;
                                 duration = item.getDisplay_time();
                                 Bundle bundle = new Bundle();
@@ -157,7 +157,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                         textSliderView
                                 .description(item.getTitle())
                                 .image(item.getImage())
-                                .setScaleType(BaseSliderView.ScaleType.Fit)
+                                .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true)
                         ;
                         duration = item.getDisplay_time();
                         Bundle bundle = new Bundle();

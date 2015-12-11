@@ -61,7 +61,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.fragment_main_marke;
+        return R.layout.fragment_main_market;
     }
 
     @Override
@@ -78,15 +78,15 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fragmentList = new ArrayList<Fragment>();
+        fragmentList = new ArrayList<>();
         mRlheadertitle.setClickable(true);
-        fragmentList.add(new MarketFundsFragment());
+        fragmentList.add(new MarketFundsHomeFragment());
         fragmentList.add(new MarketStockFragment());
-        fragmentList.add(new MarketCombinationFragment());
         mAdapter = new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList);
         vp.setAdapter(mAdapter);
         vp.setOnPageChangeListener(this);
         tabWidget = new TabWidget(view);
+        tabWidget.getmBtntitletabright().setVisibility(View.GONE);
         mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                 null, null, null);
         mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
@@ -99,10 +99,11 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         });
         tabWidget.setSelection(0);
 
-//        vp.setCurrentItem(1);
+        vp.setCurrentItem(0);
         mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
-        vp.setOffscreenPageLimit(3);
+        vp.setOffscreenPageLimit(2);
+        mLeftBtn.setVisibility(View.GONE);
         mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,32 +176,6 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
 
     private static final String TAG = MainMarketFragment.class.getSimpleName();
 
-    @Subscribe
-    public void rotateRefreshButton(RotateRefreshEvent rotateRefreshEvent) {
-        if (isAdded() && !isHidden()) {
-            mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
-                    null, null, null);
-            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.rotate_around_center_point);
-            mBtnrefresh.startAnimation(animation);
-        }
-    }
-
-    @Subscribe
-    public void stopRefreshAnimation(StopRefreshEvent stopRefreshEvent) {
-        if (isAdded() && !isHidden()) {
-            mBtnrefresh.clearAnimation();
-            mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
-                    null, null, null);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-
-    }
-
     @Override
     public void onPageScrolled(int i, float v, int i2) {
 
@@ -212,6 +187,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         tabWidget.setSelection(i);
         switch (i) {
             case 0:
+                mLeftBtn.setVisibility(View.GONE);
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                         null, null, null);
                 mBtnsearch.setVisibility(View.VISIBLE);
@@ -220,20 +196,13 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
             case 1:
+                mLeftBtn.setVisibility(View.VISIBLE);
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                         null, null, null);
                 mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setVisibility(View.VISIBLE);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 mBtnsearch.setOnClickListener((View.OnClickListener) f);
-                break;
-            case 2:
-                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add),
-                        null, null, null);
-                mBtnrefresh.setVisibility(View.VISIBLE);
-                mBtnsearch.setVisibility(View.VISIBLE);
-                mBtnsearch.setOnClickListener((View.OnClickListener) f);
-                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
         }
 
@@ -243,6 +212,21 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
     public void onPageScrollStateChanged(int i) {
 
     }
-
-
+    @Subscribe
+    public void rotateRefreshButton(RotateRefreshEvent rotateRefreshEvent) {
+        if (isAdded() && !isHidden()) {
+            mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
+                    null, null, null);
+            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.rotate_around_center_point);
+            mBtnrefresh.startAnimation(animation);
+        }
+    }
+    @Subscribe
+    public void stopRefreshAnimation(StopRefreshEvent stopRefreshEvent) {
+        if (isAdded() && !isHidden()) {
+            mBtnrefresh.clearAnimation();
+            mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
+                    null, null, null);
+        }
+    }
 }

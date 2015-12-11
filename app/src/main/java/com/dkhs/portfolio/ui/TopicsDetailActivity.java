@@ -92,6 +92,11 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
      */
     public static final int TYPE_REWARD = 40;
 
+    /**
+     * 专题理财
+     */
+    public static final int TYPE_SPECIAL = 50;
+
     public static final int MENU_COMMEND = 0;
     public static final int MENU_LIKE = 1;
     public static final int MENU_SHARE = 2;
@@ -650,6 +655,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 break;
             case TYPE_REWARD:
                 setTitle("悬赏正文");
+                break;
+            case TYPE_SPECIAL:
+                setTitle(topicsBean.recommend_title);
                 break;
             default:
                 break;

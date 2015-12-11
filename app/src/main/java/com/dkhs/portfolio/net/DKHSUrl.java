@@ -273,6 +273,7 @@ public class DKHSUrl {
         String unfollow = "/api/v1/users/%s/unfollow/";
         String getUserInfo = "/api/v1/users/%s/";
         String friend_list = "/api/v1/users/%s/friends/?page_size=999";
+        String get_pro_verification = "/api/v1/accounts/pro_verfications/mine/";
 
 
     }
@@ -349,7 +350,7 @@ public class DKHSUrl {
         /**
          * 获取推荐悬赏/话题
          */
-        String GET_RECOMMEND = "/api/v1/statuses/recommend/";
+        String get_recommend = "/api/v1/statuses/recommend/";
     }
 
     public interface Search {

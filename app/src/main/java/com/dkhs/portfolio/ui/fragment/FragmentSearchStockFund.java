@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
@@ -58,7 +59,7 @@ import java.util.List;
  * @Description 个股选择
  * @date 2014-8-29 上午9:36:16
  */
-public class FragmentSearchStockFund extends VisiableLoadFragment implements ISelectChangeListener, OnClickListener,PullToRefreshListView.OnLoadMoreListener,SearchOnlineEngine.ILoadDataCallBack {
+public class FragmentSearchStockFund extends VisiableLoadFragment implements ISelectChangeListener, OnClickListener, PullToRefreshListView.OnLoadMoreListener, SearchOnlineEngine.ILoadDataCallBack {
     private static final String TAG = FragmentSearchStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
@@ -89,6 +90,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     private boolean isOnline;
     private String mKey;
     private PullToRefreshListView mListView;
+    private TextView mEmptyTv;
 
     LoadMoreDataEngine mLoadDataEngine;
     SearchStockEngineImpl mSearchEngine;
@@ -146,7 +148,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     }
 
     public void searchByKey(String key) {
-
+        mEmptyTv.setText(R.string.search_no_result);
         if (!TextUtils.isEmpty(mSearchType)) {
             key.trim();
             mKey = key;
@@ -155,9 +157,9 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
                 mSearchEngine.searchFundsByLoader(key, getActivity());
             } else if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_STOCK)) {
-                if(isOnline){
+                if (isOnline) {
                     getOnLineEngine().searchByKey(key);
-                }else{
+                } else {
                     mSearchEngine.searchStockByLoader(key, getActivity());
                 }
             } else if (mSearchType.equals(SEARCH_TYPE_STOCKANDINDEX) && isOnline) {
@@ -311,8 +313,10 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
-        mListView.setEmptyView(view.findViewById(android.R.id.empty));
 
+        mEmptyTv = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(mEmptyTv);
+        mEmptyTv.setText("");
         if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
@@ -429,7 +433,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         if (BuildConfig.isSandbox) {
             LogUtils.d("wys", "onLoadMore");
         }
-        if(isOnline){
+        if (isOnline) {
             getOnLineEngine().loadMore(mKey);
         }
 
@@ -441,16 +445,16 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
 
     private SearchOnlineEngine mOnLineEngine;
 
-    private SearchOnlineEngine getOnLineEngine(){
-        if(mOnLineEngine == null){
-            mOnLineEngine = new SearchOnlineEngine(mSearchType,this);
+    private SearchOnlineEngine getOnLineEngine() {
+        if (mOnLineEngine == null) {
+            mOnLineEngine = new SearchOnlineEngine(mSearchType, this);
         }
         return mOnLineEngine;
     }
 
     @Override
     public void loadFinish(MoreDataBean<SelectStockBean> data) {
-        if(data.getCurrentPage() == 1){
+        if (data.getCurrentPage() == 1) {
             mDataList.clear();
         }
         mDataList.addAll(data.getResults());

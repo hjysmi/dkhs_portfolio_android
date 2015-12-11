@@ -263,7 +263,7 @@
     <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题,可以关注微信公众号：%s，直接与微信客服沟通交流</string>
     <string name="text_other_manager_combin">Ta管理的组合一览</string>
     <string name="text_my_manager_combin">我管理的组合一览</string>
-    <string name="sign_text_title">个人签名</string>
+    <string name="sign_text_title">个人简介</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">感谢您的反馈</string>
@@ -400,6 +400,13 @@
     <string name="market_fund_per_day">日收益</string>
     <string name="market_fund_per_month">月收益</string>
     <string name="market_fund_per_tyear">今年收益</string>
+    <string name="shangzheng">上证指数</string>
+    <string name="shenzheng">深证成指</string>
+    <string name="chuangye">创业板指</string>
+    <string name="fund_market">基金超市</string>
+    <string name="look_at_all">查看全部</string>
+    <string name="special_financing">专题理财</string>
+    <string name="total_profit">总收益:</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>
@@ -573,6 +580,8 @@
 
     <string name="fund_detail_name">基金全称</string>
     <string name="fund_manager">基金经理</string>
+    <string name="profit_rank">收益排行</string>
+    <string name="hybrid">混合型</string>
     <string name="fund_manager_order">基金经理排行</string>
     <string name="fund_comp">基金公司</string>
     <string name="fund_stype">基金类型</string>

@@ -73,6 +73,10 @@ public class UserEntity {
 
     boolean me_follow;
 
+    public boolean verified;
+    public int verified_type;
+    public String verified_reason;
+
     public UserEntity() { /*Required empty bean constructor*/ }
 
     int portfolios_following_count;
