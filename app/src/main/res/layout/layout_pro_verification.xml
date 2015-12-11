@@ -24,7 +24,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            tools:text="姓名"
+            android:text="姓名"
             android:textColor="@color/black"
             android:textSize="@dimen/setting_text_name" />
 
@@ -57,7 +57,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            tools:text="身份证"
+            android:text="身份证"
             android:textColor="@color/black"
             android:textSize="@dimen/setting_text_name" />
 
@@ -90,7 +90,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            tools:text="现居城市"
+            android:text="现居城市"
             android:textColor="@color/black"
             android:textSize="@dimen/setting_text_name" />
 
@@ -123,7 +123,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            tools:text="认证类型"
+            android:text="认证类型"
             android:textColor="@color/black"
             android:textSize="@dimen/setting_text_name" />
 
@@ -156,7 +156,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            tools:text="执业编码"
+            android:text="执业编码"
             android:textColor="@color/black"
             android:textSize="@dimen/setting_text_name" />
 
@@ -189,7 +189,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            tools:text="所属机构"
+            android:text="所属机构"
             android:textColor="@color/black"
             android:textSize="@dimen/setting_text_name" />
 
