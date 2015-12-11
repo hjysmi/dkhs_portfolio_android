@@ -16,7 +16,7 @@ public class ProInfoBean {
     public String image5;
     public String image6;
     public Organize org_profile;
-    class Organize{
+    public static  class Organize{
         public int id;
         public String name;
         public int org_profile_type;

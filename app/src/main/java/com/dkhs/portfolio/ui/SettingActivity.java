@@ -22,6 +22,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.bean.BindThreePlat;
+import com.dkhs.portfolio.bean.IdentityInfoBean;
+import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -199,7 +201,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.line7).setVisibility(View.GONE);
             findViewById(R.id.line8).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_boundphone).setVisibility(View.GONE);
-            getProVerificationInfo();
+            if (PortfolioApplication.hasUserLogin() && GlobalParams.LOGIN_USER.verified) {
+                findViewById(R.id.ll_pro_ver).setVisibility(View.VISIBLE);
+                getProVerificationInfo();
+            }
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
         } else {
             setTitle(R.string.setting);
@@ -532,7 +537,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         return getIntent().getBooleanExtra(EDIT_MODE, false);
     }
 
-    private void getProVerificationInfo(){
+    private void getProVerificationInfo() {
         DKHSClient.requestByGet(new ParseHttpListener<ProVerificationBean>() {
             @Override
             protected ProVerificationBean parseDateTask(String jsonData) {
@@ -541,8 +546,49 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             @Override
             protected void afterParseData(ProVerificationBean bean) {
-
+                updateProVerificationInfo(bean);
             }
         }, DKHSUrl.User.get_pro_verification);
+    }
+
+    private void updateProVerificationInfo(ProVerificationBean info) {
+        IdentityInfoBean identity = info.identity;
+        ProInfoBean pro = info.pro;
+        if(pro == null || identity == null)
+            return;
+        ((TextView) findViewById(R.id.tv_real_name_value)).setText(identity.real_name);
+        ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_marsked);
+        ((TextView) findViewById(R.id.tv_city_value)).setText(GlobalParams.LOGIN_USER.getCity());
+        ((TextView) findViewById(R.id.tv_verified_type_title)).setText(getVerifiedName(pro.verified_type));
+        if (pro.verified_type == 0) {
+            findViewById(R.id.setting_cert_no).setVisibility(View.GONE);
+            findViewById(R.id.setting_organize).setVisibility(View.GONE);
+        } else {
+            ((TextView) findViewById(R.id.tv_cert_no_value)).setText(pro.cert_no);
+            ((TextView) findViewById(R.id.tv_organize_value)).setText(pro.org_profile.name);
+        }
+    }
+
+    //0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业 4, 期货执业
+    private String getVerifiedName(int type) {
+        String verifiedName = "";
+        switch (type) {
+            case 0:
+                verifiedName = "投资牛人";
+                break;
+            case 1:
+                verifiedName = "投资顾问";
+                break;
+            case 2:
+                verifiedName = "分析师";
+                break;
+            case 3:
+                verifiedName = "基金执业";
+                break;
+            case 4:
+                verifiedName = "期货执业";
+                break;
+        }
+        return verifiedName;
     }
 }
