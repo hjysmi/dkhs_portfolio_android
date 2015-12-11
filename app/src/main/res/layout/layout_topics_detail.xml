@@ -53,8 +53,8 @@
                     android:id="@+id/tv_time"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/iv_avatar"
-                    android:layout_toRightOf="@+id/iv_avatar"
+                    android:layout_alignBottom="@+id/ll_avatar"
+                    android:layout_toRightOf="@+id/ll_avatar"
                     android:textColor="@color/gray_textcolor"
                     android:textSize="@dimen/text_status_time" />
 
