@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.baidu.mobstat.StatService;
@@ -30,6 +31,8 @@ import com.dkhs.portfolio.ui.widget.ViewBean.MarkPlateGridViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkStockViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkTitleViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.ViewBean;
+import com.dkhs.portfolio.utils.NetUtil;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -56,6 +59,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+        generateCacheData();
 
     }
 
@@ -165,6 +169,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
 
     private boolean isLoading;
+    private boolean requestSuccess = false;
 
     /**
      * @return
@@ -183,61 +188,15 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     IHttpListener plateListener = new ParseHttpListener<List<ViewBean>>() {
         @Override
         protected List<ViewBean> parseDateTask(String jsonData) {
-
-            mAllMarketBean = DataParse.parseObjectJson(AllMarketBean.class, jsonData);
-            if (null == mAllMarketBean) {
-                return null;
-            }
-            List<ViewBean> dataList = null;
-
-            dataList = new ArrayList<ViewBean>();
-//            dataList.add(new MarkTitleViewBean(R.string.market_title_index));
-
-            if (null != mAllMarketBean.getMidx_data()) {
-
-                for (StockQuotesBean selectStockBean : mAllMarketBean.getMidx_data().getResults()) {
-
-                    dataList.add(new MarkGridViewBean(selectStockBean));
-                }
-
-            }
-
-            dataList.add(new MarkTitleViewBean(R.string.market_title_hot));
-
-
-            if (null != mAllMarketBean.getSect_data()) {
-
-                for (SectorBean sectorBean : mAllMarketBean.getSect_data().getResults()) {
-
-                    dataList.add(new MarkPlateGridViewBean(sectorBean));
-                }
-
-            }
-
-            dataList.add(new MarkTitleViewBean(R.string.market_title_up));
-            for (StockQuotesBean selectStockBean : mAllMarketBean.getRise_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean));
-            }
-            dataList.add(new MarkTitleViewBean(R.string.market_title_down));
-            for (StockQuotesBean selectStockBean : mAllMarketBean.getDrop_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean));
-            }
-            dataList.add(new MarkTitleViewBean(R.string.market_title_turnover));
-            for (StockQuotesBean selectStockBean : mAllMarketBean.getTurnover_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean, MarkStockViewBean.SUB_TYPE_TURNOVER));
-            }
-            dataList.add(new MarkTitleViewBean(R.string.market_title_ampli));
-            for (StockQuotesBean selectStockBean : mAllMarketBean.getAmplitude_data().getResults()) {
-                dataList.add(new MarkStockViewBean(selectStockBean, MarkStockViewBean.SUB_TYPE_AMPLITUDE));
-            }
-
-
-            return dataList;
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_STOCK_ALL_MARKET_JSON,jsonData);
+            return parseData(jsonData);
         }
 
         @Override
         protected void afterParseData(List<ViewBean> viewBeanList) {
             isLoading = false;
+            if(!requestSuccess)
+                requestSuccess = true;
             if (isAdded()) {
                 endAnimaRefresh();
 
@@ -263,6 +222,60 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
             }
         }
     };
+
+    private List<ViewBean> parseData(String jsonData){
+        mAllMarketBean = DataParse.parseObjectJson(AllMarketBean.class, jsonData);
+        if (null == mAllMarketBean) {
+            return null;
+        }
+        mAllMarketBean = DataParse.parseObjectJson(AllMarketBean.class, jsonData);
+        if (null == mAllMarketBean) {
+            return null;
+        }
+        List<ViewBean> dataList = null;
+
+        dataList = new ArrayList<ViewBean>();
+//            dataList.add(new MarkTitleViewBean(R.string.market_title_index));
+
+        if (null != mAllMarketBean.getMidx_data()) {
+
+            for (StockQuotesBean selectStockBean : mAllMarketBean.getMidx_data().getResults()) {
+
+                dataList.add(new MarkGridViewBean(selectStockBean));
+            }
+
+        }
+
+        dataList.add(new MarkTitleViewBean(R.string.market_title_hot));
+
+
+        if (null != mAllMarketBean.getSect_data()) {
+
+            for (SectorBean sectorBean : mAllMarketBean.getSect_data().getResults()) {
+
+                dataList.add(new MarkPlateGridViewBean(sectorBean));
+            }
+
+        }
+
+        dataList.add(new MarkTitleViewBean(R.string.market_title_up));
+        for (StockQuotesBean selectStockBean : mAllMarketBean.getRise_data().getResults()) {
+            dataList.add(new MarkStockViewBean(selectStockBean));
+        }
+        dataList.add(new MarkTitleViewBean(R.string.market_title_down));
+        for (StockQuotesBean selectStockBean : mAllMarketBean.getDrop_data().getResults()) {
+            dataList.add(new MarkStockViewBean(selectStockBean));
+        }
+        dataList.add(new MarkTitleViewBean(R.string.market_title_turnover));
+        for (StockQuotesBean selectStockBean : mAllMarketBean.getTurnover_data().getResults()) {
+            dataList.add(new MarkStockViewBean(selectStockBean, MarkStockViewBean.SUB_TYPE_TURNOVER));
+        }
+        dataList.add(new MarkTitleViewBean(R.string.market_title_ampli));
+        for (StockQuotesBean selectStockBean : mAllMarketBean.getAmplitude_data().getResults()) {
+            dataList.add(new MarkStockViewBean(selectStockBean, MarkStockViewBean.SUB_TYPE_AMPLITUDE));
+        }
+        return dataList;
+    }
 
 
     @Override
@@ -310,11 +323,21 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 //            if ( UIUtils.roundAble(engineList.get(0).getStatu())) {
             loadingAllData();
 //            }
-            if (null != mAllMarketBean && UIUtils.roundAble(mAllMarketBean.getDrop_data().getTrade_status())) {
+            if (NetUtil.checkNetWork() && requestSuccess && null != mAllMarketBean && UIUtils.roundAble(mAllMarketBean.getDrop_data().getTrade_status())) {
                 updateHandler.postDelayed(updateRunnable, mPollRequestTime);
             }
         }
     };
+
+    private void generateCacheData(){
+        String allMarketJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_STOCK_ALL_MARKET_JSON);
+        if(!TextUtils.isEmpty(allMarketJson)){
+            mViewBeanList.clear();
+            mViewBeanList.addAll(parseData(allMarketJson));
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
 
     private void loadingAllData() {
 
@@ -322,8 +345,6 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
             return;
         }
         isLoading = true;
-
-        MarketCenterStockEngineImple.loadAllMarkets(plateListener);
 
         if (isAdded()) {
 
@@ -334,6 +355,8 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
                 }
             });
         }
+        MarketCenterStockEngineImple.loadAllMarkets(plateListener);
+
     }
 
 

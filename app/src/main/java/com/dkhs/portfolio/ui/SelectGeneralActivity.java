@@ -501,7 +501,7 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                 mFollowList.addAll(resultList);
             }
         });
-        VisitorDataSource.getOptionalStockList(this, new IResultCallback<CombinationBean>() {
+        VisitorDataSource.getOptionalCombinationList(this, new IResultCallback<CombinationBean>() {
             @Override
             public void onResultCallback(List<CombinationBean> resultList) {
                 mFollowCombinationList.addAll(resultList);

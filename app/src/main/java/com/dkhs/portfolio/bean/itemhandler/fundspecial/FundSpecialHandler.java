@@ -17,6 +17,10 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import org.parceler.apache.commons.lang.ArrayUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,7 +52,16 @@ public class FundSpecialHandler extends SimpleItemHandler<RecommendFundSpecialLi
         String[] tags = item.getRecommend_desc().split(",");
         ((LinearLayout)vh.get(R.id.ll_special_tag)).removeAllViews();
         if(tags != null && tags.length > 0){
+            if(tags.length > 5){
+                List<String> arrayList = new ArrayList();
+                for(int i = 0; i < 5; i++){
+                    arrayList.add(tags[i]);
+                }
+                tags = arrayList.toArray(new String[]{});
+            }
             for(String tag : tags){
+                if(TextUtils.isEmpty(tag))
+                    break;
                 View child = View.inflate(mContext, R.layout.layout_special_tag, null);
                 TextView tv_tag = (TextView) child.findViewById(R.id.tv_tag);
                 tv_tag.setText(tag);
@@ -61,7 +74,7 @@ public class FundSpecialHandler extends SimpleItemHandler<RecommendFundSpecialLi
             }
         }
         if(!TextUtils.isEmpty(item.getRecommend_image_sm())){
-            ImageLoaderUtils.setImage(item.getRecommend_image_sm(),vh.getImageView(R.id.iv_bg));
+            ImageLoaderUtils.setImage(item.getRecommend_image_sm(), vh.getImageView(R.id.iv_bg));
         }
         vh.get(R.id.fl_sepcial_feature).setOnClickListener(new View.OnClickListener() {
             @Override

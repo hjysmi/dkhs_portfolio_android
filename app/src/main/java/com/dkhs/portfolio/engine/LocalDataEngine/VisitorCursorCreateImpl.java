@@ -36,7 +36,7 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     private Cursor getOptionalStockCursor() {
         DbUtils db = AppConfig.getDBUtils();
         try {
-            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class).limit(20));
+            return db.findSelectorAllCursor(Selector.from(SelectStockBean.class));
         } catch (DbException e) {
 
         }
@@ -44,12 +44,13 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
     }
     private Cursor getOptionalCombinationCursor() {
         DbUtils db = AppConfig.getDBUtils();
+        Cursor cursor = null;
         try {
-            return db.findSelectorAllCursor(Selector.from(CombinationBean.class).orderBy("sortId"));
+            cursor = db.findSelectorAllCursor(Selector.from(CombinationBean.class));
         } catch (DbException e) {
-
+            e.printStackTrace();
         }
-        return null;
+        return cursor;
     }
 
     private Cursor getCursorA() {
@@ -211,7 +212,9 @@ public class VisitorCursorCreateImpl implements ICursorCreate {
             int typeIndex = args.getInt(TYPE, -1);
             if (typeIndex == VALUE_A) {
                 return SelectStockBean.class;
-            } else if (typeIndex == VALUE_SEARCH_FUNDS || typeIndex == VALUE_SEARCH_STOCK || typeIndex == VALUE_SEARCH_STOCKINDEXFUNDS) {
+            } else if(typeIndex == VALUE_B){
+                return CombinationBean.class;
+            }else if (typeIndex == VALUE_SEARCH_FUNDS || typeIndex == VALUE_SEARCH_STOCK || typeIndex == VALUE_SEARCH_STOCKINDEXFUNDS) {
                 return SearchStockBean.class;
             } else if (typeIndex == VALUE_SEARCH_HISTORYSTOCK) {
                 return SearchHistoryBean.class;

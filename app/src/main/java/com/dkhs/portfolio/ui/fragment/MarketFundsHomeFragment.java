@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +38,7 @@ import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialMainValueHandl
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialMarketHandler;
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialTitleHandler;
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialTitleType;
+import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.FundHomeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -47,6 +49,7 @@ import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -132,6 +135,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
+                getCache();
                 requestData();
             }
         }, 500);
@@ -143,7 +147,57 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         startAnimaRefresh();
         loadData();
     }
-    private void loadData(){
+
+    /**
+     * 获取缓存
+     */
+    private void getCache() {
+        try {
+            String mainValueJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_MAIN_VALUE_JSON);
+            if (!TextUtils.isEmpty(mainValueJson)) {
+                mainValueJson = StringDecodeUtil.decodeUnicode(mainValueJson);
+                mainValue.clear();
+                mainValue.addAll(DataParse.parseArrayJson(StockQuotesBean.class, mainValueJson));
+            }
+            String specialBannersJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_BANNERS_JSON);
+            if (!TextUtils.isEmpty(specialBannersJson)) {
+                specialBannersJson = StringDecodeUtil.decodeUnicode(specialBannersJson);
+                JSONObject jsonObject = new JSONObject(specialBannersJson);
+                JSONArray results = jsonObject.getJSONArray("results");
+                specialBanners.clear();
+                specialBanners.addAll(DataParse.parseArrayJson(RecommendFundSpecialBannerBean.class, results));
+            }
+            String specialLinesJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_LINES_JSON);
+            if (!TextUtils.isEmpty(specialLinesJson)) {
+                specialLinesJson = StringDecodeUtil.decodeUnicode(specialLinesJson);
+                JSONObject jsonObject = new JSONObject(specialLinesJson);
+                JSONArray results = jsonObject.getJSONArray("results");
+                specialLines.clear();
+                specialLines.addAll(DataParse.parseArrayJson(RecommendFundSpecialLineBean.class, results));
+            }
+            String specialFinacingsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_FINANCINGS_JSON);
+            if (!TextUtils.isEmpty(specialFinacingsJson)) {
+                specialFinacingsJson = StringDecodeUtil.decodeUnicode(specialFinacingsJson);
+                JSONObject jsonObject = new JSONObject(specialFinacingsJson);
+                JSONArray results = jsonObject.getJSONArray("results");
+                specialFinancings.clear();
+                specialFinancings.addAll(DataParse.parseArrayJson(RecommendFundSpecialFinancingBean.class, results));
+            }
+            String specialFundmanagersJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_FUNDMANAGERS_JSON);
+            if (!TextUtils.isEmpty(specialFundmanagersJson)) {
+                specialFundmanagersJson = StringDecodeUtil.decodeUnicode(specialFundmanagersJson);
+                JSONObject jsonObject = new JSONObject(specialFundmanagersJson);
+                JSONArray results = jsonObject.getJSONArray("results");
+                specialFundmanagers.clear();
+                specialFundmanagers.addAll(DataParse.parseArrayJson(FundManagerBean.class, results));
+            }
+            generateData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadData() {
         requestCount = 0;
         FundHomeEngineImpl engine = new FundHomeEngineImpl();
         engine.getMarketInfo(new ParseHttpListener<List<StockQuotesBean>>() {
@@ -151,6 +205,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             protected List<StockQuotesBean> parseDateTask(String jsonData) {
                 List<StockQuotesBean> lists = null;
                 try {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_MAIN_VALUE_JSON, jsonData);
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
                     lists = DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
                 } catch (Exception e) {
@@ -164,7 +219,14 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 mainValue.clear();
                 mainValue.addAll(object);
                 requestCount++;
-                needNotify();
+                needRefresh();
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                mSwipeLayout.setRefreshing(false);
+                endAnimaRefresh();
+                super.onFailure(errCode, errMsg);
             }
         });
         engine.getRecommendBanners(new ParseHttpListener<List<RecommendFundSpecialBannerBean>>() {
@@ -172,6 +234,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             protected List<RecommendFundSpecialBannerBean> parseDateTask(String jsonData) {
                 List<RecommendFundSpecialBannerBean> lists = null;
                 try {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_BANNERS_JSON, jsonData);
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
@@ -187,7 +250,14 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 specialBanners.clear();
                 specialBanners.addAll(object);
                 requestCount++;
-                needNotify();
+                needRefresh();
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                mSwipeLayout.setRefreshing(false);
+                endAnimaRefresh();
+                super.onFailure(errCode, errMsg);
             }
         });
         engine.getRecommendSpecials(new ParseHttpListener<List<RecommendFundSpecialLineBean>>() {
@@ -195,6 +265,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             protected List<RecommendFundSpecialLineBean> parseDateTask(String jsonData) {
                 List<RecommendFundSpecialLineBean> lists = null;
                 try {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_LINES_JSON, jsonData);
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
@@ -210,7 +281,14 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 specialLines.clear();
                 specialLines.addAll(object);
                 requestCount++;
-                needNotify();
+                needRefresh();
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                mSwipeLayout.setRefreshing(false);
+                endAnimaRefresh();
+                super.onFailure(errCode, errMsg);
             }
         });
         engine.getRecommendSpecialFinancings(new ParseHttpListener<List<RecommendFundSpecialFinancingBean>>() {
@@ -218,6 +296,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             protected List<RecommendFundSpecialFinancingBean> parseDateTask(String jsonData) {
                 List<RecommendFundSpecialFinancingBean> lists = null;
                 try {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_FINANCINGS_JSON, jsonData);
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
@@ -233,7 +312,14 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 specialFinancings.clear();
                 specialFinancings.addAll(object);
                 requestCount++;
-                needNotify();
+                needRefresh();
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                mSwipeLayout.setRefreshing(false);
+                endAnimaRefresh();
+                super.onFailure(errCode, errMsg);
             }
         });
         engine.getRecommendFundManager(new ParseHttpListener<List<FundManagerBean>>() {
@@ -243,6 +329,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             protected List<FundManagerBean> parseDateTask(String jsonData) {
                 List<FundManagerBean> lists = null;
                 try {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_FUNDMANAGERS_JSON, jsonData);
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
@@ -258,13 +345,21 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 specialFundmanagers.clear();
                 specialFundmanagers.addAll(object);
                 requestCount++;
-                needNotify();
+                needRefresh();
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                mSwipeLayout.setRefreshing(false);
+                endAnimaRefresh();
+                super.onFailure(errCode, errMsg);
             }
         });
     }
+
     private boolean isLoading;
 
-    private void refresh(){
+    private void refresh() {
         if (isLoading) {
             return;
         }
@@ -279,43 +374,66 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         });
     }
 
-    private void needNotify() {
-        if(requestCount == 5){
+    private boolean requestSuccess = false;
+
+    private void needRefresh() {
+        if (requestCount == 5) {
+            if (!requestSuccess)
+                requestSuccess = true;
             if (isAdded())
                 endAnimaRefresh();
             isLoading = false;
             mSwipeLayout.setRefreshing(false);
-            mDataList.clear();
-            mDataList.add(mainValue);
-            Message msg = Message.obtain();
-            msg.obj = specialBanners;
-            mDataList.add(msg);
-            mDataList.add(FundSpecialTitleType.TITLE_FUND_MARKET);
-            mDataList.add(new RecommendFundSpecialMarketBean());
-            int position = 0;
-            for(RecommendFundSpecialLineBean item : specialLines){
-                item.position = position;
-                mDataList.add(item);
-                position++;
+            if (mainValue.size() > 0 && UIUtils.roundAble(Integer.parseInt(mainValue.get(0).getTrade_status()))) {
+                updateHandler.removeCallbacks(updateRunnable);
+                updateHandler.postDelayed(updateRunnable, mPollRequestTime);
             }
-            if(specialFundmanagers.size() > 0){
-                mDataList.add(FundSpecialTitleType.TITLE_FUND_MANAGER);
-                RecommendFundSpecialFundManagerBean managerBean = new RecommendFundSpecialFundManagerBean();
-                managerBean.lists = specialFundmanagers;
-                mDataList.add(managerBean);
-            }
-            mDataList.add(FundSpecialTitleType.TITLE_SPECIAL);
-            for(RecommendFundSpecialFinancingBean item : specialFinancings){
-                mDataList.add(item);
-            }
-            mAdapter.notifyDataSetChanged();
+            generateData();
         }
+    }
+
+    private void generateData() {
+        mDataList.clear();
+        mDataList.add(mainValue);
+        Message msg = Message.obtain();
+        msg.obj = specialBanners;
+        mDataList.add(msg);
+        mDataList.add(FundSpecialTitleType.TITLE_FUND_MARKET);
+        mDataList.add(new RecommendFundSpecialMarketBean());
+        int position = 0;
+        for (RecommendFundSpecialLineBean item : specialLines) {
+            item.position = position;
+            mDataList.add(item);
+            position++;
+        }
+        if (specialFundmanagers.size() > 0) {
+            mDataList.add(FundSpecialTitleType.TITLE_FUND_MANAGER);
+            RecommendFundSpecialFundManagerBean managerBean = new RecommendFundSpecialFundManagerBean();
+            managerBean.lists = specialFundmanagers;
+            mDataList.add(managerBean);
+        }
+        mDataList.add(FundSpecialTitleType.TITLE_SPECIAL);
+        for (RecommendFundSpecialFinancingBean item : specialFinancings) {
+            mDataList.add(item);
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void updateMainValue() {
+        if (mainValue.size() > 0 && UIUtils.roundAble(Integer.parseInt(mainValue.get(0).getTrade_status()))) {
+            updateHandler.removeCallbacks(updateRunnable);
+            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+        }
+        mDataList.remove(0);
+        mDataList.add(0, mainValue);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onViewShow() {
-
-        super.onViewShow();
+        if (requestSuccess && mainValue.size() > 0 && UIUtils.roundAble(Integer.parseInt(mainValue.get(0).getTrade_status()))) {
+            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+        }
         StatService.onPageStart(getActivity(), TAG);
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
@@ -329,6 +447,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
     private void initLoadMoreList(View view) {
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -348,6 +467,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         mListView.setAdapter(getListAdapter());
         mListView.setDivider(null);
     }
+
     BaseAdapter getListAdapter() {
         if (mAdapter == null) {
             mAdapter = new DKBaseAdapter(mActivity, mDataList).buildMultiItemView(ArrayList.class, new FundSpecialMainValueHandler(mActivity))
@@ -363,19 +483,54 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
 
     @Override
     public void onViewHide() {
-        super.onViewHide();
+        updateHandler.removeCallbacks(updateRunnable);
         StatService.onPageEnd(getActivity(), TAG);
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        updateHandler.removeCallbacks(updateRunnable);
+    }
+
+    private static final long mPollRequestTime = 1000 * 5;
+
+    WeakHandler updateHandler = new WeakHandler();
+    Runnable updateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            FundHomeEngineImpl engine = new FundHomeEngineImpl();
+            engine.getMarketInfo(new ParseHttpListener<List<StockQuotesBean>>() {
+                @Override
+                protected List<StockQuotesBean> parseDateTask(String jsonData) {
+                    List<StockQuotesBean> lists = null;
+                    try {
+                        jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+                        lists = DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return lists;
+                }
+
+                @Override
+                protected void afterParseData(List<StockQuotesBean> object) {
+                    mainValue.clear();
+                    mainValue.addAll(object);
+                    updateMainValue();
+                }
+            });
+        }
+    };
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_refresh:
                 refresh();
                 break;
-            case R.id.btn_right:
+            case R.id.btn_search:
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 UIUtils.startAnimationActivity(getActivity(), intent);
                 break;

@@ -8,7 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,8 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.InfoActivity;
-import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
@@ -119,11 +116,12 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
         mRlheadertitle.setClickable(true);
         mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                 null, null, null);
-        mLeftBtn.setVisibility(View.GONE);
+        mLeftBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_back_selector),
+                null, null, null);
         mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mActivity.startActivity(new Intent(mActivity, InfoActivity.class));
+                getActivity().finish();
             }
         });
         BusProvider.getInstance().register(this);
