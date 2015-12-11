@@ -176,7 +176,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         }
         boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
         int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
-
         WaterMarkUtil.calWaterMarkImage(ivWaterMark, isVerified, verifiedType == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
     }
 

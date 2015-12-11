@@ -242,8 +242,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 settingImageHead.setImageBitmap(b);
 
             }
-            //TODO 根据返回值判断加V图片的显示隐藏
-            WaterMarkUtil.calWaterMarkImage(watermarkIv, true, WaterMarkUtil.TYPE_RED);
+            boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
+            int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
+            WaterMarkUtil.calWaterMarkImage(watermarkIv, isVerified, verifiedType == 0?WaterMarkUtil.TYPE_RED:WaterMarkUtil.TYPE_BLUE);
         } else {
             // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.GONE);
