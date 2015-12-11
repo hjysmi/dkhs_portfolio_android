@@ -76,9 +76,16 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
         viewHolder.mCheckbox.setTag(item);
 
 
+        if(item.name.contains("丰原药业") || item.code.contains("丰原药业")){
+
+        }
         // System.out.println("SelectStockBean list status:" + item.list_status);
         if (isCombination) {
-            if (item.is_stop == 1) {
+            if (StockUitls.isDelistStock(item.list_status)) {
+                viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+                viewHolder.tvSuspend.setText("退市");
+                viewHolder.mCheckbox.setVisibility(View.GONE);
+            } else if (StockUitls.isListed(item.list_status) && item.is_stop == 1) {
                 viewHolder.tvSuspend.setVisibility(View.VISIBLE);
                 viewHolder.tvSuspend.setText("停牌");
                 viewHolder.mCheckbox.setVisibility(View.GONE);
@@ -92,7 +99,6 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
                 viewHolder.tvSuspend.setVisibility(View.GONE);
                 viewHolder.mCheckbox.setVisibility(View.VISIBLE);
             }
-
         }
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.getSymbol());

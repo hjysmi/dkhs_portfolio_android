@@ -400,6 +400,13 @@
     <string name="market_fund_per_day">日收益</string>
     <string name="market_fund_per_month">月收益</string>
     <string name="market_fund_per_tyear">今年收益</string>
+    <string name="shangzheng">上证指数</string>
+    <string name="shenzheng">深证成指</string>
+    <string name="chuangye">创业板指</string>
+    <string name="fund_market">基金超市</string>
+    <string name="look_at_all">查看全部</string>
+    <string name="special_financing">专题理财</string>
+    <string name="total_profit">总收益:</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>
@@ -573,6 +580,8 @@
 
     <string name="fund_detail_name">基金全称</string>
     <string name="fund_manager">基金经理</string>
+    <string name="profit_rank">收益排行</string>
+    <string name="hybrid">混合型</string>
     <string name="fund_manager_order">基金经理排行</string>
     <string name="fund_comp">基金公司</string>
     <string name="fund_stype">基金类型</string>

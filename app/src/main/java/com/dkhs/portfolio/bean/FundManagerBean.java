@@ -48,6 +48,7 @@ public class FundManagerBean {
     public float win_rate_twyear;
     public float index_rate_week;
     public String recommend_title;
+    public String recommend_desc;
 
 
     public Float getValue(String value) {

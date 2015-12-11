@@ -68,6 +68,13 @@ public class StockUitls {
         return status.equalsIgnoreCase("7");
     }
 
+    public static boolean isListed (String status){
+        if (TextUtils.isEmpty(status)) {
+            return false;
+        }
+        return status.equalsIgnoreCase("7") || status.equals("1");
+    }
+
 
     public static boolean isSepFund(int stype) {
         return stype == STYPE_EF || stype == STYPE_MBS;

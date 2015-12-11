@@ -39,7 +39,7 @@
 
             <include
                 android:id="@+id/titletab_view"
-                layout="@layout/layout_main_market_title_bar"
+                layout="@layout/layout_main_optionalstock_title_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true" />

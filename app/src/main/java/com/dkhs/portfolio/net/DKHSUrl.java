@@ -349,7 +349,7 @@ public class DKHSUrl {
         /**
          * 获取推荐悬赏/话题
          */
-        String GET_RECOMMEND = "/api/v1/statuses/recommend/";
+        String get_recommend = "/api/v1/statuses/recommend/";
     }
 
     public interface Search {

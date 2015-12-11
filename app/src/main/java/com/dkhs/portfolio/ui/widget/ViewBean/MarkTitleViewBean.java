@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -48,25 +47,25 @@ public class MarkTitleViewBean extends ViewBean {
     private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
         private TextView tvTitle;
-        private ImageButton btnMore;
+        private View rootView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             tvTitle = (TextView) itemView.findViewById(R.id.tv_mainindex);
-            btnMore = (ImageButton) itemView.findViewById(R.id.btn_more_index);
+            rootView = (View) itemView.findViewById(R.id.rootView);
 
         }
 
         public void bindView(final int titleResId) {
 
             tvTitle.setText(titleResId);
-            btnMore.setOnClickListener(new View.OnClickListener() {
+            rootView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     Intent intent = null;
-                    switch (titleResId){
+                    switch (titleResId) {
                         case R.string.market_title_index: {
                             intent = MarketListActivity.newIntent(itemView.getContext(), MarketListActivity.LoadViewType.IndexUp);
                         }
@@ -93,7 +92,7 @@ public class MarkTitleViewBean extends ViewBean {
                         break;
                     }
                     if (null != itemView.getContext()) {
-                        UIUtils.startAnimationActivity((Activity)itemView.getContext(), intent);
+                        UIUtils.startAnimationActivity((Activity) itemView.getContext(), intent);
                     }
                 }
             });

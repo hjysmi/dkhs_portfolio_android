@@ -13,7 +13,7 @@ public abstract class SimpleItemHandler<T> implements ItemHandler<T> {
 
 
 //    protected Context mContext;
-
+    public boolean isRefreshed;
 
     @Override
     public void onBindView(ViewHolder vh, T data, int position) {
