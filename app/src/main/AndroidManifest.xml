@@ -575,6 +575,7 @@
         <activity
             android:name=".ui.OrganizationActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.VerifiedProFileActivity"/>
     </application>
 
 </manifest>

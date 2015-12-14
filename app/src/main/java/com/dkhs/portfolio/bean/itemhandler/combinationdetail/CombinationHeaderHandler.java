@@ -42,10 +42,12 @@ public class CombinationHeaderHandler implements ItemHandler<UserEntity> ,View.O
         }
         WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), data.verified, data.verified_type);
         vh.getTextView(R.id.tv_user_name).setText(data.getUsername());
-        if (TextUtils.isEmpty(data.getDescription())) {
+
+        if(data.verified){
+            vh.getTextView(R.id.tv_user_desc).setText(String.format(vh.getContext().getResources().getString(R.string.verified_reason),data.verified_reason));
+        } else if (TextUtils.isEmpty(data.getDescription())) {
             vh.getTextView(R.id.tv_user_desc).setText(vh.getContext().getResources().getString(R.string.nodata_user_description));
         } else {
-
             vh.getTextView(R.id.tv_user_desc).setText(data.getDescription());
         }
         handleNumber(  vh.getTextView(R.id.tv_followers), data.getFollowed_by_count());

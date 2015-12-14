@@ -198,6 +198,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.setting_layout_check_version).setVisibility(View.GONE);
             findViewById(R.id.rl_aboutus).setVisibility(View.GONE);
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
+            findViewById(R.id.rl_btn_exit).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_bound).setVisibility(View.GONE);
             findViewById(R.id.line5).setVisibility(View.GONE);
             findViewById(R.id.line6).setVisibility(View.GONE);
@@ -205,7 +206,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.line8).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_boundphone).setVisibility(View.GONE);
             if (PortfolioApplication.hasUserLogin() && GlobalParams.LOGIN_USER.verified) {
-                findViewById(R.id.ll_pro_ver).setVisibility(View.VISIBLE);
                 getProVerificationInfo();
             }
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
@@ -382,7 +382,11 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 startActivity(RLFActivity.bindPhoneIntent(this));
                 break;
             case R.id.setting_material:
-
+                if(pro != null){
+                    Intent it = VerifiedProFileActivity.getInent(this,pro.cert_description,pro.image1,pro.image2,
+                            pro.image3,pro.image4,pro.image5,pro.image6);
+                    UIUtils.startAnimationActivity(this,it);
+                }
                 break;
             default:
                 break;
@@ -560,14 +564,19 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         }, DKHSUrl.User.get_pro_verification);
     }
 
+    private ProInfoBean pro;
     private void updateProVerificationInfo(ProVerificationBean info) {
         IdentityInfoBean identity = info.identity;
-        ProInfoBean pro = info.pro;
+        pro = info.pro;
         if(pro == null || identity == null)
             return;
         ((TextView) findViewById(R.id.tv_real_name_value)).setText(identity.real_name);
         ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_marsked);
-        ((TextView) findViewById(R.id.tv_city_value)).setText(GlobalParams.LOGIN_USER.getCity());
+        UserEntity user = GlobalParams.LOGIN_USER;
+        if(user != null){
+            String residence = user.getProvince() + " " + user.getCity();
+            ((TextView) findViewById(R.id.tv_city_value)).setText(residence);
+        }
         ((TextView) findViewById(R.id.tv_verified_type_title)).setText(getVerifiedName(pro.verified_type));
         if (pro.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid()) {
             findViewById(R.id.setting_cert_no).setVisibility(View.GONE);
@@ -582,6 +591,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.setting_organize).setVisibility(View.VISIBLE);
             findViewById(R.id.setting_material).setVisibility(View.GONE);
         }
+        findViewById(R.id.ll_pro_ver).setVisibility(View.VISIBLE);
     }
 
     //0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业 4, 期货执业
@@ -589,19 +599,19 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         String verifiedName = "";
         switch (type) {
             case 0:
-                verifiedName = "投资牛人";
+                verifiedName = getString(R.string.verified_type_expert);
                 break;
             case 1:
-                verifiedName = "投资顾问";
+                verifiedName = getString(R.string.verified_type_adviser);
                 break;
             case 2:
-                verifiedName = "分析师";
+                verifiedName = getString(R.string.verified_type_analyst);
                 break;
             case 3:
-                verifiedName = "基金执业";
+                verifiedName = getString(R.string.verified_type_fund_certificate);
                 break;
             case 4:
-                verifiedName = "期货执业";
+                verifiedName = getString(R.string.verified_type_futures_certificate);
                 break;
         }
         return verifiedName;
