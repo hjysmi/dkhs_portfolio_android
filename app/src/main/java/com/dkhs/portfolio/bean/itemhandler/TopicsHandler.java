@@ -14,6 +14,7 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -23,6 +24,7 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
@@ -80,6 +82,9 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
+
+        UserEntity user = data.getUser();
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),user.verified,user.verified_type);
 
 
         if (TextUtils.isEmpty(data.text)) {

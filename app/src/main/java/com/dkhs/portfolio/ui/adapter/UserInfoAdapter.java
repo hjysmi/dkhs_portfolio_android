@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -36,6 +35,7 @@ import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.ui.widget.WaterMarkImageView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -276,7 +276,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @ViewInject(R.id.ll_userinfo_layout)
         private View viewUserInfo;
         @ViewInject(R.id.setting_image_head)
-        private ImageView settingImageHead;
+        private WaterMarkImageView settingImageHead;
         @ViewInject(R.id.setting_text_account_text)
         private TextView settingTextAccountText;
         @ViewInject(R.id.setting_text_name_text)
@@ -373,16 +373,25 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
+                boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
+                int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
+                if(!isVerified){
+                    settingImageHead.setType(WaterMarkImageView.TypeEnum.nothing);
+                }else if(verifiedType == 0){
+                    settingImageHead.setType(WaterMarkImageView.TypeEnum.red);
+                }else{
+                    settingImageHead.setType(WaterMarkImageView.TypeEnum.blue);
+                }
                 String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
                 if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
                     BitmapUtils bitmapUtils = new BitmapUtils(mView.getContext());
                     bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
-                    bitmapUtils.display(settingImageHead, url);
+                    bitmapUtils.display(settingImageHead.getImageView(), url);
 
                 } else {
                     Bitmap b = BitmapFactory.decodeResource(mView.getResources(), R.drawable.ic_user_head);
                     b = UIUtils.toRoundBitmap(b);
-                    settingImageHead.setImageBitmap(b);
+                    settingImageHead.getImageView().setImageBitmap(b);
 
                 }
 
@@ -404,7 +413,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
                 BitmapUtils bitmapUtils = new BitmapUtils(mView.getContext());
                 bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
-                bitmapUtils.display(settingImageHead, url);
+                bitmapUtils.display(settingImageHead.getImageView(), url);
             }
         }
 
