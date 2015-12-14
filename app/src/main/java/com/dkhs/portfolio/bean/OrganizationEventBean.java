@@ -5,8 +5,9 @@ package com.dkhs.portfolio.bean;
  */
 public class OrganizationEventBean {
     public String name;
-
-    public OrganizationEventBean(String name) {
+    public Integer id;
+    public OrganizationEventBean(Integer id,String name) {
         this.name = name;
+        this.id = id;
     }
 }

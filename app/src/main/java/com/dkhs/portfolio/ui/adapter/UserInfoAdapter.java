@@ -348,8 +348,10 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
                 case R.id.tv_auth_status:
+
                     MessageHandler handler = new MessageHandler(mView.getContext());
                     handler.handleURL(DKHSClient.getAbsoluteUrl(mView.getContext().getResources().getString(R.string.authentication_url)));
+
                     break;
 
             }

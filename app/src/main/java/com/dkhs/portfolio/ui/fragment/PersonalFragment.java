@@ -20,6 +20,7 @@ import com.android.percent.PercentFrameLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
+import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.ui.AgreementTextActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
 import com.dkhs.portfolio.ui.city.SelectProviceActivity;
@@ -51,7 +52,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     public static final int RESULT_INTRODUCE_BACK = 1;
     private TextView tv_introduce;
     private TextView tv_city;
-    private TextView tv_name;
+    private EditText et_name;
     private Button btn_update;
     private Button btn_submit;
     private ImageView iv_upimg;
@@ -60,6 +61,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private EditText et_id;
     private CheckBox cb_agree;
     private boolean hasphotos = false;
+    private ProInfoBean proInfoBean_qualification;
+    private ProInfoBean proInfoBean = new ProInfoBean();
     private List<MyActionSheetDialog.SheetItem> items = new ArrayList<MyActionSheetDialog.SheetItem>();
 
     @Override
@@ -94,7 +97,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         fm_city = (PercentFrameLayout) view.findViewById(R.id.fm_city);
         tv_city = (TextView) view.findViewById(R.id.tv_city);
         btn_update = (Button) view.findViewById(R.id.btn_update);
-        tv_name = (TextView) view.findViewById(R.id.et_name);
+        et_name = (EditText) view.findViewById(R.id.et_name);
         iv_upimg = (ImageView) view.findViewById(R.id.iv_upimg);
         iv_upbg = (ImageView) view.findViewById(R.id.iv_upbg);
         btn_submit = (Button) view.findViewById(R.id.btn_submit);
@@ -102,7 +105,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         et_id = (EditText) view.findViewById(R.id.et_id);
         cb_agree = (CheckBox) view.findViewById(R.id.cb_agree);
         // et_id.addTextChangedListener(et_id_textwatcher);
-        tv_name.addTextChangedListener(et_name_textwatcher);
+        et_name.addTextChangedListener(et_name_textwatcher);
         et_id.addTextChangedListener(et_id_textwatcher);
     }
 
@@ -195,7 +198,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void checkSubmit() {
-        if (!TextUtils.isEmpty(clearTvInvalid(tv_name)) && !TextUtils.isEmpty(clearEtInvalid(et_id))
+        if (!TextUtils.isEmpty(clearEtInvalid(et_name)) && !TextUtils.isEmpty(clearEtInvalid(et_id))
                 && !TextUtils.isEmpty(clearTvInvalid(tv_city))
                 && !TextUtils.isEmpty(clearTvInvalid(tv_introduce)) && hasphotos
                 && cb_agree.isChecked()) {
@@ -213,6 +216,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private String clearEtInvalid(EditText et) {
         return et.getText().toString().trim();
     }
+
     private String clearTvInvalid(TextView tv) {
         return tv.getText().toString().trim();
     }
@@ -246,15 +250,17 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.btn_submit:
                 //
-                if (checkName(clearTvInvalid(tv_name))) {
+                if (checkName(clearEtInvalid(et_name))) {
                     //姓名匹配
                     if (checkIdentityCard(clearEtInvalid(et_id))) {
                         //身份证匹配
+                        upInfo();
                         BusProvider.getInstance().post(new PersonalEventBean());
                     } else {
                         //身份证不匹配
                         PromptManager.showShortToast("请填写正确的身份证号");
                     }
+
                 } else {
                     //姓名不匹配
                     PromptManager.showShortToast("请填写您的真实姓名");
@@ -263,6 +269,48 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
 
+    }
+
+    /**
+     * 上传信息
+     */
+    private void upInfo() {
+        ProInfoBean bean = buildProInfoBean();
+        System.out.println(">>>>");
+    }
+
+    private ProInfoBean buildProInfoBean() {
+        int verified_type = proInfoBean_qualification.verified_type;
+        //  verified_type 认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业资格 4, 期货投资咨询
+        proInfoBean.verified_type = verified_type;
+        switch (verified_type) {
+            case 0:
+
+                break;
+            default:
+
+                proInfoBean.org_profile.id = proInfoBean_qualification.org_profile.id;
+
+                break;
+        }
+        String city = clearTvInvalid(tv_city);
+        String[] split_city = city.split(" ", 2);
+        proInfoBean.id_card_no = clearEtInvalid(et_id);
+        proInfoBean.real_name = clearEtInvalid(et_name);
+        if (split_city.length == 1) {
+            proInfoBean.province = split_city[0];
+        } else if (split_city.length == 2) {
+            proInfoBean.province = split_city[0];
+            proInfoBean.city = split_city[1];
+        }
+        proInfoBean.cert_description = clearTvInvalid(tv_introduce);
+        proInfoBean.id_card_photo_full = mCurrentPhotoPath;
+        return proInfoBean;
+    }
+
+    @Subscribe
+    public void getProInfoBean(ProInfoBean bean) {
+        proInfoBean_qualification = bean;
     }
 
     //选择图片
