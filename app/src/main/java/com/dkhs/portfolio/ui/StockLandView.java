@@ -83,7 +83,7 @@ public class StockLandView extends RelativeLayout {
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
-        hsTitle.setLayoutWidth(UIUtils.getDisplayMetrics().heightPixels);
+        hsTitle.setLayoutWidth(UIUtils.getDisplayMetrics().widthPixels);
         view.findViewById(R.id.lank_klind_exit).setOnClickListener(new OnClickListener() {
 
             @Override
@@ -104,9 +104,27 @@ public class StockLandView extends RelativeLayout {
         pager.setCanScroll(false);
         // stockLayout.setOnTouchListener(new OnLayoutlistener());
 
-        // setupViewData();
+//        setupViewData();
         // scrollview + listview 会滚动到底部，需要滚动到头部
         // setAddOptionalButton();
+    }
+
+    private void setupViewData() {
+        if (null != this.fragmentList && hasWindowFocus()) {
+            Fragment fragment = this.fragmentList.get(view_position);
+            if (null != fragment && fragment instanceof FragmentLifecycle) {
+                ((FragmentLifecycle) fragment).onVisible();
+                if (null != mQuotesEngine && mStockBean != null) {
+                    if (mLandStockCallBack.getTabPosition() != view_position) {
+                        hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
+                    }
+                } else {
+                    ((FragmentLifecycle) fragment).onUnVisible();
+                }
+            }
+
+
+        }
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
@@ -201,7 +219,7 @@ public class StockLandView extends RelativeLayout {
 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         mStockQuotesChartFragment = StockQuotesChartLandFragment.newInstance(
-                StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.symbol);
+                StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.symbol, mStockBean);
         KChartsLandFragment fragment = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,
                 mStockBean.symbol, mStockBean.symbol_type);
         KChartsLandFragment fragment2 = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,
@@ -320,6 +338,12 @@ public class StockLandView extends RelativeLayout {
             landKlinTextTitle.setText(mStockBean.name);
         }
         initTabPage();
+        this.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setupViewData();
+            }
+        },50);
     }
 
     public void setViewType(int type) {

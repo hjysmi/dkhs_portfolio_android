@@ -1,5 +1,7 @@
 package com.dkhs.portfolio;
 
+import java.util.List;
+
 /**
  * Created by zhangcm on 2015/12/8.
  */
@@ -9,9 +11,13 @@ public class RecommendFundSpecialBean {
     private String recommend_title;
     private String recommend_desc;
     private String recommend_image_sm;
-    private String abbr_name;
-    private String percent_six_month;
+    private List<Symbol> symbols;
 
+
+    public class Symbol{
+        public String abbr_name;
+        public float percent_six_month;
+    }
     public String getId() {
         return id;
     }
@@ -44,19 +50,11 @@ public class RecommendFundSpecialBean {
         this.recommend_image_sm = recommend_image_sm;
     }
 
-    public String getAbbr_name() {
-        return abbr_name;
+    public List<Symbol> getSymbols() {
+        return symbols;
     }
 
-    public void setAbbr_name(String abbr_name) {
-        this.abbr_name = abbr_name;
-    }
-
-    public String getPercent_six_month() {
-        return percent_six_month;
-    }
-
-    public void setPercent_six_month(String percent_six_month) {
-        this.percent_six_month = percent_six_month;
+    public void setSymbols(List<Symbol> symbols) {
+        this.symbols = symbols;
     }
 }

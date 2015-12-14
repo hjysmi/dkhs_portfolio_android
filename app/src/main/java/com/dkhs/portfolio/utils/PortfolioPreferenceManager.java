@@ -49,6 +49,7 @@ public class PortfolioPreferenceManager {
     public static final String KEY_HOME_SUB_BANNER_JSON = "key_home_sub_banner_json";
     public static final String KEY_VERIFIED = "key_verified";
     public static final String KEY_VERIFIED_TYPE = "key_verified_type";
+    public static final String KEY_VERIFIED_STATUS = "key_verified_status";
     public static final String KEY_FUNDS_HOME_MAIN_VALUE_JSON = "key_funds_home_main_value_json";
     public static final String KEY_FUNDS_HOME_SPECIAL_BANNERS_JSON = "key_funds_home_special_banners_json";
     public static final String KEY_FUNDS_HOME_SPECIAL_LINES_JSON = "key_funds_home_special_lines_json";

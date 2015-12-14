@@ -73,7 +73,7 @@ public class FundSpecialFundManagerBannerHandler extends SimpleItemHandler<Recom
                 bannerItem.setLayoutParams(params);
 
                 tv_user_name.setText(item.name);
-                tv_total_profit.setText(StringFromatUtils.get2PointPercent(item.win_rate_year));
+                tv_total_profit.setText(StringFromatUtils.get2PointPercent(item.index_rate_all));
                 if(!TextUtils.isEmpty(item.avatar_sm)){
                     ImageLoaderUtils.setHeanderImage(item.avatar_sm, iv_user_header);
                 }

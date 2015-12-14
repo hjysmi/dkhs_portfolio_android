@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 
 import org.parceler.Parcel;
 
+import java.io.Serializable;
+
 /**
  * @ClassName DragListItem
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -18,7 +20,7 @@ import org.parceler.Parcel;
  * @version 1.0
  */
 @Parcel
-public class DragListItem {
+public class DragListItem implements Serializable {
 
      String itemId;
      String itemName;

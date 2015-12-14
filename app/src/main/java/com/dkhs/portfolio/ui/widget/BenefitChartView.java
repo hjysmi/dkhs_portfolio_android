@@ -318,7 +318,7 @@ public class BenefitChartView {
         float off1 = Math.max(maxOffsetValue - base1, base1 - minOffsetValue);
         setYTitle(base1, off1);
         maChartView.setLineData(lineEntityList);
-        maChartView.setDisplayAxisYTitleColor(false);
+        maChartView.setDisplayAxisYTitleColor(true);
         onFinishUpdateUI();
     }
 
@@ -415,6 +415,7 @@ public class BenefitChartView {
 
 
         maChartView.setAxisYTitles(yPercenttitle);
+        maChartView.needSeperateYtitleColor(true);
         maChartView.setDrawRightYTitle(false);
 
 

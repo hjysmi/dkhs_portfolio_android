@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -281,7 +282,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView settingTextAccountText;
         @ViewInject(R.id.setting_text_name_text)
         private TextView settingTextNameText;
-//
+        @ViewInject(R.id.iv_verified_status)
+        private ImageView iv_verified_status;
 //    @ViewInject(R.id.tv_unread_count)
 //    private TextView unreadCountTV;
 
@@ -347,12 +349,11 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
-                case R.id.tv_auth_status:
-
+                case R.id.iv_verified_status:
                     MessageHandler handler = new MessageHandler(mView.getContext());
                     handler.handleURL(DKHSClient.getAbsoluteUrl(mView.getContext().getResources().getString(R.string.authentication_url)));
-
                     break;
+
 
             }
 
@@ -373,9 +374,10 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (!TextUtils.isEmpty(account)) {
                     settingTextAccountText.setText(String.format(mContext.getString(R.string.account_format), account));
                 }
+                int verified_status = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS);
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
-
+                setVerifiedStatus(verified_status);
                 boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
                 int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
                 if (!isVerified) {
@@ -406,6 +408,28 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
 
+        }
+        //"verified_status": 1, #认证审核状态 0, '审核中' 1, '已认证' 2, '审核失败'
+
+        /**
+         * 设置认证状态
+         *
+         * @param verified_status
+         */
+        private void setVerifiedStatus(int verified_status) {
+
+            switch (verified_status) {
+                case 0:
+                    iv_verified_status.setBackgroundResource(R.drawable.ic_user_audit);
+                    break;
+                case 1:
+                    iv_verified_status.setBackgroundResource(R.drawable.ic_user_betterrecruit);
+
+                    break;
+                case 2:
+                    iv_verified_status.setBackgroundResource(R.drawable.ic_user_false);
+                    break;
+            }
         }
 
         private void updateUserFollowInfo(UserEntity object) {
