@@ -341,11 +341,8 @@ public class UserEntity {
     }
 
     public enum VERIFIEDSTATUS {
-        //未认证
-        SUCCESS(0),
-        // 投资顾问
-        VERIFYING(1),
-        //  分析师
+        VERIFYING(0),
+        SUCCESS(1),
         FAIL(2);
         VERIFIEDSTATUS(int type) {
             this.typeid = type;
