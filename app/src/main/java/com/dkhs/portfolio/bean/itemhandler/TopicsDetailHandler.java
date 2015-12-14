@@ -211,6 +211,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
         moneyIv.setImageResource(leftDrawable);
         amountUnit.setTextAppearance(mContext, unitStyle);
         amountTv.setText(data.reward_amount);
+        amountUnit.setText("元");
     }
 
 

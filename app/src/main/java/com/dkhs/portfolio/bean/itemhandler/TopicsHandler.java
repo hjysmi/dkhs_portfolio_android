@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -73,9 +74,15 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
         if (TextUtils.isEmpty(data.title)) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
+            LinearLayout.LayoutParams  lp = (LinearLayout.LayoutParams) vh.getTextView(R.id.content).getLayoutParams();
+            lp.topMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.title_avatar_margin);
+            vh.getTextView(R.id.content).setLayoutParams(lp);
         } else {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
+            LinearLayout.LayoutParams  lp = (LinearLayout.LayoutParams) vh.getTextView(R.id.content).getLayoutParams();
+            lp.topMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.content_title_margin);
+            vh.getTextView(R.id.content).setLayoutParams(lp);
         }
         if (data.user != null && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
@@ -181,6 +188,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         amountUnit.setTextAppearance(mContext, unitStyle);
         vh.getImageView(R.id.iv_money).setImageResource(leftDrawable);
         amountTv.setText(data.reward_amount);
+        amountUnit.setText("元");
     }
 
 

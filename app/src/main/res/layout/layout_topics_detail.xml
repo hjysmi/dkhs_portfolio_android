@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/layout_reward_status"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/reward_state_text"
                     android:visibility="gone" />
 
             </RelativeLayout>
