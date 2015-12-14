@@ -145,6 +145,7 @@
     <dimen name="topic_content">15sp</dimen>
     <dimen name="topic_handler_title">14sp</dimen>
     <dimen name="topic_handler_content">14sp</dimen>
+    <dimen name="reward_state_text">9sp</dimen>
 
     <dimen name="with_draw_default">14sp</dimen>
     <dimen name="with_draw_hint">@dimen/edittext_content_size</dimen>
@@ -164,6 +165,6 @@
 
     <dimen name="ll_tag_height">20dp</dimen>
 
-    <dimen name="title_avatar_margin">8dp</dimen>
+    <dimen name="title_avatar_margin">12dp</dimen>
     <dimen name="content_title_margin">4dp</dimen>
 </resources>
