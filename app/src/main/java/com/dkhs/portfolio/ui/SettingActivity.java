@@ -569,7 +569,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_marsked);
         ((TextView) findViewById(R.id.tv_city_value)).setText(GlobalParams.LOGIN_USER.getCity());
         ((TextView) findViewById(R.id.tv_verified_type_title)).setText(getVerifiedName(pro.verified_type));
-        if (pro.verified_type == 0) {
+        if (pro.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid()) {
             findViewById(R.id.setting_cert_no).setVisibility(View.GONE);
             findViewById(R.id.setting_organize).setVisibility(View.GONE);
             findViewById(R.id.setting_material).setVisibility(View.VISIBLE);

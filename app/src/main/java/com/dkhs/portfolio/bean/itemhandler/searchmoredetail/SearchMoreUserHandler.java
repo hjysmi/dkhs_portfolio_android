@@ -42,7 +42,7 @@ public class SearchMoreUserHandler extends SimpleItemHandler<UserEntity> {
         vh.getTextView(R.id.tv_follow).setText("关注: " + user.getFollowed_by_count());
         vh.getTextView(R.id.tv_fans).setText("粉丝: " + user.getFriends_count());
         ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid() ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
         final CheckBox cb_select_stock = vh.getCheckBox(R.id.cb_select_stock);
         if (user.isMe_follow()) {
             //我已关注
