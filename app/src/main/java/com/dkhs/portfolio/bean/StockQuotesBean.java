@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-26 下午5:09:55
  */
-public class StockQuotesBean extends QuotesBean {
+public class StockQuotesBean extends QuotesBean implements Serializable{
 
 
     private float change;
@@ -62,7 +63,7 @@ public class StockQuotesBean extends QuotesBean {
     private List<FiveRangeItem> buyList;
     private List<FiveRangeItem> sellList;
 
-    public class BuyPrice {
+    public class BuyPrice implements Serializable{
         @SerializedName("buy_vol")
         private List<String> buyVol;
         @SerializedName("buy_price")
@@ -85,7 +86,7 @@ public class StockQuotesBean extends QuotesBean {
         }
     }
 
-    public class SellPrice {
+    public class SellPrice implements Serializable{
         @SerializedName("sell_vol")
         private List<String> sellVol;
         @SerializedName("sell_price")
