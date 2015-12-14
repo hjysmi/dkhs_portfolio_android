@@ -263,7 +263,7 @@
     <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题,可以关注微信公众号：%s，直接与微信客服沟通交流</string>
     <string name="text_other_manager_combin">Ta管理的组合一览</string>
     <string name="text_my_manager_combin">我管理的组合一览</string>
-    <string name="sign_text_title">个人签名</string>
+    <string name="sign_text_title">个人简介</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">感谢您的反馈</string>
@@ -310,6 +310,7 @@
     <string name="about_weixin">微信公众号：“谁牛”或“shuiniuapp” </string>
     <string name="about_weibo">新 浪 微 博 ：谁牛</string>
     <string name="agreement_url">/portfolio/agreement/</string>
+    <string name="authentication_url">/accounts/pro_verifications/</string>
     <string name="faq_url">/portfolio/faq/</string>
 
     <!-- 以下是友盟统计界面名称 -->
@@ -906,4 +907,19 @@
     <string name="month_profit_rate">月收益率</string>
 
     <string name="account_format">账号:%1$s</string>
+
+    <string name="title_activity_select_city">SelectCityActivity</string>
+    <string name="title_activity_select_provice">SelectProviceActivity</string>
+    <string name="title_select_city">选择城市</string>
+    <string name="title_select_provice">选择省份</string>
+
+
+    <string name="verified_reason">认证:%1$s</string>
+
+    <string name="title_verified_profile">资质材料</string>
+    <string name="verified_type_expert">投资牛人</string>
+    <string name="verified_type_adviser">投资顾问</string>
+    <string name="verified_type_analyst">分析师</string>
+    <string name="verified_type_fund_certificate">基金执业</string>
+    <string name="verified_type_futures_certificate">期货执业</string>
 </resources>

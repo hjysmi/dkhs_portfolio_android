@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.engine;
 
+import android.text.TextUtils;
+
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -22,7 +24,9 @@ public class SelectGeneralEngine {
     public static void searchStockFund(String symbolType,String symbolSType,String key,int page,int pageSize,IHttpListener listener){
         RequestParams requestParams = new RequestParams();
         requestParams.addQueryStringParameter("symbol_type",symbolType);
-        requestParams.addQueryStringParameter("symbol_stype",symbolSType);
+        if(!TextUtils.isEmpty(symbolSType)){
+            requestParams.addQueryStringParameter("symbol_stype",symbolSType);
+        }
         requestParams.addQueryStringParameter("page", String.valueOf(page));
         requestParams.addQueryStringParameter("pageSize", pageSize + "");
         requestParams.addQueryStringParameter("q",key);

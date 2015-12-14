@@ -45,7 +45,8 @@
                         android:layout_centerHorizontal="true"
                         android:singleLine="true"
                         android:textColor="@color/theme_color"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        />
 
                     <TextView
                         android:id="@+id/tv_title_info"

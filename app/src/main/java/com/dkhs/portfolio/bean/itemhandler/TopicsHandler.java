@@ -6,6 +6,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -23,6 +25,7 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
@@ -71,15 +74,24 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.created_at));
         if (TextUtils.isEmpty(data.title)) {
             vh.get(R.id.titleTV).setVisibility(View.GONE);
+            LinearLayout.LayoutParams  lp = (LinearLayout.LayoutParams) vh.getTextView(R.id.content).getLayoutParams();
+            lp.topMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.title_avatar_margin);
+            vh.getTextView(R.id.content).setLayoutParams(lp);
         } else {
             vh.get(R.id.titleTV).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.titleTV, data.title);
+            LinearLayout.LayoutParams  lp = (LinearLayout.LayoutParams) vh.getTextView(R.id.content).getLayoutParams();
+            lp.topMargin = mContext.getResources().getDimensionPixelOffset(R.dimen.content_title_margin);
+            vh.getTextView(R.id.content).setLayoutParams(lp);
         }
         if (data.user != null && !TextUtils.isEmpty(data.user.getAvatar_md())) {
             ImageLoaderUtils.setHeanderImage(data.user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
+
+        UserEntity user = data.getUser();
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),user.verified,user.verified_type);
 
 
         if (TextUtils.isEmpty(data.text)) {
@@ -176,6 +188,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         amountUnit.setTextAppearance(mContext, unitStyle);
         vh.getImageView(R.id.iv_money).setImageResource(leftDrawable);
         amountTv.setText(data.reward_amount);
+        amountUnit.setText("元");
     }
 
 

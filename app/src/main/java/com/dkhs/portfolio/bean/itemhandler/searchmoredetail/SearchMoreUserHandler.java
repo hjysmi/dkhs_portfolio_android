@@ -18,6 +18,7 @@ import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +41,8 @@ public class SearchMoreUserHandler extends SimpleItemHandler<UserEntity> {
         vh.getTextView(R.id.tv_name).setText(user.getUsername());
         vh.getTextView(R.id.tv_follow).setText("关注: " + user.getFollowed_by_count());
         vh.getTextView(R.id.tv_fans).setText("粉丝: " + user.getFriends_count());
-        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.user_head));
+        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type);
         final CheckBox cb_select_stock = vh.getCheckBox(R.id.cb_select_stock);
         if (user.isMe_follow()) {
             //我已关注

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
     <LinearLayout
@@ -31,16 +34,10 @@
         android:layout_marginTop="@dimen/combin_horSpacing"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <com.android.percent.PercentRelativeLayout
             android:id="@+id/setting_layout_icon"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-1dp"
-            android:layout_marginRight="-1dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/setting_image_right"
@@ -48,40 +45,74 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/setting_image_right" />
+                android:src="@drawable/setting_image_right"
+                app:layout_marginRightPercent="5%w" />
 
-            <ImageView
+            <View
+                android:id="@+id/padding_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_heightPercent="4%w" />
+
+            <View
+                android:id="@+id/padding_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/setting_image_head"
+                app:layout_heightPercent="4%w" />
+
+            <com.dkhs.portfolio.ui.widget.WaterMarkImageView
                 android:id="@+id/setting_image_head"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/padding_top"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_user_head" />
+                android:src="@drawable/ic_user_head"
+                app:layout_heightPercent="15%w"
+                app:layout_marginLeftPercent="5%w"
+                app:layout_widthPercent="15%w" />
 
-            <RelativeLayout
+            <com.android.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/setting_image_head"
-                android:paddingLeft="12dp">
+                app:layout_marginLeftPercent="5%w">
 
                 <TextView
                     android:id="@+id/setting_text_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="用户名"
+                    android:gravity="center_vertical|left"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/setting_text_name" />
+                    android:textSize="@dimen/setting_text_name"
+                    app:layout_heightPercent="10%w"
+                    app:layout_maxWidthPercent="50%w"
+                    app:layout_textSizePercent="6%w"
+                    tools:text="用户名123456789按时gkhkh"
+                    android:singleLine="true"/>
+
+                <ImageView
+                    android:id="@+id/iv_verified_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/setting_text_name_text"
+                    android:scaleType="centerCrop"
+                    app:layout_heightPercent="10%w"
+                    app:layout_marginLeftPercent="2%w"
+                    app:layout_widthPercent="33.3%w"
+                    tools:background="@drawable/ic_user_betterrecruit" />
 
                 <TextView
                     android:id="@+id/setting_text_account_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/setting_text_name_text"
-                    android:text=""
                     android:textColor="@color/person_setting_phonecolor"
-                    android:textSize="@dimen/setting_text_phone" />
-            </RelativeLayout>
-        </RelativeLayout>
+                    app:layout_textSizePercent="4%w"
+                    tools:text="18055827804" />
+            </com.android.percent.PercentRelativeLayout>
+        </com.android.percent.PercentRelativeLayout>
 
         <View
             android:layout_width="fill_parent"

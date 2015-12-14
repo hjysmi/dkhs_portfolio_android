@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.android.percent.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <com.android.percent.PercentLinearLayout
+            android:id="@+id/ll_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <com.android.percent.PercentFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:text="真实姓名"
+                    android:textColor="@color/black"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="5%w"
+                    app:layout_textSizePercent="4%w"
+                    app:layout_widthPercent="20%w" />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="请输入姓名"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="25%w"
+                    app:layout_textSizePercent="4%w" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/theme_gray" />
+            </com.android.percent.PercentFrameLayout>
+
+            <com.android.percent.PercentFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:text="身份证"
+                    android:textColor="@color/black"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="5%w"
+                    app:layout_textSizePercent="4%w"
+                    app:layout_widthPercent="20%w" />
+
+                <EditText
+                    android:id="@+id/et_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:digits="1234567890Xx"
+                    android:hint="请输入身份证"
+                    android:maxLength="18"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="25%w"
+                    app:layout_textSizePercent="4%w" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/theme_gray" />
+            </com.android.percent.PercentFrameLayout>
+
+            <com.android.percent.PercentFrameLayout
+                android:id="@+id/fm_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/lv_white_selector"
+                android:clickable="true">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    app:layout_heightPercent="12%w"
+                    app:layout_widthPercent="5%w" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:text="所在城市"
+                    android:textColor="@color/black"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="5%w"
+                    app:layout_textSizePercent="4%w"
+                    app:layout_widthPercent="20%w" />
+
+                <TextView
+                    android:id="@+id/tv_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center|left"
+                    android:hint="请选择所在城市"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="25%w"
+                    app:layout_textSizePercent="4%w" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@drawable/ic_fundarrowright"
+                    app:layout_heightPercent="5%w"
+                    app:layout_marginRightPercent="5%w"
+                    app:layout_widthPercent="5%w" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="bottom"
+                    android:background="@color/theme_gray" />
+            </com.android.percent.PercentFrameLayout>
+
+            <com.android.percent.PercentFrameLayout
+                android:id="@+id/fm_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/lv_white_selector"
+                android:clickable="true">
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    app:layout_heightPercent="12%w"
+                    app:layout_widthPercent="5%w" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:text="简介(选填)"
+                    android:textColor="@color/black"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="5%w"
+                    app:layout_textSizePercent="4%w"
+                    app:layout_widthPercent="20%w" />
+
+                <TextView
+                    android:id="@+id/tv_introduce"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center|left"
+                    android:hint="介绍下自己"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    app:layout_heightPercent="12%w"
+                    app:layout_marginLeftPercent="25%w"
+                    app:layout_textSizePercent="4%w"
+                    app:layout_widthPercent="65%w" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@drawable/ic_fundarrowright"
+                    app:layout_heightPercent="5%w"
+                    app:layout_marginRightPercent="5%w"
+                    app:layout_widthPercent="5%w" />
+            </com.android.percent.PercentFrameLayout>
+        </com.android.percent.PercentLinearLayout>
+
+        <com.android.percent.PercentRelativeLayout
+            android:id="@+id/rl_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_top"
+            android:background="@color/white"
+            app:layout_marginTopPercent="5%w">
+
+            <View
+                android:id="@+id/padding_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                app:layout_heightPercent="56.25%w"
+                app:layout_widthPercent="5%w" />
+
+            <ImageView
+                android:id="@+id/iv_upbg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/padding_left"
+                android:background="@drawable/ic_personal_id"
+                app:layout_heightPercent="15%w"
+                app:layout_widthPercent="12%w" />
+
+            <TextView
+                android:id="@+id/tv_upimgintroduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="请上传本人手持身份证正面的照片,保证头像和证件上的信息清晰可见。"
+                android:textColor="@color/text_hint_color"
+                app:layout_heightPercent="20%w"
+                app:layout_marginLeftPercent="25%w"
+                app:layout_widthPercent="40%w" />
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/btn_qualification_pressed"
+                android:text="上传"
+                app:layout_heightPercent="10%w"
+                app:layout_marginRightPercent="5%w"
+                app:layout_widthPercent="20%w" />
+
+            <ImageView
+                android:id="@+id/iv_upimg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/padding_left"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:layout_heightPercent="30%w"
+                app:layout_widthPercent="60%w"
+                tools:background="@color/blue" />
+        </com.android.percent.PercentRelativeLayout>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_id"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_blue_selector"
+            android:gravity="center"
+            android:text="提交审核"
+            android:textColor="@color/btn_blue_textselector"
+            app:layout_heightPercent="12%w"
+            app:layout_marginTopPercent="5%w"
+            app:layout_widthPercent="90%w" />
+
+        <com.android.percent.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_submit"
+            android:orientation="horizontal"
+            app:layout_marginTopPercent="2%w"
+            app:layout_marginLeftPercent="5%w">
+
+            <CheckBox
+                android:id="@+id/cb_agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/cb_agree_seletor"
+                android:checked="true"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/tv_read"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:text="我已阅读并同意"
+                android:textColor="@color/black"
+                app:layout_heightPercent="8%w"
+                app:layout_textSizePercent="3.5%w" />
+
+            <TextView
+                android:id="@+id/rlt_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:text="《多快好省服务协议》"
+                android:textColor="@drawable/agreement_color_selector"
+                app:layout_heightPercent="8%w"
+                app:layout_marginLeftPercent="3%w"
+                app:layout_textSizePercent="3.5%w" />
+        </com.android.percent.PercentLinearLayout>
+    </com.android.percent.PercentLinearLayout>
+</ScrollView>
+

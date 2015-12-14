@@ -220,6 +220,9 @@ public class UserEngineImpl {
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL, entity.getAvatar_md());
 
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED,entity.verified);
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE,entity.verified_type);
+
         saveUser(entity);
     }
 
