@@ -27,7 +27,6 @@ import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.TopicsBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.Spanny;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
@@ -160,7 +159,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
                 }
             }
 
-            WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid() ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+            WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type);
         }
 
         if(data.content_type == 40){

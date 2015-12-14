@@ -14,7 +14,6 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.LikeBean;
 import com.dkhs.portfolio.bean.PeopleBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.StatusEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -131,7 +130,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.default_head);
         }
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid() ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type);
         if(user != null){
             vh.getTextView(R.id.tv_username).setText(user.getUsername());
         }

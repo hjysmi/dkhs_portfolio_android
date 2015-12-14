@@ -44,7 +44,7 @@ public class LikePeopleHandler extends SimpleItemHandler<UserEntity> {
             com.dkhs.portfolio.utils.ImageLoaderUtils.setHeanderImage(data.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
         }
 
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), data.verified, data.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid() ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), data.verified, data.verified_type);
 
         vh.getTextView(R.id.flowedCount).setText("粉丝:" + data.getFollowed_by_count());
         vh.getTextView(R.id.flowingCount).setText("关注:" + data.getFriends_count());

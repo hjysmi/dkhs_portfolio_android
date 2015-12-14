@@ -84,7 +84,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         }
 
         UserEntity user = data.getUser();
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),user.verified,user.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid()? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark),user.verified,user.verified_type);
 
 
         if (TextUtils.isEmpty(data.text)) {

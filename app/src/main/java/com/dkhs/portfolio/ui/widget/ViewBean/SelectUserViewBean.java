@@ -60,8 +60,7 @@ public class SelectUserViewBean extends ViewBean {
         public void bindView(final UserEntity user) {
             tv_user_name.setText(user.getUsername());
             ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), user_head);
-            //TODO 根据返回值判断加V图片的显示隐藏
-            WaterMarkUtil.calWaterMarkImage(water_mark, true, WaterMarkUtil.TYPE_RED);
+            WaterMarkUtil.calWaterMarkImage(water_mark, user.verified, user.verified_type);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

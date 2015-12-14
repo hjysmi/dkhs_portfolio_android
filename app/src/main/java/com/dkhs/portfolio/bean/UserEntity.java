@@ -300,6 +300,8 @@ public class UserEntity {
 
 
     public enum VERIFIEDTYPE {
+        //未认证
+        NORMAL(-1),
         // 投资牛人
         EXPERT(0),
         // 投资顾问
@@ -316,6 +318,21 @@ public class UserEntity {
         private int typeid;
         public int getTypeid(){
             return typeid;
+        }
+        public static VERIFIEDTYPE getEnumType(int type){
+            switch (type){
+                case 0:
+                    return EXPERT;
+                case 1:
+                    return ADVISER;
+                case 2:
+                    return ANALYST;
+                case 3:
+                    return FUND_CERTIFICATE;
+                case 4:
+                    return FUTURES_CERTIFICATE;
+            }
+            return NORMAL;
         }
     }
 }

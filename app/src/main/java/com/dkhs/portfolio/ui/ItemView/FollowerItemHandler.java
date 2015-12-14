@@ -6,7 +6,6 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.BitmapUtils;
@@ -43,7 +42,7 @@ public class FollowerItemHandler extends SimpleItemHandler<PeopleBean> {
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
         }
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), peopleBean.verified, peopleBean.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid() ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), peopleBean.verified, peopleBean.verified_type);
 
         vh.setTextView(R.id.tv_user_name, peopleBean.getUsername());
         vh.setTextView(R.id.tv_followers, mContext.getResources().getString(R.string.followers) + ":"

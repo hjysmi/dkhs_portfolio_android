@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.bean.SortUserEntity;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -88,7 +87,7 @@ public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
         } else {
             viewHolder.ivAvater.setImageResource(R.drawable.ic_user_head);
         }
-        WaterMarkUtil.calWaterMarkImage(viewHolder.ivWaterMark, mContent.verified, mContent.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid() ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(viewHolder.ivWaterMark, mContent.verified, mContent.verified_type);
 
         return convertView;
     }
