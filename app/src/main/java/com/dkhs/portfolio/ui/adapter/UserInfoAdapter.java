@@ -25,7 +25,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.BetterRecruitActivity;
+import com.dkhs.portfolio.ui.AuthenticationWebActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -347,7 +347,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
                 case R.id.tv_auth_status:
-                    UIUtils.startAnimationActivity((Activity) mView.getContext(), new Intent(mView.getContext(), BetterRecruitActivity.class));
+                    UIUtils.startAnimationActivity((Activity) mView.getContext(), new Intent(mView.getContext(), AuthenticationWebActivity.class));
                     break;
 
             }

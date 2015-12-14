@@ -38,6 +38,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     private static final int index1 = 1;
     private static final int index2 = 2;
     private static final int index3 = 3;
+    private int type = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -62,6 +63,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     }
 
     private void initValues() {
+        type = getIntent().getIntExtra("type", 0);
         tv_qualification.setTextColor(getResources().getColor(R.color.white));
         showFragment(index1);
     }
@@ -82,6 +84,9 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
             case index1:
                 if (qualificationFragment == null) {
                     qualificationFragment = new QualificationFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("type", type);
+                    qualificationFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, qualificationFragment);
                 } else {
                     ft.show(qualificationFragment);

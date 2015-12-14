@@ -93,6 +93,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private final static int TYPE_THREE = 2;
     private final static int TYPE_FOUR = 3;
     private final static int TYPE_FIVE = 4;
+    private int type = 0;
 
     @Override
     public int setContentLayoutId() {
@@ -207,6 +208,8 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initValues() {
+        Bundle arguments = getArguments();
+        type = arguments.getInt("type");
         list = new ArrayList<>();
         list_img = new ArrayList<>();
         list.add(new OrgtypeBean("投资牛人", TYPE_FIRST));
@@ -221,6 +224,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         list_img.add(R.drawable.ic_qualification_investadvice);
         list_img.add(R.drawable.ic_qualification_fund);
         adapter = new QualificationAdapter(getActivity(), list);
+        adapter.setSelectedPosition(type);
         gv.setAdapter(adapter);
         tv_type.setText(list.get(0).getOrgName());
 

@@ -7,12 +7,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.OrgBean;
 import com.dkhs.portfolio.bean.OrganizationEventBean;
 import com.dkhs.portfolio.engine.OrganizationEngine;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.SortAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
-import com.dkhs.portfolio.utils.CharacterParser;
 import com.dkhs.portfolio.utils.PinyinComparator;
 import com.dkhs.portfolio.utils.SortModel;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -31,10 +33,6 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
     private SideBar sidrbar;
     public static final String KEY_TYPE = "type";
     private int type = 0;
-    /**
-     * 汉字转换成拼音的类
-     */
-    private CharacterParser characterParser;
     private SortAdapter adapter;
     List<SortModel> SourceDateList = new ArrayList<>();
     /**
@@ -47,8 +45,6 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle("所属机构");
-        //实例化汉字转拼音类
-        characterParser = CharacterParser.getInstance();
         setContentView(R.layout.activity_organization);
         initViews();
         initValues();
@@ -58,49 +54,8 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
 
     private void initData() {
         engine = new OrganizationEngine(this);
-        //engine.getOrg(listener);
-        List<String> list = new ArrayList<>();
-        list.add("中信证券");
-        list.add("海通证券");
-        list.add("国泰君安");
-        list.add("广发证券");
-        list.add("华泰证券");
-        list.add("招商证券");
-        list.add("银河证券");
-        list.add("厦门");
-        list.add("国信证券");
-        list.add("申万宏源");
-        list.add("中信建投");
-        list.add("光大证券");
-        list.add("东方证券");
-        list.add("安信证券");
-        list.add("齐鲁证券");
-        list.add("方正证券");
-        list.add("齐鲁证券");
-        list.add("兴业证券");
-        list.add("长江证券");
-        list.add("中投证券");
-        list.add("平安证券");
-        list.add("西南证券");
-        SortModel sortModel;
-        for (int i = 0; i < list.size(); i++) {
-            sortModel = new SortModel();
-
-            sortModel.setName(list.get(i));
-            //汉字转换成拼音
-            String pinyin = characterParser.getSelling(list.get(i));
-            String sortString = pinyin.substring(0, 1).toUpperCase();
-
-            // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches("[A-Z]")) {
-                sortModel.setSortLetters(sortString.toUpperCase());
-            } else {
-                sortModel.setSortLetters("#");
-            }
-
-            SourceDateList.add(sortModel);
-        }
-
+        //  engine.getOrg();
+        engine.getOrg(orgListener, String.valueOf(type));
 
     }
 
@@ -112,14 +67,44 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
 
     private void initValues() {
         type = getIntent().getIntExtra(KEY_TYPE, 0);
-        //实例化汉字转拼音类
-        //  characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
         Collections.sort(SourceDateList, pinyinComparator);
         adapter = new SortAdapter(this, SourceDateList);
         // adapter.bindData(SourceDateList);
         lv_organization.setAdapter(adapter);
     }
+
+    private ParseHttpListener<List<OrgBean>> orgListener = new ParseHttpListener<List<OrgBean>>() {
+        @Override
+        protected List<OrgBean> parseDateTask(String jsonData) {
+
+            return DataParse.parseArrayJson(OrgBean.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<OrgBean> object) {
+            SortModel sortModel;
+            for (int i = 0; i < object.size(); i++) {
+                sortModel = new SortModel();
+
+                sortModel.setName(object.get(i).getName());
+                //汉字转换成拼音
+                String pinyin = object.get(i).getChi_spell_all();
+                //  String pinyin = characterParser.getSelling(object.get(i).getName());
+                String sortString = pinyin.substring(0, 1).toUpperCase();
+
+                // 正则表达式，判断首字母是否是英文字母
+                if (sortString.matches("[A-Z]")) {
+                    sortModel.setSortLetters(sortString.toUpperCase());
+                } else {
+                    sortModel.setSortLetters("#");
+                }
+
+                SourceDateList.add(sortModel);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     private void initEvents() {
         lv_organization.setOnItemClickListener(new AdapterView.OnItemClickListener() {
