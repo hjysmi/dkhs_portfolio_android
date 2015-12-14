@@ -16,6 +16,8 @@ import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
 
+import java.io.Serializable;
+
 /**
  * @author zjz
  * @version 1.0
@@ -24,7 +26,7 @@ import org.parceler.Parcel;
  * @date 2014-9-18 下午2:42:46
  */
 @Parcel
-public class SelectStockBean extends DragListItem {
+public class SelectStockBean extends DragListItem implements Serializable{
 
     @SerializedName("abbr_name")
     public String name;

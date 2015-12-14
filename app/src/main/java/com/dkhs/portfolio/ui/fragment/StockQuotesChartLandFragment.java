@@ -66,6 +66,7 @@ import java.util.List;
 public class StockQuotesChartLandFragment extends BaseFragment implements FragmentLifecycle {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String ARGUMENT_STOCK_CODE = "stock_code";
+    public static final String SELECT_STOCK_BEAN = "select_stock_bean";
 
     // private static final String SAVED_LIST_POSITION = "list_position";
 
@@ -100,6 +101,18 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
         Bundle arguments = new Bundle();
         arguments.putString(ARGUMENT_TREND_TYPE, trendType);
         arguments.putString(ARGUMENT_STOCK_CODE, stockCode);
+        fragment.setArguments(arguments);
+
+        return fragment;
+    }
+    // public static final String TREND_TYPE_TODAY="trend_today";
+    public static StockQuotesChartLandFragment newInstance(String trendType, String stockCode,SelectStockBean stockBean) {
+        StockQuotesChartLandFragment fragment = new StockQuotesChartLandFragment();
+
+        Bundle arguments = new Bundle();
+        arguments.putString(ARGUMENT_TREND_TYPE, trendType);
+        arguments.putString(ARGUMENT_STOCK_CODE, stockCode);
+        arguments.putSerializable(SELECT_STOCK_BEAN, stockBean);
         fragment.setArguments(arguments);
 
         return fragment;
@@ -157,7 +170,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
     }
 
     private void handleExtras(Bundle extras) {
-        mSelectStockBean = Parcels.unwrap(extras.getParcelable(StockQuotesActivity.EXTRA_STOCK));
+//        mSelectStockBean = Parcels.unwrap(extras.getParcelable(StockQuotesActivity.EXTRA_STOCK));
+//        mSelectStockBean = (SelectStockBean) extras.getSerializable(SELECT_STOCK_BEAN);
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
     }
 
@@ -184,6 +198,7 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
     private void handleArguments(Bundle arguments) {
         trendType = arguments.getString(ARGUMENT_TREND_TYPE);
         mStockCode = arguments.getString(ARGUMENT_STOCK_CODE);
+        mSelectStockBean = (SelectStockBean) arguments.getSerializable(SELECT_STOCK_BEAN);
         if (trendType.equals(TREND_TYPE_TODAY)) {
             isTodayNetValue = true;
         }

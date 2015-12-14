@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * @author zjz
  * @version 1.0
@@ -17,7 +19,7 @@ import com.google.gson.annotations.SerializedName;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-26 下午5:09:55
  */
-public class QuotesBean {
+public class QuotesBean implements Serializable{
 
     long id;
     @SerializedName("abbr_name")

@@ -181,6 +181,10 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.StockLandActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".ui.SelectStatusStockActivity"
             android:screenOrientation="portrait" />
         <activity

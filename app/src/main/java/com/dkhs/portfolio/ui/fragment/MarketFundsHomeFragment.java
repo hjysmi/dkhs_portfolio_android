@@ -44,6 +44,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
@@ -531,7 +532,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 refresh();
                 break;
             case R.id.btn_search:
-                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
                 UIUtils.startAnimationActivity(getActivity(), intent);
                 break;
         }

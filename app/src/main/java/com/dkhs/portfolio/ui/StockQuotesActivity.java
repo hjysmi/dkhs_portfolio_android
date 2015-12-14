@@ -17,16 +17,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -58,7 +55,6 @@ import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.KChartDataListener;
-import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
@@ -66,11 +62,7 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -89,7 +81,7 @@ import java.util.List;
  * @date 2014-9-26 上午10:22:32
  */
 public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, Serializable, StockViewCallBack,
-        LandStockViewCallBack, KChartDataListener, IStockQuoteScrollListener {
+        KChartDataListener, IStockQuoteScrollListener {
 
     private static final long serialVersionUID = 15121212311111156L;
     private long mLastClickTime = 0;
@@ -100,6 +92,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     protected static final int MSG_WHAT_AFTER_REQUEST = 97;
     private final int REQUESTCODE_SELECT_STOCK = 901;
     private final int REQUEST_CHECK = 888;
+    private final int REQUEST_LAND = 100;
     private TextView tvCurrent;
     private TextView tvHigh;
     private TextView tvLow;
@@ -138,7 +131,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private static final String TAG = "StockQuotesActivity";
     private final int MENU_FOLLOWE_OR_UNFOLLOWE = 0;
     private final int MENU_REMIND = 1;
-    private StockLandView landStockview;
     private FloatingActionMenu mActionMenu;
 
 
@@ -196,7 +188,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         changeFollowView = new ChangeFollowView(this);
         changeFollowView.setmChangeListener(changeFollowListener);
-
+        BusProvider.getInstance().register(this);
     }
 
     private void getLocalOptionList() {
@@ -251,9 +243,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 @Override
                 public boolean onMenuItemSelected(int paramInt) {
 
-                    if (landStockview.getVisibility() == View.VISIBLE) {
-                        return true;
-                    }
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                         return false;
                     }
@@ -320,7 +309,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 initBottomTabFragment();
 
                 setFuquanView();
-                initLandStockView();
 
             }
         }, 800);
@@ -701,9 +689,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
-                if (null != landStockview) {
-                    landStockview.updateLandStockView(mStockQuotesBean);
-                }
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
@@ -722,20 +707,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 symbolType);
         // fragment.setITouchListener(this);
         fragment.setStockViewCallBack(this);
-        fragment.setLandCallBack(this);
         fragment.setKChartDataListener(this);
         fragmentList.add(fragment);
         KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode,
                 symbolType);
         // fragment2.setITouchListener(this);
-        fragment2.setLandCallBack(this);
         fragment2.setStockViewCallBack(this);
         fragment2.setKChartDataListener(this);
         fragmentList.add(fragment2);
         KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,
                 symbolType);
         // fragment3.setITouchListener(this);
-        fragment3.setLandCallBack(this);
         fragment3.setStockViewCallBack(this);
         fragment3.setKChartDataListener(this);
         fragmentList.add(fragment3);
@@ -883,6 +865,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 default:
                     break;
             }
+        }else if(resultCode == 0 && requestCode == REQUEST_LAND){
+            mDayKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("day_data");
+            mWeekKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("week_data");
+            mMonthKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("month_data");
+            hsTitle.setSelectIndex(index);
         }
     }
 
@@ -1006,6 +993,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        BusProvider.getInstance().unregister(this);
         quoteListener.stopRequest(true);
     }
 
@@ -1062,18 +1050,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void landViewFadeOut() {
-        isFull = false;
-        rotaVericteStockView();
-
-    }
-
-    /**
      * @param paramInt
      * @return
      * @Title
@@ -1085,173 +1061,19 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
-    boolean isFull;
 
     @Override
     public void stockMarkShow() {
-        isFull = !isFull;
-
-        if (isFull) {
-
-            rotaLandStockView();
-
-        } else {
-
-            rotaVericteStockView();
-
-        }
-
+        //开启横屏UI
+        startActivityForResult(StockLandActivity.getIntent(this, mStockBean, mStockQuotesBean, pager.getCurrentItem(), mDayKChart, mWeekKChart, mMonthKChart), REQUEST_LAND);
     }
 
-    private void initLandStockView() {
-        landStockview = new StockLandView(this);
-        landStockview.setStockViewCallback(this);
-        landStockview.setKChartDataListener(this);
-        DisplayMetrics localDisplayMetrics = getResources().getDisplayMetrics();
-        LayoutParams localLayoutParams = new LayoutParams(localDisplayMetrics.heightPixels,
-                localDisplayMetrics.widthPixels);
-
-        this.landStockview.setLayoutParams(localLayoutParams);
-        this.landStockview.setLandStockCallBack(this);
-        this.landStockview.setStockBean(mStockBean);
-        // this.landScapeview.setCallBack(this);
-        this.landStockview.setVisibility(View.INVISIBLE);
-        addContentView(this.landStockview, localLayoutParams);
-
-        ViewHelper.setPivotY(landStockview, localDisplayMetrics.widthPixels);
-        ObjectAnimator localObjectAnimator1 = ObjectAnimator.ofFloat(this.landStockview, "y",
-                -localDisplayMetrics.widthPixels);
-        ObjectAnimator localObjectAnimator2 = ObjectAnimator.ofFloat(this.landStockview, "rotation",
-                new float[]{90.0F});
-        AnimatorSet localAnimatorSet = new AnimatorSet();
-        localAnimatorSet.playTogether(new Animator[]{localObjectAnimator1, localObjectAnimator2});
-        localAnimatorSet.start();
-        if (null != mStockQuotesBean) {
-            landStockview.updateLandStockView(mStockQuotesBean);
-        }
-
-    }
-
-    private void rotaVericteStockView() {
-        bottomLayout.setVisibility(View.VISIBLE);
-        viewHeader.setVisibility(View.VISIBLE);
-        mActionMenu.setVisibility(View.VISIBLE);
-        if (null != landStockview) {
-            landStockview.setVisibility(View.INVISIBLE);
-        }
-        fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(true);
-        showHead();
-        ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[]{1.0F})
-                .setDuration(100L);
-        ObjectAnimator headerAnimator = ObjectAnimator.ofFloat(this.viewHeader, "alpha", new float[]{1.0F})
-                .setDuration(100L);
-
-        AnimatorSet localAnimatorSet = new AnimatorSet();
-        localAnimatorSet.addListener(new AnimatorListenerAdapter() {
-            public void onAnimationEnd(Animator paramAnimator) {
-//                StockQuotesActivity.this.setSwipeBackEnable(true);
-                full(isFull);
-            }
-        });
-        localAnimatorSet.playTogether(new Animator[]{bottomAnimator, headerAnimator});
-        localAnimatorSet.start();
-    }
-
-    private void rotaLandStockView() {
-        ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[]{0.0F})
-                .setDuration(100L);
-        ObjectAnimator headerAnimator = ObjectAnimator.ofFloat(this.viewHeader, "alpha", new float[]{0.0F})
-                .setDuration(100L);
-
-        AnimatorSet localAnimatorSet = new AnimatorSet();
-        localAnimatorSet.addListener(new AnimatorListenerAdapter() {
-            public void onAnimationEnd(Animator paramAnimator) {
-                full(isFull);
-                bottomLayout.setVisibility(View.GONE);
-                viewHeader.setVisibility(View.GONE);
-                mActionMenu.setVisibility(View.GONE);
-                hideHead();
-                landStockview.setVisibility(View.VISIBLE);
-                if (null != pager && null != fragmentList) {
-                    int position = pager.getCurrentItem();
-                    if (fragmentList.size() > position) {
-                        fragmentList.get(position).setUserVisibleHint(false);
-                    }
-                }
-            }
-
-            public void onAnimationStart(Animator paramAnimator) {
-                super.onAnimationStart(paramAnimator);
-//                StockQuotesActivity.this.setSwipeBackEnable(false);
-            }
-        });
-        localAnimatorSet.playTogether(new Animator[]{bottomAnimator, headerAnimator});
-        localAnimatorSet.start();
-
-    }
-
-    public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent) {
-        if (paramInt == 4) {
-            // if ((this.landStockview.isAnimator()) || (this.stockView.isAnimator()))
-            // return false;
-            if (null != this.landStockview && this.landStockview.isShown()) {
-                landViewFadeOut();
-                return false;
-            }
-        }
-        return super.onKeyDown(paramInt, paramKeyEvent);
-    }
-
-    private int stickType = 0;
-
-    @Override
-    public int getStickType() {
-        return stickType;
-    }
-
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public StockQuotesBean getStockQuotesBean() {
-        // TODO Auto-generated method stub
-        return mStockQuotesBean;
-    }
-
-    /**
-     * @param stickValue
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void setStickType(int stickValue) {
-        this.stickType = stickValue;
-
-    }
-
-    @Override
-    public int getTabPosition() {
-        if (null != pager) {
-
-            return pager.getCurrentItem();
-        }
-        return 0;
-    }
-
-
-    @Override
-    public void setTabPosition(int position) {
-
-        hsTitle.setSelectIndex(position);
-
-    }
-
-    private List<OHLCEntity> mDayKChart = Collections.EMPTY_LIST;
-    private List<OHLCEntity> mWeekKChart = Collections.EMPTY_LIST;
-    private List<OHLCEntity> mMonthKChart = Collections.EMPTY_LIST;
+//    private List<OHLCEntity> mDayKChart = Collections.EMPTY_LIST;
+//    private List<OHLCEntity> mWeekKChart = Collections.EMPTY_LIST;
+//    private List<OHLCEntity> mMonthKChart = Collections.EMPTY_LIST;
+    private ArrayList<OHLCEntity> mDayKChart = new ArrayList<>();
+    private ArrayList<OHLCEntity> mWeekKChart = new ArrayList<>();
+    private ArrayList<OHLCEntity> mMonthKChart = new ArrayList<>();
 
     /**
      * @return
@@ -1272,7 +1094,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
      */
     @Override
     public void setDayKlineDatas(List<OHLCEntity> kLineDatas) {
-        this.mDayKChart = kLineDatas;
+        this.mDayKChart = (ArrayList<OHLCEntity>) kLineDatas;
+    }
+    @Subscribe
+    public void receiveDayKlineDatas(ArrayList<OHLCEntity> klineDatas){
+        this.mDayKChart = klineDatas;
     }
 
     /**
@@ -1293,8 +1119,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
      */
     @Override
     public void setMonthKlineDatas(List<OHLCEntity> kLineDatas) {
-        this.mMonthKChart = kLineDatas;
+        this.mMonthKChart = (ArrayList<OHLCEntity>) kLineDatas;
 
+    }
+
+    @Subscribe
+    public void receiveMonthKlineDatas(ArrayList<OHLCEntity> klineDatas){
+        this.mMonthKChart = klineDatas;
     }
 
     @Override
@@ -1304,7 +1135,21 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     @Override
     public void setWeekKlineDatas(List<OHLCEntity> kLineDatas) {
-        this.mWeekKChart = kLineDatas;
+        this.mWeekKChart = (ArrayList<OHLCEntity>) kLineDatas;
     }
 
+    @Subscribe
+    public void receiveWeekKlineDatas(ArrayList<OHLCEntity> klineDatas){
+        this.mWeekKChart = klineDatas;
+    }
+
+    @Override
+    public void landViewFadeOut() {
+    }
+
+    private int index;
+    @Subscribe
+    public void setTabPosition(Integer position) {
+        this.index = position;
+    }
 }
