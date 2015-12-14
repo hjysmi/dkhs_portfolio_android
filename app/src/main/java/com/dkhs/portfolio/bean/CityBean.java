@@ -12,7 +12,7 @@ public class CityBean {
     public static final String TYPE = "type";
     public static final String PARENT_CODE = "parent_code";
     public static final String PINYIN = "pinyin";
-    private String municipalityStr = "北京，上海，重庆，天津";
+    private static final String MUNICIPALITY = "北京，上海，重庆，天津";
     public String id;
     //判断省或者市
     public String type;
@@ -25,10 +25,6 @@ public class CityBean {
      * @return
      */
     public boolean isMunicipality(){
-        if(!TextUtils.isEmpty(name)&&municipalityStr.contains(name)){
-            return true;
-        }else{
-            return false;
-        }
+        return !TextUtils.isEmpty(name)&&MUNICIPALITY.contains(name);
     }
 }
