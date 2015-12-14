@@ -415,7 +415,6 @@ public class BenefitChartView {
 
 
         maChartView.setAxisYTitles(yPercenttitle);
-        maChartView.needSeperateYtitleColor(true);
         maChartView.setDrawRightYTitle(false);
 
 

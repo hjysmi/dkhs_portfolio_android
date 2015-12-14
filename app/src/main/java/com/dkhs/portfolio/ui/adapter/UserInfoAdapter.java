@@ -319,7 +319,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers, R.id.tv_auth_status})
+        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers, R.id.iv_verified_status})
         public void onClick(View v) {
             int id = v.getId();
 
