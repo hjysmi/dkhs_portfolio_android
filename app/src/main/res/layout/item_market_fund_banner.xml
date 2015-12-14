@@ -10,6 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black" />
+    <ImageView
+        android:id="@+id/iv_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b3000000"
+        android:visibility="gone" />
 
     <com.android.percent.PercentLinearLayout
         android:id="@+id/ll_content"
@@ -25,6 +31,8 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textColor="@color/white"
+            app:layout_marginLeftPercent="16%w"
+            app:layout_marginRightPercent="16%w"
             app:layout_textSizePercent="10%w" />
 
         <TextView
@@ -35,6 +43,8 @@
             android:ellipsize="end"
             android:textColor="@color/white"
             app:layout_marginTopPercent="5%w"
+            app:layout_marginLeftPercent="16%w"
+            app:layout_marginRightPercent="16%w"
             app:layout_textSizePercent="6%w" />
     </com.android.percent.PercentLinearLayout>
 

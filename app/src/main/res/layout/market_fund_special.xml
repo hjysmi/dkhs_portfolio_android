@@ -43,7 +43,8 @@
                 android:id="@+id/tv_special"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="小白理财专线"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textColor="@color/fund_special_green"
                 app:layout_textSizePercent="6.25%w" />
 
@@ -58,7 +59,6 @@
                     android:id="@+id/tv_special_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="易方达"
                     android:textColor="@color/fund_special_green"
                     app:layout_textSizePercent="4.4%w" />
 
@@ -66,7 +66,6 @@
                     android:id="@+id/tv_special_percent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="18.09%"
                     android:textColor="@color/fund_special_green"
                     app:layout_marginLeftPercent="2%"
                     app:layout_textSizePercent="5%w" />

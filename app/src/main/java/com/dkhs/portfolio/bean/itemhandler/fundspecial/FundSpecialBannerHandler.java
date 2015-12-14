@@ -1,7 +1,9 @@
 package com.dkhs.portfolio.bean.itemhandler.fundspecial;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -20,6 +22,8 @@ import com.dkhs.portfolio.bean.RecommendFundSpecialBannerBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 import java.util.Random;
@@ -60,7 +64,49 @@ public class FundSpecialBannerHandler extends SimpleItemHandler<Message> {
             for(final RecommendFundSpecialBannerBean item : lists){
                 View bannerItem =  View.inflate(mContext, R.layout.item_market_fund_banner, null);;
                 bannerItem.setLayoutParams(params);
-                if(item.isFirstTimeLoad){
+                final ImageView iv_mask = (ImageView) bannerItem.findViewById(R.id.iv_mask);
+                final ImageView imageView = (ImageView) bannerItem.findViewById(R.id.iv_bg);
+                if(TextUtils.isEmpty(item.getRecommend_image_sm())){
+                    if(item.isFirstTimeLoad){
+                        imageView.setBackgroundColor(Color.parseColor(colorRandom[new Random().nextInt(colorRandom.length)]));
+                        item.isFirstTimeLoad = false;
+                    }
+                }else{
+                    ImageLoaderUtils.loadImage(item.getRecommend_image_sm(), new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String s, View view) {
+                            iv_mask.setVisibility(View.GONE);
+                            imageView.setBackgroundColor(Color.parseColor(colorRandom[new Random().nextInt(colorRandom.length)]));
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String s, View view, FailReason failReason) {
+                            iv_mask.setVisibility(View.GONE);
+                            imageView.setBackgroundColor(Color.parseColor(colorRandom[new Random().nextInt(colorRandom.length)]));
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                            if (null != s && !TextUtils.isEmpty(s.trim())) {
+                                iv_mask.setVisibility(View.VISIBLE);
+                                BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+                                imageView.setBackgroundDrawable(bitmapDrawable);
+                            } else {
+                                iv_mask.setVisibility(View.GONE);
+                                imageView.setBackgroundColor(Color.parseColor(colorRandom[new Random().nextInt(colorRandom.length)]));
+                            }
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String s, View view) {
+                            iv_mask.setVisibility(View.GONE);
+                            imageView.setBackgroundColor(Color.parseColor(colorRandom[new Random().nextInt(colorRandom.length)]));
+
+                        }
+                    });
+                }
+                if(TextUtils.isEmpty(item.getRecommend_image_sm()) && item.isFirstTimeLoad){
                     bannerItem.findViewById(R.id.ll_content).setBackgroundColor(Color.parseColor(colorRandom[new Random().nextInt(colorRandom.length)]));
                     item.isFirstTimeLoad = false;
                 }
@@ -69,9 +115,6 @@ public class FundSpecialBannerHandler extends SimpleItemHandler<Message> {
                 bannerItem.setLayoutParams(params);
                 tv_title.setText(item.getRecommend_title());
                 tv_desc.setText(item.getRecommend_desc());
-                if(!TextUtils.isEmpty(item.getRecommend_image_sm())){
-                    ImageLoaderUtils.setImage(item.getRecommend_image_sm(),(ImageView) bannerItem.findViewById(R.id.iv_bg));
-                }
                 bannerItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
