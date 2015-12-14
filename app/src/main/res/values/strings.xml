@@ -310,6 +310,7 @@
     <string name="about_weixin">微信公众号：“谁牛”或“shuiniuapp” </string>
     <string name="about_weibo">新 浪 微 博 ：谁牛</string>
     <string name="agreement_url">/portfolio/agreement/</string>
+    <string name="authentication_url">/accounts/pro_verifications/</string>
     <string name="faq_url">/portfolio/faq/</string>
 
     <!-- 以下是友盟统计界面名称 -->
@@ -906,6 +907,13 @@
     <string name="month_profit_rate">月收益率</string>
 
     <string name="account_format">账号:%1$s</string>
+
+    <string name="title_activity_select_city">SelectCityActivity</string>
+    <string name="title_activity_select_provice">SelectProviceActivity</string>
+    <string name="title_select_city">选择城市</string>
+    <string name="title_select_provice">选择省份</string>
+
+
     <string name="verified_reason">认证:%1$s</string>
 
     <string name="title_verified_profile">资质材料</string>
