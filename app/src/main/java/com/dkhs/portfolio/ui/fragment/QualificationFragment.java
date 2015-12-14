@@ -108,6 +108,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initViews(View view) {
+
         width = UIUtils.getDisplayMetrics().widthPixels;
         fm_main = (FrameLayout) view.findViewById(R.id.fm_main);
         iv_right = (ImageView) view.findViewById(R.id.iv_right);
@@ -126,11 +127,10 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         mSelectPohotos.add(ADD_PICTURE);
         mPicAdapter = new SelectQualificationAdapter(getActivity(), mSelectPohotos);
 
-        initFooter0();
 
     }
 
-    private void initFooter0() {
+    private void initFooterBetter() {
         View footer = LayoutInflater.from(getActivity()).inflate(R.layout.layout_qualification_footer, null);
         ll_footer.removeAllViews();
         ll_footer.addView(footer);
@@ -147,7 +147,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         mPicAdapter.setDeletePicListenr(this);
     }
 
-    private void initFooterqita() {
+    private void initFooterOther() {
         View footer_qita = LayoutInflater.from(getActivity()).inflate(R.layout.layout_qualification_footer_qita, null);
         but_next.setEnabled(false);
         ll_footer.removeAllViews();
@@ -210,6 +210,11 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private void initValues() {
         Bundle arguments = getArguments();
         type = arguments.getInt("type");
+        if (type == 0) {
+            initFooterBetter();
+        } else if (type == 1) {
+            initFooterOther();
+        }
         list = new ArrayList<>();
         list_img = new ArrayList<>();
         list.add(new OrgtypeBean("投资牛人", TYPE_FIRST));
@@ -239,10 +244,10 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 initAnimation();
                 if (position == 0) {
                     //投资牛人
-                    initFooter0();
+                    initFooterBetter();
                 } else {
                     //其他
-                    initFooterqita();
+                    initFooterOther();
                 }
             }
         });
@@ -609,7 +614,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             super.onBindView(vh, data, position);
             if (position == selectedPosition) {
                 //选中
-                vh.getConvertView().setBackgroundResource(R.drawable.but_qualification_pressed);
+                vh.getConvertView().setBackgroundResource(R.drawable.btn_qualification_pressed);
             } else {
                 vh.getConvertView().setBackgroundColor(Color.parseColor("#f5f5f5"));
             }

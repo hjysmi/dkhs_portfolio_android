@@ -51,9 +51,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     public static final int RESULT_INTRODUCE_BACK = 1;
     private TextView tv_introduce;
     private TextView tv_city;
-    private TextView et_name;
-    private Button but_update;
-    private Button but_submit;
+    private TextView tv_name;
+    private Button btn_update;
+    private Button btn_submit;
     private ImageView iv_upimg;
     private ImageView iv_upbg;
     private TextView tv_upimgintroduce;
@@ -93,16 +93,16 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         tv_introduce = (TextView) view.findViewById(R.id.tv_introduce);
         fm_city = (PercentFrameLayout) view.findViewById(R.id.fm_city);
         tv_city = (TextView) view.findViewById(R.id.tv_city);
-        but_update = (Button) view.findViewById(R.id.but_update);
-        et_name = (TextView) view.findViewById(R.id.et_name);
+        btn_update = (Button) view.findViewById(R.id.btn_update);
+        tv_name = (TextView) view.findViewById(R.id.et_name);
         iv_upimg = (ImageView) view.findViewById(R.id.iv_upimg);
         iv_upbg = (ImageView) view.findViewById(R.id.iv_upbg);
-        but_submit = (Button) view.findViewById(R.id.but_submit);
+        btn_submit = (Button) view.findViewById(R.id.btn_submit);
         tv_upimgintroduce = (TextView) view.findViewById(R.id.tv_upimgintroduce);
         et_id = (EditText) view.findViewById(R.id.et_id);
         cb_agree = (CheckBox) view.findViewById(R.id.cb_agree);
         // et_id.addTextChangedListener(et_id_textwatcher);
-        et_name.addTextChangedListener(et_name_textwatcher);
+        tv_name.addTextChangedListener(et_name_textwatcher);
         et_id.addTextChangedListener(et_id_textwatcher);
     }
 
@@ -110,13 +110,13 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         rlt_agreement.setOnClickListener(this);
         fm_introduce.setOnClickListener(this);
         fm_city.setOnClickListener(this);
-        but_update.setOnClickListener(this);
-        but_submit.setOnClickListener(this);
-        but_submit.setEnabled(false);
+        btn_update.setOnClickListener(this);
+        btn_submit.setOnClickListener(this);
+        btn_submit.setEnabled(false);
         cb_agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               checkSubmit();
+            public void onCheckedChanged(CompoundButton btntonView, boolean isChecked) {
+                checkSubmit();
             }
         });
     }
@@ -160,7 +160,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
      * @param str_id
      * @return
      */
-    private boolean checkId(String str_id) {
+    private boolean checkIdentityCard(String str_id) {
         boolean flag = false;
         try {
             String check = "^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$";
@@ -195,22 +195,26 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void checkSubmit() {
-        if (!TextUtils.isEmpty(et_name.getText().toString().trim()) && !TextUtils.isEmpty(et_id.getText().toString().trim())
-                && !TextUtils.isEmpty(tv_city.getText().toString().trim())
-                && !TextUtils.isEmpty(tv_introduce.getText().toString().trim()) && hasphotos
+        if (!TextUtils.isEmpty(clearTvInvalid(tv_name)) && !TextUtils.isEmpty(clearEtInvalid(et_id))
+                && !TextUtils.isEmpty(clearTvInvalid(tv_city))
+                && !TextUtils.isEmpty(clearTvInvalid(tv_introduce)) && hasphotos
                 && cb_agree.isChecked()) {
-            but_submit.setEnabled(true);
+            btn_submit.setEnabled(true);
         } else {
-            but_submit.setEnabled(false);
+            btn_submit.setEnabled(false);
         }
-       /* if (checkName(et_name.getText().toString().trim()) && checkId(et_id.getText().toString().trim())
-                && !TextUtils.isEmpty(tv_city.getText().toString().trim())
-                && !TextUtils.isEmpty(tv_introduce.getText().toString().trim()) && !TextUtils.isEmpty(mCurrentPhotoPath)
-                && cb_agree.isChecked()) {
-            but_submit.setEnabled(true);
-        } else {
-            but_submit.setEnabled(false);
-        }*/
+    }
+
+    /**
+     * 清除EditText前后空格
+     *
+     * @param et
+     */
+    private String clearEtInvalid(EditText et) {
+        return et.getText().toString().trim();
+    }
+    private String clearTvInvalid(TextView tv) {
+        return tv.getText().toString().trim();
     }
 
     @Subscribe
@@ -227,24 +231,24 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.fm_introduce:
                 Intent intent_introduce = new Intent(getActivity(), PersonalIntroduceActivity.class);
-                intent_introduce.putExtra(PersonalIntroduceActivity.RESULT_CONTENT, tv_introduce.getText().toString().trim());
+                intent_introduce.putExtra(PersonalIntroduceActivity.RESULT_CONTENT, clearTvInvalid(tv_introduce));
                 UIUtils.startAnimationActivity(getActivity(), intent_introduce);
                 //   startActivityForResult(intent_introduce, RESULT_INTRODUCE_BACK);
                 break;
             case R.id.fm_city:
                 UIUtils.startAnimationActivity(getActivity(), new Intent(getActivity(), SelectProviceActivity.class));
                 break;
-            case R.id.but_update:
+            case R.id.btn_update:
                 items.clear();
                 items.add(new MyActionSheetDialog.SheetItem(getString(R.string.take_picture), MyActionSheetDialog.SheetItemColor.Black));
                 items.add(new MyActionSheetDialog.SheetItem(getString(R.string.local_image), MyActionSheetDialog.SheetItemColor.Black));
                 showPicDialog();
                 break;
-            case R.id.but_submit:
+            case R.id.btn_submit:
                 //
-                if (checkName(et_name.getText().toString().trim())) {
+                if (checkName(clearTvInvalid(tv_name))) {
                     //姓名匹配
-                    if (checkId(et_id.getText().toString().trim())) {
+                    if (checkIdentityCard(clearEtInvalid(et_id))) {
                         //身份证匹配
                         BusProvider.getInstance().post(new PersonalEventBean());
                     } else {
@@ -255,15 +259,6 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                     //姓名不匹配
                     PromptManager.showShortToast("请填写您的真实姓名");
                 }
-
-   /* if (checkName(et_name.getText().toString().trim()) && checkId(et_id.getText().toString().trim())
-                && !TextUtils.isEmpty(tv_city.getText().toString().trim())
-                && !TextUtils.isEmpty(tv_introduce.getText().toString().trim()) && !TextUtils.isEmpty(mCurrentPhotoPath)
-                && cb_agree.isChecked()) {
-            but_submit.setEnabled(true);
-        } else {
-            but_submit.setEnabled(false);
-        }*/
 
                 break;
         }
@@ -356,7 +351,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             if (null != photos && photos.size() > 0) {
                 iv_upimg.setVisibility(View.VISIBLE);
                 iv_upimg.setImageBitmap(UIUtils.getLocaleimage(photos.get(0)));
-                but_update.setText("修改");
+                btn_update.setText("修改");
                 tv_upimgintroduce.setVisibility(View.GONE);
                 iv_upbg.setVisibility(View.GONE);
                 hasphotos = true;
@@ -371,7 +366,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         if (TextUtils.isEmpty(mCurrentPhotoPath)) {
             iv_upimg.setVisibility(View.VISIBLE);
             iv_upimg.setImageBitmap(UIUtils.getLocaleimage(mCurrentPhotoPath));
-            but_update.setText("修改");
+            btn_update.setText("修改");
             tv_upimgintroduce.setVisibility(View.GONE);
             iv_upbg.setVisibility(View.GONE);
             hasphotos = true;
@@ -399,17 +394,6 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 takePhotoBack();
 
             }
-
-           /* if (requestCode == RESULT_INTRODUCE_BACK) {
-                if (null == data) {
-                    return;
-                } else {
-                    PromptManager.showShortToast("ok");
-                    String content = data.getStringExtra(PersonalIntroduceActivity.RESULT_CONTENT);
-                    tv_introduce.setText(content);
-                    checkSubmit();
-                }
-            }*/
 
         }
         super.onActivityResult(requestCode, resultCode, data);

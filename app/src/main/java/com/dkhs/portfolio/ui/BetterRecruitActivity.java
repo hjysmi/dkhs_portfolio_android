@@ -80,6 +80,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     private void showFragment(int i) {
         FragmentTransaction ft = fm.beginTransaction();
         hideFragment(ft);
+
         switch (i) {
             case index1:
                 if (qualificationFragment == null) {
