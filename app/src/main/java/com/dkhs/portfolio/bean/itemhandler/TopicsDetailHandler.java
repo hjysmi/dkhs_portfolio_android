@@ -159,7 +159,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
                 }
             }
 
-            WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+            WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type);
         }
 
         if(data.content_type == 40){

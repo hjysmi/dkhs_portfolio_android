@@ -4,22 +4,26 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.UserEntity;
 
 /**
  * Created by wuyongsen on 2015/12/9.
  */
 public class WaterMarkUtil {
-    public static final int TYPE_BLUE = 0;
-    public static final int TYPE_RED = 1;
     public static void calWaterMarkImage(ImageView iv,boolean isShow,int type){
         if(isShow){
             iv.setVisibility(View.VISIBLE);
-            switch (type){
-                case TYPE_BLUE:
+            switch (UserEntity.VERIFIEDTYPE.getEnumType(type)){
+                case ADVISER:
+                case ANALYST:
+                case FUND_CERTIFICATE:
+                case FUTURES_CERTIFICATE:
                     iv.setImageResource(R.drawable.water_mark_blue);
                     break;
-                case TYPE_RED:
+                case EXPERT:
                     iv.setImageResource(R.drawable.water_mark_red);
+                    break;
+                default:
                     break;
             }
         }else{

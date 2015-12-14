@@ -87,7 +87,7 @@ public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
         } else {
             viewHolder.ivAvater.setImageResource(R.drawable.ic_user_head);
         }
-        WaterMarkUtil.calWaterMarkImage(viewHolder.ivWaterMark, mContent.verified, mContent.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(viewHolder.ivWaterMark, mContent.verified, mContent.verified_type);
 
         return convertView;
     }

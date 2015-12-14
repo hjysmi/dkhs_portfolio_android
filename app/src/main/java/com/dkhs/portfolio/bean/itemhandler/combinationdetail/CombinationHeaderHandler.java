@@ -40,7 +40,7 @@ public class CombinationHeaderHandler implements ItemHandler<UserEntity> ,View.O
         if (null != data.getAvatar_md() && data.getAvatar_md().length() > 35) {
             bitmapUtils.display(vh.getImageView(R.id.iv_avatar), data.getAvatar_md());
         }
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), data.verified, data.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), data.verified, data.verified_type);
         vh.getTextView(R.id.tv_user_name).setText(data.getUsername());
 
         if(data.verified){

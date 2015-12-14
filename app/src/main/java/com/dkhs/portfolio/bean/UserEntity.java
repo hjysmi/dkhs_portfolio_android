@@ -297,4 +297,42 @@ public class UserEntity {
                 ", portfolios_following_count=" + portfolios_following_count +
                 '}';
     }
+
+
+    public enum VERIFIEDTYPE {
+        //未认证
+        NORMAL(-1),
+        // 投资牛人
+        EXPERT(0),
+        // 投资顾问
+        ADVISER(1),
+        //  分析师
+        ANALYST(2),
+        // 基金执业
+        FUND_CERTIFICATE(3),
+        //期货执业
+        FUTURES_CERTIFICATE(4);
+        VERIFIEDTYPE(int type) {
+            this.typeid = type;
+        }
+        private int typeid;
+        public int getTypeid(){
+            return typeid;
+        }
+        public static VERIFIEDTYPE getEnumType(int type){
+            switch (type){
+                case 0:
+                    return EXPERT;
+                case 1:
+                    return ADVISER;
+                case 2:
+                    return ANALYST;
+                case 3:
+                    return FUND_CERTIFICATE;
+                case 4:
+                    return FUTURES_CERTIFICATE;
+            }
+            return NORMAL;
+        }
+    }
 }

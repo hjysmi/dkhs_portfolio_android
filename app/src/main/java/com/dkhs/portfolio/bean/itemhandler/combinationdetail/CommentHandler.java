@@ -130,7 +130,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         } else {
             vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.default_head);
         }
-        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type == 0 ? WaterMarkUtil.TYPE_RED : WaterMarkUtil.TYPE_BLUE);
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type);
         if(user != null){
             vh.getTextView(R.id.tv_username).setText(user.getUsername());
         }
