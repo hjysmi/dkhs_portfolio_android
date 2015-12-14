@@ -17,6 +17,7 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
+import com.dkhs.portfolio.ui.BetterRecruitActivity;
 import com.dkhs.portfolio.ui.CallMeActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CommentMeActivity;
@@ -172,6 +173,8 @@ public class MessageHandler {
             } else if (segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("mine")) {
                 //https://www.dkhs.com/accounts/mine/ //跳转至“我的”页面
                 gotoUserActivity();
+            } else if ((segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("pro_verfications"))) {
+                gotoauthentication(url);
             } else {
                 mContext.startActivity(AdActivity.getIntent(mContext, url));
             }
@@ -181,6 +184,46 @@ public class MessageHandler {
 //        }
 
         return hasHandle;
+    }
+
+    /**
+     * @param url
+     */
+    private boolean gotoauthentication(String url) {
+        Uri uri = Uri.parse(url);
+        String verified_type = uri.getQueryParameter("verified_type");
+        String flag = uri.getQueryParameter("verified");
+        Intent intent = new Intent(mContext, BetterRecruitActivity.class);
+        if (TextUtils.isEmpty(verified_type)) {
+            //非认证版块
+            return false;
+        } else {
+            //认证版块
+            Boolean isAuthentication = Boolean.valueOf(flag);
+            if (!isAuthentication) {
+                //未认证
+                switch (verified_type) {
+                    case "1":
+                        intent.putExtra("type", 1);
+                        mContext.startActivity(new Intent(mContext, BetterRecruitActivity.class));
+                        if (null != AdActivity.instance) {
+                            AdActivity.instance.finish();
+                        }
+                        break;
+                    case "0":
+                        intent.putExtra("type", 0);
+                        mContext.startActivity(new Intent(mContext, BetterRecruitActivity.class));
+                        if (null != AdActivity.instance) {
+                            AdActivity.instance.finish();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     private void gotoCallMeActivity() {

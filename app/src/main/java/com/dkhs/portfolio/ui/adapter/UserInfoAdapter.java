@@ -25,7 +25,6 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -34,6 +33,7 @@ import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.widget.WaterMarkImageView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
@@ -348,7 +348,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
                 case R.id.tv_auth_status:
-                    UIUtils.startAnimationActivity((Activity) mView.getContext(), AdActivity.getIntent((Activity) mView.getContext(), DKHSClient.getAbsoluteUrl(mView.getContext().getResources().getString(R.string.authentication_url))));
+                    MessageHandler handler = new MessageHandler(mView.getContext());
+                    handler.handleURL(DKHSClient.getAbsoluteUrl(mView.getContext().getResources().getString(R.string.authentication_url)));
                     break;
 
             }
@@ -375,11 +376,11 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
                 int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
-                if(!isVerified){
+                if (!isVerified) {
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.nothing);
-                }else if(verifiedType == 0){
+                } else if (verifiedType == 0) {
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.red);
-                }else{
+                } else {
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.blue);
                 }
                 String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);

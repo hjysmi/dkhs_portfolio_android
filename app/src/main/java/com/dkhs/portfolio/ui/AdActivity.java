@@ -3,7 +3,6 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,8 +21,6 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -48,7 +45,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     public static final String KEY_URI = "key_uri";
 
-
+    public static  AdActivity instance;
     private static  final  String js="javascript:(function(){" +
             "window.shareMan.setTitleAction(document.title);" +
             "window.shareMan.getShareEntity(share());" +
@@ -93,6 +90,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handleIntent(getIntent());
+        instance = this;
         setContentView(R.layout.activity_ad);
         ViewUtils.inject(this);
         messageHandler = new MessageHandler(this);
@@ -122,35 +120,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                 }
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-                    Uri parse = Uri.parse(url);
-                    String verified_type = parse.getQueryParameter("verified_type");
-                    Intent intent = new Intent(AdActivity.this, BetterRecruitActivity.class);
-                    if(TextUtils.isEmpty(verified_type)){
-                        //非认证版块
-                    //    PromptManager.showShortToast("获取信息有误,请重试");
-                        return messageHandler.handleURL(url);
-                    }else{
-                        //认证版块
-
-                        switch (verified_type) {
-                            case "1":
-                                intent.putExtra("type", 1);
-                                UIUtils.startAnimationActivity(AdActivity.this, intent);
-                                finish();
-                                break;
-                            case "0":
-                                intent.putExtra("type", 0);
-                                UIUtils.startAnimationActivity(AdActivity.this, intent);
-                                finish();
-                                break;
-                            default:
-                                PromptManager.showShortToast("获取信息有误,请重试");
-                                break;
-                        }
-                        return true;
-                    }
-                 //   return messageHandler.handleURL(url);
+                    return messageHandler.handleURL(url);
                 }
                 @Override
                 public void onPageFinished(WebView view, String url) {
