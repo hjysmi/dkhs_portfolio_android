@@ -907,4 +907,11 @@
 
     <string name="account_format">账号:%1$s</string>
     <string name="verified_reason">认证:%1$s</string>
+
+    <string name="title_verified_profile">资质材料</string>
+    <string name="verified_type_expert">投资牛人</string>
+    <string name="verified_type_adviser">投资顾问</string>
+    <string name="verified_type_analyst">分析师</string>
+    <string name="verified_type_fund_certificate">基金执业</string>
+    <string name="verified_type_futures_certificate">期货执业</string>
 </resources>

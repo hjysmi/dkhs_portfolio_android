@@ -550,6 +550,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dkhs.portfolio.ui.BaseActivity" />
         </activity>
+        <activity android:name=".ui.VerifiedProFileActivity"/>
     </application>
 
 </manifest>

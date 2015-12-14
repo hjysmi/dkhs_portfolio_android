@@ -255,7 +255,7 @@
         android:id="@+id/setting_material"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/person_setting_backgroud"
+        android:background="@drawable/btn_white_selector"
         >
 
         <View
