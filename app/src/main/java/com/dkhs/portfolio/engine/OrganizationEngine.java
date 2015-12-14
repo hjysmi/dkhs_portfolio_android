@@ -1,7 +1,5 @@
 package com.dkhs.portfolio.engine;
 
-import android.content.Context;
-
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -13,11 +11,6 @@ import com.lidroid.xutils.http.client.HttpRequest;
  */
 public class OrganizationEngine {
 
-    private Context context;
-
-    public OrganizationEngine(Context context) {
-        this.context = context;
-    }
 
     public void getOrg(IHttpListener listener, String type) {
         RequestParams params = new RequestParams();
