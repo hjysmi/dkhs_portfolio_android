@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.bean.SortUserEntity;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.lidroid.xutils.BitmapUtils;
 
 import java.util.List;
@@ -60,6 +61,7 @@ public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
             viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.catalog);
             viewHolder.ivAvater = (ImageView) convertView.findViewById(R.id.iv_avatar);
+            viewHolder.ivWaterMark = (ImageView) convertView.findViewById(R.id.iv_water_mark);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -85,6 +87,7 @@ public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
         } else {
             viewHolder.ivAvater.setImageResource(R.drawable.ic_user_head);
         }
+        WaterMarkUtil.calWaterMarkImage(viewHolder.ivWaterMark, mContent.verified, mContent.verified_type);
 
         return convertView;
     }
@@ -123,6 +126,7 @@ public class SortFriendAdapter extends BaseAdapter implements SectionIndexer {
         TextView tvLetter;
         TextView tvUserName;
         ImageView ivAvater;
+        ImageView ivWaterMark;
     }
 
     /**

@@ -575,9 +575,6 @@
         <activity
             android:name=".ui.OrganizationActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.AuthenticationWebActivity"
-            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

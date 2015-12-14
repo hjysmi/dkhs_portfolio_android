@@ -15,12 +15,10 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.SortAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
-import com.dkhs.portfolio.utils.PinyinComparator;
 import com.dkhs.portfolio.utils.SortModel;
 import com.dkhs.portfolio.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
     /**
      * 根据拼音来排列ListView里面的数据类
      */
-    private PinyinComparator pinyinComparator;
+    //private PinyinComparator pinyinComparator;
     private OrganizationEngine engine;
 
     @Override
@@ -67,8 +65,8 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
 
     private void initValues() {
         type = getIntent().getIntExtra(KEY_TYPE, 0);
-        pinyinComparator = new PinyinComparator();
-        Collections.sort(SourceDateList, pinyinComparator);
+        //pinyinComparator = new PinyinComparator();
+      //  Collections.sort(SourceDateList, pinyinComparator);
         adapter = new SortAdapter(this, SourceDateList);
         // adapter.bindData(SourceDateList);
         lv_organization.setAdapter(adapter);
