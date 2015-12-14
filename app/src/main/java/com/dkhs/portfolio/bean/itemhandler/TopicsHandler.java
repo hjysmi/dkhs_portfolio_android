@@ -181,6 +181,7 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
         amountUnit.setTextAppearance(mContext, unitStyle);
         vh.getImageView(R.id.iv_money).setImageResource(leftDrawable);
         amountTv.setText(data.reward_amount);
+        amountUnit.setText("元");
     }
 
 
