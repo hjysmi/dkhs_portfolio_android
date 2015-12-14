@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -144,6 +146,10 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                 fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
                 fragment = fundsFragment;
                 mBtntitletableft.setTextColor(getResources().getColor(R.color.black));
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mBtntitletableft.getLayoutParams();
+                lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                mBtntitletableft.setGravity(Gravity.CENTER);
+                mBtntitletableft.setText(R.string.fund_market);
                 mBtntitletabright.setVisibility(View.GONE);
                 break;
         }
