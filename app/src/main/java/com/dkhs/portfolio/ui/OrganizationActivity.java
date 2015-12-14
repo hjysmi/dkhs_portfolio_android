@@ -51,7 +51,7 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
     }
 
     private void initData() {
-        engine = new OrganizationEngine(this);
+        engine = new OrganizationEngine();
         //  engine.getOrg();
         engine.getOrg(orgListener, String.valueOf(type));
 
