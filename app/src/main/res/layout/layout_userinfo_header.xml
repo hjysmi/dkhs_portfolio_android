@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
         android:id="@+id/ll_login_layout"
@@ -71,6 +72,14 @@
                     android:text="用户名"
                     android:textColor="@color/black"
                     android:textSize="@dimen/setting_text_name" />
+                <ImageView
+                    android:id="@+id/tv_auth_status"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:background="@color/blue"
+                    android:layout_toRightOf="@+id/setting_text_name_text"
+                    android:textSize="@dimen/setting_text_name"
+                    android:layout_marginLeft="10dp"/>
 
                 <TextView
                     android:id="@+id/setting_text_account_text"

@@ -21,6 +21,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
@@ -32,6 +33,7 @@ import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.widget.WaterMarkImageView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
@@ -113,7 +115,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new ItemViewHolder(view);
         } else if (viewType == TYPE_HEADER) {
             view = mLayoutInflater.inflate(R.layout.layout_userinfo_header, parent, false);
-            return new HeadViewHolder(view,mContext);
+            return new HeadViewHolder(view, mContext);
         }
 
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
@@ -307,7 +309,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private View mView;
         private Context mContext;
 
-        public HeadViewHolder(View view,Context context) {
+        public HeadViewHolder(View view, Context context) {
             super(view);
             this.mView = view;
             mContext = context;
@@ -315,8 +317,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-
-        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers})
+        @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.ll_following, R.id.ll_followers, R.id.tv_auth_status})
         public void onClick(View v) {
             int id = v.getId();
 
@@ -326,6 +327,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
                 case R.id.setting_layout_icon:
                     startUserInfoActivity();
+
                     break;
                 case R.id.user_myfunds_layout:
                     if (!UIUtils.iStartLoginActivity(mView.getContext())) {
@@ -345,6 +347,10 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
+                case R.id.tv_auth_status:
+                    MessageHandler handler = new MessageHandler(mView.getContext());
+                    handler.handleURL(DKHSClient.getAbsoluteUrl(mView.getContext().getResources().getString(R.string.authentication_url)));
+                    break;
 
             }
 
@@ -363,18 +369,18 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewUserInfo.setVisibility(View.VISIBLE);
                 String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
                 if (!TextUtils.isEmpty(account)) {
-                    settingTextAccountText.setText(String.format(mContext.getString(R.string.account_format),account));
+                    settingTextAccountText.setText(String.format(mContext.getString(R.string.account_format), account));
                 }
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
                 boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
                 int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
-                if(!isVerified){
+                if (!isVerified) {
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.nothing);
-                }else if(verifiedType == 0){
+                } else if (verifiedType == 0) {
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.red);
-                }else{
+                } else {
                     settingImageHead.setType(WaterMarkImageView.TypeEnum.blue);
                 }
                 String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);

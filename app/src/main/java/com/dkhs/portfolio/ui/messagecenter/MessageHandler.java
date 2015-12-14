@@ -17,6 +17,7 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.AdActivity;
+import com.dkhs.portfolio.ui.BetterRecruitActivity;
 import com.dkhs.portfolio.ui.CallMeActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CommentMeActivity;
@@ -60,7 +61,7 @@ public class MessageHandler {
     public String TAG = "MessageHandler";
     public Context mContext;
 
-    private  List<String> mFilterUrls =new ArrayList<>();
+    private List<String> mFilterUrls = new ArrayList<>();
 
 
     public MessageHandler(Context context) {
@@ -104,7 +105,6 @@ public class MessageHandler {
     }
 
 
-
     public boolean handleURL(String url) {
         if (TextUtils.isEmpty(url)) {
             return true;
@@ -116,72 +116,114 @@ public class MessageHandler {
 //        if(uri.getHost().equals("")) {
 
 
-            if (segments.size() > 0) {
-                if (segments.get(0).equals("s") && segments.size() >= 2) {
-                    gotoStockQuotesActivity(segments);
-                    hasHandle = true;
-                } else if (segments.get(0).equals("p") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
-                    hasHandle = true;
-                    gotoOrderFundDetailActivity(segments.get(1));
-                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("news")) {
-                    //https://www.dkhs.com/statuses/news/ //跳转至信息资讯页面
-                    gotoMainInfoActivity();
-                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("mentions_timeline")) {
-                    //https://www.dkhs.com/statuses/mentions_timeline/ 跳转至【提到我的】页面
-                    gotoCallMeActivity();
-                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("comments_timeline")) {
-                    //https://www.dkhs.com/statuses/comments_timeline/ 跳转至评论或回复我的
-                    gotoCommentMeActivity();
-                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("public_timeline")) {
-                    //https://www.dkhs.com/statuses/public_timeline/ //跳转至社区热门话题界面d+
-                    gotoHostTopicsActivity();
+        if (segments.size() > 0) {
+            if (segments.get(0).equals("s") && segments.size() >= 2) {
+                gotoStockQuotesActivity(segments);
+                hasHandle = true;
+            } else if (segments.get(0).equals("p") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
+                hasHandle = true;
+                gotoOrderFundDetailActivity(segments.get(1));
+            } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("news")) {
+                //https://www.dkhs.com/statuses/news/ //跳转至信息资讯页面
+                gotoMainInfoActivity();
+            } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("mentions_timeline")) {
+                //https://www.dkhs.com/statuses/mentions_timeline/ 跳转至【提到我的】页面
+                gotoCallMeActivity();
+            } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("comments_timeline")) {
+                //https://www.dkhs.com/statuses/comments_timeline/ 跳转至评论或回复我的
+                gotoCommentMeActivity();
+            } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("public_timeline")) {
+                //https://www.dkhs.com/statuses/public_timeline/ //跳转至社区热门话题界面d+
+                gotoHostTopicsActivity();
 
-                } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
-                    hasHandle = true;
-                    gotoNewOrYaoBaoDetail(segments.get(1));
-                } else if (segments.get(0).equals("u") && segments.size() >= 2) {
-                    hasHandle = true;
-                    gotoCombinationUserActivity(segments.get(1));
-                    //symbols/funds/managers/
-                } else if (segments.get(0).equals("symbols") && segments.size() >= 3 && segments.get(1).equals("funds") && segments.get(2).equals("managers")) {
-                    //https://www.dkhs.com/symbols/funds/managers/ //跳转至基金经理排行页面
-                    //https://www.dkhs.com/symbols/funds/managers/pk/ //跳转至基金经理详情页
-                    String pk = null;
-                    if (segments.size() >= 4 && segments.get(3).matches("\\d+")) {
-                        pk = segments.get(3);
-                    }
-                    gotoFundManager(pk);
-                } else if (segments.get(0).equals("symbols") && segments.size() >= 2 && segments.get(1).equals("funds")) {
-                    //https://www.dkhs.com/symbols/funds/ //跳转至基金传统排行页面
-                    gotoFundsRanking();
-
-                } else if (segments.get(0).equals("symbols") && segments.size() >= 3 && segments.get(1).equals("markets") && segments.get(2).equals("cn")) {
-                    //https://www.dkhs.com/symbols/markets/cn/ //跳转至沪深行情股票界面
-                    gotoSHActivity();
-                } else if (segments.get(0).equals("symbols") && segments.size() >= 2 && segments.get(1).equals("following")) {
-                    //https://www.dkhs.com/symbols/following/ //跳转至自选股票界面
-                    gotoOptionSymbols();
-                } else if (segments.get(0).equals("portfolio") && segments.size() >= 2 && segments.get(1).equals("ranking_list")) {
-                    // https://www.dkhs.com/portfolio/ranking_list/ //跳转至行情组合排行榜界面
-                    gotoCombinationRankingActivity();
-                } else if (segments.get(0).equals("portfolio") && segments.size() >= 2 && segments.get(1).equals("create")) {
-                    //  https://www.dkhs.com/portfolio/create/ // 跳转至创建组合页面
-                    gotoCreateCombinationActivity();
-                } else if (segments.get(0).equals("shakes") && segments.size() >= 1) {
-                    //https://www.dkhs.com/shakes/ //跳转至摇一摇界面
-                    gotoShakeActivity();
-                } else if (segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("mine")) {
-                    //https://www.dkhs.com/accounts/mine/ //跳转至“我的”页面
-                    gotoUserActivity();
-                } else {
-                    mContext.startActivity(AdActivity.getIntent(mContext, url));
+            } else if (segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).matches("\\d+")) {
+                hasHandle = true;
+                gotoNewOrYaoBaoDetail(segments.get(1));
+            } else if (segments.get(0).equals("u") && segments.size() >= 2) {
+                hasHandle = true;
+                gotoCombinationUserActivity(segments.get(1));
+                //symbols/funds/managers/
+            } else if (segments.get(0).equals("symbols") && segments.size() >= 3 && segments.get(1).equals("funds") && segments.get(2).equals("managers")) {
+                //https://www.dkhs.com/symbols/funds/managers/ //跳转至基金经理排行页面
+                //https://www.dkhs.com/symbols/funds/managers/pk/ //跳转至基金经理详情页
+                String pk = null;
+                if (segments.size() >= 4 && segments.get(3).matches("\\d+")) {
+                    pk = segments.get(3);
                 }
-            } else if (!TextUtils.isEmpty(url)) {
+                gotoFundManager(pk);
+            } else if (segments.get(0).equals("symbols") && segments.size() >= 2 && segments.get(1).equals("funds")) {
+                //https://www.dkhs.com/symbols/funds/ //跳转至基金传统排行页面
+                gotoFundsRanking();
+
+            } else if (segments.get(0).equals("symbols") && segments.size() >= 3 && segments.get(1).equals("markets") && segments.get(2).equals("cn")) {
+                //https://www.dkhs.com/symbols/markets/cn/ //跳转至沪深行情股票界面
+                gotoSHActivity();
+            } else if (segments.get(0).equals("symbols") && segments.size() >= 2 && segments.get(1).equals("following")) {
+                //https://www.dkhs.com/symbols/following/ //跳转至自选股票界面
+                gotoOptionSymbols();
+            } else if (segments.get(0).equals("portfolio") && segments.size() >= 2 && segments.get(1).equals("ranking_list")) {
+                // https://www.dkhs.com/portfolio/ranking_list/ //跳转至行情组合排行榜界面
+                gotoCombinationRankingActivity();
+            } else if (segments.get(0).equals("portfolio") && segments.size() >= 2 && segments.get(1).equals("create")) {
+                //  https://www.dkhs.com/portfolio/create/ // 跳转至创建组合页面
+                gotoCreateCombinationActivity();
+            } else if (segments.get(0).equals("shakes") && segments.size() >= 1) {
+                //https://www.dkhs.com/shakes/ //跳转至摇一摇界面
+                gotoShakeActivity();
+            } else if (segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("mine")) {
+                //https://www.dkhs.com/accounts/mine/ //跳转至“我的”页面
+                gotoUserActivity();
+            } else if ((segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("pro_verfications"))) {
+                gotoauthentication(url);
+            } else {
                 mContext.startActivity(AdActivity.getIntent(mContext, url));
             }
+        } else if (!TextUtils.isEmpty(url)) {
+            mContext.startActivity(AdActivity.getIntent(mContext, url));
+        }
 //        }
 
         return hasHandle;
+    }
+
+    /**
+     * @param url
+     */
+    private boolean gotoauthentication(String url) {
+        Uri uri = Uri.parse(url);
+        String verified_type = uri.getQueryParameter("verified_type");
+        String flag = uri.getQueryParameter("verified");
+        Intent intent = new Intent(mContext, BetterRecruitActivity.class);
+        if (TextUtils.isEmpty(verified_type)) {
+            //非认证版块
+            return false;
+        } else {
+            //认证版块
+            Boolean isAuthentication = Boolean.valueOf(flag);
+            if (!isAuthentication) {
+                //未认证
+                switch (verified_type) {
+                    case "1":
+                        intent.putExtra("type", 1);
+                        mContext.startActivity(new Intent(mContext, BetterRecruitActivity.class));
+                        if (null != AdActivity.instance) {
+                            AdActivity.instance.finish();
+                        }
+                        break;
+                    case "0":
+                        intent.putExtra("type", 0);
+                        mContext.startActivity(new Intent(mContext, BetterRecruitActivity.class));
+                        if (null != AdActivity.instance) {
+                            AdActivity.instance.finish();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     private void gotoCallMeActivity() {
