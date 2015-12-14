@@ -207,14 +207,14 @@ public class BenefitChartView {
 
     private void onRequest() {
         initMaChart(maChartView);
-        if(StockUitls.isStockType(symbol_stype)){
+        if (StockUitls.isStockType(symbol_stype)) {
             tvCombinationName.setText(abbrName);
             requestCompare();
-        }else{
+        } else {
             titleView.setVisibility(View.GONE);
             if (StockUitls.isSepFund(symbol_stype)) {
                 requestSepFund();
-            }else{
+            } else {
                 requestElseType();
             }
         }
@@ -227,7 +227,7 @@ public class BenefitChartView {
 //        }
     }
 
-    private void requestElseType(){
+    private void requestElseType() {
         lineEntityList.clear();
         maxOffsetValue = 0f;
         if (trendType == FundTrendType.Default) {
@@ -301,9 +301,9 @@ public class BenefitChartView {
 
     private void onFinishUpdateUI() {
         if (!mError) {
-            if(StockUitls.isStockType(symbol_stype)){
+            if (StockUitls.isStockType(symbol_stype)) {
                 titleView.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 titleView.setVisibility(View.GONE);
             }
             contentView.setVisibility(View.VISIBLE);
@@ -430,7 +430,7 @@ public class BenefitChartView {
     float baseNetValue;
 
 
-    public void drawFundIndex(List<FundManagerInfoBean.FundIndexEntity> lists ){
+    public void drawFundIndex(List<FundManagerInfoBean.FundIndexEntity> lists) {
         initMaChart(maChartView);
 
         List<LineEntity> linesList = new ArrayList<LineEntity>();
@@ -452,7 +452,7 @@ public class BenefitChartView {
         String firstDay = lists.get(0).getTradedate();
         maxOffsetValue = value;
         minOffsetValue = value;
-        for (FundManagerInfoBean.FundIndexEntity entity: lists){
+        for (FundManagerInfoBean.FundIndexEntity entity : lists) {
             SepFundPointEntity pointEntity = new SepFundPointEntity();
             value = entity.getPercentage();
             pointEntity.setDesc(entity.getTradedate());
@@ -808,7 +808,8 @@ public class BenefitChartView {
     };
 
     private boolean canTouchable = true;
-    public void setCanTouable(boolean canTouchable){
+
+    public void setCanTouable(boolean canTouchable) {
         this.canTouchable = canTouchable;
     }
 
