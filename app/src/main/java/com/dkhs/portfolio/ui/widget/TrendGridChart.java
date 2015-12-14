@@ -1130,6 +1130,11 @@ public class TrendGridChart extends View {
         this.isDrawRightYTitle = isDrawRightYTitle;
     }
 
+    private boolean needSeperateYtitleColor = false;
+    public void needSeperateYtitleColor(boolean needSeperateYtitleColor){
+        this.needSeperateYtitleColor = needSeperateYtitleColor;
+    }
+
     public List<String> getAxisRightYTitles() {
         return axisRightYTitles;
     }
