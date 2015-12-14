@@ -39,6 +39,7 @@ public class FundManagerBean {
     public float win_rate_day;
     public float win_rate_month;
     public float win_rate_year;
+    public float index_rate_all;
     public int id;
     public float win_rate_six_month;
     public String name;

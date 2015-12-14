@@ -143,6 +143,7 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                         null, null, null);
                 fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
                 fragment = fundsFragment;
+                mBtntitletableft.setText(R.string.fund_market);
                 mBtntitletableft.setTextColor(getResources().getColor(R.color.black));
                 mBtntitletabright.setVisibility(View.GONE);
                 break;
