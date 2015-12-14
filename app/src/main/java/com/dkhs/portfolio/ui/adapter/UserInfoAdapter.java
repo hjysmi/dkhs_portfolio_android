@@ -22,10 +22,11 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
-import com.dkhs.portfolio.ui.AuthenticationWebActivity;
+import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -347,7 +348,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     UIUtils.startAnimationActivity((Activity) mView.getContext(), intent1);
                     break;
                 case R.id.tv_auth_status:
-                    UIUtils.startAnimationActivity((Activity) mView.getContext(), new Intent(mView.getContext(), AuthenticationWebActivity.class));
+                    UIUtils.startAnimationActivity((Activity) mView.getContext(), AdActivity.getIntent((Activity) mView.getContext(), DKHSClient.getAbsoluteUrl(mView.getContext().getResources().getString(R.string.authentication_url))));
                     break;
 
             }
