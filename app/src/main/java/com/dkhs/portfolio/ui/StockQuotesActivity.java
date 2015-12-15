@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -132,6 +133,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private final int MENU_FOLLOWE_OR_UNFOLLOWE = 0;
     private final int MENU_REMIND = 1;
     private FloatingActionMenu mActionMenu;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
@@ -267,6 +269,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         }
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.theme_blue);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestData();
+            }
+        });
         bottomLayout = findViewById(R.id.stock_layout);
 
         tvKlinVirtulCheck = (TextView) findViewById(R.id.klin_virtul_check);
@@ -685,6 +695,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         protected void afterParseData(StockQuotesBean object) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
 
+            mSwipeRefreshLayout.setRefreshing(false);
             stopRefreshAnimation();
             if (null != object) {
                 mStockQuotesBean = object;
