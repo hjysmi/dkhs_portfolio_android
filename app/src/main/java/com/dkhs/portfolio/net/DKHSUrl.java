@@ -388,7 +388,8 @@ public class DKHSUrl {
     /**
      * 牛人认证
      */
-    public interface Pro_verfications{
+    public interface Pro_verfications {
         String pro_verfications_url = "/api/v1/accounts/pro_verfications/";
+        String query_pro_verfications_url = "/api/v1/accounts/pro_verfications/mine/";
     }
 }

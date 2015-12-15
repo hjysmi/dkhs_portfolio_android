@@ -21,6 +21,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.bean.ProVerificationBean;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.service.AuthenticationService;
 import com.dkhs.portfolio.ui.AgreementTextActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
@@ -49,6 +51,7 @@ import java.util.regex.Pattern;
  * Created by xuetong on 2015/12/7.
  */
 public class PersonalFragment extends BaseFragment implements View.OnClickListener {
+    private boolean is_authfail = false;
     private TextView rlt_agreement;
     private PercentFrameLayout fm_city;
     private PercentFrameLayout fm_introduce;
@@ -68,7 +71,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private ProInfoBean proInfoBean = new ProInfoBean();
     private List<MyActionSheetDialog.SheetItem> items = new ArrayList<MyActionSheetDialog.SheetItem>();
     public static final String KEY_PERINFOBEAN = "key_perinfobean";
-
+    public static final String KEY_PROVERIFICATIONBEAN = "key_proverificationbean";
+    private ProVerificationBean verificationBean;
 
     @Override
     public int setContentLayoutId() {
@@ -93,13 +97,17 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         initView(view);
         initValues();
         initEvents();
+        if (verificationBean != null) {
+            updateProVerificationInfo(verificationBean);
+        }
     }
 
     private void initValues() {
-        Bundle bundle = getArguments();
-        //   proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
-        proInfoBean_qualification = Parcels.unwrap(bundle.getParcelable(KEY_PERINFOBEAN));
-        //  proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
+      //  Bundle bundle = getArguments();
+
+        proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
+        verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
+        is_authfail = getArguments().getBoolean(QualificationFragment.KEY_AUTHFAIL);
     }
 
 
@@ -135,6 +143,24 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 checkSubmit();
             }
         });
+    }
+
+    private void updateProVerificationInfo(ProVerificationBean info) {
+
+        if (!TextUtils.isEmpty(info.identity.real_name)) {
+            et_name.setText(info.identity.real_name);
+        }
+        if (!TextUtils.isEmpty(info.identity.id_card_no_marsked)) {
+            et_id.setText(info.identity.id_card_no_marsked);
+        }
+
+        if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getProvince())) {
+            tv_city.setText(GlobalParams.LOGIN_USER.getProvince() +(TextUtils.isEmpty(GlobalParams.LOGIN_USER.getCity())?"":" "+GlobalParams.LOGIN_USER.getCity()));
+        }
+        if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getDescription())) {
+            tv_introduce.setText(GlobalParams.LOGIN_USER.getDescription());
+        }
+        //    BusProvider.getInstance().post(new AuthFailEventBean());
     }
 
     TextWatcher et_id_textwatcher = new TextWatcher() {

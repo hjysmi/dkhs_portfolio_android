@@ -33,6 +33,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OrganizationEventBean;
 import com.dkhs.portfolio.bean.OrgtypeBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.bean.QualificationEventBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
 import com.dkhs.portfolio.ui.OrganizationActivity;
@@ -40,10 +41,13 @@ import com.dkhs.portfolio.ui.adapter.SelectQualificationAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
 import com.dkhs.portfolio.ui.widget.GridViewEx;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +63,12 @@ import java.util.regex.Pattern;
  * Created by xuetong on 2015/12/7.
  */
 public class QualificationFragment extends BaseFragment implements View.OnClickListener, SelectQualificationAdapter.IDeletePicListenr {
+
+    public static final String KEY_PROVERIFICATIONBEAN = "key_proverificationbean";
+    public static final String KEY_AUTHFAIL = "key_authfail";
+    private boolean is_authfail = false;
+    private ProVerificationBean verificationBean;
+
     private ImageView iv_right;
     private EditText et_content;
     private Integer org_id = 0;
@@ -106,7 +116,67 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        //  setDialog();
         initValues();
+        //    loadOnLineData();
+        if (verificationBean != null) {
+            updateProVerificationInfo(verificationBean);
+        }
+    }
+
+    /*private void loadOnLineData() {
+        int verified_status = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS);
+        if (2 == verified_status) {
+            DKHSClient.requestByGet(new ParseHttpListener<ProVerificationBean>() {
+                @Override
+                protected ProVerificationBean parseDateTask(String jsonData) {
+                    return DataParse.parseObjectJson(ProVerificationBean.class, jsonData);
+                }
+
+                @Override
+                protected void afterParseData(ProVerificationBean bean) {
+                    updateProVerificationInfo(bean);
+                }
+            }, DKHSUrl.User.get_pro_verification);
+        }
+
+    }*/
+
+    private void updateProVerificationInfo(ProVerificationBean info) {
+
+        String msg = TextUtils.isEmpty(info.pro.status_note) ? "" : info.pro.status_note + (TextUtils.isEmpty(info.identity.status_note) ? "" : "\n" + info.identity.status_note);
+        setDialog(msg);
+        if (!TextUtils.isEmpty(info.pro.cert_description)) {
+            et_content.setText(info.pro.cert_description);
+        }
+        if (!TextUtils.isEmpty(info.pro.cert_no)) {
+            et_num.setText(info.pro.cert_no);
+        }
+        if (null != info.pro.org_profile) {
+            if (!TextUtils.isEmpty(info.pro.org_profile.name)) {
+                tv_organization.setText(info.pro.org_profile.name);
+            }
+            et_num.setText(info.pro.cert_no);
+        }
+        //    BusProvider.getInstance().post(new AuthFailEventBean());
+    }
+
+    private void setDialog(String content) {
+        final MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_auth_dialog, null);
+        builder.hideTitle();
+        builder.hideBottom();
+        builder.hideMessage();
+        builder.setContentView(view);
+        builder.show();
+        TextView tv_content = (TextView) view.findViewById(R.id.tv_content);
+        tv_content.setText(content);
+        view.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
     }
 
     private void initViews(View view) {
@@ -227,7 +297,11 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         adapter = new QualificationAdapter(getActivity(), list);
         Bundle arguments = getArguments();
         type = arguments.getInt("type");
-
+        verificationBean = Parcels.unwrap(arguments.getParcelable(KEY_PROVERIFICATIONBEAN));
+        is_authfail = arguments.getBoolean(KEY_AUTHFAIL);
+        if (is_authfail) {
+            org_id = verificationBean.pro.org_profile.id;
+        }
         if (type == 0) {
             tv_type.setText(list.get(0).getOrgName());
             selectedItemType = 0;
@@ -297,7 +371,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 } else {
                     //不是投资牛人
 
-                    if (checknum(et_num.getText().toString())) {
+                    if (!TextUtils.isEmpty(et_num.getText().toString())) {
                         //验证通过
                         BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {

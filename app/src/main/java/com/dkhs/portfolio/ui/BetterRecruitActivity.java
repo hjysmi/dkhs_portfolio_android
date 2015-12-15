@@ -13,6 +13,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.FrameLayout;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -69,10 +70,13 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         width = UIUtils.getDisplayMetrics().widthPixels;
     }
 
+    private ProVerificationBean verificationBean;
+
     private void initValues() {
         type_qua = getIntent().getIntExtra("type", 0);
+        verificationBean = Parcels.unwrap(getIntent().getExtras().getParcelable("proverification_bean"));
         tv_qualification.setTextColor(getResources().getColor(R.color.white));
-        showFragment(index1,null,-1);
+        showFragment(index1, null, -1);
     }
 
     private void initEvents() {
@@ -94,6 +98,10 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                     qualificationFragment = new QualificationFragment();
                     Bundle bundle = new Bundle();
                     bundle.putInt("type", type_qua);
+                    if(verificationBean != null){
+                        bundle.putParcelable(QualificationFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
+                        bundle.putBoolean(QualificationFragment.KEY_AUTHFAIL, true);
+                    }
                     qualificationFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, qualificationFragment);
                 } else {
@@ -108,6 +116,10 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                    // bundle.putSerializable(PersonalFragment.KEY_PERINFOBEAN, bean);
                   //  bundle.putEx(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
                     bundle.putParcelable(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
+                    if(verificationBean != null){
+                        bundle.putParcelable(PersonalFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
+                        bundle.putBoolean(QualificationFragment.KEY_AUTHFAIL, true);
+                    }
                     personalFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, personalFragment);
                 } else {
