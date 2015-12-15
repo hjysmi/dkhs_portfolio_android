@@ -201,16 +201,10 @@ public class MessageHandler {
             case "1":
                 intent.putExtra("type", 1);
                 mContext.startActivity(intent);
-                if (null != AdActivity.instance) {
-                    AdActivity.instance.finish();
-                }
                 break;
             case "0":
                 intent.putExtra("type", 0);
                 mContext.startActivity(intent);
-                if (null != AdActivity.instance) {
-                    AdActivity.instance.finish();
-                }
                 break;
             default:
                 break;
