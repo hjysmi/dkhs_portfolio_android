@@ -989,6 +989,7 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
                 minAmount = object.getMin_reward();
                 amountEt.setHint(String.format(getString(R.string.reward_lower_limit), String.valueOf(minAmount)));
                 getAccountSuccess = true;
+                checkSendButtonEnable();
             }
 
             @Override
