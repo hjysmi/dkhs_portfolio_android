@@ -43,13 +43,15 @@ public class FundSpecialHandler extends SimpleItemHandler<RecommendFundSpecialLi
     @Override
     public void onBindView(ViewHolder vh, final RecommendFundSpecialLineBean item, int position) {
         vh.getTextView(R.id.tv_special).setText(item.getRecommend_title());
-        vh.getTextView(R.id.tv_special_name).setText(item.getSymbols().get(0).abbr_name);
-        vh.getTextView(R.id.tv_special_percent).setText(StringFromatUtils.get2PointPercent(item.getSymbols().get(0).percent_six_month));
         int textColor = textColors[item.position];
         int textSolidColor = textSolidColors[item.position];
+        if(item.getSymbols() != null && item.getSymbols().size() > 0){
+            vh.getTextView(R.id.tv_special_name).setText(item.getSymbols().get(0).abbr_name);
+            vh.getTextView(R.id.tv_special_percent).setText(StringFromatUtils.get2PointPercent(item.getSymbols().get(0).percent_six_month));
+            vh.getTextView(R.id.tv_special_name).setTextColor(mContext.getResources().getColor(textColor));
+            vh.getTextView(R.id.tv_special_percent).setTextColor(mContext.getResources().getColor(textColor));
+        }
         vh.getTextView(R.id.tv_special).setTextColor(mContext.getResources().getColor(textColor));
-        vh.getTextView(R.id.tv_special_name).setTextColor(mContext.getResources().getColor(textColor));
-        vh.getTextView(R.id.tv_special_percent).setTextColor(mContext.getResources().getColor(textColor));
         String[] tags = item.getRecommend_desc().split(",");
         ((LinearLayout)vh.get(R.id.ll_special_tag)).removeAllViews();
         if(tags != null && tags.length > 0){
