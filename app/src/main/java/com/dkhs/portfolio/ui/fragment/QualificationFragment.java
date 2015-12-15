@@ -293,16 +293,16 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
                 if (selectedItemType == TYPE_FIRST) {
                     //投资牛人
+                    BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
+                } else {
+                    //不是投资牛人
                     if (checknum(et_num.getText().toString())) {
                         //验证通过
                         BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {
                         //验证没有通过
-                        PromptManager.showShortToast("请填写您的执业编号");
+                        PromptManager.showShortToast("请输入正确的执业编号");
                     }
-                } else {
-                    //不是投资牛人
-                    BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                 }
 
                 break;

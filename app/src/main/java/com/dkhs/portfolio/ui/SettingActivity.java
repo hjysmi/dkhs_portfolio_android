@@ -570,14 +570,18 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         pro = info.pro;
         if(pro == null || identity == null)
             return;
-        ((TextView) findViewById(R.id.tv_real_name_value)).setText(identity.real_name);
+        String name = identity.real_name;
+        if(!TextUtils.isEmpty(name)){
+            name = name.replace(name.substring(0, 1), "*");
+            ((TextView) findViewById(R.id.tv_real_name_value)).setText(name);
+        }
         ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_marsked);
         UserEntity user = GlobalParams.LOGIN_USER;
         if(user != null){
             String residence = user.getProvince() + " " + user.getCity();
             ((TextView) findViewById(R.id.tv_city_value)).setText(residence);
         }
-        ((TextView) findViewById(R.id.tv_verified_type_title)).setText(getVerifiedName(pro.verified_type));
+        ((TextView) findViewById(R.id.tv_verified_type_value)).setText(getVerifiedName(pro.verified_type));
         if (pro.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid()) {
             findViewById(R.id.setting_cert_no).setVisibility(View.GONE);
             findViewById(R.id.setting_organize).setVisibility(View.GONE);
@@ -587,6 +591,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         } else {
             ((TextView) findViewById(R.id.tv_cert_no_value)).setText(pro.cert_no);
             ((TextView) findViewById(R.id.tv_organize_value)).setText(pro.org_profile.name);
+            ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_marsked);
             findViewById(R.id.setting_cert_no).setVisibility(View.VISIBLE);
             findViewById(R.id.setting_organize).setVisibility(View.VISIBLE);
             findViewById(R.id.setting_material).setVisibility(View.GONE);
