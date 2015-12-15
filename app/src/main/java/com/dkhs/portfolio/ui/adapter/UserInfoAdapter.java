@@ -400,9 +400,11 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     settingImageHead.getImageView().setImageBitmap(b);
 
                 }
+                tvFollowers.setText(StringFromatUtils.handleNumber(GlobalParams.LOGIN_USER.getFollowed_by_count()));
+                tvFollowing.setText(StringFromatUtils.handleNumber(GlobalParams.LOGIN_USER.getFriends_count()));
 
-                UserEntity userEntity = UserEngineImpl.getUserEntity();
-                new UserEngineImpl().getBaseUserInfo(userEntity.getId() + "", userInfoListener);
+//                UserEntity userEntity = UserEngineImpl.getUserEntity();
+//                new UserEngineImpl().getBaseUserInfo(userEntity.getId() + "", userInfoListener);
             } else {
                 viewLogin.setVisibility(View.VISIBLE);
                 viewUserInfo.setVisibility(View.GONE);
