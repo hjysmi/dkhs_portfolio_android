@@ -64,6 +64,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private ProInfoBean proInfoBean_qualification;
     private ProInfoBean proInfoBean = new ProInfoBean();
     private List<MyActionSheetDialog.SheetItem> items = new ArrayList<MyActionSheetDialog.SheetItem>();
+    public static final String KEY_PERINFOBEAN = "key_perinfobean";
+
 
     @Override
     public int setContentLayoutId() {
@@ -86,7 +88,13 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
+        initValues();
         initEvents();
+    }
+
+    private void initValues() {
+        Bundle bundle = getArguments();
+        proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
     }
 
 
@@ -200,7 +208,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private void checkSubmit() {
         if (!TextUtils.isEmpty(clearEtInvalid(et_name)) && !TextUtils.isEmpty(clearEtInvalid(et_id))
                 && !TextUtils.isEmpty(clearTvInvalid(tv_city))
-                && !TextUtils.isEmpty(clearTvInvalid(tv_introduce)) && hasphotos
+                && hasphotos
                 && cb_agree.isChecked()) {
             btn_submit.setEnabled(true);
         } else {
@@ -275,43 +283,48 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
      * 上传信息
      */
     private void upInfo() {
-        ProInfoBean bean = buildProInfoBean();
-        System.out.println(">>>>");
+
     }
 
     private ProInfoBean buildProInfoBean() {
-        int verified_type = proInfoBean_qualification.verified_type;
-        //  verified_type 认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业资格 4, 期货投资咨询
-        proInfoBean.verified_type = verified_type;
-        switch (verified_type) {
-            case 0:
+        if (null != proInfoBean_qualification) {
+            ProInfoBean.Organize organize = new ProInfoBean.Organize();
+            int verified_type = proInfoBean_qualification.verified_type;
+            //  verified_type 认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业资格 4, 期货投资咨询
+            proInfoBean.verified_type = verified_type;
+            switch (verified_type) {
+                case 0:
 
-                break;
-            default:
-
-                proInfoBean.org_profile.id = proInfoBean_qualification.org_profile.id;
-
-                break;
+                    break;
+                default:
+                    organize.id = proInfoBean_qualification.org_profile.id;
+                    proInfoBean.org_profile = organize;
+                    break;
+            }
+            String city = clearTvInvalid(tv_city);
+            String[] split_city = city.split(" ", 2);
+            proInfoBean.id_card_no = clearEtInvalid(et_id);
+            proInfoBean.real_name = clearEtInvalid(et_name);
+            if (split_city.length == 1) {
+                proInfoBean.province = split_city[0];
+            } else if (split_city.length == 2) {
+                proInfoBean.province = split_city[0];
+                proInfoBean.city = split_city[1];
+            }
+            proInfoBean.cert_description = clearTvInvalid(tv_introduce);
+            proInfoBean.id_card_photo_full = mCurrentPhotoPath;
+            return proInfoBean;
+        } else {
+            return null;
         }
-        String city = clearTvInvalid(tv_city);
-        String[] split_city = city.split(" ", 2);
-        proInfoBean.id_card_no = clearEtInvalid(et_id);
-        proInfoBean.real_name = clearEtInvalid(et_name);
-        if (split_city.length == 1) {
-            proInfoBean.province = split_city[0];
-        } else if (split_city.length == 2) {
-            proInfoBean.province = split_city[0];
-            proInfoBean.city = split_city[1];
-        }
-        proInfoBean.cert_description = clearTvInvalid(tv_introduce);
-        proInfoBean.id_card_photo_full = mCurrentPhotoPath;
-        return proInfoBean;
+
     }
 
-    @Subscribe
-    public void getProInfoBean(ProInfoBean bean) {
-        proInfoBean_qualification = bean;
-    }
+    /*@Subscribe
+    public void getProInfoBean(QualificationToPersonalEvent bean) {
+
+        proInfoBean_qualification = bean.proInfoBean;
+    }*/
 
     //选择图片
     private void showPicDialog() {

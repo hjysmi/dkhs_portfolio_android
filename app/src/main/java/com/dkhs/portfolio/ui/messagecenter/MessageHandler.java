@@ -192,36 +192,24 @@ public class MessageHandler {
     private boolean gotoauthentication(String url) {
         Uri uri = Uri.parse(url);
         String verified_type = uri.getQueryParameter("verified_type");
-        String flag = uri.getQueryParameter("verified");
         Intent intent = new Intent(mContext, BetterRecruitActivity.class);
-        if (TextUtils.isEmpty(verified_type)) {
-            //非认证版块
-            return false;
-        } else {
-            //认证版块
-            Boolean isAuthentication = Boolean.valueOf(flag);
-            if (!isAuthentication) {
-                //未认证
-                switch (verified_type) {
-                    case "1":
-                        intent.putExtra("type", 1);
-                        mContext.startActivity(new Intent(mContext, BetterRecruitActivity.class));
-                        if (null != AdActivity.instance) {
-                            AdActivity.instance.finish();
-                        }
-                        break;
-                    case "0":
-                        intent.putExtra("type", 0);
-                        mContext.startActivity(new Intent(mContext, BetterRecruitActivity.class));
-                        if (null != AdActivity.instance) {
-                            AdActivity.instance.finish();
-                        }
-                        break;
-                    default:
-                        break;
+        switch (verified_type) {
+            case "1":
+                intent.putExtra("type", 1);
+                mContext.startActivity(intent);
+                if (null != AdActivity.instance) {
+                    AdActivity.instance.finish();
                 }
-                return true;
-            }
+                break;
+            case "0":
+                intent.putExtra("type", 0);
+                mContext.startActivity(intent);
+                if (null != AdActivity.instance) {
+                    AdActivity.instance.finish();
+                }
+                break;
+            default:
+                break;
         }
         return false;
     }

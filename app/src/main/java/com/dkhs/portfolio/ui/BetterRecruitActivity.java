@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.FrameLayout;
 import com.dkhs.portfolio.bean.PersonalEventBean;
+import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.PersonalFragment;
@@ -65,7 +67,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     private void initValues() {
         type = getIntent().getIntExtra("type", 0);
         tv_qualification.setTextColor(getResources().getColor(R.color.white));
-        showFragment(index1);
+        showFragment(index1, null);
     }
 
     private void initEvents() {
@@ -77,7 +79,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         tv_submit.setEnabled(false);
     }
 
-    private void showFragment(int i) {
+    private void showFragment(int i, ProInfoBean bean) {
         FragmentTransaction ft = fm.beginTransaction();
         hideFragment(ft);
 
@@ -97,6 +99,9 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
             case index2:
                 if (personalFragment == null) {
                     personalFragment = new PersonalFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(PersonalFragment.KEY_PERINFOBEAN, bean);
+                    personalFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, personalFragment);
                 } else {
                     ft.show(personalFragment);
@@ -129,11 +134,11 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         switch (v.getId()) {
             case R.id.tv_qualification:
                 ObjectAnimator.ofFloat(iv_jt, "translationX", 0).setDuration(200).start();
-                showFragment(index1);
+                showFragment(index1, null);
                 break;
             case R.id.tv_personal:
                 ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.375 * width)).setDuration(200).start();
-                showFragment(index2);
+                showFragment(index2, null);
                 break;
             case R.id.tv_submit:
                 //   showFragment(index3);
@@ -147,13 +152,13 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         ObjectAnimator.ofFloat(iv_jt, "translationX", 0, (int) (0.35 * width)).setDuration(200).start();
         tv_qualification.setEnabled(true);
         tv_personal.setEnabled(true);
-        showFragment(index2);
+        showFragment(index2, event.proInfoBean);
     }
 
     @Subscribe
     public void tosubmitFragment(PersonalEventBean event) {
         ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.7 * width)).setDuration(200).start();
-        showFragment(index3);
+        showFragment(index3, null);
         tv_qualification.setEnabled(false);
         tv_personal.setEnabled(false);
         tv_submit.setEnabled(false);

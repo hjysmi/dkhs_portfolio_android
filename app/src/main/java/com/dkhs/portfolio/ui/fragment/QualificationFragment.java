@@ -210,13 +210,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initValues() {
-        Bundle arguments = getArguments();
-        type = arguments.getInt("type");
-        if (type == 0) {
-            initFooterBetter();
-        } else if (type == 1) {
-            initFooterOther();
-        }
+
         list = new ArrayList<>();
         list_img = new ArrayList<>();
         list.add(new OrgtypeBean("投资牛人", TYPE_FIRST));
@@ -230,10 +224,23 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         list_img.add(R.drawable.ic_qualification_analyst);
         list_img.add(R.drawable.ic_qualification_investadvice);
         list_img.add(R.drawable.ic_qualification_fund);
+        Bundle arguments = getArguments();
+        type = arguments.getInt("type");
+        if (type == 0) {
+            tv_type.setText(list.get(0).getOrgName());
+            selectedItemType = 0;
+            initFooterBetter();
+        } else if (type == 1) {
+            tv_type.setText(list.get(1).getOrgName());
+            selectedItemType = 1;
+            initFooterOther();
+        }
+
+
         adapter = new QualificationAdapter(getActivity(), list);
         adapter.setSelectedPosition(type);
         gv.setAdapter(adapter);
-        tv_type.setText(list.get(0).getOrgName());
+
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -287,16 +294,14 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                     //投资牛人
                     if (checknum(et_num.getText().toString())) {
                         //验证通过
-
-
-                        BusProvider.getInstance().post(setProInfoBean());
-                        BusProvider.getInstance().post(new QualificationToPersonalEvent());
+                        BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {
                         //验证没有通过
                         PromptManager.showShortToast("请填写您的执业编号");
                     }
                 } else {
-                    BusProvider.getInstance().post(new QualificationToPersonalEvent());
+                    //不是投资牛人
+                    BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                 }
 
                 break;
@@ -310,6 +315,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
     private ProInfoBean setProInfoBean() {
         ProInfoBean bean = new ProInfoBean();
+        ProInfoBean.Organize organizeBean = new ProInfoBean.Organize();
         //  verified_type 认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业资格 4, 期货投资咨询
         switch (selectedItemType) {
             case 0:
@@ -319,12 +325,11 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             default:
                 bean.verified_type = selectedItemType;
                 bean.cert_no = et_num.getText().toString().trim();
-                bean.org_profile.id = org_id;
+                organizeBean.id = org_id;
+                bean.org_profile = organizeBean;
                 break;
         }
-
-
-        return null;
+        return bean;
     }
 
     private void initAnimation() {
