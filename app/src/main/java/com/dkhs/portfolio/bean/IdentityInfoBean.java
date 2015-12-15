@@ -5,7 +5,7 @@ package com.dkhs.portfolio.bean;
  */
 public class IdentityInfoBean {
     public String real_name;
-    public String id_card_no_marsked;
+    public String id_card_no_masked;
     public int status;
     public String status_note;
 
