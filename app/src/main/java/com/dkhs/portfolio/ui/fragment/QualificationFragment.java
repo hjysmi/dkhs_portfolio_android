@@ -224,21 +224,22 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         list_img.add(R.drawable.ic_qualification_analyst);
         list_img.add(R.drawable.ic_qualification_investadvice);
         list_img.add(R.drawable.ic_qualification_fund);
+        adapter = new QualificationAdapter(getActivity(), list);
         Bundle arguments = getArguments();
         type = arguments.getInt("type");
+
         if (type == 0) {
             tv_type.setText(list.get(0).getOrgName());
             selectedItemType = 0;
+            adapter.setSelectedPosition(0);
             initFooterBetter();
-        } else if (type == 1) {
+        } else {
             tv_type.setText(list.get(1).getOrgName());
             selectedItemType = 1;
+            adapter.setSelectedPosition(1);
             initFooterOther();
         }
 
-
-        adapter = new QualificationAdapter(getActivity(), list);
-        adapter.setSelectedPosition(type);
         gv.setAdapter(adapter);
 
 

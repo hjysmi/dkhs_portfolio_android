@@ -42,7 +42,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     private static final int index1 = 1;
     private static final int index2 = 2;
     private static final int index3 = 3;
-    private int type = 0;
+    private int type_qua = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -68,7 +68,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     }
 
     private void initValues() {
-        type = getIntent().getIntExtra("type", 0);
+        type_qua = getIntent().getIntExtra("type", 0);
         tv_qualification.setTextColor(getResources().getColor(R.color.white));
         showFragment(index1,null,-1);
     }
@@ -91,7 +91,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                 if (qualificationFragment == null) {
                     qualificationFragment = new QualificationFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("type", type);
+                    bundle.putInt("type", type_qua);
                     qualificationFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, qualificationFragment);
                 } else {
@@ -161,7 +161,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     @Subscribe
     public void tosubmitFragment(PersonalEventBean event) {
         ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.7 * width)).setDuration(200).start();
-        showFragment(index3,null,event.verified_status);
+        showFragment(index3, null, event.verified_status);
         tv_qualification.setEnabled(false);
         tv_personal.setEnabled(false);
         tv_submit.setEnabled(false);
