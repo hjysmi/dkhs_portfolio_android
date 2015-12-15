@@ -66,7 +66,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
     public static final String KEY_PROVERIFICATIONBEAN = "key_proverificationbean";
     public static final String KEY_AUTHFAIL = "key_authfail";
-    private boolean is_authfail = false;
     private ProVerificationBean verificationBean;
 
     private ImageView iv_right;
@@ -146,19 +145,24 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
         String msg = TextUtils.isEmpty(info.pro.status_note) ? "" : info.pro.status_note + (TextUtils.isEmpty(info.identity.status_note) ? "" : "\n" + info.identity.status_note);
         setDialog(msg);
-        if (!TextUtils.isEmpty(info.pro.cert_description)) {
-            et_content.setText(info.pro.cert_description);
-        }
-        if (!TextUtils.isEmpty(info.pro.cert_no)) {
-            et_num.setText(info.pro.cert_no);
-        }
-        if (null != info.pro.org_profile) {
-            if (!TextUtils.isEmpty(info.pro.org_profile.name)) {
-                tv_organization.setText(info.pro.org_profile.name);
+        if (type == 0) {
+            if (!TextUtils.isEmpty(info.pro.cert_description)) {
+                et_content.setText(info.pro.cert_description);
             }
-            et_num.setText(info.pro.cert_no);
+        } else {
+            if (!TextUtils.isEmpty(info.pro.cert_no)) {
+                et_num.setText(info.pro.cert_no);
+            }
+            if (null != info.pro.org_profile) {
+                if (!TextUtils.isEmpty(info.pro.org_profile.name)) {
+                    tv_organization.setText(info.pro.org_profile.name);
+                }
+                //    et_num.setText(info.pro.cert_no);
+            }
+            if(info.pro.org_profile != null)
+                org_id = info.pro.org_profile.id;
         }
-        //    BusProvider.getInstance().post(new AuthFailEventBean());
+
     }
 
     private void setDialog(String content) {
@@ -298,10 +302,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         Bundle arguments = getArguments();
         type = arguments.getInt("type");
         verificationBean = Parcels.unwrap(arguments.getParcelable(KEY_PROVERIFICATIONBEAN));
-        is_authfail = arguments.getBoolean(KEY_AUTHFAIL);
-        if (is_authfail) {
-            org_id = verificationBean.pro.org_profile.id;
-        }
         if (type == 0) {
             tv_type.setText(list.get(0).getOrgName());
             selectedItemType = 0;

@@ -100,7 +100,6 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                     bundle.putInt("type", type_qua);
                     if(verificationBean != null){
                         bundle.putParcelable(QualificationFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
-                        bundle.putBoolean(QualificationFragment.KEY_AUTHFAIL, true);
                     }
                     qualificationFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, qualificationFragment);
@@ -118,7 +117,6 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                     bundle.putParcelable(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
                     if(verificationBean != null){
                         bundle.putParcelable(PersonalFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
-                        bundle.putBoolean(QualificationFragment.KEY_AUTHFAIL, true);
                     }
                     personalFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, personalFragment);

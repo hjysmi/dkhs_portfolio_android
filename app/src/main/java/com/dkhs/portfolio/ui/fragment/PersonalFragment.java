@@ -51,7 +51,6 @@ import java.util.regex.Pattern;
  * Created by xuetong on 2015/12/7.
  */
 public class PersonalFragment extends BaseFragment implements View.OnClickListener {
-    private boolean is_authfail = false;
     private TextView rlt_agreement;
     private PercentFrameLayout fm_city;
     private PercentFrameLayout fm_introduce;
@@ -107,8 +106,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
         proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
         verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
-        is_authfail = getArguments().getBoolean(QualificationFragment.KEY_AUTHFAIL);
     }
+
 
 
     private void initView(View view) {
@@ -150,10 +149,6 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         if (!TextUtils.isEmpty(info.identity.real_name)) {
             et_name.setText(info.identity.real_name);
         }
-        if (!TextUtils.isEmpty(info.identity.id_card_no_marsked)) {
-            et_id.setText(info.identity.id_card_no_marsked);
-        }
-
         if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getProvince())) {
             tv_city.setText(GlobalParams.LOGIN_USER.getProvince() +(TextUtils.isEmpty(GlobalParams.LOGIN_USER.getCity())?"":" "+GlobalParams.LOGIN_USER.getCity()));
         }

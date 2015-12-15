@@ -44,6 +44,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -239,7 +240,6 @@ public class MessageHandler {
             default:
                 break;
         }
-        return false;
     }
 
     private void gotoCallMeActivity() {
