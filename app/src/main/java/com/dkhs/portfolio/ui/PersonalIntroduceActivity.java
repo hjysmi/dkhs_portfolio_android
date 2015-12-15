@@ -1,8 +1,10 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,8 @@ import android.widget.EditText;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 
 /**
@@ -44,13 +48,15 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         et_content.addTextChangedListener(et_content_textwatcher);
     }
 
+    private String content;
+
     private void initValues() {
         Intent intent = getIntent();
         if (null != intent) {
-            String s = intent.getStringExtra(RESULT_CONTENT);
-            if (s.length() >= 0) {
+            content = intent.getStringExtra(RESULT_CONTENT);
+            if (content.length() >= 0) {
                 but_next.setEnabled(true);
-                et_content.setText(s);
+                et_content.setText(content);
             } else {
                 but_next.setEnabled(false);
             }
@@ -95,6 +101,56 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
                 BusProvider.getInstance().post(new PersonalQualificationEventBean(et_content.getText().toString().trim()));
                 finish();
                 break;
+            case BACKBUTTON_ID:
+                needShowSaveDialog();
+                break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!needShowSaveDialog()){
+            super.onBackPressed();
+        }
+    }
+
+    private boolean needShowSaveDialog() {
+        String newContent = et_content.getText().toString().trim();
+        if(TextUtils.isEmpty(newContent)){
+            return false;
+        }else{
+            if(TextUtils.isEmpty(content) || !newContent.equals(content)){
+                showSaveDialog(newContent);
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private void showSaveDialog(final String newContent) {
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+
+        builder.setMessage(R.string.dialog_msg_save_introduce)
+                .setNegativeButton(R.string.notsave, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+
+                    }
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                BusProvider.getInstance().post(new PersonalQualificationEventBean(newContent));
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+
+
+        builder.show();
     }
 }
