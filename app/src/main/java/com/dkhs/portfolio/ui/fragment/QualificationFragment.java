@@ -302,7 +302,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                         BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {
                         //验证没有通过
-                        PromptManager.showShortToast("请填写您的执业编号");
+                        PromptManager.showShortToast("请输入正确的执业编号");
                     }
                 }
 
