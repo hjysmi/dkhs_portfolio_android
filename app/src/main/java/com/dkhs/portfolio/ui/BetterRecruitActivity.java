@@ -174,10 +174,13 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         if (PortfolioApplication.hasUserLogin()) {
             UserEntity user = GlobalParams.LOGIN_USER;
             boolean verified = user.verified;
+            if(!verified){
+                return;
+            }
             int verified_status = user.verified_status;//0, '审核中' 1, '已认证' 2, '审核失败'
-            if (verified_status == UserEntity.VERIFIEDSTATUS.VERIFYING.getTypeid()){//第三界面
+            if (verified_status == UserEntity.VERIFIEDSTATUS.VERIFYING.getTypeid()){//认证中
                 BusProvider.getInstance().post(new PersonalEventBean(UserEntity.VERIFIEDSTATUS.VERIFYING.getTypeid()));
-            } else if (verified) {//第三界面
+            } else if (verified_status == UserEntity.VERIFIEDSTATUS.SUCCESS.getTypeid()) {//认证成功
                 BusProvider.getInstance().post(new PersonalEventBean(UserEntity.VERIFIEDSTATUS.SUCCESS.getTypeid()));
             }
         }
