@@ -296,12 +296,13 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                     BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                 } else {
                     //不是投资牛人
+
                     if (checknum(et_num.getText().toString())) {
                         //验证通过
                         BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {
                         //验证没有通过
-                        PromptManager.showShortToast("请输入正确的执业编号");
+                        PromptManager.showShortToast("请填写您的执业编号");
                     }
                 }
 
@@ -320,8 +321,10 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         //  verified_type 认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业资格 4, 期货投资咨询
         switch (selectedItemType) {
             case 0:
+                mSelectPohotos.remove(ADD_PICTURE);
                 bean.verified_type = selectedItemType;
-
+                bean.photos = mSelectPohotos;
+                bean.cert_description = et_content.getText().toString().trim();
                 break;
             default:
                 bean.verified_type = selectedItemType;
