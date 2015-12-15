@@ -201,7 +201,16 @@ public class UserFragment extends BaseTitleFragment {
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL, entity.getAvatar_md());
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED, entity.verified);
-                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, entity.verified_type);
+                if (null == entity.verified_type) {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, -1);
+                } else {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, entity.verified_type);
+                }
+                if(null==entity.verified_status){
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, -1);
+                }else{
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, entity.verified_status);
+                }
                 mInfoAdatper.notifyItemChanged(0);
             }
         }
