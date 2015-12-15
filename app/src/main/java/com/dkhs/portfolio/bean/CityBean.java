@@ -12,7 +12,7 @@ public class CityBean {
     public static final String TYPE = "type";
     public static final String PARENT_CODE = "parent_code";
     public static final String PINYIN = "pinyin";
-    private static final String MUNICIPALITY = "北京，上海，重庆，天津";
+    private static final String MUNICIPALITY = "北京，上海，重庆，天津,香港，澳门";
     public String id;
     //判断省或者市
     public String type;
