@@ -339,4 +339,17 @@ public class UserEntity {
             return NORMAL;
         }
     }
+
+    public enum VERIFIEDSTATUS {
+        VERIFYING(0),
+        SUCCESS(1),
+        FAIL(2);
+        VERIFIEDSTATUS(int type) {
+            this.typeid = type;
+        }
+        private int typeid;
+        public int getTypeid(){
+            return typeid;
+        }
+    }
 }
