@@ -9,13 +9,18 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.BetterRecruitActivity;
 import com.dkhs.portfolio.ui.CallMeActivity;
@@ -31,6 +36,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.fragment.MarketSubpageFragment;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -38,6 +44,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,26 +196,50 @@ public class MessageHandler {
     /**
      * @param url
      */
-    private boolean gotoauthentication(String url) {
-        if (UIUtils.iStartLoginActivity(mContext)){
-            return false;
+    private void gotoauthentication(String url) {
+        if (!UIUtils.iStartLoginActivity(mContext)) {
+            int verified_status = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS);
+            if (2 == verified_status) {
+                loadOnLineData(url);
+            }else{
+                goBetterRecruitActivity(url,null);
+            }
         }
+    }
+
+    private void loadOnLineData(final String url) {
+        DKHSClient.requestByGet(new ParseHttpListener<ProVerificationBean>() {
+            @Override
+            protected ProVerificationBean parseDateTask(String jsonData) {
+                return DataParse.parseObjectJson(ProVerificationBean.class, jsonData);
+            }
+
+            @Override
+            protected void afterParseData(ProVerificationBean bean) {
+                //  updateProVerificationInfo(bean);
+                goBetterRecruitActivity(url,bean);
+            }
+        }.setLoadingDialog(PortfolioApplication.getInstance()), DKHSUrl.User.get_pro_verification);
+    }
+
+    private void goBetterRecruitActivity(String url,ProVerificationBean bean){
         Uri uri = Uri.parse(url);
         String verified_type = uri.getQueryParameter("verified_type");
         Intent intent = new Intent(mContext, BetterRecruitActivity.class);
         switch (verified_type) {
             case "1":
                 intent.putExtra("type", 1);
+                intent.putExtra("proverification_bean", Parcels.wrap(bean));
                 mContext.startActivity(intent);
                 break;
             case "0":
                 intent.putExtra("type", 0);
+                intent.putExtra("proverification_bean", Parcels.wrap(bean));
                 mContext.startActivity(intent);
                 break;
             default:
                 break;
         }
-        return false;
     }
 
     private void gotoCallMeActivity() {

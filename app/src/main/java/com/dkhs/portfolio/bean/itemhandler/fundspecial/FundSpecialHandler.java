@@ -2,7 +2,6 @@ package com.dkhs.portfolio.bean.itemhandler.fundspecial;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,16 +11,11 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.RecommendFundSpecialLineBean;
-import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.UIUtils;
-
-import org.parceler.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

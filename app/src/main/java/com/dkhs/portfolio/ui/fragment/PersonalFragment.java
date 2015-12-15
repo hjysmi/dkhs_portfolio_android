@@ -21,6 +21,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.bean.ProVerificationBean;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.service.AuthenticationService;
 import com.dkhs.portfolio.ui.AdActivity;
@@ -69,7 +71,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private ProInfoBean proInfoBean = new ProInfoBean();
     private List<MyActionSheetDialog.SheetItem> items = new ArrayList<MyActionSheetDialog.SheetItem>();
     public static final String KEY_PERINFOBEAN = "key_perinfobean";
-
+    public static final String KEY_PROVERIFICATIONBEAN = "key_proverificationbean";
+    private ProVerificationBean verificationBean;
 
     @Override
     public int setContentLayoutId() {
@@ -94,14 +97,18 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         initView(view);
         initValues();
         initEvents();
+        if (verificationBean != null) {
+            updateProVerificationInfo(verificationBean);
+        }
     }
 
     private void initValues() {
-        Bundle bundle = getArguments();
-        //   proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
-        proInfoBean_qualification = Parcels.unwrap(bundle.getParcelable(KEY_PERINFOBEAN));
-        //  proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
+      //  Bundle bundle = getArguments();
+
+        proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
+        verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
     }
+
 
 
     private void initView(View view) {
@@ -136,6 +143,20 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 checkSubmit();
             }
         });
+    }
+
+    private void updateProVerificationInfo(ProVerificationBean info) {
+
+        if (!TextUtils.isEmpty(info.identity.real_name)) {
+            et_name.setText(info.identity.real_name);
+        }
+        if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getProvince())) {
+            tv_city.setText(GlobalParams.LOGIN_USER.getProvince() +(TextUtils.isEmpty(GlobalParams.LOGIN_USER.getCity())?"":" "+GlobalParams.LOGIN_USER.getCity()));
+        }
+        if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getDescription())) {
+            tv_introduce.setText(GlobalParams.LOGIN_USER.getDescription());
+        }
+        //    BusProvider.getInstance().post(new AuthFailEventBean());
     }
 
     TextWatcher et_id_textwatcher = new TextWatcher() {
@@ -246,8 +267,6 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             case R.id.rlt_agreement:
                 Intent intent = AdActivity.getIntent(getActivity(), DKHSClient.getAbsoluteUrl(getResources().getString(R.string.verify_agreement_url)));
                 startActivity(intent);
-//                Intent it = AgreementTextActivity.getIntent(getActivity(),"谁牛金融投顾使用协议",getResources().getString(R.string.verify_agreement_url));
-//                startActivity(it);
                 break;
             case R.id.fm_introduce:
                 Intent intent_introduce = new Intent(getActivity(), PersonalIntroduceActivity.class);

@@ -42,7 +42,7 @@ public class MAlertDialog {
     private final View bottomPanel;
     protected Context context;
     private int mDuration = 500;
-
+    RelativeLayout title_template;
 
     private Dialog dialog;
 
@@ -53,7 +53,7 @@ public class MAlertDialog {
         View root = LayoutInflater.from(context).inflate(R.layout.layout_dialog, null);
 
         alertTitle = (TextView) root.findViewById(R.id.alertTitle);
-        RelativeLayout title_template = (RelativeLayout) root.findViewById(R.id.title_template);
+        title_template = (RelativeLayout) root.findViewById(R.id.title_template);
 //        View titleDivider = (View) root.findViewById(R.id.titleDivider);
         topPanel = (LinearLayout) root.findViewById(R.id.topPanel);
         bottomPanel = (LinearLayout) root.findViewById(R.id.bottomPanel);
@@ -93,6 +93,16 @@ public class MAlertDialog {
     public MAlertDialog setCancelable(boolean flag) {
         dialog.setCancelable(flag);
         return this;
+    }
+
+    public void hideTitle() {
+        title_template.setVisibility(View.GONE);
+    }
+    public void hideBottom() {
+        bottomPanel.setVisibility(View.GONE);
+    }
+    public void hideMessage() {
+        message.setVisibility(View.GONE);
     }
 
     private void start(Effectstype type) {
