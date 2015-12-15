@@ -73,14 +73,14 @@ public class UserEntity {
 
     boolean me_follow;
 
-    public boolean verified;
-    public int verified_type;
+    public boolean verified = false;
+    public int verified_type = -1;
     public String verified_reason;
     /*"verified": true, #是否认证用户
     "verified_type": 1, #认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业 4, 期货执业
     "verified_status": 1, #认证审核状态 0, '审核中' 1, '已认证' 2, '审核失败'
             "verified_reason": "兴业证券 投资顾问 aaa", #认证原因*/
-    public int verified_status;
+    public int verified_status = -1;
     public UserEntity() { /*Required empty bean constructor*/ }
 
     int portfolios_following_count;
