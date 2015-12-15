@@ -297,12 +297,12 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 } else {
                     //不是投资牛人
 
-                    if (checknum(et_num.getText().toString())) {
+                    if (!TextUtils.isEmpty(et_num.getText().toString())) {
                         //验证通过
                         BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {
                         //验证没有通过
-                        PromptManager.showShortToast("请输入正确的执业编号");
+                        PromptManager.showShortToast(R.string.prompt_cert_no);
                     }
                 }
 

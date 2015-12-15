@@ -924,4 +924,5 @@
     <string name="verified_type_fund_certificate">基金执业</string>
     <string name="verified_type_futures_certificate">期货执业</string>
     <string name="btn_verified_status_ok">我知道了</string>
+    <string name="prompt_cert_no">请填写您的执业编号</string>
 </resources>
