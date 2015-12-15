@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
@@ -82,6 +83,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private TextView tvPreNetvalue;
     private TextView tvAllNetvalue;
     private TextView mDelistingTV;
+    @ViewInject(R.id.swipeRefreshLayout)
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     private TextView btnRefresh;
@@ -212,7 +215,13 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
 //
 //        mChangeFollowView = new ChangeFollowView(this);
-
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestData();
+            }
+        });
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.theme_blue);
     }
 
     HScrollTitleView.ISelectPostionListener titleSelectPostion = new HScrollTitleView.ISelectPostionListener() {
@@ -429,7 +438,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 
         @Override
         protected void afterParseData(FundQuoteBean object) {
-
+            mSwipeRefreshLayout.setRefreshing(false);
             stopRefreshAnimation();
             if (null != object) {
                 mFundQuoteBean = object;
