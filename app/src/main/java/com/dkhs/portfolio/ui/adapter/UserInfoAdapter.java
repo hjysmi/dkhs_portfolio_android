@@ -377,6 +377,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 int verified_status = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS);
                 settingTextNameText.setText(PortfolioPreferenceManager
                         .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+
                 setVerifiedStatus(verified_status);
                 boolean isVerified = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.KEY_VERIFIED);
                 int verifiedType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE);
@@ -421,12 +422,15 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private void setVerifiedStatus(int verified_status) {
 
             switch (verified_status) {
+                case -1:
+                    iv_verified_status.setBackgroundResource(R.drawable.ic_user_betterrecruit);
+                    break;
                 case 0:
                     iv_verified_status.setBackgroundResource(R.drawable.ic_user_audit);
                     break;
                 case 1:
-                    iv_verified_status.setBackgroundResource(R.drawable.ic_user_betterrecruit);
-
+                    //  iv_verified_status.setBackgroundResource(R.drawable.ic_user_betterrecruit);
+                    iv_verified_status.setVisibility(View.GONE);
                     break;
                 case 2:
                     iv_verified_status.setBackgroundResource(R.drawable.ic_user_false);

@@ -21,6 +21,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.service.AuthenticationService;
 import com.dkhs.portfolio.ui.AgreementTextActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
 import com.dkhs.portfolio.ui.city.SelectProviceActivity;
@@ -31,6 +32,8 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
@@ -94,7 +97,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     private void initValues() {
         Bundle bundle = getArguments();
-        proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
+        //   proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
+        proInfoBean_qualification = Parcels.unwrap(bundle.getParcelable(KEY_PERINFOBEAN));
+        //  proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
     }
 
 
@@ -263,7 +268,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                     if (checkIdentityCard(clearEtInvalid(et_id))) {
                         //身份证匹配
                         upInfo();
-                        BusProvider.getInstance().post(new PersonalEventBean());
+
                     } else {
                         //身份证不匹配
                         PromptManager.showShortToast("请填写正确的身份证号");
@@ -283,8 +288,16 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
      * 上传信息
      */
     private void upInfo() {
-
+        BusProvider.getInstance().post(new PersonalEventBean());
+        // PromptManager.showProgressDialog(getActivity(), "", false);
+        AuthenticationService.startPost(getActivity(), buildProInfoBean());
     }
+
+    /*@Subscribe
+    public void postFail(SendPersonalEvent event) {
+        PromptManager.closeProgressDialog();
+        BusProvider.getInstance().post(new PersonalEventBean());
+    }*/
 
     private ProInfoBean buildProInfoBean() {
         if (null != proInfoBean_qualification) {
@@ -294,11 +307,13 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             proInfoBean.verified_type = verified_type;
             switch (verified_type) {
                 case 0:
-
+                    proInfoBean.photos = proInfoBean_qualification.photos;
+                    proInfoBean.cert_description = proInfoBean_qualification.cert_description;
                     break;
                 default:
                     organize.id = proInfoBean_qualification.org_profile.id;
                     proInfoBean.org_profile = organize;
+                    proInfoBean.cert_no = proInfoBean_qualification.cert_no;
                     break;
             }
             String city = clearTvInvalid(tv_city);
@@ -313,6 +328,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             }
             proInfoBean.cert_description = clearTvInvalid(tv_introduce);
             proInfoBean.id_card_photo_full = mCurrentPhotoPath;
+
             return proInfoBean;
         } else {
             return null;
@@ -413,6 +429,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 iv_upimg.setVisibility(View.VISIBLE);
                 iv_upimg.setImageBitmap(UIUtils.getLocaleimage(photos.get(0)));
                 btn_update.setText("修改");
+                mCurrentPhotoPath = photos.get(0);
                 tv_upimgintroduce.setVisibility(View.GONE);
                 iv_upbg.setVisibility(View.GONE);
                 hasphotos = true;
@@ -424,7 +441,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     private void takePhotoBack() {
 
-        if (TextUtils.isEmpty(mCurrentPhotoPath)) {
+        if (!TextUtils.isEmpty(mCurrentPhotoPath)) {
             iv_upimg.setVisibility(View.VISIBLE);
             iv_upimg.setImageBitmap(UIUtils.getLocaleimage(mCurrentPhotoPath));
             btn_update.setText("修改");

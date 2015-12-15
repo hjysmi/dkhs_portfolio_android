@@ -756,6 +756,7 @@
     <string name="hint_content">写点观点...</string>
     <string name="pls_instore_sdcard">请先安装好sd卡</string>
     <string name="dialog_msg_save_draft">是否保存草稿</string>
+    <string name="dialog_msg_save_introduce">是否保存</string>
     <string name="msg_send_topic_fail">内容发送失败，已存入草稿箱</string>
     <string name="notsave">不保存</string>
     <string name="save">保存</string>
