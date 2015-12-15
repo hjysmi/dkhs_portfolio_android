@@ -23,8 +23,9 @@ import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.service.AuthenticationService;
-import com.dkhs.portfolio.ui.AgreementTextActivity;
+import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
 import com.dkhs.portfolio.ui.city.SelectProviceActivity;
 import com.dkhs.portfolio.ui.eventbus.BackCityEvent;
@@ -264,7 +265,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlt_agreement:
-                Intent intent = new Intent(getActivity(), AgreementTextActivity.class);
+                Intent intent = AdActivity.getIntent(getActivity(), DKHSClient.getAbsoluteUrl(getResources().getString(R.string.verify_agreement_url)));
                 startActivity(intent);
                 break;
             case R.id.fm_introduce:
