@@ -84,7 +84,7 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
             SortModel sortModel;
             for (int i = 0; i < object.size(); i++) {
                 sortModel = new SortModel();
-
+                sortModel.setId(object.get(i).getId());
                 sortModel.setName(object.get(i).getName());
                 //汉字转换成拼音
                 String pinyin = object.get(i).getChi_spell_all();
@@ -108,7 +108,7 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
         lv_organization.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BusProvider.getInstance().post(new OrganizationEventBean(SourceDateList.get(position).getName()));
+                BusProvider.getInstance().post(new OrganizationEventBean(SourceDateList.get(position).getId(),SourceDateList.get(position).getName()));
                 finish();
                 UIUtils.outAnimationActivity(OrganizationActivity.this);
 

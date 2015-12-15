@@ -32,6 +32,7 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OrganizationEventBean;
 import com.dkhs.portfolio.bean.OrgtypeBean;
+import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.bean.QualificationEventBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
 import com.dkhs.portfolio.ui.OrganizationActivity;
@@ -60,6 +61,7 @@ import java.util.regex.Pattern;
 public class QualificationFragment extends BaseFragment implements View.OnClickListener, SelectQualificationAdapter.IDeletePicListenr {
     private ImageView iv_right;
     private EditText et_content;
+    private Integer org_id = 0;
     //private GridViewWithHeaderAndFooter gv;
     private GridViewEx gv;
     private List<OrgtypeBean> list;
@@ -208,13 +210,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initValues() {
-        Bundle arguments = getArguments();
-        type = arguments.getInt("type");
-        if (type == 0) {
-            initFooterBetter();
-        } else if (type == 1) {
-            initFooterOther();
-        }
+
         list = new ArrayList<>();
         list_img = new ArrayList<>();
         list.add(new OrgtypeBean("投资牛人", TYPE_FIRST));
@@ -229,9 +225,23 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         list_img.add(R.drawable.ic_qualification_investadvice);
         list_img.add(R.drawable.ic_qualification_fund);
         adapter = new QualificationAdapter(getActivity(), list);
-        adapter.setSelectedPosition(type);
+        Bundle arguments = getArguments();
+        type = arguments.getInt("type");
+
+        if (type == 0) {
+            tv_type.setText(list.get(0).getOrgName());
+            selectedItemType = 0;
+            adapter.setSelectedPosition(0);
+            initFooterBetter();
+        } else {
+            tv_type.setText(list.get(1).getOrgName());
+            selectedItemType = 1;
+            adapter.setSelectedPosition(1);
+            initFooterOther();
+        }
+
         gv.setAdapter(adapter);
-        tv_type.setText(list.get(0).getOrgName());
+
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -285,13 +295,14 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                     //投资牛人
                     if (checknum(et_num.getText().toString())) {
                         //验证通过
-                        BusProvider.getInstance().post(new QualificationToPersonalEvent());
+                        BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {
                         //验证没有通过
                         PromptManager.showShortToast("请填写您的执业编号");
                     }
                 } else {
-                    BusProvider.getInstance().post(new QualificationToPersonalEvent());
+                    //不是投资牛人
+                    BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                 }
 
                 break;
@@ -301,6 +312,25 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 UIUtils.startAnimationActivity(getActivity(), intent);
                 break;
         }
+    }
+
+    private ProInfoBean setProInfoBean() {
+        ProInfoBean bean = new ProInfoBean();
+        ProInfoBean.Organize organizeBean = new ProInfoBean.Organize();
+        //  verified_type 认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业资格 4, 期货投资咨询
+        switch (selectedItemType) {
+            case 0:
+                bean.verified_type = selectedItemType;
+
+                break;
+            default:
+                bean.verified_type = selectedItemType;
+                bean.cert_no = et_num.getText().toString().trim();
+                organizeBean.id = org_id;
+                bean.org_profile = organizeBean;
+                break;
+        }
+        return bean;
     }
 
     private void initAnimation() {
@@ -397,6 +427,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         if (null != bean.name) {
             tv_organization.setText(bean.name);
             // String str = s.toString().trim();
+            org_id = bean.id;
             if (et_num.length() > 0 && !TextUtils.isEmpty(bean.name)) {
                 but_next.setEnabled(true);
             }

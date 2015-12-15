@@ -384,4 +384,11 @@ public class DKHSUrl {
         //所属机构
         String Org_profiles_list = "/api/v1/accounts/org_profiles/";
     }
+
+    /**
+     * 牛人认证
+     */
+    public interface Pro_verfications{
+        String pro_verfications_url = "/api/v1/accounts/pro_verfications/";
+    }
 }
