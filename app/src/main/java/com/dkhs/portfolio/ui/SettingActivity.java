@@ -572,7 +572,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             return;
         String name = identity.real_name;
         if(!TextUtils.isEmpty(name)){
-            name = name.replace(name.substring(0, 1), "*");
+//            name = name.replace(name.substring(0, 1), "*");
             ((TextView) findViewById(R.id.tv_real_name_value)).setText(name);
         }
         ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_masked);
