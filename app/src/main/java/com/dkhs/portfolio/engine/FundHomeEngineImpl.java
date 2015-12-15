@@ -11,7 +11,12 @@ import com.lidroid.xutils.http.client.HttpRequest;
  */
 public class FundHomeEngineImpl {
     public void getMarketInfo(IHttpListener listener){
-        DKHSClient.requestByGet(listener,DKHSUrl.StockSymbol.quotes,"SH000001,SZ399001,SZ399006");
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("exchange", "1,2");
+        params.addQueryStringParameter("page_size", "3");
+        params.addQueryStringParameter("symbol_type", "5");
+        params.addQueryStringParameter("is_midx", "1");
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, listener);
     }
     public void getRecommendBanners(IHttpListener listener){
         RequestParams params = new RequestParams();
