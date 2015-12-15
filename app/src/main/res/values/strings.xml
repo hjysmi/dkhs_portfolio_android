@@ -877,7 +877,7 @@
     <string name="weixinpay_not_support">所安装的微信客户端不支持支付</string>
     <string name="weixin_not_installed">未安装微信客户端</string>
 
-    <string name="reward_content_hint">请输入悬赏内容</string>
+    <string name="reward_content_hint">请输入悬赏内容或选择一张图片</string>
     <string name="reward_amount_hint">请输入悬赏金额</string>
 
     <!--register-->
@@ -923,4 +923,6 @@
     <string name="verified_type_analyst">分析师</string>
     <string name="verified_type_fund_certificate">基金执业</string>
     <string name="verified_type_futures_certificate">期货执业</string>
+    <string name="btn_verified_status_ok">我知道了</string>
+    <string name="prompt_cert_no">请填写您的执业编号</string>
 </resources>

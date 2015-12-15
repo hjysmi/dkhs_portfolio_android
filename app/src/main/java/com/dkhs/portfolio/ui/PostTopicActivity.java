@@ -1050,8 +1050,10 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
             return false;
         }
         if(TextUtils.isEmpty(content)){
-            PromptManager.showToast(R.string.reward_content_hint);
-            return false;
+            if(mSelectPohotos.size() < 2){
+                PromptManager.showToast(R.string.reward_content_hint);
+                return false;
+            }
         }
         return true;
     }

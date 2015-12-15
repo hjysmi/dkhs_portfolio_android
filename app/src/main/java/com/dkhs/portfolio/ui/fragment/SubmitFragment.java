@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
@@ -14,6 +15,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 public class SubmitFragment extends BaseFragment {
     private final static String EXTRA_STATUS = "extra_status";
     private int verifiedStatus;
+    private Button okBtn;
     @Override
     public int setContentLayoutId() {
         return R.layout.fragment_submit;
@@ -37,5 +39,11 @@ public class SubmitFragment extends BaseFragment {
         }else{
             statusIv.setBackgroundResource(R.drawable.ic_betterrecruit_complete);
         }
+        view.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
     }
 }

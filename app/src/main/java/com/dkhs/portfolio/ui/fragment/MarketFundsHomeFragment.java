@@ -155,8 +155,13 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             String mainValueJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_MAIN_VALUE_JSON);
             if (!TextUtils.isEmpty(mainValueJson)) {
                 mainValueJson = StringDecodeUtil.decodeUnicode(mainValueJson);
+                JSONObject jsonObject = new JSONObject(mainValueJson);
+                JSONArray results = jsonObject.getJSONArray("results");
                 mainValue.clear();
-                mainValue.addAll(DataParse.parseArrayJson(StockQuotesBean.class, mainValueJson));
+                mainValue.addAll(DataParse.parseArrayJson(StockQuotesBean.class, results));
+                if(mainValue.size() > 0){
+                    mainValue.get(0).setTrade_status(jsonObject.getString("trade_status"));
+                }
             }
             String specialBannersJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_BANNERS_JSON);
             if (!TextUtils.isEmpty(specialBannersJson)) {
@@ -206,7 +211,12 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 try {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_MAIN_VALUE_JSON, jsonData);
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
-                    lists = DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
+                    JSONObject jsonObject = new JSONObject(jsonData);
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
+                    if(lists.size() > 0){
+                        lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -505,8 +515,14 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 protected List<StockQuotesBean> parseDateTask(String jsonData) {
                     List<StockQuotesBean> lists = null;
                     try {
+                        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_MAIN_VALUE_JSON, jsonData);
                         jsonData = StringDecodeUtil.decodeUnicode(jsonData);
-                        lists = DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
+                        JSONObject jsonObject = new JSONObject(jsonData);
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
+                        if(lists.size() > 0){
+                            lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

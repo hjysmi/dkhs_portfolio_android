@@ -44,7 +44,6 @@ import com.dkhs.portfolio.utils.UIUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -233,13 +232,14 @@ public class MessageHandler {
                 mContext.startActivity(intent);
                 break;
             case "0":
-                intent.putExtra("type", 1);
+                intent.putExtra("type", 0);
                 intent.putExtra("proverification_bean", Parcels.wrap(bean));
                 mContext.startActivity(intent);
                 break;
             default:
                 break;
         }
+        return false;
     }
 
     private void gotoCallMeActivity() {
