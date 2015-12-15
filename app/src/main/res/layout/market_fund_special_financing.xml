@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="23%h" />
+                app:layout_textSizePercent="20%h" />
 
             <TextView
                 android:id="@+id/tv_special_financing_percent"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/widget_margin_small"
                 android:textColor="@color/gray_textcolor"
-                app:layout_textSizePercent="17%h" />
+                app:layout_textSizePercent="14%h" />
         </com.android.percent.PercentLinearLayout>
 
         <TextView
@@ -74,7 +74,7 @@
             android:layout_toRightOf="@id/ll_special_financing"
             android:gravity="end"
             android:textColor="@color/fund_special_ads"
-            app:layout_textSizePercent="4.375%w" />
+            app:layout_textSizePercent="3.6%w" />
     </com.android.percent.PercentRelativeLayout>
 
     <View

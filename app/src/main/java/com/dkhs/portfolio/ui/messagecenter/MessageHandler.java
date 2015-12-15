@@ -197,7 +197,7 @@ public class MessageHandler {
      * @param url
      */
     private void gotoauthentication(String url) {
-        if (!UIUtils.iStartLoginActivity(PortfolioApplication.getInstance())) {
+        if (!UIUtils.iStartLoginActivity(mContext)) {
             int verified_status = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS);
             if (2 == verified_status) {
                 loadOnLineData(url);
