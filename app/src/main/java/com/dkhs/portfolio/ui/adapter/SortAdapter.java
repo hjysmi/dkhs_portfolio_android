@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
@@ -111,7 +110,6 @@ public class SortAdapter extends SingleItemAdapter<SortModel> implements Section
             char firstChar = sortStr.toUpperCase().charAt(0);
             if (firstChar == section) {
                 char x = (char) section;
-                Log.e("xue", "firstChar = " + firstChar + " " + "section = " + x + " name= " + list.get(i).getName());
                 return i;
             }
         }
