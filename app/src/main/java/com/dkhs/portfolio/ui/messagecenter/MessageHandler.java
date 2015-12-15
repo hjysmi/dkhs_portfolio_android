@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
@@ -191,7 +190,7 @@ public class MessageHandler {
      * @param url
      */
     private boolean gotoauthentication(String url) {
-        if (UIUtils.iStartLoginActivity(PortfolioApplication.getInstance())) {
+        if (UIUtils.iStartLoginActivity(mContext)){
             return false;
         }
         Uri uri = Uri.parse(url);
