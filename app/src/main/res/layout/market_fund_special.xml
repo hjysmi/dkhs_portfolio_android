@@ -36,6 +36,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingLeft="@dimen/widget_padding_medium"
+            android:paddingRight="@dimen/widget_padding_medium"
             app:layout_marginBottomPercent="6.25%"
             app:layout_marginTopPercent="6.25%">
 

@@ -188,7 +188,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         changeFollowView = new ChangeFollowView(this);
         changeFollowView.setmChangeListener(changeFollowListener);
-        BusProvider.getInstance().register(this);
     }
 
     private void getLocalOptionList() {
@@ -869,6 +868,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             mDayKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("day_data");
             mWeekKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("week_data");
             mMonthKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("month_data");
+            index = data.getIntExtra("tab_positon",0);
             hsTitle.setSelectIndex(index);
         }
     }
@@ -993,7 +993,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        BusProvider.getInstance().unregister(this);
         quoteListener.stopRequest(true);
     }
 
@@ -1096,10 +1095,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     public void setDayKlineDatas(List<OHLCEntity> kLineDatas) {
         this.mDayKChart = (ArrayList<OHLCEntity>) kLineDatas;
     }
-    @Subscribe
-    public void receiveDayKlineDatas(ArrayList<OHLCEntity> klineDatas){
-        this.mDayKChart = klineDatas;
-    }
 
     /**
      * @return
@@ -1123,10 +1118,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
-    @Subscribe
-    public void receiveMonthKlineDatas(ArrayList<OHLCEntity> klineDatas){
-        this.mMonthKChart = klineDatas;
-    }
 
     @Override
     public List<OHLCEntity> getWeekLineDatas() {
@@ -1138,18 +1129,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         this.mWeekKChart = (ArrayList<OHLCEntity>) kLineDatas;
     }
 
-    @Subscribe
-    public void receiveWeekKlineDatas(ArrayList<OHLCEntity> klineDatas){
-        this.mWeekKChart = klineDatas;
-    }
 
     @Override
     public void landViewFadeOut() {
     }
 
     private int index;
-    @Subscribe
-    public void setTabPosition(Integer position) {
-        this.index = position;
-    }
 }

@@ -38,7 +38,7 @@ public class FundHomeEngineImpl {
      */
     public void getRecommendFundManager(IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page_size", "3");
+        params.addQueryStringParameter("page_size", "6");
         DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.StockSymbol.RECOMMEND_FUND_MANAGER, params, listener);
     }
 }

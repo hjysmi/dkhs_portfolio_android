@@ -61,6 +61,8 @@ public class TopicsHandler extends SimpleItemHandler<LikeBean> {
 
     @Override
     public void onBindView(ViewHolder vh, final LikeBean data, int position) {
+        vh.get(R.id.horizontal_divider).setBackgroundColor(mContext.getResources().getColor(R.color.drivi_line));
+        vh.get(R.id.vertical_divider).setBackgroundColor(mContext.getResources().getColor(R.color.drivi_line));
         setClickListener(vh.get(R.id.fl_commend), data);
 
         if (mAvatarImResponse) {
