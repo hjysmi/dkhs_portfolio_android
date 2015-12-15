@@ -307,7 +307,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
-                android:text="《多快好省服务协议》"
+                android:text="@string/app_verify_agreement"
                 android:textColor="@drawable/agreement_color_selector"
                 app:layout_heightPercent="8%w"
                 app:layout_marginLeftPercent="3%w"
