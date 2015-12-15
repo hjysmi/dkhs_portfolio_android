@@ -23,6 +23,8 @@ import com.dkhs.portfolio.ui.fragment.SubmitFragment;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
 
+import org.parceler.Parcels;
+
 /**
  * 牛人招募
  * Created by xuetong on 2015/12/7.
@@ -103,7 +105,9 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                 if (personalFragment == null) {
                     personalFragment = new PersonalFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(PersonalFragment.KEY_PERINFOBEAN, bean);
+                   // bundle.putSerializable(PersonalFragment.KEY_PERINFOBEAN, bean);
+                  //  bundle.putEx(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
+                    bundle.putParcelable(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
                     personalFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, personalFragment);
                 } else {

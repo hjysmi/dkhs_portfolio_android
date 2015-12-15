@@ -97,4 +97,7 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
                 break;
         }
     }
+    private void checkInfo(){
+
+    }
 }

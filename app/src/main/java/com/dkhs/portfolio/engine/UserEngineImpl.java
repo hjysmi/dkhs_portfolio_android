@@ -149,10 +149,11 @@ public class UserEngineImpl {
 
     public void registerThreePlatform(String username, String openid, String provider, ThreePlatform extraData,
                                       ParseHttpListener<UserEntity> listener) {
-        this.registerThreePlatform("","","",username,openid,provider,extraData,listener);
+        this.registerThreePlatform("", "", "", username, openid, provider, extraData, listener);
 
     }
-    public void registerThreePlatform(String mobile, String password, String captha,String username, String openid, String provider, ThreePlatform extraData,
+
+    public void registerThreePlatform(String mobile, String password, String captha, String username, String openid, String provider, ThreePlatform extraData,
                                       ParseHttpListener<UserEntity> listener) {
 //        RequestParams params = new RequestParams();
 //
@@ -220,8 +221,17 @@ public class UserEngineImpl {
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL, entity.getAvatar_md());
 
-        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED,entity.verified);
-        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE,entity.verified_type);
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED, entity.verified);
+        if (null == entity.verified_type) {
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, -1);
+        } else {
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, entity.verified_type);
+        }
+        if(null==entity.verified_status){
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, -1);
+        }else{
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, entity.verified_status);
+        }
 
         saveUser(entity);
     }
