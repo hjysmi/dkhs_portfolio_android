@@ -235,6 +235,7 @@
 
 
         <View
+            android:id="@+id/horizontal_divider"
             style="@style/divider_line"
             android:layout_marginTop="8dp" />
 
@@ -265,6 +266,7 @@
             </FrameLayout>
 
             <View
+                android:id="@+id/vertical_divider"
                 style="@style/vertical_divider_line"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp" />

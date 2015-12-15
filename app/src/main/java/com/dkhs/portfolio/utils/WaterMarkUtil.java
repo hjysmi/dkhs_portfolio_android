@@ -10,9 +10,12 @@ import com.dkhs.portfolio.bean.UserEntity;
  * Created by wuyongsen on 2015/12/9.
  */
 public class WaterMarkUtil {
-    public static void calWaterMarkImage(ImageView iv,boolean isShow,int type){
+    public static void calWaterMarkImage(ImageView iv,boolean isShow,Integer type){
         if(isShow){
             iv.setVisibility(View.VISIBLE);
+            if(type == null){
+                type = -1;
+            }
             switch (UserEntity.VERIFIEDTYPE.getEnumType(type)){
                 case ADVISER:
                 case ANALYST:
