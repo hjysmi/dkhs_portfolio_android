@@ -21,8 +21,9 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.service.AuthenticationService;
-import com.dkhs.portfolio.ui.AgreementTextActivity;
+import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
 import com.dkhs.portfolio.ui.city.SelectProviceActivity;
 import com.dkhs.portfolio.ui.eventbus.BackCityEvent;
@@ -243,8 +244,10 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlt_agreement:
-                Intent intent = new Intent(getActivity(), AgreementTextActivity.class);
+                Intent intent = AdActivity.getIntent(getActivity(), DKHSClient.getAbsoluteUrl(getResources().getString(R.string.verify_agreement_url)));
                 startActivity(intent);
+//                Intent it = AgreementTextActivity.getIntent(getActivity(),"谁牛金融投顾使用协议",getResources().getString(R.string.verify_agreement_url));
+//                startActivity(it);
                 break;
             case R.id.fm_introduce:
                 Intent intent_introduce = new Intent(getActivity(), PersonalIntroduceActivity.class);
