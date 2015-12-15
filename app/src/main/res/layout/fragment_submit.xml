@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.percent.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,4 +17,17 @@
        app:layout_marginTopPercent="10%w"
        />
 
-</com.android.percent.PercentFrameLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"/>
+    <Button
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/btn_ok"
+        app:layout_widthPercent="90%w"
+        style="@style/btn_login_blue"
+        android:layout_below="@+id/rl_password"
+        app:layout_marginBottomPercent="5%w"
+        android:text="@string/btn_verified_status_ok" />
+
+</com.android.percent.PercentLinearLayout>
