@@ -6,7 +6,7 @@
     android:background="@color/person_setting_backgroud"
     android:orientation="vertical">
 
-<android.support.v4.widget.SwipeRefreshLayout
+<com.dkhs.portfolio.ui.widget.MySwipeRefreshLayout
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -65,7 +65,7 @@
 
         </LinearLayout>
     </com.melnykov.fab.ObservableScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.dkhs.portfolio.ui.widget.MySwipeRefreshLayout>
 
     <com.dkhs.portfolio.ui.FloatingActionMenu
         android:id="@+id/floating_action_view"
