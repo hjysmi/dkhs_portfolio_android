@@ -518,6 +518,8 @@
     <string name="float_menu_optional">自选</string>
     <string name="float_menu_delfollow">取消自选</string>
     <string name="dialog_messag_delfollow">确认取消自选</string>
+    <string name="dialog_yes">是</string>
+    <string name="dialog_no">否</string>
     <string name="float_menu_remind">提醒</string>
     <string name="float_menu_stock_remind">股价提醒</string>
     <string name="float_menu_index_remind">指数提醒</string>
@@ -757,6 +759,7 @@
     <string name="pls_instore_sdcard">请先安装好sd卡</string>
     <string name="dialog_msg_save_draft">是否保存草稿</string>
     <string name="dialog_msg_save_introduce">是否保存</string>
+    <string name="dialog_msg_exit_page">是否退出认证流程</string>
     <string name="msg_send_topic_fail">内容发送失败，已存入草稿箱</string>
     <string name="notsave">不保存</string>
     <string name="save">保存</string>

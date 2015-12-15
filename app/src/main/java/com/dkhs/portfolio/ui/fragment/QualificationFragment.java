@@ -55,8 +55,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 牛人招募之资质资料
@@ -263,25 +261,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         }
     };
 
-    /**
-     * 支持只支持输入英文和中文，空格、下划线
-     *
-     * @param str
-     * @return
-     */
-    private boolean checknum(String str) {
-        boolean flag = false;
-        try {
-            String check = "^([a-zA-Z-_ \\u4e00-\\u9fa5]+)$";
-            Pattern regex = Pattern.compile(check);
-            Matcher matcher = regex.matcher(str);
-            flag = matcher.matches();
-        } catch (Exception e) {
-            flag = false;
-        }
 
-        return flag;
-    }
 
     private void initValues() {
 
@@ -290,14 +270,14 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         list.add(new OrgtypeBean("投资牛人", TYPE_FIRST));
         list.add(new OrgtypeBean("投资顾问", TYPE_SECOND));
         list.add(new OrgtypeBean("分析师", TYPE_THREE));
-        list.add(new OrgtypeBean("期货投资咨询", TYPE_FOUR));
-        list.add(new OrgtypeBean("基金执业资格", TYPE_FIVE));
+        list.add(new OrgtypeBean("基金执业资格", TYPE_FOUR));
+        list.add(new OrgtypeBean("期货投资咨询", TYPE_FIVE));
         //
         list_img.add(R.drawable.ic_qualification_better);
         list_img.add(R.drawable.ic_qualification_advister);
         list_img.add(R.drawable.ic_qualification_analyst);
-        list_img.add(R.drawable.ic_qualification_investadvice);
         list_img.add(R.drawable.ic_qualification_fund);
+        list_img.add(R.drawable.ic_qualification_investadvice);
         adapter = new QualificationAdapter(getActivity(), list);
         Bundle arguments = getArguments();
         type = arguments.getInt("type");
