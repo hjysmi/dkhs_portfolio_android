@@ -157,6 +157,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                 break;
             case index2:
                 tv_personal.setEnabled(true);
+                tv_qualification.setEnabled(true);
                 if (personalFragment == null) {
                     personalFragment = new PersonalFragment();
                     Bundle bundle = new Bundle();
