@@ -202,7 +202,7 @@ public class MessageHandler {
             if (2 == verified_status) {
                 loadOnLineData(url);
             }else{
-                goBetterRecruitActivity(url,null);
+                goBetterRecruitActivity(url,null,true);
             }
         }
     }
@@ -217,29 +217,23 @@ public class MessageHandler {
             @Override
             protected void afterParseData(ProVerificationBean bean) {
                 //  updateProVerificationInfo(bean);
-                goBetterRecruitActivity(url,bean);
+                goBetterRecruitActivity(url,bean,false);
             }
         }.setLoadingDialog(PortfolioApplication.getInstance()), DKHSUrl.User.get_pro_verification);
     }
 
-    private void goBetterRecruitActivity(String url,ProVerificationBean bean){
-        Uri uri = Uri.parse(url);
-        String verified_type = uri.getQueryParameter("verified_type");
+    private void goBetterRecruitActivity(String url,ProVerificationBean bean,boolean needCheckUrl){
         Intent intent = new Intent(mContext, BetterRecruitActivity.class);
-        switch (verified_type) {
-            case "1":
-                intent.putExtra("type", 1);
-                intent.putExtra("proverification_bean", Parcels.wrap(bean));
-                mContext.startActivity(intent);
-                break;
-            case "0":
-                intent.putExtra("type", 0);
-                intent.putExtra("proverification_bean", Parcels.wrap(bean));
-                mContext.startActivity(intent);
-                break;
-            default:
-                break;
+        intent.putExtra("proverification_bean", Parcels.wrap(bean));
+        String verified_type = "0";
+        if(needCheckUrl){
+            Uri uri = Uri.parse(url);
+            verified_type = uri.getQueryParameter("verified_type");
+        }else{
+            verified_type = String.valueOf(bean.pro.verified_type);
         }
+        intent.putExtra("type", Integer.parseInt(verified_type));
+        mContext.startActivity(intent);
     }
 
     private void gotoCallMeActivity() {
