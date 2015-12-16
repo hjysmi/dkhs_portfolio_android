@@ -142,6 +142,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             if (info.pro.org_profile != null)
                 org_id = info.pro.org_profile.id;
         }
+        checkSendButtonEnable();
 
     }
 
@@ -263,15 +264,13 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         Bundle arguments = getArguments();
         type = arguments.getInt("type");
         verificationBean = Parcels.unwrap(arguments.getParcelable(KEY_PROVERIFICATIONBEAN));
+        selectedItemType = 0;
+        tv_type.setText(list.get(type).getOrgName());
+        selectedItemType = type;
+        adapter.setSelectedPosition(type);
         if (type == 0) {
-            tv_type.setText(list.get(0).getOrgName());
-            selectedItemType = 0;
-            adapter.setSelectedPosition(0);
             initFooterBetter();
         } else {
-            tv_type.setText(list.get(1).getOrgName());
-            selectedItemType = 1;
-            adapter.setSelectedPosition(1);
             initFooterOther();
         }
 
@@ -549,14 +548,22 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
 
     private void checkSendButtonEnable() {
-        list_photos.clear();
-        list_photos.addAll(mSelectPohotos);
-        list_photos.remove(ADD_PICTURE);
-        String str = et_content.getText().toString().trim();
-        if (str.length() > 0 && null != list_photos && list_photos.size() > 0) {
-            but_next.setEnabled(true);
-        } else {
-            but_next.setEnabled(false);
+        if(type == 0){
+            list_photos.clear();
+            list_photos.addAll(mSelectPohotos);
+            list_photos.remove(ADD_PICTURE);
+            String str = et_content.getText().toString().trim();
+            if (str.length() > 0 && null != list_photos && list_photos.size() > 0) {
+                but_next.setEnabled(true);
+            } else {
+                but_next.setEnabled(false);
+            }
+        }else{
+            if (!TextUtils.isEmpty(et_num.getText().toString()) && !TextUtils.isEmpty(tv_organization.getText().toString())) {
+                but_next.setEnabled(true);
+            } else {
+                but_next.setEnabled(false);
+            }
         }
     }
 
