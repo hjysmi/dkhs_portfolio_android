@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by xuetong on 2015/11/26.
@@ -37,11 +38,9 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
     private int height;
     private RelativeLayout.LayoutParams params;
     private static String[] colorRandom = new String[]{"#70aba0", "#e4b524", "#86b2f6", "#f77d7b", "#f4ad56", "#f9760b"};
-    int index=0;
     public HomeRewardHandler(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        index = (int) (Math.random() * colorRandom.length);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         width = displayMetrics.widthPixels * 5 / 8;
         height = width / 2;
@@ -61,6 +60,7 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
                 return;
             }
             for (int i=0;i<topicsBeans.size();i++) {
+                final int index = new Random().nextInt(colorRandom.length);
                 TopicsBean topicsBean=topicsBeans.get(i);
                 View view = inflater.inflate(R.layout.layout_home_recommend_reward, null);
                 view.findViewById(R.id.fm).setLayoutParams(params);

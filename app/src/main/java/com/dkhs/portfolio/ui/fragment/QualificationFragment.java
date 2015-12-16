@@ -119,6 +119,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         if (verificationBean != null) {
             updateProVerificationInfo(verificationBean);
         }
+        initAnimation();
     }
 
     private void updateProVerificationInfo(ProVerificationBean info) {
