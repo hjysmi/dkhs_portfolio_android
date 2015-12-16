@@ -165,6 +165,10 @@
     <color name="actionsheet_top_seperated">#E7E7E7</color>
     <color name="actionsheet_middle_seperated">#F4F4F4</color>
     <color name="actionsheet_bottom_seperated">#E6E6E6</color>
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
     <color name="draft_error">#e9b700</color>
     <color name="tab_default">#464646</color>
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingTop="@dimen/widget_padding_small"
+                android:paddingBottom="@dimen/widget_padding_small"
+                android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_bank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/widget_text_14sp"
+        android:text="工商银行"
+        />
+    <TextView
+        android:id="@+id/tv_bank_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/widget_margin_small"
+        android:layout_below="@id/tv_bank"
+        android:layout_alignLeft="@id/tv_bank"
+        android:textColor="@color/gray_textcolor"
+        android:textSize="@dimen/widget_text_12sp"
+        android:text="尾号5200"
+        />
+    <TextView
+        android:id="@+id/tv_fund_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/widget_margin_large"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/widget_text_12sp"
+        android:text="200份"
+        />
+    <!--<ImageView
+        android:id="@+id/image_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/widget_margin_large"
+        android:layout_centerVertical="true"
+        android:src="@drawable/setting_image_right"/>-->
+
+</RelativeLayout>

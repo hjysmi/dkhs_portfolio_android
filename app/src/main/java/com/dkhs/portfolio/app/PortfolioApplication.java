@@ -12,6 +12,9 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
@@ -44,7 +47,37 @@ public class PortfolioApplication extends MultiDexApplication {
     public void onCreate() {
         mInstance = this;
         AppConfig.config(this);
+        //监听手势超时
+        mHandler = new MyHandler(getMainLooper());
         super.onCreate();
+    }
+    /**
+     * 无操作后锁屏时间
+     */
+    private final static int SHOW_GESTURE_DELAY = 1000  * 7;
+
+    private final static int NEED_SHOW_GESTURE = 2;
+
+    private MyHandler mHandler;
+
+    public void onUserInteraction() {
+        mHandler.removeMessages(NEED_SHOW_GESTURE);
+        mHandler.sendEmptyMessageDelayed(NEED_SHOW_GESTURE, SHOW_GESTURE_DELAY);
+    }
+
+    private class MyHandler extends Handler {
+
+        public MyHandler(Looper mainLooper) {
+            super(mainLooper);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case NEED_SHOW_GESTURE:
+                    GlobalParams.needShowGesture = true;
+                    break;
+            }
+        }
     }
 
 

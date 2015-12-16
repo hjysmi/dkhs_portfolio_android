@@ -230,5 +230,50 @@ public class FundQuoteBean extends QuotesBean {
         this.end_shares = end_shares;
     }
 
+    String amount_min;
+    String shares_min;
+    double fare_ratio_buy;
+    double discount_rate_buy;
+    boolean allow_trade;
+
+    public boolean isAllow_trade() {
+        return allow_trade;
+    }
+
+    public void setAllow_trade(boolean allow_trade) {
+        this.allow_trade = allow_trade;
+    }
+
+    public String getAmount_min() {
+        return amount_min;
+    }
+
+    public void setAmount_min(String amount_min) {
+        this.amount_min = amount_min;
+    }
+
+    public String getShares_min() {
+        return shares_min;
+    }
+
+    public void setShares_min(String shares_min) {
+        this.shares_min = shares_min;
+    }
+
+    public double getFare_ratio_buy() {
+        return fare_ratio_buy;
+    }
+
+    public void setFare_ratio_buy(double fare_ratio_buy) {
+        this.fare_ratio_buy = fare_ratio_buy;
+    }
+
+    public double getDiscount_rate_buy() {
+        return discount_rate_buy;
+    }
+
+    public void setDiscount_rate_buy(double discount_rate_buy) {
+        this.discount_rate_buy = discount_rate_buy;
+    }
 
 }

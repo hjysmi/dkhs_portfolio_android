@@ -160,6 +160,9 @@ dependencies {
     compile 'com.android.support:multidex:'
     compile files('libs/alipaySDK-20150818.jar')
     compile files('libs/libammsdk.jar')
+    compile project(':gridpasswordview')
+    compile files('libs/cpauth_android_1.0.0_lib.jar')
+    compile files('libs/chinapay_android_1.0.0_lib.jar')
     compile files('libs/logger.jar')
 }
 
