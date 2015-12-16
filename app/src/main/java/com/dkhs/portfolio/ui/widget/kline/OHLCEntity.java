@@ -2,7 +2,8 @@ package com.dkhs.portfolio.ui.widget.kline;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OHLCEntity {
+import java.io.Serializable;
+public class OHLCEntity implements Serializable{
 
 	private double volume; //成交量
 	private double open;// 开盘价

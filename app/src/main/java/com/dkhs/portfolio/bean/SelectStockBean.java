@@ -11,10 +11,12 @@ package com.dkhs.portfolio.bean;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.ui.widget.ViewBean.SelectStockFundViewBean;
-import com.dkhs.portfolio.utils.StockUitls;
+import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 import org.parceler.Parcel;
+
+import java.io.Serializable;
 
 /**
  * @author zjz
@@ -24,8 +26,9 @@ import org.parceler.Parcel;
  * @date 2014-9-18 下午2:42:46
  */
 @Parcel
-public class SelectStockBean extends DragListItem {
+public class SelectStockBean extends DragListItem implements Serializable{
 
+    @SerializedName("abbr_name")
     public String name;
     public float currentValue;
     public float percentage;
@@ -37,8 +40,11 @@ public class SelectStockBean extends DragListItem {
     public String symbol;
     public float change;
     public boolean isFollowed;
+    //对应数据库的停牌
     public boolean isStop;
      public boolean is_alert;
+    //对应网络数据的停牌
+    public int is_stop;
 
     public AlertSetBean alertSetBean;
 
@@ -98,6 +104,16 @@ public class SelectStockBean extends DragListItem {
         bean.symbol_stype = stockBean.getFund().getSymbol_stype();
 //        bean.isStop = stockBean.isStop();
         bean.list_status = stockBean.getFund().getList_status() + "";
+        return bean;
+    }
+
+    public static SelectStockBean copy(TopicsBean.SymbolsBean symbolsBean) {
+        SelectStockBean bean = new SelectStockBean();
+        bean.name = symbolsBean.abbr_name;
+        bean.id = symbolsBean.id;
+        bean.symbol = symbolsBean.symbol;
+        bean.symbol_stype = symbolsBean.symbol_stype;
+        bean.list_status = symbolsBean.list_status;
         return bean;
     }
 
@@ -410,4 +426,5 @@ public class SelectStockBean extends DragListItem {
         }
         return super.equals(obj);
     }
+
 }

@@ -27,9 +27,12 @@
         android:paddingRight="@dimen/widget_padding_small"
         android:paddingTop="@dimen/widget_padding_small">
 
-        <ImageView
-            android:id="@+id/iv_avatar"
+        <include
+            layout="@layout/layout_avatar_mark_v"
+            android:id="@+id/ll_avatar"
             style="@style/lv_avatar_style"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true" />
 
         <TextView
@@ -38,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dip"
-            android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_toRightOf="@+id/ll_avatar"
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="@dimen/text_status_username" />

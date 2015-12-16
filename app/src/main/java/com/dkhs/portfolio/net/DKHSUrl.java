@@ -20,14 +20,14 @@ public class DKHSUrl {
     // 测试
 //    public static final String BASE_TEST_URL = "http://192.168.107.90:8010";
 //    public static final String BASE_TEST_URL = "http://192.168.107.76:8010";
-    public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
+    public static final String BASE_TEST_URL = "http://test.dev.dkhs.com";
 
     // 开发
-    public static final String BASE_DEV_URL = "http://121.41.25.170:8010";
+    public static final String BASE_DEV_URL = "http://dev.dev.dkhs.com";
     // 正式
     public static final String BASE_DEV_MAIN = "https://www.dkhs.com";
     // 服务器
-    public static final String BASE_DEV_TAG = "http://121.41.25.170:8050";
+    public static final String BASE_DEV_TAG = "http://staging.dev.dkhs.com";
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
     // public static final String BASE_URL = "http://58.23.5.117:8030";
@@ -273,6 +273,7 @@ public class DKHSUrl {
         String unfollow = "/api/v1/users/%s/unfollow/";
         String getUserInfo = "/api/v1/users/%s/";
         String friend_list = "/api/v1/users/%s/friends/?page_size=999";
+        String get_pro_verification = "/api/v1/accounts/pro_verfications/mine/";
 
 
     }
@@ -349,24 +350,48 @@ public class DKHSUrl {
         /**
          * 获取推荐悬赏/话题
          */
-        String GET_RECOMMEND = "/api/v1/statuses/recommend/";
+        String get_recommend = "/api/v1/statuses/recommend/";
     }
 
     public interface Search {
-        /**综合搜索*/
+        /**
+         * 综合搜索
+         */
         String search_general = "/api/v1/search/suggestions/";
-        /**搜索股票和基金*/
+        /**
+         * 搜索股票和基金
+         */
         String search_symools = "/api/v1/search/symbols/";
-        /**搜索组合*/
+        /**
+         * 搜索组合
+         */
         String search_portfolios = "/api/v1/search/portfolios/";
-        /**搜索基金经理*/
+        /**
+         * 搜索基金经理
+         */
         String search_fund_managers = "/api/v1/search/fund_managers/";
-        /**搜索用户*/
+        /**
+         * 搜索用户
+         */
         String search_users = "/api/v1/search/users/";
-        /**搜索悬赏和话题*/
+        /**
+         * 搜索悬赏和话题
+         */
         String search_statues = "/api/v1/search/statuses/";
     }
 
+    public interface Org_profiles {
+        //所属机构
+        String Org_profiles_list = "/api/v1/accounts/org_profiles/";
+    }
+
+    /**
+     * 牛人认证
+     */
+    public interface Pro_verfications {
+        String pro_verfications_url = "/api/v1/accounts/pro_verfications/";
+        String query_pro_verfications_url = "/api/v1/accounts/pro_verfications/mine/";
+    }
     public interface Funds{
         String verify_identy = "/api/v1/funds/identity_auth/verify/";
         String bind_bank_card = "/api/v1/funds/bind_bank_card/";

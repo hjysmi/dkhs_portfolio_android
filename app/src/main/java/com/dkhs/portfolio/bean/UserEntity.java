@@ -73,6 +73,15 @@ public class UserEntity {
 
     boolean me_follow;
 
+    public boolean verified;
+    public Integer verified_type;
+    public String verified_reason;
+    /*"verified": true, #是否认证用户
+    "verified_type": 1, #认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业 4, 期货执业
+    "verified_status": 1, #认证审核状态 0, '审核中' 1, '已认证' 2, '审核失败'
+            "verified_reason": "兴业证券 投资顾问 aaa", #认证原因*/
+    public Integer verified_status;
+
     public UserEntity() { /*Required empty bean constructor*/ }
 
     int portfolios_following_count;
@@ -292,5 +301,63 @@ public class UserEntity {
                 ", me_follow=" + me_follow +
                 ", portfolios_following_count=" + portfolios_following_count +
                 '}';
+    }
+
+
+    public enum VERIFIEDTYPE {
+        //未认证
+        NORMAL(-1),
+        // 投资牛人
+        EXPERT(0),
+        // 投资顾问
+        ADVISER(1),
+        //  分析师
+        ANALYST(2),
+        // 基金执业
+        FUND_CERTIFICATE(3),
+        //期货执业
+        FUTURES_CERTIFICATE(4);
+
+        VERIFIEDTYPE(int type) {
+            this.typeid = type;
+        }
+
+        private int typeid;
+
+        public int getTypeid() {
+            return typeid;
+        }
+
+        public static VERIFIEDTYPE getEnumType(int type) {
+            switch (type) {
+                case 0:
+                    return EXPERT;
+                case 1:
+                    return ADVISER;
+                case 2:
+                    return ANALYST;
+                case 3:
+                    return FUND_CERTIFICATE;
+                case 4:
+                    return FUTURES_CERTIFICATE;
+            }
+            return NORMAL;
+        }
+    }
+
+    public enum VERIFIEDSTATUS {
+        VERIFYING(0),
+        SUCCESS(1),
+        FAIL(2);
+
+        VERIFIEDSTATUS(int type) {
+            this.typeid = type;
+        }
+
+        private int typeid;
+
+        public int getTypeid() {
+            return typeid;
+        }
     }
 }

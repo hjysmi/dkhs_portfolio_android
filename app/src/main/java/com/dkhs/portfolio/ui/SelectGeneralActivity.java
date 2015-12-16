@@ -256,6 +256,12 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                 adapter.notifyDataSetChanged();
             }
         }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            mViewBeanList.clear();
+            super.onFailure(errCode, errMsg);
+        }
     };
     TextWatcher mTextWatcher = new TextWatcher() {
         @Override
@@ -495,7 +501,7 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
                 mFollowList.addAll(resultList);
             }
         });
-        VisitorDataSource.getOptionalStockList(this, new IResultCallback<CombinationBean>() {
+        VisitorDataSource.getOptionalCombinationList(this, new IResultCallback<CombinationBean>() {
             @Override
             public void onResultCallback(List<CombinationBean> resultList) {
                 mFollowCombinationList.addAll(resultList);

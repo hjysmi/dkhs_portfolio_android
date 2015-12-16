@@ -25,9 +25,10 @@
             android:paddingTop="9dp">
 
 
-            <ImageView
-                android:id="@+id/iv_avatar"
-                style="@style/lv_avatar_style" />
+            <include
+                android:id="@+id/ll_avatar"
+                style="@style/lv_avatar_style"
+                layout="@layout/layout_avatar_mark_v" />
 
             <TextView
                 android:id="@+id/name"
@@ -36,7 +37,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/ll_avatar"
                 android:gravity="top"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_status_username" />
@@ -46,8 +47,8 @@
                 android:id="@+id/tv_time"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/iv_avatar"
-                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_alignBottom="@+id/ll_avatar"
+                android:layout_toRightOf="@+id/ll_avatar"
                 android:textColor="@color/gray_textcolor"
                 android:textSize="@dimen/text_status_time" />
 
@@ -62,7 +63,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:textSize="@dimen/reward_state_text"
                 style="@style/state_rewarding"
                 />
 
@@ -73,7 +74,7 @@
             android:id="@+id/titleTV"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/title_avatar_margin"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@color/black"
@@ -234,6 +235,7 @@
 
 
         <View
+            android:id="@+id/horizontal_divider"
             style="@style/divider_line"
             android:layout_marginTop="8dp" />
 
@@ -264,6 +266,7 @@
             </FrameLayout>
 
             <View
+                android:id="@+id/vertical_divider"
                 style="@style/vertical_divider_line"
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp" />

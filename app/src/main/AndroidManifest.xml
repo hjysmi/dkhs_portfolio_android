@@ -180,6 +180,10 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.StockLandActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
             android:name=".ui.SelectStatusStockActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -417,6 +421,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".ui.MarketSubpageActivity" />
         <activity
             android:name=".ui.FundManagerActivity"
             android:label="@string/title_activity_fund_manager" />
@@ -617,6 +622,42 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dkhs.portfolio.ui.BaseActivity" />
         </activity>
+        <activity
+            android:name=".ui.BetterRecruitActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.PersonalIntroduceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.city.SelectCityActivity"
+            android:label="@string/title_activity_select_city"
+            android:parentActivityName=".ui.ModelAcitivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dkhs.portfolio.ui.ModelAcitivity" />
+        </activity>
+        <activity
+            android:name=".ui.city.SelectProviceActivity"
+            android:label="@string/title_activity_select_provice"
+            android:parentActivityName=".ui.ModelAcitivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dkhs.portfolio.ui.ModelAcitivity" />
+        </activity>
+        <activity
+            android:name=".ui.OrganizationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.VerifiedProFileActivity" />
+
+        <service
+            android:name=".service.AuthenticationService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.dkhs.authenticationService.action.upload" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

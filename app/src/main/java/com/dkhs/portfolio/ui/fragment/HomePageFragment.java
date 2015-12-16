@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -370,14 +368,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private WeakHandler mHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            Log.d("wys", "msg" + msg.what);
             switch (msg.what) {
                 case REQUESS_FAIL:
                     mSwipeLayout.setRefreshing(false);
                     mWhat = 0;
                     break;
                 case REQUEST_SUCCESS:
-                    LogUtils.d("wys", "swipe close refresh");
                     mSwipeLayout.setRefreshing(false);
                     mWhat = 0;
                     generateData();
@@ -438,8 +434,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     }
 
     private void loadData() {
-        //        mSwipeLayout.setProgressViewOffset(false, 0, DisplayUtil.dip2px(getActivity(), 24));
-//        mSwipeLayout.setRefreshing(true);
         getCache();
         getNetData();
     }
@@ -470,6 +464,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initLoadMoreList(view);
+        //加载数据前,启动下拉动画
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+            }
+        });
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -510,8 +511,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                LogUtils.d("wys", "onRefresh");
-                getNetData();
+                mSwipeLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        getNetData();
+                    }
+                });
             }
         });
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);

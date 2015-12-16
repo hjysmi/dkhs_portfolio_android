@@ -265,7 +265,7 @@
     <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题,可以关注微信公众号：%s，直接与微信客服沟通交流</string>
     <string name="text_other_manager_combin">Ta管理的组合一览</string>
     <string name="text_my_manager_combin">我管理的组合一览</string>
-    <string name="sign_text_title">个人签名</string>
+    <string name="sign_text_title">个人简介</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">感谢您的反馈</string>
@@ -312,6 +312,7 @@
     <string name="about_weixin">微信公众号：“谁牛”或“shuiniuapp” </string>
     <string name="about_weibo">新 浪 微 博 ：谁牛</string>
     <string name="agreement_url">/portfolio/agreement/</string>
+    <string name="authentication_url">/accounts/pro_verifications/</string>
     <string name="faq_url">/portfolio/faq/</string>
 
     <!-- 以下是友盟统计界面名称 -->
@@ -402,6 +403,13 @@
     <string name="market_fund_per_day">日收益</string>
     <string name="market_fund_per_month">月收益</string>
     <string name="market_fund_per_tyear">今年收益</string>
+    <string name="shangzheng">上证指数</string>
+    <string name="shenzheng">深证成指</string>
+    <string name="chuangye">创业板指</string>
+    <string name="fund_market">基金超市</string>
+    <string name="look_at_all">查看全部</string>
+    <string name="special_financing">专题理财</string>
+    <string name="total_profit">总收益:</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>
@@ -513,6 +521,8 @@
     <string name="float_menu_delfollow">取消自选</string>
     <string name="float_menu_buyfund">立即购买</string>
     <string name="dialog_messag_delfollow">确认取消自选</string>
+    <string name="dialog_yes">是</string>
+    <string name="dialog_no">否</string>
     <string name="float_menu_remind">提醒</string>
     <string name="float_menu_stock_remind">股价提醒</string>
     <string name="float_menu_index_remind">指数提醒</string>
@@ -576,6 +586,8 @@
 
     <string name="fund_detail_name">基金全称</string>
     <string name="fund_manager">基金经理</string>
+    <string name="profit_rank">收益排行</string>
+    <string name="hybrid">混合型</string>
     <string name="fund_manager_order">基金经理排行</string>
     <string name="fund_comp">基金公司</string>
     <string name="fund_stype">基金类型</string>
@@ -727,6 +739,7 @@
     <string name="blank_select_search_more_reward">找到%1$d个悬赏</string>
     <string name="blank_select_search_more_topic">找到%1$d个话题</string>
     <string name="select_search_desc">在谁牛金融上可以找到</string>
+    <string name="search_no_result">抱歉，未找到相关结果</string>
 
     <!--在线搜索-->
 
@@ -748,6 +761,8 @@
     <string name="hint_content">写点观点...</string>
     <string name="pls_instore_sdcard">请先安装好sd卡</string>
     <string name="dialog_msg_save_draft">是否保存草稿</string>
+    <string name="dialog_msg_save_introduce">是否保存</string>
+    <string name="dialog_msg_exit_page">是否退出认证流程</string>
     <string name="msg_send_topic_fail">内容发送失败，已存入草稿箱</string>
     <string name="notsave">不保存</string>
     <string name="save">保存</string>
@@ -1061,7 +1076,7 @@
     <string name="weixinpay_not_support">所安装的微信客户端不支持支付</string>
     <string name="weixin_not_installed">未安装微信客户端</string>
 
-    <string name="reward_content_hint">请输入悬赏内容</string>
+    <string name="reward_content_hint">请输入悬赏内容或选择一张图片</string>
     <string name="reward_amount_hint">请输入悬赏金额</string>
 
     <!--register-->
@@ -1092,4 +1107,24 @@
     <string name="month_profit_rate">月收益率</string>
 
     <string name="account_format">账号:%1$s</string>
+
+    <string name="title_activity_select_city">SelectCityActivity</string>
+    <string name="title_activity_select_provice">SelectProviceActivity</string>
+    <string name="title_select_city">选择城市</string>
+    <string name="title_select_provice">选择省份</string>
+
+
+    <string name="verified_reason">认证:%1$s</string>
+
+    <string name="title_verified_profile">资质材料</string>
+    <string name="verified_type_expert">投资牛人</string>
+    <string name="verified_type_adviser">投资顾问</string>
+    <string name="verified_type_analyst">分析师</string>
+    <string name="verified_type_fund_certificate">基金执业</string>
+    <string name="verified_type_futures_certificate">期货执业</string>
+    <string name="btn_verified_status_ok">我知道了</string>
+    <string name="prompt_cert_no">请填写您的执业编号</string>
+    <string name="app_verify_agreement">《谁牛金融投顾使用协议》</string>
+    <string name="verify_agreement_url">/accounts/pro_verifications/agreement/</string>
+
 </resources>

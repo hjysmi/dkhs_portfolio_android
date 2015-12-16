@@ -2,7 +2,12 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <corners android:radius="@dimen/bg_reward_state_radius"/>
-    <solid android:color="@color/gray_textcolor"/>
+    <corners android:radius="@dimen/bg_reward_state_radius" />
+    <solid android:color="@color/gray_textcolor" />
+    <padding
+        android:bottom="1dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="1dp" />
 
 </shape>

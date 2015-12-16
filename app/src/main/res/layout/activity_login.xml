@@ -18,19 +18,19 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp" >
 
-        <ImageView
-            android:id="@+id/iv_header"
+        <include
+            android:id="@+id/ll_header"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_user_head" />
+            layout="@layout/layout_avatar_mark_v"
+             />
 
         <TextView
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_header"
+            android:layout_below="@+id/ll_header"
             android:layout_centerHorizontal="true"
             android:layout_margin="6dp"
             android:text=""

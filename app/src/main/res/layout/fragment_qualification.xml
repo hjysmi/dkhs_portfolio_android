@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.android.percent.PercentRelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:text="认证类型"
+            android:textColor="@color/black"
+            app:layout_heightPercent="12%w"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_textSizePercent="4%w" />
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/black"
+            app:layout_heightPercent="12%w"
+            app:layout_marginLeftPercent="30%w"
+            app:layout_textSizePercent="4%w"
+            app:layout_widthPercent="30%w"
+            tools:text="期货投资咨询" />
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_qualification_down"
+            app:layout_heightPercent="6%w"
+            app:layout_marginRightPercent="5%w"
+            app:layout_widthPercent="6%w" />
+
+    </com.android.percent.PercentRelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fm_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ScrollView
+            android:id="@+id/sc_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <com.android.percent.PercentLinearLayout
+                android:id="@+id/ll_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.dkhs.portfolio.ui.widget.GridViewEx
+                    android:id="@+id/gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:choiceMode="singleChoice"
+                    android:numColumns="3"
+                    android:scrollbars="none"
+                    app:layout_marginTopPercent="5%w"
+                    app:layout_marginLeftPercent="5%w"
+                    app:layout_marginRightPercent="5%w"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_heightPercent="3%w" />
+
+                <LinearLayout
+                    android:id="@+id/ll_footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+                <Button
+                    android:id="@+id/but_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/btn_blue_selector"
+                    android:gravity="center"
+                    android:text="下一步"
+                    android:textColor="@color/btn_blue_textselector"
+                    app:layout_heightPercent="12%w"
+                    app:layout_widthPercent="90%w"
+                    app:layout_marginTopPercent="5%w"
+                    app:layout_marginBottomPercent="5%w"/>
+            </com.android.percent.PercentLinearLayout>
+        </ScrollView>
+        <!--<com.dkhs.portfolio.ui.widget.GridViewWithHeaderAndFooter
+            android:id="@+id/gv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:choiceMode="singleChoice"
+            android:scrollbars="none"/>-->
+    </FrameLayout>
+
+
+</com.android.percent.PercentLinearLayout>

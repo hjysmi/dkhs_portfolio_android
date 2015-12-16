@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.ModelAcitivity;
+import com.dkhs.portfolio.ui.fragment.QualificationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,12 @@ public class PhotoPickerActivity extends ModelAcitivity {
     public static Intent getIntent(Context context, ArrayList<String> paths) {
         Intent intent = new Intent(context, PhotoPickerActivity.class);
         intent.putStringArrayListExtra(KEY_SELECTED_PHOTOS, paths);
+        return intent;
+    }
+    public static Intent getQualificationIntent(Context context, ArrayList<String> paths) {
+        Intent intent = new Intent(context, PhotoPickerActivity.class);
+        intent.putStringArrayListExtra(KEY_SELECTED_PHOTOS, paths);
+        intent.putExtra(PhotoPickerActivity.EXTRA_MAX_COUNT, QualificationFragment.MAX_TOPIC_PICSIZE);
         return intent;
     }
 

@@ -158,8 +158,10 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
 
             if (object.getCurrentPage() == 1 && object.getResults().size() == 0) {
                 setEmptyText(getEmptyText());
+            } else {
+                setListViewVisible();
             }
-            // loadFinishUpdateView();
+//             loadFinishUpdateView();
 
         }
 

@@ -1,6 +1,8 @@
 package com.dkhs.portfolio.bean.itemhandler.homepage;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
@@ -8,6 +10,9 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.HomeMoreBean;
 import com.dkhs.portfolio.ui.MainActivity;
+import com.dkhs.portfolio.ui.MarketSubpageActivity;
+import com.dkhs.portfolio.ui.fragment.MarketSubpageFragment;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * Created by wuyongsen on 2015/11/25.
@@ -29,13 +34,13 @@ public class HomeMoreHandler extends SimpleItemHandler<HomeMoreBean> {
             public void onClick(View v) {
                 switch (data.type) {
                     case HomeMoreBean.TYPE_FUND_MANAGER:
-                        MainActivity.gotoFundManagerRanking(mContext);
+                        UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK));
                         break;
                     case HomeMoreBean.TYPE_FUND:
-                        MainActivity.gotoFundsRanking(mContext);
+                        UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH));
                         break;
                     case HomeMoreBean.TYPE_PORTFOLIO:
-                        MainActivity.gotoCombinationRankingActivity(mContext);
+                        UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_COMBINATION));
                         break;
                     case HomeMoreBean.TYPE_REWARD:
                         MainActivity.gotoTopicsHome(mContext);

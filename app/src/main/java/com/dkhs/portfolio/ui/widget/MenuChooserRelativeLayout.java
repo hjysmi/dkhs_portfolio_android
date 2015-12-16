@@ -107,11 +107,21 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         return selectItem;
     }
 
-    public void notifyDataSetChanged(List<MenuBean> data) {
+
+    public static final int FUNDS_INDEX_MONTH = 1;
+    public static final int FUNDS_INDEX_YEAR = 4;
+
+    public void notifyDataSetChanged(List<MenuBean> data, int selectIndex) {
         this.data.clear();
         this.data.addAll(data);
-        selectItem = data.get(0);
-        floatMenuAdapter.setSelectIndex(selectIndex);
+        if(selectIndex >= 0 ){
+            selectItem = data.get(selectIndex);
+            floatMenuAdapter.setSelectIndex(selectIndex);
+
+        }else{
+            selectItem = data.get(1);
+            floatMenuAdapter.setSelectIndex(1);
+        }
         floatMenuAdapter.notifyDataSetChanged();
 
     }

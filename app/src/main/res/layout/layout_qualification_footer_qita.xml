@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.android.percent.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:text="执业编号"
+            android:textColor="@color/black"
+            app:layout_heightPercent="12%w"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_textSizePercent="4%w"
+            app:layout_widthPercent="20%w" />
+
+        <EditText
+            android:id="@+id/et_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center|left"
+            android:hint="请输入执业编号"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text_hint_color"
+            app:layout_heightPercent="12%w"
+            app:layout_marginLeftPercent="25%w"
+            app:layout_textSizePercent="4%w"
+            app:layout_widthPercent="75%w" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom|right"
+            android:background="@color/drivi_line"
+            app:layout_widthPercent="95%w" />
+    </com.android.percent.PercentFrameLayout>
+
+    <com.android.percent.PercentFrameLayout
+        android:id="@+id/fm_organization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:text="所属机构"
+            android:textColor="@color/black"
+            app:layout_heightPercent="12%w"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_textSizePercent="4%w"
+            app:layout_widthPercent="20%w" />
+
+        <TextView
+            android:id="@+id/tv_organization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center|left"
+            android:hint="选择所属机构"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text_hint_color"
+            app:layout_heightPercent="12%w"
+            app:layout_marginLeftPercent="25%w"
+            app:layout_textSizePercent="4%w"
+            app:layout_widthPercent="65%w" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/ic_fundarrowright"
+            app:layout_heightPercent="5%w"
+            app:layout_marginRightPercent="5%w"
+            app:layout_widthPercent="5%w" />
+        <!--<View
+            android:layout_width="wrap_content"
+            android:layout_height="1px"
+            android:layout_gravity="bottom|right"
+            android:background="@color/theme_gray"
+            app:layout_widthPercent="95%w" />-->
+    </com.android.percent.PercentFrameLayout>
+</com.android.percent.PercentLinearLayout>
