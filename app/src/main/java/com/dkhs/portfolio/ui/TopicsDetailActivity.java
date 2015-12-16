@@ -296,7 +296,6 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
             @Override
             protected void afterParseData(Object object) {
-                mSwipeLayout.setRefreshing(false);
                 mTopicsBean = (TopicsBean) object;
                 mHandler.setRewardUserId(mTopicsBean.getUser().getId());
                 mHandler.setRewardState(mTopicsBean.reward_state);
@@ -316,6 +315,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                     setRewardAdopted();
 
                 }
+                mSwipeLayout.setRefreshing(false);
 
             }
 
