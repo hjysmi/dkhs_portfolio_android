@@ -578,8 +578,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_masked);
         UserEntity user = GlobalParams.LOGIN_USER;
         if(user != null){
-            String residence = user.getProvince() + " " + user.getCity();
-            ((TextView) findViewById(R.id.tv_city_value)).setText(residence);
+            StringBuilder residence = new StringBuilder();
+            if(!TextUtils.isEmpty(user.getProvince())){
+                residence.append(user.getProvince());
+            }
+            if(!TextUtils.isEmpty(user.getCity())){
+                residence.append(user.getProvince()+" "+user.getCity());
+            }
+            ((TextView) findViewById(R.id.tv_city_value)).setText(residence.toString());
         }
         ((TextView) findViewById(R.id.tv_verified_type_value)).setText(getVerifiedName(pro.verified_type));
         if (pro.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid()) {
