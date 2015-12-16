@@ -110,10 +110,15 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     }
 
     public static FragmentSearchStockFund getFundFragment() {
+        return getFundFragment(false);
+    }
+
+    public static FragmentSearchStockFund getFundFragment(boolean isOnline) {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, true);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_FUNDS);
+        args.putBoolean(ARGUMENT_ONLINE, isOnline);
         // args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;
@@ -154,8 +159,11 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
             mKey = key;
             mDataList.clear();
             if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_FUNDS)) {
-
-                mSearchEngine.searchFundsByLoader(key, getActivity());
+                if(isOnline){
+                    getOnLineEngine().searchByKey(key);
+                }else{
+                    mSearchEngine.searchFundsByLoader(key, getActivity());
+                }
             } else if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_STOCK)) {
                 if (isOnline) {
                     getOnLineEngine().searchByKey(key);
