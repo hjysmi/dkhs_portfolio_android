@@ -43,7 +43,7 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         et_content = (EditText) findViewById(R.id.et_content);
         btnRight = getRightButton();
         btnRight.setBackgroundDrawable(null);
-        btnRight.setText(R.string.post);
+        btnRight.setText(R.string.save);
         int padding_left = (int) (0.05 * width);
         et_content.setPadding(padding_left, 0, padding_left, padding_left);
         et_content.setEnabled(true);
@@ -97,8 +97,7 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.but_next:
-
+            case RIGHTBUTTON_ID:
                 BusProvider.getInstance().post(new PersonalQualificationEventBean(et_content.getText().toString().trim()));
                 finish();
                 break;
