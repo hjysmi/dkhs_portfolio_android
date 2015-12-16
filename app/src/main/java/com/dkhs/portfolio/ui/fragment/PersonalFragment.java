@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -449,6 +450,11 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             List<String> photos = bundle.getStringArrayList(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
             if (null != photos && photos.size() > 0) {
                 iv_upimg.setVisibility(View.VISIBLE);
+                Bitmap localeimage = UIUtils.getLocaleimage(photos.get(0));
+                if(localeimage == null){
+                    PromptManager.showToast("图片已损坏或者不存在");
+                    return;
+                }
                 iv_upimg.setImageBitmap(UIUtils.getLocaleimage(photos.get(0)));
                 btn_update.setText("修改");
                 mCurrentPhotoPath = photos.get(0);
