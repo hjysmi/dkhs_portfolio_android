@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/lv_white_selector"
+    >
 
     <View
         android:id="@+id/top_divider"
@@ -17,7 +19,6 @@
         android:id="@+id/ll_mid"
         android:paddingLeft="@dimen/widget_margin_medium"
         android:paddingRight="@dimen/widget_margin_medium"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/top_divider"
@@ -51,6 +52,5 @@
     <View
         android:layout_below="@+id/ll_mid"
         android:id="@+id/divider"
-        style="@style/divider_line"
-        android:layout_alignParentBottom="true" />
+        style="@style/divider_line"/>
 </RelativeLayout>

@@ -46,7 +46,7 @@ public class HomePageEngine {
         params.addQueryStringParameter("content_type", type);
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", "6");
-        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.GET_RECOMMEND, params, listener);
+        DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Status.get_recommend, params, listener);
     }
 
     /**

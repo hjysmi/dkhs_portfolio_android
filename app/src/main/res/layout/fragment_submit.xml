@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+   <ImageView
+       android:id="@+id/iv_verified_status"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@drawable/ic_betterrecruit_submit"
+       app:layout_widthPercent="90%w"
+       app:layout_heightPercent="81%w"
+       android:scaleType="centerCrop"
+       app:layout_marginLeftPercent="5%w"
+       app:layout_marginTopPercent="10%w"
+       />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"/>
+    <Button
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/btn_ok"
+        app:layout_widthPercent="90%w"
+        style="@style/btn_login_blue"
+        android:layout_below="@+id/rl_password"
+        app:layout_marginBottomPercent="5%w"
+        android:text="@string/btn_verified_status_ok" />
+
+</com.android.percent.PercentLinearLayout>

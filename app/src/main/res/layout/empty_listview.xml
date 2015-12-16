@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.dkhs.portfolio.ui.widget.MySwipeRefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -17,7 +17,7 @@
             android:smoothScrollbar="true"
             android:layout_weight="1"
             android:drawSelectorOnTop="false" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </com.dkhs.portfolio.ui.widget.MySwipeRefreshLayout>
 
     <TextView
         android:id="@android:id/empty"

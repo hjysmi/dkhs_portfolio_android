@@ -44,6 +44,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
     // private ArrayList<Integer> arrayDrawables;
     public Context context;
     public boolean isHidden;
+    protected IDelCallBack mDelCallBack;
+
 
     private int station = 0;
     private DragListView mDragListView;
@@ -69,6 +71,10 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     }
 
+    public void setDelCallBack(IDelCallBack callBack) {
+        mDelCallBack = callBack;
+    }
+
     public void showDropItem(boolean showItem) {
         this.ShowItem = showItem;
     }
@@ -83,8 +89,12 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         public void onSuccess(String result) {
             try {
                 PromptManager.closeProgressDialog();
-                dataList.remove(station);
-                notifyDataSetChanged();
+                if (dataList.size() == 1 && mDelCallBack != null) {
+                    mDelCallBack.removeLast();
+                } else {
+                    dataList.remove(station);
+                    notifyDataSetChanged();
+                }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -136,6 +146,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         tvDesc.setText(item.getItemDesc());
         cbAlert.setOnCheckedChangeListener(null);
         cbAlert.setTag(position);
+
         if (item.isItemTixing()) {
             cbAlert.setChecked(true);
         } else {
@@ -426,5 +437,9 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public void setDataList(List<DataEntry> dataList) {
         this.dataList = dataList;
+    }
+
+    public interface IDelCallBack {
+        void removeLast();
     }
 }

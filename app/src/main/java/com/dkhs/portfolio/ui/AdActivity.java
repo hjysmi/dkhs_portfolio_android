@@ -45,7 +45,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     public static final String KEY_URI = "key_uri";
 
-
+    public static  AdActivity instance;
     private static  final  String js="javascript:(function(){" +
             "window.shareMan.setTitleAction(document.title);" +
             "window.shareMan.getShareEntity(share());" +
@@ -90,6 +90,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handleIntent(getIntent());
+        instance = this;
         setContentView(R.layout.activity_ad);
         ViewUtils.inject(this);
         messageHandler = new MessageHandler(this);
@@ -123,6 +124,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
                 }
                 @Override
                 public void onPageFinished(WebView view, String url) {
+
                     mWebView.loadUrl(js);
                     super.onPageFinished(view, url);
                 }

@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 
 import org.parceler.Parcel;
 
+import java.io.Serializable;
+
 /**
  * @author zjz
  * @version 1.0
@@ -18,7 +20,7 @@ import org.parceler.Parcel;
  * @date 2015-4-14 下午4:07:40
  */
 @Parcel
-public class AlertSetBean {
+public class AlertSetBean implements Serializable{
     float stock_price_up;
     float stock_price_down;
     float stock_percentage;

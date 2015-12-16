@@ -19,9 +19,12 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-            <ImageView
-                android:id="@+id/iv_avatar"
+            <include
+                layout="@layout/layout_avatar_mark_v"
+                android:id="@+id/ll_avatar"
                 style="@style/lv_avatar_style"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true" />
 
             <ImageView
@@ -36,7 +39,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/ll_avatar"
                 android:gravity="top"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_status_username" />
@@ -48,7 +51,7 @@
                 android:layout_below="@+id/name"
                 android:layout_marginTop="4dp"
                 android:layout_toLeftOf="@+id/detail"
-                android:layout_toRightOf="@+id/iv_avatar"
+                android:layout_toRightOf="@+id/ll_avatar"
                 android:orientation="horizontal">
 
                 <TextView

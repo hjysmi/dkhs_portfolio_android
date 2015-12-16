@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.bean.DraftBean;
+import com.dkhs.portfolio.engine.LocalDataEngine.CityEngine;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
@@ -57,6 +58,7 @@ public final class AppConfig {
         if (hasReplaceRawDB || !PortfolioPreferenceManager.hasLoadSearchStock()) {
             copyDataBaseToPhone();
         }
+        copyCityDbToPhone();
 
         // 注册crashHandler，程序异常的日志管理工具
 
@@ -114,6 +116,31 @@ public final class AppConfig {
         }
     }
 
+    private void copyCityDbToPhone() {
+
+        final DataBaseUtil util = new DataBaseUtil(mContext);
+        // 判断数据库是否存在
+        boolean dbExist = util.checkCityDataBase();
+
+        if (dbExist) {
+            Log.i("tag", "The database is exist.");
+        } else {// 不存在就把raw里的数据库写入手机
+
+            new Thread() {
+                public void run() {
+
+                    try {
+                        util.copyCityDataBase();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }.start();
+
+        }
+    }
+
     public static DbUtils getDBUtils() {
         DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
         dbConfig.setDbVersion(VERSION_CURRENT);
@@ -133,6 +160,12 @@ public final class AppConfig {
 
             }
         });
+        return DbUtils.create(dbConfig);
+    }
+
+    public static DbUtils getCityDBUtils() {
+        DbUtils.DaoConfig dbConfig = new DbUtils.DaoConfig(PortfolioApplication.getInstance());
+        dbConfig.setDbName(CityEngine.CITYDBNAME);
         return DbUtils.create(dbConfig);
     }
 

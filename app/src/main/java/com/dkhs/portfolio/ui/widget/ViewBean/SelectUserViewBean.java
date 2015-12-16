@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
-import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 
 /**
  * Created by zhangcm on 2015/11/18.
@@ -48,17 +48,19 @@ public class SelectUserViewBean extends ViewBean {
         private View itemView;
         TextView tv_user_name;
         ImageView user_head;
-
+        ImageView water_mark;
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             tv_user_name = (TextView) itemView.findViewById(R.id.tv_user_name);
-            user_head = (ImageView) itemView.findViewById(R.id.user_head);
+            user_head = (ImageView) itemView.findViewById(R.id.iv_avatar);
+            water_mark = (ImageView) itemView.findViewById(R.id.iv_water_mark);
         }
 
         public void bindView(final UserEntity user) {
             tv_user_name.setText(user.getUsername());
             ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), user_head);
+            WaterMarkUtil.calWaterMarkImage(water_mark, user.verified, user.verified_type);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

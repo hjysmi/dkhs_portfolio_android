@@ -33,6 +33,8 @@ import com.dkhs.portfolio.ui.LoginActivity;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
@@ -345,6 +347,60 @@ public class UIUtils {
     }
 
     /**
+     * 加载本地图片
+     *
+     * @param url
+     * @return
+     */
+    public static Bitmap getLoacalBitmap(String url) {
+        try {
+            FileInputStream fis = new FileInputStream(url);
+            return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 判定输入汉字
+     *
+     * @param c
+     * @return
+     */
+    public static boolean isChinese(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检测String是否全是中文
+     *
+     * @param name
+     * @return
+     */
+    public static boolean checkNameChese(String name) {
+        boolean res = true;
+        char[] cTemp = name.toCharArray();
+        for (int i = 0; i < name.length(); i++) {
+            if (!isChinese(cTemp[i])) {
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
+
+    /**
      * 匹配K线图无网络时经线标题值
      *
      * @param value
@@ -426,6 +482,12 @@ public class UIUtils {
 
     public static void startAnimationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
+        // mContext.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+        setOverridePendingAnin(context);
+    }
+
+    public static void startAnimationActivityForResult(Activity context, Intent intent, int requestCode) {
+        context.startActivityForResult(intent, requestCode);
         // mContext.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
         setOverridePendingAnin(context);
     }

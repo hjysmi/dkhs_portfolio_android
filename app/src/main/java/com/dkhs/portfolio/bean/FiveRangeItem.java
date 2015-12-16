@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import java.io.Serializable;
+
 /**
  * @ClassName FiveRangeItem
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -15,7 +17,7 @@ package com.dkhs.portfolio.bean;
  * @date 2014-10-23 下午9:02:39
  * @version 1.0
  */
-public class FiveRangeItem {
+public class FiveRangeItem implements Serializable {
     public String tag;
     public int vol;
     public float price;

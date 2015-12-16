@@ -50,19 +50,20 @@
                             android:paddingRight="30dp"
                             android:src="@drawable/setting_image_right" />
 
-                        <ImageView
-                            android:id="@+id/setting_image_head"
-                            android:layout_width="72dp"
-                            android:layout_height="72dp"
+                        <include
+                            android:id="@+id/ll_image_head"
+                            layout="@layout/layout_avatar_mark_v"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
                             android:layout_toLeftOf="@id/setting_image_right"
-                            android:padding="10dp"
+                            android:layout_margin="10dp"
                             android:src="@drawable/ic_launcher" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/setting_image_head"
+                            android:layout_toLeftOf="@id/ll_image_head"
                             android:paddingLeft="20dp">
 
                             <TextView
@@ -153,78 +154,6 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/setting_layout_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/btn_white_selector">
-
-
-                        <ImageView
-                            android:id="@+id/setting_image_password_right"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:paddingRight="30dp"
-                            android:src="@drawable/setting_image_right" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@id/setting_image_password_right"
-                            android:paddingBottom="10dp"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="10dp"
-                            android:text="密码"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/setting_text_name" />
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/setting_layout_sign"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/btn_white_selector">
-
-                        <ImageView
-                            android:id="@+id/setting_image_sign_right"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:paddingRight="30dp"
-                            android:src="@drawable/setting_image_right" />
-
-                        <TextView
-                            android:id="@+id/setting_sign_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="10dp"
-                            android:text="个人签名"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/setting_text_name" />
-
-                        <TextView
-                            android:id="@+id/setting_sing_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/setting_image_sign_right"
-                            android:layout_toRightOf="@id/setting_sign_title"
-                            android:ellipsize="end"
-                            android:gravity="right"
-                            android:paddingLeft="40dp"
-                            android:paddingRight="5dp"
-                            android:singleLine="true"
-                            android:textColor="@color/person_setting_phonecolor"
-                            android:textSize="@dimen/setting_text_phone" />
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
                         android:id="@+id/setting_layout_boundphone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -279,6 +208,80 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/setting_layout_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_white_selector">
+
+
+                        <ImageView
+                            android:id="@+id/setting_image_password_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingRight="30dp"
+                            android:src="@drawable/setting_image_right" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@id/setting_image_password_right"
+                            android:paddingBottom="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="10dp"
+                            android:text="密码修改"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/setting_text_name" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/setting_layout_sign"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_white_selector">
+
+                        <ImageView
+                            android:id="@+id/setting_image_sign_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingRight="30dp"
+                            android:src="@drawable/setting_image_right" />
+
+                        <TextView
+                            android:id="@+id/setting_sign_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="10dp"
+                            android:text="@string/sign_text_title"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/setting_text_name" />
+
+                        <TextView
+                            android:id="@+id/setting_sing_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/setting_image_sign_right"
+                            android:layout_toRightOf="@id/setting_sign_title"
+                            android:ellipsize="end"
+                            android:gravity="right"
+                            android:paddingLeft="40dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true"
+                            android:textColor="@color/person_setting_phonecolor"
+                            android:textSize="@dimen/setting_text_phone" />
+                    </RelativeLayout>
+
+
+
                 </LinearLayout>
 
                 <include layout="@layout/layout_line" />
@@ -388,6 +391,7 @@
                 layout="@layout/layout_line" />
 
             <RelativeLayout
+                android:id="@+id/rl_btn_exit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
@@ -415,6 +419,8 @@
                 android:text="设置密码"
                 android:textColor="@color/white"
                 android:visibility="gone" />
+
+            <include layout="@layout/layout_pro_verification"/>
         </LinearLayout>
     </ScrollView>
 

@@ -36,6 +36,7 @@ public class DataBaseUtil {
 
     private Context context;
     public static String dbName = "dkhs_portfolio.db";// 数据库的名字
+    public static String cityDbName = "city_portfolio.db";// 数据库的名字
     private static String DATABASE_PATH;// 数据库在手机里的路径
 
     public DataBaseUtil(Context context) {
@@ -44,9 +45,10 @@ public class DataBaseUtil {
         DATABASE_PATH = "/data/data/" + packageName + "/databases/";
     }
 
+
     /**
      * 判断数据库是否存在
-     * 
+     *
      * @return false or true
      */
     public boolean checkDataBase() {
@@ -65,8 +67,28 @@ public class DataBaseUtil {
     }
 
     /**
+     * 判断城市数据库是否存在
+     *
+     * @return false or true
+     */
+    public boolean checkCityDataBase() {
+        SQLiteDatabase db = null;
+        try {
+            String databaseFilename = DATABASE_PATH + cityDbName;
+            db = SQLiteDatabase.openDatabase(databaseFilename, null, SQLiteDatabase.OPEN_READONLY);
+        } catch (SQLiteException e) {
+            return false;
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+        return db != null;
+    }
+
+    /**
      * 复制数据库到手机指定文件夹下
-     * 
+     *
      * @throws IOException
      */
     public void copyDataBase() throws IOException {
@@ -76,6 +98,28 @@ public class DataBaseUtil {
             dir.mkdir();
         FileOutputStream os = new FileOutputStream(databaseFilenames);// 得到数据库文件的写入流
         InputStream is = context.getResources().openRawResource(R.raw.dkhs_portfolio);// 得到数据库文件的数据流
+        byte[] buffer = new byte[8192];
+        int count = 0;
+        while ((count = is.read(buffer)) > 0) {
+            os.write(buffer, 0, count);
+            os.flush();
+        }
+        is.close();
+        os.close();
+    }
+
+    /**
+     * 复制城市数据库到手机指定文件夹下
+     *
+     * @throws IOException
+     */
+    public void copyCityDataBase() throws IOException {
+        String databaseFilenames = DATABASE_PATH + cityDbName;
+        File dir = new File(DATABASE_PATH);
+        if (!dir.exists())// 判断文件夹是否存在，不存在就新建一个
+            dir.mkdir();
+        FileOutputStream os = new FileOutputStream(databaseFilenames);// 得到数据库文件的写入流
+        InputStream is = context.getResources().openRawResource(R.raw.city_portfolio);// 得到数据库文件的数据流
         byte[] buffer = new byte[8192];
         int count = 0;
         while ((count = is.read(buffer)) > 0) {

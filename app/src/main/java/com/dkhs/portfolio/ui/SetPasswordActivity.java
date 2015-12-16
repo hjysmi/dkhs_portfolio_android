@@ -27,7 +27,6 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
-import com.dkhs.portfolio.utils.StringFromatUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -149,7 +148,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 6) {
+                if (s.length() >= 6) {
                     rlfbutton.setEnabled(true);
                 } else {
                     rlfbutton.setEnabled(false);

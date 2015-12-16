@@ -892,7 +892,7 @@ public class TrendChart extends TrendGridChart {
         LinePointEntity data = (LinePointEntity) lineentity.getLineData().get(pointIndex);
         if (data instanceof SepFundPointEntity) {
             //显示基金经理
-            mFloatViewHeight = (floatTextHeight + textMargin) * (3) + textMargin;
+            mFloatViewHeight = (floatTextHeight + textMargin) * (2) + textMargin;
             if (!TextUtils.isEmpty(((SepFundPointEntity) data).getInfo())) {
                 mFloatViewHeight = (floatTextHeight + textMargin) * (4) + textMargin;
             }
@@ -935,19 +935,21 @@ public class TrendChart extends TrendGridChart {
                 selectPaint.setColor(Color.BLACK);
                 preYpoint += textMargin + floatTextHeight;
 
-                firtLineText = "万份收益：";
-                canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
-                float xTitleWidth = selectPaint.measureText(((SepFundPointEntity) data).getNetvalue() + "");
-                canvas.drawText(((SepFundPointEntity) data).getNetvalue() + "", borderEnd - xTitleWidth, preYpoint, selectPaint);
+               // firtLineText = "万份收益：";
+               // canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
+           //     float xTitleWidth = selectPaint.measureText(((SepFundPointEntity) data).getNetvalue() + "");
+             //   canvas.drawText(((SepFundPointEntity) data).getNetvalue() + "", borderEnd - xTitleWidth, preYpoint, selectPaint);
 
-                preYpoint += textMargin + floatTextHeight;
-
-                firtLineText = "七日年化：";
+               // preYpoint += textMargin + floatTextHeight;
+                //左，上，右，下
+            //    RectF oval3 = new RectF(startX, mFloatViewMarginTop - 2, startX + mFloatViewWidth, mFloatViewMarginTop + mFloatViewHeight + 5);
+                selectPaint.setColor(ColorTemplate.getPercentColor(StringFromatUtils.get2PointPercent(((SepFundPointEntity) data).getValue())));
+                firtLineText = "总收益率：";
                 canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
                 float percentValue = ((SepFundPointEntity) data).getValue();
                 firtLineText = StringFromatUtils.get2PointPercent(percentValue);
-//                selectPaint.setColor(ColorTemplate.getPercentColor(firtLineText));
-                xTitleWidth = selectPaint.measureText(firtLineText);
+                float   xTitleWidth = selectPaint.measureText(firtLineText);
+
                 canvas.drawText(firtLineText, borderEnd - xTitleWidth, preYpoint, selectPaint);
 
                 //显示基金经理

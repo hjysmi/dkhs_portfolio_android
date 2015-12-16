@@ -78,8 +78,12 @@ public class DragCombinationAdapter extends DragListAdapter {
                 public void run() {
                     PromptManager.closeProgressDialog();
                     // conbinList.remove(conBean);
-                    getDataList().remove(position);
-                    notifyDataSetChanged();
+                    if (getDataList().size() == 1 && mDelCallBack != null) {
+                        mDelCallBack.removeLast();
+                    } else {
+                        getDataList().remove(position);
+                        notifyDataSetChanged();
+                    }
                 }
             }, 200);
         }

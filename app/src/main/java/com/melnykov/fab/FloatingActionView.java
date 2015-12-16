@@ -544,7 +544,7 @@ public class FloatingActionView extends LinearLayout {
 
         @Override
         public void onScrollDown() {
-            hide();
+            show();
             if (mScrollDirectionListener != null) {
                 mScrollDirectionListener.onScrollDown();
             }
@@ -552,7 +552,7 @@ public class FloatingActionView extends LinearLayout {
 
         @Override
         public void onScrollUp() {
-            show();
+            hide();
             if (mScrollDirectionListener != null) {
                 mScrollDirectionListener.onScrollUp();
             }

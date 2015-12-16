@@ -2,12 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners
-        android:radius="3dp"/>
-    <solid android:color="@color/tag_red"/>
-
+        android:radius="8dp"/>
+    <solid android:color="@color/theme_blue"/>
     <padding android:bottom="1dp"
         android:top="1dp"
-        android:right="3dp"
-        android:left="3dp"
+        android:right="8dp"
+        android:left="8dp"
         />
 </shape>

@@ -21,14 +21,16 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
-import android.widget.ListView;
+import android.widget.TextView;
 
+import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LocalDataEngine.SearchOnlineEngine;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -40,6 +42,7 @@ import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeLis
 import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.util.LogUtils;
@@ -56,19 +59,20 @@ import java.util.List;
  * @Description 个股选择
  * @date 2014-8-29 上午9:36:16
  */
-public class FragmentSearchStockFund extends VisiableLoadFragment implements ISelectChangeListener, OnClickListener {
+public class FragmentSearchStockFund extends VisiableLoadFragment implements ISelectChangeListener, OnClickListener, PullToRefreshListView.OnLoadMoreListener, SearchOnlineEngine.ILoadDataCallBack {
     private static final String TAG = FragmentSearchStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
     private static final String ARGUMENT_LOAD_STATUS = "isload_status";
     private static final String ARGUMENT_SEARCH_TYPE = "argument_search_type";
-    private static final String SEARCH_TYPE_FUNDS = "search_type_funds";
-    private static final String SEARCH_TYPE_STOCK = "search_type_stock";
+    public static final String SEARCH_TYPE_FUNDS = "search_type_funds";
+    public static final String SEARCH_TYPE_STOCK = "search_type_stock";
     //    private static final String SEARCH_TYPE_STATUS_STOCK = "search_type_status_stock";
-    private static final String SEARCH_TYPE_HISTORY = "search_type_history";
-    private static final String SEARCH_TYPE_STOCKANDINDEX = "search_type_stockandindex";
+    public static final String SEARCH_TYPE_HISTORY = "search_type_history";
+    public static final String SEARCH_TYPE_STOCKANDINDEX = "search_type_stockandindex";
 
     private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
+    private static final String ARGUMENT_ONLINE = "online";
     public static final String EXTRA_STOCK = "argument_select_stock";
 
 
@@ -83,36 +87,55 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     private View tvClearHistory;
     private boolean isFund;
     private boolean isStatus;
+    private boolean isOnline;
+    private String mKey;
+    private PullToRefreshListView mListView;
+    private TextView mEmptyTv;
 
     LoadMoreDataEngine mLoadDataEngine;
     SearchStockEngineImpl mSearchEngine;
 
     public static FragmentSearchStockFund getStockFragment() {
+        return getStockFragment(false);
+    }
+
+    public static FragmentSearchStockFund getStockFragment(boolean isOnline) {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCK);
+        args.putBoolean(ARGUMENT_ONLINE, isOnline);
         fragment.setArguments(args);
         return fragment;
     }
 
     public static FragmentSearchStockFund getFundFragment() {
+        return getFundFragment(false);
+    }
+
+    public static FragmentSearchStockFund getFundFragment(boolean isOnline) {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, true);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_FUNDS);
+        args.putBoolean(ARGUMENT_ONLINE, isOnline);
         // args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;
     }
 
     public static FragmentSearchStockFund getItemClickBackFragment(boolean isStatus) {
+        return getItemClickBackFragment(isStatus, false);
+    }
+
+    public static FragmentSearchStockFund getItemClickBackFragment(boolean isStatus, boolean isOnline) {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
         args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCKANDINDEX);
         args.putBoolean(ARGUMENT_LOAD_STATUS, isStatus);
+        args.putBoolean(ARGUMENT_ONLINE, isOnline);
         fragment.setArguments(args);
         return fragment;
     }
@@ -130,15 +153,25 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     }
 
     public void searchByKey(String key) {
-
+        mEmptyTv.setText(R.string.search_no_result);
         if (!TextUtils.isEmpty(mSearchType)) {
             key.trim();
+            mKey = key;
             mDataList.clear();
             if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_FUNDS)) {
-
-                mSearchEngine.searchFundsByLoader(key, getActivity());
+                if(isOnline){
+                    getOnLineEngine().searchByKey(key);
+                }else{
+                    mSearchEngine.searchFundsByLoader(key, getActivity());
+                }
             } else if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_STOCK)) {
-                mSearchEngine.searchStockByLoader(key, getActivity());
+                if (isOnline) {
+                    getOnLineEngine().searchByKey(key);
+                } else {
+                    mSearchEngine.searchStockByLoader(key, getActivity());
+                }
+            } else if (mSearchType.equals(SEARCH_TYPE_STOCKANDINDEX) && isOnline) {
+                getOnLineEngine().searchByKey(key);
             } else {
                 mSearchEngine.searchStockIndexFunds(key, getActivity());
             }
@@ -157,6 +190,7 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
             isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
             mSearchType = bundle.getString(ARGUMENT_SEARCH_TYPE);
             isStatus = bundle.getBoolean(ARGUMENT_LOAD_STATUS);
+            isOnline = bundle.getBoolean(ARGUMENT_ONLINE);
 
         }
         if (isFund) {
@@ -285,9 +319,12 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     private void initView(View view) {
         tvHistoryTip = view.findViewById(R.id.tv_history_tip);
 
-        ListView mListView = (ListView) view.findViewById(android.R.id.list);
-        mListView.setEmptyView(view.findViewById(android.R.id.empty));
 
+        mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
+
+        mEmptyTv = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(mEmptyTv);
+        mEmptyTv.setText("");
         if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
@@ -305,6 +342,12 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
             mListView.addFooterView(footView, null, false);
         }
         mListView.setAdapter(mAdapterConbinStock);
+        if (isOnline) {
+            mListView.setCanLoadMore(true);
+            mListView.setOnLoadListener(this);
+        } else {
+            mListView.setCanLoadMore(false);
+        }
     }
 
 
@@ -391,4 +434,47 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
         super.onViewHide();
 
     }
+
+
+    @Override
+    public void onLoadMore() {
+        if (BuildConfig.isSandbox) {
+            LogUtils.d("wys", "onLoadMore");
+        }
+        if (isOnline) {
+            getOnLineEngine().loadMore(mKey);
+        }
+
+        // 创建网络加载数据　添加变量判断是否使用在线搜索
+        //初始化设置mListView.setOnLoadListener(LoadMoreListFragment.this);
+        //数据获取loadfinish后设置mListView.setCanLoadMore(true);或者setCanLoadMore(false) 参考LoadMoreListFragment
+        //新建个类实现这些逻辑吧 改的地方不少
+    }
+
+    private SearchOnlineEngine mOnLineEngine;
+
+    private SearchOnlineEngine getOnLineEngine() {
+        if (mOnLineEngine == null) {
+            mOnLineEngine = new SearchOnlineEngine(mSearchType, this);
+        }
+        return mOnLineEngine;
+    }
+
+    @Override
+    public void loadFinish(MoreDataBean<SelectStockBean> data) {
+        if (data.getCurrentPage() == 1) {
+            mDataList.clear();
+        }
+        mDataList.addAll(data.getResults());
+        mAdapterConbinStock.notifyDataSetChanged();
+        mListView.onLoadMoreComplete();
+        if (data.getCurrentPage() >= data.getTotalPage()) {
+            mListView.setCanLoadMore(false);
+            mListView.setAutoLoadMore(false);
+        } else {
+            mListView.setCanLoadMore(true);
+            mListView.setAutoLoadMore(true);
+        }
+    }
+
 }

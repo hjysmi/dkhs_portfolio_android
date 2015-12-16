@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,10 +20,10 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalFundsEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.draglist.DragListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.ui.draglist.DragStockAdapter;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +32,7 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-public class EditTabFundActivity extends ModelAcitivity implements OnClickListener {
+public class EditTabFundActivity extends ModelAcitivity implements OnClickListener, DragListAdapter.IDelCallBack {
     private DragListView optionEditList;
     LoadMoreDataEngine mLoadDataEngine;
     private DragStockAdapter adapter;
@@ -86,6 +85,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         layout.setOnClickListener(this);
 
         adapter = new DragStockAdapter(context, optionEditList, true);
+        adapter.setDelCallBack(this);
         adapter.setAdapterData(mStockList);
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());
@@ -122,6 +122,11 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
                 mStockList.get(position).is_alert = stockBean.is_alert;
             }
         }
+    }
+
+    @Override
+    public void removeLast() {
+        finish();
     }
 
     class OnListener implements OnItemClickListener {
@@ -202,7 +207,6 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_edit);
-
 
 
     private boolean isFirstLoad = true;

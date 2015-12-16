@@ -350,40 +350,40 @@ public class MainActivity extends BaseActivity {
         BusProvider.getInstance().post(newIntent);
     }
 
-    public static void gotoCombinationRankingActivity(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 1);
-        NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 2);
-        intent.putExtra("arg", newIntent.bundle);
-        context.startActivity(intent);
-        BusProvider.getInstance().post(newIntent);
-    }
+//    public static void gotoCombinationRankingActivity(Context context) {
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.putExtra("index", 1);
+//        NewIntent newIntent = new NewIntent();
+//        newIntent.bundle.putInt("fund_index", 2);
+//        intent.putExtra("arg", newIntent.bundle);
+//        context.startActivity(intent);
+//        BusProvider.getInstance().post(newIntent);
+//    }
 
-    public static void gotoFundManagerRanking(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 1);
-        NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 0);
-        newIntent.bundle.putBoolean("fund_manager_ranking", true);
-        intent.putExtra("arg", newIntent.bundle);
-        context.startActivity(intent);
-        BusProvider.getInstance().post(newIntent);
-    }
+//    public static void gotoFundManagerRanking(Context context) {
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.putExtra("index", 1);
+//        NewIntent newIntent = new NewIntent();
+//        newIntent.bundle.putInt("fund_index", 0);
+//        newIntent.bundle.putBoolean("fund_manager_ranking", true);
+//        intent.putExtra("arg", newIntent.bundle);
+//        context.startActivity(intent);
+//        BusProvider.getInstance().post(newIntent);
+//    }
 
-    public static void gotoFundsRanking(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra("index", 1);
-
-
-        NewIntent newIntent = new NewIntent();
-        newIntent.bundle.putInt("fund_index", 0);
-        newIntent.bundle.putBoolean("fund_manager_ranking", false);
-        intent.putExtra("arg", newIntent.bundle);
-        context.startActivity(intent);
-        BusProvider.getInstance().post(newIntent);
-
-    }
+//    public static void gotoFundsRanking(Context context) {
+//        Intent intent = new Intent(context, MainActivity.class);
+//        intent.putExtra("index", 1);
+//
+//
+//        NewIntent newIntent = new NewIntent();
+//        newIntent.bundle.putInt("fund_index", 0);
+//        newIntent.bundle.putBoolean("fund_manager_ranking", false);
+//        intent.putExtra("arg", newIntent.bundle);
+//        context.startActivity(intent);
+//        BusProvider.getInstance().post(newIntent);
+//
+//    }
 
     public static void gotoSHActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);

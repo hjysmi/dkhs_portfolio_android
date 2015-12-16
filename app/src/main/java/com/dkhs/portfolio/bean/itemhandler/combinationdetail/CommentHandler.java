@@ -30,6 +30,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.WaterMarkUtil;
 import com.mingle.bean.PhotoBean;
 
 import java.util.ArrayList;
@@ -125,10 +126,11 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
 
         PeopleBean user = comment.user;
         if (user !=null && !TextUtils.isEmpty(user.getAvatar_sm())) {
-            ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_head));
+            ImageLoaderUtils.setHeanderImage(comment.user.getAvatar_sm(), vh.getImageView(R.id.iv_avatar));
         } else {
-            vh.getImageView(R.id.iv_head).setImageResource(R.drawable.default_head);
+            vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.default_head);
         }
+        WaterMarkUtil.calWaterMarkImage(vh.getImageView(R.id.iv_water_mark), user.verified, user.verified_type);
         if(user != null){
             vh.getTextView(R.id.tv_username).setText(user.getUsername());
         }
@@ -162,7 +164,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
         }
 
         if (mAvatarImResponse) {
-            setClickListener(vh.get(R.id.iv_head), comment);
+            setClickListener(vh.get(R.id.iv_avatar), comment);
         }
         vh.getConvertView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +219,7 @@ public class CommentHandler extends SimpleItemHandler<LikeBean> {
                 case R.id.like_ll:
                     itemHandlerClickListener = new LikeClickListenerImp();
                     break;
-                case R.id.iv_head:
+                case R.id.iv_avatar:
                 case R.id.tv_username:
                     itemHandlerClickListener = new AvatarClickListenerImp();
                     break;
