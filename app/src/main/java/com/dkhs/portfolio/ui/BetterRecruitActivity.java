@@ -14,6 +14,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.FrameLayout;
 import com.dkhs.portfolio.bean.AuthPageEventBean;
 import com.dkhs.portfolio.bean.PersonalEventBean;
+import com.dkhs.portfolio.bean.PersonalNewEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
@@ -157,6 +158,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                 break;
             case index2:
                 tv_personal.setEnabled(true);
+                tv_qualification.setEnabled(true);
                 if (personalFragment == null) {
                     personalFragment = new PersonalFragment();
                     Bundle bundle = new Bundle();
@@ -169,6 +171,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                     personalFragment.setArguments(bundle);
                     ft.add(R.id.fm_main, personalFragment);
                 } else {
+                    BusProvider.getInstance().post(new PersonalNewEventBean(bean));
                     ft.show(personalFragment);
                 }
 
