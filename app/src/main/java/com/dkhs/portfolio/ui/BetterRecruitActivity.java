@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.FrameLayout;
+import com.dkhs.portfolio.bean.AuthPageEventBean;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.bean.ProVerificationBean;
@@ -113,8 +114,6 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        finish();
-
                     }
                 }).setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
 
@@ -241,6 +240,11 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                 BusProvider.getInstance().post(new PersonalEventBean(UserEntity.VERIFIEDSTATUS.SUCCESS.getTypeid()));
             }
         }
+    }
+
+    @Subscribe
+    public void authPageEvent(AuthPageEventBean bean) {
+        tv_personal.setEnabled(false);
     }
 
     @Override

@@ -7,8 +7,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
@@ -24,7 +24,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class PersonalIntroduceActivity extends ModelAcitivity implements View.OnClickListener {
     private EditText et_content;
     private int width;
-    private Button but_next;
+    private TextView btnRight;
     public static final String RESULT_CONTENT = "result_content";
 
     @Override
@@ -41,7 +41,9 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
     private void initViews() {
         width = UIUtils.getDisplayMetrics().widthPixels;
         et_content = (EditText) findViewById(R.id.et_content);
-        but_next = (Button) findViewById(R.id.but_next);
+        btnRight = getRightButton();
+        btnRight.setBackgroundDrawable(null);
+        btnRight.setText(R.string.post);
         int padding_left = (int) (0.05 * width);
         et_content.setPadding(padding_left, 0, padding_left, padding_left);
 
@@ -55,10 +57,10 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         if (null != intent) {
             content = intent.getStringExtra(RESULT_CONTENT);
             if (content.length() >= 0) {
-                but_next.setEnabled(true);
+                btnRight.setEnabled(true);
                 et_content.setText(content);
             } else {
-                but_next.setEnabled(false);
+                btnRight.setEnabled(false);
             }
 
         }
@@ -79,15 +81,15 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         public void afterTextChanged(Editable s) {
             String str = s.toString();
             if (str.length() > 0) {
-                but_next.setEnabled(true);
+                btnRight.setEnabled(true);
             } else {
-                but_next.setEnabled(false);
+                btnRight.setEnabled(false);
             }
         }
     };
 
     private void initEvents() {
-        but_next.setOnClickListener(this);
+        btnRight.setOnClickListener(this);
     }
 
 
@@ -95,9 +97,7 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.but_next:
-               /* Intent intent = new Intent();
-                intent.putExtra(RESULT_CONTENT, et_content.getText().toString().trim());
-                setResult(PersonalFragment.RESULT_INTRODUCE_BACK, intent);*/
+
                 BusProvider.getInstance().post(new PersonalQualificationEventBean(et_content.getText().toString().trim()));
                 finish();
                 break;
