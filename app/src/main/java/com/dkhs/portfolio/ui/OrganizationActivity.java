@@ -33,10 +33,6 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
     private int type = 0;
     private SortAdapter adapter;
     List<SortModel> SourceDateList = new ArrayList<>();
-    /**
-     * 根据拼音来排列ListView里面的数据类
-     */
-    //private PinyinComparator pinyinComparator;
     private OrganizationEngine engine;
 
     @Override
@@ -65,10 +61,7 @@ public class OrganizationActivity extends ModelAcitivity implements View.OnClick
 
     private void initValues() {
         type = getIntent().getIntExtra(KEY_TYPE, 0);
-        //pinyinComparator = new PinyinComparator();
-      //  Collections.sort(SourceDateList, pinyinComparator);
         adapter = new SortAdapter(this, SourceDateList);
-        // adapter.bindData(SourceDateList);
         lv_organization.setAdapter(adapter);
     }
 

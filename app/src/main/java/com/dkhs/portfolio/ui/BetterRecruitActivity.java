@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +22,8 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.PersonalFragment;
 import com.dkhs.portfolio.ui.fragment.QualificationFragment;
 import com.dkhs.portfolio.ui.fragment.SubmitFragment;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
 
@@ -86,9 +89,49 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         tv_qualification.setEnabled(false);
         tv_personal.setEnabled(false);
         tv_submit.setEnabled(false);
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                needShowDialog();
+            }
+        });
     }
 
-    private void showFragment(int i, ProInfoBean bean,int type) {
+    private void needShowDialog() {
+        if (submitFragment != null && submitFragment.isVisible()) {
+            finish();
+        } else {
+            showDialog();
+        }
+    }
+
+    private void showDialog() {
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.dialog_msg_exit_page)
+                .setNegativeButton(R.string.dialog_no, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+
+                    }
+                }).setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                finish();
+
+            }
+        });
+
+
+        builder.show();
+    }
+
+    private void showFragment(int i, ProInfoBean bean, int type) {
         FragmentTransaction ft = fm.beginTransaction();
         hideFragment(ft);
 
@@ -98,7 +141,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                     qualificationFragment = new QualificationFragment();
                     Bundle bundle = new Bundle();
                     bundle.putInt("type", type_qua);
-                    if(verificationBean != null){
+                    if (verificationBean != null) {
                         bundle.putParcelable(QualificationFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
                     }
                     qualificationFragment.setArguments(bundle);
@@ -112,10 +155,10 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                 if (personalFragment == null) {
                     personalFragment = new PersonalFragment();
                     Bundle bundle = new Bundle();
-                   // bundle.putSerializable(PersonalFragment.KEY_PERINFOBEAN, bean);
-                  //  bundle.putEx(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
+                    // bundle.putSerializable(PersonalFragment.KEY_PERINFOBEAN, bean);
+                    //  bundle.putEx(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
                     bundle.putParcelable(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
-                    if(verificationBean != null){
+                    if (verificationBean != null) {
                         bundle.putParcelable(PersonalFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
                     }
                     personalFragment.setArguments(bundle);
@@ -151,11 +194,11 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         switch (v.getId()) {
             case R.id.tv_qualification:
                 ObjectAnimator.ofFloat(iv_jt, "translationX", 0).setDuration(200).start();
-                showFragment(index1,null,-1);
+                showFragment(index1, null, -1);
                 break;
             case R.id.tv_personal:
                 ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.375 * width)).setDuration(200).start();
-                showFragment(index2,null,-1);
+                showFragment(index2, null, -1);
                 break;
             case R.id.tv_submit:
                 //   showFragment(index3);
@@ -169,7 +212,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         ObjectAnimator.ofFloat(iv_jt, "translationX", 0, (int) (0.35 * width)).setDuration(200).start();
         tv_qualification.setEnabled(true);
         tv_personal.setEnabled(true);
-        showFragment(index2,event.proInfoBean,-1);
+        showFragment(index2, event.proInfoBean, -1);
     }
 
     @Subscribe
@@ -192,11 +235,16 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         if (PortfolioApplication.hasUserLogin()) {
             UserEntity user = GlobalParams.LOGIN_USER;
             int verified_status = user.verified_status;//0, '审核中' 1, '已认证' 2, '审核失败'
-            if (verified_status == UserEntity.VERIFIEDSTATUS.VERIFYING.getTypeid()){//认证中
+            if (verified_status == UserEntity.VERIFIEDSTATUS.VERIFYING.getTypeid()) {//认证中
                 BusProvider.getInstance().post(new PersonalEventBean(UserEntity.VERIFIEDSTATUS.VERIFYING.getTypeid()));
             } else if (verified_status == UserEntity.VERIFIEDSTATUS.SUCCESS.getTypeid()) {//认证成功
                 BusProvider.getInstance().post(new PersonalEventBean(UserEntity.VERIFIEDSTATUS.SUCCESS.getTypeid()));
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        needShowDialog();
     }
 }
