@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.android.percent.PercentFrameLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalEventBean;
+import com.dkhs.portfolio.bean.PersonalNewEventBean;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
 import com.dkhs.portfolio.bean.ProVerificationBean;
@@ -28,6 +29,7 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.service.AuthenticationService;
 import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
+import com.dkhs.portfolio.ui.SendPersonalEvent;
 import com.dkhs.portfolio.ui.city.SelectProviceActivity;
 import com.dkhs.portfolio.ui.eventbus.BackCityEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -104,12 +106,11 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initValues() {
-      //  Bundle bundle = getArguments();
+        //  Bundle bundle = getArguments();
 
         proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
         verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
     }
-
 
 
     private void initView(View view) {
@@ -129,6 +130,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         // et_id.addTextChangedListener(et_id_textwatcher);
         et_name.addTextChangedListener(et_name_textwatcher);
         et_id.addTextChangedListener(et_id_textwatcher);
+        tv_introduce.setText(GlobalParams.LOGIN_USER.getDescription());
     }
 
     private void initEvents() {
@@ -152,7 +154,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             et_name.setText(info.identity.real_name);
         }
         if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getProvince())) {
-            tv_city.setText(GlobalParams.LOGIN_USER.getProvince() +(TextUtils.isEmpty(GlobalParams.LOGIN_USER.getCity())?"":" "+GlobalParams.LOGIN_USER.getCity()));
+            tv_city.setText(GlobalParams.LOGIN_USER.getProvince() + (TextUtils.isEmpty(GlobalParams.LOGIN_USER.getCity()) ? "" : " " + GlobalParams.LOGIN_USER.getCity()));
         }
         if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getDescription())) {
             tv_introduce.setText(GlobalParams.LOGIN_USER.getDescription());
@@ -311,16 +313,19 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
      * 上传信息
      */
     private void upInfo() {
-        BusProvider.getInstance().post(new PersonalEventBean());
-        // PromptManager.showProgressDialog(getActivity(), "", false);
+      //  BusProvider.getInstance().post(new PersonalEventBean());
+         PromptManager.showProgressDialog(getActivity(), "", false);
         AuthenticationService.startPost(getActivity(), buildProInfoBean());
     }
 
-    /*@Subscribe
-    public void postFail(SendPersonalEvent event) {
+    @Subscribe
+    public void postFinish(SendPersonalEvent event) {
         PromptManager.closeProgressDialog();
-        BusProvider.getInstance().post(new PersonalEventBean());
-    }*/
+        if(event.isSuccess()){
+              BusProvider.getInstance().post(new PersonalEventBean());
+        }
+       // BusProvider.getInstance().post(new PersonalEventBean());
+    }
 
     private ProInfoBean buildProInfoBean() {
         if (null != proInfoBean_qualification) {
@@ -349,7 +354,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 proInfoBean.province = split_city[0];
                 proInfoBean.city = split_city[1];
             }
-            proInfoBean.cert_description = clearTvInvalid(tv_introduce);
+            proInfoBean.description = clearTvInvalid(tv_introduce);
             proInfoBean.id_card_photo_full = mCurrentPhotoPath;
 
             return proInfoBean;
@@ -359,11 +364,10 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    /*@Subscribe
-    public void getProInfoBean(QualificationToPersonalEvent bean) {
-
+    @Subscribe
+    public void getProInfoBean(PersonalNewEventBean bean) {
         proInfoBean_qualification = bean.proInfoBean;
-    }*/
+    }
 
     //选择图片
     private void showPicDialog() {
@@ -451,7 +455,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             if (null != photos && photos.size() > 0) {
                 iv_upimg.setVisibility(View.VISIBLE);
                 Bitmap localeimage = UIUtils.getLocaleimage(photos.get(0));
-                if(localeimage == null){
+                if (localeimage == null) {
                     PromptManager.showToast("图片已损坏或者不存在");
                     return;
                 }

@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_qualification_down"
+            android:src="@drawable/ic_qualification_up"
             app:layout_heightPercent="6%w"
             app:layout_marginRightPercent="5%w"
             app:layout_widthPercent="6%w" />

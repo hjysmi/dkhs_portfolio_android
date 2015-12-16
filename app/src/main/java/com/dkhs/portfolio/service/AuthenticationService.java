@@ -64,7 +64,6 @@ public class AuthenticationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.e("xue", ">>>");
         if (intent != null) {
             final String action = intent.getAction();
             if (getActionUpload().equals(action)) {
@@ -84,7 +83,6 @@ public class AuthenticationService extends IntentService {
     }
 
     private void postInfo(ProInfoBean proInfoBean) {
-        Log.e("xue", "pro=" + proInfoBean);
         authEngine = new AuthEngine();
         authEngine.upInfo(singlelistener, proInfoBean);
 
@@ -100,10 +98,7 @@ public class AuthenticationService extends IntentService {
             try {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 String results = jsonObject.getString("status");
-                if (Boolean.parseBoolean(results)) {
-                    GlobalParams.LOGIN_USER.verified_status = 0;
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, 0);
-                }
+
                 return results;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -114,13 +109,26 @@ public class AuthenticationService extends IntentService {
 
         @Override
         protected void afterParseData(String str) {
+            if (Boolean.parseBoolean(str)) {
+                GlobalParams.LOGIN_USER.verified_status = 0;
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, 0);
+            }
+            BusProvider.getInstance().post(new SendPersonalEvent(true));
           /*  if ("true".equals(str)) {
              //   BusProvider.getInstance().post(new SendPersonalEvent());
             } else {
 
             }*/
         }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            BusProvider.getInstance().post(new SendPersonalEvent(false));
+        }
     };
+
+
 
     private void updateNotificationError(ProInfoBean proInfoBean) {
         // new DraftEngine(null).saveDraft(draftBean);
@@ -132,7 +140,6 @@ public class AuthenticationService extends IntentService {
         notificationManager.notify(UPLOAD_NOTIFICATION_ID, notification.build());
         notificationManager.cancel(UPLOAD_NOTIFICATION_ID);
 
-        BusProvider.getInstance().post(new SendPersonalEvent());
 
     }
 

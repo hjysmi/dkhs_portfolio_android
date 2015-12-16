@@ -115,6 +115,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
         initValues();
+        initAnimation();
         if (verificationBean != null) {
             updateProVerificationInfo(verificationBean);
         }
@@ -181,7 +182,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         gv.setVerticalSpacing((int) (0.03 * width));
         mSelectPohotos.add(ADD_PICTURE);
         mPicAdapter = new SelectQualificationAdapter(getActivity(), mSelectPohotos);
-
 
     }
 
@@ -418,7 +418,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             });
             animator.start();
 
-            iv_right.setImageResource(R.drawable.ic_qualification_up);
+            iv_right.setImageResource(R.drawable.ic_qualification_down);
             isExpand = false;
         } else {
 
@@ -462,7 +462,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             });
             animator.start();
 
-            iv_right.setImageResource(R.drawable.ic_qualification_down);
+            iv_right.setImageResource(R.drawable.ic_qualification_up);
             isExpand = true;
         }
 
