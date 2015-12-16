@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="@dimen/widget_text_14sp"
-                    android:text="@string/total_profit"
+                    android:text="@string/assest_total_profit"
                     />
 
                 <TextView
