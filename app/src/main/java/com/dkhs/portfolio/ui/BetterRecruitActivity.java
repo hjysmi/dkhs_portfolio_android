@@ -79,7 +79,6 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     private void initValues() {
         type_qua = getIntent().getIntExtra("type", 0);
         verificationBean = Parcels.unwrap(getIntent().getExtras().getParcelable("proverification_bean"));
-        tv_qualification.setTextColor(getResources().getColor(R.color.white));
         showFragment(index1, null, -1);
     }
 
@@ -87,15 +86,20 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         tv_personal.setOnClickListener(this);
         tv_submit.setOnClickListener(this);
         tv_qualification.setOnClickListener(this);
-        tv_qualification.setEnabled(false);
-        tv_personal.setEnabled(false);
-        tv_submit.setEnabled(false);
+        initTab();
+        tv_qualification.setEnabled(true);
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 needShowDialog();
             }
         });
+    }
+
+    private void initTab() {
+        tv_qualification.setEnabled(false);
+        tv_personal.setEnabled(false);
+        tv_submit.setEnabled(false);
     }
 
     private void needShowDialog() {
@@ -133,9 +137,10 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     private void showFragment(int i, ProInfoBean bean, int type) {
         FragmentTransaction ft = fm.beginTransaction();
         hideFragment(ft);
-
+        initTab();
         switch (i) {
             case index1:
+                tv_qualification.setEnabled(true);
                 if (qualificationFragment == null) {
                     qualificationFragment = new QualificationFragment();
                     Bundle bundle = new Bundle();
@@ -151,6 +156,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
 
                 break;
             case index2:
+                tv_personal.setEnabled(true);
                 if (personalFragment == null) {
                     personalFragment = new PersonalFragment();
                     Bundle bundle = new Bundle();
@@ -168,6 +174,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
 
                 break;
             case index3:
+                tv_submit.setEnabled(true);
                 submitFragment = SubmitFragment.newInstance(type);
                 ft.add(R.id.fm_main, submitFragment);
                 break;
@@ -209,8 +216,6 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     public void toPersonalFragment(QualificationToPersonalEvent event) {
         // TranslateAnimation animation
         ObjectAnimator.ofFloat(iv_jt, "translationX", 0, (int) (0.35 * width)).setDuration(200).start();
-        tv_qualification.setEnabled(true);
-        tv_personal.setEnabled(true);
         showFragment(index2, event.proInfoBean, -1);
     }
 
@@ -218,9 +223,6 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     public void tosubmitFragment(PersonalEventBean event) {
         ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.7 * width)).setDuration(200).start();
         showFragment(index3, null, event.verified_status);
-        tv_qualification.setEnabled(false);
-        tv_personal.setEnabled(false);
-        tv_submit.setEnabled(false);
         // ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.5 * width), (int) (0.7 * width)).setDuration(200).start();
     }
 
@@ -251,4 +253,5 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     public void onBackPressed() {
         needShowDialog();
     }
+
 }

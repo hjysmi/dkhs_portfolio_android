@@ -59,7 +59,7 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
             } else {
                 signText.setText(strRawSigin);
                 signText.setSelection(signText.length());
-                int k = 40 - signText.getText().toString().length();
+                int k = 200 - signText.getText().toString().length();
                 signVlaue.setText(k + "");
             }
 
@@ -93,7 +93,7 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
         @Override
         public void afterTextChanged(Editable s) {
             // TODO Auto-generated method stub
-            int k = 40 - signText.getText().toString().length();
+            int k = 200 - signText.getText().toString().length();
             signVlaue.setText(k + "");
         }
 

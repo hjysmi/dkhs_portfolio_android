@@ -42,6 +42,7 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
@@ -696,7 +697,8 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+//                    Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                    Intent intent = new Intent(getActivity(), SelectGeneralActivity.class);
                     startActivity(intent);
 
                 }
