@@ -96,7 +96,7 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.but_next:
+            case RIGHTBUTTON_ID:
 
                 BusProvider.getInstance().post(new PersonalQualificationEventBean(et_content.getText().toString().trim()));
                 finish();
