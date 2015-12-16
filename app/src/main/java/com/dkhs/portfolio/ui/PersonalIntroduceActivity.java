@@ -46,8 +46,9 @@ public class PersonalIntroduceActivity extends ModelAcitivity implements View.On
         btnRight.setText(R.string.post);
         int padding_left = (int) (0.05 * width);
         et_content.setPadding(padding_left, 0, padding_left, padding_left);
+        et_content.setEnabled(true);
 
-        et_content.addTextChangedListener(et_content_textwatcher);
+//        et_content.addTextChangedListener(et_content_textwatcher);
     }
 
     private String content;
