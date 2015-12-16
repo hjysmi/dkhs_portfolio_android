@@ -55,7 +55,7 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
         if (null != b) {
             String strRawSigin = b.getString(DESCRIPTION);
             if (TextUtils.isEmpty(strRawSigin)) {
-                signText.setHint(R.string.desc_def_text);
+                signText.setHint(R.string.prompt_introduction);
             } else {
                 signText.setText(strRawSigin);
                 signText.setSelection(signText.length());
