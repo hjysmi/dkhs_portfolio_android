@@ -11,10 +11,12 @@ import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AuthEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SendPersonalEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,7 +100,10 @@ public class AuthenticationService extends IntentService {
             try {
                 JSONObject jsonObject = new JSONObject(jsonData);
                 String results = jsonObject.getString("status");
-                Log.e("xue","results="+results);
+                if (Boolean.parseBoolean(results)) {
+                    GlobalParams.LOGIN_USER.verified_status = 0;
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, 0);
+                }
                 return results;
             } catch (JSONException e) {
                 e.printStackTrace();

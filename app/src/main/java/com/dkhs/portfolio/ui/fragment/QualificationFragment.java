@@ -19,7 +19,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -30,6 +29,7 @@ import com.android.percent.PercentRelativeLayout;
 import com.dkhs.adpter.adapter.SingleItemAdapter;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AuthPageEventBean;
 import com.dkhs.portfolio.bean.OrganizationEventBean;
 import com.dkhs.portfolio.bean.OrgtypeBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
@@ -74,7 +74,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private List<OrgtypeBean> list;
     private List<Integer> list_img;
     private QualificationAdapter adapter;
-    private FrameLayout fm_main;
+    private PercentFrameLayout fm_main;
     private TextView tv_type;
     private LinearLayout ll_main;
     private EditText et_num;
@@ -103,6 +103,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private final static int TYPE_FOUR = 3;
     private final static int TYPE_FIVE = 4;
     private int type = 0;
+    private String num = "";
 
     @Override
     public int setContentLayoutId() {
@@ -113,31 +114,11 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        //  setDialog();
         initValues();
-        //    loadOnLineData();
         if (verificationBean != null) {
             updateProVerificationInfo(verificationBean);
         }
     }
-
-    /*private void loadOnLineData() {
-        int verified_status = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS);
-        if (2 == verified_status) {
-            DKHSClient.requestByGet(new ParseHttpListener<ProVerificationBean>() {
-                @Override
-                protected ProVerificationBean parseDateTask(String jsonData) {
-                    return DataParse.parseObjectJson(ProVerificationBean.class, jsonData);
-                }
-
-                @Override
-                protected void afterParseData(ProVerificationBean bean) {
-                    updateProVerificationInfo(bean);
-                }
-            }, DKHSUrl.User.get_pro_verification);
-        }
-
-    }*/
 
     private void updateProVerificationInfo(ProVerificationBean info) {
 
@@ -157,7 +138,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 }
                 //    et_num.setText(info.pro.cert_no);
             }
-            if(info.pro.org_profile != null)
+            if (info.pro.org_profile != null)
                 org_id = info.pro.org_profile.id;
         }
 
@@ -184,7 +165,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private void initViews(View view) {
 
         width = UIUtils.getDisplayMetrics().widthPixels;
-        fm_main = (FrameLayout) view.findViewById(R.id.fm_main);
+        fm_main = (PercentFrameLayout) view.findViewById(R.id.fm_main);
         iv_right = (ImageView) view.findViewById(R.id.iv_right);
         tv_type = (TextView) view.findViewById(R.id.tv_type);
         gv = (GridViewEx) view.findViewById(R.id.gv);
@@ -236,6 +217,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         et_num.setPadding((int) (0.05 * width), 0, 0, 0);
         tv_organization.setPadding((int) (0.05 * width), 0, 0, 0);
         fm_organization.setOnClickListener(this);
+        et_num.setText(num);
     }
 
     TextWatcher et_num_textwatcher = new TextWatcher() {
@@ -260,7 +242,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             }
         }
     };
-
 
 
     private void initValues() {
@@ -305,13 +286,22 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 adapter.notifyDataSetChanged();
                 tv_type.setText(list.get(position).getOrgName());
                 selectedItemType = list.get(position).getType();
+                BusProvider.getInstance().post(new AuthPageEventBean());
                 initAnimation();
                 if (position == 0) {
                     //投资牛人
+                    num = "";
+                    if (null != et_num) {
+                        et_num.setText("");
+                    }
                     initFooterBetter();
                 } else {
                     //其他
+                    if (null != et_num) {
+                        num = et_num.getText().toString().trim();
+                    }
                     initFooterOther();
+
                 }
             }
         });
@@ -350,7 +340,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                     BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                 } else {
                     //不是投资牛人
-
                     if (!TextUtils.isEmpty(et_num.getText().toString())) {
                         //验证通过
                         BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));

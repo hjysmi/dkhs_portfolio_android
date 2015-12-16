@@ -85,7 +85,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|left"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/setting_text_name"
                     app:layout_heightPercent="10%w"
                     app:layout_maxWidthPercent="50%w"
                     app:layout_textSizePercent="6%w"
@@ -93,14 +92,15 @@
                     android:singleLine="true"/>
 
                 <ImageView
+                    app:layout_marginTopPercent="1%w"
                     android:id="@+id/iv_verified_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/setting_text_name_text"
                     android:scaleType="centerCrop"
-                    app:layout_heightPercent="10%w"
+                    app:layout_heightPercent="8%w"
                     app:layout_marginLeftPercent="2%w"
-                    app:layout_widthPercent="33.3%w"
+                    app:layout_widthPercent="26.64%w"
                     tools:background="@drawable/ic_user_betterrecruit" />
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/setting_text_name_text"
                     android:textColor="@color/person_setting_phonecolor"
-                    app:layout_textSizePercent="4%w"
+                    app:layout_textSizePercent="4.5%w"
                     tools:text="18055827804" />
             </com.android.percent.PercentRelativeLayout>
         </com.android.percent.PercentRelativeLayout>

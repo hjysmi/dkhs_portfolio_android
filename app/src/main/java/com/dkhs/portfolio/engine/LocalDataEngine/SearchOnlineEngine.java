@@ -25,6 +25,13 @@ public class SearchOnlineEngine {
      * 股票、指数和基金
      */
     private final static String SYMBOL_TYPE_STOCKANDINDEX = "1,3,5";
+
+    /**
+     * 返回股票型和指数型基金
+     */
+    private final static String SYMBOL_TYPE_FUND = "3";
+    private final static String SYMBOL_STYPE_FUND = "300,303";
+
     private int currentPage = 1;
     private String mSearchType;
     private ILoadDataCallBack mCallBack;
@@ -70,6 +77,8 @@ public class SearchOnlineEngine {
             searchStockFund(SYMBOL_TYPE_STOCK, SYMBOL_STYPE_STOCK, currentPage + 1, key);
         } else if (mSearchType.equalsIgnoreCase(FragmentSearchStockFund.SEARCH_TYPE_STOCKANDINDEX)) {
             searchStockFund(SYMBOL_TYPE_STOCKANDINDEX, "", currentPage + 1, key);
+        } else if(mSearchType.equalsIgnoreCase(FragmentSearchStockFund.SEARCH_TYPE_FUNDS)){
+            searchStockFund(SYMBOL_TYPE_FUND,SYMBOL_STYPE_FUND, currentPage + 1, key);
         }
     }
 
@@ -78,6 +87,8 @@ public class SearchOnlineEngine {
             searchStockFund(SYMBOL_TYPE_STOCK, SYMBOL_STYPE_STOCK, 1, key);
         } else if (mSearchType.equalsIgnoreCase(FragmentSearchStockFund.SEARCH_TYPE_STOCKANDINDEX)) {
             searchStockFund(SYMBOL_TYPE_STOCKANDINDEX, "", 1, key);
+        } else if(mSearchType.equalsIgnoreCase(FragmentSearchStockFund.SEARCH_TYPE_FUNDS)){
+            searchStockFund(SYMBOL_TYPE_FUND,SYMBOL_STYPE_FUND, 1, key);
         }
     }
 
