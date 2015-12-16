@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="gridPasswordView">
+
+        <attr name="textColor" format="color|reference" />
+        <attr name="textSize" format="dimension" />
+        <attr name="cornerRadius" format="dimension" />
+
+        <attr name="lineColor" format="color" />
+        <attr name="gridColor" format="color" />
+        <attr name="outerLineColor" format="color" />
+        <attr name="lineWidth_" format="dimension" />
+
+        <attr name="passwordLength" format="integer" />
+        <attr name="passwordTransformation" format="string" />
+
+        <attr name="passwordType" format="enum">
+            <enum name="numberPassword" value="0" />
+            <enum name="textPassword" value="1" />
+            <enum name="textVisiblePassword" value="2" />
+            <enum name="textWebPassword" value="3" />
+        </attr>
+
+    </declare-styleable>
+</resources>

@@ -587,6 +587,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
             switch (requestCode) {
                 case REQUESTCODE_SET_PASSWROD: {
+                    setResult(RESULT_OK);
                     finish();
                 }
 

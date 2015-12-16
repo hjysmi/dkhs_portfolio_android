@@ -1,21 +1,36 @@
 package com.dkhs.portfolio.ui;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.baidu.mobstat.StatService;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.MAppActivity;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.yang.gesturepassword.GesturePasswordManager;
+import com.yang.gesturepassword.ISecurityGesture;
 
 public class BaseActivity extends MAppActivity {
 
     protected Context mContext;
+    /**
+     * 无操作后锁屏时间
+     */
+    private final static int SHOW_GESTURE_DELAY = 1000  * 7;
 
+    private final static int NEED_SHOW_GESTURE = 2;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -112,5 +127,13 @@ public class BaseActivity extends MAppActivity {
         }
     }
 
-
+    /**
+     * 当用户在登录情况下不操作3分钟时
+     */
+    @Override
+    public void onUserInteraction() {
+        if(!TextUtils.isEmpty(GlobalParams.MOBILE)){
+            PortfolioApplication.getInstance().onUserInteraction();
+        }
+    }
 }

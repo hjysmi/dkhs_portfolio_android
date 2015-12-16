@@ -29,6 +29,18 @@ public class GlobalParams {
      */
     public static boolean isLogin = false;
     /**
+     * 用户打开我的资产是否需要输入手势密码的标记
+     */
+    public static boolean needShowGesture = true;
+    /**
+     * 用户打开我的资产是否需要输入手势密码的标记
+     */
+    public static boolean isGestureOpen = false;
+//    /**
+//     * 用户打开我的资产是否需要输入手势密码的标记
+//     */
+//    public static boolean needShowGestureImmediately = false;
+    /**
      * 用户名
      */
     public static String USERNAME = "";

@@ -120,6 +120,48 @@ public class FloatingActionMenu extends FloatingActionView {
         return flaotMenu;
     }
 
+
+    private View addItemView(int paramInt1, String tvText, int iconResId,int bgResId,int bgColor, boolean isAddMenu) {
+
+        View flaotMenu = View.inflate(getContext(), R.layout.item_float_menu, null);
+        // RelativeLayout localRelativeLayout = new RelativeLayout(getContext());
+        if(bgResId != 0){
+            flaotMenu.setBackgroundResource(bgResId);
+        }else{
+            flaotMenu.setBackgroundColor(getResources().getColor(bgColor));
+        }
+        flaotMenu.setTag(paramInt1);
+        flaotMenu.setLayoutParams(new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height), 1.0F));
+        TextView tvConntent = (TextView) flaotMenu.findViewById(R.id.tv_floatmenu);
+        tvConntent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        tvConntent.setTextColor(getResources().getColor(R.color.white));
+        if (!TextUtils.isEmpty(tvText)) {
+            tvConntent.setText(tvText);
+        }
+        if (iconResId > 0) {
+            tvConntent.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
+        }
+
+        flaotMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = (Integer) v.getTag();
+                if (null != menuItemSelectedListener) {
+                    menuItemSelectedListener.onMenuItemSelected(index);
+                }
+            }
+        });
+        if (this.containerView.getChildCount() > 0) {
+            addDivider();
+        }
+        if (isAddMenu) {
+
+            this.containerView.addView(flaotMenu);
+        }
+        return flaotMenu;
+    }
+
     private void init() {
         setOrientation(LinearLayout.VERTICAL);
         addBorderInTop();
@@ -127,6 +169,9 @@ public class FloatingActionMenu extends FloatingActionView {
 
     public void addItem(int viewIndex, int textResId, int iconResId) {
         addItem(viewIndex, getResources().getString(textResId), iconResId);
+    }
+    public void addItem(int viewIndex, int textResId, int iconResId,int bgResId,int bgColor) {
+        addItemView(viewIndex,getResources().getString(textResId),iconResId, bgResId,bgColor,true);
     }
 
     public void addItem(int viewIndex, String textString, int iconResId) {

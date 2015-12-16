@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_fund_info"
+        style="@style/white_grayborder_layout"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/image_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_image_right"/>
+
+        <TextView
+            android:id="@+id/tv_info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/setting_text_name"
+            android:text="景顺长城增量永信(12345678)"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/tv_recent_profit_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/widget_margin_large"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/widget_text_14sp"
+            android:textColor="@color/gray_textcolor"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_value"
+            android:layout_marginTop="@dimen/widget_margin_medium"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/widget_text_30sp"
+            android:textColor="@color/red"
+            android:id="@+id/tv_recent_profit"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/widget_margin_normal"
+            android:layout_marginBottom="@dimen/widget_margin_normal"
+            >
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_14sp"
+                    android:text="@string/total_profit_fund"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:textSize="@dimen/widget_text_18sp"
+                    android:text="@string/default_value"
+                    android:textColor="@color/red"
+                    android:id="@+id/tv_total_profit"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_14sp"
+                    android:text="@string/net_new"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:textSize="@dimen/widget_text_18sp"
+                    android:text="@string/default_value"
+                    android:textColor="@color/red"
+                    android:id="@+id/tv_net_new"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_14sp"
+                    android:text="@string/fund_value"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:textSize="@dimen/widget_text_18sp"
+                    android:text="@string/default_value"
+                    android:textColor="@color/red"
+                    android:id="@+id/tv_fund_value"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/widget_margin_large"
+        android:layout_marginTop="@dimen/widget_margin_normal"
+        android:layout_marginBottom="@dimen/widget_margin_normal"
+        android:text="@string/fund_share"
+        />
+
+</LinearLayout>

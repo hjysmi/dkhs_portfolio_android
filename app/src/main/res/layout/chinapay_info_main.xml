@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECECEC" >
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cpay_title_bg" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dip"
+            android:background="@drawable/chinapay_return_click" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/cpay_logo" />
+
+        <Button
+            android:id="@+id/btn_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dip"
+            android:background="@drawable/chinapay_help_click" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:background="@drawable/cpay_frame_bg"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/txt_shanghu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dip"
+                android:text="@string/cp_shanghu_name"
+                android:textColor="#767676"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/shanghu_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="@string/cp_shanghu_name"
+                android:textColor="#767676"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/shangpin_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dip"
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cp_dingdan_money"
+                android:textColor="#767676"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="1000.00"
+                android:textColor="@color/cp_red"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/shangpin_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dip"
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal"
+            android:paddingBottom="5dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cp_shangpin_name"
+                android:textColor="#767676"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/shangpin_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="@string/cp_shangpin_name"
+                android:textColor="#767676"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hide_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cp_dingdan_number"
+                    android:textColor="#767676"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/dingdan_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="155831214822"
+                    android:textColor="#767676"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dip"
+                android:layout_marginTop="5dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cp_dingdan_time"
+                    android:textColor="#767676"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/dingdan_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="2013-07-03"
+                    android:textColor="#767676"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_xiala"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/cpay_info_bot_down" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_xiala"
+        android:layout_marginTop="5dp"
+        android:scrollbars="none" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:id="@+id/shenf_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dip"
+                android:layout_marginRight="12dip"
+                android:layout_marginTop="5dip"
+                android:background="@drawable/cpay_frame_title" >
+
+                <ImageView
+                    android:id="@+id/shenf_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cpay_frame_icon1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/shenf_icon"
+                    android:text="@string/cp_shenfen_info"
+                    android:textColor="#111111"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/shenf_info_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shenf_info"
+                android:layout_marginLeft="12dip"
+                android:layout_marginRight="12dip"
+                android:background="@drawable/cpay_frame_bot"
+                android:paddingBottom="15dip" >
+
+                <RelativeLayout
+                    android:id="@+id/name_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="5dip"
+                        android:text="@string/cp_name"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/txt_name"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@id/txt_name"
+                        android:text="@string/cp_name"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/txt_name"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@id/txt_name"
+                        android:background="@drawable/cpay_input"
+                        android:hint="@string/cp_et_name_hint"
+                        android:textColor="#767676"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/idtype_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/name_zone"
+                    android:layout_below="@id/name_zone" >
+
+                    <TextView
+                        android:id="@+id/zhengjian_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="5dip"
+                        android:text="@string/cp_shenfen_type"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_zhengjian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/zhengjian_type"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@id/zhengjian_type"
+                        android:text="@string/cp_shenfen_type"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/et_idtype"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/zhengjian_type"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@id/zhengjian_type"
+                        android:textColor="#767676"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/id_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/idtype_zone"
+                    android:layout_below="@id/idtype_zone" >
+
+                    <TextView
+                        android:id="@+id/txt_idno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="5dip"
+                        android:text="@string/cp_zhengjian_number"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_zhengjian_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="5dip"
+                        android:layout_toRightOf="@+id/txt_idno"
+                        android:text="430000000000001234"
+                        android:textColor="#767676"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/et_idno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@+id/txt_idno"
+                        android:background="@drawable/cpay_input"
+                        android:hint="@string/cp_et_idNo_hint"
+                        android:textColor="#767676"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/phone_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/idtype_zone"
+                    android:layout_below="@id/id_zone" >
+
+                    <TextView
+                        android:id="@+id/txt_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="5dip"
+                        android:text="@string/cp_phone"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_phone_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="5dip"
+                        android:layout_toRightOf="@+id/txt_phone"
+                        android:textColor="#767676"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/et_phone_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@+id/txt_phone"
+                        android:background="@drawable/cpay_input"
+                        android:hint="@string/cp_phone_hint"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:textColor="#767676"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/email_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/idtype_zone"
+                    android:layout_below="@id/phone_zone"
+                    android:layout_marginTop="5dip" >
+
+                    <TextView
+                        android:id="@+id/txt_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:text="@string/cp_email"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@+id/txt_email"
+                        android:textColor="#767676"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/et_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_toRightOf="@+id/txt_email"
+                        android:background="@drawable/cpay_input"
+                        android:hint="@string/cp_email_hint"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#767676"
+                        android:textSize="16sp"
+                        android:maxLength="50"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/card_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shenf_info_2"
+                android:layout_marginLeft="12dip"
+                android:layout_marginRight="12dip"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/cpay_frame_title" >
+
+                <ImageView
+                    android:id="@+id/card_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/cpay_frame_icon2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/card_icon"
+                    android:text="@string/cp_card_info"
+                    android:textColor="#111111"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/card_info_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_info"
+                android:layout_marginLeft="12dip"
+                android:layout_marginRight="12dip"
+                android:background="@drawable/cpay_frame_bot"
+                android:paddingBottom="15dip" >
+
+                <RelativeLayout
+                    android:id="@+id/pan_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="9dip"
+                        android:text="@string/cp_card_number"
+                        android:textColor="#767676"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_card_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="7dip"
+                        android:layout_toRightOf="@id/txt_card"
+                        android:text="6226 0011 0000 0000 251"
+                        android:textColor="#767676"
+                        android:textSize="19sp" />
+
+                    <EditText
+                        android:id="@+id/et_card_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dip"
+                        android:layout_marginTop="7dip"
+                        android:layout_toRightOf="@id/txt_card"
+                        android:background="@drawable/cpay_input"
+                        android:hint="@string/cp_et_pan_hint"
+                        android:singleLine="true"
+                        android:textColor="#767676"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/pan_zone"
+                    android:layout_marginLeft="3dip"
+                    android:layout_marginRight="3dip"
+                    android:layout_marginTop="9dip"
+                    android:background="@drawable/cpay_input"
+                    android:gravity="left|center_vertical"
+                    android:hint="@string/cp_password_hint"
+                    android:password="true"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/et_youxiaoqi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/pan_zone"
+                    android:layout_marginLeft="3dip"
+                    android:layout_marginRight="3dip"
+                    android:layout_marginTop="9dip"
+                    android:background="@drawable/cpay_input"
+                    android:hint="@string/cp_youxiaoqi_hint"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/et_cvn2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/et_youxiaoqi"
+                    android:layout_marginLeft="3dip"
+                    android:layout_marginRight="3dip"
+                    android:layout_marginTop="9dip"
+                    android:background="@drawable/cpay_input"
+                    android:gravity="left|center_vertical"
+                    android:hint="@string/cp_cvn2_hint"
+                    android:password="true"
+                    android:maxLength="3"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/card_info_2"
+                android:layout_marginLeft="12dip"
+                android:layout_marginRight="12dip"
+                android:layout_marginTop="5dip"
+                android:background="@drawable/chinapay_enter_click"
+                android:text="@string/cp_ok"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dip"
+                android:layout_below="@id/btn_ok" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/theme_gray">
+
+    <View
+        style="@style/divider_line"
+        android:layout_marginTop="@dimen/widget_margin_large"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_reset_trade_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_gray_selector"
+        android:clickable="true"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/widget_margin_large"
+            android:textSize="@dimen/widget_text_16sp"
+            android:textColor="@color/black"
+            android:text="@string/reset_trade_password"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/widget_margin_large"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_image_right"/>
+    </RelativeLayout>
+
+    <View style="@style/divider_line"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_reset_gesture_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_gray_selector"
+        android:clickable="true"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/widget_margin_large"
+            android:textSize="@dimen/widget_text_16sp"
+            android:textColor="@color/black"
+            android:text="@string/reset_gesture_password"
+            />
+
+        <ImageView
+            android:id="@+id/image_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/widget_margin_large"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_image_right"/>
+    </RelativeLayout>
+
+    <View style="@style/divider_line"/>
+
+    <View
+        style="@style/divider_line"
+        android:layout_marginTop="@dimen/widget_margin_large"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_gesture_password_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_gray_selector"
+        android:clickable="false"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/widget_margin_large"
+            android:textSize="@dimen/widget_text_16sp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:text="@string/gesture_password"
+            />
+
+        <ImageButton
+            android:id="@+id/ib_gesture_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/widget_margin_large"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ios7_switch_off"/>
+    </RelativeLayout>
+
+    <View style="@style/divider_line"/>
+
+</LinearLayout>

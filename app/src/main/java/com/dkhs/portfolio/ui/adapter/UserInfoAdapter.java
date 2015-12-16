@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.ShareBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -28,6 +29,8 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.ui.FlowPackageActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
+import com.dkhs.portfolio.ui.GesturePasswordActivity;
+import com.dkhs.portfolio.ui.MyAssestsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
 import com.dkhs.portfolio.ui.MyPurseActivity;
@@ -45,6 +48,9 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.yang.gesturepassword.GesturePasswordManager;
+
+import java.util.List;
 
 /**
  * Created by zjz on 2015/7/22.
@@ -57,11 +63,12 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static final int INDEX_MESSAGE = 0;
     private static final int INDEX_MY_COMBINATION = 1;
-    private static final int INDEX_PURSE = 2;
-    private static final int INDEX_COINS = 3;
-    private static final int INDEX_REWARD = 4;
-    private static final int INDEX_USER_ENTITY = 5;
-    private static final int INDEX_DRAFT = 6;
+    private static final int INDEX_ASSESTS = 2;
+    private static final int INDEX_PURSE = 3;
+    private static final int INDEX_COINS = 4;
+    private static final int INDEX_REWARD = 6;
+    private static final int INDEX_USER_ENTITY = 7;
+    private static final int INDEX_DRAFT = 8;
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
@@ -182,6 +189,13 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
                 break;
+            case INDEX_ASSESTS: //我的资产
+
+                bindsListener.setLoadingDialog(mContext, false);
+                UserEngineImpl.queryThreePlatBind(bindsListener);
+//                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+
+                break;
 
             case INDEX_USER_ENTITY://我的话题
 
@@ -221,6 +235,54 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+        }
+
+
+        @Override
+        protected List<BindThreePlat> parseDateTask(String jsonData) {
+
+            return DataParse.parseArrayJson(BindThreePlat.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<BindThreePlat> entity) {
+            if (!entity.isEmpty()) {
+                for (int i = 0; i < entity.size(); i++) {
+                    BindThreePlat palt = entity.get(i);
+
+                    if(palt.getProvider().contains("mobile")){
+                        if(palt.isStatus()){
+                            GlobalParams.MOBILE = palt.getUsername();
+                            if(GesturePasswordManager.getInstance().needSetGesturePassword(mContext, palt.getUsername())){
+                                UIUtils.startAnimationActivity((Activity)mContext,GesturePasswordActivity.firstSetPasswordIntent(mContext,false));
+                            }else{
+                                if(GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext,palt.getUsername())){
+                                    //打开了手势密码
+                                    if(GlobalParams.needShowGesture){
+                                        UIUtils.startAnimationActivity((Activity)mContext,GesturePasswordActivity.verifyPasswordIntent(mContext, false));
+                                    }else{
+                                        UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+                                    }
+
+                                }else{
+                                    UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+                                }
+                            }
+                        }else{
+                            //没有绑定手机号,直接打开我的资产,隐藏我的手势密码功能
+                            UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+                        }
+                    }
+                }
+            }
+
+        }
+    };
+
     @Override
     public int getItemCount() {
         return titleTexts.length + 1;
@@ -245,13 +307,19 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
             case 1:
             case 2:
-            case 4:
-            case 7:
+            case 3:
+            case 5:
+            case 8:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 
             default:
                 return -1;
         }
+    }
+
+    //add by zcm 2015.10.22绑定银行卡成功跳转我的资产
+    public void bindMobileSuccess() {
+
     }
 
 
