@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.app.AppConfig;
@@ -252,6 +253,7 @@ public class GesturePasswordManager {
             if (originPsw != null) {
                 gesPassword.id = originPsw.id;
             }
+            Log.i("GesturePassword","saveGesturePasswordWithOutEncrypt手势密码状态" + (gesPassword.isOpen?":已打开":"已关闭"));
             dbUtils.saveOrUpdate(gesPassword);
         } catch (DbException e) {
             e.printStackTrace();
@@ -271,8 +273,10 @@ public class GesturePasswordManager {
     public boolean isGesturePasswordOpen(Context mContext, String mobile) {
         try {
             GesturePassword originPsw = dbUtils.findFirst(Selector.from(GesturePassword.class).where("mobile", "=", mobile));
-            if (originPsw != null)
+            if (originPsw != null){
+                Log.i("GesturePassword","isGesturePasswordOpen手势密码状态" + (originPsw.isOpen?":已打开":"已关闭"));
                 return originPsw.isOpen;
+            }
         } catch (DbException e) {
             e.printStackTrace();
         }
