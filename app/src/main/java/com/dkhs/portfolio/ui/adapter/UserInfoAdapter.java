@@ -62,13 +62,12 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_ITEM = 1;
 
     private static final int INDEX_MESSAGE = 0;
-    private static final int INDEX_MY_COMBINATION = 1;
-    private static final int INDEX_ASSESTS = 2;
-    private static final int INDEX_PURSE = 3;
-    private static final int INDEX_COINS = 4;
-    private static final int INDEX_REWARD = 6;
-    private static final int INDEX_USER_ENTITY = 7;
-    private static final int INDEX_DRAFT = 8;
+    private static final int INDEX_PURSE = 1;
+    private static final int INDEX_COINS = 2;
+    private static final int INDEX_MY_COMBINATION = 3;
+    private static final int INDEX_REWARD = 4;
+    private static final int INDEX_USER_ENTITY = 5;
+    private static final int INDEX_DRAFT = 6;
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.user_info_title);
     private int[] iconRes;
@@ -189,13 +188,6 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
                 break;
-            case INDEX_ASSESTS: //我的资产
-
-                bindsListener.setLoadingDialog(mContext, false);
-                UserEngineImpl.queryThreePlatBind(bindsListener);
-//                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
-
-                break;
 
             case INDEX_USER_ENTITY://我的话题
 
@@ -226,7 +218,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 break;
             case INDEX_PURSE:
-                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyPurseActivity.class));
+                bindsListener.setLoadingDialog(mContext, false);
+                UserEngineImpl.queryThreePlatBind(bindsListener);
                 break;
             case INDEX_REWARD:
                 UserEntity entity = UserEngineImpl.getUserEntity();
@@ -306,10 +299,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         switch (position) {
             case 0:
             case 1:
-            case 2:
             case 3:
-            case 5:
-            case 8:
+            case 4:
                 return parent.getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
 
             default:

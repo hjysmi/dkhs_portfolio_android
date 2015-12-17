@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/9/14.15:02
  */
-public class MyAssestsActivity extends ModelAcitivity implements ISecurityGesture{
+public class MyAssestsActivity extends ModelAcitivity implements ISecurityGesture {
 
     public static final int REQUESTCODE_CHECK_MOBILE = 1000;
 
@@ -109,17 +109,18 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0: //持仓基金
+                        startActivity(new Intent(mContext, MyPurseActivity.class));
+                        break;
+
+                    case 1: //持仓基金
                         startActivity(new Intent(mContext, MyFundsActivity.class));
-
                         break;
 
-                    case 1: //交易记录
-
+                    case 2: //交易记录
                         startActivity(new Intent(mContext, TradeRecordActivity.class));
-
                         break;
 
-                    case 2: //银行卡
+                    case 3: //银行卡
                         //先判断是否绑定了手机号
 //                        startActivity(new Intent(mContext, MyBankCardsActivity.class));
                         bindsListener.setLoadingDialog(mContext, false);
@@ -167,13 +168,19 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                 holder.ivImageDetail = (ImageView) convertView.findViewById(R.id.image_detail);
                 holder.tvInfoTitle = (TextView) convertView.findViewById(R.id.tv_info_title);
                 holder.tvInfoTip = (TextView) convertView.findViewById(R.id.tv_info_tip);
+                holder.divider = convertView.findViewById(R.id.divider);
                 convertView.setTag(holder);
-            }else{
-                holder = (ViewHolder)convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
             holder.tvInfoTitle.setText(titleTexts[position]);
             holder.tvInfoTitle.setCompoundDrawablesWithIntrinsicBounds(iconRes[position],
                     0, 0, 0);
+            if (position == 2) {
+                holder.divider.setVisibility(View.VISIBLE);
+            } else {
+                holder.divider.setVisibility(View.GONE);
+            }
             return convertView;
         }
 
@@ -181,6 +188,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
             ImageView ivImageDetail;
             TextView tvInfoTitle;
             TextView tvInfoTip;
+            View divider;
         }
     }
 
@@ -203,11 +211,11 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                 for (int i = 0; i < entity.size(); i++) {
                     BindThreePlat palt = entity.get(i);
 
-                    if(palt.getProvider().contains("mobile")){
-                        if(palt.isStatus()){
+                    if (palt.getProvider().contains("mobile")) {
+                        if (palt.isStatus()) {
                             //TODO 绑定了手机号，直接管理银行卡
                             startActivity(new Intent(mContext, MyBankCardsActivity.class));
-                        }else{
+                        } else {
                             //去绑定手机号
                             startActivityForResult(RLFActivity.bindPhoneIntent(MyAssestsActivity.this), REQUESTCODE_CHECK_MOBILE);
                         }
@@ -221,8 +229,8 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     @Override
     protected void onResume() {
         super.onResume();
-        if(GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext,GlobalParams.MOBILE)){
-            if(GlobalParams.needShowGesture){
+        if (GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)) {
+            if (GlobalParams.needShowGesture) {
                 startActivityForResult(GesturePasswordActivity.verifyPasswordIntent(this, true), 100);
                 GlobalParams.needShowGesture = false;
             }
@@ -236,22 +244,22 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
 
             @Override
             protected void afterParseData(String object) {
-                if(!TextUtils.isEmpty(object)){
+                if (!TextUtils.isEmpty(object)) {
                     try {
                         JSONObject json = new JSONObject(object);
-                        if(json.has("worth_value")) {
+                        if (json.has("worth_value")) {
                             // 总资产
                             tvTotalAssests.setText(json.getString("worth_value"));
                         }
-                        if(json.has("income_latest")){
+                        if (json.has("income_latest")) {
                             //最新收益
                             tvRecentProfit.setText(json.getString("income_latest"));
                         }
-                        if(json.has("income_total")){
+                        if (json.has("income_total")) {
                             //累计收益
                             tvTotalProfit.setText(json.getString("income_total"));
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -262,10 +270,10 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == REQUESTCODE_CHECK_MOBILE){
+        if (resultCode == RESULT_OK && requestCode == REQUESTCODE_CHECK_MOBILE) {
             // TODO 管理银行卡
             PromptManager.showToast("绑定成功");
-        }else if(requestCode == 100 && resultCode == 500){
+        } else if (requestCode == 100 && resultCode == 500) {
             manualFinish();
         }
     }
@@ -274,7 +282,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     public void onUserInteraction() {
         Log.i("onUserInteraction", getComponentName().toString());
         super.onUserInteraction();
-        if(!TextUtils.isEmpty(GlobalParams.MOBILE)){
+        if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
             GesturePasswordManager.getInstance().userInteraction();
         }
     }
