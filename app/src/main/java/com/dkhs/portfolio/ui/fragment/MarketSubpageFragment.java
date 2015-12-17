@@ -70,6 +70,7 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
     public static final int TYPE_COMBINATION = 2;
     private MarketFundsFragment fundsFragment;
     private MarketCombinationFragment combinationFragment;
+    private MarketFundsReviseFragment reviseFragment;
 
     public static MarketSubpageFragment getFundFragment() {
         MarketSubpageFragment fragment = new MarketSubpageFragment();
@@ -143,8 +144,9 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
             default:
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                         null, null, null);
-                fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
-                fragment = fundsFragment;
+//                fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
+                reviseFragment = new MarketFundsReviseFragment();
+                fragment = reviseFragment;
                 mBtntitletableft.setText(R.string.fund_market);
                 mBtntitletableft.setTextColor(getResources().getColor(R.color.black));
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mBtntitletableft.getLayoutParams();

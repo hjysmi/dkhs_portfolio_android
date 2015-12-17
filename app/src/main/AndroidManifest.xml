@@ -421,7 +421,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.MarketSubpageActivity" />
+        <activity android:name=".ui.MarketSubpageActivity"
+            android:theme="@style/StyledIndicators"/>
         <activity
             android:name=".ui.FundManagerActivity"
             android:label="@string/title_activity_fund_manager" />
