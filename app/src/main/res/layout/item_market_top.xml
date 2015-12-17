@@ -41,7 +41,7 @@
                     android:layout_below="@+id/padding_top"
                     android:layout_gravity="top"
                     android:singleLine="true"
-                    android:text="钢铁股票配资钢铁股票配资"
+                    tools:text="钢铁股票配资钢铁股票配资"
                     android:textColor="@color/theme_color"
                     app:layout_maxWidthPercent="50%w"
                     app:layout_textSizePercent="5%w" />
@@ -53,7 +53,7 @@
                     android:layout_gravity="bottom"
                     android:layout_toRightOf="@+id/tv_name"
                     android:gravity="bottom"
-                    android:text="600001"
+                    tools:text="600001"
                     android:textColor="@color/tag_gray"
                     app:layout_heightPercent="6%w"
                     app:layout_marginLeftPercent="2%w" />
@@ -65,7 +65,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_gravity="top"
                     android:gravity="top"
-                    android:text="500.00%"
+                    tools:text="500.00%"
                     android:textColor="@color/tag_red"
                     app:layout_marginRightPercent="5%w"
                     app:layout_textSizePercent="5%w" />
@@ -84,7 +84,7 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/bg_fundmanager_item_job"
                     android:singleLine="true"
-                    android:text="低风险"
+                    tools:text="低风险"
                     android:textColor="@color/theme_blue"
                     app:layout_textSizePercent="3.5%w"
                     android:gravity="bottom"
@@ -99,7 +99,7 @@
                     android:layout_toRightOf="@+id/tv_risk"
                     android:background="@drawable/bg_fundmanager_item_job"
                     android:singleLine="true"
-                    android:text="0费率"
+                    tools:text="0费率"
                     android:gravity="bottom"
                     android:textColor="@color/theme_blue"
                     app:layout_textSizePercent="3.5%w"
@@ -130,7 +130,7 @@
                     android:layout_toRightOf="@+id/tv_rate"
                     android:background="@drawable/bg_fundmanager_item_job"
                     android:singleLine="true"
-                    android:text="100元起"
+                    tools:text="100元起"
                     android:gravity="bottom"
                     app:layout_marginLeftPercent="2%w"
                     android:textColor="@color/theme_blue"
@@ -142,15 +142,7 @@
 
 
     </com.android.percent.PercentLinearLayout>
-    <!-- <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/padding_top"
-         android:layout_gravity="right"
-         android:singleLine="true"
-         android:textColor="@color/theme_color"
-         app:layout_textSizePercent="5%w"
-         tools:text="王亚伟" />-->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
