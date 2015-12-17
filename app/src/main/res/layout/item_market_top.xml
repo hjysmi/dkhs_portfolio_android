@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="2%w" />
+
+    <com.android.percent.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_heightPercent="16%w">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:layout_widthPercent="5%w" />
+
+        <com.android.percent.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.android.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_heightPercent="6%w">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/padding_top"
+                    android:layout_gravity="top"
+                    android:singleLine="true"
+                    android:text="钢铁股票配资钢铁股票配资"
+                    android:textColor="@color/theme_color"
+                    app:layout_maxWidthPercent="50%w"
+                    app:layout_textSizePercent="5%w" />
+
+                <TextView
+                    android:id="@+id/tv_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_toRightOf="@+id/tv_name"
+                    android:gravity="bottom"
+                    android:text="600001"
+                    android:textColor="@color/tag_gray"
+                    app:layout_heightPercent="6%w"
+                    app:layout_marginLeftPercent="2%w" />
+
+                <TextView
+                    android:id="@+id/tv_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="top"
+                    android:gravity="top"
+                    android:text="500.00%"
+                    android:textColor="@color/tag_red"
+                    app:layout_marginRightPercent="5%w"
+                    app:layout_textSizePercent="5%w" />
+            </com.android.percent.PercentRelativeLayout>
+
+            <com.android.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_heightPercent="10%w">
+
+                <TextView
+                    android:id="@+id/tv_risk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_fundmanager_item_job"
+                    android:singleLine="true"
+                    android:text="低风险"
+                    android:textColor="@color/theme_blue"
+                    app:layout_textSizePercent="3.5%w"
+                    android:gravity="bottom"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_risk"
+                    android:background="@drawable/bg_fundmanager_item_job"
+                    android:singleLine="true"
+                    android:text="0费率"
+                    android:gravity="bottom"
+                    android:textColor="@color/theme_blue"
+                    app:layout_textSizePercent="3.5%w"
+                    app:layout_marginLeftPercent="2%w"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/tv_sell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_risk"
+                    android:background="@drawable/bg_market_item_sell"
+                    android:singleLine="true"
+                    android:text="未代销"
+                    android:gravity="bottom"
+                    android:textColor="@color/stock_gray_bg"
+                    app:layout_textSizePercent="3.5%w"
+                    app:layout_marginLeftPercent="2%w"/>
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/tv_rate"
+                    android:background="@drawable/bg_fundmanager_item_job"
+                    android:singleLine="true"
+                    android:text="100元起"
+                    android:gravity="bottom"
+                    app:layout_marginLeftPercent="2%w"
+                    android:textColor="@color/theme_blue"
+                    app:layout_textSizePercent="3.5%w" />
+            </com.android.percent.PercentRelativeLayout>
+
+
+        </com.android.percent.PercentLinearLayout>
+
+
+    </com.android.percent.PercentLinearLayout>
+    <!-- <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/padding_top"
+         android:layout_gravity="right"
+         android:singleLine="true"
+         android:textColor="@color/theme_color"
+         app:layout_textSizePercent="5%w"
+         tools:text="王亚伟" />-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="2%w" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_gravity="right"
+        android:background="@color/drivi_line"
+        app:layout_widthPercent="95%w" />
+</com.android.percent.PercentLinearLayout>
