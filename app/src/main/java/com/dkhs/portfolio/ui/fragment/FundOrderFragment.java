@@ -52,6 +52,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         bundle.putString("sort", sort);
+
         fundsOrderFragment.setArguments(bundle);
         return fundsOrderFragment;
     }
@@ -84,6 +85,13 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     @Override
     public void requestData() {
 
+    }
+
+    public void setType(String type){
+        if(this.type != type){
+            this.type = type;
+            loadData();
+        }
     }
 
     @Override
