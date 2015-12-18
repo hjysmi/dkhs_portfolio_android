@@ -407,6 +407,8 @@
     <string name="shenzheng">深证成指</string>
     <string name="chuangye">创业板指</string>
     <string name="fund_market">基金超市</string>
+    <string name="fund_manager_rank">基金经理排行</string>
+    <string name="fund_rank">收益率排行</string>
     <string name="look_at_all">查看全部</string>
     <string name="special_financing">专题理财</string>
     <string name="total_profit">总收益:</string>
