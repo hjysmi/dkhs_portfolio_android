@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,10 +20,16 @@ import android.widget.TextView;
 import com.android.percent.PercentFrameLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PersonalEventBean;
+import com.dkhs.portfolio.bean.PersonalNewEventBean;
 import com.dkhs.portfolio.bean.PersonalQualificationEventBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
-import com.dkhs.portfolio.ui.AgreementTextActivity;
+import com.dkhs.portfolio.bean.ProVerificationBean;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.service.AuthenticationService;
+import com.dkhs.portfolio.ui.AdActivity;
 import com.dkhs.portfolio.ui.PersonalIntroduceActivity;
+import com.dkhs.portfolio.ui.SendPersonalEvent;
 import com.dkhs.portfolio.ui.city.SelectProviceActivity;
 import com.dkhs.portfolio.ui.eventbus.BackCityEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -31,6 +38,8 @@ import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +74,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private ProInfoBean proInfoBean = new ProInfoBean();
     private List<MyActionSheetDialog.SheetItem> items = new ArrayList<MyActionSheetDialog.SheetItem>();
     public static final String KEY_PERINFOBEAN = "key_perinfobean";
-
+    public static final String KEY_PROVERIFICATIONBEAN = "key_proverificationbean";
+    private ProVerificationBean verificationBean;
 
     @Override
     public int setContentLayoutId() {
@@ -90,11 +100,16 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         initView(view);
         initValues();
         initEvents();
+        if (verificationBean != null) {
+            updateProVerificationInfo(verificationBean);
+        }
     }
 
     private void initValues() {
-        Bundle bundle = getArguments();
-        proInfoBean_qualification = (ProInfoBean) bundle.getSerializable(KEY_PERINFOBEAN);
+        //  Bundle bundle = getArguments();
+
+        proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
+        verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
     }
 
 
@@ -115,6 +130,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         // et_id.addTextChangedListener(et_id_textwatcher);
         et_name.addTextChangedListener(et_name_textwatcher);
         et_id.addTextChangedListener(et_id_textwatcher);
+        tv_introduce.setText(GlobalParams.LOGIN_USER.getDescription());
     }
 
     private void initEvents() {
@@ -130,6 +146,20 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 checkSubmit();
             }
         });
+    }
+
+    private void updateProVerificationInfo(ProVerificationBean info) {
+
+        if (!TextUtils.isEmpty(info.identity.real_name)) {
+            et_name.setText(info.identity.real_name);
+        }
+        if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getProvince())) {
+            tv_city.setText(GlobalParams.LOGIN_USER.getProvince() + (TextUtils.isEmpty(GlobalParams.LOGIN_USER.getCity()) ? "" : " " + GlobalParams.LOGIN_USER.getCity()));
+        }
+        if (!TextUtils.isEmpty(GlobalParams.LOGIN_USER.getDescription())) {
+            tv_introduce.setText(GlobalParams.LOGIN_USER.getDescription());
+        }
+        //    BusProvider.getInstance().post(new AuthFailEventBean());
     }
 
     TextWatcher et_id_textwatcher = new TextWatcher() {
@@ -238,7 +268,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlt_agreement:
-                Intent intent = new Intent(getActivity(), AgreementTextActivity.class);
+                Intent intent = AdActivity.getIntent(getActivity(), DKHSClient.getAbsoluteUrl(getResources().getString(R.string.verify_agreement_url)));
                 startActivity(intent);
                 break;
             case R.id.fm_introduce:
@@ -263,7 +293,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                     if (checkIdentityCard(clearEtInvalid(et_id))) {
                         //身份证匹配
                         upInfo();
-                        BusProvider.getInstance().post(new PersonalEventBean());
+
                     } else {
                         //身份证不匹配
                         PromptManager.showShortToast("请填写正确的身份证号");
@@ -283,7 +313,18 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
      * 上传信息
      */
     private void upInfo() {
+      //  BusProvider.getInstance().post(new PersonalEventBean());
+         PromptManager.showProgressDialog(getActivity(), "", false);
+        AuthenticationService.startPost(getActivity(), buildProInfoBean());
+    }
 
+    @Subscribe
+    public void postFinish(SendPersonalEvent event) {
+        PromptManager.closeProgressDialog();
+        if(event.isSuccess()){
+              BusProvider.getInstance().post(new PersonalEventBean());
+        }
+       // BusProvider.getInstance().post(new PersonalEventBean());
     }
 
     private ProInfoBean buildProInfoBean() {
@@ -294,11 +335,13 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             proInfoBean.verified_type = verified_type;
             switch (verified_type) {
                 case 0:
-
+                    proInfoBean.photos = proInfoBean_qualification.photos;
+                    proInfoBean.cert_description = proInfoBean_qualification.cert_description;
                     break;
                 default:
                     organize.id = proInfoBean_qualification.org_profile.id;
                     proInfoBean.org_profile = organize;
+                    proInfoBean.cert_no = proInfoBean_qualification.cert_no;
                     break;
             }
             String city = clearTvInvalid(tv_city);
@@ -311,8 +354,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 proInfoBean.province = split_city[0];
                 proInfoBean.city = split_city[1];
             }
-            proInfoBean.cert_description = clearTvInvalid(tv_introduce);
+            proInfoBean.description = clearTvInvalid(tv_introduce);
             proInfoBean.id_card_photo_full = mCurrentPhotoPath;
+
             return proInfoBean;
         } else {
             return null;
@@ -320,11 +364,10 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    /*@Subscribe
-    public void getProInfoBean(QualificationToPersonalEvent bean) {
-
+    @Subscribe
+    public void getProInfoBean(PersonalNewEventBean bean) {
         proInfoBean_qualification = bean.proInfoBean;
-    }*/
+    }
 
     //选择图片
     private void showPicDialog() {
@@ -411,8 +454,14 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             List<String> photos = bundle.getStringArrayList(PhotoPickerActivity.KEY_SELECTED_PHOTOS);
             if (null != photos && photos.size() > 0) {
                 iv_upimg.setVisibility(View.VISIBLE);
+                Bitmap localeimage = UIUtils.getLocaleimage(photos.get(0));
+                if (localeimage == null) {
+                    PromptManager.showToast("图片已损坏或者不存在");
+                    return;
+                }
                 iv_upimg.setImageBitmap(UIUtils.getLocaleimage(photos.get(0)));
                 btn_update.setText("修改");
+                mCurrentPhotoPath = photos.get(0);
                 tv_upimgintroduce.setVisibility(View.GONE);
                 iv_upbg.setVisibility(View.GONE);
                 hasphotos = true;
@@ -424,7 +473,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     private void takePhotoBack() {
 
-        if (TextUtils.isEmpty(mCurrentPhotoPath)) {
+        if (!TextUtils.isEmpty(mCurrentPhotoPath)) {
             iv_upimg.setVisibility(View.VISIBLE);
             iv_upimg.setImageBitmap(UIUtils.getLocaleimage(mCurrentPhotoPath));
             btn_update.setText("修改");

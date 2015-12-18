@@ -110,7 +110,7 @@ public class StockLandView extends RelativeLayout {
     }
 
     private void setupViewData() {
-        if (null != this.fragmentList && hasWindowFocus()) {
+        if (null != this.fragmentList) {
             Fragment fragment = this.fragmentList.get(view_position);
             if (null != fragment && fragment instanceof FragmentLifecycle) {
                 ((FragmentLifecycle) fragment).onVisible();

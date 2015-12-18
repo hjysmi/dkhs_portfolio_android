@@ -23,11 +23,18 @@ import android.widget.TextView;
 import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.adapter.UserInfoAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.widget.HorizontalDividerItemDecoration;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
@@ -44,6 +51,8 @@ public class UserFragment extends BaseTitleFragment {
     public static final String TAG = "UserFragment";
     //    private UserEngineImpl userImp = new UserEngineImpl();
     private UserInfoAdapter mInfoAdatper;
+
+    private boolean isFirst = true;//防止onResume,requestData多次获取数据
 
 
     @Override
@@ -65,14 +74,12 @@ public class UserFragment extends BaseTitleFragment {
         toolBar.setClickable(true);
         initView(view);
         setTitle(R.string.title_user);
-        updateUserInfo();
     }
 
     @Override
     public void requestData() {
-        updateMessageCenterState();
+        updateState();
     }
-
 
 
     private void initView(View view) {
@@ -89,7 +96,6 @@ public class UserFragment extends BaseTitleFragment {
             }
         });
         BusProvider.getInstance().register(this);
-        updateUserInfo();
 
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -104,13 +110,6 @@ public class UserFragment extends BaseTitleFragment {
                 .color(Color.TRANSPARENT)
                 .build());
 
-
-    }
-
-
-    private void updateUserInfo() {
-
-        updateMessageCenterState();
 
     }
 
@@ -167,8 +166,17 @@ public class UserFragment extends BaseTitleFragment {
         super.onResume();
         StatService.onPageStart(getActivity(), TAG);
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
-        updateMessageCenterState();
+        if (isFirst) {
+            isFirst = false;
+        } else {
+            updateState();
+        }
         mInfoAdatper.notifyItemChanged(0);
+    }
+
+    private void updateState() {
+        updateMessageCenterState();
+        updateVerifyStatus();
     }
 
     @Override
@@ -178,5 +186,49 @@ public class UserFragment extends BaseTitleFragment {
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
+    ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
+
+        @Override
+        protected UserEntity parseDateTask(String jsonData) {
+            return DataParse.parseObjectJson(UserEntity.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(UserEntity entity) {
+            if (null != entity) {
+                GlobalParams.LOGIN_USER = entity;
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL, entity.getAvatar_md());
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED, entity.verified);
+                if (null == entity.verified_type) {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, -1);
+                } else {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, entity.verified_type);
+                }
+                if(null==entity.verified_status){
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, -1);
+                }else{
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, entity.verified_status);
+                }
+                mInfoAdatper.notifyItemChanged(0);
+            }
+        }
+
+        @Override
+        public void onFailure(ErrorBundle errorBundle) {
+            super.onFailure(errorBundle);
+
+        }
+    };
+
+    private void updateVerifyStatus() {
+        if (PortfolioApplication.hasUserLogin()) {
+            userInfoListener.setLoadingDialog(getActivity());
+            UserEngineImpl userEngine = new UserEngineImpl();
+            UserEntity entity = UserEngineImpl.getUserEntity();
+            userEngine.getBaseUserInfo(String.valueOf(entity.getId()), userInfoListener);
+        }
+    }
 
 }

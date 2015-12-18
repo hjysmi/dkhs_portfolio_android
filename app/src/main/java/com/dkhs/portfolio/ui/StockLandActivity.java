@@ -91,6 +91,7 @@ public class StockLandActivity extends FragmentActivity implements StockViewCall
         intent.putExtra("day_data",mDayKChart);
         intent.putExtra("week_data",mWeekKChart);
         intent.putExtra("month_data",mMonthKChart);
+        intent.putExtra("tab_positon",tabPosition);
         setResult(0,intent);
     }
 
@@ -174,7 +175,7 @@ public class StockLandActivity extends FragmentActivity implements StockViewCall
 
     @Override
     public void setTabPosition(int position) {
-        BusProvider.getInstance().post(position);
+        this.tabPosition = position;
     }
 
     @Override

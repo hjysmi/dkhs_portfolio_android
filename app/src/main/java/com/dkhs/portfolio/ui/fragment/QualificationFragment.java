@@ -19,7 +19,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -30,9 +29,11 @@ import com.android.percent.PercentRelativeLayout;
 import com.dkhs.adpter.adapter.SingleItemAdapter;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AuthPageEventBean;
 import com.dkhs.portfolio.bean.OrganizationEventBean;
 import com.dkhs.portfolio.bean.OrgtypeBean;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.bean.ProVerificationBean;
 import com.dkhs.portfolio.bean.QualificationEventBean;
 import com.dkhs.portfolio.bean.QualificationToPersonalEvent;
 import com.dkhs.portfolio.ui.OrganizationActivity;
@@ -40,10 +41,13 @@ import com.dkhs.portfolio.ui.adapter.SelectQualificationAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.pickphoto.PhotoPickerActivity;
 import com.dkhs.portfolio.ui.widget.GridViewEx;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.MyActionSheetDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,14 +55,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 牛人招募之资质资料
  * Created by xuetong on 2015/12/7.
  */
 public class QualificationFragment extends BaseFragment implements View.OnClickListener, SelectQualificationAdapter.IDeletePicListenr {
+
+    public static final String KEY_PROVERIFICATIONBEAN = "key_proverificationbean";
+    public static final String KEY_AUTHFAIL = "key_authfail";
+    private ProVerificationBean verificationBean;
+
     private ImageView iv_right;
     private EditText et_content;
     private Integer org_id = 0;
@@ -67,7 +74,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private List<OrgtypeBean> list;
     private List<Integer> list_img;
     private QualificationAdapter adapter;
-    private FrameLayout fm_main;
+    private PercentFrameLayout fm_main;
     private TextView tv_type;
     private LinearLayout ll_main;
     private EditText et_num;
@@ -96,6 +103,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     private final static int TYPE_FOUR = 3;
     private final static int TYPE_FIVE = 4;
     private int type = 0;
+    private String num = "";
 
     @Override
     public int setContentLayoutId() {
@@ -107,12 +115,59 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
         initValues();
+        initAnimation();
+        if (verificationBean != null) {
+            updateProVerificationInfo(verificationBean);
+        }
+    }
+
+    private void updateProVerificationInfo(ProVerificationBean info) {
+
+        String msg = TextUtils.isEmpty(info.pro.status_note) ? "" : info.pro.status_note + (TextUtils.isEmpty(info.identity.status_note) ? "" : "\n" + info.identity.status_note);
+        setDialog(msg);
+        if (type == 0) {
+            if (!TextUtils.isEmpty(info.pro.cert_description)) {
+                et_content.setText(info.pro.cert_description);
+            }
+        } else {
+            if (!TextUtils.isEmpty(info.pro.cert_no)) {
+                et_num.setText(info.pro.cert_no);
+            }
+            if (null != info.pro.org_profile) {
+                if (!TextUtils.isEmpty(info.pro.org_profile.name)) {
+                    tv_organization.setText(info.pro.org_profile.name);
+                }
+                //    et_num.setText(info.pro.cert_no);
+            }
+            if (info.pro.org_profile != null)
+                org_id = info.pro.org_profile.id;
+        }
+        checkSendButtonEnable();
+
+    }
+
+    private void setDialog(String content) {
+        final MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_auth_dialog, null);
+        builder.hideTitle();
+        builder.hideBottom();
+        builder.hideMessage();
+        builder.setContentView(view);
+        builder.show();
+        TextView tv_content = (TextView) view.findViewById(R.id.tv_content);
+        tv_content.setText(content);
+        view.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
     }
 
     private void initViews(View view) {
 
         width = UIUtils.getDisplayMetrics().widthPixels;
-        fm_main = (FrameLayout) view.findViewById(R.id.fm_main);
+        fm_main = (PercentFrameLayout) view.findViewById(R.id.fm_main);
         iv_right = (ImageView) view.findViewById(R.id.iv_right);
         tv_type = (TextView) view.findViewById(R.id.tv_type);
         gv = (GridViewEx) view.findViewById(R.id.gv);
@@ -128,7 +183,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         gv.setVerticalSpacing((int) (0.03 * width));
         mSelectPohotos.add(ADD_PICTURE);
         mPicAdapter = new SelectQualificationAdapter(getActivity(), mSelectPohotos);
-
 
     }
 
@@ -164,6 +218,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         et_num.setPadding((int) (0.05 * width), 0, 0, 0);
         tv_organization.setPadding((int) (0.05 * width), 0, 0, 0);
         fm_organization.setOnClickListener(this);
+        et_num.setText(num);
     }
 
     TextWatcher et_num_textwatcher = new TextWatcher() {
@@ -189,25 +244,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         }
     };
 
-    /**
-     * 支持只支持输入英文和中文，空格、下划线
-     *
-     * @param str
-     * @return
-     */
-    private boolean checknum(String str) {
-        boolean flag = false;
-        try {
-            String check = "^([a-zA-Z-_ \\u4e00-\\u9fa5]+)$";
-            Pattern regex = Pattern.compile(check);
-            Matcher matcher = regex.matcher(str);
-            flag = matcher.matches();
-        } catch (Exception e) {
-            flag = false;
-        }
-
-        return flag;
-    }
 
     private void initValues() {
 
@@ -216,27 +252,25 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         list.add(new OrgtypeBean("投资牛人", TYPE_FIRST));
         list.add(new OrgtypeBean("投资顾问", TYPE_SECOND));
         list.add(new OrgtypeBean("分析师", TYPE_THREE));
-        list.add(new OrgtypeBean("期货投资咨询", TYPE_FOUR));
-        list.add(new OrgtypeBean("基金执业资格", TYPE_FIVE));
+        list.add(new OrgtypeBean("基金执业资格", TYPE_FOUR));
+        list.add(new OrgtypeBean("期货投资咨询", TYPE_FIVE));
         //
         list_img.add(R.drawable.ic_qualification_better);
         list_img.add(R.drawable.ic_qualification_advister);
         list_img.add(R.drawable.ic_qualification_analyst);
-        list_img.add(R.drawable.ic_qualification_investadvice);
         list_img.add(R.drawable.ic_qualification_fund);
+        list_img.add(R.drawable.ic_qualification_investadvice);
         adapter = new QualificationAdapter(getActivity(), list);
         Bundle arguments = getArguments();
         type = arguments.getInt("type");
-
+        verificationBean = Parcels.unwrap(arguments.getParcelable(KEY_PROVERIFICATIONBEAN));
+        selectedItemType = 0;
+        tv_type.setText(list.get(type).getOrgName());
+        selectedItemType = type;
+        adapter.setSelectedPosition(type);
         if (type == 0) {
-            tv_type.setText(list.get(0).getOrgName());
-            selectedItemType = 0;
-            adapter.setSelectedPosition(0);
             initFooterBetter();
         } else {
-            tv_type.setText(list.get(1).getOrgName());
-            selectedItemType = 1;
-            adapter.setSelectedPosition(1);
             initFooterOther();
         }
 
@@ -251,13 +285,22 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 adapter.notifyDataSetChanged();
                 tv_type.setText(list.get(position).getOrgName());
                 selectedItemType = list.get(position).getType();
+                BusProvider.getInstance().post(new AuthPageEventBean());
                 initAnimation();
                 if (position == 0) {
                     //投资牛人
+                    num = "";
+                    if (null != et_num) {
+                        et_num.setText("");
+                    }
                     initFooterBetter();
                 } else {
                     //其他
+                    if (null != et_num) {
+                        num = et_num.getText().toString().trim();
+                    }
                     initFooterOther();
+
                 }
             }
         });
@@ -293,16 +336,16 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
                 if (selectedItemType == TYPE_FIRST) {
                     //投资牛人
-                    if (checknum(et_num.getText().toString())) {
+                    BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
+                } else {
+                    //不是投资牛人
+                    if (!TextUtils.isEmpty(et_num.getText().toString())) {
                         //验证通过
                         BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                     } else {
                         //验证没有通过
-                        PromptManager.showShortToast("请填写您的执业编号");
+                        PromptManager.showShortToast(R.string.prompt_cert_no);
                     }
-                } else {
-                    //不是投资牛人
-                    BusProvider.getInstance().post(new QualificationToPersonalEvent(setProInfoBean()));
                 }
 
                 break;
@@ -320,8 +363,10 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         //  verified_type 认证类型 0, 投资牛人 1, 投资顾问 2, 分析师 3, 基金执业资格 4, 期货投资咨询
         switch (selectedItemType) {
             case 0:
+                mSelectPohotos.remove(ADD_PICTURE);
                 bean.verified_type = selectedItemType;
-
+                bean.photos = mSelectPohotos;
+                bean.cert_description = et_content.getText().toString().trim();
                 break;
             default:
                 bean.verified_type = selectedItemType;
@@ -372,7 +417,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             });
             animator.start();
 
-            iv_right.setImageResource(R.drawable.ic_qualification_up);
+            iv_right.setImageResource(R.drawable.ic_qualification_down);
             isExpand = false;
         } else {
 
@@ -416,7 +461,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             });
             animator.start();
 
-            iv_right.setImageResource(R.drawable.ic_qualification_down);
+            iv_right.setImageResource(R.drawable.ic_qualification_up);
             isExpand = true;
         }
 
@@ -503,14 +548,22 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
 
     private void checkSendButtonEnable() {
-        list_photos.clear();
-        list_photos.addAll(mSelectPohotos);
-        list_photos.remove(ADD_PICTURE);
-        String str = et_content.getText().toString().trim();
-        if (str.length() > 0 && null != list_photos && list_photos.size() > 0) {
-            but_next.setEnabled(true);
-        } else {
-            but_next.setEnabled(false);
+        if(type == 0){
+            list_photos.clear();
+            list_photos.addAll(mSelectPohotos);
+            list_photos.remove(ADD_PICTURE);
+            String str = et_content.getText().toString().trim();
+            if (str.length() > 0 && null != list_photos && list_photos.size() > 0) {
+                but_next.setEnabled(true);
+            } else {
+                but_next.setEnabled(false);
+            }
+        }else{
+            if (!TextUtils.isEmpty(et_num.getText().toString()) && !TextUtils.isEmpty(tv_organization.getText().toString())) {
+                but_next.setEnabled(true);
+            } else {
+                but_next.setEnabled(false);
+            }
         }
     }
 

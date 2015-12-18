@@ -1,1 +1,1 @@
-include ':app', ':rongim', ':slider', ':base', ':photobrowser', ':emoji', ':security', ':autolist', ':photopicker'
+include ':app', ':rongim', ':slider', ':base', ':photobrowser', ':emoji', ':security', ':autolist', ':photopicker',':gridpasswordview'

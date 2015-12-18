@@ -127,7 +127,8 @@
                     android:layout_marginTop="8dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:src="@drawable/ic_img_thumbnail" />
+                    android:src="@drawable/ic_img_thumbnail"
+                    android:visibility="gone"/>
 
 
                 <TableLayout
@@ -137,7 +138,9 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp">
 
-                    <TableRow android:id="@+id/row1">
+                    <TableRow android:id="@+id/row1"
+                        android:visibility="gone"
+                        >
 
                         <com.dkhs.portfolio.ui.widget.ScaleImageView
                             android:id="@+id/v1"
@@ -177,7 +180,9 @@
 
                     </TableRow>
 
-                    <TableRow android:id="@+id/row2">
+                    <TableRow android:id="@+id/row2"
+                        android:visibility="gone"
+                        >
 
                         <com.dkhs.portfolio.ui.widget.ScaleImageView
                             android:id="@+id/v4"
@@ -216,7 +221,9 @@
 
                     </TableRow>
 
-                    <TableRow android:id="@+id/row3">
+                    <TableRow android:id="@+id/row3"
+                        android:visibility="gone"
+                        >
 
                         <com.dkhs.portfolio.ui.widget.ScaleImageView
                             android:id="@+id/v7"

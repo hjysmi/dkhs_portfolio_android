@@ -84,7 +84,6 @@
             android:theme="@style/AppThemeNoBackgroud">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -182,8 +181,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.StockLandActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".ui.SelectStatusStockActivity"
             android:screenOrientation="portrait" />
@@ -422,8 +421,7 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".ui.MarketSubpageActivity"/>
+        <activity android:name=".ui.MarketSubpageActivity" />
         <activity
             android:name=".ui.FundManagerActivity"
             android:label="@string/title_activity_fund_manager" />
@@ -468,6 +466,7 @@
         <activity
             android:name=".ui.ReplyActivity"
             android:label="@string/mine_reply" />
+
         <activity
             android:name=".ui.CommentMeActivity"
             android:label="@string/title_activity_comment_me" />
@@ -480,21 +479,23 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.TestActivity" />
+
+
         <activity
             android:name=".ui.pickphoto.PhotoPickerActivity"
             android:label="@string/title_picker_photo" />
         <activity
             android:name=".ui.MyTopicActivity"
             android:label="@string/info_title_mypost" />
-        <!-- <activity -->
-        <!-- android:name=".ui.ZWMTestActivity" -->
-        <!-- android:theme="@style/Theme.AppCompatRed" -->
-        <!-- android:label="@string/title_activity_zwmtest" > -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+        <!--<activity-->
+        <!--android:name=".ui.ZWMTestActivity"-->
+        <!--android:theme="@style/Theme.AppCompatRed"-->
+        <!--android:label="@string/title_activity_zwmtest" >-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<category android:name="android.intent.category.LAUNCHER" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
         <activity android:name=".ui.ExchangeHistoryActivity" />
         <activity
             android:name=".ui.MyPurseActivity"
@@ -544,6 +545,73 @@
         <!-- weixin -->
 
         <activity
+            android:name=".ui.MyAssestsActivity"
+            android:label="@string/my_assets" />
+        <activity
+            android:name=".ui.BankCardNoActivity"
+            android:label="@string/my_assets" />
+        <activity android:name=".ui.MyBankCardsActivity" />
+        <activity
+            android:name=".ui.BankCardInfoActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.TradePasswordSettingActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
+        <activity android:name=".ui.TradeRecordActivity" />
+        <activity android:name=".ui.MyFundsActivity" />
+        <activity android:name=".ui.FundInfoActivity" />
+        <activity android:name=".ui.BuyFundActivity" />
+        <activity android:name=".ui.SellFundActivity" />
+        <activity android:name=".ui.SellFundInfoActivity" />
+        <activity android:name=".ui.BuyFundInfoActivity" />
+        <activity android:name=".ui.TradeSettingActivity" />
+        <activity android:name=".ui.ResetTradePasswordActivity" />
+        <activity android:name=".ui.ForgetTradePasswordActivity" />
+        <activity android:name=".ui.ChooseBankActivity" />
+        <activity android:name=".ui.GesturePasswordActivity" />
+        <activity android:name=".ui.VerifyLoginPasswordActivity" />
+
+        <!-- ChinaPay plugin begin -->
+        <activity
+            android:name="com.hxcr.chinapay.activity.Initialize"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/cp_Animation"></activity>
+        <activity
+
+            android:name="com.hxcr.chinapay.activity.InfoMain"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.hxcr.chinapay.activity.ResultInfo"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.hxcr.chinapay.activity.HelpMain"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.hxcr.chinapay.activity.SustainBankList"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.hxcr.chinapay.activity.SubmitSujestion"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/cp_Animation"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- Chinapay plugin end -->
+
+        <activity
             android:name=".ui.WithDrawActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -556,7 +624,8 @@
         </activity>
         <activity
             android:name=".ui.BetterRecruitActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.PersonalIntroduceActivity"
             android:screenOrientation="portrait" />
@@ -579,7 +648,16 @@
         <activity
             android:name=".ui.OrganizationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.VerifiedProFileActivity"/>
+        <activity android:name=".ui.VerifiedProFileActivity" />
+
+        <service
+            android:name=".service.AuthenticationService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.dkhs.authenticationService.action.upload" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

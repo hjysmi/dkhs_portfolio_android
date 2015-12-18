@@ -17,7 +17,10 @@ import android.webkit.WebViewClient;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.WapShareBean;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
@@ -29,6 +32,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -41,22 +45,22 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-5-18 上午10:26:35
  */
-public class AdActivity extends ModelAcitivity implements View.OnClickListener{
+public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
     public static final String KEY_URI = "key_uri";
 
-    public static  AdActivity instance;
-    private static  final  String js="javascript:(function(){" +
+    public static AdActivity instance;
+    private static final String js = "javascript:(function(){" +
             "window.shareMan.setTitleAction(document.title);" +
             "window.shareMan.getShareEntity(share());" +
             "})();";
-    private static  final  String functionJS="javascript:%s();";
+    private static final String functionJS = "javascript:%s();";
 
-    private WeakHandler mWeakHandler =new WeakHandler(new Handler.Callback() {
+    private WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
 
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     setTitle(mTitle);
                     break;
@@ -73,7 +77,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     private WapShareBean mWapShareBean;
 
-   public static Intent getIntent(Context ctx, String url) {
+    public static Intent getIntent(Context ctx, String url) {
         Intent intent = new Intent();
         intent.putExtra(KEY_URI, url);
         intent.setClass(ctx, AdActivity.class);
@@ -105,30 +109,40 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
     private void initView() {
         mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        mWebView.loadUrl(mUrl);
+
+        final Map<String, String> headers = new HashMap<>();
+        if (mUrl.startsWith(DKHSClient.getHeadUrl()) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+            headers.put("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+        }
+        mWebView.loadUrl(mUrl, headers);
 
         mWebView.getSettings().setJavaScriptEnabled(true);
-        String userAgent=    mWebView.getSettings().getUserAgentString();
-        mWebView.getSettings().setUserAgentString(userAgent+" dkhs_shuiniu");
+        String userAgent = mWebView.getSettings().getUserAgentString();
+        mWebView.getSettings().setUserAgentString(userAgent + " dkhs_shuiniu");
         mWebView.setWebChromeClient(new WebChromeClient());
 
-            mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
-            mWebView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    super.onPageStarted(view, url, favicon);
-                }
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    return messageHandler.handleURL(url);
-                }
-                @Override
-                public void onPageFinished(WebView view, String url) {
+        mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
 
-                    mWebView.loadUrl(js);
-                    super.onPageFinished(view, url);
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (!messageHandler.needHandle(url)) {
+                    mWebView.loadUrl(url, headers);
                 }
-            });
+                return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+
+                mWebView.loadUrl(js);
+                super.onPageFinished(view, url);
+            }
+        });
         mWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -145,9 +159,9 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
             @Override
             public void onClick(View v) {
 
-                if( mWebView.canGoBack()){
+                if (mWebView.canGoBack()) {
                     mWebView.goBack();
-                }else{
+                } else {
                     finish();
                 }
 
@@ -161,15 +175,16 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
 
         @android.webkit.JavascriptInterface
         public void getShareEntity(String string) {
-            LogUtils.e("getShareEntity   "+string);
-            mWapShareBean= DataParse.parseObjectJson(WapShareBean.class,string);
+            LogUtils.e("getShareEntity   " + string);
+            mWapShareBean = DataParse.parseObjectJson(WapShareBean.class, string);
             mWeakHandler.sendEmptyMessage(2);
 
         }
+
         @android.webkit.JavascriptInterface
-        public void setTitleAction(String title){
-            LogUtils.e("setTitleAction   "+title);
-            mTitle=title;
+        public void setTitleAction(String title) {
+            LogUtils.e("setTitleAction   " + title);
+            mTitle = title;
             mWeakHandler.sendEmptyMessage(1);
 
         }
@@ -177,14 +192,13 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
     }
 
 
-
     private void showShareButton() {
 
-        if(!TextUtils.isEmpty(mWapShareBean.getUrl())){
+        if (!TextUtils.isEmpty(mWapShareBean.getUrl())) {
             getRightButton().setOnClickListener(this);
             getRightButton().setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share_selector), null,
                     null, null);
-        }else{
+        } else {
             getRightButton().setVisibility(View.GONE);
         }
 
@@ -194,7 +208,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        if(mWapShareBean != null){
+        if (mWapShareBean != null) {
 
 
             ImageLoaderUtils.loadImage(mWapShareBean.getImg(), new ImageLoadingListener() {
@@ -234,12 +248,12 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener{
         oks.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                mWebView.loadUrl(String.format(functionJS,mWapShareBean.getSuccessCallback()));
+                mWebView.loadUrl(String.format(functionJS, mWapShareBean.getSuccessCallback()));
             }
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
-                mWebView.loadUrl(String.format(functionJS,mWapShareBean.getErrorCallback()));
+                mWebView.loadUrl(String.format(functionJS, mWapShareBean.getErrorCallback()));
             }
 
             @Override

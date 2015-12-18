@@ -291,21 +291,20 @@
     </string-array>
 
 
-
     <string-array name="user_info_title">
         <item>@string/message_center</item>
-        <item>@string/info_title_mycom</item>
         <item>@string/info_title_purse</item>
         <item>@string/flow_package</item>
+        <item>@string/info_title_mycom</item>
         <item>@string/info_title_reward</item>
         <item>@string/info_title_mypost</item>
         <item>@string/info_title_mydraft</item>
     </string-array>
     <integer-array name="ic_info_ids">
         <item>@drawable/ic_info_message</item>
-        <item>@drawable/ic_info_combina</item>
         <item>@drawable/ic_info_purse</item>
         <item>@drawable/ic_info_flowpack</item>
+        <item>@drawable/ic_info_combina</item>
         <item>@drawable/ic_info_xuanshang</item>
         <item>@drawable/ic_info_reply</item>
         <item>@drawable/ic_info_draft</item>
@@ -334,6 +333,42 @@
         <item>@string/copy_content</item>
         <item>@string/title_status_report</item>
     </string-array>
+    <string-array name="my_assests_title">
+        <item>@string/small_change</item>
+        <item>@string/my_funds</item>
+        <item>@string/my_trade_history</item>
+        <item>@string/my_bank_cards</item>
+    </string-array>
+    <integer-array name="ic_assest_ids">
+        <item>@drawable/ic_my_funds</item>
+        <item>@drawable/ic_small_change</item>
+        <item>@drawable/ic_trade_record</item>
+        <item>@drawable/ic_bank_cards</item>
+    </integer-array>
+
+    <string-array name="my_funds_title">
+        <item>@string/buy_in</item>
+        <item>@string/sell_out</item>
+    </string-array>
+
+    <!--Chinapay plugin begin-->
+    <string-array name="cp_idtype">
+        <item>身份证</item>
+        <item>军官证</item>
+        <item>护照</item>
+        <item>户口簿</item>
+        <item>回乡证</item>
+        <item>其他证件</item>
+    </string-array>
+    <!--Chinapay plugin end-->
+
+    <integer-array name="bank_ids">
+        <item>1</item>
+        <item>14</item>
+        <item>15</item>
+        <item>8</item>
+        <item>6</item>
+    </integer-array>
 
     <string-array name="choices_topic_sort_type">
         <item>最热话题</item>

@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.Fund;
 import com.dkhs.portfolio.bean.FundQuoteBean;
+import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.bean.QuotesBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
@@ -283,6 +285,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private final int MENU_FOLLOW = 1;
     private final int MENU_DELFOLLOW = 2;
     private final int MENU_REMIND = 3;
+    private final int MENU_BUY = 4;
     private final int MENU_SHARE = 6;
 
     FloatingActionMenu.OnMenuItemSelectedListener mFloatMenuSelectListner = new FloatingActionMenu.OnMenuItemSelectedListener() {
@@ -309,6 +312,22 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 case MENU_SHARE: {
 
                 }
+                break;
+                case MENU_BUY:
+                    //TODO 购买基金
+//                    startActivity(BuyFundActivity.buyIntent(mContext,null));
+                    if(mFundQuoteBean.isAllow_trade()){
+                        Fund mFund = new Fund();
+                        mFund.setName(mFundQuoteBean.getName());
+                        mFund.setId(String.valueOf(mFundQuoteBean.getId()));
+                        mFund.setAmount_min(mFundQuoteBean.getAmount_min());
+                        mFund.setNet_value(String.valueOf(mFundQuoteBean.getNet_value()));
+                        mFund.setFare_ratio_buy(mFundQuoteBean.getFare_ratio_buy());
+                        mFund.setDiscount_rate_buy(mFundQuoteBean.getDiscount_rate_buy());
+                        MyFundInfo info = new MyFundInfo();
+                        info.setFund(mFund);
+                        startActivity(BuyFundActivity.buyIntent(mContext,info));
+                    }
                 break;
                 default:
                     break;
@@ -378,6 +397,11 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void initFloatingActionMenu(QuotesBean quoteBean) {
         mFloatMenu.removeAllItems();
 
+        if(mFundQuoteBean.isAllow_trade()){
+            mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,R.drawable.lv_blue_selector,0);
+        }else{
+            mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,0,R.color.person_setting_line);
+        }
         if (quoteBean.isFollowed()) {
             mFloatMenu.addItem(MENU_DELFOLLOW, R.string.float_menu_delfollow,
                     R.drawable.btn_del_item_normal);
