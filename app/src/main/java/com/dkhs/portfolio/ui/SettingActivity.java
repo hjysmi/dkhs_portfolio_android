@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.bean.BindThreePlat;
@@ -279,7 +280,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
                     new Thread() {
                         public void run() {
-                            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                            DbUtils dbUtils = AppConfig.getDBUtils();
 
                             try {
                                 dbUtils.deleteAll(UserEntity.class);
@@ -578,8 +579,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_masked);
         UserEntity user = GlobalParams.LOGIN_USER;
         if(user != null){
-            String residence = user.getProvince() + " " + user.getCity();
-            ((TextView) findViewById(R.id.tv_city_value)).setText(residence);
+            StringBuilder residence = new StringBuilder();
+            if(!TextUtils.isEmpty(user.getProvince())){
+                residence.append(user.getProvince());
+            }
+            if(!TextUtils.isEmpty(user.getCity())){
+                residence.append(user.getProvince()+" "+user.getCity());
+            }
+            ((TextView) findViewById(R.id.tv_city_value)).setText(residence.toString());
         }
         ((TextView) findViewById(R.id.tv_verified_type_value)).setText(getVerifiedName(pro.verified_type));
         if (pro.verified_type == UserEntity.VERIFIEDTYPE.EXPERT.getTypeid()) {

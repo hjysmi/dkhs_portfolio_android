@@ -40,14 +40,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_qualification_down"
+            android:src="@drawable/ic_qualification_up"
             app:layout_heightPercent="6%w"
             app:layout_marginRightPercent="5%w"
             app:layout_widthPercent="6%w" />
 
     </com.android.percent.PercentRelativeLayout>
 
-    <FrameLayout
+    <com.android.percent.PercentFrameLayout
         android:id="@+id/fm_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -72,9 +72,9 @@
                     android:choiceMode="singleChoice"
                     android:numColumns="3"
                     android:scrollbars="none"
-                    app:layout_marginTopPercent="5%w"
                     app:layout_marginLeftPercent="5%w"
-                    app:layout_marginRightPercent="5%w"/>
+                    app:layout_marginRightPercent="5%w"
+                    app:layout_marginTopPercent="5%w" />
 
                 <View
                     android:layout_width="match_parent"
@@ -86,6 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
+
                 <Button
                     android:id="@+id/but_next"
                     android:layout_width="wrap_content"
@@ -96,9 +97,9 @@
                     android:text="下一步"
                     android:textColor="@color/btn_blue_textselector"
                     app:layout_heightPercent="12%w"
-                    app:layout_widthPercent="90%w"
+                    app:layout_marginBottomPercent="5%w"
                     app:layout_marginTopPercent="5%w"
-                    app:layout_marginBottomPercent="5%w"/>
+                    app:layout_widthPercent="90%w" />
             </com.android.percent.PercentLinearLayout>
         </ScrollView>
         <!--<com.dkhs.portfolio.ui.widget.GridViewWithHeaderAndFooter
@@ -108,7 +109,7 @@
             android:numColumns="3"
             android:choiceMode="singleChoice"
             android:scrollbars="none"/>-->
-    </FrameLayout>
+    </com.android.percent.PercentFrameLayout>
 
 
 </com.android.percent.PercentLinearLayout>

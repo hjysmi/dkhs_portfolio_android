@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         >
-        <com.dkhs.portfolio.ui.widget.ClearableEditText
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
@@ -23,8 +23,8 @@
             android:layout_marginRight="5dp"
             android:background="@null"
             android:id="@+id/sign_edit_text"
-            android:maxLength="40"
-            android:lines="3" />
+            android:maxLength="200"
+            android:lines="10" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,6 +35,7 @@
             android:id="@+id/sign_text_text"
             android:textSize="@dimen/list_text_size"
             android:textColor="@color/light_gray"
-            android:text="40" />
+            android:textColorHint="@color/text_hint_color"
+            android:text="200" />
         </LinearLayout>
 </LinearLayout>

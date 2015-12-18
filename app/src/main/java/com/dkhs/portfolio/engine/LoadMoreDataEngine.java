@@ -30,6 +30,9 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
 
     private MoreDataBean moreDataBean;
 
+    public LoadMoreDataEngine() {
+    }
+
     public LoadMoreDataEngine(ILoadDataBackListener loadListener) {
         this.iLoadListener = loadListener;
     }

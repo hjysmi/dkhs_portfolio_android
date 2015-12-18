@@ -1,0 +1,8 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+	<!-- Chinapay plugin begin -->
+	<color name="cp_light_white">#ffffff</color>
+	<color name="cp_red">#FF0000</color>
+	<!-- Chinapay plugin end -->
+</resources>

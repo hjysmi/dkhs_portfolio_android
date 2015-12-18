@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/activity_bg_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/tv_fund_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/widget_padding_small"
+            android:paddingLeft="@dimen/widget_padding_large"
+            android:paddingRight="@dimen/widget_padding_large"
+            android:paddingTop="@dimen/widget_padding_large"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/widget_text_18sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/widget_padding_small"
+            android:paddingLeft="@dimen/widget_padding_large"
+            android:paddingRight="@dimen/widget_padding_large"
+            android:paddingTop="@dimen/widget_padding_small"
+            >
+
+            <TextView
+                android:id="@+id/tv_net_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_textcolor"
+                android:textSize="@dimen/widget_text_14sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_buy_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/widget_margin_xxlarge"
+                android:textColor="@color/gray_textcolor"
+                android:textSize="@dimen/widget_text_14sp"
+                />
+        </LinearLayout>
+
+        <View style="@style/divider_line"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_select_bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/widget_padding_normal"
+            android:paddingLeft="@dimen/widget_padding_large"
+            android:paddingRight="@dimen/widget_padding_large"
+            android:paddingTop="@dimen/widget_padding_normal"
+            android:background="@drawable/bg_white_selector"
+            android:clickable="true"
+            >
+
+            <ImageView
+                android:id="@+id/iv_bank_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/image_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/setting_image_right"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large"
+                android:layout_toLeftOf="@id/image_detail"
+                android:layout_toRightOf="@id/iv_bank_logo"
+                >
+
+                <TextView
+                    android:id="@+id/tv_bank_card_no_tail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_text_18sp"/>
+
+                <TextView
+                    android:id="@+id/tv_limit_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_normal"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_14sp"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/widget_margin_medium"
+        android:layout_marginBottom="@dimen/widget_margin_medium"
+        android:layout_marginLeft="@dimen/widget_margin_large"
+        android:textColor="@color/gray_textcolor"
+        android:text="@string/buy_fund_tip1"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_border_gray"
+        android:paddingBottom="@dimen/widget_padding_medium"
+        android:paddingLeft="@dimen/widget_padding_large"
+        android:paddingRight="@dimen/widget_padding_large"
+        android:paddingTop="@dimen/widget_padding_medium"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/tv_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/widget_text_14sp"
+            android:text="@string/value"
+            />
+        <TextView
+            android:id="@+id/tv_dollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/widget_text_14sp"
+            android:text="@string/dollar"
+            />
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
+            android:id="@+id/et_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/tv_dollar"
+            android:layout_toRightOf="@id/tv_value"
+            android:layout_marginLeft="@dimen/widget_margin_medium"
+            android:layout_marginRight="@dimen/widget_margin_medium"
+            android:background="@null"
+            android:hint="@string/hint_value"
+            android:inputType="numberDecimal"
+            />
+        </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_buy_poundage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/widget_margin_medium"
+        android:layout_marginBottom="@dimen/widget_margin_medium"
+        android:layout_marginLeft="@dimen/widget_margin_large"
+        android:textColor="@color/gray_textcolor"
+        android:text="@string/buy_fund_tip2"
+        />
+    <Button
+        android:id="@+id/btn_buy"
+        style="@style/btn_login_blue"
+        android:layout_marginLeft="@dimen/widget_margin_xlarge"
+        android:layout_marginRight="@dimen/widget_margin_xlarge"
+        android:layout_marginTop="@dimen/widget_margin_normal"
+        android:enabled="false"
+        android:text="购买"/>
+</LinearLayout>

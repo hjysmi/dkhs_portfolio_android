@@ -312,6 +312,11 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     }
 
+    public void manualFinish(){
+        UIUtils.outAnimationActivity(this);
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
         PortfolioApplication.getInstance().getLists().remove(this);
@@ -356,6 +361,12 @@ public class ModelAcitivity extends SwipeBackActivity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
+        UIUtils.setOverridePendingAnin(this);
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
         UIUtils.setOverridePendingAnin(this);
     }
 
