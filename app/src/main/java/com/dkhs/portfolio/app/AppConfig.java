@@ -1,18 +1,16 @@
 package com.dkhs.portfolio.app;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.bean.DraftBean;
+import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.engine.LocalDataEngine.CityEngine;
-import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -35,7 +33,7 @@ public final class AppConfig {
 
     public static final boolean isDebug = BuildConfig.isSandbox;
 
-    public static final int VERSION_CURRENT = 3;//当前数据库版本号
+    public static final int VERSION_CURRENT = 4;//当前数据库版本号
 
     //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
@@ -54,10 +52,6 @@ public final class AppConfig {
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(context));
 
         MobclickAgent.openActivityDurationTrack(false);
-        //是否替换本地raw里面的数据库
-        if (hasReplaceRawDB || !PortfolioPreferenceManager.hasLoadSearchStock()) {
-            copyDataBaseToPhone();
-        }
         copyCityDbToPhone();
 
         // 注册crashHandler，程序异常的日志管理工具
@@ -81,40 +75,12 @@ public final class AppConfig {
         }
         //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
-        //启动定时更新数据库的服务类
-        Intent demand = new Intent(context, ReLoadDataService.class);
-        context.startService(demand);
         //消息中心模块的初始化
         MessageManager.getInstance().connect();
 
     }
 
 
-    private void copyDataBaseToPhone() {
-
-        final DataBaseUtil util = new DataBaseUtil(mContext);
-        // 判断数据库是否存在
-        boolean dbExist = util.checkDataBase();
-
-        if (dbExist) {
-            Log.i("tag", "The database is exist.");
-        } else {// 不存在就把raw里的数据库写入手机
-
-            new Thread() {
-                public void run() {
-
-                    try {
-                        util.copyDataBase();
-                        PortfolioPreferenceManager.setLoadSearchStock();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }.start();
-
-        }
-    }
 
     private void copyCityDbToPhone() {
 
@@ -155,6 +121,13 @@ public final class AppConfig {
                             db.dropTable(DraftBean.class);
                         } catch (Exception e) {
                             e.printStackTrace();
+                        }
+                    case 4:
+                        try {
+                            db.dropTable(SearchStockBean.class);
+                            Log.d("wys","del searchStock table");
+                        } catch (Exception e) {
+
                         }
                 }
 
