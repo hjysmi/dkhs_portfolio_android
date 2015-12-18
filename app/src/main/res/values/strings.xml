@@ -849,6 +849,7 @@
     <string name="total_assets">总资产(元)</string>
     <string name="recent_profit">今日最新收益(元)</string>
     <string name="assest_total_profit">累计收益(元)</string>
+    <string name="small_change">零钱</string>
     <string name="my_funds">持仓基金</string>
     <string name="blank_recent_profit_time">最新收益(元) %1$s</string>
     <string name="my_funds_detail">持仓详情</string>

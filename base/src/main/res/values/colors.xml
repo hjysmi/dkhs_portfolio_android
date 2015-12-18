@@ -179,5 +179,6 @@
     <color name="fund_special_green_translation">#1A70A8A0</color>
     <color name="fund_special_yellow_translation">#0DF4AD56</color>
     <color name="fund_special_red_translation">#0DFF6363</color>
+    <color name="fund_special_blue_translation">#1A64AAFF</color>
 
 </resources>
