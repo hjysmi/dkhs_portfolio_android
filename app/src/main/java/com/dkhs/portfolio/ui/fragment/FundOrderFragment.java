@@ -70,6 +70,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     private String type;
     private String sort;
+    private boolean showCanBuy;
 
 
     @Override
@@ -93,10 +94,11 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     }
 
-    public void setType(String type){
+    public void setType(String type,boolean showCanBuy){
         LogUtils.d("wys", "fund order setType");
-        if(this.type != type){
+        if(this.type != type || this.showCanBuy != showCanBuy){
             this.type = type;
+            this.showCanBuy = showCanBuy;
             loadData();
         }
     }

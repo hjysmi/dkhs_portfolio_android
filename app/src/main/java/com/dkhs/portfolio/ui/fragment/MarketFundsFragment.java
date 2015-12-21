@@ -81,6 +81,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private View mFundTypeView;
     private LinkedList<MenuBean> sorts;
     private String mFundType;
+    private boolean mShowCanBuy;//仅显示可购买
 
     private static int defaultIndex = 1;//默认显示周战斗指数
 
@@ -102,7 +103,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         @Override
         public void onPageSelected(int position) {
-            switchFundType(position, mFundType);
+            switchFundType(position, mFundType,mShowCanBuy);
         }
 
         @Override
@@ -325,7 +326,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     public void update(MenuBean menuBean) {
 
         if (menuBean instanceof FundTypeMenuBean) {
-            switchFundType(mPager.getCurrentItem(), menuBean.getValue());
+            switchFundType(mPager.getCurrentItem(), menuBean.getValue(),false);
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
             sortKeyFormatStr = "%s";
@@ -363,12 +364,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
-    private void switchFundType(int position, String fundType) {
+    private void switchFundType(int position, String fundType,boolean showCanBuy) {
         mFundType = fundType;
+        mShowCanBuy = showCanBuy;
         if (fragments != null && fragments.size() >= position) {
             Fragment fg = fragments.get(position);
             if (fg instanceof FundOrderFragment) {
-                ((FundOrderFragment) fg).setType(fundType);
+                ((FundOrderFragment) fg).setType(fundType,showCanBuy);
             }
         }
     }
