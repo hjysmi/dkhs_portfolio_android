@@ -285,6 +285,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 adapter.notifyDataSetChanged();
                 tv_type.setText(list.get(position).getOrgName());
                 selectedItemType = list.get(position).getType();
+                type = selectedItemType;
                 BusProvider.getInstance().post(new AuthPageEventBean());
                 initAnimation();
                 if (position == 0) {
