@@ -11,7 +11,8 @@
         style="@style/gray_text_tabline"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingLeft="15dp">
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
 
         <com.dkhs.portfolio.ui.widget.TabPageIndicator
             android:id="@+id/indicator"
@@ -23,7 +24,8 @@
             android:id="@+id/rl_fund_type"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp">
+            android:background="@color/white"
+            android:paddingLeft="10dp">
 
             <TextView
                 android:id="@+id/tv_fund_type"

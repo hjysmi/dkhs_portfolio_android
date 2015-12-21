@@ -247,10 +247,16 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         final int tabCount = mTabLayout.getChildCount();
         for (int i = 0; i < tabCount; i++) {
             final View child = mTabLayout.getChildAt(i);
+            if(child instanceof TextView){
+                ((TextView)child).setTextColor(getResources().getColor(R.color.black));
+            }
             final boolean isSelected = (i == item);
             child.setSelected(isSelected);
             if (isSelected) {
                 animateToTab(item);
+                if(child instanceof TextView){
+                    ((TextView)child).setTextColor(getResources().getColor(R.color.theme_blue));
+                }
             }
         }
     }

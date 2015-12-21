@@ -20,6 +20,8 @@ public class MenuBean {
 
     private String value;
 
+    private boolean showCanBuy;
+
     public String getValue() {
         return value;
     }
@@ -45,6 +47,14 @@ public class MenuBean {
         this.key = key;
     }
 
+
+    public boolean isShowCanBuy() {
+        return showCanBuy;
+    }
+
+    public void setShowCanBuy(boolean showCanBuy) {
+        this.showCanBuy = showCanBuy;
+    }
 
     public static LinkedList<MenuBean> fundTypeFromXml(Context ctx) {
 

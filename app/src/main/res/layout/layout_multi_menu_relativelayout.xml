@@ -40,6 +40,7 @@
             style="@style/gray_text_tabline"
             android:textSize="@dimen/widget_text_16sp"
             android:gravity="center_vertical|right"
+            android:visibility="gone"
             android:text="@string/all" />
 
         <android.support.v7.widget.RecyclerView
