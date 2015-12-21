@@ -82,7 +82,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private LinkedList<MenuBean> sorts;
     private String mFundType;
 
-    private static  int defaultIndex = 1;//默认显示周战斗指数
+    private static int defaultIndex = 1;//默认显示周战斗指数
 
     @Override
     public int setContentLayoutId() {
@@ -92,6 +92,24 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private static final String MARKET_TYPE = "market_type";
     private MarketSubpageFragment.SubpageType curType;
     private String mSort;
+    private ArrayList<Fragment> fragments;
+    private String[] fundSorts;
+    private ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            switchFundType(position, mFundType);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
 
     public static MarketFundsFragment getFragment(int type) {
@@ -119,46 +137,23 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         }
     }
 
-    ArrayList<Fragment> fragments;
-    String[] fundSorts;
     private void initViewPager(View view) {
         fragments = new ArrayList<>();
         fundSorts = getResources().getStringArray(R.array.fund_sort_values);
         String[] managerSorts;
         managerSorts = getResources().getStringArray(R.array.fund_manager_sort_values);
-
-        //判断是基金经理还是基金
-        //基金经理没有基金类型  type传不传都无所谓
-        //切换时　要设置下fragment的基金类型　所以下级fragment新增可设置基金类型的方法
-        for(int i = 0;i<PERCENT_TITLE_IDS.length;i++){
-            if(curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0){
+        for (int i = 0; i < PERCENT_TITLE_IDS.length; i++) {
+            if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0) {
                 FundManagerRankingsFragment fg = FundManagerRankingsFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), managerSorts[i].substring(0));
                 fragments.add(fg);
-            }else{
-                FundOrderFragment  fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), fundSorts[i].substring(0));
+            } else {
+                FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), fundSorts[i].substring(0));
                 fragments.add(fg);
             }
-
         }
-        FragmentPagerAdapter adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(),fragments);
+        FragmentPagerAdapter adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments);
         mPager.setOffscreenPageLimit(3);
-        ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                switchFundType(position, mFundType);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        };
-        if(curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) != 0){
+        if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) != 0) {
             mPageIndicator.setOnPageChangeListener(listener);
         }
         mPager.setAdapter(adapter);
@@ -213,14 +208,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 //            }
 //        }
         //
-//        if(curType != null){
-//            mRootView.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    loadData();
-//                }
-//            }, 50);
-//        }
         loadData();
         initViewPager(view);
     }
@@ -230,10 +217,9 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
-    private void loadData(){
-        switch (curType){
+    private void loadData() {
+        switch (curType) {
             case TYPE_FUND_MANAGER_RANKING_WEEK:
-//                fundTypeMenuChooserL.setFundManagerRanking();
                 mFundTypeView.setVisibility(View.GONE);
                 break;
             case TYPE_FUND_ALL_RANKING_MONTH:
@@ -318,8 +304,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             }
             break;
             case R.id.btn_refresh: {
-                refresh();
-                //TODO 基金经理，基金提供方法进行更新
+//                refresh();
+                refreshUI();
             }
             break;
             case R.id.btn_search:
@@ -339,7 +325,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     public void update(MenuBean menuBean) {
 
         if (menuBean instanceof FundTypeMenuBean) {
-            switchFundType(mPager.getCurrentItem(),menuBean.getValue());
+            switchFundType(mPager.getCurrentItem(), menuBean.getValue());
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
             sortKeyFormatStr = "%s";
@@ -351,12 +337,12 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 //            mSwitchThreeStateOnClickListener.updateState(SwitchThreeStateOnClickListener.Status.NORMAL,false);
 //            tvCurrent.setClickable(false);
             if (StockUitls.isSepFund(type.getCode())) {
-                sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.sepFundSortFromXml(mActivity),0);
+                sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.sepFundSortFromXml(mActivity), 0);
 //                tvCurrent.setText(R.string.tenthou_unit_incm);
 //                tvPercentgae.setText(R.string.year_yld);
             } else {
                 sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundSortFromXml(mActivity), defaultIndex);
-                if(defaultIndex != 1){
+                if (defaultIndex != 1) {
                     defaultIndex = 1;
                 }
 //                tvPercentgae.setText(sortTypeMenuChooserL.getSelectItem().getKey());
@@ -368,7 +354,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 //            tvCurrent.setClickable(true);
             sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
 //            tvPercentgae.setText(R.string.win_rate_week);
-            sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity),0);
+            sortTypeMenuChooserL.notifyDataSetChanged(MenuBean.fundManagerSortFromXml(mActivity), 0);
         } else {
 //            tvPercentgae.setText(String.format(sortKeyFormatStr, menuBean.getKey()));
         }
@@ -377,12 +363,12 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     }
 
-    private void switchFundType(int position,String fundType) {
+    private void switchFundType(int position, String fundType) {
         mFundType = fundType;
-        if(fragments != null && fragments.size() >= position){
+        if (fragments != null && fragments.size() >= position) {
             Fragment fg = fragments.get(position);
-            if(fg instanceof FundOrderFragment){
-                ((FundOrderFragment)fg).setType(fundType);
+            if (fg instanceof FundOrderFragment) {
+                ((FundOrderFragment) fg).setType(fundType);
             }
         }
     }
@@ -399,6 +385,18 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             replaceFundDataList(fundTypeMenuChooserL.getSelectItem().getValue(), sortTypeMenuChooserL.getSelectItem().getValue());
         }
 
+    }
+
+    private void refreshUI() {
+        int position = mPager.getCurrentItem();
+        if (fragments != null && fragments.size() >= position) {
+            Fragment fg = fragments.get(position);
+            if (fg instanceof FundOrderFragment) {
+                ((FundOrderFragment) fg).refresh();
+            } else if (fg instanceof FundManagerRankingsFragment) {
+                ((FundManagerRankingsFragment) fg).refresh();
+            }
+        }
     }
 
 
@@ -505,7 +503,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 //            int index = position % PERCENT_TITLE_IDS.length;
 //            return TestFragment.newInstance(getActivity().getString(PERCENT_TITLE_IDS[index]));
         }
-
 
 
         @Override
