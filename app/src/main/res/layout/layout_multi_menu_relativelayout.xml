@@ -2,48 +2,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/im_bg"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/alpha_gray"
-        />
+        android:background="@color/alpha_gray" />
 
 
     <LinearLayout
         android:id="@+id/ll_menu"
-        android:paddingTop="6dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="6dp">
+
         <TextView
-            android:text="@string/fund_manager_rankings"
-            android:gravity="center_vertical"
+            android:id="@+id/header_recycler_view2"
             style="@style/gray_text_tabline"
-            />
+            android:gravity="center_vertical"
+            android:text="@string/fund_manager_rankings"
+            android:visibility="gone" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view2"
-            android:layout_marginTop="2dp"
             android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:overScrollMode="never"
-            android:layout_height="wrap_content" />
+            android:visibility="gone" />
+
         <TextView
-            android:text="@string/fund_rankings"
-            android:gravity="center_vertical"
-            style="@style/gray_text_tabline" />
+            style="@style/gray_text_tabline"
+            android:textSize="@dimen/widget_text_16sp"
+            android:gravity="center_vertical|right"
+            android:text="@string/all" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:overScrollMode="never"
-            android:layout_height="wrap_content" />
+            android:overScrollMode="never" />
+
+        <LinearLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="仅显示可购买基金"
+                android:textSize="@dimen/widget_text_18sp"/>
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/sw_fund_can_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:theme="@style/theme_switch_style"
+                app:showText="false" />
+        </LinearLayout>
 
         <View
             style="@style/divider_line"
             android:layout_marginTop="12dp" />
+
+
     </LinearLayout>
 
 
