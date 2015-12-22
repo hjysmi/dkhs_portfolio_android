@@ -50,7 +50,7 @@ public class RecommendFundHandler extends SimpleItemHandler<RecommendFundBean> {
 
         @Override
         public int getCount() {
-            return 2;
+            return mData.size();
         }
 
         @Override
