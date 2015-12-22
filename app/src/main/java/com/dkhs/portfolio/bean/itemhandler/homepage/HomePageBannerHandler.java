@@ -98,7 +98,6 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                                         .description(item.getTitle())
                                         .image(item.getImage())
                                         .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true);
-                                ;
                                 duration = item.getDisplay_time();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("redirect_url", item.getRedirect_url());
@@ -112,8 +111,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                             textSliderView
                                     .description(item.getTitle())
                                     .image(item.getImage())
-                                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                            ;
+                                    .setScaleType(BaseSliderView.ScaleType.Fit);
                             duration = item.getDisplay_time();
                             Bundle bundle = new Bundle();
                             bundle.putString("redirect_url", item.getRedirect_url());
@@ -135,8 +133,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                                 textSliderView
                                         .description(item.getTitle())
                                         .image(item.getImage())
-                                        .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true)
-                                ;
+                                        .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true);
                                 duration = item.getDisplay_time();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("redirect_url", item.getRedirect_url());
@@ -157,8 +154,7 @@ public class HomePageBannerHandler extends SimpleItemHandler<BannerTopicsBean> i
                         textSliderView
                                 .description(item.getTitle())
                                 .image(item.getImage())
-                                .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true)
-                        ;
+                                .setScaleType(BaseSliderView.ScaleType.Fit).setHideLoadingImageBar(true);
                         duration = item.getDisplay_time();
                         Bundle bundle = new Bundle();
                         bundle.putString("redirect_url", item.getRedirect_url());

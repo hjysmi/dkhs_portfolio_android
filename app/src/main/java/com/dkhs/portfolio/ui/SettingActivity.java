@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.bean.BindThreePlat;
@@ -279,7 +280,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
                     new Thread() {
                         public void run() {
-                            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                            DbUtils dbUtils = AppConfig.getDBUtils();
 
                             try {
                                 dbUtils.deleteAll(UserEntity.class);

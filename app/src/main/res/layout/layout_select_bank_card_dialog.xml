@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/activity_bg_color"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/widget_padding_medium"
+        android:background="@color/white"
+        android:textColor="@color/black"
+        android:textSize="@dimen/widget_text_18sp"
+        android:text="@string/select_bank_card"
+        />
+    <ListView
+        android:id="@+id/lv_select_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/listViewStyle"
+        android:layout_marginTop="@dimen/widget_margin_small"/>
+</LinearLayout>

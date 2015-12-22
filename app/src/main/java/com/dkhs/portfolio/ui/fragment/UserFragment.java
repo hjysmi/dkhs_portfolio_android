@@ -206,9 +206,9 @@ public class UserFragment extends BaseTitleFragment {
                 } else {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_TYPE, entity.verified_type);
                 }
-                if(null==entity.verified_status){
+                if (null == entity.verified_status) {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, -1);
-                }else{
+                } else {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, entity.verified_status);
                 }
                 mInfoAdatper.notifyItemChanged(0);
@@ -224,7 +224,6 @@ public class UserFragment extends BaseTitleFragment {
 
     private void updateVerifyStatus() {
         if (PortfolioApplication.hasUserLogin()) {
-            userInfoListener.setLoadingDialog(getActivity());
             UserEngineImpl userEngine = new UserEngineImpl();
             UserEntity entity = UserEngineImpl.getUserEntity();
             userEngine.getBaseUserInfo(String.valueOf(entity.getId()), userInfoListener);

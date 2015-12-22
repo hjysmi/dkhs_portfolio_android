@@ -57,6 +57,7 @@ public class PortfolioPreferenceManager {
     public static final String KEY_FUNDS_HOME_SPECIAL_FUNDMANAGERS_JSON = "key_funds_home_special_fundmanagers_json";
     public static final String KEY_STOCK_ALL_MARKET_JSON = "key_stock_all_market_json";
 
+    public static final String KEY_GESTRUE_PASSWORD_ISOPEN = "key_gestrue_password_isopen";
 
     /**
      * app 显示新消息的key
