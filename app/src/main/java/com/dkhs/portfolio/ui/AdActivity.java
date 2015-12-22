@@ -16,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.WapShareBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
@@ -123,6 +124,16 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
         mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
         mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                if(errorCode == 403){
+                    if (!PortfolioApplication.hasUserLogin()) {
+                        startActivity(LoginActivity.loginActivityByAnnoy(mContext));
+                    }
+                }
+                super.onReceivedError(view, errorCode, description, failingUrl);
+            }
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
