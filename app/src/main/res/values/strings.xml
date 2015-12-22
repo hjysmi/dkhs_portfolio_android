@@ -407,6 +407,8 @@
     <string name="shenzheng">深证成指</string>
     <string name="chuangye">创业板指</string>
     <string name="fund_market">基金超市</string>
+    <string name="fund_manager_rank">基金经理排行</string>
+    <string name="fund_rank">收益率排行</string>
     <string name="look_at_all">查看全部</string>
     <string name="special_financing">专题理财</string>
     <string name="total_profit">总收益:</string>
@@ -1129,4 +1131,6 @@
     <string name="app_verify_agreement">《谁牛金融投顾使用协议》</string>
     <string name="verify_agreement_url">/accounts/pro_verifications/agreement/</string>
     <string name="prompt_introduction">请输入您的简介（200字以内）</string>
+
+    <string name="format_win_rate_week">跑赢大盘:%1$s</string>
 </resources>

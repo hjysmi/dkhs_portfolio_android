@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.percent.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/lv_white_selector"
     android:orientation="horizontal">
 
     <View
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/iv_img"
+            android:id="@+id/im_avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/default_head"
@@ -42,6 +43,7 @@
                 app:layout_heightPercent="1%w" />
 
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/padding_top"
@@ -51,7 +53,7 @@
                 tools:text="王亚伟" />
 
             <TextView
-                android:id="@+id/tv_index"
+                android:id="@+id/tv_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -71,7 +73,7 @@
                 app:layout_marginBottomPercent="1%w">
 
                 <TextView
-                    android:id="@+id/tv_job"
+                    android:id="@+id/tv_join_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -83,12 +85,12 @@
                     tools:text="三年半经验" />
 
                 <TextView
-                    android:id="@+id/tv_fundname"
+                    android:id="@+id/tv_fund_company"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_job"
+                    android:layout_toRightOf="@+id/tv_join_time"
                     android:background="@drawable/bg_fundmanager_item_job"
                     android:singleLine="true"
                     android:textColor="@color/theme_blue"
@@ -98,6 +100,7 @@
                     tools:text="景顺长城基金景顺长城基金" />
 
                 <TextView
+                    android:id="@+id/tv_win_rate_week"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -112,11 +115,6 @@
             </com.android.percent.PercentRelativeLayout>
         </com.android.percent.PercentRelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:background="@color/drivi_line" />
     </com.android.percent.PercentRelativeLayout>
 
 
