@@ -224,7 +224,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected void afterParseData(List<FundManagerBean> object) {
-            if(object != null && object.size() > 1){
+            if(object != null && object.size() > 0){
                 recommendFundManagers = (ArrayList<FundManagerBean>) object;
             }
             HomePageFragment.this.mWhat = mWhat | 2;
@@ -267,7 +267,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected void afterParseData(List<CombinationBean> object) {
-            if(object != null && object.size() > 1){
+            if(object != null && object.size() > 0){
                 recommendPortfolios = (ArrayList<CombinationBean>) object;
             }
             HomePageFragment.this.mWhat = mWhat | 4;
@@ -587,7 +587,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON))) {
             String fundManagerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON);
             List<FundManagerBean> fundManagers = parseFundManager(fundManagerJson);
-            if(fundManagers != null && fundManagers.size() > 1){
+            if(fundManagers != null && fundManagers.size() > 0){
                 mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
                 mDataList.addAll(fundManagers);
             }
