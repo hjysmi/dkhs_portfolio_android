@@ -1,11 +1,3 @@
-/**
- * @Title TabFundsFragment.java
- * @Package com.dkhs.portfolio.ui.fragment
- * @Description TODO(用一句话描述该文件做什么)
- * @author zjz
- * @date 2015-2-7 上午11:03:26
- * @version V1.0
- */
 package com.dkhs.portfolio.ui.fragment;
 
 import android.content.Intent;
@@ -14,8 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +29,7 @@ import com.dkhs.portfolio.ui.widget.MultiChooserRelativeLayout;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -51,15 +45,12 @@ import java.util.LinkedList;
  * @Description TODO(基金tab Fragment)
  * @date 2015-2-7 上午11:03:26
  */
-public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener{
+public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
-    public static final Integer[] PERCENT_TITLE_IDS = new Integer[]{R.string.percent_day,
-            R.string.percent_year,
-            R.string.percent_month,
-            R.string.percent_season,
-            R.string.percent_six_month,
-            R.string.percent_tyear,
-            R.string.office_tenure};
+    public String[] nonZeroTitles;
+    public String[] zeroTitles;
+    public String[] managerTitles;
+    public ArrayList<String> zeroKeys;
 
     public static final String TAG = "MarketFundsFragment";
     @ViewInject(R.id.rl_menu)
@@ -94,7 +85,10 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private MarketSubpageFragment.SubpageType curType;
     private String mSort;
     private ArrayList<Fragment> fragments;
-    private String[] fundSorts;
+    private String[] nonZeroFundSorts;
+    private String[] zeroFundSorts;
+    private String[] managerSorts;
+    private FragmentStatePagerAdapter  adapter;
     private ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -103,7 +97,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         @Override
         public void onPageSelected(int position) {
-            switchFundType(position, mFundType,mShowCanBuy);
+            switchFundType(position, mFundType, mShowCanBuy);
         }
 
         @Override
@@ -126,7 +120,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
 
     public interface OnRefreshI {
-        public void refresh(String type, String sort);
+        void refresh(String type, String sort);
     }
 
 
@@ -141,25 +135,65 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     private void initViewPager() {
         fragments = new ArrayList<>();
-        fundSorts = getResources().getStringArray(R.array.fund_sort_values);
-        String[] managerSorts;
-        managerSorts = getResources().getStringArray(R.array.fund_manager_sort_values);
-        for (int i = 0; i < PERCENT_TITLE_IDS.length; i++) {
-            if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0) {
-                FundManagerRankingsFragment fg = FundManagerRankingsFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), managerSorts[i].substring(0));
-                fragments.add(fg);
-            } else {
-                FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), fundSorts[i].substring(0));
-                fragments.add(fg);
-            }
-        }
-        FragmentPagerAdapter adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments);
         mPager.setOffscreenPageLimit(3);
-        if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) != 0) {
-            mPageIndicator.setOnPageChangeListener(listener);
+        if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0) {
+            replaceWithManager();
+        } else {
+            replaceWithNonZeroRateFund();
         }
+    }
+
+    private void initData() {
+        nonZeroFundSorts = getResources().getStringArray(R.array.fund_sort_values);
+        zeroFundSorts = getResources().getStringArray(R.array.sep_fund_sort_values);
+        managerSorts = getResources().getStringArray(R.array.fund_manager_sort_values);
+        zeroTitles = getResources().getStringArray(R.array.sep_fund_sort_keys);
+        nonZeroTitles = getResources().getStringArray(R.array.fund_sort_keys);
+        managerTitles = getResources().getStringArray(R.array.fund_manager_sort_keys);
+        zeroKeys = new ArrayList<>();
+        zeroKeys.add("lc");
+        zeroKeys.add("hb");
+    }
+
+    //当前是基金经理
+    private void replaceWithManager() {
+        fragments.clear();
+        for (int i = 0; i < managerTitles.length; i++) {
+            FundManagerRankingsFragment fg = FundManagerRankingsFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), managerSorts[i]);
+            fragments.add(fg);
+        }
+        adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, managerTitles);
+        mPageIndicator.setOnPageChangeListener(null);
         mPager.setAdapter(adapter);
         mPageIndicator.setViewPager(mPager);
+    }
+
+    //当前是零费率
+    private void replaceWithZeroRateFund() {
+        fragments.clear();
+        for (int i = 0; i < zeroTitles.length; i++) {
+            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), zeroFundSorts[i]);
+            fragments.add(fg);
+        }
+        adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, zeroTitles);
+        mPageIndicator.setOnPageChangeListener(listener);
+        mPager.setAdapter(adapter);
+        mPageIndicator.setViewPager(mPager);
+        mPageIndicator.notifyDataSetChanged();
+    }
+
+    //当前是非零费率
+    private void replaceWithNonZeroRateFund() {
+        fragments.clear();
+        for (int i = 0; i < nonZeroTitles.length; i++) {
+            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i]);
+            fragments.add(fg);
+        }
+        adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, nonZeroTitles);
+        mPageIndicator.setOnPageChangeListener(listener);
+        mPager.setAdapter(adapter);
+        mPageIndicator.setViewPager(mPager);
+        mPageIndicator.notifyDataSetChanged();
     }
 
     @Override
@@ -210,6 +244,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 //            }
 //        }
         //
+        initData();
         loadData();
         initViewPager();
     }
@@ -319,10 +354,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     public void update(MenuBean menuBean) {
 
         if (menuBean instanceof FundTypeMenuBean) {
-            switchFundType(mPager.getCurrentItem(), menuBean.getValue(), false);
+//            switchFundType(mPager.getCurrentItem(), menuBean.getValue(), false);
             fundTypeTV.setText(menuBean.getKey());
             FundTypeMenuBean type = (FundTypeMenuBean) menuBean;
             sortKeyFormatStr = "%s";
+            LogUtils.d("wys", "key" + menuBean.getValue());
             /**
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
@@ -332,18 +368,26 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
                     defaultIndex = 1;
                 }
             }
+
+            if (TextUtils.isEmpty(mFundType) || isSameSort(mFundType, menuBean.getValue())) {
+                switchFundType(mPager.getCurrentItem(), menuBean.getValue(), false);
+            } else if (StockUitls.isSepFund(type.getCode())) {
+                replaceWithZeroRateFund();
+            } else {
+                replaceWithNonZeroRateFund();
+            }
+            mFundType = menuBean.getValue();
         }
 
 
     }
 
-    private void switchFundType(int position, String fundType,boolean showCanBuy) {
-        mFundType = fundType;
+    private void switchFundType(int position, String fundType, boolean showCanBuy) {
         mShowCanBuy = showCanBuy;
         if (fragments != null && fragments.size() >= position) {
             Fragment fg = fragments.get(position);
             if (fg instanceof FundOrderFragment) {
-                ((FundOrderFragment) fg).setType(fundType,showCanBuy);
+                ((FundOrderFragment) fg).setType(fundType, showCanBuy);
             }
         }
     }
@@ -464,12 +508,15 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         }
     }
 
-    class MyPagerAdapter extends FragmentPagerAdapter {
+    class MyPagerAdapter extends FragmentStatePagerAdapter {
         private ArrayList<Fragment> mFragmentList;
+        private String[] mTitles;
+        private int mChildCount;
 
-        public MyPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
+        public MyPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments, String[] titles) {
             super(fm);
             mFragmentList = fragments;
+            mTitles = titles;
         }
 
         @Override
@@ -480,16 +527,34 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         @Override
         public CharSequence getPageTitle(int position) {
-            int index = position % PERCENT_TITLE_IDS.length;
-            return getActivity().getString(PERCENT_TITLE_IDS[index]);
+            int index = position % mTitles.length;
+            return mTitles[index];
         }
 
         @Override
         public int getCount() {
-            return PERCENT_TITLE_IDS.length;
+            return mTitles.length;
         }
-
     }
+
+
+    /**
+     * 判断是否同属于非零费率/零费率
+     *
+     * @param sort
+     * @param otherSort
+     * @return
+     */
+    private boolean isSameSort(String sort, String otherSort) {
+        if (zeroKeys.contains(sort) && zeroKeys.contains(otherSort)) {
+            return true;
+        }
+        if (!zeroKeys.contains(sort) && !zeroKeys.contains(otherSort)) {
+            return true;
+        }
+        return false;
+    }
+
 
 
 }
