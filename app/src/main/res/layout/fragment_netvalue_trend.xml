@@ -157,7 +157,7 @@
 
             <View
                 style="@style/divider_line"
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center_vertical"
                 android:background="@color/zuhe_divline" />

@@ -65,6 +65,7 @@
             android:textStyle="bold" />
     </LinearLayout>
     <!-- <include layout="@layout/layout_line"/> -->
-    <View style="@style/divider_line" />
+    <View android:id="@+id/divider"
+        style="@style/divider_line" />
 
 </LinearLayout>

@@ -48,18 +48,21 @@ public class MarkTitleViewBean extends ViewBean {
         private View itemView;
         private TextView tvTitle;
         private View rootView;
+        private View divider;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             tvTitle = (TextView) itemView.findViewById(R.id.tv_mainindex);
             rootView = (View) itemView.findViewById(R.id.rootView);
+            divider = (View) itemView.findViewById(R.id.divider);
 
         }
 
         public void bindView(final int titleResId) {
 
             tvTitle.setText(titleResId);
+            divider.setBackgroundColor(itemView.getResources().getColor(R.color.drivi_line));
             rootView.setOnClickListener(new View.OnClickListener() {
 
                 @Override

@@ -120,7 +120,7 @@ android {
 
 }
 tasks.whenTaskAdded { task ->
-    if (task.name.startsWith(":photobrowser:") || task.name.startsWith(":slider:")||
+    if (task.name.startsWith(":photobrowser:") || task.name.startsWith(":slider:")||task.name.startsWith(":gridpasswordview:")||
             task.name.startsWith(":photopicker:")||task.name.startsWith(":emoji:")||task.name.startsWith(":rongim:")||task.name.startsWith(":autolist:")) {
         task.enabled = false
     }

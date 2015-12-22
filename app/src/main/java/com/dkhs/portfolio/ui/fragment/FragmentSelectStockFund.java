@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -687,6 +688,8 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
     public void initView(View view) {
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
+        mListView.setDivider(new ColorDrawable(getResources().getColor(R.color.drivi_line)));
+        mListView.setDividerHeight(1);
         mListView.setAdapter(mAdapterConbinStock);
 
         if (mViewType == STOCK_OPTIONAL_PRICE || mViewType == OPTIONAL_FUNDS) {
