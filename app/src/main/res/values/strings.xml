@@ -1130,4 +1130,6 @@
     <string name="app_verify_agreement">《谁牛金融投顾使用协议》</string>
     <string name="verify_agreement_url">/accounts/pro_verifications/agreement/</string>
     <string name="prompt_introduction">请输入您的简介（200字以内）</string>
+
+    <string name="format_win_rate_week">跑赢大盘:%1$s</string>
 </resources>

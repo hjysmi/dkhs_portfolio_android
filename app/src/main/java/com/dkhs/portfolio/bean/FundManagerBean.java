@@ -50,6 +50,7 @@ public class FundManagerBean {
     public float index_rate_week;
     public String recommend_title;
     public String recommend_desc;
+    public String fund_company;
 
 
     public Float getValue(String value) {
@@ -107,6 +108,8 @@ public class FundManagerBean {
                 ", win_rate_twyear=" + win_rate_twyear +
                 ", index_rate_week=" + index_rate_week +
                 ", recommend_title=" + recommend_title +
+                ", recommend_desc=" + recommend_desc +
+                ", fund_company=" + fund_company +
                 '}';
     }
 }
