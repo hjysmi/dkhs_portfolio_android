@@ -88,7 +88,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private String[] nonZeroFundSorts;
     private String[] zeroFundSorts;
     private String[] managerSorts;
-    private FragmentStatePagerAdapter  adapter;
+    private FragmentStatePagerAdapter adapter;
     private ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -168,7 +168,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         mPageIndicator.setViewPager(mPager);
     }
 
-    //当前是零费率
     private void replaceWithZeroRateFund() {
         fragments.clear();
         for (int i = 0; i < zeroTitles.length; i++) {
@@ -182,7 +181,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         mPageIndicator.notifyDataSetChanged();
     }
 
-    //当前是非零费率
     private void replaceWithNonZeroRateFund() {
         fragments.clear();
         for (int i = 0; i < nonZeroTitles.length; i++) {
@@ -229,21 +227,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initView(getView());
-
         super.onViewCreated(view, savedInstanceState);
-//        if (getActivity() instanceof MainActivity) {
-//            final Bundle bundle = ((MainActivity) getActivity()).mBundle;
-//            if (bundle != null) {
-//                mRootView.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        handIntent(bundle);
-//
-//                    }
-//                }, 1200);
-//            }
-//        }
-        //
         initData();
         loadData();
         initViewPager();
@@ -295,28 +279,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     public void initView(View view) {
         fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
-//        sortTypeMenuChooserL = new MenuChooserRelativeLayout(getActivity());
-//        sortTypeMenuChooserL.setParentView(menuRL);
         fundTypeMenuChooserL.setParentView(menuRL);
-
         LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
         sorts = MenuBean.fundManagerSortFromXml(getActivity());
-
         fundTypeMenuChooserL.setData(types, MenuBean.fundManagerFromXml(getActivity()));
-//        String type = types.getFirst().getValue();
-//        String sort = sorts.get(defaultIndex).getValue();
-
-//        sortTypeMenuChooserL.setData(sorts);
         setDrawableDown(fundTypeTV);
-//        setDrawableDown(tvPercentgae);
-//        tvPercentgae.setText(R.string.win_rate_week);
-//        tvCurrent.setText(R.string.join_time);
-//        fundTypeTV.setText(R.string.fund_manager_order);
-//        sortKeyFormatStr = mActivity.getString(R.string.win_rate_format);
-//        sortTypeMenuChooserL.setSelectItem(defaultIndex);
-
-//        replaceFundManagerRankingsDataList(type, sort);
-
     }
 
 
@@ -511,7 +478,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     class MyPagerAdapter extends FragmentStatePagerAdapter {
         private ArrayList<Fragment> mFragmentList;
         private String[] mTitles;
-        private int mChildCount;
 
         public MyPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments, String[] titles) {
             super(fm);
@@ -554,7 +520,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         }
         return false;
     }
-
 
 
 }
