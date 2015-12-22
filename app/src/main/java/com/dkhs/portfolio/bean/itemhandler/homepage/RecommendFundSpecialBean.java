@@ -1,4 +1,4 @@
-package com.dkhs.portfolio;
+package com.dkhs.portfolio.bean.itemhandler.homepage;
 
 import java.util.List;
 

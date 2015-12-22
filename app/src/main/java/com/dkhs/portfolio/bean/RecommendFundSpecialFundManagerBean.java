@@ -1,7 +1,5 @@
 package com.dkhs.portfolio.bean;
 
-import com.dkhs.portfolio.RecommendFundSpecialBean;
-
 import java.util.List;
 
 /**
