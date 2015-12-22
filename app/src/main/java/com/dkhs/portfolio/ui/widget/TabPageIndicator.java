@@ -21,6 +21,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -157,6 +158,8 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
+        tabView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getContext().getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
 
         if (iconResId != 0) {
             tabView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
