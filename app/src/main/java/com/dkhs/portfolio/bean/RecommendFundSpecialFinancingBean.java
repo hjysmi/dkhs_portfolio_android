@@ -1,6 +1,6 @@
 package com.dkhs.portfolio.bean;
 
-import com.dkhs.portfolio.RecommendFundSpecialBean;
+import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundSpecialBean;
 
 /**
  * desc:为了区分列表布局加载的数据类型
