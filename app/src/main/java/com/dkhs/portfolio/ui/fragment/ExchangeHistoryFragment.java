@@ -73,7 +73,6 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
 
     @Override
     BaseAdapter getListAdapter() {
-        addHeader();
         if (null == mAdapter) {
             mAdapter = new DKBaseAdapter(mActivity,mDataList).buildSingleItemView(new ExchangeHistoryHandler(mActivity));
         }
@@ -87,6 +86,12 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
         mSwipeLayout.setRefreshing(false);
         if (mExchangeEngine.getCurrentpage() == 1) {
             mDataList.clear();
+            if(headerView != null){
+                mListView.removeHeaderView(headerView);
+            }
+            if(object != null && object.getResults() != null && object.getResults().size() > 0){
+                addHeader();
+            }
         }
         mDataList.addAll(object.getResults());
         mAdapter.notifyDataSetChanged();
@@ -133,10 +138,11 @@ public class ExchangeHistoryFragment extends LoadMoreListFragment {
         return "暂无兑换";
     }
 
+    private View headerView;
     private void addHeader(){
         if(mListView != null){
-            View v = View.inflate(mActivity,R.layout.item_exchange_list_title,null);
-            mListView.addHeaderView(v);
+            headerView = View.inflate(mActivity,R.layout.item_exchange_list_title,null);
+            mListView.addHeaderView(headerView);
         }
     }
 
