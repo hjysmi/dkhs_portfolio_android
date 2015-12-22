@@ -293,7 +293,7 @@
 
     <string-array name="user_info_title">
         <item>@string/message_center</item>
-        <item>@string/info_title_purse</item>
+        <item>@string/my_assets</item>
         <item>@string/flow_package</item>
         <item>@string/info_title_mycom</item>
         <item>@string/info_title_reward</item>

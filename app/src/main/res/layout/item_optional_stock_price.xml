@@ -9,7 +9,7 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingTop="5dp"
-    android:weightSum="7" >
+    android:weightSum="7.4" >
 
     <RelativeLayout
         android:layout_width="1dp"
@@ -44,11 +44,11 @@
     <RelativeLayout
         android:layout_width="2dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2" >
+        android:layout_weight="2.4" >
 
         <TextView
             android:id="@+id/tv_percent_value"
-            android:layout_width="120dp"
+            android:layout_width="125dp"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
             android:background="@drawable/red"
