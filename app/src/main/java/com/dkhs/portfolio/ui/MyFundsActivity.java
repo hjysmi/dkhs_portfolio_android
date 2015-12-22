@@ -92,6 +92,8 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 if(funds != null && funds.size() > 0){
                     myFunds = funds;
                     mAdapter.notifyDataSetChanged();
+                }else{
+                    setEmptyText(R.string.my_funds_empty);
                 }
                 mSwipeLayout.setRefreshing(false);
                 mSwipeLayout.setEnabled(false);

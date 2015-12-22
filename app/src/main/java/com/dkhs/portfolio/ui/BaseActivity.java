@@ -132,7 +132,7 @@ public class BaseActivity extends MAppActivity {
      */
     @Override
     public void onUserInteraction() {
-        if(!TextUtils.isEmpty(GlobalParams.MOBILE)){
+        if(!TextUtils.isEmpty(GlobalParams.MOBILE) && GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)){
             PortfolioApplication.getInstance().onUserInteraction();
         }
     }

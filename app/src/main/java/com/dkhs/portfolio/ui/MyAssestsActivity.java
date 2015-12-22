@@ -56,6 +56,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
         super.onCreate(arg0);
         setContentView(R.layout.activity_my_assests);
         ViewUtils.inject(this);
+        findViewById(R.id.bottom_line).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
         ((TextView) findViewById(R.id.tv_title_info)).setTextColor(getResources().getColor(R.color.white));
         updateTitleBackgroud(R.color.theme_blue);
@@ -280,9 +281,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
 
     @Override
     public void onUserInteraction() {
-        Log.i("onUserInteraction", getComponentName().toString());
-        super.onUserInteraction();
-        if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
+        if (!TextUtils.isEmpty(GlobalParams.MOBILE) &&GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)) {
             GesturePasswordManager.getInstance().userInteraction();
         }
     }
