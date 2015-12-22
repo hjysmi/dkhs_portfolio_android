@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_heightPercent="19%w"
+        app:layout_widthPercent="5%w" />
+
+    <com.android.percent.PercentRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/default_head"
+            app:layout_heightPercent="15%w"
+            app:layout_marginBottomPercent="2%w"
+            app:layout_marginTopPercent="2%w"
+            app:layout_widthPercent="15%w" />
+
+        <com.android.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_heightPercent="15%w"
+            app:layout_marginBottomPercent="2%w"
+            app:layout_marginLeftPercent="17%w"
+            app:layout_marginTopPercent="2%w">
+
+            <View
+                android:id="@+id/padding_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_heightPercent="1%w" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/padding_top"
+                android:singleLine="true"
+                android:textColor="@color/theme_color"
+                app:layout_textSizePercent="5%w"
+                tools:text="王亚伟" />
+
+            <TextView
+                android:id="@+id/tv_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/tag_red"
+                app:layout_heightPercent="10%w"
+                app:layout_marginRightPercent="5%w"
+                app:layout_textSizePercent="8%w"
+                tools:text="110.08%" />
+
+            <com.android.percent.PercentRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/tv_index"
+                app:layout_heightPercent="5%w"
+                app:layout_marginBottomPercent="1%w">
+
+                <TextView
+                    android:id="@+id/tv_job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_fundmanager_item_job"
+                    android:singleLine="true"
+                    android:textColor="@color/theme_blue"
+                    app:layout_textSizePercent="3.5%w"
+                    tools:text="三年半经验" />
+
+                <TextView
+                    android:id="@+id/tv_fundname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tv_job"
+                    android:background="@drawable/bg_fundmanager_item_job"
+                    android:singleLine="true"
+                    android:textColor="@color/theme_blue"
+                    app:layout_marginLeftPercent="2%w"
+                    app:layout_maxWidthPercent="40%w"
+                    app:layout_textSizePercent="3.5%w"
+                    tools:text="景顺长城基金景顺长城基金" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:singleLine="true"
+                    android:textColor="@color/tag_gray"
+                    app:layout_marginRightPercent="3.7%w"
+                    app:layout_textSizePercent="4%w"
+                    tools:text="跑赢大盘:150.00%" />
+            </com.android.percent.PercentRelativeLayout>
+        </com.android.percent.PercentRelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/drivi_line" />
+    </com.android.percent.PercentRelativeLayout>
+
+
+</com.android.percent.PercentLinearLayout>

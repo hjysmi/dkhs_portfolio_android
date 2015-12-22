@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/layout_line" />
 
@@ -10,7 +10,7 @@
         android:id="@+id/market_layout_title"
         style="@style/gray_text_tabline"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/market_text_index"
@@ -27,7 +27,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/market_text_edition"
@@ -54,7 +54,7 @@
             android:layout_weight="1.0"
             android:gravity="right|center_vertical"
             android:orientation="horizontal"
-            android:paddingRight="4dp" >
+            android:paddingRight="4dp">
 
             <TextView
                 android:id="@+id/market_text_change"
@@ -67,7 +67,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingBottom="5dp"
                 android:paddingLeft="5dp"
+                android:paddingTop="5dp"
                 android:src="@drawable/market_icon_down" />
         </LinearLayout>
     </LinearLayout>
@@ -76,7 +78,6 @@
         android:id="@+id/fragment_market"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:orientation="vertical"></LinearLayout>
 
 </LinearLayout>
