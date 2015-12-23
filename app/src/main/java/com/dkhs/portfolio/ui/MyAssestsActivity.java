@@ -189,11 +189,12 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                 holder.tvAssests.setVisibility(View.VISIBLE);
                 holder.tvAssests.setText(new DecimalFormat("0.00").format(wallets_available));
             }else if(position == 1){
-                holder.tvInfoTip.setVisibility(View.GONE);
+                holder.tvInfoTip.setVisibility(View.VISIBLE);
                 holder.tvAssests.setVisibility(View.VISIBLE);
                 holder.tvAssests.setText(new DecimalFormat("0.00").format(fund_assests));
+                holder.tvInfoTip.setText(String.format(getResources().getString(R.string.blank_funds_count), funds_count));
             }else if(position == 2){
-                holder.tvInfoTip.setVisibility(View.VISIBLE);
+                holder.tvInfoTip.setVisibility(View.GONE);
                 holder.tvAssests.setVisibility(View.GONE);
                 holder.divider.setVisibility(View.VISIBLE);
                 holder.tvInfoTip.setText(String.format(getResources().getString(R.string.blank_funds_count),funds_count));
