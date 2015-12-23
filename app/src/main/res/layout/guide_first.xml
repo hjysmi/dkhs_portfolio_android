@@ -14,6 +14,7 @@
         android:visibility="gone" />
 
     <com.dkhs.portfolio.ui.widget.PowerImageView
+        android:id="@+id/iv_first"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"

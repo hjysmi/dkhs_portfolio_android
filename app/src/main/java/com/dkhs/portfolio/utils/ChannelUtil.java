@@ -158,4 +158,10 @@ public class ChannelUtil {
         }
         return -1;
     }
+    public enum ChannelType {
+        //金立
+        JINLI,
+        //更多基金
+        BAIDU91;
+    }
 }
