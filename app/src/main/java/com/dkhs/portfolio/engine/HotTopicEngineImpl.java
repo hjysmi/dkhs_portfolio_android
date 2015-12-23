@@ -104,6 +104,10 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         loadData();
     }
 
+    public int getSortType(){
+        return mSortType;
+    }
+
     @Override
     public HttpHandler loadData() {
         String url = "";
