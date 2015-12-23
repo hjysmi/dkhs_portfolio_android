@@ -846,7 +846,9 @@
     <!--我的资产 start -->
     <string name="default_value">-</string>
     <string name="my_assets">我的资产</string>
-    <string name="total_assets">总资产(元)</string>
+    <string name="blank_total_assets">%1$s&#160;总资产(元)</string>
+    <string name="blank_funds_count">(%1$d支)</string>
+    <string name="blank_bank_cards_count">(%1$d张)</string>
     <string name="recent_profit">今日最新收益(元)</string>
     <string name="assest_total_profit">累计收益(元)</string>
     <string name="small_change">零钱</string>
