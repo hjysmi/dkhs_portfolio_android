@@ -21,6 +21,10 @@ public class MarketSubpageActivity extends ModelAcitivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(savedInstanceState != null){
+            String FRAGMENTS_TAG = "android:support:fragments";
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_subpage);
         Bundle extras = getIntent().getExtras();

@@ -140,24 +140,34 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                 mBtntitletabright.setTextColor(getResources().getColor(R.color.black));
                 mBtntitletableft.setVisibility(View.GONE);
                 break;
+                case TYPE_FUND_MANAGER_RANKING_WEEK:
+                    mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                            null, null, null);
+                    fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
+                    fragment = fundsFragment;
+                    setTitle(R.string.fund_manager_rank);
+                break;
             default:
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                         null, null, null);
                 fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
                 fragment = fundsFragment;
                 mBtntitletableft.setText(R.string.fund_market);
-                mBtntitletableft.setTextColor(getResources().getColor(R.color.black));
-                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mBtntitletableft.getLayoutParams();
-                lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                mBtntitletableft.setGravity(Gravity.CENTER);
-                mBtntitletableft.setText(R.string.fund_market);
-                mBtntitletabright.setVisibility(View.GONE);
-                break;
+                setTitle(R.string.fund_rank);
         }
         ft.replace(R.id.view_datalist,fragment);
         ft.commit();
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragment);
         mBtnsearch.setOnClickListener((View.OnClickListener) fragment);
+    }
+
+    private void setTitle(int fund_manager_rank) {
+        mBtntitletableft.setTextColor(getResources().getColor(R.color.black));
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) mBtntitletableft.getLayoutParams();
+        lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        mBtntitletableft.setGravity(Gravity.CENTER);
+        mBtntitletableft.setText(fund_manager_rank);
+        mBtntitletabright.setVisibility(View.GONE);
     }
 
     @Override

@@ -71,6 +71,7 @@ public class MarkStockViewBean extends ViewBean {
         TextView tvStockCode;
         TextView tvCurrent;
         TextView tvTextPercent;
+        View divider;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -80,13 +81,14 @@ public class MarkStockViewBean extends ViewBean {
             tvStockCode = (TextView) itemView.findViewById(R.id.market_text_name_num);
             tvCurrent = (TextView) itemView.findViewById(R.id.market_list_item_index);
             tvTextPercent = (TextView) itemView.findViewById(R.id.market_list_item_percent);
-
+            divider = (View) itemView.findViewById(R.id.divider);
         }
 
         public void bindView(final StockQuotesBean mStockQuotesBean, int subType) {
 
             tvStockName.setText(mStockQuotesBean.getAbbrName());
             tvStockCode.setText(mStockQuotesBean.getSymbol());
+            divider.setBackgroundColor(itemView.getResources().getColor(R.color.drivi_line));
 
             float change;
             if (subType == SUB_TYPE_TURNOVER) {

@@ -164,6 +164,7 @@
     </string-array>
     <string-array name="sep_fund_sort_keys">
         <item>@string/year_yld</item>
+        <item>@string/tenthou_unit_incm</item>
         <item>@string/percent_month</item>
         <item>@string/percent_season</item>
         <item>@string/percent_six_month</item>
@@ -174,6 +175,7 @@
     </string-array>
     <string-array name="sep_fund_sort_values">
         <item>-year_yld</item>
+        <item>-tenthou_unit_incm</item>
         <item>-percent_month</item>
         <item>-percent_season</item>
         <item>-percent_six_month</item>
@@ -182,27 +184,27 @@
         <item>-latest_cp_rate</item>
         <!--<item>-net_cumulative</item>-->
     </string-array>
+
+
     <!-- 按日战胜指数、周战胜指数、月战胜指数、半年战胜指数、今年战胜指数、1年战胜指数和2年战胜指数排序-->
     <string-array name="fund_manager_sort_keys">
-        <item>日</item>
-        <item>周</item>
-        <item>月</item>
-        <item>半年</item>
-        <item>今年</item>
-        <item>1年</item>
-        <item>2年</item>
+        <item>周收益</item>
+        <item>月收益</item>
+        <item>半年收益</item>
+        <item>1年收益</item>
+        <item>2年收益</item>
+        <item>今年以来</item>
 
     </string-array>
 
 
     <string-array name="fund_manager_sort_values">
-        <item>-win_rate_day</item>
         <item>-win_rate_week</item>
         <item>-win_rate_month</item>
         <item>-win_rate_six_month</item>
-        <item>-win_rate_tyear</item>
         <item>-win_rate_year</item>
         <item>-win_rate_twyear</item>
+        <item>-win_rate_tyear</item>
     </string-array>
 
 
@@ -301,7 +303,7 @@
 
     <string-array name="user_info_title">
         <item>@string/message_center</item>
-        <item>@string/info_title_purse</item>
+        <item>@string/my_assets</item>
         <item>@string/flow_package</item>
         <item>@string/info_title_mycom</item>
         <item>@string/info_title_reward</item>

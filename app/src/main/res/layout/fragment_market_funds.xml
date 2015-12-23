@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,14 +11,21 @@
         style="@style/gray_text_tabline"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:paddingLeft="15dp"
-        android:weightSum="7">
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
+
+        <com.dkhs.portfolio.ui.widget.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <RelativeLayout
             android:id="@+id/rl_fund_type"
-            android:layout_width="1dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="3">
+            android:background="@color/white"
+            android:paddingLeft="10dp">
 
             <TextView
                 android:id="@+id/tv_fund_type"
@@ -25,53 +33,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:gravity="left|center_vertical"
+                android:gravity="center"
+                android:minWidth="72dp"
                 android:paddingRight="12dp"
-                android:text="@string/fund_manager_order"
-                android:textColor="@color/menu_title_text_color" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
-
-            <TextView
-                android:id="@+id/tv_current"
-                style="@style/gray_title_text"
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:layout_centerInParent="true"
-                android:text="@string/market_net_value"
-                android:textColor="@color/theme_color" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-
-            android:layout_weight="2">
-
-            <me.grantland.widget.AutofitTextView
-                android:id="@+id/tv_percentage"
-                style="@style/gray_title_text"
-                android:singleLine="true"
-                android:gravity="right"
-                android:drawablePadding="12dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/win_rate_day"
-                android:textColor="@color/menu_title_text_color" />
+                android:textColor="@color/menu_title_text_color"
+                tools:text="@string/fund_manager_order" />
         </RelativeLayout>
     </LinearLayout>
 
 
-    <FrameLayout
-        android:id="@+id/view_datalist"
-        android:layout_width="match_parent"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/view_stock_title" />
 
@@ -79,7 +52,7 @@
         android:id="@+id/rl_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view_stock_title"/>
+        android:layout_below="@+id/view_stock_title" />
 
 
 </RelativeLayout>

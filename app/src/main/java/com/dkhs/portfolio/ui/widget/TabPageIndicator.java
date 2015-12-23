@@ -16,13 +16,12 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -30,6 +29,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * This widget implements the dynamic action bar tab behavior that can change
@@ -156,6 +158,8 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         tabView.setFocusable(true);
         tabView.setOnClickListener(mTabClickListener);
         tabView.setText(text);
+        tabView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getContext().getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
 
         if (iconResId != 0) {
             tabView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
@@ -189,6 +193,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     @Override
     public void setViewPager(ViewPager view) {
         if (mViewPager == view) {
+            mSelectedTabIndex = 0;
             return;
         }
         if (mViewPager != null) {
@@ -246,10 +251,16 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         final int tabCount = mTabLayout.getChildCount();
         for (int i = 0; i < tabCount; i++) {
             final View child = mTabLayout.getChildAt(i);
+            if(child instanceof TextView){
+                ((TextView)child).setTextColor(getResources().getColor(R.color.black));
+            }
             final boolean isSelected = (i == item);
             child.setSelected(isSelected);
             if (isSelected) {
                 animateToTab(item);
+                if(child instanceof TextView){
+                    ((TextView)child).setTextColor(getResources().getColor(R.color.theme_blue));
+                }
             }
         }
     }

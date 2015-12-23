@@ -167,6 +167,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         @Override
         public void onSuccess(String jsonObject) {
             //缓存
+            if(TextUtils.isEmpty(jsonObject)){
+                return;
+            }
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON, jsonObject);
             super.onSuccess(jsonObject);
         }
@@ -178,7 +181,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected void afterParseData(List<FundPriceBean> object) {
-            recommendFunds = (ArrayList<FundPriceBean>) object;
+            if(object != null && object.size() > 0){
+                recommendFunds = (ArrayList<FundPriceBean>) object;
+            }
             HomePageFragment.this.mWhat = mWhat | 1;
             mHandler.sendEmptyMessage(mWhat);
         }
@@ -219,7 +224,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected void afterParseData(List<FundManagerBean> object) {
-            recommendFundManagers = (ArrayList<FundManagerBean>) object;
+            if(object != null && object.size() > 0){
+                recommendFundManagers = (ArrayList<FundManagerBean>) object;
+            }
             HomePageFragment.this.mWhat = mWhat | 2;
             mHandler.sendEmptyMessage(mWhat);
         }
@@ -260,7 +267,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected void afterParseData(List<CombinationBean> object) {
-            recommendPortfolios = (ArrayList<CombinationBean>) object;
+            if(object != null && object.size() > 0){
+                recommendPortfolios = (ArrayList<CombinationBean>) object;
+            }
             HomePageFragment.this.mWhat = mWhat | 4;
             mHandler.sendEmptyMessage(mWhat);
         }
@@ -301,7 +310,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected void afterParseData(BannerTopicsBean object) {
-            bean = object;
+            if(bean != null){
+                bean = object;
+            }
             HomePageFragment.this.mWhat = mWhat | 8;
             mHandler.sendEmptyMessage(mWhat);
         }
@@ -344,7 +355,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         protected void afterParseData(AdBean object) {
-            subAd = object;
+            if(object != null){
+                subAd = object;
+            }
             HomePageFragment.this.mWhat = mWhat | 16;
             mHandler.sendEmptyMessage(mWhat);
         }
@@ -572,10 +585,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
             mDataList.addAll(recommendFundManagers);
         } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
             String fundManagerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON);
             List<FundManagerBean> fundManagers = parseFundManager(fundManagerJson);
-            mDataList.addAll(fundManagers);
+            if(fundManagers != null && fundManagers.size() > 0){
+                mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
+                mDataList.addAll(fundManagers);
+            }
         }
         //推荐基金
         if (recommendFunds != null && recommendFunds.size() > 0) {
@@ -583,13 +598,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             RecommendFundBean bean = new RecommendFundBean(recommendFunds);
             mDataList.add(bean);
         } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
-//            ArrayList<FundPriceBean> fundBeans = (ArrayList<FundPriceBean>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
-          /* if(fundBeans!=null){
-               RecommendFundBean bean = new RecommendFundBean(fundBeans);
-               mDataList.add(bean);
-           }*/
-
+            List<FundPriceBean> fundBeans = parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
+            if(fundBeans != null && fundBeans.size() > 0){
+                mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
+                RecommendFundBean bean = new RecommendFundBean((ArrayList<FundPriceBean>)fundBeans);
+                mDataList.add(bean);
+            }
         }
 
 
@@ -606,9 +620,11 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_PORTFOLIO));
             mDataList.addAll(recommendPortfolios);
         } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_PORTFOLIO));
-            ArrayList<CombinationBean> portfolios = (ArrayList<CombinationBean>) parsePortfolio(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON));
-            mDataList.addAll(portfolios);
+            List<CombinationBean> portfolios = parsePortfolio(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_PORTFOLIO_JSON));
+            if(portfolios != null && portfolios.size() > 0){
+                mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_PORTFOLIO));
+                mDataList.addAll(portfolios);
+            }
         }
         mAdapter.notifyDataSetChanged();
     }
