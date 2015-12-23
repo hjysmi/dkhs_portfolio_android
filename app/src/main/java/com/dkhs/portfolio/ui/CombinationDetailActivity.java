@@ -85,6 +85,7 @@ public class CombinationDetailActivity extends ModelAcitivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        hideBottomLine();
         hadFragment();
         setContentView(R.layout.activity_new_combinationdetail);
         ViewUtils.inject(this);

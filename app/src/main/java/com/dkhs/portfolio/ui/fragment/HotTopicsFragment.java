@@ -77,7 +77,16 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
 
             @Override
             public void afterHandleAction(AutoData a) {
-
+                switch (a.action) {
+                    case Add:
+                        if(mTopicsEngine.getSortType() == 1){//当选择最新排序时，话题列表刷新用户发表的新话题
+                            mDataList.addT(1,a);
+                        }
+                        break;
+                    case Delete:
+                        mDataList.deleteT(a);
+                        break;
+                }
             }
         });
         BusProvider.getInstance().register(this);
