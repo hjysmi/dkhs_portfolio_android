@@ -584,9 +584,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(bean);
         } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON))) {
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
-            ArrayList<FundPriceBean> fundBeans = (ArrayList<FundPriceBean>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
-            RecommendFundBean bean = new RecommendFundBean(fundBeans);
-            mDataList.add(bean);
+//            ArrayList<FundPriceBean> fundBeans = (ArrayList<FundPriceBean>) parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
+          /* if(fundBeans!=null){
+               RecommendFundBean bean = new RecommendFundBean(fundBeans);
+               mDataList.add(bean);
+           }*/
+
         }
 
 

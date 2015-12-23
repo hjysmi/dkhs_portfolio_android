@@ -584,6 +584,9 @@
     <string name="pre_netvalue">前一净值</string>
     <string name="all_netvalue">累计净值</string>
 
+    <string name="investment_risk">投资风险</string>
+    <string name="minimum_redemption_share">最低赎回份额</string>
+    <string name="fund_detail_purchasemethod">收费方式</string>
     <string name="fund_detail_name">基金全称</string>
     <string name="fund_manager">基金经理</string>
     <string name="profit_rank">收益排行</string>
@@ -924,6 +927,8 @@
     <string name="trade_record_list">近30笔交易</string>
     <string name="fund_update_time">交易日上午8点至11点更新,双休日及法定节假日无收益</string>
     <string name="buy_more">追加买入</string>
+    <string name="redemption_arrival_time">赎回到账时间</string>
+    <string name="blank_buy_money">起购金额</string>
     <string name="blank_buy_value">起购金额 %1$s元</string>
     <string name="blank_net_value">最新净值 %1$s</string>
     <string name="blank_fund_name">%1$s(%2$s)</string>
