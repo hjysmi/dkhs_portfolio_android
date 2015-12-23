@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.mobstat.StatService;
@@ -70,6 +71,8 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private TabPageIndicator mPageIndicator;
     @ViewInject(R.id.rl_fund_type)
     private View mFundTypeView;
+    @ViewInject(R.id.iv_fund_sorts_mask)
+    private ImageView mMaskIv;
     private LinkedList<MenuBean> sorts;
     private String mFundType;
     private boolean mShowCanBuy;//仅显示可购买
@@ -137,8 +140,12 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         fragments = new ArrayList<>();
         mPager.setOffscreenPageLimit(3);
         if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0) {
+            mFundTypeView.setVisibility(View.GONE);
+            mMaskIv.setBackgroundResource(R.drawable.ic_manager_sorts_mask);
             replaceWithManager();
         } else {
+            mFundTypeView.setVisibility(View.VISIBLE);
+            mMaskIv.setBackgroundResource(R.drawable.ic_fund_sorts_mask);
             replaceWithNonZeroRateFund();
         }
     }
@@ -241,7 +248,6 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private void loadData() {
         switch (curType) {
             case TYPE_FUND_MANAGER_RANKING_WEEK:
-                mFundTypeView.setVisibility(View.GONE);
                 break;
             case TYPE_FUND_ALL_RANKING_MONTH:
                 defaultIndex = sortTypeMenuChooserL.FUNDS_INDEX_MONTH;
