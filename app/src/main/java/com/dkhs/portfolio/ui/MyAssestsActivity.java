@@ -281,9 +281,9 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                 if (!TextUtils.isEmpty(object)) {
                     try {
                         JSONObject json = new JSONObject(object);
-                        if (json.has("asses_total")) {
+                        if (json.has("assets_total")) {
                             // 总资产
-                            tvTotalAssests.setText(new DecimalFormat("0.00").format(json.getString("worth_value")));
+                            tvTotalAssests.setText(new DecimalFormat("0.00").format(json.getDouble("assets_total")));
                         }
                         if (json.has("worth_value")) {
                             // 基金资产
@@ -303,11 +303,11 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                         }
                         if (json.has("income_latest")) {
                             //最新收益
-                            tvRecentProfit.setText(new DecimalFormat("0.00").format(json.getString("income_latest")));
+                            tvRecentProfit.setText(new DecimalFormat("0.00").format(json.getDouble("income_latest")));
                         }
                         if (json.has("income_total")) {
                             //累计收益
-                            tvTotalProfit.setText(new DecimalFormat("0.00").format(json.getString("income_total")));
+                            tvTotalProfit.setText(new DecimalFormat("0.00").format(json.getDouble("income_total")));
                         }
                     } catch (Exception e) {
 
