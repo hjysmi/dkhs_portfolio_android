@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="@dimen/abc_action_bar_overflow_padding_start_material">
+
+    <TextView
+        android:id="@+id/tvTitleContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="赎回到账时间"
+        app:layout_maxWidthPercent="30%w"
+        app:layout_textSizePercent="4%w" />
+
+    <TextView
+        android:id="@+id/tvprice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tvContent"
+        tools:text="1.6%"
+        android:visibility="gone"
+        app:layout_marginRightPercent="2%w"
+        app:layout_textSizePercent="4%w" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="right|center_vertical"
+        tools:text="彭华基金管理有限公司彭华基金管理有限公司"
+        app:layout_maxWidthPercent="60%w"
+        app:layout_textSizePercent="4%w" />
+
+</com.android.percent.PercentRelativeLayout>

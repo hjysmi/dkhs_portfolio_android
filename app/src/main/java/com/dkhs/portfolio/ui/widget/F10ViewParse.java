@@ -2,14 +2,17 @@ package com.dkhs.portfolio.ui.widget;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.percent.PercentRelativeLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.F10DataBean;
@@ -211,7 +214,7 @@ public class F10ViewParse {
         int rowIndex = 0;
         for (String profileTitle : profileTitles) {
             String rowText = getFundRowText(rowIndex, fundQuoteBean);
-            LinearLayout rowContent = createFundRowView(profileTitle, rowText);
+            PercentRelativeLayout rowContent = createFundRowView(profileTitle, rowText);
             if (rowIndex % 2 == splitValue) {
                 rowContent.setBackgroundColor(DEFAULT_BG_GRAY_COLOR);
             } else {
@@ -259,50 +262,82 @@ public class F10ViewParse {
         return rowText;
     }
 
-    private LinearLayout createFundRowView(String title, String content) {
-        LinearLayout llLayout = new LinearLayout(mContext);
-        llLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        llLayout.setOrientation(LinearLayout.HORIZONTAL);
-        llLayout.setPadding(DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING, DEFAULT_PADDING);
-        llLayout.setWeightSum(10);
-
-
-        TextView tvTitleContent = null;
-        TextView tvContent = null;
-
-        tvTitleContent = new TextView(mContext);
-        tvTitleContent.setTextSize(DEFAULT_FONT_SIZE);
-        tvTitleContent.setTextColor(DEFAULT_FONT_COLOR);
-        tvTitleContent.setLineSpacing(0.0f, 1.2f);
-        LinearLayout.LayoutParams tvTitletlp = new LinearLayout.LayoutParams(
-                1,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        tvTitletlp.weight = 10.0f * 0.25f;
-        tvTitleContent.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-        tvTitleContent.setLayoutParams(tvTitletlp);
-
-
-        tvContent = new TextView(mContext);
-        tvContent.setTextSize(DEFAULT_FONT_SIZE);
-        tvContent.setTextColor(DEFAULT_FONT_COLOR);
-        tvContent.setLineSpacing(0.0f, 1.2f);
-        LinearLayout.LayoutParams tvContentlp = new LinearLayout.LayoutParams(
-                1,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        tvContentlp.weight = 10.0f * 0.75f;
-        tvContent.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-        tvContent.setLayoutParams(tvContentlp);
-
-
+    private PercentRelativeLayout createFundRowView(String title, String content) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_funddetail, null);
+        PercentRelativeLayout rl_root = (PercentRelativeLayout) view.findViewById(R.id.rl_root);
+        TextView tvTitleContent = (TextView) view.findViewById(R.id.tvTitleContent);
+        TextView tvContent = (TextView) view.findViewById(R.id.tvContent);
         tvContent.setText(content);
         tvTitleContent.setText(title);
-
-
-        llLayout.addView(tvTitleContent);
-        llLayout.addView(tvContent);
-
-        return llLayout;
+        return rl_root;
     }
 
 
+    public View parseFundProfileViewPurchase(FundQuoteBean mFundQuoteBean) {
+        this.mContentView.addView(createTitleView("购买须知", ""));
+        createFundRowPurchase(mFundQuoteBean);
+
+        return mContentView;
+    }
+
+    private void createFundRowPurchase(FundQuoteBean fundQuoteBean) {
+        String[] profileTitles = mContext.getResources().getStringArray(R.array.fund_profile_title_purchase);
+        int splitValue = 0;
+        int rowIndex = 0;
+        for (String profileTitle : profileTitles) {
+            String rowText = getFundRowTextPurchase(rowIndex, fundQuoteBean);
+            PercentRelativeLayout rowContent = createFundRowView(profileTitle, rowText);
+            TextView tvPrice = (TextView) rowContent.findViewById(R.id.tvprice);
+            if (rowIndex == 1) {
+                tvPrice.setVisibility(View.VISIBLE);
+                tvPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
+                tvPrice.setText("1.6%");
+            } else {
+                tvPrice.setVisibility(View.GONE);
+            }
+
+            if (rowIndex % 2 == splitValue) {
+                rowContent.setBackgroundColor(DEFAULT_BG_GRAY_COLOR);
+            } else {
+                rowContent.setBackgroundColor(DEFAULT_WHITE_COLOR);
+            }
+
+            this.mContentView.addView(rowContent);
+            rowIndex++;
+        }
+    }
+
+    private String getFundRowTextPurchase(int row, FundQuoteBean fundQuoteBean) {
+        String rowText = "";
+        switch (row) {
+            case 0: {
+                //收费方式
+                rowText = "";
+            }
+            break;
+            case 1:
+                //申购费率
+                //   rowText = String.valueOf(fundQuoteBean.getFare_ratio_buy());
+                rowText = "0.5%";
+                break;
+            case 2:
+                //起购金额
+                rowText = fundQuoteBean.getAmount_min();
+                break;
+            case 3:
+                //赎回到账时间
+                rowText = "";
+                break;
+            case 4: {
+                //shares_min最低赎回份额
+                rowText = "";
+            }
+            break;
+            case 5: {
+                rowText = fundQuoteBean.getInvestment_risk();
+            }
+            break;
+        }
+        return rowText;
+    }
 }

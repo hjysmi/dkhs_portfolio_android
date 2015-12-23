@@ -233,6 +233,14 @@
         <item>@string/fund_year</item>
         <item>@string/fund_toyear</item>
     </string-array>
+    <string-array name="fund_profile_title_purchase">
+        <item>@string/fund_detail_purchasemethod</item>
+        <item>@string/trade_rate</item>
+        <item>@string/blank_buy_money</item>
+        <item>@string/redemption_arrival_time</item>
+        <item>@string/minimum_redemption_share</item>
+        <item>@string/investment_risk</item>
+    </string-array>
     <string-array name="fund_profile_title">
         <item>@string/fund_detail_name</item>
         <item>@string/fund_manager</item>
