@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,8 +27,10 @@ import com.yang.gesturepassword.GesturePasswordManager;
 import com.yang.gesturepassword.ISecurityGesture;
 
 import org.json.JSONObject;
-import org.parceler.transfuse.annotations.OnActivityResult;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,6 +46,8 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     private TextView tvRecentProfit;
     @ViewInject(R.id.tv_total_assests)
     private TextView tvTotalAssests;
+    @ViewInject(R.id.tv_total_assests_time)
+    private TextView tvTotalAssestsTimen;
 
     @ViewInject(R.id.lv_assests)
     private ListView lvAssests;
@@ -62,6 +65,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
         updateTitleBackgroud(R.color.theme_blue);
         setTitle(R.string.my_assets);
         setBackButtonDrawRes(R.drawable.btn_white_back_selector);
+        tvTotalAssestsTimen.setText(String.format(getResources().getString(R.string.blank_total_assets),new SimpleDateFormat("MM-dd").format(new Date())));
         TextView addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_white_setting_selecter),
                 null, null, null);
@@ -145,6 +149,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     }
 
     private class MyAssestsAdapter extends BaseAdapter {
+
         @Override
         public int getCount() {
             return titleTexts.length;
@@ -169,6 +174,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                 holder.ivImageDetail = (ImageView) convertView.findViewById(R.id.image_detail);
                 holder.tvInfoTitle = (TextView) convertView.findViewById(R.id.tv_info_title);
                 holder.tvInfoTip = (TextView) convertView.findViewById(R.id.tv_info_tip);
+                holder.tvAssests = (TextView) convertView.findViewById(R.id.tv_assests);
                 holder.divider = convertView.findViewById(R.id.divider);
                 convertView.setTag(holder);
             } else {
@@ -177,10 +183,26 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
             holder.tvInfoTitle.setText(titleTexts[position]);
             holder.tvInfoTitle.setCompoundDrawablesWithIntrinsicBounds(iconRes[position],
                     0, 0, 0);
-            if (position == 2) {
+            holder.divider.setVisibility(View.GONE);
+            if(position == 0){
+                holder.tvInfoTip.setVisibility(View.GONE);
+                holder.tvAssests.setVisibility(View.VISIBLE);
+                holder.tvAssests.setText(new DecimalFormat("0.00").format(wallets_available));
+            }else if(position == 1){
+                holder.tvInfoTip.setVisibility(View.GONE);
+                holder.tvAssests.setVisibility(View.VISIBLE);
+                holder.tvAssests.setText(new DecimalFormat("0.00").format(fund_assests));
+            }else if(position == 2){
+                holder.tvInfoTip.setVisibility(View.VISIBLE);
+                holder.tvAssests.setVisibility(View.GONE);
                 holder.divider.setVisibility(View.VISIBLE);
-            } else {
-                holder.divider.setVisibility(View.GONE);
+                holder.tvInfoTip.setText(String.format(getResources().getString(R.string.blank_funds_count),funds_count));
+
+            }else if(position == 3){
+                holder.tvInfoTip.setVisibility(View.VISIBLE);
+                holder.tvAssests.setVisibility(View.GONE);
+                holder.tvInfoTip.setText(String.format(getResources().getString(R.string.blank_bank_cards_count), bank_cards_count));
+
             }
             return convertView;
         }
@@ -189,6 +211,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
             ImageView ivImageDetail;
             TextView tvInfoTitle;
             TextView tvInfoTip;
+            TextView tvAssests;
             View divider;
         }
     }
@@ -227,6 +250,15 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
         }
     };
 
+    //持仓基金数量
+    private int funds_count;
+    //持有卡数量
+    private int bank_cards_count;
+    //基金资产
+    private double fund_assests;
+    //零钱资产量
+    private double wallets_available;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -248,17 +280,33 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                 if (!TextUtils.isEmpty(object)) {
                     try {
                         JSONObject json = new JSONObject(object);
-                        if (json.has("worth_value")) {
+                        if (json.has("asses_total")) {
                             // 总资产
-                            tvTotalAssests.setText(json.getString("worth_value"));
+                            tvTotalAssests.setText(new DecimalFormat("0.00").format(json.getString("worth_value")));
+                        }
+                        if (json.has("worth_value")) {
+                            // 基金资产
+                            fund_assests = json.getDouble("worth_value");
+                        }
+                        if (json.has("wallets_available")) {
+                            // 钱包资产
+                            wallets_available = json.getDouble("wallets_available");
+                        }
+                        if (json.has("funds_count")) {
+                            // 持仓基金数量
+                            funds_count = json.getInt("funds_count");
+                        }
+                        if (json.has("bank_cards_count")) {
+                            // 银行卡数量
+                            bank_cards_count = json.getInt("bank_cards_count");
                         }
                         if (json.has("income_latest")) {
                             //最新收益
-                            tvRecentProfit.setText(json.getString("income_latest"));
+                            tvRecentProfit.setText(new DecimalFormat("0.00").format(json.getString("income_latest")));
                         }
                         if (json.has("income_total")) {
                             //累计收益
-                            tvTotalProfit.setText(json.getString("income_total"));
+                            tvTotalProfit.setText(new DecimalFormat("0.00").format(json.getString("income_total")));
                         }
                     } catch (Exception e) {
 
