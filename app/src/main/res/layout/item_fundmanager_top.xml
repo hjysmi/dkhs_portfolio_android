@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             app:layout_heightPercent="13%w"
             app:layout_marginBottomPercent="3%w"
-            app:layout_marginLeftPercent="17%w"
+            app:layout_marginLeftPercent="16%w"
             app:layout_marginTopPercent="3%w">
 
             <View
