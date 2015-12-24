@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -262,7 +261,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         fm_organization.setOnClickListener(this);
         if (isSaved) {
             tv_organization.setText(orgname);
-            Log.e("xue", ">>>>org_id= " + org_id);
         }
         et_num.setText(num);
     }
@@ -439,7 +437,6 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                 bean.org_profile = organizeBean;
                 break;
         }
-        Log.e("xue", ">>>bean=" + bean);
         return bean;
     }
 
