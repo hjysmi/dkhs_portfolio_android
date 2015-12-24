@@ -42,7 +42,6 @@ import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
@@ -868,6 +867,16 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
         if (null != loadHandler) {
             loadHandler.cancel();
         }
+    }
+
+    public void addData(SelectStockBean bean){
+        mDataList.add(0,bean);
+        mAdapterConbinStock.notifyDataSetChanged();
+    }
+
+    public void removeData(SelectStockBean bean){
+        mDataList.remove(bean);
+        mAdapterConbinStock.notifyDataSetChanged();
     }
 
 //    public boolean isDefLoad() {
