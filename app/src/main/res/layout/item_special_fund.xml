@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-
+    android:background="@drawable/bg_white_border_gray"
     >
     <View
         android:layout_width="match_parent"
@@ -13,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_white_border_gray"
         android:orientation="vertical"
         android:paddingTop="16dp">
 
@@ -224,4 +223,9 @@
         </LinearLayout>-->
 
     </LinearLayout>
+    <Button
+        android:id="@+id/login"
+        style="@style/btn_login_blue"
+        android:layout_margin="@dimen/widget_margin_medium"
+        android:text="@string/float_menu_buyfund" />
 </LinearLayout>
