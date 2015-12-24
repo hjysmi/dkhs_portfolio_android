@@ -279,6 +279,7 @@ public class BenefitChartView {
         machart.setMinValue(0);
         maChartView.setYlineCounts(2);
         maChartView.setFromCompare(true);
+        maChartView.setSmallLine();
         maChartView.setCanTouable(canTouchable);
     }
 
