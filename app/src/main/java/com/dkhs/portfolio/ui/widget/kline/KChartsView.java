@@ -182,9 +182,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         textPaint.setAntiAlias(true);
 
         redPaint = new Paint();
-        redPaint.setColor(Color.RED);
+        redPaint.setColor(getResources().getColor(R.color.tag_red));
         greenPaint = new Paint();
-        greenPaint.setColor(getResources().getColor(R.color.dark_green));
+        greenPaint.setColor(getResources().getColor(R.color.tag_green));
         grayPaint = new Paint();
         grayPaint.setColor(getResources().getColor(R.color.def_gray));
 
@@ -891,7 +891,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             for (int i = mDataStartIndext; i < mDataStartIndext + mShowDataNum && i < MACD.size(); i++) {
                 // 绘制矩形
                 if (MACD.get(i) >= 0.0) {
-                    merchPaint.setColor(Color.RED);
+                    merchPaint.setColor(getResources().getColor(R.color.tag_red));
                     float top = (float) ((high - MACD.get(i)) * rate) + lowertop;
                     if (zero - top < 0.55f) {
                         canvas.drawLine(viewWidth - 1 - (float) mCandleWidth * (i + 1 - mDataStartIndext), zero,
@@ -902,7 +902,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     }
 
                 } else {
-                    merchPaint.setColor(getResources().getColor(R.color.dark_green));
+                    merchPaint.setColor(getResources().getColor(R.color.tag_green));
                     float bottom = (float) ((high - MACD.get(i)) * rate) + lowertop;
 
                     if (bottom - zero < 0.55f) {
