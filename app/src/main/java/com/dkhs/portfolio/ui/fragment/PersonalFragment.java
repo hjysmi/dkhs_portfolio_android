@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -98,20 +99,60 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        initValues();
+        initValues(savedInstanceState);
         initEvents();
         if (verificationBean != null) {
             updateProVerificationInfo(verificationBean);
         }
     }
 
-    private void initValues() {
+    private void initValues(Bundle savedInstanceState) {
         //  Bundle bundle = getArguments();
-
-        proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
-        verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
+        Log.e("xue","PersonalFragment>>initValues"+1);
+        if (null == savedInstanceState) {
+            proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
+            verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
+            Log.e("xue","PersonalFragment>>initValues"+2);
+        } else {
+            Log.e("xue","PersonalFragment>>initValues"+3);
+            proInfoBean_qualification = Parcels.unwrap(savedInstanceState.getParcelable(KEY_PRO));
+            verificationBean = Parcels.unwrap(savedInstanceState.getParcelable(KEY_VER));
+            et_name.setText(savedInstanceState.getString(KEY_NAME));
+            et_id.setText(savedInstanceState.getString(KEY_ID));
+            tv_city.setText(savedInstanceState.getString(KEY_CITY));
+            tv_introduce.setText(savedInstanceState.getString(KEY_INTRODUCE));
+            mCurrentPhotoPath = savedInstanceState.getString(KEY_PIC);
+            Log.e("xue", ">>mCurrentPhotoPath>=" + mCurrentPhotoPath);
+            if (!TextUtils.isEmpty(mCurrentPhotoPath)) {
+                hasphotos = true;
+                iv_upimg.setVisibility(View.VISIBLE);
+                iv_upimg.setImageBitmap(UIUtils.getLoacalBitmap(mCurrentPhotoPath));
+                Log.e("xue", "PersonalFragment>>initValues" + 4);
+            }
+            checkSubmit();
+            Log.e("xue", "PersonalFragment>>initValues" + 5);
+        }
     }
 
+    private static final String KEY_PRO = "key_pro";
+    private static final String KEY_VER = "key_ver";
+    private static final String KEY_NAME = "key_name";
+    private static final String KEY_ID = "key_id";
+    private static final String KEY_CITY = "key_city";
+    private static final String KEY_INTRODUCE = "key_introduce";
+    private static final String KEY_PIC = "key_pic";
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY_PRO, Parcels.wrap(proInfoBean_qualification));
+        outState.putParcelable(KEY_VER, Parcels.wrap(verificationBean));
+        outState.putString(KEY_NAME, et_name.getText().toString().trim());
+        outState.putString(KEY_ID, et_id.getText().toString().trim());
+        outState.putString(KEY_CITY, tv_city.getText().toString().trim());
+        outState.putString(KEY_INTRODUCE, tv_introduce.getText().toString().trim());
+        outState.putString(KEY_PIC, mCurrentPhotoPath);
+    }
 
     private void initView(View view) {
         rlt_agreement = (TextView) view.findViewById(R.id.rlt_agreement);
@@ -313,18 +354,18 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
      * 上传信息
      */
     private void upInfo() {
-      //  BusProvider.getInstance().post(new PersonalEventBean());
-         PromptManager.showProgressDialog(getActivity(), "", false);
+        //  BusProvider.getInstance().post(new PersonalEventBean());
+        PromptManager.showProgressDialog(getActivity(), "", false);
         AuthenticationService.startPost(getActivity(), buildProInfoBean());
     }
 
     @Subscribe
     public void postFinish(SendPersonalEvent event) {
         PromptManager.closeProgressDialog();
-        if(event.isSuccess()){
-              BusProvider.getInstance().post(new PersonalEventBean());
+        if (event.isSuccess()) {
+            BusProvider.getInstance().post(new PersonalEventBean());
         }
-       // BusProvider.getInstance().post(new PersonalEventBean());
+        // BusProvider.getInstance().post(new PersonalEventBean());
     }
 
     private ProInfoBean buildProInfoBean() {
@@ -356,7 +397,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             }
             proInfoBean.description = clearTvInvalid(tv_introduce);
             proInfoBean.id_card_photo_full = mCurrentPhotoPath;
-
+            Log.e("xue", ">>>>proInfoBean=" + proInfoBean);
             return proInfoBean;
         } else {
             return null;
