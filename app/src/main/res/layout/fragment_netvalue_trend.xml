@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="-1dp"
@@ -208,27 +210,32 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <com.android.percent.PercentRelativeLayout
         android:id="@+id/rl_create_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/lv_white_selector"
-        android:clickable="true"
-        android:padding="8dp">
+        android:clickable="true">
 
         <include
             android:id="@+id/ll_avatar"
             layout="@layout/layout_avatar_mark_v"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
-            android:layout_centerVertical="true" />
-
-        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/ll_avatar">
+            app:layout_heightPercent="13%w"
+            app:layout_marginBottomPercent="2%w"
+            app:layout_marginLeftPercent="2%w"
+            app:layout_marginTopPercent="2%w"
+            app:layout_widthPercent="13%w" />
+
+        <com.android.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            app:layout_heightPercent="10%w">
 
             <TextView
                 android:id="@+id/tv_combination_user"
@@ -236,7 +243,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textSize="16sp" />
+                app:layout_heightPercent="50%h"
+                app:layout_marginLeftPercent="170%h"
+                app:layout_textSizePercent="40%h"
+                tools:text="远去的马蹄" />
 
             <TextView
                 android:id="@+id/tv_user_desc"
@@ -247,17 +257,21 @@
                 android:singleLine="true"
                 android:text="还没有描述呢"
                 android:textColor="@color/combition_gray"
-                android:textSize="14sp" />
-        </RelativeLayout>
+                app:layout_heightPercent="50%h"
+                app:layout_marginLeftPercent="170%h"
+                app:layout_textSizePercent="30%h" />
+        </com.android.percent.PercentRelativeLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="3dp"
-            android:src="@drawable/setting_image_right" />
-    </RelativeLayout>
+            android:src="@drawable/setting_image_right"
+            app:layout_heightPercent="5%w"
+            app:layout_marginRightPercent="3%w"
+            app:layout_widthPercent="3%w" />
+    </com.android.percent.PercentRelativeLayout>
 
     <!-- <View style="@style/divider_line" /> -->
 
@@ -274,4 +288,4 @@
         android:layout_marginBottom="1dp" />
 
 
-</LinearLayout>
+</com.android.percent.PercentLinearLayout>
