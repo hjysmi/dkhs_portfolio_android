@@ -196,6 +196,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                 gesturePassword = null;
                 tv_tip.setText(R.string.pls_input_new_gesture_password);
                 tv_tip.setTextColor(getResources().getColor(R.color.black));
+                lockPatternView.clearPattern();
                 break;
         }
     }

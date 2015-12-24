@@ -113,7 +113,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0: //持仓基金
+                    case 0: //我的零钱
                         startActivity(new Intent(mContext, MyPurseActivity.class));
                         break;
 
