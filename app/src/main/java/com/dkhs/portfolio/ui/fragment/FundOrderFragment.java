@@ -99,7 +99,9 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         if(this.type != type || this.showCanBuy != showCanBuy){
             this.type = type;
             this.showCanBuy = showCanBuy;
-            loadData();
+            if(isVisible()){
+                loadData();
+            }
         }
     }
 

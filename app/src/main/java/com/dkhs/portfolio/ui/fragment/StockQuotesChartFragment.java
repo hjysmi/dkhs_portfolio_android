@@ -237,6 +237,8 @@ public class StockQuotesChartFragment extends BaseFragment {
         pb.setVisibility(View.VISIBLE);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         mMaChart.setCallBack((StockViewCallBack) getActivity());
+        mMaChart.setLongitudeColor(getResources().getColor(R.color.drivi_line));
+        mMaChart.setLatitudeColor(getResources().getColor(R.color.drivi_line));
         initMaChart(mMaChart);
         initView(view);
     }
