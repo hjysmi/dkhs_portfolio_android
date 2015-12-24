@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.base.widget.FrameLayout;
 import com.dkhs.portfolio.bean.AuthPageEventBean;
 import com.dkhs.portfolio.bean.PersonalEventBean;
 import com.dkhs.portfolio.bean.PersonalNewEventBean;
@@ -36,10 +35,8 @@ import org.parceler.Parcels;
  * Created by xuetong on 2015/12/7.
  */
 public class BetterRecruitActivity extends ModelAcitivity implements View.OnClickListener {
-    private FrameLayout fm_main;
     private FragmentManager fm;
     private TextView tv_qualification;
-    private ImageView iv_right;
     private TextView tv_personal;
     private TextView tv_submit;
     int width;
@@ -51,23 +48,22 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     private static final int index2 = 2;
     private static final int index3 = 3;
     private int type_qua = 0;
+    private int index = 0;
 
     @Override
-    protected void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
+    protected void onCreate(Bundle saveInstanceState) {
+        super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_betterrecruit);
         BusProvider.getInstance().register(this);
         setTitle("牛人招募");
         initViews();
-        initValues();
+        initValues(saveInstanceState);
         initEvents();
         handleType();
     }
 
     private void initViews() {
-        fm_main = (FrameLayout) findViewById(R.id.fm_main);
         tv_qualification = (TextView) findViewById(R.id.tv_qualification);
-        iv_right = (ImageView) findViewById(R.id.iv_right);
         tv_submit = (TextView) findViewById(R.id.tv_submit);
         tv_personal = (TextView) findViewById(R.id.tv_personal);
         iv_jt = (ImageView) findViewById(R.id.iv_jt);
@@ -77,17 +73,43 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
 
     private ProVerificationBean verificationBean;
 
-    private void initValues() {
-        type_qua = getIntent().getIntExtra("type", 0);
-        verificationBean = Parcels.unwrap(getIntent().getExtras().getParcelable("proverification_bean"));
-        showFragment(index1, null, -1);
+    private void initValues(Bundle saveInstanceState) {
+        if (null == saveInstanceState) {
+            type_qua = getIntent().getIntExtra("type", 0);
+            verificationBean = Parcels.unwrap(getIntent().getExtras().getParcelable("proverification_bean"));
+            index = index1;
+        } else {
+            type_qua = saveInstanceState.getInt(KEY_CODE, 0);
+            index = saveInstanceState.getInt(KEY_INDEX, 0);
+            verificationBean = Parcels.unwrap(saveInstanceState.getParcelable(KEY_VER));
+            qualificationFragment = (QualificationFragment) fm.findFragmentByTag("qualificationFragment");
+            personalFragment = (PersonalFragment) fm.findFragmentByTag("personalFragment");
+            if (index == index2) {
+                ObjectAnimator.ofFloat(iv_jt, "translationX", 0, (int) (0.35 * width)).setDuration(200).start();
+            } else if (index == index3) {
+                ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.7 * width)).setDuration(200).start();
+            }
+        }
+        showFragment(index, null, -1);
+
+    }
+
+    private static final String KEY_CODE = "key_code";
+    private static final String KEY_VER = "key_ver";
+    private static final String KEY_INDEX = "key_index";
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_CODE, type_qua);
+        outState.putInt(KEY_INDEX, index);
+        outState.putParcelable(KEY_CODE, Parcels.wrap(verificationBean));
     }
 
     private void initEvents() {
         tv_personal.setOnClickListener(this);
         tv_submit.setOnClickListener(this);
         tv_qualification.setOnClickListener(this);
-        initTab();
         tv_qualification.setEnabled(true);
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +161,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         FragmentTransaction ft = fm.beginTransaction();
         hideFragment(ft);
         initTab();
+        index = i;
         switch (i) {
             case index1:
                 tv_qualification.setEnabled(true);
@@ -150,11 +173,10 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                         bundle.putParcelable(QualificationFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
                     }
                     qualificationFragment.setArguments(bundle);
-                    ft.add(R.id.fm_main, qualificationFragment);
+                    ft.add(R.id.fm_main, qualificationFragment, "qualificationFragment");
                 } else {
                     ft.show(qualificationFragment);
                 }
-
                 break;
             case index2:
                 tv_personal.setEnabled(true);
@@ -162,14 +184,12 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
                 if (personalFragment == null) {
                     personalFragment = new PersonalFragment();
                     Bundle bundle = new Bundle();
-                    // bundle.putSerializable(PersonalFragment.KEY_PERINFOBEAN, bean);
-                    //  bundle.putEx(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
                     bundle.putParcelable(PersonalFragment.KEY_PERINFOBEAN, Parcels.wrap(bean));
                     if (verificationBean != null) {
                         bundle.putParcelable(PersonalFragment.KEY_PROVERIFICATIONBEAN, Parcels.wrap(verificationBean));
                     }
                     personalFragment.setArguments(bundle);
-                    ft.add(R.id.fm_main, personalFragment);
+                    ft.add(R.id.fm_main, personalFragment, "personalFragment");
                 } else {
                     BusProvider.getInstance().post(new PersonalNewEventBean(bean));
                     ft.show(personalFragment);
@@ -179,7 +199,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
             case index3:
                 tv_submit.setEnabled(true);
                 submitFragment = SubmitFragment.newInstance(type);
-                ft.add(R.id.fm_main, submitFragment);
+                ft.add(R.id.fm_main, submitFragment, "submitFragment");
                 break;
         }
         ft.commit();
@@ -202,12 +222,14 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_qualification:
+                index = index1;
                 ObjectAnimator.ofFloat(iv_jt, "translationX", 0).setDuration(200).start();
-                showFragment(index1, null, -1);
+                showFragment(index, null, -1);
                 break;
             case R.id.tv_personal:
+                index = index2;
                 ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.375 * width)).setDuration(200).start();
-                showFragment(index2, null, -1);
+                showFragment(index, null, -1);
                 break;
             case R.id.tv_submit:
                 //   showFragment(index3);
@@ -217,15 +239,16 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
 
     @Subscribe
     public void toPersonalFragment(QualificationToPersonalEvent event) {
-        // TranslateAnimation animation
+        index = index2;
         ObjectAnimator.ofFloat(iv_jt, "translationX", 0, (int) (0.35 * width)).setDuration(200).start();
-        showFragment(index2, event.proInfoBean, -1);
+        showFragment(index, event.proInfoBean, -1);
     }
 
     @Subscribe
     public void tosubmitFragment(PersonalEventBean event) {
+        index = index3;
         ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.7 * width)).setDuration(200).start();
-        showFragment(index3, null, event.verified_status);
+        showFragment(index, null, event.verified_status);
         // ObjectAnimator.ofFloat(iv_jt, "translationX", (int) (0.5 * width), (int) (0.7 * width)).setDuration(200).start();
     }
 
@@ -246,6 +269,7 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
             }
         }
     }
+
 
     @Subscribe
     public void authPageEvent(AuthPageEventBean bean) {
