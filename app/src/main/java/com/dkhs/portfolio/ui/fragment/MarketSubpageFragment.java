@@ -133,6 +133,7 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
 
         switch (curType) {
             case TYPE_COMBINATION:
+                mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add),
                         null, null, null);
                 combinationFragment = new MarketCombinationFragment();
@@ -141,6 +142,7 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                 mBtntitletableft.setVisibility(View.GONE);
                 break;
                 case TYPE_FUND_MANAGER_RANKING_WEEK:
+                    mBtnrefresh.setVisibility(View.VISIBLE);
                     mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                             null, null, null);
                     fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
@@ -148,6 +150,7 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                     setTitle(R.string.fund_manager_rank);
                 break;
             default:
+                mBtnrefresh.setVisibility(View.GONE);
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                         null, null, null);
                 fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());

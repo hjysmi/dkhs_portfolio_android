@@ -20,7 +20,7 @@ public class MenuBean {
 
     private String value;
 
-    private boolean showCanBuy;
+    private int allowTrade;
 
     public String getValue() {
         return value;
@@ -48,12 +48,12 @@ public class MenuBean {
     }
 
 
-    public boolean isShowCanBuy() {
-        return showCanBuy;
+    public int getAllowTrade() {
+        return allowTrade;
     }
 
-    public void setShowCanBuy(boolean showCanBuy) {
-        this.showCanBuy = showCanBuy;
+    public void setAllowTrade(int allowTrade) {
+        this.allowTrade = allowTrade;
     }
 
     public static LinkedList<MenuBean> fundTypeFromXml(Context ctx) {
