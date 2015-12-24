@@ -22,7 +22,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.List;
 
@@ -126,6 +125,7 @@ public class FiveRangeAdapter extends BaseAdapter {
 
             if (null == priceList || priceList.size() <= position) {
                 viewHolder.tvPrice.setText("—");
+                viewHolder.tvPrice.setTextColor(ColorTemplate.DEF_GRAY);
 
             } else if (isFloatText(priceList.get(position))) {
                 float price = Float.parseFloat(priceList.get(position));
@@ -137,6 +137,7 @@ public class FiveRangeAdapter extends BaseAdapter {
                 }
             } else {
                 viewHolder.tvPrice.setText("—");
+                viewHolder.tvPrice.setTextColor(ColorTemplate.DEF_GRAY);
             }
 
             if (null == volList || volList.size() <= position) {
