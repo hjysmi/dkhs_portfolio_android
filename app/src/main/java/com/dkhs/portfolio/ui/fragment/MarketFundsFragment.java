@@ -47,6 +47,9 @@ import java.util.LinkedList;
  */
 public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
 
+
+    public static final int SHOW_ALL = 0;
+    public static final int SHOW_ONLY_ALLOW_TRADE = 1;
     public String[] nonZeroTitles;
     public String[] zeroTitles;
     public String[] managerTitles;
@@ -72,7 +75,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private View mFundTypeView;
     private LinkedList<MenuBean> sorts;
     private String mFundType;
-    private boolean mShowCanBuy;//仅显示可购买
+    private int allowTrade = SHOW_ALL;
 
     private static int defaultIndex = 1;//默认显示周战斗指数
 
@@ -97,7 +100,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
         @Override
         public void onPageSelected(int position) {
-            switchFundType(position, mFundType, mShowCanBuy);
+            switchFundType(position, mFundType, allowTrade);
         }
 
         @Override
@@ -279,6 +282,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     public void initView(View view) {
         fundTypeMenuChooserL = new MultiChooserRelativeLayout(getActivity());
+        fundTypeMenuChooserL.setAllowTrade(allowTrade);
         fundTypeMenuChooserL.setParentView(menuRL);
         LinkedList<MenuBean> types = MenuBean.fundTypeFromXml(getActivity());
         sorts = MenuBean.fundManagerSortFromXml(getActivity());
@@ -337,24 +341,26 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             }
 
             if (TextUtils.isEmpty(mFundType) || isSameSort(mFundType, menuBean.getValue())) {
-                switchFundType(mPager.getCurrentItem(), menuBean.getValue(), false);
+                switchFundType(mPager.getCurrentItem(), menuBean.getValue(), menuBean.getAllowTrade());
             } else if (StockUitls.isSepFund(type.getCode())) {
                 replaceWithZeroRateFund();
+                mFundType = menuBean.getValue();
             } else {
                 replaceWithNonZeroRateFund();
+                mFundType = menuBean.getValue();
             }
-            mFundType = menuBean.getValue();
         }
 
 
     }
 
-    private void switchFundType(int position, String fundType, boolean showCanBuy) {
-        mShowCanBuy = showCanBuy;
+    private void switchFundType(int position, String fundType, int allowTrade) {
+        mFundType = fundType;
+        this.allowTrade = allowTrade;
         if (fragments != null && fragments.size() >= position) {
             Fragment fg = fragments.get(position);
             if (fg instanceof FundOrderFragment) {
-                ((FundOrderFragment) fg).setType(fundType, showCanBuy);
+                ((FundOrderFragment) fg).setType(fundType, allowTrade);
             }
         }
     }

@@ -5,11 +5,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -18,11 +20,11 @@ import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.ui.adapter.AutoRVAdapter;
 import com.dkhs.portfolio.ui.adapter.RVHolder;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.fragment.MarketFundsFragment;
 import com.dkhs.portfolio.utils.AnimationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * @author zwm
  * @version 2.0
@@ -56,6 +58,9 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
 
     public RecyclerView recyclerView;
     public RecyclerView recyclerView2;
+    public SwitchCompat switchCompat;
+    private int allowTrade;
+
 
     private List<MenuBean> data = new ArrayList<>();
     private List<MenuBean> data2 = new ArrayList<>();
@@ -95,10 +100,10 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
         floatMenuAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                
+
                 floatMenuAdapter.setSelectIndex(data.get(position));
                 floatMenuAdapter2.setSelectIndex(data.get(position));
-                selectItem=data.get(position);
+                selectItem = data.get(position);
                 notifyDataSetChanged();
                 BusProvider.getInstance().post(selectItem);
                 recyclerView.postDelayed(new Runnable() {
@@ -132,6 +137,20 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
             }
         });
         recyclerView2.setAdapter(floatMenuAdapter2);
+        switchCompat = (SwitchCompat) view.findViewById(R.id.sw_fund_can_buy);
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                selectItem.setAllowTrade(isChecked ? MarketFundsFragment.SHOW_ONLY_ALLOW_TRADE : MarketFundsFragment.SHOW_ALL);
+                BusProvider.getInstance().post(selectItem);
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toggle();
+                    }
+                }, 500);
+            }
+        });
     }
 
 
@@ -169,6 +188,10 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
         this.data2.addAll(data2);
         floatMenuAdapter2.setSelectIndex(selectItem);
         floatMenuAdapter2.notifyDataSetChanged();
+    }
+
+    public void setAllowTrade(int allowTrade){
+        this.allowTrade = allowTrade;
     }
 
     private ViewGroup parentView;

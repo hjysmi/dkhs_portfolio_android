@@ -70,7 +70,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     private String type;
     private String sort;
-    private boolean showCanBuy;
+    private int allowTrade;
 
 
     @Override
@@ -94,11 +94,11 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     }
 
-    public void setType(String type,boolean showCanBuy){
+    public void setType(String type,int allowTrade){
         LogUtils.d("wys", "fund order setType");
-        if(this.type != type || this.showCanBuy != showCanBuy){
+        if(this.type != type || this.allowTrade != allowTrade){
             this.type = type;
-            this.showCanBuy = showCanBuy;
+            this.allowTrade = allowTrade;
             loadData();
         }
     }
@@ -109,7 +109,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         mSwipeLayout.setRefreshing(true);
         startLoadData();
         ((FundOrderItemHandler)adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
-        setHttpHandler(getLoadEngine().loadDate(type, sort));
+        setHttpHandler(getLoadEngine().loadDate(type, sort,allowTrade));
     }
 
     @Override
