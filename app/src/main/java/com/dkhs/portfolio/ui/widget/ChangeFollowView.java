@@ -10,6 +10,8 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateSelectStockEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 
 /**
@@ -74,11 +76,13 @@ public class ChangeFollowView {
             if (mStockBean.isFollowed()) {
                 mStockBean.setFollowed(false);
                 mVisitorDataEngine.delOptionalStock(mStockBean);
+                BusProvider.getInstance().post(new UpdateSelectStockEvent(mStockBean, UpdateSelectStockEvent.DEL_TYPE));
 
             } else {
                 mStockBean.isFollowed = true;
                 mStockBean.sortId = 0;
                 mVisitorDataEngine.saveOptionalStock(mStockBean);
+                BusProvider.getInstance().post(new UpdateSelectStockEvent(mStockBean, UpdateSelectStockEvent.ADD_TYPE));
 
             }
 
@@ -86,7 +90,9 @@ public class ChangeFollowView {
         } else {
             if (mStockBean.isFollowed()) {
                 new QuotesEngineImpl().delfollow(mStockBean.id, baseListener);
+                BusProvider.getInstance().post(new UpdateSelectStockEvent(mStockBean, UpdateSelectStockEvent.DEL_TYPE));
             } else {
+                BusProvider.getInstance().post(new UpdateSelectStockEvent(mStockBean,UpdateSelectStockEvent.ADD_TYPE));
                 new QuotesEngineImpl().symbolfollow(mStockBean.id, baseListener);
             }
         }

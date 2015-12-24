@@ -27,6 +27,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.UpdateSelectStockEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -171,6 +172,8 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     }
 
+
+
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
@@ -189,6 +192,14 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
+    @Subscribe
+    public void updateData(UpdateSelectStockEvent event){
+        if(event.type == UpdateSelectStockEvent.ADD_TYPE){
+            loadDataListFragment.addData(event.selectStockBean);
+        }else if(event.type == UpdateSelectStockEvent.DEL_TYPE){
+            loadDataListFragment.removeData(event.selectStockBean);
+        }
+    }
 
     @Override
     public void onStart() {
