@@ -5,12 +5,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.adapter.GuideViewPagerAdapter;
-import com.dkhs.portfolio.utils.ChannelUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -45,33 +43,19 @@ public class GuideActivity extends BaseActivity implements OnPageChangeListener 
 
         List<View> views = new ArrayList<View>();
         // 初始化引导图片列表
-        View firstView = inflater.inflate(R.layout.guide_first, null);
-        ImageView ivFirst = (ImageView) firstView.findViewById(R.id.iv_first);
-        try{
-            ChannelUtil.ChannelType channelType = ChannelUtil.ChannelType.valueOf(ChannelUtil.getChannel(this).toUpperCase());
-            switch (channelType){
-                case JINLI:
-                    ivFirst.setImageResource(R.drawable.gif_guid_first_jinli);
-                    break;
-            }
-        }catch (Exception e){
+        views.add(inflater.inflate(R.layout.guide_first, null));
+        views.add(inflater.inflate(R.layout.guide_second, null));
+        views.add(inflater.inflate(R.layout.guide_third, null));
+        views.add(inflater.inflate(R.layout.guide_fourth, null));
+        views.add(inflater.inflate(R.layout.guide_five, null));
 
-        }finally {
+        // 初始化Adapter
+        GuideViewPagerAdapter vpAdapter = new GuideViewPagerAdapter(views, this);
 
-            views.add(firstView);
-            views.add(inflater.inflate(R.layout.guide_second, null));
-            views.add(inflater.inflate(R.layout.guide_third, null));
-            views.add(inflater.inflate(R.layout.guide_fourth, null));
-            views.add(inflater.inflate(R.layout.guide_five, null));
-
-            // 初始化Adapter
-            GuideViewPagerAdapter vpAdapter = new GuideViewPagerAdapter(views, this);
-
-            ViewPager vp = (ViewPager) findViewById(R.id.viewpager);
-            vp.setAdapter(vpAdapter);
-            // 绑定回调
-            vp.setOnPageChangeListener(this);
-        }
+        ViewPager vp = (ViewPager) findViewById(R.id.viewpager);
+        vp.setAdapter(vpAdapter);
+        // 绑定回调
+        vp.setOnPageChangeListener(this);
     }
 
     // private void initDots() {

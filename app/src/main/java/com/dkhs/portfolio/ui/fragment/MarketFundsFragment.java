@@ -41,11 +41,29 @@ import java.util.LinkedList;
 /**
  * @author zjz
  * @version 1.0
- * @ClassName TabFundFragment
- * @Description TODO(基金tab Fragment)
+ * @ClassName MarketFundsFragment
+ * @Description 基金经理排行　基金收益排行
  * @date 2015-2-7 上午11:03:26
  */
 public class MarketFundsFragment extends VisiableLoadFragment implements IDataUpdateListener, OnClickListener {
+
+    /**
+     * tab默认索引
+     */
+    public static final int DEFAULT_INDEX = 0;
+    /**
+     * 基金tab_月收益
+     */
+    public static final int FUNDS_INDEX_MONTH = 1;
+    /**
+     * 基金tab_今年以来
+     */
+    public static final int FUNDS_INDEX_TYEAR = 5;
+
+    /**
+     * viewpager缓存数量
+     */
+    public static final int CACHE_NUM = 3;
 
     public String[] nonZeroTitles;
     public String[] zeroTitles;
@@ -135,11 +153,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     private void initViewPager() {
         fragments = new ArrayList<>();
-        mPager.setOffscreenPageLimit(3);
+        mPager.setOffscreenPageLimit(CACHE_NUM);
         if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0) {
-            replaceWithManager();
+            replaceWithManager(defaultIndex);
         } else {
-            replaceWithNonZeroRateFund();
+            replaceWithNonZeroRateFund(defaultIndex);
         }
     }
 
@@ -156,7 +174,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     }
 
     //当前是基金经理
-    private void replaceWithManager() {
+    private void replaceWithManager(int defaultIndex) {
         fragments.clear();
         for (int i = 0; i < managerTitles.length; i++) {
             FundManagerRankingsFragment fg = FundManagerRankingsFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), managerSorts[i]);
@@ -165,10 +183,10 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, managerTitles);
         mPageIndicator.setOnPageChangeListener(null);
         mPager.setAdapter(adapter);
-        mPageIndicator.setViewPager(mPager);
+        mPageIndicator.setViewPager(mPager,defaultIndex);
     }
 
-    private void replaceWithZeroRateFund() {
+    private void replaceWithZeroRateFund(int defaultIndex) {
         fragments.clear();
         for (int i = 0; i < zeroTitles.length; i++) {
             FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), zeroFundSorts[i]);
@@ -177,11 +195,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, zeroTitles);
         mPageIndicator.setOnPageChangeListener(listener);
         mPager.setAdapter(adapter);
-        mPageIndicator.setViewPager(mPager);
+        mPageIndicator.setViewPager(mPager,defaultIndex);
         mPageIndicator.notifyDataSetChanged();
     }
 
-    private void replaceWithNonZeroRateFund() {
+    private void replaceWithNonZeroRateFund(int defaultIndex) {
         fragments.clear();
         for (int i = 0; i < nonZeroTitles.length; i++) {
             FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i]);
@@ -190,7 +208,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, nonZeroTitles);
         mPageIndicator.setOnPageChangeListener(listener);
         mPager.setAdapter(adapter);
-        mPageIndicator.setViewPager(mPager);
+        mPageIndicator.setViewPager(mPager,defaultIndex);
         mPageIndicator.notifyDataSetChanged();
     }
 
@@ -242,16 +260,18 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         switch (curType) {
             case TYPE_FUND_MANAGER_RANKING_WEEK:
                 mFundTypeView.setVisibility(View.GONE);
+                defaultIndex = DEFAULT_INDEX;
                 break;
             case TYPE_FUND_ALL_RANKING_MONTH:
-                defaultIndex = sortTypeMenuChooserL.FUNDS_INDEX_MONTH;
+                defaultIndex = FUNDS_INDEX_MONTH;
                 fundTypeMenuChooserL.setFundsAllRanking();
                 break;
             case TYPE_FUND_ALL_RANKING_YEAR:
-                defaultIndex = sortTypeMenuChooserL.FUNDS_INDEX_YEAR;
+                defaultIndex = FUNDS_INDEX_TYEAR;
                 fundTypeMenuChooserL.setFundsAllRanking();
                 break;
             case TYPE_FUND_MIXED_MONTH:
+                defaultIndex = FUNDS_INDEX_MONTH;
                 fundTypeMenuChooserL.setFundsMixedRanking();
                 break;
         }
@@ -330,18 +350,12 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
              * (306, '货币型','hb'),
              (307, '理财型','lc'),
              */
-            if (!StockUitls.isSepFund(type.getCode())) {
-                if (defaultIndex != 1) {
-                    defaultIndex = 1;
-                }
-            }
-
             if (TextUtils.isEmpty(mFundType) || isSameSort(mFundType, menuBean.getValue())) {
                 switchFundType(mPager.getCurrentItem(), menuBean.getValue(), false);
             } else if (StockUitls.isSepFund(type.getCode())) {
-                replaceWithZeroRateFund();
+                replaceWithZeroRateFund(DEFAULT_INDEX);
             } else {
-                replaceWithNonZeroRateFund();
+                replaceWithNonZeroRateFund(DEFAULT_INDEX);
             }
             mFundType = menuBean.getValue();
         }
