@@ -350,8 +350,8 @@
         <item>@string/my_bank_cards</item>
     </string-array>
     <integer-array name="ic_assest_ids">
-        <item>@drawable/ic_my_funds</item>
         <item>@drawable/ic_small_change</item>
+        <item>@drawable/ic_my_funds</item>
         <item>@drawable/ic_trade_record</item>
         <item>@drawable/ic_bank_cards</item>
     </integer-array>

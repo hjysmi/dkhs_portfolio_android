@@ -224,6 +224,15 @@ public class SelectStockBean extends DragListItem implements Serializable{
         selectBean.alertSetBean = stockBean.getAlertSetBean();
         return selectBean;
     }
+    public static SelectStockBean copy(Fund myFund) {
+
+        SelectStockBean selectBean = new SelectStockBean();
+        selectBean.id = Long.parseLong(myFund.getId());
+        selectBean.name = myFund.getName();
+        selectBean.symbol = myFund.getSymbol();
+        selectBean.tradeDay = myFund.getTradedate();
+        return selectBean;
+    }
 
 
     public ConStockBean parseStock() {

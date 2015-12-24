@@ -459,7 +459,9 @@ public class FragmentNetValueTrend extends VisiableLoadFragment implements OnCli
             Bitmap bitmap = content.getDrawingCache();
 
             String extr = Environment.getExternalStorageDirectory() + "/CrashLog/";
-
+            File directory = new File(extr);
+            if(directory == null || !directory.isDirectory())
+                directory.mkdir();
             String s = "tmp.png";
 
             File f = new File(extr, s);

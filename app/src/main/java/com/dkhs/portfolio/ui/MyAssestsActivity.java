@@ -113,7 +113,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0: //持仓基金
+                    case 0: //我的零钱
                         startActivity(new Intent(mContext, MyPurseActivity.class));
                         break;
 
@@ -309,6 +309,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                             //累计收益
                             tvTotalProfit.setText(new DecimalFormat("0.00").format(json.getDouble("income_total")));
                         }
+                        adapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }

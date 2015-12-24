@@ -23,6 +23,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.nineoldandroids.animation.Animator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
             ll_tags.setVisibility(View.VISIBLE);
             String[] tags = data.recommend_desc.split(",");
             if(tags != null && tags.length > 0){
+                tags = Arrays.copyOfRange(tags, 0, 5);
                 for(String tag : tags){
                     if(TextUtils.isEmpty(tag))
                         break;
