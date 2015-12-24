@@ -316,7 +316,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 case MENU_BUY:
                     //TODO 购买基金
 //                    startActivity(BuyFundActivity.buyIntent(mContext,null));
-                    if(mFundQuoteBean.isAllow_trade()){
+                    if(mFundQuoteBean.isAllow_trade() && (mFundQuoteBean.getTrade_status()==0 ||mFundQuoteBean.getTrade_status()==2)){
                         Fund mFund = new Fund();
                         mFund.setName(mFundQuoteBean.getName());
                         mFund.setId(String.valueOf(mFundQuoteBean.getId()));
@@ -397,7 +397,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void initFloatingActionMenu(QuotesBean quoteBean) {
         mFloatMenu.removeAllItems();
 
-        if(mFundQuoteBean.isAllow_trade()){
+        if(mFundQuoteBean.isAllow_trade() && (mFundQuoteBean.getTrade_status()==0 ||mFundQuoteBean.getTrade_status()==2)){
             mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,R.drawable.lv_blue_selector,0);
         }else{
             mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,0,R.color.person_setting_line);

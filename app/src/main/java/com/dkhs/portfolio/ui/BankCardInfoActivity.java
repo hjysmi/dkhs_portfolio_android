@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
@@ -17,9 +19,11 @@ import com.dkhs.portfolio.bean.Bank;
 import com.dkhs.portfolio.bean.IdentityAuthBean;
 import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.hxcr.chinapay.activity.Initialize;
 import com.hxcr.chinapay.util.CPGlobaInfo;
@@ -37,7 +41,7 @@ import java.io.StringWriter;
 /**
  * Created by zhangcm on 2015/9/16.15:02
  */
-public class BankCardInfoActivity extends ModelAcitivity implements View.OnClickListener{
+public class BankCardInfoActivity extends ModelAcitivity implements View.OnClickListener {
 
     public static String BANK = "bank";
     private Bank bank;
@@ -72,7 +76,10 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     @ViewInject(R.id.btn_bind_bank_card)
     private Button btn_bind_bank_card;
 
-    public static Intent forgetTradePasswordIntent(Context context,MyBankCard bankCard) {
+    @ViewInject(R.id.cb_agree)
+    private CheckBox cb_agree;
+
+    public static Intent forgetTradePasswordIntent(Context context, MyBankCard bankCard) {
         Intent intent = new Intent(context, BankCardInfoActivity.class);
         intent.putExtra(LAYOUT_TYPE, true);
         intent.putExtra(BANK_CARD, bankCard);
@@ -97,9 +104,9 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         ViewUtils.inject(this);
         setTitle(R.string.input_bank_card_info);
         initViews();
-        if(isResetPasswordType){
+        if (isResetPasswordType) {
 
-        }else{
+        } else {
             initData();
         }
     }
@@ -108,23 +115,23 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
             @Override
             protected Bank parseDateTask(String jsonData) {
-                try{
+                try {
                     jsonData = StringDecodeUtil.decodeUnicode(jsonData);
                     bank = DataParse.parseObjectJson(Bank.class, jsonData);
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
                 return bank;
             }
 
             @Override
             protected void afterParseData(Bank bank) {
-                if(!TextUtils.isEmpty(bank.getName())){
+                if (!TextUtils.isEmpty(bank.getName())) {
                     tvBank.setText(bank.getName());
                     btnStatus++;
                 }
             }
         };
-        new TradeEngineImpl().checkBank(bankCrardNo,listener.setLoadingDialog(mContext));
+        new TradeEngineImpl().checkBank(bankCrardNo, listener.setLoadingDialog(mContext));
 
     }
 
@@ -138,7 +145,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         if (isResetPasswordType) {
             ll_bank_card.setVisibility(View.VISIBLE);
             ll_choose_bank_type.setVisibility(View.GONE);
-            etBankCard.setHint(String.format(getResources().getString(R.string.blank_hint_card_no),mBankCard.getBank_card_no_tail()));
+            etBankCard.setHint(String.format(getResources().getString(R.string.blank_hint_card_no), mBankCard.getBank_card_no_tail()));
         } else {
             ll_bank_card.setVisibility(View.GONE);
             ll_choose_bank_type.setVisibility(View.VISIBLE);
@@ -147,16 +154,31 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         et_real_name.addTextChangedListener(new MyTextWatcher());
         et_id_card_no.addTextChangedListener(new MyTextWatcher());
         et_bank_card_mobile.addTextChangedListener(new MyTextWatcher());
+        cb_agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    btnStatus++;
+                }else{
+                    btnStatus--;
+                }
+                checkBtnStatus();
+            }
+        });
     }
-    private TradeEngineImpl tradeEngine  = new TradeEngineImpl();;
+
+    private TradeEngineImpl tradeEngine = new TradeEngineImpl();
     private String mobile;
-    @OnClick({R.id.ll_choose_bank_type, R.id.btn_bind_bank_card})
+
+    @OnClick({R.id.ll_choose_bank_type, R.id.btn_bind_bank_card, R.id.rlt_agreement})
     public void onClick(View v) {
         //TODO 点击下一步
         if (v.getId() == R.id.ll_choose_bank_type) {
             //TODO 选择银行卡
             Intent intent = new Intent(this, ChooseBankActivity.class);
             startActivityForResult(intent, 0);
+        } else if (v.getId() == R.id.rlt_agreement) {
+            new MessageHandler(this).handleURL(DKHSUrl.Funds.bank_agreement);
         } else if (isResetPasswordType) {
 
         } else {
@@ -184,7 +206,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 }
             };
             mobile = et_bank_card_mobile.getText().toString();
-            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo,et_real_name.getText().toString(),et_id_card_no.getText().toString(),mobile,listener.setLoadingDialog(this));
+            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, et_real_name.getText().toString(), et_id_card_no.getText().toString(), mobile, listener.setLoadingDialog(this));
 //            tradeEngine.verifyIdentityAuth("6", "6217714900199342", "徐志成", "350322197412300517", "18106963378", listener.setLoadingDialog(this));
         }
     }
@@ -236,18 +258,14 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0 && resultCode == 1) {
-            if (bank == null) {
-                bank = (Bank) data.getSerializableExtra(BANK);
-                if (bank != null) {
-                    btnStatus++;
-                }
-            }
+            bank = (Bank) data.getSerializableExtra(BANK);
             if (bank != null) {
+                btnStatus++;
                 tvBank.setText(bank.getName());
                 tvBank.setTag(bank.getId());
                 checkBtnStatus();
             }
-        }else if(requestCode == 1 && resultCode == 0){
+        } else if (requestCode == 1 && resultCode == 0) {
             setResult(0);
             manualFinish();
         }
@@ -257,7 +275,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private int btnStatus = 0;
 
     private void checkBtnStatus() {
-        if (btnStatus == 4) {
+        if (btnStatus == 5) {
             btn_bind_bank_card.setEnabled(true);
         } else {
             btn_bind_bank_card.setEnabled(false);
@@ -300,26 +318,26 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 final ParseHttpListener<Boolean> isTradePwdSetListener = new ParseHttpListener<Boolean>() {
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
-                        try{
+                        try {
                             JSONObject json = new JSONObject(jsonData);
-                            if(json.has("status")){
+                            if (json.has("status")) {
                                 return json.getBoolean("status");
                             }
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
                         }
                         return null;
                     }
 
                     @Override
                     protected void afterParseData(Boolean object) {
-                        if(null != object){
-                            if(object){
+                        if (null != object) {
+                            if (object) {
                                 //TODO 设置过交易密码
                                 PromptManager.showToast("已经设置过交易密码");
                                 setResult(0);
                                 manualFinish();
-                            }else{
+                            } else {
                                 //TODO 没设置过交易密码
                                 PromptManager.showToast("没有设置过交易密码");
                                 startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 0);

@@ -24,6 +24,7 @@
         android:layout_alignLeft="@id/tv_bank"
         android:textColor="@color/gray_textcolor"
         android:textSize="@dimen/widget_text_12sp"
+        android:visibility="gone"
         android:text="尾号5200"
         />
     <TextView
