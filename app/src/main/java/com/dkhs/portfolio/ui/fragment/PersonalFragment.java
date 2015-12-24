@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -107,14 +106,10 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initValues(Bundle savedInstanceState) {
-        //  Bundle bundle = getArguments();
-        Log.e("xue","PersonalFragment>>initValues"+1);
         if (null == savedInstanceState) {
             proInfoBean_qualification = Parcels.unwrap(getArguments().getParcelable(KEY_PERINFOBEAN));
             verificationBean = Parcels.unwrap(getArguments().getParcelable(KEY_PROVERIFICATIONBEAN));
-            Log.e("xue","PersonalFragment>>initValues"+2);
         } else {
-            Log.e("xue","PersonalFragment>>initValues"+3);
             proInfoBean_qualification = Parcels.unwrap(savedInstanceState.getParcelable(KEY_PRO));
             verificationBean = Parcels.unwrap(savedInstanceState.getParcelable(KEY_VER));
             et_name.setText(savedInstanceState.getString(KEY_NAME));
@@ -122,15 +117,12 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             tv_city.setText(savedInstanceState.getString(KEY_CITY));
             tv_introduce.setText(savedInstanceState.getString(KEY_INTRODUCE));
             mCurrentPhotoPath = savedInstanceState.getString(KEY_PIC);
-            Log.e("xue", ">>mCurrentPhotoPath>=" + mCurrentPhotoPath);
             if (!TextUtils.isEmpty(mCurrentPhotoPath)) {
                 hasphotos = true;
                 iv_upimg.setVisibility(View.VISIBLE);
                 iv_upimg.setImageBitmap(UIUtils.getLoacalBitmap(mCurrentPhotoPath));
-                Log.e("xue", "PersonalFragment>>initValues" + 4);
             }
             checkSubmit();
-            Log.e("xue", "PersonalFragment>>initValues" + 5);
         }
     }
 
@@ -397,7 +389,6 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             }
             proInfoBean.description = clearTvInvalid(tv_introduce);
             proInfoBean.id_card_photo_full = mCurrentPhotoPath;
-            Log.e("xue", ">>>>proInfoBean=" + proInfoBean);
             return proInfoBean;
         } else {
             return null;
