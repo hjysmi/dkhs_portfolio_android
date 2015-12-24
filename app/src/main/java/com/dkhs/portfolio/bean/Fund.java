@@ -18,6 +18,38 @@ public class Fund implements Serializable{
     private double discount_rate_buy;
     private double fare_ratio_sell;
     private double discount_rate_sell;
+    private String symbol;
+//    基金状态判断：
+//    allow_trade是否代销
+//    trade_status 基金状态
+//    判断可以申购：allow_trade==True and (trade_status ==0 or trade_status==2)
+//    判断可以赎回：allow_trade==True and (trade_status ==0 or trade_status==3)
+    private boolean allow_trade;
+    private int trade_status;
+
+    public boolean isAllow_trade() {
+        return allow_trade;
+    }
+
+    public void setAllow_trade(boolean allow_trade) {
+        this.allow_trade = allow_trade;
+    }
+
+    public int getTrade_status() {
+        return trade_status;
+    }
+
+    public void setTrade_status(int trade_status) {
+        this.trade_status = trade_status;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
     public String getNet_value() {
         return net_value;

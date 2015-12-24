@@ -309,6 +309,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                             //累计收益
                             tvTotalProfit.setText(new DecimalFormat("0.00").format(json.getDouble("income_total")));
                         }
+                        adapter.notifyDataSetChanged();
                     } catch (Exception e) {
 
                     }

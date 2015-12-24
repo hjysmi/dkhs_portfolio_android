@@ -327,7 +327,9 @@ public class GesturePasswordActivity extends ModelAcitivity {
         if(gesPassword.leftCount == 0){
             gesPassword.leftCount =1;
         }
-        GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
+        if(curLayoutType != TYPE_FIRST_SET_PASSWORD){
+            GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
+        }
         super.onBackPressed();
     }
 

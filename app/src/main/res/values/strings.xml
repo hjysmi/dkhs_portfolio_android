@@ -904,6 +904,7 @@
     <string name="pls_rebind_bank_card">请重新绑定银行卡以找回密码</string>
     <string name="bind_card_fail">绑卡失败</string>
     <string name="blank_card_info">%1$s&#160;&#160;%2$s&#160;&#160;(%3$s)</string>
+    <string name="blank_bank">%1$s(尾号%2$s)</string>
     <string name="blank_bank_card">尾号%1$s</string>
     <string name="blank_hint_card_no">**%1$s(请输入完整卡号)</string>
     <string name="verify_password">验证登录密码</string>

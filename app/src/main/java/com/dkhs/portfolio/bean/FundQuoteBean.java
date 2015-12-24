@@ -234,7 +234,21 @@ public class FundQuoteBean extends QuotesBean {
     String shares_min;
     double fare_ratio_buy;
     double discount_rate_buy;
+//    基金状态判断：
+//    allow_trade是否代销
+//    trade_status 基金状态
+//    判断可以申购：allow_trade==True and (trade_status ==0 or trade_status==2)
+//    判断可以赎回：allow_trade==True and (trade_status ==0 or trade_status==3)
     boolean allow_trade;
+    int trade_status;
+
+    public int getTrade_status() {
+        return trade_status;
+    }
+
+    public void setTrade_status(int trade_status) {
+        this.trade_status = trade_status;
+    }
 
     public boolean isAllow_trade() {
         return allow_trade;
