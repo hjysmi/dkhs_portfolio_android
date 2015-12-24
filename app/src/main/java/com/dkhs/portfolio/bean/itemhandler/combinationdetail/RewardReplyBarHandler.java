@@ -50,7 +50,7 @@ public class RewardReplyBarHandler extends SimpleItemHandler<TopicsBean> impleme
     public void onBindView(final ViewHolder vh, final TopicsBean data, int position) {
         vh.setTextView(R.id.tv_like, mContext.getString(R.string.like) + " " + data.attitudes_count);
         if(mBarType == TOPIC_BAE){
-            vh.setTextView(R.id.comment, mContext.getString(R.string.reply) + " " + data.comments_count);
+            vh.setTextView(R.id.comment, mContext.getString(R.string.comment) + " " + data.comments_count);
         }else{
             vh.setTextView(R.id.comment, mContext.getString(R.string.answer) + " " + data.comments_count);
         }

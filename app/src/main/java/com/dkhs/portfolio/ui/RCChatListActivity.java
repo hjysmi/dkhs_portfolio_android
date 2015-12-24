@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,6 +18,7 @@ import com.squareup.otto.Subscribe;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imkit.model.UIConversation;
+import io.rong.imlib.model.Conversation;
 
 /**
  * @author zwm
@@ -47,28 +49,32 @@ public class RCChatListActivity extends ModelAcitivity {
     }
 
 
-
-
-
-
-                  @Override
+    @Override
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
     }
 
     @Subscribe
-    public  void onRongConnect(RongConnectSuccessEvent event){
+    public void onRongConnect(RongConnectSuccessEvent event) {
 
         displayRClListFragment();
     }
+
     private void displayRClListFragment() {
 
-            ConversationListFragment conversationListFragment = new ConversationListFragment();
-            if (PortfolioApplication.hasUserLogin()) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, conversationListFragment).commitAllowingStateLoss();
-                findViewById(R.id.loadView).setVisibility(View.GONE);
-            }
+        ConversationListFragment conversationListFragment = new ConversationListFragment();
+        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
+                .appendPath("conversationlist")
+                .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
+                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//设置群组会话聚合显示
+                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
+                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
+                .build();
+        if (PortfolioApplication.hasUserLogin()) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, conversationListFragment).commitAllowingStateLoss();
+            findViewById(R.id.loadView).setVisibility(View.GONE);
+        }
     }
 
 

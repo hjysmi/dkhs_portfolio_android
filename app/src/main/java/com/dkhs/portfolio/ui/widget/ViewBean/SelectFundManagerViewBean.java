@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageView;
 import com.dkhs.portfolio.bean.FundManagerBean;
-import com.dkhs.portfolio.bean.SearchStockBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.ui.FundManagerActivity;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.UIUtils;

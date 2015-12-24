@@ -70,6 +70,7 @@ public class FundQuoteBean extends QuotesBean {
     String mana_name;
     String end_shares;
 
+    //  Double amount_min;
     public String getMana_name() {
         return mana_name;
     }
@@ -230,6 +231,7 @@ public class FundQuoteBean extends QuotesBean {
         this.end_shares = end_shares;
     }
 
+    String investment_risk;
     String amount_min;
     String shares_min;
     double fare_ratio_buy;
@@ -248,6 +250,14 @@ public class FundQuoteBean extends QuotesBean {
 
     public void setTrade_status(int trade_status) {
         this.trade_status = trade_status;
+    }
+
+    public String getInvestment_risk() {
+        return investment_risk;
+    }
+
+    public void setInvestment_risk(String investment_risk) {
+        this.investment_risk = investment_risk;
     }
 
     public boolean isAllow_trade() {
