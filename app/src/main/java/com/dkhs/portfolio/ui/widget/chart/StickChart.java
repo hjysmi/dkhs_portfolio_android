@@ -418,8 +418,8 @@ public class StickChart extends GridChart {
     protected void drawSticks(Canvas canvas) {
         // 初始化颜色 linbing
         try {
-            stickFillColorUp = Color.RED;
-            stickFillColorDown = getResources().getColor(R.color.dark_green);
+            stickFillColorUp = getResources().getColor(R.color.tag_red);
+            stickFillColorDown = getResources().getColor(R.color.tag_green);
             if (maxStickDataNum < 50) {
                 maxStickDataNum = 50;
             }
