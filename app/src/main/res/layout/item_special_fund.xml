@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/bg_white_border_gray"
+
     >
     <View
         android:layout_width="match_parent"
@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_border_gray"
         android:orientation="vertical"
         android:paddingTop="16dp">
 
@@ -20,7 +21,6 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:paddingLeft="@dimen/widget_padding_medium"
             android:paddingRight="@dimen/widget_padding_medium"
             android:orientation="horizontal">
@@ -55,6 +55,26 @@
                 android:textColor="@color/tag_gray"
                 android:textSize="10sp" />-->
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/widget_padding_medium"
+            android:layout_marginTop="4dp"
+            >
+            <TextView
+                android:id="@+id/tv_discount_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/tag_gray"
+                android:textSize="10sp"
+                android:text="@string/fund_discount"/>
+            <TextView
+                android:id="@+id/tv_discount_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme_blue"
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_tags"
@@ -221,11 +241,11 @@
                 android:textColor="@color/theme_color" />
 
         </LinearLayout>-->
-
+        <Button
+            android:id="@+id/btn_buy"
+            style="@style/btn_login_blue"
+            android:layout_margin="@dimen/widget_margin_medium"
+            android:text="@string/float_menu_buyfund" />
     </LinearLayout>
-    <Button
-        android:id="@+id/login"
-        style="@style/btn_login_blue"
-        android:layout_margin="@dimen/widget_margin_medium"
-        android:text="@string/float_menu_buyfund" />
+
 </LinearLayout>

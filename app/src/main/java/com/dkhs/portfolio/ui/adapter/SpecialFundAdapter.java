@@ -5,28 +5,23 @@ import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.FundManagerInfoBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.FundDetailActivity;
-import com.dkhs.portfolio.ui.widget.BenefitChartView;
-import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.nineoldandroids.animation.Animator;
+import com.lidroid.xutils.util.LogUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import static com.dkhs.portfolio.bean.TopicsBean.SymbolsBean.getInvestRiskByType;
 
 /**
  * @author zwm
@@ -90,6 +85,8 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
             vh.setTextView(R.id.abbr_name, data.abbr_name);
         }
 
+        vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.discount_rate_buy, vh.getContext()));
+
         setText(vh.getTextView(R.id.cp_rate), data.percent_six_month);
 
         TextView shRateTV = vh.getTextView(R.id.sh_rate);
@@ -100,16 +97,17 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
         shMarketTV.setText(R.string.null_number);
         sh300TV.setVisibility(View.VISIBLE);
         shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        sh300TV.setText(R.string.amount_min_buy);
+        shMarketTV.setText(R.string.investment_risk);
+        shRateTV.setText(String.valueOf(data.amount_min_buy));
+        String[] levels = vh.getContext().getResources().getStringArray(R.array.levels_investment_risk);
+        shMarketRateTV.setText(getInvestRiskByType(data.investment_risk,levels));
         if (StockUitls.isSepFund(data.symbol_stype)) {
-            sh300TV.setText(R.string.tenthou_unit_incm);
-            shMarketTV.setText(R.string.year_yld);
-            shRateTV.setText(data.tenthou_unit_incm);
-            shMarketRateTV.setText(data.year_yld);
+            vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.year_yld));
+            setText(vh.getTextView(R.id.cp_rate), Double.valueOf(data.year_yld));
         } else {
-            sh300TV.setText(R.string.unit_value);
-            shMarketTV.setText(R.string.all_netvalue);
-            shRateTV.setText(data.net_value);
-            shMarketRateTV.setText(data.net_cumulative);
+            vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.rate));
+            setText(vh.getTextView(R.id.cp_rate), data.percent_six_month);
         }
         vh.getConvertView().setOnClickListener(new OnItemClick(data));
         LinearLayout ll_tags = vh.get(R.id.ll_tags);
@@ -119,7 +117,6 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
             ll_tags.setVisibility(View.VISIBLE);
             String[] tags = data.recommend_desc.split(",");
             if(tags != null && tags.length > 0){
-                tags = Arrays.copyOfRange(tags, 0, 5);
                 for(String tag : tags){
                     if(TextUtils.isEmpty(tag))
                         break;
@@ -134,6 +131,12 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
                 }
             }
         }
+        vh.getButton(R.id.btn_buy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtils.d("wys","buy");
+            }
+        });
     }
 
 
@@ -153,5 +156,9 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
             }
         }
     }
+
+
+
+
 
 }
