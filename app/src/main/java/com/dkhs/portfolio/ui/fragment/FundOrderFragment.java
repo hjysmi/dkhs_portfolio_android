@@ -47,12 +47,17 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     }
 
     public static FundOrderFragment newInstant(String type, String sort) {
+        return newInstant(type,sort,MarketFundsFragment.SHOW_ALL);
+    }
+
+    public static FundOrderFragment newInstant(String type, String sort,int allowTrade) {
 
         FundOrderFragment fundsOrderFragment = new FundOrderFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         bundle.putString("sort", sort);
+        bundle.putInt("allow_trade",allowTrade);
 
         fundsOrderFragment.setArguments(bundle);
         return fundsOrderFragment;
@@ -79,6 +84,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         Bundle bundle = getArguments();
         type = bundle.getString("type");
         sort = bundle.getString("sort");
+        allowTrade = bundle.getInt("allow_trade");
 //        mListView.setDivider(null);
         loadData();
     }
