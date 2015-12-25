@@ -188,7 +188,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 holder = (ViewHolder)convertView.getTag();
             }
             MyFund myFund = myFunds.get(position);
-            holder.tv_fund_name.setText(myFund.getFund().getName());
+            holder.tv_fund_name.setText(myFund.getFund().getAbbr_name());
             double recentProfit = Double.parseDouble(myFund.getIncome_latest());
             if(recentProfit < 0){
                 holder.tv_recent_profit.setTextColor(getResources().getColor(R.color.green));
@@ -196,7 +196,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 holder.tv_recent_profit.setTextColor(getResources().getColor(R.color.red));
             }
             holder.tv_recent_profit.setText(myFund.getIncome_latest());
-            holder.tv_percent_new.setText(StringFromatUtils.get2PointPercent((float) myFund.getFund().getPercent_latest()));
+            holder.tv_percent_new.setText(StringFromatUtils.get2PointPercent((float) myFund.getFund().getPercent_day()));
             holder.tv_fund_value.setText(myFund.getWorth_value());
             holder.tv_total_profit.setText(myFund.getIncome_total());
             return convertView;

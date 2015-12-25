@@ -33,6 +33,7 @@ import com.dkhs.portfolio.bean.FundShare;
 import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.lidroid.xutils.BitmapUtils;
@@ -162,6 +163,35 @@ public class SellFundActivity extends ModelAcitivity {
         mBitmapUtils.display(iv_bank_logo, share.getBank().getLogo(), null, callBack);
 
     }
+    ParseHttpListener<Boolean> isTradePwdSetListener = new ParseHttpListener<Boolean>() {
+        @Override
+        protected Boolean parseDateTask(String jsonData) {
+            try {
+                JSONObject json = new JSONObject(jsonData);
+                if (json.has("status")) {
+                    return json.getBoolean("status");
+                }
+
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Boolean object) {
+            PromptManager.closeProgressDialog();
+            if (null != object) {
+                if (!object) {
+                    showSetTradePwdDialog();
+                }
+            }
+        }
+    };
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new TradeEngineImpl().isTradePasswordSet(isTradePwdSetListener.setLoadingDialog(this));
+    }
 
     @OnClick(R.id.rl_select_bank)
     private void onClick(View view){
@@ -173,6 +203,22 @@ public class SellFundActivity extends ModelAcitivity {
     private GridPasswordView gpv;
     private String password;
     private int count =2;
+    private void showSetTradePwdDialog() {
+        new MyAlertDialog(this).builder()
+                .setMsg(getResources().getString(R.string.first_trade_password_msg))
+                .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 1);
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        manualFinish();
+                    }
+                }).show();
+    }
     private void showTradePwdDialog(){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = (View) inflater.inflate(R.layout.layout_trade_password_dialog, null);
@@ -197,7 +243,6 @@ public class SellFundActivity extends ModelAcitivity {
 //                }
                 password = gpv.getPassWord();
                 gpvDialog.dismiss();
-                //TODO 请求购买基金
                 ParseHttpListener<Boolean> listener = new ParseHttpListener<Boolean>() {
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
@@ -213,6 +258,7 @@ public class SellFundActivity extends ModelAcitivity {
 
                     @Override
                     protected void afterParseData(Boolean object) {
+                        //TODO 请求卖出基金
                         PromptManager.showToast(object ? "卖出成功" : "卖出失败");
                     }
                 };

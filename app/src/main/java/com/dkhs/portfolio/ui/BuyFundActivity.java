@@ -36,6 +36,7 @@ import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -88,6 +89,8 @@ public class BuyFundActivity extends ModelAcitivity {
 
     @ViewInject(R.id.tv_buy_poundage)
     private TextView tv_buy_poundage;
+    @ViewInject(R.id.tv_add_bank_card)
+    private TextView tv_add_bank_card;
 
     private boolean isBankcardChoosed;
 
@@ -125,7 +128,11 @@ public class BuyFundActivity extends ModelAcitivity {
 
     @OnClick(R.id.rl_select_bank)
     private void onClick(View view) {
-        showSelectBankCardDialog();
+        if (myCards == null || myCards.size() == 0) {
+            startActivity(new Intent(mContext, BankCardNoActivity.class));
+        } else {
+            showSelectBankCardDialog();
+        }
     }
 
     private void initViews() {
@@ -140,16 +147,20 @@ public class BuyFundActivity extends ModelAcitivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s)) {
-                    double value = Double.parseDouble(s.toString());
-                    if (value < limitValue) {
-                        btn_buy.setEnabled(false);
-                    } else {
-                        value = value * mFund.getFare_ratio_buy() * 0.01 * mFund.getDiscount_rate_buy() * 0.01;
-                        BigDecimal decimal = new BigDecimal(value);
-                        value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
-                        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), String.valueOf(value)));
-                        btn_buy.setEnabled(isBankcardChoosed);
+                if (tv_add_bank_card.getVisibility() == View.VISIBLE) {
+                    btn_buy.setEnabled(false);
+                } else {
+                    if (!TextUtils.isEmpty(s)) {
+                        double value = Double.parseDouble(s.toString());
+                        if (value < limitValue) {
+                            btn_buy.setEnabled(false);
+                        } else {
+                            value = value * mFund.getFare_ratio_buy() * 0.01 * mFund.getDiscount_rate_buy() * 0.01;
+                            BigDecimal decimal = new BigDecimal(value);
+                            value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
+                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), String.valueOf(value)));
+                            btn_buy.setEnabled(isBankcardChoosed);
+                        }
                     }
                 }
             }
@@ -175,46 +186,75 @@ public class BuyFundActivity extends ModelAcitivity {
 
     private BitmapUtils mBitmapUtils;
     private List<MyBankCard> myCards = new ArrayList<MyBankCard>();
+    private TradeEngineImpl tradeEngine = new TradeEngineImpl();
+    ParseHttpListener<List<MyBankCard>> myCardsListener = new ParseHttpListener<List<MyBankCard>>() {
+        @Override
+        protected List<MyBankCard> parseDateTask(String jsonData) {
+            List<MyBankCard> myCards = null;
+            if (!TextUtils.isEmpty(jsonData)) {
+                try {
+                    jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+                    Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                    myCards = gson.fromJson(jsonData, new TypeToken<List<MyBankCard>>() {
+                    }.getType());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return myCards;
+        }
+
+        @Override
+        protected void afterParseData(List<MyBankCard> cards) {
+            if (cards != null && cards.size() > 0) {
+                tv_add_bank_card.setVisibility(View.GONE);
+                myCards = cards;
+                card = myCards.get(0);
+                curSelectCardId = card.getId();
+                Bank bank = myCards.get(0).getBank();
+                mBitmapUtils.display(iv_bank_logo, bank.getLogo(), null, callBack);
+                tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+                tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank), bank.getName(), myCards.get(0).getBank_card_no_tail()));
+                isBankcardChoosed = true;
+                if (!TextUtils.isEmpty(et_value.getText()) && Double.parseDouble(et_value.getText().toString()) >= limitValue)
+                    btn_buy.setEnabled(true);
+                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
+
+            } else {
+                tv_add_bank_card.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+    ParseHttpListener<Boolean> isTradePwdSetListener = new ParseHttpListener<Boolean>() {
+        @Override
+        protected Boolean parseDateTask(String jsonData) {
+            try {
+                JSONObject json = new JSONObject(jsonData);
+                if (json.has("status")) {
+                    return json.getBoolean("status");
+                }
+
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Boolean object) {
+            PromptManager.closeProgressDialog();
+            if (null != object) {
+                if (!object) {
+                    showSetTradePwdDialog();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onResume() {
         super.onResume();
-        //TODO 获取我的银行卡列表
-        ParseHttpListener<List<MyBankCard>> listener = new ParseHttpListener<List<MyBankCard>>() {
-            @Override
-            protected List<MyBankCard> parseDateTask(String jsonData) {
-                List<MyBankCard> myCards = null;
-                if (!TextUtils.isEmpty(jsonData)) {
-                    try {
-                        jsonData = StringDecodeUtil.decodeUnicode(jsonData);
-                        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                        myCards = gson.fromJson(jsonData, new TypeToken<List<MyBankCard>>() {
-                        }.getType());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                return myCards;
-            }
-
-            @Override
-            protected void afterParseData(List<MyBankCard> cards) {
-                if (cards != null && cards.size() > 0) {
-                    myCards = cards;
-                    card = myCards.get(0);
-                    curSelectCardId = card.getId();
-                    Bank bank = myCards.get(0).getBank();
-                    mBitmapUtils.display(iv_bank_logo, bank.getLogo(), null, callBack);
-                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
-                    tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank), bank.getName(), myCards.get(0).getBank_card_no_tail()));
-                    isBankcardChoosed = true;
-                    if (!TextUtils.isEmpty(et_value.getText()) && Double.parseDouble(et_value.getText().toString()) >= limitValue)
-                        btn_buy.setEnabled(true);
-                }
-            }
-        };
-
-        new TradeEngineImpl().getMyBankCards(listener.setLoadingDialog(mContext));
+        PromptManager.showProgressDialog(mContext, "");
+        tradeEngine.getMyBankCards(myCardsListener);
     }
 
     private Dialog gpvDialog;
@@ -222,6 +262,23 @@ public class BuyFundActivity extends ModelAcitivity {
     private GridPasswordView gpv;
     private String password;
     private int count = 2;
+
+    private void showSetTradePwdDialog() {
+        new MyAlertDialog(this).builder()
+                .setMsg(getResources().getString(R.string.first_trade_password_msg))
+                .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 1);
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        manualFinish();
+                    }
+                }).show();
+    }
 
     private void showTradePwdDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);

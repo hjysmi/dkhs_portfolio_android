@@ -9,7 +9,7 @@ public class Fund implements Serializable{
     private String id;
     private String name;
     private String abbr_name;
-    private double percent_latest;
+    private double percent_day;
     private String tradedate;
     private String net_value;
     private double fare_ratio_buy;
@@ -169,11 +169,11 @@ public class Fund implements Serializable{
         this.name = name;
     }
 
-    public double getPercent_latest() {
-        return percent_latest;
+    public double getPercent_day() {
+        return percent_day;
     }
 
-    public void setPercent_latest(double percent_latest) {
-        this.percent_latest = percent_latest;
+    public void setPercent_day(double percent_day) {
+        this.percent_day = percent_day;
     }
 }

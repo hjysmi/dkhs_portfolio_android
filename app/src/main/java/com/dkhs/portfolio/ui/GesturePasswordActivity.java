@@ -132,7 +132,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
             tv_reset.setVisibility(View.GONE);
             tv_forget.setVisibility(View.VISIBLE);
             if (curLayoutType == TYPE_OPEN_SETTING) {
-                setTitle(R.string.close_gesture_password);
+                setTitle(R.string.open_gesture_password);
             } else if (curLayoutType == TYPE_CLOSE_SETTING) {
                 setTitle(R.string.close_gesture_password);
             } else {
@@ -268,6 +268,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                         lockPatternView
                                 .setDisplayMode(LockPatternView.DisplayMode.Wrong);
                         lockPatternView.invalidate();
+                        lockPatternView.clearPattern();
                         if (gesPassword.leftCount == 0) {
                             tv_tip.setText(String.format(getResources().getString(R.string.blank_gesture_password_error), gesPassword.leftCount));
                             showErrorDialog();
@@ -314,6 +315,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                         .setDisplayMode(LockPatternView.DisplayMode.Wrong);
                 lockPatternView.invalidate();
                 tv_tip.setText(R.string.pls_reinput_gesture_password);
+                lockPatternView.clearPattern();
                 tv_tip.setTextColor(getResources().getColor(R.color.red));
                 tv_tip.startAnimation(animation);
             }
@@ -324,6 +326,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
 
     @Override
     public void onBackPressed() {
+        GlobalParams.needShowGesture = false;
         setResult(500);
         if(gesPassword.leftCount == 0){
             gesPassword.leftCount =1;
@@ -382,5 +385,9 @@ public class GesturePasswordActivity extends ModelAcitivity {
                 tv_tip.setText(R.string.pls_input_new_gesture_password);
             }
         }
+    }
+
+    @Override
+    public void onUserInteraction() {
     }
 }

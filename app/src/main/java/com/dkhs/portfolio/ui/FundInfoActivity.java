@@ -232,7 +232,7 @@ public class FundInfoActivity extends ModelAcitivity {
             if (type == TYPE_HEAD) {
                 holder1 = (ViewHolder1) convertView.getTag();
                 if (myFund != null) {
-                    holder1.tv_info_title.setText(myFund.getName() + "(" + myFund.getId() + ")");
+                    holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbr_name(),myFund.getId()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
                     holder1.tv_net_new.setText(myFund.getNet_value());
