@@ -87,8 +87,6 @@ public class FundInfoActivity extends ModelAcitivity {
     }
 //    GET /api/v1/funds/fund/fund_info/
 
-    private boolean canBuyMore;
-    private boolean canSellOut;
 
     public void loadData() {
         mSwipeLayout.setRefreshing(true);
@@ -115,14 +113,12 @@ public class FundInfoActivity extends ModelAcitivity {
                     bottom.setVisibility(View.VISIBLE);
                     Fund fund = mFundInfo.getFund();
 //                    if()R.color.person_setting_line
-                    canBuyMore = fund.isAllow_trade() && (fund.getTrade_status() == 0 || fund.getTrade_status() == 2);
-                    canSellOut = fund.isAllow_trade() && (fund.getTrade_status() == 0 || fund.getTrade_status() == 3);
-                    if (canBuyMore) {
+                    if (fund.isAllow_buy()) {
                         ll_buy_more.setBackgroundResource(R.drawable.bg_blue_gray_selector);
                     } else {
                         ll_buy_more.setBackgroundColor(getResources().getColor(R.color.person_setting_line));
                     }
-                    if (canSellOut) {
+                    if (fund.isAllow_sell()) {
                         ll_sell_out.setBackgroundResource(R.drawable.bg_white_gray_selector);
                     } else {
                         ll_sell_out.setBackgroundColor(getResources().getColor(R.color.person_setting_line));
@@ -138,9 +134,9 @@ public class FundInfoActivity extends ModelAcitivity {
 
     @OnClick({R.id.ll_buy_more, R.id.ll_sell_out})
     private void onClick(View view) {
-        if (view.getId() == R.id.ll_buy_more && canBuyMore) {
+        if (view.getId() == R.id.ll_buy_more && mFundInfo.getFund().isAllow_buy()) {
             startActivity(BuyFundActivity.buyIntent(mContext, mFundInfo));
-        } else if (view.getId() == R.id.ll_sell_out && canSellOut) {
+        } else if (view.getId() == R.id.ll_sell_out && mFundInfo.getFund().isAllow_buy()) {
             startActivity(SellFundActivity.sellIntent(mContext, mFundInfo));
 
         }
