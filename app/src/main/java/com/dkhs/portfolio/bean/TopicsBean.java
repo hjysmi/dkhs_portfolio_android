@@ -60,6 +60,7 @@ public class TopicsBean extends LikeBean {
 
     @Parcel
     public static class SymbolsBean {
+
         /**
          * id : 101000910
          * symbol : SH600651
@@ -77,6 +78,9 @@ public class TopicsBean extends LikeBean {
         public String year_yld;
         public String tenthou_unit_incm;
         public String list_status;
+        public int investment_risk;
+        public double amount_min_buy;
+        public double discount_rate_buy;
     }
 
     @Parcel
