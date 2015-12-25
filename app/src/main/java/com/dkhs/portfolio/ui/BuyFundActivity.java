@@ -404,7 +404,7 @@ public class BuyFundActivity extends ModelAcitivity {
                     Resources res = getResources();
                     tv.setBackgroundResource(R.drawable.btn_white_selector);
                     tv.setTextColor(res.getColor(R.color.black));
-                    tv.setTextSize(res.getDimension(R.dimen.widget_text_8sp));
+                    tv.setTextSize(res.getDimension(R.dimen.widget_text_6sp));
                     tv.setText(R.string.add_bank_card);
                     tv.setGravity(Gravity.CENTER);
                     AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT);
@@ -423,7 +423,7 @@ public class BuyFundActivity extends ModelAcitivity {
                 mBitmapUtils.display(holder.iv_bank_logo, bank.getLogo(), null, callBack);
 
                 holder.tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value),bank.getSingle_limit(),bank.getSingle_day_limit()));
-                holder.tv_bank_card_no_tail.setText(bank.getName()+"(" +bank.getBank_card_no_tail()+")");
+                holder.tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_limit_value),bank.getName(),myCards.get(position).getBank_card_no_tail()));
             }
             return convertView;
         }
