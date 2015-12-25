@@ -5,26 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
-import com.android.percent.PercentRelativeLayout;
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.bean.RecommendFundSpecialFinancingBean;
-import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
-import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -70,7 +63,7 @@ public class FundSpecialFinancingHandler extends SimpleItemHandler<RecommendFund
         String[] tags = item.getRecommend_desc().split(",");
         if(tags != null && tags.length == 3){
             vh.getTextView(R.id.tv_special_financing).setText(tags[0]);
-            vh.getTextView(R.id.tv_special_financing_percent).setText(tags[1]);
+            vh.getTextView(R.id.tv_special_financing_percent).setText(tags[1].trim());
             vh.getTextView(R.id.tv_special_financing_desc).setText(tags[2]);
         }
         vh.getTextView(R.id.tv_special_financing_title).setText(item.getRecommend_title());
