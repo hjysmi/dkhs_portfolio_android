@@ -109,6 +109,7 @@
     <dimen name="widget_margin_large">20dp</dimen>
     <dimen name="widget_margin_xlarge">30dp</dimen>
     <dimen name="widget_margin_xxlarge">40dp</dimen>
+    <dimen name="widget_text_6sp">6sp</dimen>
     <dimen name="widget_text_8sp">8sp</dimen>
     <dimen name="widget_text_10sp">10sp</dimen>
     <dimen name="widget_text_12sp">12sp</dimen>

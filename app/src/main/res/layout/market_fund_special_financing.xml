@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -27,7 +28,8 @@
             <ImageView
                 android:id="@+id/iv_special_financing"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                tools:background="@drawable/ic_user_head" />
 
             <TextView
                 android:id="@+id/tv_special_financing"
@@ -46,22 +48,26 @@
             android:layout_toRightOf="@id/rl_special_financing"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/widget_padding_medium">
+            app:layout_marginLeftPercent="2%w">
 
             <TextView
                 android:id="@+id/tv_special_financing_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="left"
                 android:textColor="@color/black"
-                app:layout_textSizePercent="20%h" />
+                app:layout_textSizePercent="24%h"
+                tools:text="text" />
 
             <TextView
                 android:id="@+id/tv_special_financing_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/widget_margin_small"
+                android:gravity="left|center_vertical"
                 android:textColor="@color/gray_textcolor"
-                app:layout_textSizePercent="14%h" />
+                app:layout_textSizePercent="18%h"
+                tools:text="text" />
         </com.android.percent.PercentLinearLayout>
 
         <TextView
@@ -74,12 +80,12 @@
             android:layout_toRightOf="@id/ll_special_financing"
             android:gravity="end"
             android:textColor="@color/fund_special_ads"
-            app:layout_textSizePercent="3.6%w" />
+            app:layout_textSizePercent="3.6%w"
+            tools:text="text" />
     </com.android.percent.PercentRelativeLayout>
 
     <View
         android:id="@+id/divider"
-        style="@style/divider_line"
-        />
+        style="@style/divider_line" />
 
 </com.android.percent.PercentLinearLayout>

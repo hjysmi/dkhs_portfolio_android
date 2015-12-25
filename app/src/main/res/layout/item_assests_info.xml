@@ -28,16 +28,14 @@
 
 
         <TextView
-            android:id="@+id/tv_unread_count"
+            android:id="@+id/tv_assests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@+id/image_detail"
-            android:background="@drawable/bg_un_read_count"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:visibility="gone" />
+            android:textColor="@color/gray_textcolor"
+            android:textSize="@dimen/widget_text_14sp" />
 
         <TextView
             android:id="@+id/tv_info_title"
@@ -54,11 +52,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/tv_infotitle"
+            android:layout_toRightOf="@id/tv_info_title"
             android:paddingLeft="4dp"
             android:textColor="@color/gray_textcolor"
             android:textSize="@dimen/setting_sub_text_name"
-            android:visibility="gone" />
+            android:text="sfshffh"
+            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>

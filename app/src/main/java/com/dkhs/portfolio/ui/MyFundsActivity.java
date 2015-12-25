@@ -17,6 +17,7 @@ import com.dkhs.portfolio.engine.MyFundsEngineImpl;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -195,7 +196,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 holder.tv_recent_profit.setTextColor(getResources().getColor(R.color.red));
             }
             holder.tv_recent_profit.setText(myFund.getIncome_latest());
-            holder.tv_percent_new.setText(myFund.getFund().getPercent_latest()+"%");
+            holder.tv_percent_new.setText(StringFromatUtils.get2PointPercent((float) myFund.getFund().getPercent_latest()));
             holder.tv_fund_value.setText(myFund.getWorth_value());
             holder.tv_total_profit.setText(myFund.getIncome_total());
             return convertView;

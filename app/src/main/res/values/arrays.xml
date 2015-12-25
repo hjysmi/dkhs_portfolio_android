@@ -233,6 +233,14 @@
         <item>@string/fund_year</item>
         <item>@string/fund_toyear</item>
     </string-array>
+    <string-array name="fund_profile_title_purchase">
+        <item>@string/fund_detail_purchasemethod</item>
+        <item>@string/trade_rate</item>
+        <item>@string/blank_buy_money</item>
+        <item>@string/redemption_arrival_time</item>
+        <item>@string/minimum_redemption_share</item>
+        <item>@string/investment_risk</item>
+    </string-array>
     <string-array name="fund_profile_title">
         <item>@string/fund_detail_name</item>
         <item>@string/fund_manager</item>
@@ -342,8 +350,8 @@
         <item>@string/my_bank_cards</item>
     </string-array>
     <integer-array name="ic_assest_ids">
-        <item>@drawable/ic_my_funds</item>
         <item>@drawable/ic_small_change</item>
+        <item>@drawable/ic_my_funds</item>
         <item>@drawable/ic_trade_record</item>
         <item>@drawable/ic_bank_cards</item>
     </integer-array>

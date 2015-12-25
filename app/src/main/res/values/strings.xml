@@ -408,7 +408,7 @@
     <string name="chuangye">创业板指</string>
     <string name="fund_market">基金超市</string>
     <string name="fund_manager_rank">基金经理排行</string>
-    <string name="fund_rank">收益率排行</string>
+    <string name="fund_rank">收益排行</string>
     <string name="look_at_all">查看全部</string>
     <string name="special_financing">专题理财</string>
     <string name="total_profit">总收益:</string>
@@ -459,7 +459,7 @@
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
     <string name="info_title_mytopic">我的主帖</string>
-    <string name="info_title_purse">我的钱包</string>
+    <string name="info_title_purse">我的零钱</string>
     <string name="info_title_mypost">我的话题</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
@@ -586,6 +586,9 @@
     <string name="pre_netvalue">前一净值</string>
     <string name="all_netvalue">累计净值</string>
 
+    <string name="investment_risk">投资风险</string>
+    <string name="minimum_redemption_share">最低赎回份额</string>
+    <string name="fund_detail_purchasemethod">收费方式</string>
     <string name="fund_detail_name">基金全称</string>
     <string name="fund_manager">基金经理</string>
     <string name="profit_rank">收益排行</string>
@@ -846,7 +849,9 @@
     <!--我的资产 start -->
     <string name="default_value">-</string>
     <string name="my_assets">我的资产</string>
-    <string name="total_assets">总资产(元)</string>
+    <string name="blank_total_assets">%1$s&#160;总资产(元)</string>
+    <string name="blank_funds_count">(%1$d支)</string>
+    <string name="blank_bank_cards_count">(%1$d张)</string>
     <string name="recent_profit">今日最新收益(元)</string>
     <string name="assest_total_profit">累计收益(元)</string>
     <string name="small_change">零钱</string>
@@ -902,6 +907,7 @@
     <string name="pls_rebind_bank_card">请重新绑定银行卡以找回密码</string>
     <string name="bind_card_fail">绑卡失败</string>
     <string name="blank_card_info">%1$s&#160;&#160;%2$s&#160;&#160;(%3$s)</string>
+    <string name="blank_bank">%1$s(尾号%2$s)</string>
     <string name="blank_bank_card">尾号%1$s</string>
     <string name="blank_hint_card_no">**%1$s(请输入完整卡号)</string>
     <string name="verify_password">验证登录密码</string>
@@ -927,6 +933,8 @@
     <string name="trade_record_list">近30笔交易</string>
     <string name="fund_update_time">交易日上午8点至11点更新,双休日及法定节假日无收益</string>
     <string name="buy_more">追加买入</string>
+    <string name="redemption_arrival_time">赎回到账时间</string>
+    <string name="blank_buy_money">起购金额</string>
     <string name="blank_buy_value">起购金额 %1$s元</string>
     <string name="blank_net_value">最新净值 %1$s</string>
     <string name="blank_fund_name">%1$s(%2$s)</string>

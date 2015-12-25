@@ -2,19 +2,21 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/person_setting_backgroud">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
         <com.dkhs.portfolio.ui.widget.PullToRefreshListView
             android:id="@+id/lv_reply"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:divider="@color/person_setting_backgroud"
+            android:headerDividersEnabled="true"
             android:footerDividersEnabled="false"
             android:dividerHeight="@dimen/divider_height" />
 

@@ -23,18 +23,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/default_head"
-            app:layout_heightPercent="15%w"
-            app:layout_marginBottomPercent="2%w"
-            app:layout_marginTopPercent="2%w"
-            app:layout_widthPercent="15%w" />
+            app:layout_heightPercent="13%w"
+            app:layout_marginBottomPercent="3%w"
+            app:layout_marginTopPercent="3.5%w"
+            app:layout_widthPercent="13%w"
+            />
 
         <com.android.percent.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_heightPercent="15%w"
-            app:layout_marginBottomPercent="2%w"
-            app:layout_marginLeftPercent="17%w"
-            app:layout_marginTopPercent="2%w">
+            app:layout_heightPercent="13%w"
+            app:layout_marginBottomPercent="3%w"
+            app:layout_marginLeftPercent="16%w"
+            app:layout_marginTopPercent="3%w">
 
             <View
                 android:id="@+id/padding_top"
@@ -57,12 +58,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:gravity="right|center_vertical"
+                android:gravity="right|top"
                 android:textColor="@color/tag_red"
                 app:layout_heightPercent="10%w"
-                app:layout_marginRightPercent="5%w"
-                app:layout_textSizePercent="8%w"
-                tools:text="110.08%" />
+                app:layout_marginRightPercent="3.7%w"
+                app:layout_textSizePercent="7%w"
+                tools:text="110.08%"
+                />
 
             <com.android.percent.PercentRelativeLayout
                 android:layout_width="match_parent"

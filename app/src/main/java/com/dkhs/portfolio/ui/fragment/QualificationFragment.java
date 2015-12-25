@@ -114,11 +114,42 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
-        initValues();
+        initValues(savedInstanceState);
         initAnimation();
         if (verificationBean != null) {
             updateProVerificationInfo(verificationBean);
         }
+    }
+
+    private static final String KEY_CODE = "key_code";
+    private static final String KEY_VER = "key_ver";
+    private static final String KEY_PIC = "key_pic";
+    private static final String KEY_ORGNAME = "key_orgname";
+    private static final String KEY_ORGId = "key_orgid";
+    private static final String KEY_NUM = "key_num";
+    private static final String KEY_CONTENT = "key_content";
+    private boolean isSavedInstanceState = false;
+    private String orgname = "";
+    private String content = "";
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_CODE, type);
+        outState.putParcelable(KEY_VER, Parcels.wrap(verificationBean));
+        outState.putParcelable(KEY_PIC, Parcels.wrap(mSelectPohotos));
+        if (null != et_num) {
+            outState.putString(KEY_NUM, et_num.getText().toString().trim());
+        }
+        if (null != tv_organization) {
+            outState.putString(KEY_ORGNAME, tv_organization.getText().toString().trim());
+        }
+        if (null != et_content) {
+            outState.putString(KEY_CONTENT, et_content.getText().toString().trim());
+        }
+
+        outState.putInt(KEY_ORGId, org_id);
+
     }
 
     private void updateProVerificationInfo(ProVerificationBean info) {
@@ -186,24 +217,34 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    private void initFooterBetter() {
+    private void initFooterBetter(boolean isSaved) {
         View footer = LayoutInflater.from(getActivity()).inflate(R.layout.layout_qualification_footer, null);
         ll_footer.removeAllViews();
         ll_footer.addView(footer);
         et_content = (EditText) footer.findViewById(R.id.et_content);
-        et_content.setText("");
-        mSelectPohotos.clear();
+        if (isSaved) {
+            et_content.setText(content);
+        } else {
+            et_content.setText("");
+        }
+        if (!isSaved) {
+            mSelectPohotos.clear();
+        } else {
+            mSelectPohotos.remove(ADD_PICTURE);
+        }
         mSelectPohotos.add(ADD_PICTURE);
         but_next.setEnabled(false);
         et_content.addTextChangedListener(et_content_textwatcher);
         gvSelectPic = (GridViewEx) footer.findViewById(R.id.gv_pic);
+
         mPicAdapter = new SelectQualificationAdapter(getActivity(), mSelectPohotos);
         gvSelectPic.isExpanded();
         gvSelectPic.setAdapter(mPicAdapter);
         mPicAdapter.setDeletePicListenr(this);
+        checkSendButtonEnable();
     }
 
-    private void initFooterOther() {
+    private void initFooterOther(boolean isSaved) {
         View footer_qita = LayoutInflater.from(getActivity()).inflate(R.layout.layout_qualification_footer_qita, null);
         but_next.setEnabled(false);
         ll_footer.removeAllViews();
@@ -218,6 +259,9 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         et_num.setPadding((int) (0.05 * width), 0, 0, 0);
         tv_organization.setPadding((int) (0.05 * width), 0, 0, 0);
         fm_organization.setOnClickListener(this);
+        if (isSaved) {
+            tv_organization.setText(orgname);
+        }
         et_num.setText(num);
     }
 
@@ -245,7 +289,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
     };
 
 
-    private void initValues() {
+    private void initValues(Bundle savedInstanceState) {
 
         list = new ArrayList<>();
         list_img = new ArrayList<>();
@@ -261,17 +305,30 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
         list_img.add(R.drawable.ic_qualification_fund);
         list_img.add(R.drawable.ic_qualification_investadvice);
         adapter = new QualificationAdapter(getActivity(), list);
-        Bundle arguments = getArguments();
-        type = arguments.getInt("type");
-        verificationBean = Parcels.unwrap(arguments.getParcelable(KEY_PROVERIFICATIONBEAN));
+        if (null == savedInstanceState) {
+            isSavedInstanceState = false;
+            Bundle arguments = getArguments();
+            type = arguments.getInt("type");
+            verificationBean = Parcels.unwrap(arguments.getParcelable(KEY_PROVERIFICATIONBEAN));
+        } else {
+            //销毁后再次打开
+            type = savedInstanceState.getInt(KEY_CODE, 0);
+            verificationBean = Parcels.unwrap(savedInstanceState.getParcelable(KEY_VER));
+            mSelectPohotos = Parcels.unwrap(savedInstanceState.getParcelable(KEY_PIC));
+            org_id = savedInstanceState.getInt(KEY_ORGId);
+            orgname = savedInstanceState.getString(KEY_ORGNAME);
+            num = savedInstanceState.getString(KEY_NUM);
+            content = savedInstanceState.getString(KEY_CONTENT);
+            isSavedInstanceState = true;
+        }
         selectedItemType = 0;
         tv_type.setText(list.get(type).getOrgName());
         selectedItemType = type;
         adapter.setSelectedPosition(type);
         if (type == 0) {
-            initFooterBetter();
+            initFooterBetter(isSavedInstanceState);
         } else {
-            initFooterOther();
+            initFooterOther(isSavedInstanceState);
         }
 
         gv.setAdapter(adapter);
@@ -294,13 +351,17 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
                     if (null != et_num) {
                         et_num.setText("");
                     }
-                    initFooterBetter();
+                    content = "";
+                    mSelectPohotos.clear();
+                    initFooterBetter(isSavedInstanceState);
                 } else {
                     //其他
                     if (null != et_num) {
                         num = et_num.getText().toString().trim();
                     }
-                    initFooterOther();
+                    orgname = "";
+                    org_id = 0;
+                    initFooterOther(isSavedInstanceState);
 
                 }
             }
@@ -549,7 +610,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
 
 
     private void checkSendButtonEnable() {
-        if(type == 0){
+        if (type == 0) {
             list_photos.clear();
             list_photos.addAll(mSelectPohotos);
             list_photos.remove(ADD_PICTURE);
@@ -559,7 +620,7 @@ public class QualificationFragment extends BaseFragment implements View.OnClickL
             } else {
                 but_next.setEnabled(false);
             }
-        }else{
+        } else {
             if (!TextUtils.isEmpty(et_num.getText().toString()) && !TextUtils.isEmpty(tv_organization.getText().toString())) {
                 but_next.setEnabled(true);
             } else {
