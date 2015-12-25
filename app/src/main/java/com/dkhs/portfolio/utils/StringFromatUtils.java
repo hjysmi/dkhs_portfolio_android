@@ -8,9 +8,11 @@
  */
 package com.dkhs.portfolio.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.common.Spanny;
 
 import java.io.UnsupportedEncodingException;
@@ -214,6 +216,15 @@ public class StringFromatUtils {
             return new Spanny().append("--", new ForegroundColorSpan(ColorTemplate.DEF_GRAY));
         }
 
+    }
+
+    public static String getDiscount(double discount,Context context){
+        if(discount == 0){
+            return context.getString(R.string.fund_free);
+        }else{
+            String discountStr = new DecimalFormat("######0.00").format(discount*10);
+            return String.format(context.getString(R.string.fund_discount_format),discountStr);
+        }
     }
 
 
