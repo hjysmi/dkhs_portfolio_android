@@ -3,10 +3,14 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.Fund;
 import com.dkhs.portfolio.bean.FundTradeInfo;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyFundsEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -32,6 +36,8 @@ public class BuyFundInfoActivity extends ModelAcitivity {
     private TextView tv_trade_no;
     @ViewInject(R.id.tv_trade_rate)
     private TextView tv_trade_rate;
+    @ViewInject(R.id.rl_fund_info)
+    private RelativeLayout rl_fund_info;
 
     private static String TRADE_ID = "trade_id";
     private String trade_id;
@@ -47,9 +53,15 @@ public class BuyFundInfoActivity extends ModelAcitivity {
         setContentView(R.layout.activity_buy_fund_info);
         ViewUtils.inject(this);
         setTitle(R.string.buy_fund_info);
+        rl_fund_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(mFund)));
+            }
+        });
         initData();
     }
-
+    private Fund mFund;
     private void initData() {
         ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
             @Override
@@ -67,6 +79,7 @@ public class BuyFundInfoActivity extends ModelAcitivity {
             @Override
             protected void afterParseData(FundTradeInfo info) {
                 if(info != null){
+                    mFund = info.getFund();;
                     tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name),info.getFund().getAbbr_name(),info.getFund().getId()));
                     tv_trade_no.setText(info.getAllot_no());
                     tv_trade_time.setText(TimeUtils.getDaySecondString(info.getApply_date()));

@@ -68,11 +68,17 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
 
     private String type;
     private String sort;
+    private int allowTrade;
 
 
     public HttpHandler loadDate(String type, String sort) {
+        return this.loadDate(type,sort,0);
+    }
+
+    public HttpHandler loadDate(String type, String sort,int allowTrade) {
         this.type = type;
         this.sort = sort;
+        this.allowTrade = allowTrade;
         return loadData();
     }
 
@@ -84,6 +90,7 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("sort", sort);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
         params.addQueryStringParameter("page_size", pageSize + "");
+        params.addQueryStringParameter("allow_trade",String.valueOf(allowTrade));
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
     }
 
@@ -96,6 +103,7 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("sort", sort);
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
+        params.addQueryStringParameter("allow_trade",String.valueOf(allowTrade));
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }

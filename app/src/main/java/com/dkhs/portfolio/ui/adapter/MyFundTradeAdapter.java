@@ -58,8 +58,10 @@ public class MyFundTradeAdapter extends BaseAdapter{
         holder.tv_trade_value.setText(String.format(context.getResources().getString(R.string.blank_dollar),tradeBean.getAmount()));
         if(tradeBean.getStatus() == 0){
             holder.tv_trade_status.setText("委托成功");
-        }else{
+        }else if(tradeBean.getStatus() == 1){
             holder.tv_trade_status.setText("交易成功");
+        }else if(tradeBean.getStatus() == 2){
+            holder.tv_trade_status.setText("交易失败");
         }
         return convertView;
     }

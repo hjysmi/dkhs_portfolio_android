@@ -107,8 +107,7 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
                 Resources res = getResources();
                 tv.setBackgroundResource(R.drawable.bg_white_gray_selector);
                 tv.setTextColor(res.getColor(R.color.black));
-                tv.setTextSize(res.getDimension(R.dimen.widget_text_8sp));
-                tv.setText(String.format(getResources().getString(R.string.blank_card_info), "兴业银行", "储蓄卡", 1248));
+                tv.setTextSize(res.getDimension(R.dimen.widget_text_6sp));
                 AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT);
                 try{
                     tv.setPadding(res.getDimensionPixelOffset(R.dimen.widget_padding_medium), res.getDimensionPixelOffset(R.dimen.widget_padding_medium), 0 , res.getDimensionPixelOffset(R.dimen.widget_padding_medium));

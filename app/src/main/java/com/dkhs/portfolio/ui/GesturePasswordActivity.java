@@ -196,6 +196,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                 gesturePassword = null;
                 tv_tip.setText(R.string.pls_input_new_gesture_password);
                 tv_tip.setTextColor(getResources().getColor(R.color.black));
+                lockPatternView.clearPattern();
                 break;
         }
     }
@@ -327,7 +328,9 @@ public class GesturePasswordActivity extends ModelAcitivity {
         if(gesPassword.leftCount == 0){
             gesPassword.leftCount =1;
         }
-        GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
+        if(curLayoutType != TYPE_FIRST_SET_PASSWORD){
+            GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
+        }
         super.onBackPressed();
     }
 
