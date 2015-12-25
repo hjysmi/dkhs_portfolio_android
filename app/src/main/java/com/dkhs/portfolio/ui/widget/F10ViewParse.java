@@ -291,7 +291,10 @@ public class F10ViewParse {
             if (rowIndex == 1) {
                 tvPrice.setVisibility(View.VISIBLE);
                 tvPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
-                tvPrice.setText("1.6%");
+                if (null != fundQuoteBean) {
+                    tvPrice.setText(String.valueOf(fundQuoteBean.getFare_ratio_buy()));
+                }
+
             } else {
                 tvPrice.setVisibility(View.GONE);
             }
@@ -317,8 +320,10 @@ public class F10ViewParse {
             break;
             case 1:
                 //申购费率
-                //   rowText = String.valueOf(fundQuoteBean.getFare_ratio_buy());
-                rowText = "0.5%";
+                if (null != fundQuoteBean) {
+                    rowText = String.valueOf(fundQuoteBean.getDiscount_rate_buy());
+                }
+                //  rowText = "0.5%";
                 break;
             case 2:
                 //起购金额
@@ -330,14 +335,46 @@ public class F10ViewParse {
                 break;
             case 4: {
                 //shares_min最低赎回份额
-                rowText = "";
+                if (null != fundQuoteBean) {
+                    rowText = String.valueOf(fundQuoteBean.getShares_min_sell());
+                }
+
             }
             break;
             case 5: {
-                rowText = fundQuoteBean.getInvestment_risk();
+                rowText = getRiskValue(fundQuoteBean.getInvestment_risk());
             }
             break;
         }
         return rowText;
     }
+
+    private String getRiskValue(int index) {
+
+        switch (index) {
+            case TYPE_RISK_UNKNOWN:
+                return "未知";
+            case TYPE_RISK_LOW:
+                return "低";
+            case TYPE_RISK_LOW_MIDDLE:
+                return "中低";
+            case TYPE_RISK_MIDDLE:
+                return "中";
+            case TYPE_RISK_MIDDLE_HIGH:
+                return "中高";
+            case TYPE_RISK_HIGH:
+                return "高";
+            default:
+
+        }
+        return "未知";
+    }
+
+    public static final int TYPE_RISK_UNKNOWN = 0;//未知
+    public static final int TYPE_RISK_LOW = 1;//风险低
+    public static final int TYPE_RISK_LOW_MIDDLE = 2;//风险中低
+    public static final int TYPE_RISK_MIDDLE = 3;//风险中
+    public static final int TYPE_RISK_MIDDLE_HIGH = 4;//风险中高
+    public static final int TYPE_RISK_HIGH = 5;//风险高
+
 }

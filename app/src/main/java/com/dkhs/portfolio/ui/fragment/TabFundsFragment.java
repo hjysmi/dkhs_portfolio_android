@@ -27,6 +27,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.UpdateSelectStockEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -171,6 +172,8 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     }
 
+
+
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
@@ -189,6 +192,16 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
+    @Subscribe
+    public void updateData(UpdateSelectStockEvent event){
+        if(event == null || loadDataListFragment == null)
+            return;
+        if(event.type == UpdateSelectStockEvent.ADD_TYPE){
+            loadDataListFragment.addData(event.selectStockBean);
+        }else if(event.type == UpdateSelectStockEvent.DEL_TYPE){
+            loadDataListFragment.removeData(event.selectStockBean);
+        }
+    }
 
     @Override
     public void onStart() {
@@ -359,7 +372,6 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         updateHandler.removeCallbacks(updateRunnable);
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         // MobclickAgent.onPause(this);
-        BusProvider.getInstance().unregister(this);
     }
 
     @Subscribe
@@ -437,4 +449,9 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         return Collections.EMPTY_LIST;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
+    }
 }

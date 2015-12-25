@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.mobstat.StatService;
@@ -91,9 +92,11 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private TabPageIndicator mPageIndicator;
     @ViewInject(R.id.rl_fund_type)
     private View mFundTypeView;
+    @ViewInject(R.id.iv_fund_sorts_mask)
+    private ImageView mMaskIv;
     private LinkedList<MenuBean> sorts;
     private String mFundType;
-    private int allowTrade = SHOW_ALL;
+    private int allowTrade = SHOW_ONLY_ALLOW_TRADE;
 
     private static int defaultIndex = 1;//默认显示周战斗指数
 
@@ -158,8 +161,12 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
         fragments = new ArrayList<>();
         mPager.setOffscreenPageLimit(CACHE_NUM);
         if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0) {
+            mFundTypeView.setVisibility(View.GONE);
+            mMaskIv.setBackgroundResource(R.drawable.ic_manager_sorts_mask);
             replaceWithManager(defaultIndex);
         } else {
+            mFundTypeView.setVisibility(View.VISIBLE);
+            mMaskIv.setBackgroundResource(R.drawable.ic_fund_sorts_mask);
             replaceWithNonZeroRateFund(defaultIndex);
         }
     }
@@ -192,7 +199,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private void replaceWithZeroRateFund(int defaultIndex) {
         fragments.clear();
         for (int i = 0; i < zeroTitles.length; i++) {
-            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), zeroFundSorts[i]);
+            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), zeroFundSorts[i],allowTrade);
             fragments.add(fg);
         }
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, zeroTitles);
@@ -205,7 +212,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private void replaceWithNonZeroRateFund(int defaultIndex) {
         fragments.clear();
         for (int i = 0; i < nonZeroTitles.length; i++) {
-            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i]);
+            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i],allowTrade);
             fragments.add(fg);
         }
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, nonZeroTitles);
@@ -355,7 +362,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
              (307, '理财型','lc'),
              */
             if (TextUtils.isEmpty(mFundType) || isSameSort(mFundType, menuBean.getValue())) {
-                switchFundType(mPager.getCurrentItem(), menuBean.getValue(), menuBean.getAllowTrade());
+                switchFundType(mPager.getCurrentItem(), menuBean.getValue(), MenuBean.allowTrade);
             } else if (StockUitls.isSepFund(type.getCode())) {
                 replaceWithZeroRateFund(DEFAULT_INDEX);
                 mFundType = menuBean.getValue();
@@ -425,7 +432,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             getChildFragmentManager().beginTransaction().detach(fundManagerRankingsFragment).commitAllowingStateLoss();
         }
         if (loadDataListFragment == null) {
-            loadDataListFragment = FundOrderFragment.newInstant(type, mSort);
+            loadDataListFragment = FundOrderFragment.newInstant(type, mSort,allowTrade);
             getChildFragmentManager().beginTransaction().add(R.id.view_datalist, loadDataListFragment, "loadDataListFragment").commitAllowingStateLoss();
         } else {
             getChildFragmentManager().beginTransaction().attach(loadDataListFragment).commitAllowingStateLoss();

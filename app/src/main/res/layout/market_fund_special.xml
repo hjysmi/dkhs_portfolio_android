@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.android.percent.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/combin_horSpacing"
         android:background="@color/person_setting_backgroud" />
+
     <com.android.percent.PercentFrameLayout
         android:id="@+id/fl_sepcial_feature"
         android:layout_width="wrap_content"
@@ -24,11 +27,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#f3ffffff" />
+
         <com.android.percent.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/transparency_gray_selector"
-            />
+            android:background="@drawable/transparency_gray_selector" />
 
         <com.android.percent.PercentLinearLayout
             android:layout_width="wrap_content"
@@ -45,16 +48,18 @@
                 android:id="@+id/tv_special"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
                 android:ellipsize="end"
+                android:singleLine="true"
                 android:textColor="@color/fund_special_green"
-                app:layout_textSizePercent="6.25%w" />
+                app:layout_textSizePercent="6.25%w"
+                tools:text="text" />
 
             <com.android.percent.PercentLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                app:layout_marginBottomPercent="3.44%"
                 app:layout_marginTopPercent="3.44%">
 
                 <TextView
@@ -62,7 +67,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/fund_special_green"
-                    app:layout_textSizePercent="4.4%w" />
+                    app:layout_textSizePercent="4.4%w"
+                    tools:text="text" />
 
                 <TextView
                     android:id="@+id/tv_special_percent"
@@ -70,7 +76,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/fund_special_green"
                     app:layout_marginLeftPercent="2%"
-                    app:layout_textSizePercent="5%w" />
+                    app:layout_textSizePercent="5%w"
+                    tools:text="text" />
             </com.android.percent.PercentLinearLayout>
 
             <com.android.percent.PercentLinearLayout

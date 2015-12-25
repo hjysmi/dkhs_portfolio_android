@@ -1142,4 +1142,9 @@
     <string name="prompt_introduction">请输入您的简介（200字以内）</string>
 
     <string name="format_win_rate_week">跑赢大盘:%1$s</string>
+
+    <string name="fund_discount">费率:</string>
+    <string name="amount_min_buy">起购金额(元)</string>
+    <string name="fund_free">免费</string>
+    <string name="fund_discount_format">%1$s折</string>
 </resources>

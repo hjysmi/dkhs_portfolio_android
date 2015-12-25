@@ -142,7 +142,7 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                 mBtntitletableft.setVisibility(View.GONE);
                 break;
                 case TYPE_FUND_MANAGER_RANKING_WEEK:
-                    mBtnrefresh.setVisibility(View.VISIBLE);
+                    mBtnrefresh.setVisibility(View.GONE);
                     mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                             null, null, null);
                     fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
