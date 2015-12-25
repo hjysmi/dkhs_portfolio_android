@@ -152,7 +152,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         }
     }
 
-    private void addTab(int index, CharSequence text, int iconResId) {
+    private void addTab(int index, CharSequence text, int iconResId, boolean isLast) {
         final TabView tabView = new TabView(getContext());
         tabView.mIndex = index;
         tabView.setFocusable(true);
@@ -166,6 +166,11 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
         }
 
         mTabLayout.addView(tabView, new LinearLayout.LayoutParams(0, MATCH_PARENT, 1));
+        if(isLast){
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tabView.getLayoutParams();
+            lp.setMargins(0,0,50,0);
+            tabView.setLayoutParams(lp);
+        }
     }
 
     @Override
@@ -225,7 +230,11 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             // if (iconAdapter != null) {
             // iconResId = iconAdapter.getIconResId(i);
             // }
-            addTab(i, title, iconResId);
+            if(i == count - 1){
+                addTab(i, title, iconResId,true);
+            }else{
+                addTab(i, title, iconResId,false);
+            }
         }
         if (mSelectedTabIndex > count) {
             mSelectedTabIndex = count - 1;

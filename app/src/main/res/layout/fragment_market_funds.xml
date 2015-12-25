@@ -14,11 +14,23 @@
         android:paddingLeft="0dp"
         android:paddingRight="0dp">
 
-        <com.dkhs.portfolio.ui.widget.TabPageIndicator
-            android:id="@+id/indicator"
+        <FrameLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <com.dkhs.portfolio.ui.widget.TabPageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/iv_fund_sorts_mask"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="@drawable/ic_fund_sorts_mask" />
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/rl_fund_type"
@@ -26,6 +38,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:paddingLeft="10dp">
+
 
             <TextView
                 android:id="@+id/tv_fund_type"
@@ -41,12 +54,17 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <View
+        android:id="@+id/view_divider"
+        style="@style/divider_line"
+        android:layout_below="@id/view_stock_title"/>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view_stock_title" />
+        android:layout_below="@+id/view_divider" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/rl_menu"
