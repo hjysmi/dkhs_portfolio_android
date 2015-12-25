@@ -125,7 +125,7 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 floatMenuAdapter.setSelectIndex(data2.get(position));
                 floatMenuAdapter2.setSelectIndex(data2.get(position));
-                selectItem=data2.get(position);
+                selectItem = data2.get(position);
                 notifyDataSetChanged();
                 BusProvider.getInstance().post(selectItem);
                 recyclerView.postDelayed(new Runnable() {
@@ -138,10 +138,11 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
         });
         recyclerView2.setAdapter(floatMenuAdapter2);
         switchCompat = (SwitchCompat) view.findViewById(R.id.sw_fund_can_buy);
+        switchCompat.setChecked(allowTrade == MarketFundsFragment.SHOW_ONLY_ALLOW_TRADE);
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                selectItem.setAllowTrade(isChecked ? MarketFundsFragment.SHOW_ONLY_ALLOW_TRADE : MarketFundsFragment.SHOW_ALL);
+                MenuBean.allowTrade = (isChecked ? MarketFundsFragment.SHOW_ONLY_ALLOW_TRADE : MarketFundsFragment.SHOW_ALL);
                 BusProvider.getInstance().post(selectItem);
                 recyclerView.postDelayed(new Runnable() {
                     @Override
@@ -191,6 +192,7 @@ public class MultiChooserRelativeLayout extends RelativeLayout {
     }
 
     public void setAllowTrade(int allowTrade){
+        MenuBean.allowTrade = allowTrade;
         this.allowTrade = allowTrade;
     }
 
