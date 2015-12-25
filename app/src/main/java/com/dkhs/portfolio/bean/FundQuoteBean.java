@@ -231,11 +231,13 @@ public class FundQuoteBean extends QuotesBean {
         this.end_shares = end_shares;
     }
 
-    String investment_risk;
+    int investment_risk;
     String amount_min;
     String shares_min;
     double fare_ratio_buy;
     double discount_rate_buy;
+    String shares_min_sell;
+    String amount_min_buy;
 //    基金状态判断：
 //    allow_trade是否代销
 //    trade_status 基金状态
@@ -243,6 +245,22 @@ public class FundQuoteBean extends QuotesBean {
 //    判断可以赎回：allow_trade==True and (trade_status ==0 or trade_status==3)
     boolean allow_trade;
     int trade_status;
+
+    public String getAmount_min_buy() {
+        return amount_min_buy;
+    }
+
+    public void setAmount_min_buy(String amount_min_buy) {
+        this.amount_min_buy = amount_min_buy;
+    }
+
+    public String getShares_min_sell() {
+        return shares_min_sell;
+    }
+
+    public void setShares_min_sell(String shares_min_sell) {
+        this.shares_min_sell = shares_min_sell;
+    }
 
     public int getTrade_status() {
         return trade_status;
@@ -252,11 +270,11 @@ public class FundQuoteBean extends QuotesBean {
         this.trade_status = trade_status;
     }
 
-    public String getInvestment_risk() {
+    public int getInvestment_risk() {
         return investment_risk;
     }
 
-    public void setInvestment_risk(String investment_risk) {
+    public void setInvestment_risk(int investment_risk) {
         this.investment_risk = investment_risk;
     }
 

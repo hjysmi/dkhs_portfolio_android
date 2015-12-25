@@ -74,12 +74,15 @@ public class FundProfileFragment extends BaseFragment {
     private void initView(View view) {
         LinearLayout mContentView = (LinearLayout) view.findViewById(R.id.proflie_content);
         mContentView.removeAllViews();
-        View profileView_purchase = new F10ViewParse(mContext).parseFundProfileViewPurchase(mFundQuoteBean);
-        mContentView.addView(profileView_purchase);
+        if(null!=mFundQuoteBean&&mFundQuoteBean.isAllow_trade()){
+            //代销的基金展示购买须知
+            View profileView_purchase = new F10ViewParse(mContext).parseFundProfileViewPurchase(mFundQuoteBean);
+            mContentView.addView(profileView_purchase);
+        }
+
         View profileView = new F10ViewParse(mContext).parseFundProfileView(mFundQuoteBean);
         mContentView.addView(profileView);
 
     }
-
 
 }
