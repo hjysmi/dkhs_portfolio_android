@@ -14,14 +14,13 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.FundDetailActivity;
+import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.util.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.dkhs.portfolio.bean.TopicsBean.SymbolsBean.getInvestRiskByType;
 
 /**
  * @author zwm
@@ -100,8 +99,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
         sh300TV.setText(R.string.amount_min_buy);
         shMarketTV.setText(R.string.investment_risk);
         shRateTV.setText(String.valueOf(data.amount_min_buy));
-        String[] levels = vh.getContext().getResources().getStringArray(R.array.levels_investment_risk);
-        shMarketRateTV.setText(getInvestRiskByType(data.investment_risk,levels));
+        shMarketRateTV.setText(FundUtils.getInvestRiskByType(data.investment_risk,vh.getContext()));
         if (StockUitls.isSepFund(data.symbol_stype)) {
             vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.year_yld));
             setText(vh.getTextView(R.id.cp_rate), Double.valueOf(data.year_yld));

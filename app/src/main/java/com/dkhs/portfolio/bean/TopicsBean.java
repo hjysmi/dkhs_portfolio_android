@@ -60,37 +60,6 @@ public class TopicsBean extends LikeBean {
 
     @Parcel
     public static class SymbolsBean {
-        private static final int LEVEL_UNKNOWN = 0;
-        private static final int LEVEL_LOW = 1;
-        private static final int LEVEL_MEDIUM_LOW = 2;
-        private static final int LEVEL_MEDIUM = 3;
-        private static final int LEVEL_MEDIUM_HIGH = 4;
-        private static final int LEVEL_HIGH = 5;
-        public static String getInvestRiskByType(int type ,String [] levels){
-            String inverstRisk = "";
-            switch (type){
-                case LEVEL_UNKNOWN:
-                    inverstRisk = levels[0];
-                    break;
-                case LEVEL_LOW:
-                    inverstRisk = levels[1];
-                    break;
-                case LEVEL_MEDIUM_LOW:
-                    inverstRisk = levels[2];
-                    break;
-                case LEVEL_MEDIUM:
-                    inverstRisk = levels[3];
-                    break;
-                case LEVEL_MEDIUM_HIGH:
-                    inverstRisk = levels[4];
-                    break;
-                case LEVEL_HIGH:
-                    inverstRisk = levels[5];
-                    break;
-            }
-            return inverstRisk;
-        }
-
 
         /**
          * id : 101000910
