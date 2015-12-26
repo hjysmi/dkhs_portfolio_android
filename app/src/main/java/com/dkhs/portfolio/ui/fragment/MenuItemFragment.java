@@ -21,6 +21,7 @@ import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.LockMenuEvent;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.eventbus.UnLockMenuEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.AnimationHelper;
@@ -163,6 +164,10 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     }
 
     public void clickTab(int clickId) {
+        if(mIndex == clickId){
+            BusProvider.getInstance().post(new TopEvent());
+            return;
+        }
         mIndex = clickId;
         if (btnTab1 == null) {
             return;
@@ -203,16 +208,16 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     }
 
     private void setViewDefStatus() {
-        btnTab1.setEnabled(true);
-        btnTab2.setEnabled(true);
-        btnTab3.setEnabled(true);
-        btnTab4.setEnabled(true);
-        btnTab5.setEnabled(true);
-        tabLayout1.setEnabled(true);
-        tabLayout2.setEnabled(true);
-        tabLayout3.setEnabled(true);
-        tabLayout4.setEnabled(true);
-        tabLayout5.setEnabled(true);
+        btnTab1.setSelected(false);
+        btnTab2.setSelected(false);
+        btnTab3.setSelected(false);
+        btnTab4.setSelected(false);
+        btnTab5.setSelected(false);
+        tabLayout1.setSelected(false);
+        tabLayout2.setSelected(false);
+        tabLayout3.setSelected(false);
+        tabLayout4.setSelected(false);
+        tabLayout5.setSelected(false);
         ColorStateList cls = getResources().getColorStateList(R.color.tab_default);
         tvTab1.setTextColor(cls);
         tvTab2.setTextColor(cls);
@@ -222,7 +227,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     }
 
     private void setSelectView(View rButton) {
-        rButton.setEnabled(false);
+        rButton.setSelected(true);
     }
 
     @Subscribe
