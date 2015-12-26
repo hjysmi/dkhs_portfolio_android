@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
@@ -14,12 +15,15 @@ import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.BuyFundActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +76,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
     }
 
     @Override
-    public void onBindView(ViewHolder vh, FundQuoteBean data, int position) {
+    public void onBindView(ViewHolder vh, final FundQuoteBean data, int position) {
         vh.setTextView(R.id.symbol, map.get(data.getSymbol_stype() + ""));
 
         vh.setTextView(R.id.rateTV, mContext.getString(R.string.percent_six_month));
@@ -122,6 +126,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             ll_tags.setVisibility(View.VISIBLE);
             String[] tags = data.getRecommend_desc().split(",");
             if(tags != null && tags.length > 0){
+                tags = Arrays.copyOfRange(tags,0,5);
                 for(String tag : tags){
                     if(TextUtils.isEmpty(tag))
                         break;
@@ -142,7 +147,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             buyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LogUtils.d("wys","buy");
+                    UIUtils.startAnimationActivity((Activity) mContext, BuyFundActivity.buyIntent(mContext,data));
                 }
             });
         }else{

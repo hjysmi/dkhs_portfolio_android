@@ -234,12 +234,12 @@ public class FundQuoteBean extends QuotesBean {
 
     int investment_risk;
     String shares_min;
-    double fare_ratio_buy;
-    double discount_rate_buy;
-    String amount_min_buy;
-    String amount_max_buy;
+    double amount_min_buy;
+    double amount_max_buy;
     boolean allow_buy;
+    boolean allow_sell;
     String shares_min_sell;
+    String shares_max_sell;
     boolean allow_trade;
     int trade_status;
     double fare_ratio_buy;
@@ -335,11 +335,11 @@ public class FundQuoteBean extends QuotesBean {
         this.trade_status = trade_status;
     }
 
-    public String getAmount_max_buy() {
+    public double getAmount_max_buy() {
         return amount_max_buy;
     }
 
-    public void setAmount_max_buy(String amount_max_buy) {
+    public void setAmount_max_buy(double amount_max_buy) {
         this.amount_max_buy = amount_max_buy;
     }
 

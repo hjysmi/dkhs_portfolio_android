@@ -178,6 +178,7 @@
     <string name="verify_code">验证码</string>
     <string name="hint_verify_code">请输入验证码</string>
     <string name="get_code">获取验证码</string>
+    <string name="blank_get_code">重新发送(%1$d)s</string>
     <string name="getting_code">获取验证码...</string>
     <string name="get_code_fail">获取验证码失败</string>
     <string name="get_code_success">获取验证码成功</string>
@@ -936,7 +937,7 @@
     <string name="redemption_arrival_time">赎回到账时间</string>
     <string name="blank_buy_money">起购金额</string>
     <string name="blank_buy_value">起购金额 %1$s元</string>
-    <string name="blank_net_value">最新净值 %1$s</string>
+    <string name="blank_net_value">最新净值 %1$f</string>
     <string name="blank_fund_name">%1$s(%2$s)</string>
     <string name="blank_bank_card">%1$s(%2$s)</string>
     <string name="blank_limit_value">单笔限额%1$s元，每日限额%2$s元</string>

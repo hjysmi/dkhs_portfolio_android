@@ -325,6 +325,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
             // TODO 管理银行卡
             PromptManager.showToast("绑定成功");
         } else if (requestCode == 100 && resultCode == 500) {
+            GlobalParams.needShowGesture = true;
             manualFinish();
         }
     }

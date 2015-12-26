@@ -81,13 +81,14 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
     /**
      * post身份认证
      */
-    public void verifyIdentityAuth(String bank, String bank_card_no, String real_name, String id_card_no, String mobile, IHttpListener listener){
+    public void verifyIdentityAuth(String bank, String bank_card_no, String real_name, String id_card_no, String mobile, String captcha, IHttpListener listener){
         RequestParams params = new RequestParams();
         params.addBodyParameter("bank", bank);
         params.addBodyParameter("bank_card_no", bank_card_no);
         params.addBodyParameter("real_name", real_name);
         params.addBodyParameter("id_card_no", id_card_no);
         params.addBodyParameter("mobile", mobile);
+        params.addBodyParameter("captcha", captcha);
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.verify_identy, params,listener);
     }
 
