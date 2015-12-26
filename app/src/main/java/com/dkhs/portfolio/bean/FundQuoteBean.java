@@ -71,14 +71,6 @@ public class FundQuoteBean extends QuotesBean {
     String end_shares;
     String recommend_desc;
 
-    public String getAmount_min() {
-        return amount_min;
-    }
-
-    public void setAmount_min(String amount_min) {
-        this.amount_min = amount_min;
-    }
-
     public double getAmount_min_buy() {
         return amount_min_buy;
     }
@@ -245,7 +237,6 @@ public class FundQuoteBean extends QuotesBean {
     }
 
     int investment_risk;
-    String amount_min;
     String shares_min;
 //    基金状态判断：
 //    allow_trade是否代销
