@@ -199,7 +199,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private void replaceWithZeroRateFund(int defaultIndex) {
         fragments.clear();
         for (int i = 0; i < zeroTitles.length; i++) {
-            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), zeroFundSorts[i],allowTrade);
+            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), zeroFundSorts[i],allowTrade,curType.ordinal());
             fragments.add(fg);
         }
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, zeroTitles);
@@ -211,8 +211,9 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     private void replaceWithNonZeroRateFund(int defaultIndex) {
         fragments.clear();
+
         for (int i = 0; i < nonZeroTitles.length; i++) {
-            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i],allowTrade);
+            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i],allowTrade,curType.ordinal());
             fragments.add(fg);
         }
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, nonZeroTitles);
@@ -284,6 +285,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
                 defaultIndex = FUNDS_INDEX_MONTH;
                 fundTypeMenuChooserL.setFundsMixedRanking();
                 break;
+
         }
     }
 
