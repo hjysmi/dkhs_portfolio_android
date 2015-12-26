@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.Fund;
+import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.FundTradeInfo;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyFundsEngineImpl;
@@ -62,7 +62,7 @@ public class SellFundInfoActivity extends ModelAcitivity {
         });
         initData();
     }
-    private Fund mFund;
+    private FundQuoteBean mFund;
     private void initData() {
         ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
             @Override
@@ -80,8 +80,8 @@ public class SellFundInfoActivity extends ModelAcitivity {
             @Override
             protected void afterParseData(FundTradeInfo info) {
                 if(info != null){
-                    mFund = info.getFund();;
-                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name),info.getFund().getAbbr_name(),info.getFund().getId()));
+                    mFund = info.getFund();
+                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name),info.getFund().getAbbrName(),info.getFund().getId()));
                     tv_trade_no.setText(info.getAllot_no());
                     tv_trade_time.setText(TimeUtils.getDaySecondString(info.getApply_date()));
                     tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar),info.getAmount()));

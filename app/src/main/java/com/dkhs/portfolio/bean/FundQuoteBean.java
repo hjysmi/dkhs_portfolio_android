@@ -236,12 +236,48 @@ public class FundQuoteBean extends QuotesBean {
     String shares_min;
     double fare_ratio_buy;
     double discount_rate_buy;
-    double amount_min_buy;
+    String amount_min_buy;
     String amount_max_buy;
     boolean allow_buy;
     String shares_min_sell;
     boolean allow_trade;
     int trade_status;
+    double fare_ratio_buy;
+    double discount_rate_buy;
+    double fare_ratio_sell;
+    double discount_rate_sell;
+
+    public String getShares_max_sell() {
+        return shares_max_sell;
+    }
+
+    public void setShares_max_sell(String shares_max_sell) {
+        this.shares_max_sell = shares_max_sell;
+    }
+
+    public double getFare_ratio_sell() {
+        return fare_ratio_sell;
+    }
+
+    public void setFare_ratio_sell(double fare_ratio_sell) {
+        this.fare_ratio_sell = fare_ratio_sell;
+    }
+
+    public double getDiscount_rate_sell() {
+        return discount_rate_sell;
+    }
+
+    public void setDiscount_rate_sell(double discount_rate_sell) {
+        this.discount_rate_sell = discount_rate_sell;
+    }
+
+    public boolean isAllow_sell() {
+        return allow_sell;
+    }
+
+    public void setAllow_sell(boolean allow_sell) {
+        this.allow_sell = allow_sell;
+    }
 
     public int getInvestment_risk() {
         return investment_risk;
