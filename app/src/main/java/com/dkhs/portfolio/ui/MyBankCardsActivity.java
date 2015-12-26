@@ -163,7 +163,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
             if(convertView == null){
                 convertView = View.inflate(getApplicationContext(), R.layout.item_my_bank_cards, null);
                 holder = new ViewHolder();
-                holder.ll_bank = (View)convertView.findViewById(R.id.ll_bank);
+                holder.ll_bank = (View)convertView.findViewById(R.id.rl_bank);
                 holder.ll_fund_supervision_bank = (View)convertView.findViewById(R.id.ll_fund_supervision_bank);
                 holder.seperate = (View)convertView.findViewById(R.id.seperate);
                 holder.iv_bank_logo = (ImageView)convertView.findViewById(R.id.iv_bank_logo);

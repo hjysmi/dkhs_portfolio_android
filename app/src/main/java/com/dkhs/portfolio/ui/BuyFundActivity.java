@@ -174,8 +174,8 @@ public class BuyFundActivity extends ModelAcitivity {
     }
 
     private void initData() {
-        limitValue = Double.parseDouble(mQuoteBean.getAmount_min_buy());
-        maxValue = Double.parseDouble(mQuoteBean.getAmount_max_buy());
+        limitValue = mQuoteBean.getAmount_min_buy();
+        maxValue = mQuoteBean.getAmount_max_buy();
         tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getId()));
         tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), mQuoteBean.getNet_value()));
         tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value), mQuoteBean.getAmount_min_buy()));
