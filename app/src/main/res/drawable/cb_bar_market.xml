@@ -3,6 +3,7 @@
 
     <item android:drawable="@drawable/icon_bar_market_select" android:state_checked="true"/>
     <item android:drawable="@drawable/icon_bar_market_select" android:state_enabled="false"/>
+    <item android:drawable="@drawable/icon_bar_market_select" android:state_selected="true"/>
     <item android:drawable="@drawable/icon_bar_market"/>
 
 </selector>
