@@ -1,31 +1,30 @@
 package com.dkhs.portfolio.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.FundManagerInfoBean;
+import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.ui.BuyFundActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
-import com.dkhs.portfolio.ui.widget.BenefitChartView;
-import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.nineoldandroids.animation.Animator;
+import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +34,7 @@ import java.util.Map;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/6/8.
  */
-public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean> {
+public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
 
 
 
@@ -77,20 +76,22 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
     }
 
     @Override
-    public void onBindView(ViewHolder vh, TopicsBean.SymbolsBean data, int position) {
-        vh.setTextView(R.id.symbol, map.get(data.symbol_stype + ""));
+    public void onBindView(ViewHolder vh, final FundQuoteBean data, int position) {
+        vh.setTextView(R.id.symbol, map.get(data.getSymbol_stype() + ""));
 
         vh.setTextView(R.id.rateTV, mContext.getString(R.string.percent_six_month));
 
-        if (!TextUtils.isEmpty(data.abbr_name) && data.abbr_name.length() > 8) {
+        if (!TextUtils.isEmpty(data.getAbbrName()) && data.getAbbrName().length() > 8) {
             vh.getTextView(R.id.abbr_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-            vh.setTextView(R.id.abbr_name, data.abbr_name.subSequence(0, 8) + "...");
+            vh.setTextView(R.id.abbr_name, data.getAbbrName().subSequence(0, 8) + "...");
         } else {
             vh.getTextView(R.id.abbr_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            vh.setTextView(R.id.abbr_name, data.abbr_name);
+            vh.setTextView(R.id.abbr_name, data.getAbbrName());
         }
 
-        setText(vh.getTextView(R.id.cp_rate), data.percent_six_month);
+        vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getDiscount_rate_buy(), vh.getContext()));
+
+        setText(vh.getTextView(R.id.cp_rate), data.getPercent_six_month());
 
         TextView shRateTV = vh.getTextView(R.id.sh_rate);
         TextView sh300TV = vh.getTextView(R.id.sh300);
@@ -100,26 +101,32 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
         shMarketTV.setText(R.string.null_number);
         sh300TV.setVisibility(View.VISIBLE);
         shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        if (StockUitls.isSepFund(data.symbol_stype)) {
-            sh300TV.setText(R.string.tenthou_unit_incm);
-            shMarketTV.setText(R.string.year_yld);
-            shRateTV.setText(data.tenthou_unit_incm);
-            shMarketRateTV.setText(data.year_yld);
+        sh300TV.setText(R.string.amount_min_buy);
+        shMarketTV.setText(R.string.investment_risk);
+        if(data.getAmount_min_buy() != 0){
+            shRateTV.setText(String.valueOf(data.getAmount_min_buy()));
+            shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.black));
+        }else{
+            shRateTV.setText(R.string.null_number);
+            shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.tag_gray));
+        }
+        shMarketRateTV.setText(FundUtils.getInvestRiskByType(data.getInvestment_risk(),vh.getContext()));
+        if (StockUitls.isSepFund(data.getSymbol_stype())) {
+            vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.year_yld));
+            setText(vh.getTextView(R.id.cp_rate), data.getYear_yld());
         } else {
-            sh300TV.setText(R.string.unit_value);
-            shMarketTV.setText(R.string.all_netvalue);
-            shRateTV.setText(data.net_value);
-            shMarketRateTV.setText(data.net_cumulative);
+            vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.rate));
+            setText(vh.getTextView(R.id.cp_rate), data.getPercent_six_month());
         }
         vh.getConvertView().setOnClickListener(new OnItemClick(data));
         LinearLayout ll_tags = vh.get(R.id.ll_tags);
         ll_tags.removeAllViews();
         ll_tags.setVisibility(View.GONE);
-        if(!TextUtils.isEmpty(data.recommend_desc)){
+        if(!TextUtils.isEmpty(data.getRecommend_desc())){
             ll_tags.setVisibility(View.VISIBLE);
-            String[] tags = data.recommend_desc.split(",");
+            String[] tags = data.getRecommend_desc().split(",");
             if(tags != null && tags.length > 0){
-                tags = Arrays.copyOfRange(tags, 0, 5);
+                tags = Arrays.copyOfRange(tags,0,5);
                 for(String tag : tags){
                     if(TextUtils.isEmpty(tag))
                         break;
@@ -134,14 +141,26 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
                 }
             }
         }
+        Button buyBtn = vh.getButton(R.id.btn_buy);
+        if(data.isAllow_buy()){
+            buyBtn.setVisibility(View.VISIBLE);
+            buyBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIUtils.startAnimationActivity((Activity) mContext, BuyFundActivity.buyIntent(mContext,data));
+                }
+            });
+        }else{
+            buyBtn.setVisibility(View.GONE);
+        }
     }
 
 
     class OnItemClick implements View.OnClickListener {
-        TopicsBean.SymbolsBean symbolsBean;
+        FundQuoteBean symbolsBean;
         long lastClick;
 
-        public OnItemClick(TopicsBean.SymbolsBean symbolsBean) {
+        public OnItemClick(FundQuoteBean symbolsBean) {
             this.symbolsBean = symbolsBean;
         }
 
@@ -153,5 +172,9 @@ public class SpecialFundAdapter extends SimpleItemHandler<TopicsBean.SymbolsBean
             }
         }
     }
+
+
+
+
 
 }

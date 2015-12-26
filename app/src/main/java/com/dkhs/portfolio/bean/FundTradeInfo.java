@@ -11,7 +11,7 @@ public class FundTradeInfo {
     private int status;
     private String allot_no;
     private double discount_rate;
-    private Fund fund;
+    private FundQuoteBean fund;
 
     public String getId() {
         return id;
@@ -69,11 +69,11 @@ public class FundTradeInfo {
         this.discount_rate = discount_rate;
     }
 
-    public Fund getFund() {
+    public FundQuoteBean getFund() {
         return fund;
     }
 
-    public void setFund(Fund fund) {
+    public void setFund(FundQuoteBean fund) {
         this.fund = fund;
     }
 }

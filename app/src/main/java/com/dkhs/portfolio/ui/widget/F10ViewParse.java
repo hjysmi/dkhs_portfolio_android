@@ -328,6 +328,7 @@ public class F10ViewParse {
             case 2:
                 //起购金额
                 rowText = fundQuoteBean.getAmount_min_buy();
+                rowText = String.valueOf(fundQuoteBean.getAmount_min_buy());
                 break;
             case 3:
                 //赎回到账时间

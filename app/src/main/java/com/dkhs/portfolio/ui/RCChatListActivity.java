@@ -71,6 +71,7 @@ public class RCChatListActivity extends ModelAcitivity {
                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//设置讨论组会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//设置系统会话非聚合显示
                 .build();
+        conversationListFragment.setUri(uri);
         if (PortfolioApplication.hasUserLogin()) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, conversationListFragment).commitAllowingStateLoss();
             findViewById(R.id.loadView).setVisibility(View.GONE);

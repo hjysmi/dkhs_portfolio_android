@@ -207,6 +207,15 @@
         <item>-win_rate_tyear</item>
     </string-array>
 
+    <string-array name="fund_manager_rate_sort_values">
+        <item>-index_rate_week</item>
+        <item>-index_rate_month</item>
+        <item>-index_rate_six_month</item>
+        <item>-index_rate_year</item>
+        <item>-index_rate_twyear</item>
+        <item>-index_rate_tyear</item>
+    </string-array>
+
 
     <string-array name="fund_sort_keys">
         <item>@string/percent_day</item>
@@ -350,8 +359,8 @@
         <item>@string/my_bank_cards</item>
     </string-array>
     <integer-array name="ic_assest_ids">
-        <item>@drawable/ic_small_change</item>
         <item>@drawable/ic_my_funds</item>
+        <item>@drawable/ic_small_change</item>
         <item>@drawable/ic_trade_record</item>
         <item>@drawable/ic_bank_cards</item>
     </integer-array>
@@ -419,6 +428,15 @@
         <item>赏金最高</item>
         <item>悬赏中</item>
         <item>已悬赏</item>
+    </string-array>
+
+    <string-array name="levels_investment_risk">
+        <item>未知</item>
+        <item>低</item>
+        <item>中低</item>
+        <item>中</item>
+        <item>中高</item>
+        <item>高</item>
     </string-array>
 
 </resources>

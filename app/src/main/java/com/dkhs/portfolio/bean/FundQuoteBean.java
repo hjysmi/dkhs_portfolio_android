@@ -69,6 +69,7 @@ public class FundQuoteBean extends QuotesBean {
 
     String mana_name;
     String end_shares;
+    String recommend_desc;
 
     //  Double amount_min;
     public String getMana_name() {
@@ -236,23 +237,22 @@ public class FundQuoteBean extends QuotesBean {
     String shares_min;
     double fare_ratio_buy;
     double discount_rate_buy;
-    String shares_min_sell;
-    String amount_min_buy;
 //    基金状态判断：
 //    allow_trade是否代销
 //    trade_status 基金状态
 //    判断可以申购：allow_trade==True and (trade_status ==0 or trade_status==2)
 //    判断可以赎回：allow_trade==True and (trade_status ==0 or trade_status==3)
+    double amount_min_buy;
+    double amount_max_buy;
+    boolean allow_buy;
+    boolean allow_sell;
+    String shares_min_sell;
+    String shares_max_sell;
     boolean allow_trade;
     int trade_status;
-
-    public String getAmount_min_buy() {
-        return amount_min_buy;
-    }
-
-    public void setAmount_min_buy(String amount_min_buy) {
-        this.amount_min_buy = amount_min_buy;
-    }
+    double fare_ratio_sell;
+    double discount_rate_sell;
+    
 
     public String getShares_min_sell() {
         return shares_min_sell;
@@ -264,10 +264,40 @@ public class FundQuoteBean extends QuotesBean {
 
     public int getTrade_status() {
         return trade_status;
+    public String getShares_max_sell() {
+        return shares_max_sell;
     }
 
-    public void setTrade_status(int trade_status) {
-        this.trade_status = trade_status;
+    public void setShares_max_sell(String shares_max_sell) {
+        this.shares_max_sell = shares_max_sell;
+    }
+
+    public double getFare_ratio_sell() {
+        return fare_ratio_sell;
+    public int getInvestment_risk() {
+        return investment_risk;
+    }
+
+    public void setFare_ratio_sell(double fare_ratio_sell) {
+        this.fare_ratio_sell = fare_ratio_sell;
+    public void setInvestment_risk(int investment_risk) {
+        this.investment_risk = investment_risk;
+    }
+
+    public double getDiscount_rate_sell() {
+        return discount_rate_sell;
+    }
+
+    public void setDiscount_rate_sell(double discount_rate_sell) {
+        this.discount_rate_sell = discount_rate_sell;
+    }
+
+    public boolean isAllow_sell() {
+        return allow_sell;
+    }
+
+    public void setAllow_sell(boolean allow_sell) {
+        this.allow_sell = allow_sell;
     }
 
     public int getInvestment_risk() {
@@ -276,22 +306,6 @@ public class FundQuoteBean extends QuotesBean {
 
     public void setInvestment_risk(int investment_risk) {
         this.investment_risk = investment_risk;
-    }
-
-    public boolean isAllow_trade() {
-        return allow_trade;
-    }
-
-    public void setAllow_trade(boolean allow_trade) {
-        this.allow_trade = allow_trade;
-    }
-
-    public String getAmount_min() {
-        return amount_min;
-    }
-
-    public void setAmount_min(String amount_min) {
-        this.amount_min = amount_min;
     }
 
     public String getShares_min() {
@@ -318,4 +332,49 @@ public class FundQuoteBean extends QuotesBean {
         this.discount_rate_buy = discount_rate_buy;
     }
 
+    public double getAmount_min_buy() {
+        return amount_min_buy;
+    }
+
+    public void setAmount_min_buy(double amount_min_buy) {
+        this.amount_min_buy = amount_min_buy;
+    }
+
+    public boolean isAllow_trade() {
+        return allow_trade;
+    }
+
+    public void setAllow_trade(boolean allow_trade) {
+        this.allow_trade = allow_trade;
+    }
+    
+
+    public void setTrade_status(int trade_status) {
+        this.trade_status = trade_status;
+    }
+
+    public double getAmount_max_buy() {
+        return amount_max_buy;
+    }
+
+    public void setAmount_max_buy(double amount_max_buy) {
+        this.amount_max_buy = amount_max_buy;
+    }
+
+    public boolean isAllow_buy() {
+        return allow_buy;
+    }
+
+    public void setAllow_buy(boolean allow_buy) {
+        this.allow_buy = allow_buy;
+    }
+    
+
+    public String getRecommend_desc() {
+        return recommend_desc;
+    }
+
+    public void setRecommend_desc(String recommend_desc) {
+        this.recommend_desc = recommend_desc;
+    }
 }

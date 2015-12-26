@@ -3,8 +3,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingTop="@dimen/widget_padding_small"
-                android:paddingBottom="@dimen/widget_padding_small"
+                android:paddingTop="@dimen/widget_padding_normal"
+                android:paddingBottom="@dimen/widget_padding_normal"
                 android:background="@color/white">
 
     <TextView

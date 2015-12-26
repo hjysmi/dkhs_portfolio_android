@@ -16,9 +16,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.Fund;
 import com.dkhs.portfolio.bean.FundQuoteBean;
-import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.bean.QuotesBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
@@ -316,17 +314,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 case MENU_BUY:
                     //TODO 购买基金
 //                    startActivity(BuyFundActivity.buyIntent(mContext,null));
-                    if(mFundQuoteBean.isAllow_trade() && (mFundQuoteBean.getTrade_status()==0 ||mFundQuoteBean.getTrade_status()==2)){
-                        Fund mFund = new Fund();
-                        mFund.setName(mFundQuoteBean.getName());
-                        mFund.setId(String.valueOf(mFundQuoteBean.getId()));
-                        mFund.setAmount_min(mFundQuoteBean.getAmount_min());
-                        mFund.setNet_value(String.valueOf(mFundQuoteBean.getNet_value()));
-                        mFund.setFare_ratio_buy(mFundQuoteBean.getFare_ratio_buy());
-                        mFund.setDiscount_rate_buy(mFundQuoteBean.getDiscount_rate_buy());
-                        MyFundInfo info = new MyFundInfo();
-                        info.setFund(mFund);
-                        startActivity(BuyFundActivity.buyIntent(mContext,info));
+                    if(mFundQuoteBean.isAllow_buy()){
+                        startActivity(BuyFundActivity.buyIntent(mContext,mFundQuoteBean));
                     }
                 break;
                 default:
@@ -397,7 +386,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private void initFloatingActionMenu(QuotesBean quoteBean) {
         mFloatMenu.removeAllItems();
 
-        if(mFundQuoteBean.isAllow_trade() && (mFundQuoteBean.getTrade_status()==0 ||mFundQuoteBean.getTrade_status()==2)){
+        if(mFundQuoteBean.isAllow_buy()){
             mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,R.drawable.lv_blue_selector,0);
         }else{
             mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,0,R.color.person_setting_line);

@@ -66,6 +66,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
             handleExtras(extras);
         }
         setTitle(R.string.setting_trade_password);
+        setResult(0);
         initViews();
     }
 
@@ -137,31 +138,31 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                 ParseHttpListener<Boolean> listener = new ParseHttpListener<Boolean>() {
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
-                        try{
+                        try {
                             JSONObject json = new JSONObject(jsonData);
-                            if(json.has("status")){
+                            if (json.has("status")) {
                                 return json.getBoolean("status");
                             }
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
                         }
                         return null;
                     }
 
                     @Override
                     protected void afterParseData(Boolean object) {
-                        if(null != object){
-                            if(curLayoutType == TYPE_FIRST_SET_PWD){
-                                if(object){
+                        if (null != object) {
+                            if (curLayoutType == TYPE_FIRST_SET_PWD) {
+                                if (object) {
                                     PromptManager.showToast("交易密码设置成功");
                                     setResult(0);
                                     manualFinish();
-                                }else{
+                                } else {
                                     PromptManager.showToast("设置密码失败");
                                 }
-                            }else if(curLayoutType == TYPE_RESET_PWD){
-                                if(object){
-                                    if(TextUtils.isEmpty(firstPwd)){
+                            } else if (curLayoutType == TYPE_RESET_PWD) {
+                                if (object) {
+                                    if (TextUtils.isEmpty(firstPwd)) {
                                         //设置新交易密码成功
                                         PromptManager.showToast("原密码正确,请设置新的交易密码");
                                         isOldPwdTrue = object;
@@ -171,16 +172,16 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                                         tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
                                         tv_trade_pwd_tip1.setText(R.string.pls_input_trade_pwd);
                                         tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
-                                    }else{
+                                    } else {
                                         PromptManager.showToast("设置新交易密码成功");
                                         finish();
                                     }
-                                }else{
-                                    if(TextUtils.isEmpty(firstPwd)){
+                                } else {
+                                    if (TextUtils.isEmpty(firstPwd)) {
                                         gpv.clearPassword();
                                         btn_set_trade_password.setEnabled(false);
                                         PromptManager.showToast("原密码错误");
-                                    }else{
+                                    } else {
                                         PromptManager.showToast("设置新交易密码失败");
                                     }
                                 }
@@ -189,12 +190,12 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                         }
                     }
                 };
-                if(curLayoutType == TYPE_FIRST_SET_PWD){
-                    tradeEngine.setTradePassword(gpv.getPassWord(),listener.setLoadingDialog(mContext));
-                }else if(curLayoutType == TYPE_RESET_PWD){
-                    if(TextUtils.isEmpty(firstPwd)){
-                        tradeEngine.checkTradePassword(oldPwd,listener.setLoadingDialog(mContext));
-                    }else{
+                if (curLayoutType == TYPE_FIRST_SET_PWD) {
+                    tradeEngine.setTradePassword(gpv.getPassWord(), listener.setLoadingDialog(mContext));
+                } else if (curLayoutType == TYPE_RESET_PWD) {
+                    if (TextUtils.isEmpty(firstPwd)) {
+                        tradeEngine.checkTradePassword(oldPwd, listener.setLoadingDialog(mContext));
+                    } else {
                         tradeEngine.changeTradePassword(oldPwd, firstPwd, listener.setLoadingDialog(mContext));
                     }
                 }
