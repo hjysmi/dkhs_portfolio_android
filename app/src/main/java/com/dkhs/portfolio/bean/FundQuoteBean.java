@@ -264,6 +264,7 @@ public class FundQuoteBean extends QuotesBean {
 
     public int getTrade_status() {
         return trade_status;
+    }
     public String getShares_max_sell() {
         return shares_max_sell;
     }
@@ -274,14 +275,9 @@ public class FundQuoteBean extends QuotesBean {
 
     public double getFare_ratio_sell() {
         return fare_ratio_sell;
-    public int getInvestment_risk() {
-        return investment_risk;
     }
-
     public void setFare_ratio_sell(double fare_ratio_sell) {
         this.fare_ratio_sell = fare_ratio_sell;
-    public void setInvestment_risk(int investment_risk) {
-        this.investment_risk = investment_risk;
     }
 
     public double getDiscount_rate_sell() {
