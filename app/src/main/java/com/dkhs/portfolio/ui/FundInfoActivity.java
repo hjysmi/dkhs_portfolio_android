@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.Fund;
+import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.FundShare;
 import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -25,6 +25,8 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import org.parceler.Parcels;
 
 /**
  * Created by zhangcm on 2015/9/22.10:56
@@ -44,11 +46,11 @@ public class FundInfoActivity extends ModelAcitivity {
     private View ll_sell_out;
 
     private static String FUND = "fund";
-    private Fund myFund;
+    private FundQuoteBean myFund;
 
-    public static Intent getFundInfoIntent(Context context, Fund fund) {
+    public static Intent getFundInfoIntent(Context context, FundQuoteBean fund) {
         Intent intent = new Intent(context, FundInfoActivity.class);
-        intent.putExtra(FUND, fund);
+        intent.putExtra(FUND, Parcels.wrap(fund));
         return intent;
     }
 
@@ -65,8 +67,8 @@ public class FundInfoActivity extends ModelAcitivity {
         initLoadMoreList();
     }
 
-    private void handleExtras(Bundle extars) {
-        myFund = (Fund) extars.getSerializable(FUND);
+    private void handleExtras(Bundle extras) {
+        myFund = Parcels.unwrap(extras.getParcelable(FUND));
     }
 
     private void initLoadMoreList() {
@@ -111,7 +113,7 @@ public class FundInfoActivity extends ModelAcitivity {
                     mFundInfo = fundInfo;
                     adapter.notifyDataSetChanged();
                     bottom.setVisibility(View.VISIBLE);
-                    Fund fund = mFundInfo.getFund();
+                    FundQuoteBean fund = mFundInfo.getFund();
 //                    if()R.color.person_setting_line
                     if (fund.isAllow_buy()) {
                         ll_buy_more.setBackgroundResource(R.drawable.bg_blue_gray_selector);
@@ -135,7 +137,7 @@ public class FundInfoActivity extends ModelAcitivity {
     @OnClick({R.id.ll_buy_more, R.id.ll_sell_out})
     private void onClick(View view) {
         if (view.getId() == R.id.ll_buy_more && mFundInfo.getFund().isAllow_buy()) {
-            startActivity(BuyFundActivity.buyIntent(mContext, mFundInfo));
+            startActivity(BuyFundActivity.buyIntent(mContext, mFundInfo.getFund()));
         } else if (view.getId() == R.id.ll_sell_out && mFundInfo.getFund().isAllow_buy()) {
             startActivity(SellFundActivity.sellIntent(mContext, mFundInfo));
 
@@ -232,10 +234,10 @@ public class FundInfoActivity extends ModelAcitivity {
             if (type == TYPE_HEAD) {
                 holder1 = (ViewHolder1) convertView.getTag();
                 if (myFund != null) {
-                    holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbr_name(),myFund.getId()));
+                    holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbrName(),myFund.getId()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
-                    holder1.tv_net_new.setText(myFund.getNet_value());
+                    holder1.tv_net_new.setText(String.valueOf(myFund.getNet_value()));
                     holder1.tv_fund_value.setText(mFundInfo.getWorth_value());
                     holder1.tv_recent_profit_time.setText(String.format(getResources().getString(R.string.blank_recent_profit_time), TimeUtils.getMMDDString(myFund.getTradedate())));
                 }

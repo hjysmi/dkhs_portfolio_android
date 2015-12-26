@@ -9,7 +9,7 @@ import java.util.List;
 public class MyFundInfo implements Serializable{
     private List<FundShare> shares_list;
     private List<TradeRecord> trade_record_list;
-    private Fund fund;
+    private FundQuoteBean fund;
     private String worth_value;
     private String income_total;
     private String income_latest;
@@ -38,11 +38,11 @@ public class MyFundInfo implements Serializable{
         this.income_latest = income_latest;
     }
 
-    public Fund getFund() {
+    public FundQuoteBean getFund() {
         return fund;
     }
 
-    public void setFund(Fund fund) {
+    public void setFund(FundQuoteBean fund) {
         this.fund = fund;
     }
 

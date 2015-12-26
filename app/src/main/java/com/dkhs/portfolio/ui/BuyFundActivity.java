@@ -30,10 +30,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.Button;
 import com.dkhs.portfolio.base.widget.ListView;
 import com.dkhs.portfolio.bean.Bank;
-import com.dkhs.portfolio.bean.Fund;
+import com.dkhs.portfolio.bean.FundQuoteBean;
+import com.dkhs.portfolio.bean.FundTradeInfo;
 import com.dkhs.portfolio.bean.MyBankCard;
-import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
@@ -52,6 +53,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -95,16 +97,15 @@ public class BuyFundActivity extends ModelAcitivity {
     private boolean isBankcardChoosed;
 
     private static String FUND_INFO = "fund_info";
-    private MyFundInfo mFundInfo;
-    private Fund mFund;
+    private FundQuoteBean mQuoteBean;
     private MyBankCard card;
     private String curSelectCardId;
     private double limitValue;
     private double maxValue;
 
-    public static Intent buyIntent(Context context, MyFundInfo fundInfo) {
+    public static Intent buyIntent(Context context, FundQuoteBean fundInfo) {
         Intent intent = new Intent(context, BuyFundActivity.class);
-        intent.putExtra(FUND_INFO, fundInfo);
+        intent.putExtra(FUND_INFO, Parcels.wrap(fundInfo));
         return intent;
     }
 
@@ -122,8 +123,7 @@ public class BuyFundActivity extends ModelAcitivity {
     }
 
     private void handleExtras(Bundle extras) {
-        mFundInfo = (MyFundInfo) extras.getSerializable(FUND_INFO);
-        mFund = mFundInfo.getFund();
+        mQuoteBean = Parcels.unwrap(extras.getParcelable(FUND_INFO));
     }
 
     @OnClick(R.id.rl_select_bank)
@@ -155,7 +155,7 @@ public class BuyFundActivity extends ModelAcitivity {
                         if (value < limitValue) {
                             btn_buy.setEnabled(false);
                         } else {
-                            value = value * mFund.getFare_ratio_buy() * 0.01 * mFund.getDiscount_rate_buy() * 0.01;
+                            value = value * mQuoteBean.getFare_ratio_buy() * 0.01 * mQuoteBean.getDiscount_rate_buy() * 0.01;
                             BigDecimal decimal = new BigDecimal(value);
                             value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
                             tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), String.valueOf(value)));
@@ -174,13 +174,13 @@ public class BuyFundActivity extends ModelAcitivity {
     }
 
     private void initData() {
-        limitValue = Double.parseDouble(mFund.getAmount_min_buy());
-        maxValue = Double.parseDouble(mFund.getAmount_max_buy());
-        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mFund.getName(), mFund.getId()));
-        tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), mFund.getNet_value()));
-        tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value), mFund.getAmount_min_buy()));
-        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mFund.getFare_ratio_buy() + "%"));
-        et_value.setHint(String.format(getResources().getString(R.string.blank_hint_value), String.valueOf(mFund.getAmount_min_buy())));
+        limitValue = Double.parseDouble(mQuoteBean.getAmount_min_buy());
+        maxValue = Double.parseDouble(mQuoteBean.getAmount_max_buy());
+        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getId()));
+        tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), mQuoteBean.getNet_value()));
+        tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value), mQuoteBean.getAmount_min_buy()));
+        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+        et_value.setHint(String.format(getResources().getString(R.string.blank_hint_value), String.valueOf(mQuoteBean.getAmount_min_buy())));
         mBitmapUtils = new BitmapUtils(this);
     }
 
@@ -305,25 +305,31 @@ public class BuyFundActivity extends ModelAcitivity {
                 password = gpv.getPassWord();
                 gpvDialog.dismiss();
                 //TODO 请求购买基金
-                ParseHttpListener<Boolean> listener = new ParseHttpListener<Boolean>() {
+                ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
                     @Override
-                    protected Boolean parseDateTask(String jsonData) {
-                        Boolean b = null;
+                    protected FundTradeInfo parseDateTask(String jsonData) {
+                        FundTradeInfo info = null;
                         try {
-                            JSONObject json = new JSONObject(jsonData);
-                            b = json.getBoolean("status");
+                            jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+                            info = DataParse.parseObjectJson(FundTradeInfo.class, jsonData);
                         } catch (Exception e) {
 
                         }
-                        return b;
+                        return info;
                     }
 
                     @Override
-                    protected void afterParseData(Boolean object) {
-                        PromptManager.showToast(object ? "购买成功" : "购买失败");
+                    protected void afterParseData(FundTradeInfo object) {
+                        //TODO 请求卖出基金
+                        if (object != null && !"0".equals(object.getId())) {
+                            startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
+                            finish();
+                        } else {
+                            PromptManager.showToast("买入失败");
+                        }
                     }
                 };
-                new TradeEngineImpl().buyFund(mFund.getId(), card.getId(), et_value.getText().toString(), password, listener.setLoadingDialog(mContext));
+                new TradeEngineImpl().buyFund(mQuoteBean.getId(), card.getId(), et_value.getText().toString(), password, listener.setLoadingDialog(mContext));
             }
         });
         gpvDialog = new Dialog(this, R.style.dialog);
