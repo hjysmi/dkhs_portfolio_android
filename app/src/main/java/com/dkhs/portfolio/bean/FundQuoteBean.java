@@ -71,6 +71,18 @@ public class FundQuoteBean extends QuotesBean {
     String end_shares;
     String recommend_desc;
 
+    public String getAmount_min() {
+        return amount_min;
+    }
+
+    public void setAmount_min(String amount_min) {
+        this.amount_min = amount_min;
+    }
+
+    public double getAmount_min_buy() {
+        return amount_min_buy;
+    }
+
     //  Double amount_min;
     public String getMana_name() {
         return mana_name;
@@ -233,11 +245,8 @@ public class FundQuoteBean extends QuotesBean {
     }
 
     int investment_risk;
-    //Temporary merge branch 1
     String amount_min;
     String shares_min;
-    double fare_ratio_buy;
-    double discount_rate_buy;
 //    基金状态判断：
 //    allow_trade是否代销
 //    trade_status 基金状态
@@ -251,12 +260,11 @@ public class FundQuoteBean extends QuotesBean {
     String shares_max_sell;
     boolean allow_trade;
     int trade_status;
-    double fare_ratio_buy;
-    double discount_rate_buy;
+    float fare_ratio_buy;
+    float discount_rate_buy;
     double fare_ratio_sell;
     double discount_rate_sell;
 
-//<<<<<<< Temporary merge branch 1
   
     public String getShares_min_sell() {
         return shares_min_sell;
@@ -269,31 +277,29 @@ public class FundQuoteBean extends QuotesBean {
     public int getTrade_status() {
         return trade_status;
     }
-//=======
+
     public String getShares_max_sell() {
         return shares_max_sell;
-//>>>>>>> Temporary merge branch 2
     }
 
     public void setShares_max_sell(String shares_max_sell) {
         this.shares_max_sell = shares_max_sell;
     }
 
-//<<<<<<< Temporary merge branch 1
     public int getInvestment_risk() {
         return investment_risk;
     }
 
     public void setInvestment_risk(int investment_risk) {
         this.investment_risk = investment_risk;
-//=======
+    }
+
     public double getFare_ratio_sell() {
         return fare_ratio_sell;
     }
 
     public void setFare_ratio_sell(double fare_ratio_sell) {
         this.fare_ratio_sell = fare_ratio_sell;
-//>>>>>>> Temporary merge branch 2
     }
 
     public double getDiscount_rate_sell() {
@@ -320,19 +326,19 @@ public class FundQuoteBean extends QuotesBean {
         this.shares_min = shares_min;
     }
 
-    public double getFare_ratio_buy() {
+    public float getFare_ratio_buy() {
         return fare_ratio_buy;
     }
 
-    public void setFare_ratio_buy(double fare_ratio_buy) {
+    public void setFare_ratio_buy(float fare_ratio_buy) {
         this.fare_ratio_buy = fare_ratio_buy;
     }
 
-    public double getDiscount_rate_buy() {
+    public float getDiscount_rate_buy() {
         return discount_rate_buy;
     }
 
-    public void setDiscount_rate_buy(double discount_rate_buy) {
+    public void setDiscount_rate_buy(float discount_rate_buy) {
         this.discount_rate_buy = discount_rate_buy;
     }
 
