@@ -142,7 +142,7 @@ public class GesturePasswordManager {
 
     private void showGesturePasswordActivity() {
         showGestureImmediately = true;
-        mCurActivity.startActivity(GesturePasswordActivity.verifyPasswordIntent(mCurActivity, true));
+        mCurActivity.startActivityForResult(GesturePasswordActivity.verifyPasswordIntent(mCurActivity, true),100);
     }
 
     protected void setShowGestureImmediately(boolean showGestureImmediately) {

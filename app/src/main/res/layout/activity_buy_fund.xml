@@ -110,6 +110,16 @@
                     android:textSize="@dimen/widget_text_14sp"
                     />
             </LinearLayout>
+            <TextView
+                android:id="@+id/tv_add_bank_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/widget_text_16sp"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:visibility="gone"
+                android:text="@string/add_bank_card"
+                />
         </RelativeLayout>
     </LinearLayout>
 

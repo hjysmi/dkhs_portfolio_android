@@ -33,6 +33,7 @@ import com.dkhs.portfolio.bean.FundShare;
 import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.lidroid.xutils.BitmapUtils;
@@ -86,6 +87,7 @@ public class SellFundActivity extends ModelAcitivity {
     private Fund mFund;
     private List<FundShare> shareLists;
     private FundShare share;
+    private String curSelectedBankId;
     private double limitValue;
     public static Intent sellIntent(Context context, MyFundInfo fundInfo){
         Intent intent = new Intent(context, SellFundActivity.class);
@@ -148,17 +150,47 @@ public class SellFundActivity extends ModelAcitivity {
     }
     private void initData() {
         mFund = mFundInfo.getFund();
-        limitValue = Double.parseDouble(mFund.getShares_min());
+        limitValue = Double.parseDouble(mFund.getShares_min_sell());
         tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mFund.getName(),mFund.getId()));
-        tv_hold_shares.setText(String.format(getResources().getString(R.string.blank_limit_hold_shares), mFund.getShares_min()));
+        tv_hold_shares.setText(String.format(getResources().getString(R.string.blank_limit_hold_shares), mFund.getShares_min_sell()));
         tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mFund.getFare_ratio_buy()+"%"));
 
         share = shareLists.get(0);
+        curSelectedBankId = share.getBank().getId();
         mBitmapUtils = new BitmapUtils(this);
-        tv_bank_card_no_tail.setText(share.getBank().getName() + "("+share.getBank().getBank_card_no_tail()+")");
+        tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank),share.getBank().getName(),share.getBank().getBank_card_no_tail()));
         tv_available_shares.setText(String.format(getResources().getString(R.string.blank_available_sell_shares), share.getShares_enable()));
         mBitmapUtils.display(iv_bank_logo, share.getBank().getLogo(), null, callBack);
 
+    }
+    ParseHttpListener<Boolean> isTradePwdSetListener = new ParseHttpListener<Boolean>() {
+        @Override
+        protected Boolean parseDateTask(String jsonData) {
+            try {
+                JSONObject json = new JSONObject(jsonData);
+                if (json.has("status")) {
+                    return json.getBoolean("status");
+                }
+
+            } catch (Exception e) {
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Boolean object) {
+            PromptManager.closeProgressDialog();
+            if (null != object) {
+                if (!object) {
+                    showSetTradePwdDialog();
+                }
+            }
+        }
+    };
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new TradeEngineImpl().isTradePasswordSet(isTradePwdSetListener.setLoadingDialog(this));
     }
 
     @OnClick(R.id.rl_select_bank)
@@ -171,6 +203,22 @@ public class SellFundActivity extends ModelAcitivity {
     private GridPasswordView gpv;
     private String password;
     private int count =2;
+    private void showSetTradePwdDialog() {
+        new MyAlertDialog(this).builder()
+                .setMsg(getResources().getString(R.string.first_trade_password_msg))
+                .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 1);
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        manualFinish();
+                    }
+                }).show();
+    }
     private void showTradePwdDialog(){
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = (View) inflater.inflate(R.layout.layout_trade_password_dialog, null);
@@ -195,7 +243,6 @@ public class SellFundActivity extends ModelAcitivity {
 //                }
                 password = gpv.getPassWord();
                 gpvDialog.dismiss();
-                //TODO 请求购买基金
                 ParseHttpListener<Boolean> listener = new ParseHttpListener<Boolean>() {
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
@@ -211,7 +258,8 @@ public class SellFundActivity extends ModelAcitivity {
 
                     @Override
                     protected void afterParseData(Boolean object) {
-                        PromptManager.showToast(object ? "购买成功" : "购买失败");
+                        //TODO 请求卖出基金
+                        PromptManager.showToast(object ? "卖出成功" : "卖出失败");
                     }
                 };
                 new TradeEngineImpl().sellFund(mFund.getId(), share.getBank().getId(), et_shares.getText().toString(), password, listener.setLoadingDialog(mContext));
@@ -257,11 +305,20 @@ public class SellFundActivity extends ModelAcitivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bank bank = shareLists.get(position).getBank();
                 share = shareLists.get(position);
+                curSelectedBankId = share.getBank().getId();
                 mBitmapUtils.display(iv_bank_logo, bank.getLogo(), null, callBack);
                 tv_available_shares.setText(String.format(getResources().getString(R.string.blank_available_sell_shares), share.getShares_enable()));
-                tv_bank_card_no_tail.setText(bank.getName()+"(" +bank.getBank_card_no_tail()+")");
+                tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank),bank.getName(),bank.getBank_card_no_tail()));
+
                 if(!TextUtils.isEmpty(et_shares.getText()) && Double.parseDouble(et_shares.getText().toString()) >= limitValue)
                     btn_sell.setEnabled(true);
+                share = shareLists.get(0);
+                curSelectedBankId = share.getBank().getId();
+                tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank),bank.getName(),bank.getBank_card_no_tail()));
+
+                tv_available_shares.setText(String.format(getResources().getString(R.string.blank_available_sell_shares), share.getShares_enable()));
+                mBitmapUtils.display(iv_bank_logo, share.getBank().getLogo(), null, callBack);
+                bankCardDialog.dismiss();
             }
         });
         bankCardDialog = new Dialog(this,R.style.ActionSheetDialogStyle);
@@ -303,12 +360,12 @@ public class SellFundActivity extends ModelAcitivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return shareLists.size();
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -318,11 +375,35 @@ public class SellFundActivity extends ModelAcitivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            int type = getItemViewType(position);
+            ViewHolder holder;
             if(convertView == null){
-                convertView = View.inflate(mContext, R.layout.item_layout_select_bank_card1, null);
+                convertView = View.inflate(mContext, R.layout.item_layout_select_sell_fund_bank_card, null);
+                holder = new ViewHolder();
+                holder.tv_bank_card_no_tail = (TextView) convertView.findViewById(R.id.tv_bank_card_no_tail);
+                holder.tv_available_shares = (TextView) convertView.findViewById(R.id.tv_available_shares);
+                holder.iv_bank_logo = (ImageView) convertView.findViewById(R.id.iv_bank_logo);
+                holder.iv_selected = (ImageView) convertView.findViewById(R.id.iv_selected);
+                convertView.setTag(holder);
+            }else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            share = shareLists.get(position);
+            holder.tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank),share.getBank().getName(),share.getBank().getBank_card_no_tail()));
+            holder.tv_available_shares.setText(String.format(getResources().getString(R.string.blank_available_sell_shares), share.getShares_enable()));
+            mBitmapUtils.display(holder.iv_bank_logo, share.getBank().getLogo(), null, callBack);
+            if(share.getBank().getId().equals(curSelectedBankId)){
+                //显示选中箭头
+                holder.iv_selected.setVisibility(View.VISIBLE);
+            }else{
+                holder.iv_selected.setVisibility(View.GONE);
             }
             return convertView;
+        }
+        private class ViewHolder{
+            TextView tv_bank_card_no_tail;
+            TextView tv_available_shares;
+            ImageView iv_bank_logo;
+            ImageView iv_selected;
         }
 
     }
