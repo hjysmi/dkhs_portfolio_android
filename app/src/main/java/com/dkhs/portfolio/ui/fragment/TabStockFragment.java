@@ -27,6 +27,7 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -461,6 +462,15 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
             return loadDataListFragment.getDataList();
         }
         return Collections.EMPTY_LIST;
+    }
+
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()&& getUserVisibleHint()){
+            if(loadDataListFragment != null){
+                loadDataListFragment.smoothScrollToTop();
+            }
+        }
     }
 
 }

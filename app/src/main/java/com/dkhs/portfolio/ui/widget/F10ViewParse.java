@@ -18,6 +18,8 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.F10DataBean;
 import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.ManagersEntity;
+import com.dkhs.portfolio.utils.FundUtils;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
 import java.util.List;
@@ -276,7 +278,6 @@ public class F10ViewParse {
     public View parseFundProfileViewPurchase(FundQuoteBean mFundQuoteBean) {
         this.mContentView.addView(createTitleView("购买须知", ""));
         createFundRowPurchase(mFundQuoteBean);
-
         return mContentView;
     }
 
@@ -292,19 +293,16 @@ public class F10ViewParse {
                 tvPrice.setVisibility(View.VISIBLE);
                 tvPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
                 if (null != fundQuoteBean) {
-                    tvPrice.setText(String.valueOf(fundQuoteBean.getFare_ratio_buy()));
+                    tvPrice.setText(StringFromatUtils.get2PointPercent(fundQuoteBean.getFare_ratio_buy()));
                 }
-
             } else {
                 tvPrice.setVisibility(View.GONE);
             }
-
             if (rowIndex % 2 == splitValue) {
                 rowContent.setBackgroundColor(DEFAULT_BG_GRAY_COLOR);
             } else {
                 rowContent.setBackgroundColor(DEFAULT_WHITE_COLOR);
             }
-
             this.mContentView.addView(rowContent);
             rowIndex++;
         }
@@ -321,13 +319,12 @@ public class F10ViewParse {
             case 1:
                 //申购费率
                 if (null != fundQuoteBean) {
-                    rowText = String.valueOf(fundQuoteBean.getDiscount_rate_buy());
+                    rowText = StringFromatUtils.get2PointPercent(fundQuoteBean.getDiscount_rate_buy());
                 }
-                //  rowText = "0.5%";
                 break;
             case 2:
                 //起购金额
-                rowText = String.valueOf(fundQuoteBean.getAmount_min_buy());
+                rowText = String.valueOf(fundQuoteBean.getAmount_min_buy() + "元");
                 break;
             case 3:
                 //赎回到账时间
@@ -335,46 +332,16 @@ public class F10ViewParse {
                 break;
             case 4: {
                 //shares_min最低赎回份额
-                if (null != fundQuoteBean) {
-                    rowText = String.valueOf(fundQuoteBean.getShares_min_sell());
+                if (!TextUtils.isEmpty(fundQuoteBean.getShares_min_sell())) {
+                    rowText = String.valueOf(fundQuoteBean.getShares_min_sell() + "份");
                 }
-
             }
             break;
             case 5: {
-                rowText = getRiskValue(fundQuoteBean.getInvestment_risk());
+                rowText = FundUtils.getInvestRiskByType(fundQuoteBean.getInvestment_risk(), mContext);
             }
             break;
         }
         return rowText;
     }
-
-    private String getRiskValue(int index) {
-
-        switch (index) {
-            case TYPE_RISK_UNKNOWN:
-                return "未知";
-            case TYPE_RISK_LOW:
-                return "低";
-            case TYPE_RISK_LOW_MIDDLE:
-                return "中低";
-            case TYPE_RISK_MIDDLE:
-                return "中";
-            case TYPE_RISK_MIDDLE_HIGH:
-                return "中高";
-            case TYPE_RISK_HIGH:
-                return "高";
-            default:
-
-        }
-        return "未知";
-    }
-
-    public static final int TYPE_RISK_UNKNOWN = 0;//未知
-    public static final int TYPE_RISK_LOW = 1;//风险低
-    public static final int TYPE_RISK_LOW_MIDDLE = 2;//风险中低
-    public static final int TYPE_RISK_MIDDLE = 3;//风险中
-    public static final int TYPE_RISK_MIDDLE_HIGH = 4;//风险中高
-    public static final int TYPE_RISK_HIGH = 5;//风险高
-
 }

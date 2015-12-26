@@ -71,6 +71,10 @@ public class FundQuoteBean extends QuotesBean {
     String end_shares;
     String recommend_desc;
 
+    public double getAmount_min_buy() {
+        return amount_min_buy;
+    }
+
     //  Double amount_min;
     public String getMana_name() {
         return mana_name;
@@ -234,6 +238,11 @@ public class FundQuoteBean extends QuotesBean {
 
     int investment_risk;
     String shares_min;
+//    基金状态判断：
+//    allow_trade是否代销
+//    trade_status 基金状态
+//    判断可以申购：allow_trade==True and (trade_status ==0 or trade_status==2)
+//    判断可以赎回：allow_trade==True and (trade_status ==0 or trade_status==3)
     double amount_min_buy;
     double amount_max_buy;
     boolean allow_buy;
@@ -242,10 +251,23 @@ public class FundQuoteBean extends QuotesBean {
     String shares_max_sell;
     boolean allow_trade;
     int trade_status;
-    double fare_ratio_buy;
-    double discount_rate_buy;
+    float fare_ratio_buy;
+    float discount_rate_buy;
     double fare_ratio_sell;
     double discount_rate_sell;
+
+  
+    public String getShares_min_sell() {
+        return shares_min_sell;
+    }
+
+    public void setShares_min_sell(String shares_min_sell) {
+        this.shares_min_sell = shares_min_sell;
+    }
+
+    public int getTrade_status() {
+        return trade_status;
+    }
 
     public String getShares_max_sell() {
         return shares_max_sell;
@@ -253,6 +275,14 @@ public class FundQuoteBean extends QuotesBean {
 
     public void setShares_max_sell(String shares_max_sell) {
         this.shares_max_sell = shares_max_sell;
+    }
+
+    public int getInvestment_risk() {
+        return investment_risk;
+    }
+
+    public void setInvestment_risk(int investment_risk) {
+        this.investment_risk = investment_risk;
     }
 
     public double getFare_ratio_sell() {
@@ -278,15 +308,7 @@ public class FundQuoteBean extends QuotesBean {
     public void setAllow_sell(boolean allow_sell) {
         this.allow_sell = allow_sell;
     }
-
-    public int getInvestment_risk() {
-        return investment_risk;
-    }
-
-    public void setInvestment_risk(int investment_risk) {
-        this.investment_risk = investment_risk;
-    }
-
+    
     public String getShares_min() {
         return shares_min;
     }
@@ -295,25 +317,23 @@ public class FundQuoteBean extends QuotesBean {
         this.shares_min = shares_min;
     }
 
-    public double getFare_ratio_buy() {
+    public float getFare_ratio_buy() {
         return fare_ratio_buy;
     }
 
-    public void setFare_ratio_buy(double fare_ratio_buy) {
+    public void setFare_ratio_buy(float fare_ratio_buy) {
         this.fare_ratio_buy = fare_ratio_buy;
     }
 
-    public double getDiscount_rate_buy() {
+    public float getDiscount_rate_buy() {
         return discount_rate_buy;
     }
 
-    public void setDiscount_rate_buy(double discount_rate_buy) {
+    public void setDiscount_rate_buy(float discount_rate_buy) {
         this.discount_rate_buy = discount_rate_buy;
     }
 
-    public double getAmount_min_buy() {
-        return amount_min_buy;
-    }
+ 
 
     public void setAmount_min_buy(double amount_min_buy) {
         this.amount_min_buy = amount_min_buy;
@@ -327,10 +347,7 @@ public class FundQuoteBean extends QuotesBean {
         this.allow_trade = allow_trade;
     }
 
-    public int getTrade_status() {
-        return trade_status;
-    }
-
+   
     public void setTrade_status(int trade_status) {
         this.trade_status = trade_status;
     }
@@ -351,13 +368,7 @@ public class FundQuoteBean extends QuotesBean {
         this.allow_buy = allow_buy;
     }
 
-    public String getShares_min_sell() {
-        return shares_min_sell;
-    }
-
-    public void setShares_min_sell(String shares_min_sell) {
-        this.shares_min_sell = shares_min_sell;
-    }
+ 
 
     public String getRecommend_desc() {
         return recommend_desc;

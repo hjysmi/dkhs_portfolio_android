@@ -27,6 +27,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateSelectStockEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -453,5 +454,14 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
     public void onDestroy() {
         super.onDestroy();
         BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()&& getUserVisibleHint()){
+            if(loadDataListFragment != null){
+                loadDataListFragment.smoothScrollToTop();
+            }
+        }
     }
 }

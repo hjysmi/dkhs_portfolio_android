@@ -271,12 +271,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private FundProfileFragment mFragmentProfile;
 
     private void replaceFundProfile() {
-        if (null == mFragmentProfile) {
             mFragmentProfile = FundProfileFragment.newIntent(mFundQuoteBean);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fund_overview, mFragmentProfile).commitAllowingStateLoss();
-        }
-
     }
 
 
