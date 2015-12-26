@@ -149,6 +149,7 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                     fragment = fundsFragment;
                     setTitle(R.string.fund_manager_rank);
                 break;
+
             default:
                 mBtnrefresh.setVisibility(View.GONE);
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),

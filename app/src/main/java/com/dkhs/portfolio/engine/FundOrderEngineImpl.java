@@ -124,6 +124,7 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
                 Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
                 moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<FundPriceBean>>() {
                 }.getType());
+                System.out.println(">>>>");
             } catch (Exception e) {
                 e.printStackTrace();
             }
