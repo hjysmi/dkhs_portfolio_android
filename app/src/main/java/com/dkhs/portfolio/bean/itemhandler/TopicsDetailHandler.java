@@ -24,6 +24,7 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CommentBean;
+import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -215,16 +216,16 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
     }
 
 
-    private void setRelatedSymbols(TextView textView, List<TopicsBean.SymbolsBean> symbols) {
+    private void setRelatedSymbols(TextView textView, List<FundQuoteBean> symbols) {
 
         if (symbols != null && symbols.size() > 0) {
             Spanny spany = new Spanny();
             spany.append("相关股票: ", new ForegroundColorSpan(mContext.getResources().getColor(R.color.tag_gray)));
 
             for (int i = 0; i < symbols.size(); i++) {
-                TopicsBean.SymbolsBean item = symbols.get(i);
+                FundQuoteBean item = symbols.get(i);
                 int star = spany.length();
-                spany.append(" " + item.abbr_name + " ", new SymbolsClickSpan(item));
+                spany.append(" " + item.getAbbrName() + " ", new SymbolsClickSpan(item));
 //                spany.setSpan(new RoundSpan(mContext), star, spany.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
@@ -413,18 +414,18 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
 
     class SymbolsClickSpan extends ClickableSpan {
 
-        TopicsBean.SymbolsBean symbolsBean;
+        FundQuoteBean symbolsBean;
 
-        public SymbolsClickSpan(TopicsBean.SymbolsBean symbolsBean) {
+        public SymbolsClickSpan(FundQuoteBean symbolsBean) {
             this.symbolsBean = symbolsBean;
         }
 
         @Override
         public void onClick(View widget) {
             SelectStockBean selectStockBean = new SelectStockBean();
-            selectStockBean.setName(symbolsBean.abbr_name);
-            selectStockBean.setId(symbolsBean.id);
-            selectStockBean.setSymbol(symbolsBean.symbol);
+            selectStockBean.setName(symbolsBean.getAbbrName());
+            selectStockBean.setId(symbolsBean.getId());
+            selectStockBean.setSymbol(symbolsBean.getSymbol());
             //设置类型为股票
             selectStockBean.setSymbol_type("1");
             mContext.startActivity(StockQuotesActivity.newIntent(mContext, selectStockBean));

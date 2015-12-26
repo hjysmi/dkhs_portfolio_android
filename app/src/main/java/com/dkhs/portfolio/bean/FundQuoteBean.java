@@ -69,6 +69,7 @@ public class FundQuoteBean extends QuotesBean {
 
     String mana_name;
     String end_shares;
+    String recommend_desc;
 
     //  Double amount_min;
     public String getMana_name() {
@@ -235,7 +236,7 @@ public class FundQuoteBean extends QuotesBean {
     String shares_min;
     double fare_ratio_buy;
     double discount_rate_buy;
-    String amount_min_buy;
+    double amount_min_buy;
     String amount_max_buy;
     boolean allow_buy;
     String shares_min_sell;
@@ -274,11 +275,11 @@ public class FundQuoteBean extends QuotesBean {
         this.discount_rate_buy = discount_rate_buy;
     }
 
-    public String getAmount_min_buy() {
+    public double getAmount_min_buy() {
         return amount_min_buy;
     }
 
-    public void setAmount_min_buy(String amount_min_buy) {
+    public void setAmount_min_buy(double amount_min_buy) {
         this.amount_min_buy = amount_min_buy;
     }
 
@@ -320,5 +321,13 @@ public class FundQuoteBean extends QuotesBean {
 
     public void setShares_min_sell(String shares_min_sell) {
         this.shares_min_sell = shares_min_sell;
+    }
+
+    public String getRecommend_desc() {
+        return recommend_desc;
+    }
+
+    public void setRecommend_desc(String recommend_desc) {
+        this.recommend_desc = recommend_desc;
     }
 }

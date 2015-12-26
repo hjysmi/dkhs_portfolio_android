@@ -320,7 +320,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                         Fund mFund = new Fund();
                         mFund.setName(mFundQuoteBean.getName());
                         mFund.setId(String.valueOf(mFundQuoteBean.getId()));
-                        mFund.setAmount_min_buy(mFundQuoteBean.getAmount_min_buy());
+                        mFund.setAmount_min_buy(String.valueOf(mFundQuoteBean.getAmount_min_buy()));
                         mFund.setAmount_max_buy(mFundQuoteBean.getAmount_max_buy());
                         mFund.setNet_value(String.valueOf(mFundQuoteBean.getNet_value()));
                         mFund.setFare_ratio_buy(mFundQuoteBean.getFare_ratio_buy());
