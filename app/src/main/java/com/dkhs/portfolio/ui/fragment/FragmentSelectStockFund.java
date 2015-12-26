@@ -887,4 +887,10 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
 //        this.isDefLoad = isDefLoad;
 //    }
 
+    public void smoothScrollToTop(){
+        if(mListView != null){
+            mListView.smoothScrollToPosition(0);
+        }
+    }
+
 }

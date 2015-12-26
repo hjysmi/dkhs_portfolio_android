@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.adapter.MarkStockAdatper;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkGridViewBean;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkIndexViewPool;
 import com.dkhs.portfolio.ui.widget.ViewBean.MarkPlateGridViewBean;
@@ -34,6 +35,7 @@ import com.dkhs.portfolio.ui.widget.ViewBean.ViewBean;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -84,6 +86,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         mViewPool = new MarkIndexViewPool();
+        BusProvider.getInstance().register(this);
 
     }
 
@@ -308,6 +311,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     public void onDestroy() {
         super.onDestroy();
         updateHandler.removeCallbacks(updateRunnable);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -369,6 +373,15 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     public void endAnimaRefresh() {
         if (isAdded() && getUserVisibleHint()) {
             BusProvider.getInstance().post(new StopRefreshEvent());
+        }
+    }
+
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()&& getUserVisibleHint()){
+            if(mRecyclerView != null){
+                mRecyclerView.smoothScrollToPosition(0);
+            }
         }
     }
 

@@ -3,6 +3,7 @@
 
     <item android:drawable="@drawable/ic_home_hl" android:state_checked="true"/>
     <item android:drawable="@drawable/ic_home_hl" android:state_enabled="false"/>
+    <item android:drawable="@drawable/ic_home_hl" android:state_selected="true"/>
     <item android:drawable="@drawable/ic_home_normal"/>
 
 </selector>
