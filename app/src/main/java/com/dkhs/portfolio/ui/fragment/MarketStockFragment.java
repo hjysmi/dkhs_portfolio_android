@@ -378,7 +378,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
     @Subscribe
     public void forward2Top(TopEvent event){
-        if(event != null && isVisible()){
+        if(event != null && isVisible()&& getUserVisibleHint()){
             if(mRecyclerView != null){
                 mRecyclerView.smoothScrollToPosition(0);
             }

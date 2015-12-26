@@ -118,7 +118,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
 
     @Subscribe
     public void forward2Top(TopEvent event){
-        if(event != null && isVisible()){
+        if(event != null && isVisible()&& getUserVisibleHint()){
             if(mListView != null){
                 mListView.smoothScrollToPosition(0);
             }
