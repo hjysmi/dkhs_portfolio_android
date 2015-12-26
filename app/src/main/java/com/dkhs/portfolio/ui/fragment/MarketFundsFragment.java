@@ -285,10 +285,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
                 defaultIndex = FUNDS_INDEX_MONTH;
                 fundTypeMenuChooserL.setFundsMixedRanking();
                 break;
-            case TYPE_FUND_PROFIT:
-                defaultIndex = FUNDS_INDEX_MONTH;
-                fundTypeMenuChooserL.setFundsAllRanking();
-                break;
+
         }
     }
 
