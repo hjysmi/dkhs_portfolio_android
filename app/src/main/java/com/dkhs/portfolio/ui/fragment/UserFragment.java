@@ -33,6 +33,7 @@ import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.adapter.UserInfoAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.widget.HorizontalDividerItemDecoration;
@@ -51,6 +52,7 @@ public class UserFragment extends BaseTitleFragment {
     public static final String TAG = "UserFragment";
     //    private UserEngineImpl userImp = new UserEngineImpl();
     private UserInfoAdapter mInfoAdatper;
+    private RecyclerView mRecyclerView;
 
     private boolean isFirst = true;//防止onResume,requestData多次获取数据
 
@@ -98,7 +100,8 @@ public class UserFragment extends BaseTitleFragment {
         BusProvider.getInstance().register(this);
 
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView;
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -147,6 +150,14 @@ public class UserFragment extends BaseTitleFragment {
         startActivity(intent);
     }
 
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()){
+            if(mRecyclerView != null){
+                mRecyclerView.scrollToPosition(0);
+            }
+        }
+    }
 
     @Override
     public void onDestroy() {

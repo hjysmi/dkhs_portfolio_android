@@ -21,6 +21,7 @@ import com.dkhs.portfolio.engine.HotTopicEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.ReConNetEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.mingle.autolist.AutoData;
 import com.mingle.autolist.AutoList;
@@ -98,6 +99,15 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
     public void onDestroyView() {
         BusProvider.getInstance().unregister(this);
         super.onDestroyView();
+    }
+
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()){
+            if(mListView != null){
+                mListView.smoothScrollToPosition(0);
+            }
+        }
     }
 
 //    @Subscribe

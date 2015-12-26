@@ -35,6 +35,7 @@ import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabComTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -533,6 +534,15 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
                     setUpType(tvPercentgae);
                 }
 
+            }
+        }
+    }
+
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()){
+            if(mListView != null){
+                mListView.smoothScrollToPosition(0);
             }
         }
     }

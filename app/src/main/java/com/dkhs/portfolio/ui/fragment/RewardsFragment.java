@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.ReConNetEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicStateEvent;
 import com.mingle.autolist.AutoData;
@@ -125,6 +126,15 @@ public class RewardsFragment extends LoadMoreListFragment  {
             mRewardEngine = new RewardEngineImpl(this);
         }
         return mRewardEngine;
+    }
+
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()){
+            if(mListView != null){
+                mListView.smoothScrollToPosition(0);
+            }
+        }
     }
 
     @Override

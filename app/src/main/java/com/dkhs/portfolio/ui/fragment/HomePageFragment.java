@@ -439,7 +439,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     public void forward2Top(TopEvent event){
         if(event != null && isVisible()){
             if(mListView != null){
-                mListView.setSelection(0);
+                mListView.smoothScrollToPosition(0);
             }
         }
     }

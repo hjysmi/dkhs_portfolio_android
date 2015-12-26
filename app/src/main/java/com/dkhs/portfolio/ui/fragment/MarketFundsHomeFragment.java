@@ -48,6 +48,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
+import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -111,6 +112,15 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             boolean fundManagerRanking = bundle.getBoolean("fund_manager_ranking", true);
             if (fundManagerRanking) {
             } else {
+            }
+        }
+    }
+
+    @Subscribe
+    public void forward2Top(TopEvent event){
+        if(event != null && isVisible()){
+            if(mListView != null){
+                mListView.smoothScrollToPosition(0);
             }
         }
     }
