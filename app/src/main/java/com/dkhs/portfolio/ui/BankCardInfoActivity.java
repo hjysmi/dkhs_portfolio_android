@@ -340,7 +340,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                             } else {
                                 //TODO 没设置过交易密码
                                 PromptManager.showToast("没有设置过交易密码");
-                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 0);
+                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 1);
                             }
                         }
                     }

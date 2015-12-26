@@ -20,7 +20,7 @@ public class MenuBean {
 
     private String value;
 
-    private int allowTrade;
+    public static int allowTrade;
 
     public String getValue() {
         return value;
@@ -48,13 +48,7 @@ public class MenuBean {
     }
 
 
-    public int getAllowTrade() {
-        return allowTrade;
-    }
 
-    public void setAllowTrade(int allowTrade) {
-        this.allowTrade = allowTrade;
-    }
 
     public static LinkedList<MenuBean> fundTypeFromXml(Context ctx) {
 

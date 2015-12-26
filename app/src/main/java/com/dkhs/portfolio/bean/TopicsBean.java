@@ -22,7 +22,7 @@ public class TopicsBean extends LikeBean {
     /**
      * symbols : [{"id":101000910,"symbol":"SH600651","abbr_name":"飞乐音响"}]
      */
-    public List<SymbolsBean> symbols;
+    public List<FundQuoteBean> symbols;
     /**
      * source : {"id":68,"title":"齐鲁证券"}
      */
@@ -58,26 +58,7 @@ public class TopicsBean extends LikeBean {
 //        public int size;
 //    }
 
-    @Parcel
-    public static class SymbolsBean {
-        /**
-         * id : 101000910
-         * symbol : SH600651
-         * abbr_name : 飞乐音响
-         */
-        public int id;
-        public String symbol;
-        public String symbol_type;
-        public int symbol_stype;
-        public String recommend_desc;
-        public String abbr_name;
-        public double percent_six_month;
-        public String net_value;
-        public String net_cumulative;
-        public String year_yld;
-        public String tenthou_unit_incm;
-        public String list_status;
-    }
+
 
     @Parcel
     public static class SourceBean {

@@ -194,6 +194,8 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     @Subscribe
     public void updateData(UpdateSelectStockEvent event){
+        if(event == null || loadDataListFragment == null)
+            return;
         if(event.type == UpdateSelectStockEvent.ADD_TYPE){
             loadDataListFragment.addData(event.selectStockBean);
         }else if(event.type == UpdateSelectStockEvent.DEL_TYPE){
@@ -370,7 +372,6 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         updateHandler.removeCallbacks(updateRunnable);
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         // MobclickAgent.onPause(this);
-        BusProvider.getInstance().unregister(this);
     }
 
     @Subscribe
@@ -448,4 +449,9 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         return Collections.EMPTY_LIST;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
+    }
 }
