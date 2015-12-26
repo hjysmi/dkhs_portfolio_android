@@ -207,6 +207,15 @@
         <item>-win_rate_tyear</item>
     </string-array>
 
+    <string-array name="fund_manager_rate_sort_values">
+        <item>-index_rate_week</item>
+        <item>-index_rate_month</item>
+        <item>-index_rate_six_month</item>
+        <item>-index_rate_year</item>
+        <item>-index_rate_twyear</item>
+        <item>-index_rate_tyear</item>
+    </string-array>
+
 
     <string-array name="fund_sort_keys">
         <item>@string/percent_day</item>
@@ -425,6 +434,7 @@
         <item>未知</item>
         <item>低</item>
         <item>中低</item>
+        <item>中</item>
         <item>中高</item>
         <item>高</item>
     </string-array>

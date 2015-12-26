@@ -5,7 +5,7 @@ package com.dkhs.portfolio.bean;
  */
 public class MyFund {
 
-    private Fund fund;
+    private FundQuoteBean fund;
     private String worth_value;
     private String income_total;
     private String income_latest;
@@ -32,11 +32,11 @@ public class MyFund {
         this.trade_status = trade_status;
     }
 
-    public Fund getFund() {
+    public FundQuoteBean getFund() {
         return fund;
     }
 
-    public void setFund(Fund fund) {
+    public void setFund(FundQuoteBean fund) {
         this.fund = fund;
     }
 

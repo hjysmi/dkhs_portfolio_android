@@ -81,13 +81,14 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
     /**
      * post身份认证
      */
-    public void verifyIdentityAuth(String bank, String bank_card_no, String real_name, String id_card_no, String mobile, IHttpListener listener){
+    public void verifyIdentityAuth(String bank, String bank_card_no, String real_name, String id_card_no, String mobile, String captcha, IHttpListener listener){
         RequestParams params = new RequestParams();
         params.addBodyParameter("bank", bank);
         params.addBodyParameter("bank_card_no", bank_card_no);
         params.addBodyParameter("real_name", real_name);
         params.addBodyParameter("id_card_no", id_card_no);
         params.addBodyParameter("mobile", mobile);
+        params.addBodyParameter("captcha", captcha);
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.verify_identy, params,listener);
     }
 
@@ -135,17 +136,17 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         params.addBodyParameter("new_password",new_password);
         DKHSClient.requestByPost(DKHSUrl.Funds.change_trade_password,params,listener);
     }
-    public void buyFund(String fund_id, String bank_card_id,String amount,String password, IHttpListener listener){
+    public void buyFund(long fund_id, String bank_card_id,String amount,String password, IHttpListener listener){
         RequestParams params = new RequestParams();
-        params.addBodyParameter("fund_id",fund_id);
+        params.addBodyParameter("fund_id", String.valueOf(fund_id));
         params.addBodyParameter("bank_card_id",bank_card_id);
         params.addBodyParameter("amount",amount);
         params.addBodyParameter("password",password);
         DKHSClient.requestByPost(DKHSUrl.Funds.buy_fund,params,listener);
     }
-    public void sellFund(String fund_id, String bank_card_id,String shares,String password, IHttpListener listener){
+    public void sellFund(long fund_id, String bank_card_id,String shares,String password, IHttpListener listener){
         RequestParams params = new RequestParams();
-        params.addBodyParameter("fund_id",fund_id);
+        params.addBodyParameter("fund_id", String.valueOf(fund_id));
         params.addBodyParameter("bank_card_id",bank_card_id);
         params.addBodyParameter("shares",shares);
         params.addBodyParameter("password",password);

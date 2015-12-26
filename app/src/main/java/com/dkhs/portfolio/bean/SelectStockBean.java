@@ -113,6 +113,7 @@ public class SelectStockBean extends DragListItem implements Serializable{
         bean.id = symbolsBean.id;
         bean.symbol = symbolsBean.symbol;
         bean.symbol_stype = symbolsBean.symbol_stype;
+        bean.tradeDay = symbolsBean.getTradedate();
         bean.list_status = String.valueOf(symbolsBean.getList_status());
         return bean;
     }
@@ -222,15 +223,6 @@ public class SelectStockBean extends DragListItem implements Serializable{
         selectBean.list_status = stockBean.getList_status() + "";
         selectBean.total_capital = stockBean.getTotal_capital();
         selectBean.alertSetBean = stockBean.getAlertSetBean();
-        return selectBean;
-    }
-    public static SelectStockBean copy(Fund myFund) {
-
-        SelectStockBean selectBean = new SelectStockBean();
-        selectBean.id = Long.parseLong(myFund.getId());
-        selectBean.name = myFund.getName();
-        selectBean.symbol = myFund.getSymbol();
-        selectBean.tradeDay = myFund.getTradedate();
         return selectBean;
     }
 

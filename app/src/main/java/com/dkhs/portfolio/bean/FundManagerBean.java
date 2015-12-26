@@ -51,6 +51,13 @@ public class FundManagerBean {
     public String recommend_title;
     public String recommend_desc;
     public String fund_company;
+    public float index_rate_day;
+    public float index_rate_month;
+    public float index_rate_season;
+    public float index_rate_six_month;
+    public float index_rate_year;
+    public float index_rate_tyear;
+    public float index_rate_twyear;
 
 
     public Float getValue(String value) {
@@ -71,6 +78,22 @@ public class FundManagerBean {
                 return win_rate_week;
             case "-win_rate_twyear":
                 return win_rate_twyear;
+            case "-index_rate_day":
+                return index_rate_day;
+            case "-index_rate_month":
+                return index_rate_month;
+            case "-index_rate_season":
+                return index_rate_season;
+            case "-index_rate_six_month":
+                return index_rate_six_month;
+            case "-index_rate_year":
+                return index_rate_year;
+            case "-index_rate_tyear":
+                return index_rate_tyear;
+            case "-index_rate_week":
+                return index_rate_week;
+            case "-index_rate_twyear":
+                return index_rate_twyear;
         }
         return null;
     }

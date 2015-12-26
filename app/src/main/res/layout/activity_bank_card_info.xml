@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#f2f2f2"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_choose_bank_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_white_gray_selector"
         android:layout_marginTop="@dimen/widget_margin_large"
-        android:orientation="horizontal"
+        android:background="@drawable/bg_white_gray_selector"
         android:clickable="true"
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_bank_tip"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_normal"
             android:layout_weight="2"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/widget_margin_normal"
             android:text="@string/bank_type"
-            android:textSize="@dimen/widget_text_16sp"/>
+            android:textSize="@dimen/widget_text_16sp" />
 
         <TextView
             android:id="@+id/tv_bank"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
             android:layout_centerVertical="true"
-            android:textColor="@color/gray_textcolor"
             android:layout_toRightOf="@+id/bank"
+            android:layout_weight="5"
             android:focusableInTouchMode="false"
             android:text="选择银行"
-            android:textSize="@dimen/widget_text_16sp"/>
+            android:textColor="@color/gray_textcolor"
+            android:textSize="@dimen/widget_text_16sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,49 +44,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/widget_margin_normal"
             android:layout_marginLeft="@dimen/widget_margin_large"
             android:layout_marginTop="@dimen/widget_margin_normal"
-            android:layout_marginBottom="@dimen/widget_margin_normal"
-            android:textColor="@color/gray_textcolor"
             android:text="@string/pls_input_bank_card_mobile"
-            />
+            android:textColor="@color/gray_textcolor" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@drawable/bg_white_gray_selector"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/widget_margin_normal"
                 android:layout_weight="2"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/widget_margin_normal"
                 android:text="@string/bank_card"
-                android:textSize="@dimen/widget_text_16sp"/>
+                android:textSize="@dimen/widget_text_16sp" />
 
             <com.dkhs.portfolio.ui.widget.ClearableEditText
                 android:id="@+id/et_bank_card"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
                 android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/bank"
+                android:layout_weight="5"
                 android:background="@null"
                 android:hint="**1455(请输入完整卡号)"
                 android:inputType="number"
                 android:maxLength="19"
                 android:textColor="@color/black"
-                android:layout_toRightOf="@+id/bank"
-                android:textSize="@dimen/widget_text_16sp"/>
+                android:textSize="@dimen/widget_text_16sp" />
         </LinearLayout>
 
 
@@ -96,38 +93,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:layout_marginTop="@dimen/widget_margin_large"
-        android:orientation="vertical"
-        >
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_gray_selector"
             android:clickable="false"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/widget_margin_normal"
+                android:layout_weight="2"
                 android:text="@string/real_name"
-                android:textSize="@dimen/widget_text_16sp"/>
+                android:textSize="@dimen/widget_text_16sp" />
 
             <com.dkhs.portfolio.ui.widget.ClearableEditText
                 android:id="@+id/et_real_name"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
                 android:layout_centerVertical="true"
+                android:layout_weight="5"
                 android:background="@null"
                 android:hint="@string/hint_real_name"
                 android:singleLine="true"
-                android:textSize="@dimen/widget_text_14sp"/>
+                android:textSize="@dimen/widget_text_14sp" />
         </LinearLayout>
 
         <View
@@ -135,38 +130,36 @@
             android:layout_height="0.1dip"
             android:layout_marginLeft="@dimen/widget_margin_large"
             android:layout_marginRight="@dimen/widget_margin_normal"
-            android:background="@color/point_lighter_gray"
-            />
+            android:background="@color/point_lighter_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_gray_selector"
             android:clickable="false"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/widget_margin_normal"
+                android:layout_weight="2"
                 android:text="@string/id_card_no"
-                android:textSize="@dimen/widget_text_16sp"/>
+                android:textSize="@dimen/widget_text_16sp" />
 
             <com.dkhs.portfolio.ui.widget.ClearableEditText
                 android:id="@+id/et_id_card_no"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
                 android:layout_centerVertical="true"
+                android:layout_weight="5"
                 android:background="@null"
+                android:digits="0123456789xyzXYZ"
                 android:hint="@string/hint_id_card_no"
                 android:inputType="number"
-                android:digits="0123456789xyzXYZ"
                 android:singleLine="true"
-                android:textSize="@dimen/widget_text_14sp"/>
+                android:textSize="@dimen/widget_text_14sp" />
         </LinearLayout>
 
         <View
@@ -174,40 +167,79 @@
             android:layout_height="0.1dip"
             android:layout_marginLeft="@dimen/widget_margin_large"
             android:layout_marginRight="@dimen/widget_margin_normal"
-            android:background="@color/point_lighter_gray"
-            />
+            android:background="@color/point_lighter_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_gray_selector"
             android:clickable="false"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/widget_margin_normal"
+                android:layout_weight="2"
                 android:text="@string/bank_card_mobile"
-                android:textSize="@dimen/widget_text_16sp"/>
+                android:textSize="@dimen/widget_text_16sp" />
 
             <com.dkhs.portfolio.ui.widget.ClearableEditText
                 android:id="@+id/et_bank_card_mobile"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
                 android:layout_centerVertical="true"
+                android:layout_weight="5"
                 android:background="@null"
                 android:hint="@string/hint_bank_card_mobile"
                 android:inputType="number"
                 android:maxLength="11"
                 android:singleLine="true"
-                android:textSize="@dimen/widget_text_14sp"/>
+                android:textSize="@dimen/widget_text_14sp" />
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_bg"
+        android:orientation="horizontal">
+
+
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
+            android:id="@+id/et_verifycode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/widget_margin_medium"
+            android:layout_marginRight="@dimen/widget_margin_medium"
+            android:layout_toRightOf="@+id/tv_verifycode"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/hint_verify_code"
+            android:inputType="numberDecimal"
+            android:orientation="horizontal"
+            android:singleLine="true"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="@dimen/edittext_content_size" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:background="#f2f2f2" />
+
+        <TextView
+            android:id="@+id/btn_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/get_code"
+            android:textColor="@color/theme_blue"
+            android:textSize="@dimen/edittext_title_size" />
     </LinearLayout>
 
     <Button
@@ -217,41 +249,39 @@
         android:layout_marginRight="@dimen/widget_margin_xlarge"
         android:layout_marginTop="@dimen/widget_margin_xxlarge"
         android:enabled="false"
-        android:text="下一步"/>
+        android:text="下一步" />
 
     <LinearLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
 
         <CheckBox
             android:id="@+id/cb_agree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/cb_agree_seletor"
-            android:checked="true"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="@dimen/widget_margin_xlarge"
             android:layout_marginRight="5dp"
-            android:text="@string/read_and_agree"
+            android:layout_marginTop="8dp"
+            android:button="@drawable/cb_agree_seletor"
+            android:checked="true"
             android:gravity="top"
-            android:textSize="@dimen/widget_text_14sp"/>
+            android:text="@string/read_and_agree"
+            android:textSize="@dimen/widget_text_14sp" />
 
         <TextView
-            android:layout_height="wrap_content"
+            android:id="@+id/rlt_agreement"
             android:layout_width="wrap_content"
-            android:singleLine="true"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:gravity="top"
-            android:textSize="@dimen/widget_text_14sp"
+            android:singleLine="true"
             android:text="@string/authorization_bank"
             android:textColor="@drawable/agreement_color_selector"
-            android:id="@+id/rlt_agreement"
-            />
+            android:textSize="@dimen/widget_text_14sp" />
     </LinearLayout>
 
 </LinearLayout>

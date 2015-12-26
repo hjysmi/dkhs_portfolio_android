@@ -174,7 +174,7 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     private void initData() {
         nonZeroFundSorts = getResources().getStringArray(R.array.fund_sort_values);
         zeroFundSorts = getResources().getStringArray(R.array.sep_fund_sort_values);
-        managerSorts = getResources().getStringArray(R.array.fund_manager_sort_values);
+        managerSorts = getResources().getStringArray(R.array.fund_manager_rate_sort_values);
         zeroTitles = getResources().getStringArray(R.array.sep_fund_sort_keys);
         nonZeroTitles = getResources().getStringArray(R.array.fund_sort_keys);
         managerTitles = getResources().getStringArray(R.array.fund_manager_sort_keys);
