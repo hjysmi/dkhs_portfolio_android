@@ -8,14 +8,9 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.RecommendFundSpecialMarketBean;
-import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.MarketSubpageActivity;
 import com.dkhs.portfolio.ui.fragment.MarketSubpageFragment;
 import com.dkhs.portfolio.utils.UIUtils;
-
-import org.parceler.apache.commons.lang.ObjectUtils;
-
-import java.util.List;
 
 /**
  * Created by zcm on 2015/12/08.
@@ -48,6 +43,7 @@ public class FundSpecialMarketHandler extends SimpleItemHandler<RecommendFundSpe
                 break;
             case R.id.ll_profit_rank:
                 UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH));
+               // UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_PROFIT));
                 break;
             case R.id.ll_hybrid:
                 UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_MIXED_MONTH));
