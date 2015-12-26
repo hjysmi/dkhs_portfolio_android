@@ -871,12 +871,24 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
 
     public void addData(SelectStockBean bean){
         mDataList.add(0,bean);
+        notifyDataUpdate();
         mAdapterConbinStock.notifyDataSetChanged();
     }
 
     public void removeData(SelectStockBean bean){
         mDataList.remove(bean);
+        notifyDataUpdate();
         mAdapterConbinStock.notifyDataSetChanged();
+    }
+
+    private void notifyDataUpdate() {
+        if (null == mDataList || mDataList.isEmpty()) {
+            showEmptyNotice();
+            BusProvider.getInstance().post(new DataUpdateEvent(true));
+        } else {
+            hideEmptyNotice();
+            BusProvider.getInstance().post(new DataUpdateEvent(false));
+        }
     }
 
 //    public boolean isDefLoad() {
