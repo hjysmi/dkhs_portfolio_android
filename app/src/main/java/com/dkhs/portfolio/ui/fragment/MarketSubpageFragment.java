@@ -149,6 +149,15 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                 fragment = fundsFragment;
                 setTitle(R.string.fund_manager_rank);
                 break;
+            case TYPE_FUND_PROFIT:
+                //基金收益排行
+                mBtnrefresh.setVisibility(View.VISIBLE);
+                mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                        null, null, null);
+                fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
+                fragment = fundsFragment;
+                setTitle(R.string.fund_rank);
+                break;
             default:
                 mBtnrefresh.setVisibility(View.GONE);
                 mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),

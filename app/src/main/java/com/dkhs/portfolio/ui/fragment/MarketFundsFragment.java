@@ -204,8 +204,9 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
 
     private void replaceWithNonZeroRateFund(int defaultIndex) {
         fragments.clear();
+
         for (int i = 0; i < nonZeroTitles.length; i++) {
-            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i]);
+            FundOrderFragment fg = FundOrderFragment.newInstant(fundTypeMenuChooserL.getSelectItem().getValue(), nonZeroFundSorts[i],curType.ordinal());
             fragments.add(fg);
         }
         adapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), fragments, nonZeroTitles);
@@ -276,6 +277,10 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
             case TYPE_FUND_MIXED_MONTH:
                 defaultIndex = FUNDS_INDEX_MONTH;
                 fundTypeMenuChooserL.setFundsMixedRanking();
+                break;
+            case TYPE_FUND_PROFIT:
+                defaultIndex = FUNDS_INDEX_MONTH;
+                fundTypeMenuChooserL.setFundsAllRanking();
                 break;
         }
     }

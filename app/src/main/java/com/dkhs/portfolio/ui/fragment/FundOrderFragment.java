@@ -16,6 +16,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundOrderEngineImpl;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.ItemView.FundOrderItemHandler;
+import com.dkhs.portfolio.ui.ItemView.FundOrderOtherHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
@@ -39,8 +40,6 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     private DKBaseAdapter adapter;
 
 
-
-
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -58,6 +57,18 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         return fundsOrderFragment;
     }
 
+    public static FundOrderFragment newInstant(String type, String sort, int marketType) {
+
+        FundOrderFragment fundsOrderFragment = new FundOrderFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        bundle.putString("sort", sort);
+        bundle.putInt("curType", marketType);
+        fundsOrderFragment.setArguments(bundle);
+        return fundsOrderFragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -71,19 +82,21 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     private String type;
     private String sort;
     private int allowTrade;
-
+    private MarketSubpageFragment.SubpageType curType;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         type = bundle.getString("type");
         sort = bundle.getString("sort");
+        curType = MarketSubpageFragment.SubpageType.valueOf(bundle.getInt("curType"));
 //        mListView.setDivider(null);
+        super.onViewCreated(view, savedInstanceState);
+
         loadData();
     }
 
-    public void refresh(){
+    public void refresh() {
         LogUtils.d("wys", "fund order refresh");
         loadData();
     }
@@ -94,12 +107,12 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     }
 
-    public void setType(String type,int allowTrade){
+    public void setType(String type, int allowTrade) {
         LogUtils.d("wys", "fund order setType");
-        if(this.type != type || this.allowTrade != allowTrade){
+        if (this.type != type || this.allowTrade != allowTrade) {
             this.type = type;
             this.allowTrade = allowTrade;
-            if(isVisible()){
+            if (isVisible()) {
                 loadData();
             }
         }
@@ -110,8 +123,13 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
         mSwipeLayout.setRefreshing(true);
         startLoadData();
-        ((FundOrderItemHandler)adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
-        setHttpHandler(getLoadEngine().loadDate(type, sort,allowTrade));
+        if(curType== MarketSubpageFragment.SubpageType.TYPE_FUND_PROFIT){
+            ((FundOrderOtherHandler) adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
+        }else{
+            ((FundOrderItemHandler) adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
+        }
+
+        setHttpHandler(getLoadEngine().loadDate(type, sort, allowTrade));
     }
 
     @Override
@@ -130,9 +148,12 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     BaseAdapter getListAdapter() {
-
         if (null == adapter) {
-            adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FundOrderItemHandler(getActivity()));
+            if(curType== MarketSubpageFragment.SubpageType.TYPE_FUND_PROFIT){
+                adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FundOrderOtherHandler(getActivity()));
+            }else{
+                adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FundOrderItemHandler(getActivity()));
+            }
         }
         return adapter;
     }

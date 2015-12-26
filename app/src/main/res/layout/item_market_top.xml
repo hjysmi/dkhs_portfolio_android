@@ -100,7 +100,7 @@
                     android:gravity="bottom"
                     android:singleLine="true"
                     android:textColor="@color/theme_blue"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_marginLeftPercent="2%w"
                     app:layout_textSizePercent="3.5%w"
                     tools:text="0费率" />
@@ -117,6 +117,7 @@
                     android:singleLine="true"
                     android:text="未代销"
                     android:textColor="@color/stock_gray_bg"
+                    android:visibility="gone"
                     app:layout_marginLeftPercent="2%w"
                     app:layout_textSizePercent="3.5%w" />
 
@@ -131,7 +132,7 @@
                     android:gravity="bottom"
                     android:singleLine="true"
                     android:textColor="@color/theme_blue"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_marginLeftPercent="2%w"
                     app:layout_textSizePercent="3.5%w"
                     tools:text="100元起" />
