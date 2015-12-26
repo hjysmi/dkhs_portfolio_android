@@ -107,13 +107,13 @@ public class SelectStockBean extends DragListItem implements Serializable{
         return bean;
     }
 
-    public static SelectStockBean copy(TopicsBean.SymbolsBean symbolsBean) {
+    public static SelectStockBean copy(FundQuoteBean symbolsBean) {
         SelectStockBean bean = new SelectStockBean();
-        bean.name = symbolsBean.abbr_name;
+        bean.name = symbolsBean.getAbbrName();
         bean.id = symbolsBean.id;
         bean.symbol = symbolsBean.symbol;
         bean.symbol_stype = symbolsBean.symbol_stype;
-        bean.list_status = symbolsBean.list_status;
+        bean.list_status = String.valueOf(symbolsBean.getList_status());
         return bean;
     }
 
