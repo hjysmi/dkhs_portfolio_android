@@ -16,6 +16,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundOrderEngineImpl;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.ItemView.FundOrderItemHandler;
+import com.dkhs.portfolio.ui.ItemView.FundOrderOtherHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
@@ -35,10 +36,8 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     private List<FundPriceBean> dataList = new ArrayList<>();
     private FundOrderEngineImpl fundOrderEngine = null;
-
+    private MarketSubpageFragment.SubpageType curType;
     private DKBaseAdapter adapter;
-
-
 
 
     @Override
@@ -47,18 +46,31 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     }
 
     public static FundOrderFragment newInstant(String type, String sort) {
-        return newInstant(type,sort,MarketFundsFragment.SHOW_ALL);
+        return newInstant(type, sort, MarketFundsFragment.SHOW_ALL);
     }
 
-    public static FundOrderFragment newInstant(String type, String sort,int allowTrade) {
+    public static FundOrderFragment newInstant(String type, String sort, int allowTrade) {
 
         FundOrderFragment fundsOrderFragment = new FundOrderFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         bundle.putString("sort", sort);
-        bundle.putInt("allow_trade",allowTrade);
+        bundle.putInt("allow_trade", allowTrade);
 
+        fundsOrderFragment.setArguments(bundle);
+        return fundsOrderFragment;
+    }
+
+    public static FundOrderFragment newInstant(String type, String sort, int allowTrade, int marketType) {
+
+        FundOrderFragment fundsOrderFragment = new FundOrderFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        bundle.putString("sort", sort);
+        bundle.putInt("allow_trade", allowTrade);
+        bundle.putInt("marketType", marketType);
         fundsOrderFragment.setArguments(bundle);
         return fundsOrderFragment;
     }
@@ -80,16 +92,17 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         type = bundle.getString("type");
         sort = bundle.getString("sort");
         allowTrade = bundle.getInt("allow_trade");
+        curType = MarketSubpageFragment.SubpageType.valueOf(bundle.getInt("marketType"));
+        super.onViewCreated(view, savedInstanceState);
 //        mListView.setDivider(null);
         loadData();
     }
 
-    public void refresh(){
+    public void refresh() {
         LogUtils.d("wys", "fund order refresh");
         loadData();
     }
@@ -100,12 +113,12 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     }
 
-    public void setType(String type,int allowTrade){
+    public void setType(String type, int allowTrade) {
         LogUtils.d("wys", "fund order setType");
-        if(this.type != type || this.allowTrade != allowTrade){
+        if (this.type != type || this.allowTrade != allowTrade) {
             this.type = type;
             this.allowTrade = allowTrade;
-            if(isVisible()){
+            if (isVisible()) {
                 loadData();
             }
         }
@@ -113,11 +126,15 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     public void loadData() {
-
         mSwipeLayout.setRefreshing(true);
         startLoadData();
-        ((FundOrderItemHandler)adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
-        setHttpHandler(getLoadEngine().loadDate(type, sort,allowTrade));
+        if (curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_MIXED_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_YEAR) {
+            ((FundOrderOtherHandler) adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
+        } else {
+            ((FundOrderItemHandler) adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
+        }
+
+        setHttpHandler(getLoadEngine().loadDate(type, sort, allowTrade));
     }
 
     @Override
@@ -136,9 +153,13 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     BaseAdapter getListAdapter() {
-
         if (null == adapter) {
-            adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FundOrderItemHandler(getActivity()));
+            if (curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_MIXED_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_YEAR) {
+                adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FundOrderOtherHandler(getActivity()));
+            } else {
+                adapter = new DKBaseAdapter(getActivity(), dataList).buildSingleItemView(new FundOrderItemHandler(getActivity()));
+            }
+
         }
         return adapter;
     }
