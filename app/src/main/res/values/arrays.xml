@@ -425,6 +425,7 @@
         <item>未知</item>
         <item>低</item>
         <item>中低</item>
+        <item>中</item>
         <item>中高</item>
         <item>高</item>
     </string-array>
