@@ -156,14 +156,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 setupLastUserInfo();
             }
         } else {
-            hideHead();
             if (!TextUtils.isEmpty(phoneNum)) {
                 etUserName.setText(phoneNum);
             } else if (!TextUtils.isEmpty(mUserAccout)) {
                 etUserName.setText(mUserAccout);
                 setupLastUserInfo();
             }
-
         }
     }
 
