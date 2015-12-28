@@ -37,6 +37,13 @@
             android:text="选择银行"
             android:textColor="@color/gray_textcolor"
             android:textSize="@dimen/widget_text_16sp" />
+        <ImageView
+            android:id="@+id/image_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_image_right"/>
     </LinearLayout>
 
     <LinearLayout
@@ -82,7 +89,7 @@
                 android:background="@null"
                 android:hint="**1455(请输入完整卡号)"
                 android:inputType="number"
-                android:maxLength="19"
+                android:maxLength="23"
                 android:textColor="@color/black"
                 android:textSize="@dimen/widget_text_16sp" />
         </LinearLayout>

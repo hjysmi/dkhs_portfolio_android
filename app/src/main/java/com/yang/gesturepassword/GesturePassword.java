@@ -9,5 +9,6 @@ public class GesturePassword {
     public String password;
     public boolean isOpen;
     public int leftCount;
+    public long lockedTime;
 
 }

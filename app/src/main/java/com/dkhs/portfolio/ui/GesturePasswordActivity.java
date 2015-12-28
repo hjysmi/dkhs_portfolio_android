@@ -21,6 +21,7 @@ import com.yang.gesturepassword.GesturePassword;
 import com.yang.gesturepassword.GesturePasswordManager;
 import com.yang.gesturepassword.LockPatternView;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -121,7 +122,16 @@ public class GesturePasswordActivity extends ModelAcitivity {
             gesPassword.mobile = GlobalParams.MOBILE;
         } else {
             if (gesPassword.leftCount == 0 && !isResetMode) {
-                showErrorDialog();
+                Date now = new Date();
+                Date tmp = new Date(gesPassword.lockedTime);
+                if(tmp.before(now)){
+                    //可以再次输入密码了
+                    gesPassword.leftCount = 4;
+                }else{
+                    long leftTime = (tmp.getTime() - now.getTime())/1000;
+                    int leftM = (int) Math.ceil ((double)leftTime / 60);
+                    showErrorDialog(leftM);
+                }
             }else if(gesPassword.leftCount == 1){
                 gesPassword.leftCount = 0;
             }
@@ -272,7 +282,9 @@ public class GesturePasswordActivity extends ModelAcitivity {
                         lockPatternView.clearPattern();
                         if (gesPassword.leftCount == 0) {
                             tv_tip.setText(String.format(getResources().getString(R.string.blank_gesture_password_error), gesPassword.leftCount));
-                            showErrorDialog();
+                            // TODO: 2015/12/28 限制时间
+                            gesPassword.lockedTime = System.currentTimeMillis() + 1000 * 15;
+                            showErrorDialog(10);
                         } else {
                             tv_tip.setText(String.format(getResources().getString(R.string.blank_gesture_password_error), gesPassword.leftCount));
                         }
@@ -338,14 +350,14 @@ public class GesturePasswordActivity extends ModelAcitivity {
         super.onBackPressed();
     }
 
-    private void showErrorDialog() {
+    private void showErrorDialog(int leftMinuteTime) {
         lockPatternView.clearPattern();
         lockPatternView.invalidate();
         gesPassword.leftCount = 0;
         GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
         new MyAlertDialog(this).builder()
                 .setCancelable(false)
-                .setMsg(getResources().getString(R.string.gesture_password_msg))
+                .setMsg(String.format(getResources().getString(R.string.blank_gesture_password_msg),leftMinuteTime))
                 .setPositiveButton(getResources().getString(R.string.verify), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -353,8 +365,10 @@ public class GesturePasswordActivity extends ModelAcitivity {
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+
                     @Override
                     public void onClick(View v) {
+                        GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
                         setResult(500);
                         manualFinish();
                     }
