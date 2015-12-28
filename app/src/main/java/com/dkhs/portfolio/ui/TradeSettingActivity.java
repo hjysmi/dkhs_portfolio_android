@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.ImageButton;
@@ -14,6 +15,7 @@ import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -22,6 +24,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.yang.gesturepassword.GesturePassword;
 import com.yang.gesturepassword.GesturePasswordManager;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -34,6 +38,10 @@ public class TradeSettingActivity extends ModelAcitivity {
     View rl_reset_gesture_password;
     @ViewInject(R.id.rl_gesture_password_setting)
     View rl_gesture_password_setting;
+    @ViewInject(R.id.tv_gesture_password)
+    TextView tv_gesture_password;
+    @ViewInject(R.id.tv_trade_password)
+    TextView tv_trade_password;
     @ViewInject(R.id.ib_gesture_setting)
     ImageButton ib_gesture_setting;
 
@@ -47,6 +55,9 @@ public class TradeSettingActivity extends ModelAcitivity {
 
     private GesturePassword gesPassword;
 
+    //是否设置过手势密码
+    private boolean hasGesturePassword;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -55,8 +66,33 @@ public class TradeSettingActivity extends ModelAcitivity {
             rl_reset_gesture_password.setVisibility(View.GONE);
             rl_gesture_password_setting.setVisibility(View.GONE);
         }else{
+            if(gesPassword != null){
+                hasGesturePassword = !TextUtils.isEmpty(gesPassword.password);
+                tv_gesture_password.setText(hasGesturePassword?R.string.reset_gesture_password:R.string.set_gesture_password);
+            }
             ib_gesture_setting.setBackgroundResource(gesPassword.isOpen?R.drawable.ios7_switch_on:R.drawable.ios7_switch_off);
         }
+        new TradeEngineImpl().isTradePasswordSet(new ParseHttpListener<Boolean>() {
+            @Override
+            protected Boolean parseDateTask(String jsonData) {
+                try {
+                    JSONObject json = new JSONObject(jsonData);
+                    if (json.has("status")) {
+                        return json.getBoolean("status");
+                    }
+
+                } catch (Exception e) {
+                }
+                return null;
+            }
+
+            @Override
+            protected void afterParseData(Boolean object) {
+                if (null != object) {
+                    tv_trade_password.setText(object?R.string.reset_trade_password:R.string.set_trade_password);
+                }
+            }
+        });
     }
 
     @OnClick({R.id.rl_reset_trade_password,R.id.rl_reset_gesture_password,R.id.ib_gesture_setting})
@@ -93,7 +129,7 @@ public class TradeSettingActivity extends ModelAcitivity {
                 break;
             case R.id.rl_reset_gesture_password:
                 if(gesPassword != null){
-                    if(TextUtils.isEmpty(gesPassword.password)){
+                    if(hasGesturePassword){
                         startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
                     }else{
                         startActivity(GesturePasswordActivity.setPasswordIntent(mContext, true));
@@ -102,7 +138,7 @@ public class TradeSettingActivity extends ModelAcitivity {
                 break;
             case R.id.ib_gesture_setting:
                 if(gesPassword != null){
-                    if(TextUtils.isEmpty(gesPassword.password)){
+                    if(hasGesturePassword){
                         startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
                     }else{
                         if(gesPassword.isOpen){

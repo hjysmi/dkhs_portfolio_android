@@ -228,7 +228,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
 
         @Override
         public void onPatternDetected(List<LockPatternView.Cell> pattern) {
-            if (TextUtils.isEmpty(gesturePassword) && pattern.size() < 4 && (isVerified || curLayoutType == TYPE_FIRST_SET_PASSWORD)) {
+            if (checkPatternAndType(pattern)) {
                 lockPatternView.clearPattern();
                 tv_tip.setText(R.string.pls_input_gesture_password_4points);
                 tv_tip.setTextColor(getResources().getColor(R.color.red));
@@ -336,10 +336,16 @@ public class GesturePasswordActivity extends ModelAcitivity {
 
     };
 
+    private boolean checkPatternAndType(List<LockPatternView.Cell> pattern){
+        return TextUtils.isEmpty(gesturePassword) && pattern.size() < 4 && (isVerified || curLayoutType == TYPE_FIRST_SET_PASSWORD || curLayoutType == TYPE_SET_PASSWROD);
+    }
+
 
     @Override
     public void onBackPressed() {
-        GlobalParams.needShowGesture = false;
+        if(curLayoutType != TYPE_VERIFY_PASSWORD)
+            GlobalParams.needShowGesture = false;
+
         setResult(500);
         if(gesPassword.leftCount == 0){
             gesPassword.leftCount =1;

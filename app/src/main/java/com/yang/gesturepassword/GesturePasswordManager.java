@@ -154,32 +154,34 @@ public class GesturePasswordManager {
 //		dbUtils.findFirst(WhereBuilder.b("mobile","=",gesPassword.mobile));
         String password = gesPassword.password;
         String imei = Util.getDeviceIMEI(context);
-        StringBuilder encryptPassword = new StringBuilder(HEADER);
-        encryptPassword.append(password);
-
-        // 加入随机字串，让每次的加密结果都不一样
-        if (encryptPassword.length() < PASSWORD_LENGTH) {
-            String randomString = Util.getRandomString(PASSWORD_LENGTH
-                    - encryptPassword.length());
-            encryptPassword.append(randomString);
+        if(!TextUtils.isEmpty(gesPassword.password)){
+            StringBuilder encryptPassword = new StringBuilder(HEADER);
+            encryptPassword.append(password);
+            // 加入随机字串，让每次的加密结果都不一样
+            if (encryptPassword.length() < PASSWORD_LENGTH) {
+                String randomString = Util.getRandomString(PASSWORD_LENGTH
+                        - encryptPassword.length());
+                encryptPassword.append(randomString);
+                String result = null;
+                try {
+                    // 密钥需要加入设备的硬件信息，防止重放
+                    result = AESUtil.encrypt(imei + HEADER + password,
+                            encryptPassword.toString());
+                } catch (Exception e) {
+                    // AES加密失败，就取md5值
+                    result = Md5Generator.generate(imei + HEADER + password);
+                }
+                // 在sp中保存的key使用相应的md5值，以免轻易暴露此key保存内容的作用
+                String saveKey = Md5Generator.generate(GESTURE_PASSWORD_LOCAL_KEY);
+                if (saveKey.length() > 64) {
+                    saveKey = saveKey.substring(0, 64);
+                }
+                gesPassword.password = result;
+            }
         }
 
-        String result = null;
+
         try {
-            // 密钥需要加入设备的硬件信息，防止重放
-            result = AESUtil.encrypt(imei + HEADER + password,
-                    encryptPassword.toString());
-        } catch (Exception e) {
-            // AES加密失败，就取md5值
-            result = Md5Generator.generate(imei + HEADER + password);
-        }
-        // 在sp中保存的key使用相应的md5值，以免轻易暴露此key保存内容的作用
-        String saveKey = Md5Generator.generate(GESTURE_PASSWORD_LOCAL_KEY);
-        if (saveKey.length() > 64) {
-            saveKey = saveKey.substring(0, 64);
-        }
-        try {
-            gesPassword.password = result;
             GesturePassword originPsw = dbUtils.findFirst(Selector.from(GesturePassword.class).where("mobile", "=", gesPassword.mobile));
             if (originPsw != null) {
                 gesPassword.id = originPsw.id;

@@ -853,7 +853,7 @@
     <string name="blank_total_assets">%1$s&#160;总资产(元)</string>
     <string name="blank_funds_count">(%1$d支)</string>
     <string name="blank_bank_cards_count">(%1$d张)</string>
-    <string name="recent_profit">今日最新收益(元)</string>
+    <string name="recent_profit">最新收益(元)</string>
     <string name="assest_total_profit">累计收益(元)</string>
     <string name="small_change">零钱</string>
     <string name="my_funds">持仓基金</string>
@@ -881,7 +881,9 @@
     <string name="hint_bank_card_mobile">银行预留手机号</string>
     <string name="pls_input_bank_card_mobile">请输入持卡人本人的银行卡号</string>
     <string name="reset_trade_password">重置交易密码</string>
+    <string name="set_trade_password">设置交易密码</string>
     <string name="reset_gesture_password">重置手势密码</string>
+    <string name="set_gesture_password">设置手势密码</string>
     <string name="remember_original_trade_password">我记得交易密码</string>
     <string name="forget_original_trade_password">我忘记交易密码</string>
     <string name="gesture_password">手势密码</string>
@@ -926,7 +928,7 @@
     <string name="buy_in">买入</string>
     <string name="sell_out">卖出</string>
     <string name="percent_new">最新涨幅</string>
-    <string name="recent_profit_fund">今日收益(元)</string>
+    <string name="recent_profit_fund">最新收益(元)</string>
     <string name="total_profit_fund">累计收益(元)</string>
     <string name="fund_value">持有市值(元)</string>
     <string name="net_new">最新净值</string>
