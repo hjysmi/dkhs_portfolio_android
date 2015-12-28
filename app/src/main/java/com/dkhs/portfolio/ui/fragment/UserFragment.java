@@ -151,9 +151,9 @@ public class UserFragment extends BaseTitleFragment {
     }
 
     @Subscribe
-    public void forward2Top(TopEvent event){
-        if(event != null && isVisible()){
-            if(mRecyclerView != null){
+    public void forward2Top(TopEvent event) {
+        if (event != null && isVisible()) {
+            if (mRecyclerView != null) {
                 mRecyclerView.scrollToPosition(0);
             }
         }
@@ -182,7 +182,6 @@ public class UserFragment extends BaseTitleFragment {
         } else {
             updateState();
         }
-        mInfoAdatper.notifyItemChanged(0);
     }
 
     private void updateState() {
@@ -207,6 +206,7 @@ public class UserFragment extends BaseTitleFragment {
         @Override
         protected void afterParseData(UserEntity entity) {
             if (null != entity) {
+                checkRefush(entity);
                 GlobalParams.LOGIN_USER = entity;
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
@@ -222,7 +222,8 @@ public class UserFragment extends BaseTitleFragment {
                 } else {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, entity.verified_status);
                 }
-                mInfoAdatper.notifyItemChanged(0);
+
+                //  mInfoAdatper.notifyItemChanged(0);
             }
         }
 
@@ -232,6 +233,22 @@ public class UserFragment extends BaseTitleFragment {
 
         }
     };
+
+    /**
+     * 在线数据与本地数据匹配
+     * 如果不同就刷新页面
+     *防止过度刷新
+     * @param entity
+     */
+    private void checkRefush(UserEntity entity) {
+        if (!PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME).equals(entity.getUsername())
+                || GlobalParams.LOGIN_USER.getFriends_count() != entity.getFriends_count()
+                || GlobalParams.LOGIN_USER.getFollowed_by_count() != entity.getFollowed_by_count()
+                || GlobalParams.LOGIN_USER.verified_status != entity.verified_status
+                || !GlobalParams.LOGIN_USER.getAvatar_md().equals(entity.getAvatar_md())) {
+            mInfoAdatper.notifyItemChanged(0);
+        }
+    }
 
     private void updateVerifyStatus() {
         if (PortfolioApplication.hasUserLogin()) {

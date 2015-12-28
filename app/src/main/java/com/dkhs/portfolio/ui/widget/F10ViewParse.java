@@ -21,6 +21,7 @@ import com.dkhs.portfolio.bean.ManagersEntity;
 import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import java.util.List;
 
@@ -313,7 +314,7 @@ public class F10ViewParse {
         switch (row) {
             case 0: {
                 //收费方式
-                rowText = "";
+                rowText = FundUtils.setPurchaseType(mContext,fundQuoteBean);
             }
             break;
             case 1:
@@ -324,16 +325,16 @@ public class F10ViewParse {
                 break;
             case 2:
                 //起购金额
-                rowText = String.valueOf(fundQuoteBean.getAmount_min_buy() + "元");
+                rowText = String.format(UIUtils.getResString(mContext, R.string.fund_amount_min_buy), fundQuoteBean.getAmount_min_buy());
                 break;
             case 3:
                 //赎回到账时间
-                rowText = "";
+                rowText = String.format(UIUtils.getResString(mContext, R.string.t_days_sell), fundQuoteBean.getT_days_sell());
                 break;
             case 4: {
                 //shares_min最低赎回份额
                 if (!TextUtils.isEmpty(fundQuoteBean.getShares_min_sell())) {
-                    rowText = String.valueOf(fundQuoteBean.getShares_min_sell() + "份");
+                    rowText = String.format(UIUtils.getResString(mContext, R.string.shares_min_sell), fundQuoteBean.getShares_min_sell());
                 }
             }
             break;
@@ -344,4 +345,7 @@ public class F10ViewParse {
         }
         return rowText;
     }
+
+
+
 }

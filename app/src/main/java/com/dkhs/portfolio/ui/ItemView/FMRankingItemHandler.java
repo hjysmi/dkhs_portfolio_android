@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.ItemView;
 
+import android.text.TextUtils;
+import android.view.View;
+
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
@@ -39,7 +42,13 @@ public class FMRankingItemHandler extends SimpleItemHandler<FundManagerBean> {
         FundManagerBean fundManagerBean = data;
         vh.setTextView(R.id.tv_name, fundManagerBean.name);
         vh.setTextView(R.id.tv_join_time, fundManagerBean.work_seniority + "");
-        vh.setTextView(R.id.tv_fund_company, fundManagerBean.fund_company + "");
+        String company = fundManagerBean.fund_company;
+        if(!TextUtils.isEmpty(company) && !company.equals("null")){
+            vh.getTextView(R.id.tv_fund_company).setVisibility(View.VISIBLE);
+            vh.setTextView(R.id.tv_fund_company, company);
+        }else{
+            vh.getTextView(R.id.tv_fund_company).setVisibility(View.GONE);
+        }
         String rateWeekTv = StringFromatUtils.get2PointPercent(fundManagerBean.win_rate_week);
         vh.setTextView(R.id.tv_win_rate_week, String.format(vh.getContext().getString(R.string.format_win_rate_week), rateWeekTv));
         ImageLoaderUtils.setHeanderImage(fundManagerBean.avatar_md, vh.getImageView(R.id.im_avatar));

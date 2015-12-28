@@ -62,14 +62,32 @@ public class FundQuoteBean extends QuotesBean {
     float percent_month;
     float year_yld;
     float percent_tyear;
-
-
+    //"charge_mode": 0, 收费模式: 0, '其它' 1, '前端' 2, '后端'
+    int charge_mode;
+    //"t_days_sell": 0, 赎回到账时间（天）
+    int t_days_sell;
     float last_net_value;
     float change;
 
     String mana_name;
     String end_shares;
     String recommend_desc;
+
+    public int getT_days_sell() {
+        return t_days_sell;
+    }
+
+    public void setT_days_sell(int t_days_sell) {
+        this.t_days_sell = t_days_sell;
+    }
+
+    public int getCharge_mode() {
+        return charge_mode;
+    }
+
+    public void setCharge_mode(int charge_mode) {
+        this.charge_mode = charge_mode;
+    }
 
     public double getAmount_min_buy() {
         return amount_min_buy;
@@ -238,7 +256,7 @@ public class FundQuoteBean extends QuotesBean {
 
     int investment_risk;
     String shares_min;
-//    基金状态判断：
+    //    基金状态判断：
 //    allow_trade是否代销
 //    trade_status 基金状态
 //    判断可以申购：allow_trade==True and (trade_status ==0 or trade_status==2)
@@ -256,7 +274,7 @@ public class FundQuoteBean extends QuotesBean {
     double fare_ratio_sell;
     double discount_rate_sell;
 
-  
+
     public String getShares_min_sell() {
         return shares_min_sell;
     }
@@ -308,7 +326,7 @@ public class FundQuoteBean extends QuotesBean {
     public void setAllow_sell(boolean allow_sell) {
         this.allow_sell = allow_sell;
     }
-    
+
     public String getShares_min() {
         return shares_min;
     }
@@ -333,7 +351,6 @@ public class FundQuoteBean extends QuotesBean {
         this.discount_rate_buy = discount_rate_buy;
     }
 
- 
 
     public void setAmount_min_buy(double amount_min_buy) {
         this.amount_min_buy = amount_min_buy;
@@ -347,7 +364,7 @@ public class FundQuoteBean extends QuotesBean {
         this.allow_trade = allow_trade;
     }
 
-   
+
     public void setTrade_status(int trade_status) {
         this.trade_status = trade_status;
     }
@@ -368,7 +385,6 @@ public class FundQuoteBean extends QuotesBean {
         this.allow_buy = allow_buy;
     }
 
- 
 
     public String getRecommend_desc() {
         return recommend_desc;

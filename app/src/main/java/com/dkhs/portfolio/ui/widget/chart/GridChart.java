@@ -350,7 +350,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         String lent = "2222.2正";
         Paint ps = new Paint();
         Rect rects = new Rect();
-        ps.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+        ps.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
         ps.getTextBounds(lent, 0, lent.length(), rects);
         PADDING_LEFT = rects.width();
     }
