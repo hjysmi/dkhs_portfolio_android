@@ -587,6 +587,13 @@
     <string name="pre_netvalue">前一净值</string>
     <string name="all_netvalue">累计净值</string>
 
+    <string name="purchase_other">其它</string>
+    <string name="purchase_front">前端</string>
+    <string name="purchase_back">后端</string>
+    <string name="t_days_sell">%1$d个工作日</string>
+    <string name="shares_min_sell">%1$s份</string>
+    <string name="fund_amount_min_buy">%1$.2f元</string>
+
     <string name="net_values">净值:%1$f</string>
     <string name="no_sell">未代销</string>
     <string name="zero_rate">0费率</string>
