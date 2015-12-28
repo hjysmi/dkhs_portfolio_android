@@ -23,6 +23,7 @@ import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -275,7 +276,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             Intent intent = new Intent(this, ChooseBankActivity.class);
             startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.rlt_agreement) {
-            new MessageHandler(this).handleURL(DKHSUrl.Funds.bank_agreement);
+            new MessageHandler(this).handleURL(DKHSClient.getAbsoluteUrl(DKHSUrl.Funds.bank_agreement));
         } else if (v.getId() == R.id.btn_get_code) {
             getVerifyCode();
         } else if (isResetPasswordType) {

@@ -19,6 +19,7 @@
         >
 
         <TextView
+            android:id="@+id/tv_trade_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/widget_margin_large"
@@ -47,6 +48,7 @@
         >
 
         <TextView
+            android:id="@+id/tv_gesture_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/widget_margin_large"
