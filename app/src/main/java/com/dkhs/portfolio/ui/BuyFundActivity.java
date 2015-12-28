@@ -154,6 +154,7 @@ public class BuyFundActivity extends ModelAcitivity {
                         double value = Double.parseDouble(s.toString());
                         if (value < limitValue) {
                             btn_buy.setEnabled(false);
+                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
                         } else {
                             value = value * mQuoteBean.getFare_ratio_buy() * 0.01 * mQuoteBean.getDiscount_rate_buy() * 0.01;
                             BigDecimal decimal = new BigDecimal(value);
@@ -161,6 +162,8 @@ public class BuyFundActivity extends ModelAcitivity {
                             tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), String.valueOf(value)));
                             btn_buy.setEnabled(isBankcardChoosed);
                         }
+                    }else{
+                        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
                     }
                 }
             }
@@ -168,10 +171,6 @@ public class BuyFundActivity extends ModelAcitivity {
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mQuoteBean.getAmount_max_buy() < Double.parseDouble(et_value.getText().toString().trim())){
-                    PromptManager.showToast(R.string.buy_fund_amount_error);
-                    return;
-                }
                 showTradePwdDialog();
             }
         });
@@ -338,7 +337,7 @@ public class BuyFundActivity extends ModelAcitivity {
 
                     @Override
                     protected void afterParseData(FundTradeInfo object) {
-                        //TODO 请求卖出基金
+                        //TODO 请求买入基金
                         if (object != null && !"0".equals(object.getId())) {
                             startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
                             finish();

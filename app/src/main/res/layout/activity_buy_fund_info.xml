@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_status"
+                    android:text="@string/trade_buy_status"
                     />
 
                 <TextView
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_value"
+                    android:text="@string/trade_buy_value"
                     />
 
                 <TextView
@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_time"
+                    android:text="@string/trade_buy_time"
                     />
 
                 <TextView
