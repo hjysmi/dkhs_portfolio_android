@@ -587,11 +587,11 @@
     <string name="pre_netvalue">前一净值</string>
     <string name="all_netvalue">累计净值</string>
 
-    <string name="net_values">净值:</string>
+    <string name="net_values">净值:%1$f</string>
     <string name="no_sell">未代销</string>
     <string name="zero_rate">0费率</string>
-    <string name="min_money">元起</string>
-    <string name="risk">投资风险</string>
+    <string name="min_money">%1$s元起</string>
+    <string name="risk">%1$s风险</string>
     <string name="investment_risk">投资风险</string>
     <string name="minimum_redemption_share">最低赎回份额</string>
     <string name="fund_detail_purchasemethod">收费方式</string>

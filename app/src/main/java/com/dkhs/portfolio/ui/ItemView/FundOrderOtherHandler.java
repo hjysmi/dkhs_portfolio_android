@@ -51,7 +51,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_sell).setVisibility(View.GONE);
             vh.get(R.id.tv_rate).setVisibility(View.VISIBLE);
             vh.get(R.id.tv_money).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.tv_money, String.valueOf(data.getAmount_min_buy()) + UIUtils.getResString(mContext, R.string.min_money));
+            vh.setTextView(R.id.tv_money, String.format(UIUtils.getResString(mContext, R.string.min_money), String.valueOf(data.getAmount_min_buy())));
             double discount_rate_buy = data.getDiscount_rate_buy();
             if (discount_rate_buy == 0) {
                 vh.setTextView(R.id.tv_rate, UIUtils.getResString(mContext, R.string.zero_rate));
@@ -64,7 +64,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_value).setVisibility(View.GONE);
         } else {
             vh.get(R.id.tv_value).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.tv_value, UIUtils.getResString(mContext, R.string.net_values) + String.valueOf(data.getNet_value()));
+            vh.setTextView(R.id.tv_value, String.format(UIUtils.getResString(mContext, R.string.net_values), data.getNet_value()));
         }
         TextView tv_risk = vh.get(R.id.tv_risk);
         if (TYPE_RISK_UNKNOW == data.getInvestment_risk()) {
@@ -72,7 +72,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
         } else {
             tv_risk.setVisibility(View.VISIBLE);
             setRiskColor(tv_risk, data.getInvestment_risk());
-            tv_risk.setText(FundUtils.getInvestRiskByType(data.getInvestment_risk(), mContext) + UIUtils.getResString(mContext, R.string.risk));
+            tv_risk.setText(String.format(UIUtils.getResString(mContext, R.string.risk), FundUtils.getInvestRiskByType(data.getInvestment_risk(), mContext)));
         }
 
         vh.setTextView(R.id.tv_index, StringFromatUtils.get2PointPercent(data.getValue(sort)));
@@ -88,9 +88,9 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
     private GradientDrawable setRiskColor(TextView tv_risk, int investment_risk) {
         GradientDrawable gd = new GradientDrawable();
         int color;
-        try{
+        try {
             color = UIUtils.getResColor(mContext, colors[investment_risk]);
-        }catch (Exception e){
+        } catch (Exception e) {
             color = UIUtils.getResColor(mContext, colors[0]);
         }
         gd.setStroke(1, color);
