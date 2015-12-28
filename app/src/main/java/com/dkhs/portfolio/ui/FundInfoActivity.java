@@ -28,6 +28,8 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.parceler.Parcels;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by zhangcm on 2015/9/22.10:56
  */
@@ -237,7 +239,7 @@ public class FundInfoActivity extends ModelAcitivity {
                     holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbrName(),myFund.getId()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
-                    holder1.tv_net_new.setText(String.valueOf(myFund.getNet_value()));
+                    holder1.tv_net_new.setText(new DecimalFormat(".0000").format(myFund.getNet_value()));
                     holder1.tv_fund_value.setText(mFundInfo.getWorth_value());
                     holder1.tv_recent_profit_time.setText(String.format(getResources().getString(R.string.blank_recent_profit_time), TimeUtils.getMMDDString(myFund.getTradedate())));
                 }

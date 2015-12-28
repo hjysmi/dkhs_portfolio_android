@@ -91,6 +91,22 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         params.addBodyParameter("captcha", captcha);
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.verify_identy, params,listener);
     }
+    /**
+     * post身份认证
+     */
+    public void resetTradePassword(String bank_card_id, String bank_card_no, String real_name, String id_card_no, String mobile, String captcha,String password, IHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("bank_card_id", bank_card_id);
+        params.addBodyParameter("bank_card_no", bank_card_no);
+        params.addBodyParameter("real_name", real_name);
+        params.addBodyParameter("id_card_no", id_card_no);
+        params.addBodyParameter("mobile", mobile);
+        if(!TextUtils.isEmpty(captcha))
+            params.addBodyParameter("captcha", captcha);
+        if(!TextUtils.isEmpty(password))
+            params.addBodyParameter("password", password);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.verify_identy, params,listener);
+    }
 
     public void bindBankCard(String bank,String bank_card_no, String real_name, String id_card_no, String mobile, String signature, IHttpListener listener){
         RequestParams params = new RequestParams();
