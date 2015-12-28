@@ -2,6 +2,7 @@ package com.dkhs.portfolio.engine.LocalDataEngine;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.BannerTopicsBean;
@@ -12,12 +13,14 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +51,7 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
     WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-
+                    LogUtils.d("wys","load rewards");
                     MoreDataBean more = getMoreDataBean();
                     if (more != null) {
                         setTotalcount(more.getTotalCount());
@@ -112,20 +115,7 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
         return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getRewardList, params, new ParseHttpListener<MoreDataBean>() {
             @Override
             protected MoreDataBean parseDateTask(String jsonData) {
-                MoreDataBean<TopicsBean> moreBean = null;
-                if (!TextUtils.isEmpty(jsonData)) {
-
-                    try {
-                        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                        moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
-                        }.getType());
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                return moreBean;
+                return parseJson(jsonData);
             }
 
             @Override
@@ -144,14 +134,42 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
                 onFinish();
             }
 
-            public void onFinish() {
-                RewardEngineImpl.this.responseStatus = responseStatus | 4;
-                mWeakHandler.sendEmptyMessage(responseStatus);
 
+            @Override
+            public void onSuccess(String jsonObject) {
+                LogUtils.d("wys", "reward cache");
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_REWARDS, jsonObject);
+                super.onSuccess(jsonObject);
             }
         });
 
 
+    }
+
+
+
+    public void onFinish() {
+        RewardEngineImpl.this.responseStatus = responseStatus | 4;
+        mWeakHandler.sendEmptyMessage(responseStatus);
+
+    }
+
+    @Nullable
+    private MoreDataBean parseJson(String jsonData) {
+        MoreDataBean<TopicsBean> moreBean = null;
+        if (!TextUtils.isEmpty(jsonData)) {
+
+            try {
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
+                }.getType());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return moreBean;
     }
 
 
@@ -162,19 +180,20 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
 
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
-        MoreDataBean<TopicsBean> moreBean = null;
-        if (!TextUtils.isEmpty(jsonData)) {
-
-            try {
-                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
-                }.getType());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return moreBean;
+        return parseJson(jsonData);
     }
 
 
+    public void loadCacheData() {
+        String cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_REWARDS);
+        if(!TextUtils.isEmpty(cacheRewards)){
+            LogUtils.d("wys", "load reward cache");
+            MoreDataBean moreDataBean = parseDateTask(cacheRewards);
+            if (moreDataBean != null) {
+                mFirstPageTopicsBeans = moreDataBean.getResults();
+                setMoreDataBean(moreDataBean);
+                onFinish();
+            }
+        }
+    }
 }

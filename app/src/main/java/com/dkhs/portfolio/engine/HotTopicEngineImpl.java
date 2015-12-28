@@ -2,6 +2,7 @@ package com.dkhs.portfolio.engine;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.AdBean;
@@ -11,14 +12,17 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 7:
+                    LogUtils.d("wys","load topics");
                     MoreDataBean more = getMoreDataBean();
                     if (more != null) {
                         setTotalcount(more.getTotalCount());
@@ -110,6 +115,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
     @Override
     public HttpHandler loadData() {
+        String cacheTopics;
         String url = "";
         RequestParams params = new RequestParams();
         if(mSortType == 0){
@@ -126,20 +132,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         DKHSClient.request(HttpRequest.HttpMethod.GET, url, params, new ParseHttpListener<MoreDataBean>() {
             @Override
             protected MoreDataBean parseDateTask(String jsonData) {
-                MoreDataBean<TopicsBean> moreBean = null;
-                if (!TextUtils.isEmpty(jsonData)) {
-
-                    try {
-                        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                        moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
-                        }.getType());
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                return moreBean;
+                return parse2Topics(jsonData);
             }
 
             @Override
@@ -162,6 +155,16 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                 HotTopicEngineImpl.this.responseStatus = responseStatus | 4;
                 mWeakHandler.sendEmptyMessage(responseStatus);
 
+            }
+
+            @Override
+            public void onSuccess(String jsonObject) {
+                super.onSuccess(jsonObject);
+                if(mSortType == 0){
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOT_TOPICS,jsonObject);
+                }else{
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LATEST_TOPICS,jsonObject);
+                }
             }
         });
 
@@ -192,6 +195,12 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                 HotTopicEngineImpl.this.responseStatus = responseStatus | 2;
                 mWeakHandler.sendEmptyMessage(responseStatus);
 
+            }
+
+            @Override
+            public void onSuccess(String jsonObject) {
+                super.onSuccess(jsonObject);
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_TOPIC_BANNER,jsonObject);
             }
         });
 
@@ -237,9 +246,33 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                 mWeakHandler.sendEmptyMessage(responseStatus);
 
             }
+
+            @Override
+            public void onSuccess(String jsonObject) {
+                super.onSuccess(jsonObject);
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_STICK_TOPIC, jsonObject);
+            }
         });
 
 
+    }
+
+    @Nullable
+    private MoreDataBean parse2Topics(String jsonData) {
+        MoreDataBean<TopicsBean> moreBean = null;
+        if (!TextUtils.isEmpty(jsonData)) {
+
+            try {
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
+                }.getType());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return moreBean;
     }
 
     @Override
@@ -249,18 +282,48 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
-        MoreDataBean<TopicsBean> moreBean = null;
-        if (!TextUtils.isEmpty(jsonData)) {
+        return parse2Topics(jsonData);
+    }
 
-            try {
-                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<TopicsBean>>() {
-                }.getType());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public void loadCacheData(){
+        LogUtils.d("wys","load cache topics");
+        String cacheRewards;
+        if(mSortType == 0){
+            cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOT_TOPICS);
+        }else{
+            cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_LATEST_TOPICS);
         }
-        return moreBean;
+        if(TextUtils.isEmpty(cacheRewards)){
+            return;
+        }
+        MoreDataBean rewards = parse2Topics(cacheRewards);
+        if(rewards != null) {
+            mFirstPageTopicsBeans = rewards.getResults();
+            setMoreDataBean(rewards);
+        }
+
+        String cacheBanner = PortfolioPreferenceManager.KEY_TOPIC_BANNER;
+        if(TextUtils.isEmpty(cacheBanner)){
+            return;
+        }
+
+        AdBean adBean = DataParse.parseObjectJson(AdBean.class,cacheBanner);
+        if (adBean != null) {
+            mBannerTopicsBean.adBean = adBean;
+        }
+
+        String cacheStickTopics = PortfolioPreferenceManager.KEY_STICK_TOPIC;
+        if(TextUtils.isEmpty(cacheStickTopics)){
+           return;
+        }
+        MoreDataBean stickTopics = parse2Topics(cacheStickTopics);
+        if(stickTopics != null){
+            mBannerTopicsBean.hotTopicsBeans = stickTopics.getResults();
+        }
+
+        HotTopicEngineImpl.this.responseStatus = responseStatus | 7;
+        mWeakHandler.sendEmptyMessage(responseStatus);
+
     }
 
 

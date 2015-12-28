@@ -221,4 +221,15 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
     public void disEnable() {
         mSwipeLayout.setEnabled(false);
     }
+
+    @Override
+    public void postDelayedeData() {
+        mListView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((HotTopicEngineImpl)getLoadEngine()).loadCacheData();
+                loadData();
+            }
+        }, 500);
+    }
 }
