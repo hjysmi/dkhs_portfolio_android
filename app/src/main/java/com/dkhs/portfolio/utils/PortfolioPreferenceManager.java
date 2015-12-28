@@ -56,6 +56,13 @@ public class PortfolioPreferenceManager {
     public static final String KEY_FUNDS_HOME_SPECIAL_FINANCINGS_JSON = "key_funds_home_special_financings_json";
     public static final String KEY_FUNDS_HOME_SPECIAL_FUNDMANAGERS_JSON = "key_funds_home_special_fundmanagers_json";
     public static final String KEY_STOCK_ALL_MARKET_JSON = "key_stock_all_market_json";
+    public static final String KEY_REWARDS = "key_rewards";
+    public static final String KEY_HOT_TOPICS = "key_hot_topics";
+    public static final String KEY_LATEST_TOPICS = "key_latest_topics";
+    public static final String KEY_TOPIC_BANNER = "key_topic_banner";
+    public static final String KEY_STICK_TOPIC = "key_stick_topic";
+
+
 
     public static final String KEY_GESTRUE_PASSWORD_ISOPEN = "key_gestrue_password_isopen";
 

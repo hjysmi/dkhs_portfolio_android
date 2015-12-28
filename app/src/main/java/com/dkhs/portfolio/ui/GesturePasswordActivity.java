@@ -249,6 +249,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                                 tv_reset.setVisibility(View.VISIBLE);
                                 tv_forget.setVisibility(View.GONE);
                             } else if (curLayoutType == TYPE_OPEN_SETTING) {
+                                GlobalParams.needShowGesture = false;
                                 manualFinish();
                             } else if (curLayoutType == TYPE_VERIFY_PASSWORD) {
                                 GlobalParams.needShowGesture = false;

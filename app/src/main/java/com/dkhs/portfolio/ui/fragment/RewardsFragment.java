@@ -269,4 +269,15 @@ public class RewardsFragment extends LoadMoreListFragment  {
     public void newIntent(NewIntent newIntent){
         handleIntent(newIntent.bundle);
     }
+
+    @Override
+    public void postDelayedeData() {
+        mListView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((RewardEngineImpl) getLoadEngine()).loadCacheData();
+                loadData();
+            }
+        }, 500);
+    }
 }
