@@ -145,12 +145,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
      */
     private void initDatas() {
         mUserAccout = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
+        getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        setBackTitle(R.string.cancel);
         if (isLoginByAnnoy) {
             setupDefalutUserInfo();
             setTitle(R.string.login);
-            // getBtnBack().setText(R.string.cancel);
-            getBtnBack().setText("取消");
-             getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             if (!TextUtils.isEmpty(phoneNum)) {
                 etUserName.setText(phoneNum);
                 setupLastUserInfo();
@@ -195,7 +194,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public void setListener() {
         findViewById(R.id.login).setOnClickListener(this);
         findViewById(R.id.tv_forget).setOnClickListener(this);
-
     }
 
     public void initViews() {
@@ -220,7 +218,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         ivWeibo.setOnClickListener(this);
         ivQQ.setOnClickListener(this);
         ivWeixin.setOnClickListener(this);
-
+        getBtnBack().setOnClickListener(this);
         tvRegister.setOnClickListener(this);
         tvAnnoyLogin = (TextView) findViewById(R.id.tv_is_request_test);
         tvAnnoyLogin.setOnClickListener(new OnClickListener() {
@@ -301,10 +299,23 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     }
 
+    private void goAccountMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
+        this.finish();
+    }
+
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
+            case BACKBUTTON_ID:
+                if(!isLoginByAnnoy){
+                    goAccountMain();
+                }else{
+                    super.onBackPressed();
+                }
+                break;
             case R.id.login:
                 login();
                 break;
@@ -413,9 +424,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // };
 
         public void onFailure(int errCode, String errMsg) {
-            if((ACCOUNT_UNREGISTERED).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey())&&SIMCardInfo.isMobileNO(userName)){
+            if ((ACCOUNT_UNREGISTERED).equals(ErrorBundle.parseToErrorBundle(errMsg).getErrorKey()) && SIMCardInfo.isMobileNO(userName)) {
                 showUnRegisterDialog();
-            }else{
+            } else {
                 super.onFailure(errCode, errMsg);
             }
             PromptManager.closeProgressDialog();
@@ -490,7 +501,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (requestCode == REQUEST_REGIST && resultCode == RESPONSE_REGIST) {
             finish();
         }
-        if(requestCode == REQUEST_BOUND_THREE_PLATFORM && resultCode == RESULT_OK){
+        if (requestCode == REQUEST_BOUND_THREE_PLATFORM && resultCode == RESULT_OK) {
 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -631,9 +642,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         public void onFailure(int errCode, String errMsg) {
             String errorKey = ErrorBundle.parseToErrorBundle(errMsg).getErrorKey().trim();
-            if((MOBILE_UNBOUND).equals(errorKey) || (SOCIAL_UNBOUND).equals(errorKey)){
-                startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this,plat.getDb().getUserName()), REQUEST_BOUND_THREE_PLATFORM);
-            }else{
+            if ((MOBILE_UNBOUND).equals(errorKey) || (SOCIAL_UNBOUND).equals(errorKey)) {
+                startActivityForResult(RLFActivity.registerThreePlatform(LoginActivity.this, plat.getDb().getUserName()), REQUEST_BOUND_THREE_PLATFORM);
+            } else {
                 super.onFailure(errCode, errMsg);
             }
         }
@@ -732,7 +743,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
-    private void showUnRegisterDialog(){
+    private void showUnRegisterDialog() {
         MAlertDialog builder = PromptManager.getAlertDialog(this);
         builder.setMessage(R.string.register_hint).setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
             @Override
