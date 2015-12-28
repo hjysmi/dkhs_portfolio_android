@@ -314,7 +314,7 @@ public class F10ViewParse {
         switch (row) {
             case 0: {
                 //收费方式
-                rowText = setPurchaseType(fundQuoteBean);
+                rowText = FundUtils.setPurchaseType(mContext,fundQuoteBean);
             }
             break;
             case 1:
@@ -346,16 +346,6 @@ public class F10ViewParse {
         return rowText;
     }
 
-    private int[] purchaseTypes = new int[]{R.string.purchase_other, R.string.purchase_front, R.string.purchase_back,};
 
-    private String setPurchaseType(FundQuoteBean fundQuoteBean) {
-        String purchaseStr;
-        try {
-            purchaseStr = UIUtils.getResString(mContext, purchaseTypes[fundQuoteBean.getCharge_mode()]);
-        } catch (Exception e) {
-            purchaseStr = UIUtils.getResString(mContext, purchaseTypes[0]);
-        }
-        return purchaseStr;
-    }
 
 }
