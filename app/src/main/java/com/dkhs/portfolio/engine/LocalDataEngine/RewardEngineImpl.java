@@ -106,16 +106,6 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
 
     @Override
     public HttpHandler loadData() {
-        String cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_REWARDS);
-        if(!TextUtils.isEmpty(cacheRewards)){
-            LogUtils.d("wys","load reward cache");
-            MoreDataBean moreDataBean = parseDateTask(cacheRewards);
-            if (moreDataBean != null) {
-                mFirstPageTopicsBeans = moreDataBean.getResults();
-                setMoreDataBean(moreDataBean);
-                onFinish();
-            }
-        }
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("pageSize", pageSize + "");
@@ -156,6 +146,8 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
 
     }
 
+
+
     public void onFinish() {
         RewardEngineImpl.this.responseStatus = responseStatus | 4;
         mWeakHandler.sendEmptyMessage(responseStatus);
@@ -192,4 +184,16 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
     }
 
 
+    public void loadCacheData() {
+        String cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_REWARDS);
+        if(!TextUtils.isEmpty(cacheRewards)){
+            LogUtils.d("wys", "load reward cache");
+            MoreDataBean moreDataBean = parseDateTask(cacheRewards);
+            if (moreDataBean != null) {
+                mFirstPageTopicsBeans = moreDataBean.getResults();
+                setMoreDataBean(moreDataBean);
+                onFinish();
+            }
+        }
+    }
 }
