@@ -62,7 +62,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private static final String BANK_CARD_NO = "card_no";
 
     @ViewInject(R.id.et_bank_card)
-    private EditText etBankCard;
+    private EditText et_bank_card;
 
     @ViewInject(R.id.et_real_name)
     private EditText et_real_name;
@@ -119,9 +119,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         ViewUtils.inject(this);
         setTitle(R.string.input_bank_card_info);
         initViews();
-        if (isResetPasswordType) {
-
-        } else {
+        if (!isResetPasswordType) {
             initData();
         }
     }
@@ -154,18 +152,23 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         isResetPasswordType = extras.getBoolean(LAYOUT_TYPE);
         bankCrardNo = extras.getString(BANK_CARD_NO, "");
         mBankCard = (MyBankCard) extras.getSerializable(BANK_CARD);
+        if(mBankCard != null){
+            bank = mBankCard.getBank();
+            btnStatus++;
+        }
     }
 
     private void initViews() {
         if (isResetPasswordType) {
             ll_bank_card.setVisibility(View.VISIBLE);
             ll_choose_bank_type.setVisibility(View.GONE);
-            etBankCard.setHint(String.format(getResources().getString(R.string.blank_hint_card_no), mBankCard.getBank_card_no_tail()));
+            et_bank_card.setHint(String.format(getResources().getString(R.string.blank_hint_card_no), mBankCard.getBank_card_no_tail()));
+            tvBank.setText(bank.getName());
         } else {
             ll_bank_card.setVisibility(View.GONE);
             ll_choose_bank_type.setVisibility(View.VISIBLE);
         }
-        etBankCard.addTextChangedListener(new MyTextWatcher(false));
+        et_bank_card.addTextChangedListener(new MyTextWatcher(false));
         et_real_name.addTextChangedListener(new MyTextWatcher(false));
         et_id_card_no.addTextChangedListener(new MyTextWatcher(false));
         et_bank_card_mobile.addTextChangedListener(new MyTextWatcher(true));
@@ -260,6 +263,9 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private TradeEngineImpl tradeEngine = new TradeEngineImpl();
     private String mobile;
     private String captcha;
+    private String bankCardNo;
+    private String realName;
+    private String idCardNo;
 
     @OnClick({R.id.ll_choose_bank_type, R.id.btn_bind_bank_card, R.id.rlt_agreement, R.id.btn_get_code})
     public void onClick(View v) {
@@ -273,7 +279,34 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         } else if (v.getId() == R.id.btn_get_code) {
             getVerifyCode();
         } else if (isResetPasswordType) {
+            ParseHttpListener listener = new ParseHttpListener<Boolean>() {
+                @Override
+                protected Boolean parseDateTask(String jsonData) {
+                    try {
+                        JSONObject json = new JSONObject(jsonData);
+                        return json.getBoolean("status");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
 
+                @Override
+                protected void afterParseData(Boolean object) {
+                    if (object) {
+                        // TODO: 2015/12/26 验证成功
+                        startActivity(TradePasswordSettingActivity.forgetPwdIntent(mContext, bank.getId(), bankCardNo, realName, idCardNo, mobile));
+                    }else{
+                        PromptManager.showToast("验证失败");
+                    }
+                }
+            };
+            mobile = et_bank_card_mobile.getText().toString().trim();
+            captcha = et_verifycode.getText().toString().trim();
+            bankCardNo = et_bank_card.getText().toString().trim();
+            realName = et_bank_card.getText().toString().trim();
+            idCardNo = et_id_card_no.getText().toString().trim();
+            tradeEngine.resetTradePassword(bank.getId(), bankCardNo, realName, idCardNo, mobile, captcha, null, listener.setLoadingDialog(mContext));
         } else {
             //绑卡
             ParseHttpListener listener = new ParseHttpListener<IdentityAuthBean>() {
@@ -298,9 +331,9 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                     }
                 }
             };
-            mobile = et_bank_card_mobile.getText().toString();
-            captcha = et_verifycode.getText().toString();
-            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, et_real_name.getText().toString(), et_id_card_no.getText().toString(), mobile, captcha, listener.setLoadingDialog(this));
+            mobile = et_bank_card_mobile.getText().toString().trim();
+            captcha = et_verifycode.getText().toString().trim();
+            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, et_real_name.getText().toString().trim(), et_id_card_no.getText().toString().trim(), mobile, captcha, listener.setLoadingDialog(this));
 //            tradeEngine.verifyIdentityAuth("6", "6217714900199342", "徐志成", "350322197412300517", "18106963378", listener.setLoadingDialog(this));
         }
     }
@@ -370,7 +403,11 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private int btnStatus = 1;
 
     private void checkBtnStatus() {
-        if (btnStatus == 6) {
+        int checkCount = 6;
+        if(isResetPasswordType){
+            checkCount = 7;
+        }
+        if (btnStatus == checkCount) {
             btn_bind_bank_card.setEnabled(true);
         } else {
             btn_bind_bank_card.setEnabled(false);

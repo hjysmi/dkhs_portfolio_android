@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.Button;
+import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -55,6 +56,16 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
         intent.putExtra(LAYOUT_TYPE, TYPE_RESET_PWD);
         return intent;
     }
+    public static Intent forgetPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile) {
+        Intent intent = new Intent(context, TradePasswordSettingActivity.class);
+        intent.putExtra(LAYOUT_TYPE, TYPE_FORGET_PWD);
+        intent.putExtra("bank_card_id", bankId);
+        intent.putExtra("bank_card_no", bankCardNo);
+        intent.putExtra("real_name", realName);
+        intent.putExtra("id_card_no", idCardNo);
+        intent.putExtra("mobile", mobile);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -70,8 +81,20 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
         initViews();
     }
 
+    private String mobile;
+    private String bankCardId;
+    private String bankCardNo;
+    private String realName;
+    private String idCardNo;
     private void handleExtras(Bundle extras) {
         curLayoutType = extras.getInt(LAYOUT_TYPE, 0);
+        if(curLayoutType == TYPE_FORGET_PWD){
+            mobile = extras.getString("mobile");
+            bankCardId = extras.getString("bank_card_id");
+            bankCardNo = extras.getString("bank_card_no");
+            realName = extras.getString("real_name");
+            idCardNo = extras.getString("id_card_no");
+        }
     }
 
     private String firstPwd;
@@ -93,41 +116,44 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
         gpv.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
             public void onChanged(String psw) {
-                if(psw.length() < 6)
+                if (psw.length() < 6)
                     btn_set_trade_password.setEnabled(false);
             }
 
             @Override
             public void onMaxLength(String psw) {
                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(TextUtils.isEmpty(firstPwd)){
-                    if(curLayoutType == TYPE_FIRST_SET_PWD || (curLayoutType == TYPE_RESET_PWD&&isOldPwdTrue)){
-                        firstPwd =psw;
+                if (TextUtils.isEmpty(firstPwd)) {
+                    if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_FORGET_PWD || (curLayoutType == TYPE_RESET_PWD && isOldPwdTrue)) {
+                        firstPwd = psw;
                         gpv.clearPassword();
                         tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
                         tv_trade_pwd_tip1.setText(R.string.input_trade_password_again);
                         tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
-                    }else if(curLayoutType == TYPE_RESET_PWD && !isOldPwdTrue){
+                    } else if (curLayoutType == TYPE_RESET_PWD && !isOldPwdTrue) {
                         oldPwd = psw;
                         btn_set_trade_password.setEnabled(true);
                     }
-                }else{
-                    if(firstPwd.equals(gpv.getPassWord())){
+                } else {
+                    if (firstPwd.equals(gpv.getPassWord())) {
                         // TODO 密码一致设置密码
                         btn_set_trade_password.setEnabled(true);
-                        imm.hideSoftInputFromWindow(gpv.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-                    }else{
+                        imm.hideSoftInputFromWindow(gpv.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    } else {
                         //TODO 密码不一致根据当前layoutType提示
-                        if(curLayoutType == TYPE_FIRST_SET_PWD ||curLayoutType == TYPE_RESET_PWD){
-                            firstPwd = null;
-                            gpv.clearPassword();
-                            tv_trade_pwd_tip1.setText(R.string.trade_password_unsame);
-                            tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
-                        }else if(curLayoutType == TYPE_FORGET_PWD){
-
-                        }
+                        firstPwd = null;
+                        gpv.clearPassword();
+                        tv_trade_pwd_tip1.setText(R.string.trade_password_unsame);
+                        tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
                     }
                 }
+            }
+        });
+        tv_trade_pwd_tip2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, ForgetTradePasswordActivity.class));
+                finish();
             }
         });
         btn_set_trade_password.setOnClickListener(new View.OnClickListener() {
@@ -198,10 +224,13 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                     } else {
                         tradeEngine.changeTradePassword(oldPwd, firstPwd, listener.setLoadingDialog(mContext));
                     }
+                }else if(curLayoutType == TYPE_FORGET_PWD){
+                    tradeEngine.resetTradePassword(bankCardId, bankCardNo, realName, idCardNo, mobile, null, gpv.getPassWord(), listener.setLoadingDialog(mContext));
                 }
             }
         });
 
     }
+
 
 }

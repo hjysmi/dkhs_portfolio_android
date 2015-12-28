@@ -168,6 +168,10 @@ public class BuyFundActivity extends ModelAcitivity {
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mQuoteBean.getAmount_max_buy() < Double.parseDouble(et_value.getText().toString().trim())){
+                    PromptManager.showToast(R.string.buy_fund_amount_error);
+                    return;
+                }
                 showTradePwdDialog();
             }
         });
@@ -221,6 +225,7 @@ public class BuyFundActivity extends ModelAcitivity {
                 tradeEngine.isTradePasswordSet(isTradePwdSetListener);
 
             } else {
+                PromptManager.closeProgressDialog();
                 tv_add_bank_card.setVisibility(View.VISIBLE);
             }
         }
@@ -282,7 +287,20 @@ public class BuyFundActivity extends ModelAcitivity {
 
     private void showTradePwdDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = (View) inflater.inflate(R.layout.layout_trade_password_dialog, null);
+        View view = inflater.inflate(R.layout.layout_trade_password_dialog, null);
+        view.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gpvDialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.tv_forget_pwd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, ForgetTradePasswordActivity.class));
+                gpvDialog.dismiss();
+            }
+        });
         tvTradePwdWrong = (TextView) view.findViewById(R.id.tv_trade_pwd_wrong);
         gpv = (GridPasswordView) view.findViewById(R.id.gpv_trade_password);
         gpv.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
