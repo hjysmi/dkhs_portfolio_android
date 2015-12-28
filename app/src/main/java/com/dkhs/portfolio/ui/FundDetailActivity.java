@@ -271,12 +271,9 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private FundProfileFragment mFragmentProfile;
 
     private void replaceFundProfile() {
-        if (null == mFragmentProfile) {
             mFragmentProfile = FundProfileFragment.newIntent(mFundQuoteBean);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fund_overview, mFragmentProfile).commitAllowingStateLoss();
-        }
-
     }
 
 
@@ -354,7 +351,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
         @Override
         public void onChange(SelectStockBean stockBean) {
-            mQuotesEngine.quotes(mFundBean.symbol, quoteListener);
+
             mFundQuoteBean.setFollowed(stockBean.isFollowed());
 
             if (!PortfolioApplication.hasUserLogin() && localList != null) {
@@ -370,6 +367,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
             setAddOptionalButton();
             if (!PortfolioApplication.hasUserLogin()) {
                 getLocalOptionList();
+            }else{
+                mQuotesEngine.quotes(mFundBean.symbol, quoteListener);
             }
             BusProvider.getInstance().post(stockBean);
         }
