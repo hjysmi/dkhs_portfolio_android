@@ -8,12 +8,12 @@ import com.dkhs.portfolio.R;
  * Created by wuyongsen on 2015/12/25.
  */
 public class FundUtils {
-    public static final int LEVEL_UNKNOWN = 0;
-    public static final int LEVEL_LOW = 1;
-    public static final int LEVEL_MEDIUM_LOW = 2;
-    public static final int LEVEL_MEDIUM = 3;
-    public static final int LEVEL_MEDIUM_HIGH = 4;
-    public static final int LEVEL_HIGH = 5;
+    private static final int LEVEL_UNKNOWN = 0;
+    private static final int LEVEL_LOW = 1;
+    private static final int LEVEL_MEDIUM_LOW = 2;
+    private static final int LEVEL_MEDIUM = 3;
+    private static final int LEVEL_MEDIUM_HIGH = 4;
+    private static final int LEVEL_HIGH = 5;
     public static String getInvestRiskByType(int type ,Context context){
         String[] levels = context.getResources().getStringArray(R.array.levels_investment_risk);
         String inverstRisk = "";
