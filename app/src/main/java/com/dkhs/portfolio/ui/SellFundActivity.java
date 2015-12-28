@@ -135,6 +135,7 @@ public class SellFundActivity extends ModelAcitivity {
                     double value = Double.parseDouble(s.toString());
                     if (value < limitValue) {
                         btn_sell.setEnabled(false);
+                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
                     } else {
                         value = value * mQuoteBean.getNet_value() * mQuoteBean.getFare_ratio_sell() * 0.01 * mQuoteBean.getDiscount_rate_sell() * 0.01;
                         BigDecimal decimal = new BigDecimal(value);
@@ -142,15 +143,14 @@ public class SellFundActivity extends ModelAcitivity {
                         tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), String.valueOf(value)));
                         btn_sell.setEnabled(true);
                     }
+                }else{
+                    tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
                 }
             }
         });
         btn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Double.parseDouble(mQuoteBean.getShares_max_sell()) < Double.parseDouble(et_shares.getText().toString().trim())){
-
-                }
                 showTradePwdDialog();
             }
         });

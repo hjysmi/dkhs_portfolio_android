@@ -173,6 +173,8 @@
     <color name="tab_default">#464646</color>
 
     <color name="fund_special_green">#70A8A0</color>
+    <color name="fund_special_medium_low_green">#E4B524</color>
+    <color name="fund_special_medium_high_green">#F9760B</color>
     <color name="fund_special_yellow">#F4AD56</color>
     <color name="fund_special_red">#FF6363</color>
     <color name="fund_special_ads">#FA6739</color>

@@ -303,7 +303,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             };
             mobile = et_bank_card_mobile.getText().toString().trim();
             captcha = et_verifycode.getText().toString().trim();
-            bankCardNo = et_bank_card.getText().toString().trim();
+            bankCardNo = et_bank_card.getText().toString().trim().replace(" ", "");
             realName = et_bank_card.getText().toString().trim();
             idCardNo = et_id_card_no.getText().toString().trim();
             tradeEngine.resetTradePassword(bank.getId(), bankCardNo, realName, idCardNo, mobile, captcha, null, listener.setLoadingDialog(mContext));
@@ -334,7 +334,6 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             mobile = et_bank_card_mobile.getText().toString().trim();
             captcha = et_verifycode.getText().toString().trim();
             tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, et_real_name.getText().toString().trim(), et_id_card_no.getText().toString().trim(), mobile, captcha, listener.setLoadingDialog(this));
-//            tradeEngine.verifyIdentityAuth("6", "6217714900199342", "徐志成", "350322197412300517", "18106963378", listener.setLoadingDialog(this));
         }
     }
 
@@ -394,7 +393,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 checkBtnStatus();
             }
         } else if (requestCode == 1 && resultCode == 0) {
-            setResult(0);
+            setResult(2);
             manualFinish();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -403,15 +402,8 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private int btnStatus = 1;
 
     private void checkBtnStatus() {
-        int checkCount = 6;
-        if(isResetPasswordType){
-            checkCount = 7;
-        }
-        if (btnStatus == checkCount) {
-            btn_bind_bank_card.setEnabled(true);
-        } else {
-            btn_bind_bank_card.setEnabled(false);
-        }
+        int checkCount = isResetPasswordType?7:6;
+        btn_bind_bank_card.setEnabled(btnStatus == checkCount);
     }
 
     private class MyTextWatcher implements TextWatcher {
@@ -479,7 +471,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                             if (object) {
                                 //TODO 设置过交易密码
                                 PromptManager.showToast("已经设置过交易密码");
-                                setResult(0);
+                                setResult(2);
                                 manualFinish();
                             } else {
                                 //TODO 没设置过交易密码

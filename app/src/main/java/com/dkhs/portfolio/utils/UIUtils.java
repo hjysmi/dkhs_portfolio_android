@@ -584,4 +584,12 @@ public class UIUtils {
         return BitmapFactory.decodeStream(isBm, null, null);
     }
 
+    public static String getResString(Context context,int resStr){
+        return context.getResources().getString(resStr);
+    }
+
+    public static int getResColor(Context context,int resColor){
+        return context.getResources().getColor(resColor);
+    }
+
 }
