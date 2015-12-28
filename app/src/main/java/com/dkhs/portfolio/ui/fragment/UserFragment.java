@@ -182,7 +182,6 @@ public class UserFragment extends BaseTitleFragment {
         } else {
             updateState();
         }
-        mInfoAdatper.notifyItemChanged(0);
     }
 
     private void updateState() {
