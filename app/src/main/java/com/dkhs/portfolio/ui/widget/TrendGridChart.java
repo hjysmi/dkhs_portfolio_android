@@ -458,7 +458,7 @@ public class TrendGridChart extends View {
         drawXtitleText(canvas);
 
         // 设置背景色
-        // super.setBackgroundColor(backgroudColor);
+         super.setBackgroundColor(backgroudColor);
         // 绘制XY轴
         if (isDrawXBorke) {
             drawXAxis(canvas);
