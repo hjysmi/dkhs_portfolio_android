@@ -130,22 +130,22 @@ public class TradeSettingActivity extends ModelAcitivity {
             case R.id.rl_reset_gesture_password:
                 if(gesPassword != null){
                     if(hasGesturePassword){
-                        startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
-                    }else{
                         startActivity(GesturePasswordActivity.setPasswordIntent(mContext, true));
+                    }else{
+                        startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
                     }
                 }
                 break;
             case R.id.ib_gesture_setting:
                 if(gesPassword != null){
                     if(hasGesturePassword){
-                        startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
-                    }else{
                         if(gesPassword.isOpen){
                             startActivity(GesturePasswordActivity.closeSettingIntent(mContext, true));
                         }else{
                             startActivity(GesturePasswordActivity.openSettingIntent(mContext, true));
                         }
+                    }else{
+                        startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
                     }
                 }
                 break;

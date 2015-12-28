@@ -256,6 +256,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                                 tv_tip.setText(R.string.pls_input_new_gesture_password);
                                 tv_tip.setTextColor(getResources().getColor(R.color.black));
                                 needVerifyPassword = false;
+                                isVerified = true;
                                 tv_reset.setVisibility(View.VISIBLE);
                                 tv_forget.setVisibility(View.GONE);
                             } else if (curLayoutType == TYPE_OPEN_SETTING) {
@@ -337,7 +338,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
     };
 
     private boolean checkPatternAndType(List<LockPatternView.Cell> pattern){
-        return TextUtils.isEmpty(gesturePassword) && pattern.size() < 4 && (isVerified || curLayoutType == TYPE_FIRST_SET_PASSWORD || curLayoutType == TYPE_SET_PASSWROD);
+        return TextUtils.isEmpty(gesturePassword) && pattern.size() < 4 && (isVerified || curLayoutType == TYPE_FIRST_SET_PASSWORD);
     }
 
 
