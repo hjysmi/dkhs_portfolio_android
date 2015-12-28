@@ -1,7 +1,9 @@
 package com.dkhs.portfolio.ui.ItemView;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
+import android.widget.TextView;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
@@ -10,12 +12,14 @@ import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * Created by xuetong on 2015/12/26.
  */
 public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
     private Context mContext;
+    private static final int TYPE_RISK_UNKNOW = -1;
 
     public FundOrderOtherHandler(Context context) {
         this.mContext = context;
@@ -35,8 +39,6 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
         float value = data.getValue(sort);
         vh.setTextView(R.id.tv_name, data.getAbbrname());
         vh.setTextView(R.id.tv_code, data.getCode());
-        vh.setTextView(R.id.tv_code, data.getCode());
-
         boolean allow_trade = data.isAllow_trade();
         if (!allow_trade) {
             //未代销
@@ -63,10 +65,50 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_value).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.tv_value, "净值:" + data.getNet_value());
         }
+        TextView tv_risk = vh.get(R.id.tv_risk);
+        if (TYPE_RISK_UNKNOW == data.getInvestment_risk()) {
+            tv_risk.setVisibility(View.GONE);
+        } else {
+            tv_risk.setVisibility(View.VISIBLE);
+            setRiskColor(tv_risk,data.getInvestment_risk());
+            tv_risk.setText(FundUtils.getInvestRiskByType(data.getInvestment_risk(), mContext) + "风险");
+        }
 
-        vh.setTextView(R.id.tv_risk, FundUtils.getInvestRiskByType(data.getInvestment_risk(), mContext) + "风险");
         vh.setTextView(R.id.tv_index, StringFromatUtils.get2PointPercent(data.getValue(sort)));
+    }
 
+    /**
+     * 根据不同的风险等级设置不同的风险颜色
+     * @param tv_risk
+     * @param investment_risk
+     * @return
+     */
+    private GradientDrawable setRiskColor(TextView tv_risk,int investment_risk) {
+        GradientDrawable gd = new GradientDrawable();
+        int color=0;
+        switch (investment_risk) {
+            case FundUtils.LEVEL_LOW:
+                 color = mContext.getResources().getColor(R.color.fund_special_green);
+                break;
+            case FundUtils.LEVEL_MEDIUM_LOW:
+                color = mContext.getResources().getColor(R.color.fund_special_medium_low_green);
+                break;
+            case FundUtils.LEVEL_MEDIUM:
+                color = mContext.getResources().getColor(R.color.fund_special_yellow);
+                break;
+            case FundUtils.LEVEL_MEDIUM_HIGH:
+                color = mContext.getResources().getColor(R.color.fund_special_medium_high_green);
+                break;
+            case FundUtils.LEVEL_HIGH:
+                color = mContext.getResources().getColor(R.color.fund_special_red);
+                break;
+        }
+        gd.setColor(mContext.getResources().getColor(R.color.transparent));
+        gd.setCornerRadius( (float)(UIUtils.dp2px(8)));
+        gd.setStroke(1, color);
+        tv_risk.setBackgroundDrawable(gd);
+        tv_risk.setTextColor(color);
+        return gd;
     }
 
     @Override
