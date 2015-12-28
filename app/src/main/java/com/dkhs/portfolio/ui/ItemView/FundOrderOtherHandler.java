@@ -51,7 +51,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_sell).setVisibility(View.GONE);
             vh.get(R.id.tv_rate).setVisibility(View.VISIBLE);
             vh.get(R.id.tv_money).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.tv_money, String.format(UIUtils.getResString(mContext, R.string.min_money), String.valueOf(data.getAmount_min_buy())));
+            vh.setTextView(R.id.tv_money, String.format(UIUtils.getResString(mContext, R.string.min_money), data.getAmount_min_buy()));
             double discount_rate_buy = data.getDiscount_rate_buy();
             if (discount_rate_buy == 0) {
                 vh.setTextView(R.id.tv_rate, UIUtils.getResString(mContext, R.string.zero_rate));
