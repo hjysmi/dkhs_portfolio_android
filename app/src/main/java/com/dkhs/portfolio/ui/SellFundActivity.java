@@ -36,6 +36,7 @@ import com.dkhs.portfolio.bean.FundTradeInfo;
 import com.dkhs.portfolio.bean.MyFundInfo;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
@@ -237,6 +238,7 @@ public class SellFundActivity extends ModelAcitivity {
 
     private Dialog gpvDialog;
     private TextView tvTradePwdWrong;
+    private View progressBar;
     private GridPasswordView gpv;
     private String password;
     private int count = 2;
@@ -275,6 +277,8 @@ public class SellFundActivity extends ModelAcitivity {
             }
         });
         tvTradePwdWrong = (TextView) view.findViewById(R.id.tv_trade_pwd_wrong);
+        progressBar =  view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         gpv = (GridPasswordView) view.findViewById(R.id.gpv_trade_password);
         gpv.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
@@ -297,6 +301,13 @@ public class SellFundActivity extends ModelAcitivity {
                 gpvDialog.dismiss();
                 ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
                     @Override
+                    public void onFailure(ErrorBundle errorBundle) {
+                        gpv.clearPassword();
+                        tvTradePwdWrong.setText(errorBundle.getErrorMessage());
+                        progressBar.setVisibility(View.GONE);
+                        tvTradePwdWrong.setVisibility(View.VISIBLE);
+                    }
+                    @Override
                     protected FundTradeInfo parseDateTask(String jsonData) {
                         FundTradeInfo info = null;
                         try {
@@ -312,8 +323,8 @@ public class SellFundActivity extends ModelAcitivity {
                     protected void afterParseData(FundTradeInfo object) {
                         //TODO 请求卖出基金
                         if (object != null && !"0".equals(object.getId())) {
+                            gpvDialog.dismiss();
                             PromptManager.showToast(R.string.sell_fund_suc);
-
                             startActivity(SellFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
                             finish();
                         } else {
@@ -321,7 +332,8 @@ public class SellFundActivity extends ModelAcitivity {
                         }
                     }
                 };
-                new TradeEngineImpl().sellFund(mQuoteBean.getId(), share.getBank().getId(), et_shares.getText().toString(), password, listener.setLoadingDialog(mContext));
+                progressBar.setVisibility(View.VISIBLE);
+                new TradeEngineImpl().sellFund(mQuoteBean.getId(), share.getBank().getId(), et_shares.getText().toString(), password, listener);
 
             }
         });
