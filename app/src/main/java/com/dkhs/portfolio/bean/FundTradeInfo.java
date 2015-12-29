@@ -4,12 +4,19 @@ package com.dkhs.portfolio.bean;
  * Created by zhangcm on 2015/10/14.10:08
  */
 public class FundTradeInfo {
+//    #交易记录编号
     private String id;
+//    #份额
     private String shares;
+//    #金额
     private String amount;
+//    #委托时间
     private String apply_date;
+//    #状态 0：委托成功 1:交易成功 2:交易失败
     private int status;
+//    #申请编号
     private String allot_no;
+//    #申购费率
     private double discount_rate;
     private FundQuoteBean fund;
 

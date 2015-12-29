@@ -995,6 +995,16 @@
     <string name="add_bank_card">添加银行卡</string>
     <string name="buy_fund_info">买入交易详情</string>
     <string name="trade_status">交易状态</string>
+    <string name="tobe_confirmed">待定</string>
+    <string name="entrust_suc">委托成功</string>
+    <string name="trade_suc">交易成功</string>
+    <string name="trade_fail">交易失败</string>
+    <string name="confirm_shares">确认份额</string>
+    <string name="confirm_shares_suc">基金公司已确认份额</string>
+    <string name="confirm_shares_fail">基金公司确认买入失败</string>
+    <string name="confirm_amount">确认金额</string>
+    <string name="confirm_amount_suc">基金公司已确认金额</string>
+    <string name="confirm_amount_fail">基金公司确认金额失败</string>
     <string name="trade_buy_status">买入状态</string>
     <string name="trade_sell_status">卖出状态</string>
     <string name="trade_value">交易金额</string>
@@ -1011,7 +1021,8 @@
     <string name="buy_fund_info_tip2">确认购买份额</string>
     <string name="cancel_fund">撤单</string>
     <string name="sell_fund_info">卖出交易详情</string>
-    <string name="trade_shares">卖出份额</string>
+    <string name="sell_trade_shares">卖出份额</string>
+    <string name="buy_trade_shares">买入份额</string>
     <string name="sell_rate">卖出费率</string>
     <string name="sell_fund_info_tip1">卖出成功，等待基金公司确认</string>
     <string name="sell_fund_info_tip2">确认购买份额</string>
