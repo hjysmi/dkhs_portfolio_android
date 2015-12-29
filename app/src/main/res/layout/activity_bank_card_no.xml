@@ -35,7 +35,7 @@
             android:layout_marginRight="20dp"
             android:hint="@string/hint_bank_card"
             android:inputType="number"
-            android:maxLength="23"
+            android:maxLength="24"
             android:singleLine="true"
             android:textSize="14sp"/>
 

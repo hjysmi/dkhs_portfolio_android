@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Xml;
@@ -169,7 +170,98 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             ll_bank_card.setVisibility(View.GONE);
             ll_choose_bank_type.setVisibility(View.VISIBLE);
         }
-        et_bank_card.addTextChangedListener(new MyTextWatcher(false));
+        et_bank_card.addTextChangedListener(new TextWatcher() {
+            private boolean isBeforeNull;
+            int beforeTextLength = 0;
+            int onTextLength = 0;
+            boolean isChanged = false;
+
+            int location = 0;// 记录光标的位置
+            private char[] tempChar;
+            private StringBuffer buffer = new StringBuffer();
+            int konggeNumberB = 0;
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO Auto-generated method stub
+                onTextLength = s.length();
+                buffer.append(s.toString());
+                if (onTextLength == beforeTextLength || onTextLength <= 3 || isChanged) {
+                    isChanged = false;
+                    return;
+                }
+                isChanged = true;
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+                beforeTextLength = s.length();
+                if (buffer.length() > 0) {
+                    buffer.delete(0, buffer.length());
+                }
+                konggeNumberB = 0;
+                for (int i = 0; i < s.length(); i++) {
+                    if (s.charAt(i) == ' ') {
+                        konggeNumberB++;
+                    }
+                }
+                isBeforeNull = TextUtils.isEmpty(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+                if (isChanged) {
+                    location = et_bank_card.getSelectionEnd();
+                    int index = 0;
+                    while (index < buffer.length()) {
+                        if (buffer.charAt(index) == ' ') {
+                            buffer.deleteCharAt(index);
+                        } else {
+                            index++;
+                        }
+                    }
+
+                    index = 0;
+                    int konggeNumberC = 0;
+                    while (index < buffer.length()) {
+                        if ( index % 5 == 4 ) {
+                            buffer.insert(index, ' ');
+                            konggeNumberC++;
+                        }
+                        index++;
+                    }
+
+                    if (konggeNumberC > konggeNumberB) {
+                        location += (konggeNumberC - konggeNumberB);
+                    }
+
+                    tempChar = new char[buffer.length()];
+                    buffer.getChars(0, buffer.length(), tempChar, 0);
+                    String str = buffer.toString();
+                    if (location > str.length()) {
+                        location = str.length();
+                    } else if (location < 0) {
+                        location = 0;
+                    }
+
+                    et_bank_card.setText(str);
+                    Editable etable = et_bank_card.getText();
+                    Selection.setSelection(etable, location);
+                    isChanged = false;
+                    return;
+                }
+                if (!TextUtils.isEmpty(s)) {
+                    if (isBeforeNull)
+                        btnStatus++;
+                    checkBtnStatus();
+                } else {
+                    btnStatus--;
+                    btn_bind_bank_card.setEnabled(false);
+                }
+            }
+        });
         et_real_name.addTextChangedListener(new MyTextWatcher(false));
         et_id_card_no.addTextChangedListener(new MyTextWatcher(false));
         et_bank_card_mobile.addTextChangedListener(new MyTextWatcher(true));
@@ -296,7 +388,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 protected void afterParseData(Boolean object) {
                     if (object) {
                         // TODO: 2015/12/26 验证成功
-                        startActivity(TradePasswordSettingActivity.forgetPwdIntent(mContext, bank.getId(), bankCardNo, realName, idCardNo, mobile));
+                        startActivity(TradePasswordSettingActivity.forgetPwdIntent(mContext, bank.getId(), bankCardNo, realName, idCardNo, mobile,captcha));
                     }else{
                         PromptManager.showToast("验证失败");
                     }
@@ -334,7 +426,10 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             };
             mobile = et_bank_card_mobile.getText().toString().trim();
             captcha = et_verifycode.getText().toString().trim();
-            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, et_real_name.getText().toString().trim(), et_id_card_no.getText().toString().trim(), mobile, captcha, listener.setLoadingDialog(this));
+            bankCardNo = et_bank_card.getText().toString().trim().replace(" ", "");
+            realName = et_bank_card.getText().toString().trim();
+            idCardNo = et_id_card_no.getText().toString().trim();
+            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, realName, idCardNo, mobile, captcha, listener.setLoadingDialog(this));
         }
     }
 
@@ -409,7 +504,6 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
     private class MyTextWatcher implements TextWatcher {
         private boolean isBeforeNull;
-        private static final int TYPE_MOBILE = 11;
         private boolean isMobieWatch;
 
         public MyTextWatcher(boolean isMobieWatch) {
@@ -471,18 +565,15 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                         if (null != object) {
                             if (object) {
                                 //TODO 设置过交易密码
-                                PromptManager.showToast("已经设置过交易密码");
                                 setResult(2);
                                 manualFinish();
                             } else {
                                 //TODO 没设置过交易密码
-                                PromptManager.showToast("没有设置过交易密码");
-                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 1);
+                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext, bank.getId(), bankCardNo, realName, idCardNo, mobile,captcha), 1);
                             }
                         }
                     }
                 };
-                PromptManager.showToast("绑卡成功，判断是否设置过交易密码");
                 tradeEngine.isTradePasswordSet(isTradePwdSetListener);
             } else {//认证失败
             }

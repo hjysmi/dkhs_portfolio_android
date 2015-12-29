@@ -46,9 +46,15 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     private static final int TYPE_RESET_PWD = 2;
     private static final int TYPE_FORGET_PWD = 3;
     private int curLayoutType;
-    public static Intent firstSetPwdIntent(Context context){
+    public static Intent firstSetPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile, String captcha){
         Intent intent = new Intent(context, TradePasswordSettingActivity.class);
         intent.putExtra(LAYOUT_TYPE, TYPE_FIRST_SET_PWD);
+        intent.putExtra("bank_card_id", bankId);
+        intent.putExtra("bank_card_no", bankCardNo);
+        intent.putExtra("real_name", realName);
+        intent.putExtra("id_card_no", idCardNo);
+        intent.putExtra("mobile", mobile);
+        intent.putExtra("captcha", captcha);
         return intent;
     }
     public static Intent resetPwdIntent(Context context){
@@ -56,7 +62,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
         intent.putExtra(LAYOUT_TYPE, TYPE_RESET_PWD);
         return intent;
     }
-    public static Intent forgetPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile) {
+    public static Intent forgetPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile, String captcha) {
         Intent intent = new Intent(context, TradePasswordSettingActivity.class);
         intent.putExtra(LAYOUT_TYPE, TYPE_FORGET_PWD);
         intent.putExtra("bank_card_id", bankId);
@@ -64,6 +70,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
         intent.putExtra("real_name", realName);
         intent.putExtra("id_card_no", idCardNo);
         intent.putExtra("mobile", mobile);
+        intent.putExtra("captcha", captcha);
         return intent;
     }
 
@@ -86,6 +93,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     private String bankCardNo;
     private String realName;
     private String idCardNo;
+    private String captcha;
     private void handleExtras(Bundle extras) {
         curLayoutType = extras.getInt(LAYOUT_TYPE, 0);
         if(curLayoutType == TYPE_FORGET_PWD){
@@ -94,6 +102,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
             bankCardNo = extras.getString("bank_card_no");
             realName = extras.getString("real_name");
             idCardNo = extras.getString("id_card_no");
+            captcha = extras.getString("captcha");
         }
     }
 
@@ -103,13 +112,15 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
 
     private void initViews(){
         if(curLayoutType == TYPE_FIRST_SET_PWD){
+            setTitle(R.string.setting_trade_password);
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
         }else if(curLayoutType == TYPE_RESET_PWD){
+            setTitle(R.string.old_trade_password);
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.VISIBLE);
-            setTitle(R.string.old_trade_password);
         }else if(curLayoutType == TYPE_FORGET_PWD){
+            setTitle(R.string.forget_trade_password);
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
         }
@@ -178,19 +189,19 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                     @Override
                     protected void afterParseData(Boolean object) {
                         if (null != object) {
-                            if (curLayoutType == TYPE_FIRST_SET_PWD) {
+                            if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_FORGET_PWD) {
                                 if (object) {
-                                    PromptManager.showToast("交易密码设置成功");
+                                    PromptManager.showToast(R.string.set_trade_password_suc);
                                     setResult(0);
                                     manualFinish();
                                 } else {
-                                    PromptManager.showToast("设置密码失败");
+                                    PromptManager.showToast(R.string.set_trade_password_fail);
                                 }
                             } else if (curLayoutType == TYPE_RESET_PWD) {
                                 if (object) {
                                     if (TextUtils.isEmpty(firstPwd)) {
                                         //设置新交易密码成功
-                                        PromptManager.showToast("原密码正确,请设置新的交易密码");
+                                        PromptManager.showToast(R.string.origin_trade_password_correct);
                                         isOldPwdTrue = object;
                                         setTitle(R.string.setting_trade_password);
                                         gpv.clearPassword();
@@ -199,25 +210,25 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                                         tv_trade_pwd_tip1.setText(R.string.pls_input_trade_pwd);
                                         tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
                                     } else {
-                                        PromptManager.showToast("设置新交易密码成功");
+                                        PromptManager.showToast(R.string.set_new_trade_password_suc);
+
                                         finish();
                                     }
                                 } else {
                                     if (TextUtils.isEmpty(firstPwd)) {
                                         gpv.clearPassword();
                                         btn_set_trade_password.setEnabled(false);
-                                        PromptManager.showToast("原密码错误");
+                                        PromptManager.showToast(R.string.origin_trade_password_uncorrect);
                                     } else {
-                                        PromptManager.showToast("设置新交易密码失败");
+                                        PromptManager.showToast(R.string.set_new_trade_password_fail);
                                     }
                                 }
                             }
-
                         }
                     }
                 };
                 if (curLayoutType == TYPE_FIRST_SET_PWD) {
-                    tradeEngine.setTradePassword(gpv.getPassWord(), listener.setLoadingDialog(mContext));
+                    tradeEngine.resetTradePassword(bankCardId, bankCardNo, realName, idCardNo, mobile, captcha, gpv.getPassWord(), listener.setLoadingDialog(mContext));
                 } else if (curLayoutType == TYPE_RESET_PWD) {
                     if (TextUtils.isEmpty(firstPwd)) {
                         tradeEngine.checkTradePassword(oldPwd, listener.setLoadingDialog(mContext));
@@ -225,7 +236,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                         tradeEngine.changeTradePassword(oldPwd, firstPwd, listener.setLoadingDialog(mContext));
                     }
                 }else if(curLayoutType == TYPE_FORGET_PWD){
-                    tradeEngine.resetTradePassword(bankCardId, bankCardNo, realName, idCardNo, mobile, null, gpv.getPassWord(), listener.setLoadingDialog(mContext));
+                    tradeEngine.resetTradePassword(bankCardId, bankCardNo, realName, idCardNo, mobile, captcha, gpv.getPassWord(), listener.setLoadingDialog(mContext));
                 }
             }
         });
