@@ -50,17 +50,7 @@ public class PreLoadService extends Service {
             params.addQueryStringParameter("recommend_level", "");
             params.addQueryStringParameter("reward_order", "0");
             params.addQueryStringParameter("content_type", "40");
-            DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getRewardList, params, new ParseHttpListener<MoreDataBean>() {
-                @Override
-                protected MoreDataBean parseDateTask(String jsonData) {
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(MoreDataBean object) {
-
-                }
-
+            DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getRewardList, params, new PreLoadParseHttpListener<MoreDataBean>() {
                 @Override
                 public void onSuccess(String jsonObject) {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_REWARDS, jsonObject);
@@ -74,22 +64,12 @@ public class PreLoadService extends Service {
     class LoadStockMarketRunnable implements Runnable {
         @Override
         public void run() {
-            MarketCenterStockEngineImple.loadAllMarkets(new ParseHttpListener<MoreDataBean>() {
+            MarketCenterStockEngineImple.loadAllMarkets(new PreLoadParseHttpListener<MoreDataBean>() {
                 @Override
                 public void onSuccess(String jsonObject) {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_STOCK_ALL_MARKET_JSON, jsonObject);
                     BusProvider.getInstance().post(new PreLoadEvent(PreLoadEvent.TYPE_MARKET_STOCK));
                     super.onSuccess(jsonObject);
-                }
-
-                @Override
-                protected MoreDataBean parseDateTask(String jsonData) {
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(MoreDataBean object) {
-
                 }
             });
         }
@@ -108,17 +88,7 @@ public class PreLoadService extends Service {
         @Override
         public void run() {
             FundHomeEngineImpl engine = new FundHomeEngineImpl();
-            engine.getMarketInfo(new ParseHttpListener<List<StockQuotesBean>>() {
-                @Override
-                protected List<StockQuotesBean> parseDateTask(String jsonData) {
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(List<StockQuotesBean> object) {
-
-                }
-
+            engine.getMarketInfo(new PreLoadParseHttpListener<List<StockQuotesBean>>() {
                 @Override
                 public void onSuccess(String jsonObject) {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_MAIN_VALUE_JSON, jsonObject);
@@ -126,16 +96,7 @@ public class PreLoadService extends Service {
                     super.onSuccess(jsonObject);
                 }
             });
-            engine.getRecommendBanners(new ParseHttpListener<List<RecommendFundSpecialBannerBean>>() {
-                @Override
-                protected List<RecommendFundSpecialBannerBean> parseDateTask(String jsonData) {
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(List<RecommendFundSpecialBannerBean> object) {
-
-                }
+            engine.getRecommendBanners(new PreLoadParseHttpListener<List<RecommendFundSpecialBannerBean>>() {
 
                 @Override
                 public void onSuccess(String jsonObject) {
@@ -144,16 +105,7 @@ public class PreLoadService extends Service {
                     super.onSuccess(jsonObject);
                 }
             });
-            engine.getRecommendSpecials(new ParseHttpListener<List<RecommendFundSpecialLineBean>>() {
-                @Override
-                protected List<RecommendFundSpecialLineBean> parseDateTask(String jsonData) {
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(List<RecommendFundSpecialLineBean> object) {
-
-                }
+            engine.getRecommendSpecials(new PreLoadParseHttpListener<List<RecommendFundSpecialLineBean>>() {
 
                 @Override
                 public void onSuccess(String jsonObject) {
@@ -162,15 +114,7 @@ public class PreLoadService extends Service {
                     super.onSuccess(jsonObject);
                 }
             });
-            engine.getRecommendSpecialFinancings(new ParseHttpListener<List<RecommendFundSpecialFinancingBean>>() {
-                @Override
-                protected List<RecommendFundSpecialFinancingBean> parseDateTask(String jsonData) {
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(List<RecommendFundSpecialFinancingBean> object) {
-                }
+            engine.getRecommendSpecialFinancings(new PreLoadParseHttpListener<List<RecommendFundSpecialFinancingBean>>() {
 
                 @Override
                 public void onSuccess(String jsonObject) {
@@ -179,19 +123,7 @@ public class PreLoadService extends Service {
                     super.onSuccess(jsonObject);
                 }
             });
-            engine.getRecommendFundManager(new ParseHttpListener<List<FundManagerBean>>() {
-
-
-                @Override
-                protected List<FundManagerBean> parseDateTask(String jsonData) {
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(List<FundManagerBean> object) {
-
-                }
-
+            engine.getRecommendFundManager(new PreLoadParseHttpListener<List<FundManagerBean>>() {
                 @Override
                 public void onSuccess(String jsonObject) {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FUNDS_HOME_SPECIAL_FUNDMANAGERS_JSON, jsonObject);
@@ -200,6 +132,19 @@ public class PreLoadService extends Service {
                 }
             });
 
+
+        }
+    }
+
+    class PreLoadParseHttpListener<T> extends ParseHttpListener<T> {
+
+        @Override
+        protected T parseDateTask(String jsonData) {
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(T object) {
 
         }
     }
