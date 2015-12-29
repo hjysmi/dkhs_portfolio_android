@@ -46,12 +46,14 @@ import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
+import com.dkhs.portfolio.ui.eventbus.PreLoadEvent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
@@ -88,6 +90,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     private List<RecommendFundSpecialLineBean> specialLines = new ArrayList<>();
     private List<RecommendFundSpecialFinancingBean> specialFinancings = new ArrayList<>();
     private List<FundManagerBean> specialFundmanagers = new ArrayList<>();
+    private boolean isFirst = true;
 
     @Override
     public int setContentLayoutId() {
@@ -153,8 +156,12 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
 
     @Override
     public void requestData() {
-        startAnimaRefresh();
-        loadData();
+        if(!isFirst){
+            startAnimaRefresh();
+            loadData();
+        }else{
+            isFirst = false;
+        }
     }
 
     /**
@@ -571,6 +578,14 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     public void endAnimaRefresh() {
         if (isAdded() && getUserVisibleHint()) {
             BusProvider.getInstance().post(new StopRefreshEvent());
+        }
+    }
+
+    @Subscribe
+    public void updatePreData(PreLoadEvent event){
+        if(event != null && event.type == PreLoadEvent.TYPE_MARKET_FUND){
+            LogUtils.d("wys","updatePreData 11111");
+            generateData();
         }
     }
 }

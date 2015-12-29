@@ -389,7 +389,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
     @Subscribe
     public void updatePreData(PreLoadEvent event){
-        if(event != null && event.type == PreLoadEvent.TYPE_MARKET){
+        if(event != null && event.type == PreLoadEvent.TYPE_MARKET_STOCK){
             LogUtils.d("wys","updatePreData 2");
             generateCacheData();
         }
