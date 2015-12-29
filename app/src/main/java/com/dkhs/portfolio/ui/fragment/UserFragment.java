@@ -206,7 +206,7 @@ public class UserFragment extends BaseTitleFragment {
         @Override
         protected void afterParseData(UserEntity entity) {
             if (null != entity) {
-                checkRefush(entity);
+                checkRefresh(entity);
                 GlobalParams.LOGIN_USER = entity;
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
@@ -237,17 +237,23 @@ public class UserFragment extends BaseTitleFragment {
     /**
      * 在线数据与本地数据匹配
      * 如果不同就刷新页面
-     *防止过度刷新
+     * 防止过度刷新
+     *
      * @param entity
      */
-    private void checkRefush(UserEntity entity) {
-        if (!PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME).equals(entity.getUsername())
-                || GlobalParams.LOGIN_USER.getFriends_count() != entity.getFriends_count()
-                || GlobalParams.LOGIN_USER.getFollowed_by_count() != entity.getFollowed_by_count()
-                || GlobalParams.LOGIN_USER.verified_status != entity.verified_status
-                || !GlobalParams.LOGIN_USER.getAvatar_md().equals(entity.getAvatar_md())) {
+    private void checkRefresh(UserEntity entity) {
+        try {
+            if (!PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME).equals(entity.getUsername())
+                    || GlobalParams.LOGIN_USER.getFriends_count() != entity.getFriends_count()
+                    || GlobalParams.LOGIN_USER.getFollowed_by_count() != entity.getFollowed_by_count()
+                    || GlobalParams.LOGIN_USER.verified_status != entity.verified_status
+                    || !GlobalParams.LOGIN_USER.getAvatar_md().equals(entity.getAvatar_md())) {
+                mInfoAdatper.notifyItemChanged(0);
+            }
+        } catch (Exception e) {
             mInfoAdatper.notifyItemChanged(0);
         }
+
     }
 
     private void updateVerifyStatus() {
