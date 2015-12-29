@@ -218,12 +218,14 @@ public class StringFromatUtils {
 
     }
 
-    public static String getDiscount(double discount,Context context){
-        if(discount == 0){
-            return context.getString(R.string.fund_free);
+    public static String getDiscount(double fareRatio,double discount,Context context){
+        if(fareRatio == 0) {
+            return context.getString(R.string.zero_rate);
+        }else if(discount == 1){
+            return String.format("%.2f", fareRatio) + "%";
         }else{
             String discountStr = new DecimalFormat("######0.00").format(discount*10);
-            return String.format(context.getString(R.string.fund_discount_format),discountStr);
+            return String.format(context.getString(R.string.fund_discount_format), discountStr);
         }
     }
 
