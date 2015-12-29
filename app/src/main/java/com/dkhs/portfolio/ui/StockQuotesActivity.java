@@ -63,7 +63,6 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -219,6 +218,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         if (viewstub != null) {
             viewHeader = viewstub.inflate();
+            viewHeader.setBackgroundColor(getResources().getColor(R.color.white));
             // views = findViewById(R.id.layout_view);
             tvCurrent = (TextView) viewHeader.findViewById(R.id.tv_current_price);
             tvHigh = (TextView) viewHeader.findViewById(R.id.tv_highest_value);
