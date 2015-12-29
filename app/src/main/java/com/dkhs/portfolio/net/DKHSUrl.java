@@ -394,6 +394,7 @@ public class DKHSUrl {
     }
     public interface Funds{
         String verify_identy = "/api/v1/funds/identity_auth/verify/";
+        String reset_trade_password = "/api/v1/accounts/reset_trade_password/";
         String bind_bank_card = "/api/v1/funds/bind_bank_card/";
         String get_banks = "/api/v1/accounts/banks/";
         String is_trade_password_set = "/api/v1/accounts/is_trade_password_set/";

@@ -37,6 +37,7 @@ import com.dkhs.portfolio.bean.FundTradeInfo;
 import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
@@ -286,6 +287,7 @@ public class BuyFundActivity extends ModelAcitivity {
 
     private Dialog gpvDialog;
     private TextView tvTradePwdWrong;
+    private View progressBar;
     private GridPasswordView gpv;
     private String password;
     private int count = 2;
@@ -296,7 +298,7 @@ public class BuyFundActivity extends ModelAcitivity {
                 .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 1);
+                        startActivity(new Intent(mContext, ForgetTradePasswordActivity.class));
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
@@ -324,6 +326,8 @@ public class BuyFundActivity extends ModelAcitivity {
             }
         });
         tvTradePwdWrong = (TextView) view.findViewById(R.id.tv_trade_pwd_wrong);
+        progressBar =  view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         gpv = (GridPasswordView) view.findViewById(R.id.gpv_trade_password);
         gpv.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
@@ -343,9 +347,17 @@ public class BuyFundActivity extends ModelAcitivity {
 //                    gpvDialog.dismiss();
 //                }
                 password = gpv.getPassWord();
-                gpvDialog.dismiss();
                 //TODO 请求购买基金
                 ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
+                    @Override
+                    public void onFailure(ErrorBundle errorBundle) {
+                        gpv.clearPassword();
+                        tvTradePwdWrong.setText(errorBundle.getErrorMessage());
+                        progressBar.setVisibility(View.GONE);
+                        tvTradePwdWrong.setVisibility(View.VISIBLE);
+                    }
+
+
                     @Override
                     protected FundTradeInfo parseDateTask(String jsonData) {
                         FundTradeInfo info = null;
@@ -362,14 +374,17 @@ public class BuyFundActivity extends ModelAcitivity {
                     protected void afterParseData(FundTradeInfo object) {
                         //TODO 请求买入基金
                         if (object != null && !"0".equals(object.getId())) {
+                            gpvDialog.dismiss();
+                            PromptManager.showToast(R.string.buy_fund_suc);
                             startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
                             finish();
                         } else {
-                            PromptManager.showToast("买入失败");
+                            PromptManager.showToast(R.string.buy_fund_fail);
                         }
                     }
                 };
-                new TradeEngineImpl().buyFund(mQuoteBean.getId(), card.getId(), et_value.getText().toString(), password, listener.setLoadingDialog(mContext));
+                progressBar.setVisibility(View.VISIBLE);
+                new TradeEngineImpl().buyFund(mQuoteBean.getId(), card.getId(), et_value.getText().toString(), password, listener);
             }
         });
         gpvDialog = new Dialog(this, R.style.dialog);

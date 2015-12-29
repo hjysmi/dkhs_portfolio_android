@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.dkhs.portfolio.engine.MyFundsEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -28,6 +30,8 @@ public class BuyFundInfoActivity extends ModelAcitivity {
     private TextView tv_fund_name;
     @ViewInject(R.id.tv_trade_status)
     private TextView tv_trade_status;
+    @ViewInject(R.id.tv_trade_shares)
+    private TextView tv_trade_shares;
     @ViewInject(R.id.tv_trade_value)
     private TextView tv_trade_value;
     @ViewInject(R.id.tv_trade_time)
@@ -36,6 +40,12 @@ public class BuyFundInfoActivity extends ModelAcitivity {
     private TextView tv_trade_no;
     @ViewInject(R.id.tv_trade_rate)
     private TextView tv_trade_rate;
+    @ViewInject(R.id.tv_info_tip_content1)
+    private TextView tv_info_tip_content1;
+    @ViewInject(R.id.tv_info_tip_content2)
+    private TextView tv_info_tip_content2;
+    @ViewInject(R.id.iv_info_tip2)
+    private ImageView iv_info_tip2;
     @ViewInject(R.id.rl_fund_info)
     private RelativeLayout rl_fund_info;
 
@@ -79,17 +89,28 @@ public class BuyFundInfoActivity extends ModelAcitivity {
             @Override
             protected void afterParseData(FundTradeInfo info) {
                 if(info != null){
-                    mFund = info.getFund();;
-                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name),info.getFund().getAbbrName(),info.getFund().getId()));
+                    mFund = info.getFund();
+                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), info.getFund().getAbbrName(), info.getFund().getId()));
                     tv_trade_no.setText(info.getAllot_no());
                     tv_trade_time.setText(TimeUtils.getDaySecondString(info.getApply_date()));
+                    tv_info_tip_content1.setText(TimeUtils.getDateString(info.getApply_date()));
                     tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar), info.getAmount()));
+                    tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_shares),info.getShares()));
                     if(info.getStatus() == 0){
-                        tv_trade_status.setText("委托成功");
-                    }else{
-                        tv_trade_status.setText("交易成功");
+                        iv_info_tip2.setBackgroundResource(R.drawable.trade_unsuc);
+                        tv_trade_shares.setText(R.string.tobe_confirmed);
+                        tv_trade_status.setText(R.string.entrust_suc);
+                        tv_info_tip_content2.setText(R.string.confirm_shares_suc);
+                    }else if(info.getStatus() == 1){
+                        tv_trade_status.setText(R.string.trade_suc);
+                        iv_info_tip2.setBackgroundResource(R.drawable.trade_suc);
+                        tv_info_tip_content2.setText(R.string.confirm_shares_suc);
+                    }else if(info.getStatus() == 2){
+                        tv_trade_status.setText(R.string.trade_fail);
+                        iv_info_tip2.setBackgroundResource(R.drawable.trade_suc);
+                        tv_info_tip_content2.setText(R.string.confirm_shares_fail);
                     }
-                    tv_trade_rate.setText(info.getDiscount_rate() + "%");
+                    tv_trade_rate.setText(StringFromatUtils.get2Point((float) info.getDiscount_rate()));
                 }
             }
         };
