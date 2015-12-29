@@ -224,7 +224,8 @@ public class StringFromatUtils {
         }else if(discount == 1){
             return String.format("%.2f", fareRatio) + "%";
         }else{
-            String discountStr = new DecimalFormat("######0.00").format(discount*10);
+            String discountStr = String.
+            format(context.getString(R.string.fund_discount_format), String.valueOf(discount*10));
             return String.format(context.getString(R.string.fund_discount_format), discountStr);
         }
     }
