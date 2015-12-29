@@ -25,7 +25,7 @@ import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.ReConNetEvent;
-import com.dkhs.portfolio.ui.eventbus.RewardsPreLoadEvent;
+import com.dkhs.portfolio.ui.eventbus.PreLoadEvent;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicStateEvent;
@@ -283,8 +283,8 @@ public class RewardsFragment extends LoadMoreListFragment  {
     }
 
     @Subscribe
-    public void updatePreData(RewardsPreLoadEvent event){
-        if(event != null){
+    public void updatePreData(PreLoadEvent event){
+        if(event != null && event.type == PreLoadEvent.TYPE_REWARD){
             ((RewardEngineImpl) getLoadEngine()).loadCacheData();
         }
     }
