@@ -594,7 +594,7 @@
     <string name="shares_min_sell">%1$s份</string>
     <string name="fund_amount_min_buy">%1$.2f元</string>
 
-    <string name="net_values">净值:%1$f</string>
+    <string name="net_values">净值:%1$s</string>
     <string name="no_sell">未代销</string>
     <string name="zero_rate">0费率</string>
     <string name="min_money">%1$.2f元起</string>
