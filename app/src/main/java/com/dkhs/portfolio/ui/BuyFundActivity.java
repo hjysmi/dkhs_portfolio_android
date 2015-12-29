@@ -362,10 +362,11 @@ public class BuyFundActivity extends ModelAcitivity {
                     protected void afterParseData(FundTradeInfo object) {
                         //TODO 请求买入基金
                         if (object != null && !"0".equals(object.getId())) {
+                            PromptManager.showToast(R.string.buy_fund_suc);
                             startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
                             finish();
                         } else {
-                            PromptManager.showToast("买入失败");
+                            PromptManager.showToast(R.string.buy_fund_fail);
                         }
                     }
                 };

@@ -312,10 +312,12 @@ public class SellFundActivity extends ModelAcitivity {
                     protected void afterParseData(FundTradeInfo object) {
                         //TODO 请求卖出基金
                         if (object != null && !"0".equals(object.getId())) {
+                            PromptManager.showToast(R.string.sell_fund_suc);
+
                             startActivity(SellFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
                             finish();
                         } else {
-                            PromptManager.showToast("卖出失败");
+                            PromptManager.showToast(R.string.sell_fund_fail);
                         }
                     }
                 };
