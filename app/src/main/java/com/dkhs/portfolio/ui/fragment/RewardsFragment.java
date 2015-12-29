@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.eventbus.AddTopicsEvent;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
 import com.dkhs.portfolio.ui.eventbus.ReConNetEvent;
+import com.dkhs.portfolio.ui.eventbus.RewardsPreLoadEvent;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicSortTypeEvent;
 import com.dkhs.portfolio.ui.eventbus.TopicStateEvent;
@@ -272,12 +273,19 @@ public class RewardsFragment extends LoadMoreListFragment  {
 
     @Override
     public void postDelayedeData() {
-        mListView.postDelayed(new Runnable() {
+        mListView.post(new Runnable() {
             @Override
             public void run() {
                 ((RewardEngineImpl) getLoadEngine()).loadCacheData();
-                loadData();
+//                loadData();
             }
-        }, 500);
+        });
+    }
+
+    @Subscribe
+    public void updatePreData(RewardsPreLoadEvent event){
+        if(event != null){
+            ((RewardEngineImpl) getLoadEngine()).loadCacheData();
+        }
     }
 }
