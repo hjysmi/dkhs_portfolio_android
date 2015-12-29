@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
@@ -262,7 +263,79 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 }
             }
         });
-        et_real_name.addTextChangedListener(new MyTextWatcher(false));
+        et_real_name.addTextChangedListener(new TextWatcher() {
+            private String beforeS;
+            private boolean isBeforeAble;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                beforeS = s.toString();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!TextUtils.isEmpty(s) && !checkNameChese(s.toString())){
+                    et_real_name.setText(beforeS);
+                    Editable etable = et_real_name.getText();
+                    Selection.setSelection(etable, start);
+                    return;
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s) && s.length() >= 2) {
+                    if (!isBeforeAble){
+                        btnStatus++;
+                        isBeforeAble = true;
+                    }
+                    checkBtnStatus();
+                } else {
+                    if(isBeforeAble){
+                        isBeforeAble = false;
+                        btnStatus--;
+                    }
+                    btn_bind_bank_card.setEnabled(false);
+                }
+            }
+            /**
+             * 判定输入汉字
+             * @param c
+             * @return
+             */
+            public  boolean isChinese(char c) {
+                Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+                if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                        || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                        || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                        || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION){
+//                        || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+//                        || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) { //中文符号
+                    return true;
+                }
+                return false;
+            }
+
+            /**
+             * 检测String是否全是中文
+             * @param name
+             * @return
+             */
+            public  boolean checkNameChese(String name)
+            {
+                boolean res=true;
+                char [] cTemp = name.toCharArray();
+                for(int i=0;i<name.length();i++)
+                {
+                    if(!isChinese(cTemp[i]))
+                    {
+                        res=false;
+                        break;
+                    }
+                }
+                return res;
+            }
+        });
         et_id_card_no.addTextChangedListener(new MyTextWatcher(false));
         et_bank_card_mobile.addTextChangedListener(new MyTextWatcher(true));
         et_verifycode.addTextChangedListener(new MyTextWatcher(false));

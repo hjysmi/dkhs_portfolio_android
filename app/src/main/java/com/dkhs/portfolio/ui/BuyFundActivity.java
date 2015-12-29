@@ -296,7 +296,7 @@ public class BuyFundActivity extends ModelAcitivity {
                 .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext), 1);
+                        startActivity(new Intent(mContext, ForgetTradePasswordActivity.class));
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
