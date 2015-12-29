@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.app.AppConfig;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.GesturePasswordActivity;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
@@ -37,7 +38,7 @@ public class GesturePasswordManager {
     /**
      * 无操作后锁屏时间
      */
-    private final static int SHOW_GESTURE_DELAY = 1000 * 7;
+    private final static int SHOW_GESTURE_DELAY = GlobalParams.SHOW_GESTURE_DELAY;
 
     private final static int SHOW_GESTURE = 1;
 

@@ -54,6 +54,8 @@ public class GlobalParams {
     public static boolean IS_VOICE_CONNECTED = false;
     public static boolean IS_CONFERENCE_CONNECTED = false;
     public static boolean IS_APP_SHOWING = false;
+    public static int SHOW_GESTURE_DELAY = 1000 * 7;
+    public static int GESTURE_LOCK_TIME = 1000 * 15;
 
     public static  Platform plat;
     public static  String platname;

@@ -39,7 +39,7 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
 
     public static Intent newIntent(Context context,boolean isFirstTimeSet){
         Intent intent = new Intent(context,ForgetTradePasswordActivity.class);
-        intent.putExtra("is_first_time_set",isFirstTimeSet);
+        intent.putExtra("is_first_time_set", isFirstTimeSet);
         return intent;
     }
 
@@ -48,7 +48,11 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
         super.onCreate(arg0);
         setContentView(R.layout.activity_forget_trade_password);
         ViewUtils.inject(this);
-        boolean isFirstTimeSet = getIntent().getExtras().getBoolean("is_first_time_set");
+        boolean isFirstTimeSet = false;
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            isFirstTimeSet = getIntent().getExtras().getBoolean("is_first_time_set",false);
+        }
         if(isFirstTimeSet){
             setTitle(R.string.set_trade_password);
             tvDesc.setText(R.string.pls_choose_bank_card_toset);

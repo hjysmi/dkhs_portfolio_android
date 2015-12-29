@@ -54,7 +54,7 @@ public class PortfolioApplication extends MultiDexApplication {
     /**
      * 无操作后锁屏时间
      */
-    private final static int SHOW_GESTURE_DELAY = 1000  * 7;
+    private final static int SHOW_GESTURE_DELAY = GlobalParams.SHOW_GESTURE_DELAY;
 
     private final static int NEED_SHOW_GESTURE = 2;
 

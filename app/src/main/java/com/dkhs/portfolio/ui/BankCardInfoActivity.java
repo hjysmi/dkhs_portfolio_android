@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +34,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.hxcr.chinapay.activity.Initialize;
 import com.hxcr.chinapay.util.CPGlobaInfo;
 import com.hxcr.chinapay.util.Utils;
@@ -83,7 +83,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private View ll_choose_bank_type;
 
     @ViewInject(R.id.tv_bank)
-    private TextView tvBank;
+    private TextView tv_bank;
 
     @ViewInject(R.id.btn_bind_bank_card)
     private Button btn_bind_bank_card;
@@ -142,7 +142,8 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             @Override
             protected void afterParseData(Bank bank) {
                 if (!TextUtils.isEmpty(bank.getName())) {
-                    tvBank.setText(bank.getName());
+                    tv_bank.setText(bank.getName());
+                    tv_bank.setTextColor(UIUtils.getResColor(mContext,R.color.black));
                     btnStatus++;
                 }
             }
@@ -166,7 +167,8 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             ll_bank_card.setVisibility(View.VISIBLE);
             ll_choose_bank_type.setVisibility(View.GONE);
             et_bank_card.setHint(String.format(getResources().getString(R.string.blank_hint_card_no), mBankCard.getBank_card_no_tail()));
-            tvBank.setText(bank.getName());
+            tv_bank.setText(bank.getName());
+            tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
         } else {
             ll_bank_card.setVisibility(View.GONE);
             ll_choose_bank_type.setVisibility(View.VISIBLE);
@@ -557,8 +559,9 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 btnStatus++;
             bank = (Bank) data.getSerializableExtra(BANK);
             if (bank != null) {
-                tvBank.setText(bank.getName());
-                tvBank.setTag(bank.getId());
+                tv_bank.setText(bank.getName());
+                tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
+                tv_bank.setTag(bank.getId());
                 checkBtnStatus();
             }
         } else if (requestCode == 1 && resultCode == 0) {

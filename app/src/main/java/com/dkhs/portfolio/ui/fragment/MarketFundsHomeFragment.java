@@ -145,7 +145,6 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             @Override
             public void run() {
                 getCache();
-                requestData();
             }
         }, 500);
         super.onViewCreated(view, savedInstanceState);

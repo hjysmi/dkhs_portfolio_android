@@ -221,7 +221,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
                 requestData();
             }
         });
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.theme_blue);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.theme_blue);
     }
 
     HScrollTitleView.ISelectPostionListener titleSelectPostion = new HScrollTitleView.ISelectPostionListener() {
@@ -386,7 +386,7 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
         mFloatMenu.removeAllItems();
 
         if(mFundQuoteBean.isAllow_buy()){
-            mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,R.drawable.lv_blue_selector,0);
+            mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,R.drawable.bg_blue_gray_selector,0);
         }else{
             mFloatMenu.addItem(MENU_BUY, R.string.float_menu_buyfund, R.drawable.ic_buy_fund,0,R.color.person_setting_line);
         }
