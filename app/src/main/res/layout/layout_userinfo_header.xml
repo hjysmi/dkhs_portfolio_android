@@ -19,11 +19,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="20dp"
-            android:background="@drawable/btn_blue_border"
+            android:background="@drawable/btn_blue_border_selector"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:text="马上登录"
-            android:textColor="@color/blue"
+            android:textColor="@color/login_btn_selector"
             android:textSize="18sp" />
     </LinearLayout>
 
