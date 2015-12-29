@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,13 +34,28 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
 
     @ViewInject(R.id.lv_bank_card)
     private ListView lvBankCard;
+    @ViewInject(R.id.tv_desc)
+    private TextView tvDesc;
+
+    public static Intent newIntent(Context context,boolean isFirstTimeSet){
+        Intent intent = new Intent(context,ForgetTradePasswordActivity.class);
+        intent.putExtra("is_first_time_set",isFirstTimeSet);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_forget_trade_password);
         ViewUtils.inject(this);
-        setTitle(R.string.forget_trade_pwd);
+        boolean isFirstTimeSet = getIntent().getExtras().getBoolean("is_first_time_set");
+        if(isFirstTimeSet){
+            setTitle(R.string.set_trade_password);
+            tvDesc.setText(R.string.pls_choose_bank_card_toset);
+        }else{
+            setTitle(R.string.forget_trade_pwd);
+            tvDesc.setText(R.string.pls_choose_bank_card_tofind);
+        }
         initViews();
         initData();
     }

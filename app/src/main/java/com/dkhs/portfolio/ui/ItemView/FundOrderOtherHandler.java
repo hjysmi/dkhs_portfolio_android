@@ -56,7 +56,8 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             if (discount_rate_buy == 0) {
                 vh.setTextView(R.id.tv_rate, UIUtils.getResString(mContext, R.string.zero_rate));
             } else {
-                vh.setTextView(R.id.tv_rate, StringFromatUtils.getDiscount(discount_rate_buy, mContext));
+                String discount = String.format(vh.getContext().getString(R.string.fund_discount_format), String.valueOf(discount_rate_buy*10));
+                vh.setTextView(R.id.tv_rate, discount);
             }
         }
         if (StockUitls.isSepFund(data.getSymbol_stype())) {
@@ -64,7 +65,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_value).setVisibility(View.GONE);
         } else {
             vh.get(R.id.tv_value).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.tv_value, String.format(UIUtils.getResString(mContext, R.string.net_values), data.getNet_value()));
+            vh.setTextView(R.id.tv_value, String.format(UIUtils.getResString(mContext, R.string.net_values), StringFromatUtils.get4Point(data.getNet_value())));
         }
         TextView tv_risk = vh.get(R.id.tv_risk);
         if (TYPE_RISK_UNKNOW == data.getInvestment_risk()) {
