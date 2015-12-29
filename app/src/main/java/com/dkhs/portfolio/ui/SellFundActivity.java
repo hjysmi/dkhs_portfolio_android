@@ -154,7 +154,7 @@ public class SellFundActivity extends ModelAcitivity {
         btn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Double.parseDouble(mQuoteBean.getShares_max_sell()) > Double.parseDouble(et_shares.getText().toString().trim())){
+                if(Double.parseDouble(share.getShares_enable()) > Double.parseDouble(et_shares.getText().toString().trim())){
                     PromptManager.showToast(R.string.sell_fund_share_error);
                     return;
                 }
