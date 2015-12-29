@@ -117,9 +117,9 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     }
 
     @Subscribe
-    public void forward2Top(TopEvent event){
-        if(event != null && isVisible()&& getUserVisibleHint()){
-            if(mListView != null){
+    public void forward2Top(TopEvent event) {
+        if (event != null && isVisible() && getUserVisibleHint()) {
+            if (mListView != null) {
                 mListView.smoothScrollToPosition(0);
             }
         }
@@ -169,7 +169,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 JSONArray results = jsonObject.getJSONArray("results");
                 mainValue.clear();
                 mainValue.addAll(DataParse.parseArrayJson(StockQuotesBean.class, results));
-                if(mainValue.size() > 0){
+                if (mainValue.size() > 0) {
                     mainValue.get(0).setTrade_status(jsonObject.getString("trade_status"));
                 }
             }
@@ -224,7 +224,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
                     lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
-                    if(lists.size() > 0){
+                    if (lists.size() > 0) {
                         lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
                     }
                 } catch (Exception e) {
@@ -530,7 +530,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                         JSONObject jsonObject = new JSONObject(jsonData);
                         JSONArray results = jsonObject.getJSONArray("results");
                         lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
-                        if(lists.size() > 0){
+                        if (lists.size() > 0) {
                             lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
                         }
                     } catch (Exception e) {

@@ -386,4 +386,5 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     }
 
 
+
 }
