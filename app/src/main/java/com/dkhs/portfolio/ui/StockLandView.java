@@ -58,6 +58,7 @@ public class StockLandView extends RelativeLayout {
 
     private void init() {
         View landStock = View.inflate(mContext, R.layout.activity_landscape_kchart, null);
+        landStock.setBackgroundColor(getResources().getColor(R.color.white));
         landStock.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         initView(landStock);
         addView(landStock);
