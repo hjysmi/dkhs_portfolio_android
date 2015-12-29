@@ -44,7 +44,6 @@
             android:layout_marginRight="20dp"
             android:layout_toRightOf="@+id/tv_accout"
             android:background="@null"
-            android:digits="@string/password_digts"
             android:hint="请输入充值金额"
             android:textColorHint="@color/text_hint_color"
             android:inputType="numberDecimal"
