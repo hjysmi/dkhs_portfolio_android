@@ -659,6 +659,10 @@
                 <action android:name="com.dkhs.authenticationService.action.upload" />
             </intent-filter>
         </service>
+        <service
+            android:name=".service.PreLoadService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

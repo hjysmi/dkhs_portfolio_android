@@ -1,12 +1,14 @@
 package com.dkhs.portfolio.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.bean.DraftBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.engine.LocalDataEngine.CityEngine;
+import com.dkhs.portfolio.service.PreLoadService;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
@@ -77,7 +79,9 @@ public final class AppConfig {
         ImageLoaderUtils.initImageLoader(context);
         //消息中心模块的初始化
         MessageManager.getInstance().connect();
-
+        //预加载程序
+        Intent it = new Intent(context, PreLoadService.class);
+        context.startService(it);
     }
 
 
