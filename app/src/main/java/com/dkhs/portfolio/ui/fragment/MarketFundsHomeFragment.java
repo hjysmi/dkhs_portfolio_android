@@ -46,14 +46,12 @@ import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewIntent;
-import com.dkhs.portfolio.ui.eventbus.PreLoadEvent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
@@ -90,7 +88,6 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     private List<RecommendFundSpecialLineBean> specialLines = new ArrayList<>();
     private List<RecommendFundSpecialFinancingBean> specialFinancings = new ArrayList<>();
     private List<FundManagerBean> specialFundmanagers = new ArrayList<>();
-    private boolean isFirst = true;
 
     @Override
     public int setContentLayoutId() {
@@ -120,9 +117,9 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     }
 
     @Subscribe
-    public void forward2Top(TopEvent event){
-        if(event != null && isVisible()&& getUserVisibleHint()){
-            if(mListView != null){
+    public void forward2Top(TopEvent event) {
+        if (event != null && isVisible() && getUserVisibleHint()) {
+            if (mListView != null) {
                 mListView.smoothScrollToPosition(0);
             }
         }
@@ -156,12 +153,8 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
 
     @Override
     public void requestData() {
-        if(!isFirst){
-            startAnimaRefresh();
-            loadData();
-        }else{
-            isFirst = false;
-        }
+        startAnimaRefresh();
+        loadData();
     }
 
     /**
@@ -176,7 +169,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 JSONArray results = jsonObject.getJSONArray("results");
                 mainValue.clear();
                 mainValue.addAll(DataParse.parseArrayJson(StockQuotesBean.class, results));
-                if(mainValue.size() > 0){
+                if (mainValue.size() > 0) {
                     mainValue.get(0).setTrade_status(jsonObject.getString("trade_status"));
                 }
             }
@@ -231,7 +224,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
                     lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
-                    if(lists.size() > 0){
+                    if (lists.size() > 0) {
                         lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
                     }
                 } catch (Exception e) {
@@ -537,7 +530,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                         JSONObject jsonObject = new JSONObject(jsonData);
                         JSONArray results = jsonObject.getJSONArray("results");
                         lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
-                        if(lists.size() > 0){
+                        if (lists.size() > 0) {
                             lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
                         }
                     } catch (Exception e) {
@@ -578,14 +571,6 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     public void endAnimaRefresh() {
         if (isAdded() && getUserVisibleHint()) {
             BusProvider.getInstance().post(new StopRefreshEvent());
-        }
-    }
-
-    @Subscribe
-    public void updatePreData(PreLoadEvent event){
-        if(event != null && event.type == PreLoadEvent.TYPE_MARKET_FUND){
-            LogUtils.d("wys","updatePreData 11111");
-            generateData();
         }
     }
 }

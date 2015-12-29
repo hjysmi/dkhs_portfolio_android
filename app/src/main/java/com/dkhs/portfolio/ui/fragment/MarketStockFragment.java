@@ -23,7 +23,6 @@ import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.SelectGeneralActivity;
 import com.dkhs.portfolio.ui.adapter.MarkStockAdatper;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.PreLoadEvent;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
@@ -36,7 +35,6 @@ import com.dkhs.portfolio.ui.widget.ViewBean.ViewBean;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
@@ -387,13 +385,6 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         }
     }
 
-    @Subscribe
-    public void updatePreData(PreLoadEvent event){
-        if(event != null && event.type == PreLoadEvent.TYPE_MARKET_STOCK){
-            LogUtils.d("wys","updatePreData 2");
-            generateCacheData();
-        }
-    }
 
 
 }

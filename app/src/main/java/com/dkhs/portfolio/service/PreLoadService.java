@@ -20,7 +20,6 @@ import com.dkhs.portfolio.ui.eventbus.PreLoadEvent;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.List;
 
@@ -101,7 +100,6 @@ public class PreLoadService extends Service {
 
         private void needRefresh() {
             if (++requestcount == 5) {
-                LogUtils.d("wys", "++i is right");
                 requestcount = 0;
                 BusProvider.getInstance().post(new PreLoadEvent(PreLoadEvent.TYPE_MARKET_FUND));
             }
