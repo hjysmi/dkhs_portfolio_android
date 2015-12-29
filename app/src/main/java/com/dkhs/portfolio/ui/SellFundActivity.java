@@ -140,7 +140,7 @@ public class SellFundActivity extends ModelAcitivity {
                         btn_sell.setEnabled(false);
                         tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
                     } else {
-                        value = value * mQuoteBean.getNet_value() * mQuoteBean.getFare_ratio_sell() * 0.01 * mQuoteBean.getDiscount_rate_sell() * 0.01;
+                        value = value * mQuoteBean.getNet_value() * mQuoteBean.getFare_ratio_sell() * 0.01 * mQuoteBean.getDiscount_rate_sell();
                         BigDecimal decimal = new BigDecimal(value);
                         value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
                         tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), String.valueOf(value)));
@@ -155,7 +155,7 @@ public class SellFundActivity extends ModelAcitivity {
         btn_sell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Double.parseDouble(share.getShares_enable()) > Double.parseDouble(et_shares.getText().toString().trim())){
+                if(Double.parseDouble(share.getShares_enable()) < Double.parseDouble(et_shares.getText().toString().trim())){
                     PromptManager.showToast(R.string.sell_fund_share_error);
                     return;
                 }

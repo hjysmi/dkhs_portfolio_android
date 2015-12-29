@@ -284,7 +284,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                         if (gesPassword.leftCount == 0) {
                             tv_tip.setText(String.format(getResources().getString(R.string.blank_gesture_password_error), gesPassword.leftCount));
                             // TODO: 2015/12/28 限制时间
-                            gesPassword.lockedTime = System.currentTimeMillis() + 1000 * 15;
+                            gesPassword.lockedTime = System.currentTimeMillis() + GlobalParams.GESTURE_LOCK_TIME;
                             showErrorDialog(10);
                         } else {
                             tv_tip.setText(String.format(getResources().getString(R.string.blank_gesture_password_error), gesPassword.leftCount));

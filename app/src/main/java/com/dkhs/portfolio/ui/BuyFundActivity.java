@@ -159,7 +159,7 @@ public class BuyFundActivity extends ModelAcitivity {
                             btn_buy.setEnabled(false);
                             tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
                         } else {
-                            value = value * mQuoteBean.getFare_ratio_buy() * 0.01 * mQuoteBean.getDiscount_rate_buy() * 0.01;
+                            value = value * mQuoteBean.getFare_ratio_buy() * 0.01 * mQuoteBean.getDiscount_rate_buy();
                             BigDecimal decimal = new BigDecimal(value);
                             value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
                             tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), String.valueOf(value)));
