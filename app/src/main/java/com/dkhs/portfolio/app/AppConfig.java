@@ -13,6 +13,7 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -79,9 +80,14 @@ public final class AppConfig {
         ImageLoaderUtils.initImageLoader(context);
         //消息中心模块的初始化
         MessageManager.getInstance().connect();
-        //预加载程序
-        Intent it = new Intent(context, PreLoadService.class);
-        context.startService(it);
+        //预加载
+        boolean isFirstIn = PortfolioPreferenceManager.getSharePreferences().getBoolean(PortfolioPreferenceManager.KEY_FIRST_IN,true);
+        if(isFirstIn){
+            Intent it = new Intent(context, PreLoadService.class);
+            context.startService(it);
+        }else {
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_FIRST_IN,false);
+        }
     }
 
 

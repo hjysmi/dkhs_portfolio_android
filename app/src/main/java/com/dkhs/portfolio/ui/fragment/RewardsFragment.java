@@ -277,7 +277,7 @@ public class RewardsFragment extends LoadMoreListFragment  {
             @Override
             public void run() {
                 ((RewardEngineImpl) getLoadEngine()).loadCacheData();
-//                loadData();
+                loadData();
             }
         });
     }

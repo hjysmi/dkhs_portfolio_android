@@ -61,6 +61,7 @@ public class PortfolioPreferenceManager {
     public static final String KEY_LATEST_TOPICS = "key_latest_topics";
     public static final String KEY_TOPIC_BANNER = "key_topic_banner";
     public static final String KEY_STICK_TOPIC = "key_stick_topic";
+    public static final String KEY_FIRST_IN= "key_first_in";
 
 
 
