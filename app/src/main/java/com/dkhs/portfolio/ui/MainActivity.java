@@ -153,28 +153,28 @@ public class MainActivity extends BaseActivity {
         switch (index) {
             case MenuItemFragment.TABINDEX_1: {
 //                displayFragmentA();
-                mScrollViewPager.setCurrentItem(INDEX_OPTIONAL_TAB);
+                mScrollViewPager.setCurrentItem(INDEX_OPTIONAL_TAB,false);
             }
             break;
             case MenuItemFragment.TABINDEX_2: {
 //                displayFragmentB();
-                mScrollViewPager.setCurrentItem(INDEX_MARKET_TAB);
+                mScrollViewPager.setCurrentItem(INDEX_MARKET_TAB,false);
             }
             break;
             case MenuItemFragment.TABINDEX_3: {
 //                displayFragmentC();
-                mScrollViewPager.setCurrentItem(INDEX_HOME_TAB);
+                mScrollViewPager.setCurrentItem(INDEX_HOME_TAB,false);
 
             }
             break;
             case MenuItemFragment.TABINDEX_4: {
 //                displayFragmentD();
-                mScrollViewPager.setCurrentItem(INDEX_REWARD_TAB);
+                mScrollViewPager.setCurrentItem(INDEX_REWARD_TAB,false);
             }
             break;
             case MenuItemFragment.TABINDEX_5: {
 //                displayFragmentE();
-                mScrollViewPager.setCurrentItem(INDEX_USERINFO_TAB);
+                mScrollViewPager.setCurrentItem(INDEX_USERINFO_TAB,false);
             }
             break;
 
