@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.Bank;
 import com.dkhs.portfolio.bean.IdentityAuthBean;
+import com.dkhs.portfolio.bean.IdentityInfoBean;
 import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
@@ -44,6 +45,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.StringWriter;
@@ -57,6 +59,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
     public static String BANK = "bank";
     private Bank bank;
+    private IdentityInfoBean identityInfoBean;
     private String bank_card_id;
     private boolean isResetPasswordType;
     private MyBankCard mBankCard;
@@ -64,6 +67,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     public static String BANK_CARD = "bank_card";
     private static final String LAYOUT_TYPE = "layout_type";
     private static final String BANK_CARD_NO = "card_no";
+    private static final String IDENTITY_INFO_BEAN = "identity_info_bean";
 
     @ViewInject(R.id.et_bank_card)
     private EditText et_bank_card;
@@ -108,10 +112,12 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         return intent;
     }
 
-    public static Intent bankCardInfoIntent(Context context, String cardNo) {
+    public static Intent bankCardInfoIntent(Context context, String cardNo,IdentityInfoBean identityInfoBean) {
         Intent intent = new Intent(context, BankCardInfoActivity.class);
         intent.putExtra(LAYOUT_TYPE, false);
         intent.putExtra(BANK_CARD_NO, cardNo);
+        if(identityInfoBean != null)
+            intent.putExtra(IDENTITY_INFO_BEAN, Parcels.wrap(identityInfoBean));
         return intent;
     }
 
@@ -162,9 +168,14 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         isResetPasswordType = extras.getBoolean(LAYOUT_TYPE);
         bankCrardNo = extras.getString(BANK_CARD_NO, "");
         mBankCard = (MyBankCard) extras.getSerializable(BANK_CARD);
+        identityInfoBean = Parcels.unwrap(extras.getParcelable(IDENTITY_INFO_BEAN));
         if(mBankCard != null){
             bank = mBankCard.getBank();
             btnStatus++;
+        }
+        if(identityInfoBean != null && TextUtils.isEmpty(identityInfoBean.real_name)){
+            et_real_name.setText(identityInfoBean.real_name);
+            et_real_name.setFocusable(false);
         }
     }
 
@@ -505,6 +516,10 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             bankCardNo = et_bank_card.getText().toString().trim().replace(" ", "");
             realName = et_bank_card.getText().toString().trim();
             idCardNo = et_id_card_no.getText().toString().trim();
+            if(identityInfoBean != null && !TextUtils.isEmpty(identityInfoBean.real_name)){
+                realName = null;
+                idCardNo = null;
+            }
             tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, realName, idCardNo, mobile, captcha, listener.setLoadingDialog(this));
         }
     }

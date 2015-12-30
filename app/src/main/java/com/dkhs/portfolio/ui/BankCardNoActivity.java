@@ -8,12 +8,16 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.Button;
 import com.dkhs.portfolio.bean.BindThreePlat;
+import com.dkhs.portfolio.bean.IdentityInfoBean;
+import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -30,6 +34,10 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
 
     @ViewInject(R.id.et_bank_card)
     private EditText etBankcard;
+
+    @ViewInject(R.id.tv_verified_tip)
+    private TextView tvVerifiedTip;
+    private IdentityInfoBean identityInfoBean;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -91,7 +99,7 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
                     index = 0;
                     int konggeNumberC = 0;
                     while (index < buffer.length()) {
-                        if ( index % 5 == 4 ) {
+                        if (index % 5 == 4) {
                             buffer.insert(index, ' ');
                             konggeNumberC++;
                         }
@@ -117,10 +125,25 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
                     isChanged = false;
                     return;
                 }
-                if(!TextUtils.isEmpty(s) && s.length() >= 5){
+                if (!TextUtils.isEmpty(s) && s.length() >= 5) {
                     btnNext.setEnabled(true);
-                }else{
+                } else {
                     btnNext.setEnabled(false);
+                }
+            }
+        });
+        new TradeEngineImpl().getIdentityVerification(new ParseHttpListener<IdentityInfoBean>() {
+            @Override
+            protected IdentityInfoBean parseDateTask(String jsonData) {
+                return DataParse.parseObjectJson(IdentityInfoBean.class, jsonData);
+            }
+
+            @Override
+            protected void afterParseData(IdentityInfoBean object) {
+                identityInfoBean = object;
+                if(object != null && object.status == 2){
+                    //说明认证成功
+                    tvVerifiedTip.setText(String.format(UIUtils.getResString(mContext,R.string.blank_verified_tip),identityInfoBean.real_name));
                 }
             }
         });
@@ -128,7 +151,7 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
     @OnClick(R.id.btn_next)
     public void onClick(View v){
         //TODO 点击下一步
-        startActivityForResult(BankCardInfoActivity.bankCardInfoIntent(mContext, etBankcard.getText().toString().trim().replace(" ","")),1);
+        startActivityForResult(BankCardInfoActivity.bankCardInfoIntent(mContext, etBankcard.getText().toString().trim().replace(" ",""),identityInfoBean),1);
     }
 
     private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {

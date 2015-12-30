@@ -85,8 +85,10 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         RequestParams params = new RequestParams();
         params.addBodyParameter("bank", bank);
         params.addBodyParameter("bank_card_no", bank_card_no);
-        params.addBodyParameter("real_name", real_name);
-        params.addBodyParameter("id_card_no", id_card_no);
+        if(!TextUtils.isEmpty(real_name))
+            params.addBodyParameter("real_name", real_name);
+        if(!TextUtils.isEmpty(id_card_no))
+            params.addBodyParameter("id_card_no", id_card_no);
         params.addBodyParameter("mobile", mobile);
         params.addBodyParameter("captcha", captcha);
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.verify_identy, params,listener);
@@ -104,8 +106,10 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         RequestParams params = new RequestParams();
         params.addBodyParameter("bank_card_id", bank_card_id);
         params.addBodyParameter("bank_card_no", bank_card_no);
-        params.addBodyParameter("real_name", real_name);
-        params.addBodyParameter("id_card_no", id_card_no);
+        if(!TextUtils.isEmpty(real_name))
+            params.addBodyParameter("real_name", real_name);
+        if(!TextUtils.isEmpty(id_card_no))
+            params.addBodyParameter("id_card_no", id_card_no);
         params.addBodyParameter("mobile", mobile);
         if(!TextUtils.isEmpty(captcha))
             params.addBodyParameter("captcha", captcha);
