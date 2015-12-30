@@ -77,6 +77,8 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
     @ViewInject(R.id.et_id_card_no)
     private EditText et_id_card_no;
+    @ViewInject(R.id.tv_id_card_num)
+    private TextView tv_id_card_num;
 
     @ViewInject(R.id.et_bank_card_mobile)
     private EditText et_bank_card_mobile;
@@ -177,6 +179,9 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             et_real_name.setText(identityInfoBean.real_name);
             et_real_name.setEnabled(false);
             et_real_name.setFocusable(false);
+            et_id_card_no.setVisibility(View.GONE);
+            tv_id_card_num.setVisibility(View.VISIBLE);
+            tv_id_card_num.setText(identityInfoBean.id_card_no_masked);
         }
     }
 
