@@ -145,6 +145,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             @Override
             public void run() {
                 getCache();
+                queryData();
             }
         }, 500);
         super.onViewCreated(view, savedInstanceState);
@@ -152,6 +153,10 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
 
     @Override
     public void requestData() {
+
+    }
+
+    public void queryData() {
         startAnimaRefresh();
         loadData();
     }
@@ -383,7 +388,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         }
         isLoading = true;
         mSwipeLayout.setRefreshing(true);
-        requestData();
+        queryData();
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -474,7 +479,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 mSwipeLayout.post(new Runnable() {
                     @Override
                     public void run() {
-                        requestData();
+                        queryData();
                     }
                 });
             }
