@@ -117,9 +117,9 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     }
 
     @Subscribe
-    public void forward2Top(TopEvent event){
-        if(event != null && isVisible()&& getUserVisibleHint()){
-            if(mListView != null){
+    public void forward2Top(TopEvent event) {
+        if (event != null && isVisible() && getUserVisibleHint()) {
+            if (mListView != null) {
                 mListView.smoothScrollToPosition(0);
             }
         }
@@ -145,6 +145,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             @Override
             public void run() {
                 getCache();
+                queryData();
             }
         }, 500);
         super.onViewCreated(view, savedInstanceState);
@@ -152,6 +153,10 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
 
     @Override
     public void requestData() {
+
+    }
+
+    public void queryData() {
         startAnimaRefresh();
         loadData();
     }
@@ -168,7 +173,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 JSONArray results = jsonObject.getJSONArray("results");
                 mainValue.clear();
                 mainValue.addAll(DataParse.parseArrayJson(StockQuotesBean.class, results));
-                if(mainValue.size() > 0){
+                if (mainValue.size() > 0) {
                     mainValue.get(0).setTrade_status(jsonObject.getString("trade_status"));
                 }
             }
@@ -223,7 +228,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                     JSONObject jsonObject = new JSONObject(jsonData);
                     JSONArray results = jsonObject.getJSONArray("results");
                     lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
-                    if(lists.size() > 0){
+                    if (lists.size() > 0) {
                         lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
                     }
                 } catch (Exception e) {
@@ -383,7 +388,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         }
         isLoading = true;
         mSwipeLayout.setRefreshing(true);
-        requestData();
+        queryData();
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -474,7 +479,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                 mSwipeLayout.post(new Runnable() {
                     @Override
                     public void run() {
-                        requestData();
+                        queryData();
                     }
                 });
             }
@@ -529,7 +534,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                         JSONObject jsonObject = new JSONObject(jsonData);
                         JSONArray results = jsonObject.getJSONArray("results");
                         lists = DataParse.parseArrayJson(StockQuotesBean.class, results);
-                        if(lists.size() > 0){
+                        if (lists.size() > 0) {
                             lists.get(0).setTrade_status(jsonObject.getString("trade_status"));
                         }
                     } catch (Exception e) {

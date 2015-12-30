@@ -21,7 +21,6 @@ import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -89,7 +88,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             vh.setTextView(R.id.abbr_name, data.getAbbrName());
         }
 
-        vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getDiscount_rate_buy(), vh.getContext()));
+        vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getFare_ratio_buy(),data.getDiscount_rate_buy(), vh.getContext()));
 
         setText(vh.getTextView(R.id.cp_rate), data.getPercent_six_month());
 

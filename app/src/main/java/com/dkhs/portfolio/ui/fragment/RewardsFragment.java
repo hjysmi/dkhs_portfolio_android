@@ -272,12 +272,13 @@ public class RewardsFragment extends LoadMoreListFragment  {
 
     @Override
     public void postDelayedeData() {
-        mListView.postDelayed(new Runnable() {
+        mListView.post(new Runnable() {
             @Override
             public void run() {
                 ((RewardEngineImpl) getLoadEngine()).loadCacheData();
                 loadData();
             }
-        }, 500);
+        });
     }
+
 }
