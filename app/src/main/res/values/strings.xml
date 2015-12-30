@@ -942,7 +942,7 @@
     <string name="old_trade_password">原交易密码</string>
     <string name="input_trade_password_again">请再次输入交易密码。</string>
     <string name="trade_password_unsame">密码不一致，请重新输入。</string>
-    <string name="forget_trade_password">忘记交易密码?</string>
+    <string name="forget_trade_password">忘记密码?</string>
     <string name="trade_record">交易记录</string>
     <string name="buy_in">买入</string>
     <string name="sell_out">卖出</string>
