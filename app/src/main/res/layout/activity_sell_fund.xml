@@ -112,6 +112,8 @@
                     />
             </LinearLayout>
         </RelativeLayout>
+        <View style="@style/divider_line"/>
+
     </LinearLayout>
 
     <TextView

@@ -1,9 +1,11 @@
 package com.dkhs.portfolio.ui;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -12,11 +14,14 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.Button;
 import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.yang.gesturepassword.GesturePasswordManager;
 
 import org.json.JSONObject;
 
@@ -173,6 +178,12 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                 //下一步
                 TradeEngineImpl tradeEngine = new TradeEngineImpl();
                 ParseHttpListener<Boolean> listener = new ParseHttpListener<Boolean>() {
+                    public void onFailure(ErrorBundle errorBundle) {
+                        if(errorBundle.getErrorKey().equals("password_lock_invalid")){
+                            gpv.clearPassword();
+                            showPwdLockedDialog(errorBundle.getErrorMessage());
+                        }
+                    }
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
                         try {
@@ -243,5 +254,22 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
 
     }
 
+    private void showPwdLockedDialog(String msg) {
+        new MyAlertDialog(this).builder()
+                .setCancelable(false)
+                .setMsg(msg)
+                .setPositiveButton(getResources().getString(R.string.forget_password), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(ForgetTradePasswordActivity.newIntent(mContext, false));
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.retry), new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                    }
+                }).show();
+    }
 
 }

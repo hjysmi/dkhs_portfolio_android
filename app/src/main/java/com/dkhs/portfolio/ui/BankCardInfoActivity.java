@@ -126,10 +126,10 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         super.onCreate(arg0);
         setContentView(R.layout.activity_bank_card_info);
         Bundle extras = getIntent().getExtras();
+        ViewUtils.inject(this);
         if (extras != null) {
             handleExtras(extras);
         }
-        ViewUtils.inject(this);
         setTitle(R.string.input_bank_card_info);
         initViews();
         if (!isResetPasswordType) {
@@ -173,8 +173,9 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             bank = mBankCard.getBank();
             btnStatus++;
         }
-        if(identityInfoBean != null && TextUtils.isEmpty(identityInfoBean.real_name)){
+        if(identityInfoBean != null && !TextUtils.isEmpty(identityInfoBean.real_name)){
             et_real_name.setText(identityInfoBean.real_name);
+            et_real_name.setEnabled(false);
             et_real_name.setFocusable(false);
         }
     }
@@ -287,7 +288,6 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         et_real_name.addTextChangedListener(new TextWatcher() {
             private String beforeS;
             private boolean isBeforeAble;
-            private int start;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 beforeS = s.toString();
@@ -349,7 +349,81 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 return res;
             }
         });
-        et_id_card_no.addTextChangedListener(new MyTextWatcher(false));
+        et_id_card_no.addTextChangedListener(new TextWatcher() {
+            private String beforeS;
+            private boolean isBeforeAble;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                beforeS = s.toString();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!TextUtils.isEmpty(s) && s.length() <=17){
+                    boolean isNum = false;
+                    try{
+                        Long.parseLong(s.toString());
+                        isNum = true;
+                    }catch (Exception e){
+
+                    }finally {
+                        if(!isNum){
+                            et_id_card_no.setText(beforeS);
+                            Editable etable = et_id_card_no.getText();
+                            Selection.setSelection(etable, start);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s) && s.length() >= 14) {
+                    if (!isBeforeAble){
+                        btnStatus++;
+                        isBeforeAble = true;
+                    }
+                    checkBtnStatus();
+                } else {
+                    if(isBeforeAble){
+                        isBeforeAble = false;
+                        btnStatus--;
+                    }
+                    btn_bind_bank_card.setEnabled(false);
+                }
+            }
+            /**
+             * 判定输入汉字
+             * @param c
+             * @return
+             */
+            public  boolean hasSpecialChar(char c) {
+                Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+                return ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
+            }
+
+            /**
+             * 检测String是否包含特殊字符
+             * @param name
+             * @return
+             */
+            public  boolean checkName(String name)
+            {
+                boolean res=true;
+                char [] cTemp = name.toCharArray();
+                for(int i=0;i<name.length();i++)
+                {
+                    if(hasSpecialChar(cTemp[i]))
+                    {
+                        res=false;
+                        break;
+                    }
+                }
+                return res;
+            }
+        });
+//        et_id_card_no.addTextChangedListener(new MyTextWatcher(false));
         et_bank_card_mobile.addTextChangedListener(new MyTextWatcher(true));
         et_verifycode.addTextChangedListener(new MyTextWatcher(false));
         cb_agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

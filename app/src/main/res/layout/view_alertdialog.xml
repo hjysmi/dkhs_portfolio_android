@@ -22,9 +22,9 @@
         android:id="@+id/txt_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="@dimen/widget_margin_medium"
+        android:layout_marginRight="@dimen/widget_margin_medium"
+        android:layout_marginTop="@dimen/widget_margin_medium"
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -32,7 +32,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/widget_margin_medium"
         android:background="@color/alertdialog_line" />
 
     <LinearLayout
@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:background="@drawable/alertdialog_left_selector"
             android:gravity="center"
-            android:textColor="@color/actionsheet_blue"
+            android:textColor="@color/theme_blue"
             android:textSize="16sp" />
 
         <ImageView
@@ -63,9 +63,8 @@
             android:layout_weight="1"
             android:background="@drawable/alertdialog_right_selector"
             android:gravity="center"
-            android:textColor="@color/actionsheet_blue"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textColor="@color/theme_blue"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>
