@@ -69,5 +69,6 @@ public class FundTradeBean extends AutoData {
     public class Fund{
         public String id;
         public String abbr_name;
+        public String symbol;
     }
 }

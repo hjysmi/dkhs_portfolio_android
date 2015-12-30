@@ -89,12 +89,12 @@ public class SellFundInfoActivity extends ModelAcitivity {
             protected void afterParseData(FundTradeInfo info) {
                 if(info != null){
                     mFund = info.getFund();
-                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), info.getFund().getAbbrName(), info.getFund().getId()));
+                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), info.getFund().getAbbrName(), info.getFund().getSymbol()));
                     tv_trade_no.setText(info.getAllot_no());
                     tv_trade_time.setText(TimeUtils.getDaySecondString(info.getApply_date()));
                     tv_info_tip_content1.setText(TimeUtils.getDateString(info.getApply_date()));
-                    tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar), info.getAmount()));
-                    tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_shares), info.getShares()));
+                    tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_dollar), info.getAmount()));
+                    tv_trade_value.setText(String.format(getResources().getString(R.string.blank_shares), info.getShares()));
                     if(info.getStatus() == 0){
                         iv_info_tip2.setBackgroundResource(R.drawable.trade_unsuc);
                         tv_trade_shares.setText(R.string.tobe_confirmed);

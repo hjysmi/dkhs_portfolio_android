@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="@dimen/widget_margin_medium"
-        android:background="@color/point_lighter_gray"
         />
 
     <LinearLayout

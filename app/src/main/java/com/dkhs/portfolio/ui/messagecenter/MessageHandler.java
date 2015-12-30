@@ -29,9 +29,14 @@ import com.dkhs.portfolio.ui.CommentMeActivity;
 import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.FundManagerActivity;
 import com.dkhs.portfolio.ui.InfoActivity;
+import com.dkhs.portfolio.ui.LoginActivity;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.MarketSubpageActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.PostTopicActivity;
+import com.dkhs.portfolio.ui.RLFActivity;
+import com.dkhs.portfolio.ui.SelectGeneralActivity;
+import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
@@ -188,6 +193,24 @@ public class MessageHandler {
                 gotoUserActivity();
             } else if ((segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("pro_verfications"))) {
                 gotoauthentication(url);
+            } else if ((segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("login"))) {
+                //去登陆界面
+                goToActivity(LoginActivity.loginActivityByAnnoy(mContext));
+            } else if ((segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("signup"))) {
+                //去注册界面
+                goToActivity(RLFActivity.registerIntent(mContext));
+            } else if ((segments.get(0).equals("accounts") && segments.size() >= 2 && segments.get(1).equals("settings"))) {
+                //去"我的"设置界面
+                goToActivity(new Intent(mContext, SettingActivity.class));
+            } else if ((segments.get(0).equals("statuses") && segments.size() >= 2 && segments.get(1).equals("create"))) {
+                //去发表话题
+                goToActivity(PostTopicActivity.getIntent(mContext, PostTopicActivity.TYPE_POST_TOPIC, "", ""));
+            } else if ((segments.get(0).equals("symbols") && segments.size() >= 2 && segments.get(1).equals("search"))) {
+                //去搜索界面
+                goToActivity(new Intent(mContext,SelectGeneralActivity.class));
+            } else if ((segments.get(0).equals("im") && segments.size() >= 2 && segments.get(1).equals("center"))) {
+                //去消息中心
+                MessageManager.getInstance().startConversationList(mContext);
             } else {
                 needHandle = false;
             }
@@ -195,6 +218,9 @@ public class MessageHandler {
             needHandle = false;
         }
         return needHandle;
+    }
+    private void goToActivity(Intent intent){
+        mContext.startActivity(intent);
     }
 
     /**
