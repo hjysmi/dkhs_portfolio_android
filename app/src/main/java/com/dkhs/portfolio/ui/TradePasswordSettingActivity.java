@@ -182,6 +182,8 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                         if(errorBundle.getErrorKey().equals("password_lock_invalid")){
                             gpv.clearPassword();
                             showPwdLockedDialog(errorBundle.getErrorMessage());
+                        }else{
+                            super.onFailure(errorBundle);
                         }
                     }
                     @Override
