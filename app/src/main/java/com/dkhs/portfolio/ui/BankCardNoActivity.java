@@ -16,6 +16,7 @@ import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.IdentityInfoBean;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -133,6 +134,9 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
             }
         });
         new TradeEngineImpl().getIdentityVerification(new ParseHttpListener<IdentityInfoBean>() {
+            @Override
+            public void onFailure(ErrorBundle errorBundle) {
+            }
             @Override
             protected IdentityInfoBean parseDateTask(String jsonData) {
                 return DataParse.parseObjectJson(IdentityInfoBean.class, jsonData);
