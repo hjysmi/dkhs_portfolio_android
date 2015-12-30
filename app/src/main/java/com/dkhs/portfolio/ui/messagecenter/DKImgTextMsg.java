@@ -10,8 +10,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import io.rong.common.ParcelUtils;
 import io.rong.imlib.MessageTag;
-import io.rong.imlib.ipc.utils.ParcelUtils;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
 

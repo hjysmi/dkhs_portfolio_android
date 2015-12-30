@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.util.LogUtils;
 
 import io.rong.imkit.model.ProviderTag;
+import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.provider.UnknownMessageItemProvider;
-import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 
 import static com.dkhs.portfolio.R.id;
@@ -68,8 +67,9 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
 
 
     //
+
     @Override
-    public void bindView(View v, int position, MessageContent content, Message message) {
+    public void bindView(View v, int position, MessageContent content, UIMessage message) {
 
         TextView titleTV = (TextView) v.findViewById(id.tv_title);
         TextView contentTV = (TextView) v.findViewById(id.tv_content);

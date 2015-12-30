@@ -3,7 +3,6 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:padding="10dp"
-              android:visibility="gone"
     android:layout_height="70dp">
 
     <ImageView
