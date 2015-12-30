@@ -141,7 +141,7 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
             @Override
             protected void afterParseData(IdentityInfoBean object) {
                 identityInfoBean = object;
-                if(object != null && object.status == 2){
+                if(object != null && object.status == 1){
                     //说明认证成功
                     tvVerifiedTip.setText(String.format(UIUtils.getResString(mContext,R.string.blank_verified_tip),identityInfoBean.real_name));
                 }
