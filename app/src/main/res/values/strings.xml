@@ -460,7 +460,7 @@
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
     <string name="info_title_mytopic">我的主帖</string>
-    <string name="info_title_purse">我的零钱</string>
+    <string name="info_title_purse">零钱</string>
     <string name="info_title_mypost">我的话题</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
@@ -1006,16 +1006,10 @@
     <string name="confirm_amount">确认金额</string>
     <string name="confirm_amount_suc">基金公司已确认金额</string>
     <string name="confirm_amount_fail">基金公司确认金额失败</string>
-    <string name="trade_buy_status">买入状态</string>
-    <string name="trade_sell_status">卖出状态</string>
-    <string name="trade_value">交易金额</string>
-    <string name="trade_buy_value">买入金额</string>
-    <string name="trade_sell_value">卖出金额</string>
     <string name="blank_dollar">%1$s元</string>
     <string name="blank_shares">%1$s份</string>
     <string name="pay_status">支付成功</string>
-    <string name="trade_buy_time">买入时间</string>
-    <string name="trade_sell_time">卖出时间</string>
+    <string name="trade_time">下单时间</string>
     <string name="trade_no">交易单号</string>
     <string name="trade_rate">申购费率</string>
     <string name="buy_fund_info_tip1">支付成功，等待基金公司确认</string>
@@ -1023,10 +1017,10 @@
     <string name="cancel_fund">撤单</string>
     <string name="sell_fund_info">卖出交易详情</string>
     <string name="sell_trade_shares">卖出份额</string>
-    <string name="buy_trade_shares">买入份额</string>
+    <string name="buy_trade_amount">买入金额</string>
     <string name="sell_rate">卖出费率</string>
     <string name="sell_fund_info_tip1">卖出成功，等待基金公司确认</string>
-    <string name="sell_fund_info_tip2">确认购买份额</string>
+    <string name="sell_fund_info_tip2">确认卖出份额</string>
     <string name="sell_fund_info_tip3">卖出款退款中</string>
     <string name="sell_fund_info_tip4">卖出款已转银行卡</string>
     <string name="choose_bank">选择银行</string>
@@ -1112,7 +1106,7 @@
     <string name="close_reward_hint">关闭成功，即将退回你的赏金</string>
 
     <!--wallet-->
-    <string name="balance_hint">现金余额(元)</string>
+    <string name="balance_hint">零钱余额(元)</string>
     <string name="charge">充值</string>
     <string name="withdraw">提现</string>
     <string name="with_draw_available">可提现金额为%1$s元</string>

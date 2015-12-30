@@ -53,7 +53,7 @@ public class MyFundTradeAdapter extends BaseAdapter{
         }
         holder = (ViewHolder) convertView.getTag();
         FundTradeBean tradeBean = mData.get(position);
-        holder.tv_fund_name.setText(String.format(context.getResources().getString(R.string.blank_fund_name),tradeBean.getFund().abbr_name, tradeBean.getFund().id));
+        holder.tv_fund_name.setText(String.format(context.getResources().getString(R.string.blank_fund_name),tradeBean.getFund().abbr_name, tradeBean.getFund().symbol));
         holder.tv_trade_time.setText(TimeUtils.getBriefTimeString(tradeBean.getApply_date()));
         holder.tv_trade_value.setText(String.format(context.getResources().getString(R.string.blank_dollar),tradeBean.getAmount()));
         if(tradeBean.getStatus() == 0){

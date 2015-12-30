@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
+    android:fillViewport="false">
 
     <LinearLayout
         android:orientation="vertical"
@@ -63,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_buy_status"
+                    android:text="@string/trade_status"
                     />
 
                 <TextView
@@ -89,34 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/buy_trade_shares"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_trade_shares"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:textSize="@dimen/widget_text_12sp"
-                    android:textColor="@color/gray_textcolor"
-                    />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingRight="@dimen/widget_padding_large"
-                android:layout_marginTop="@dimen/widget_margin_normal"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/trade_buy_value"
+                    android:text="@string/buy_trade_amount"
                     />
 
                 <TextView
@@ -128,7 +103,6 @@
                     android:textSize="@dimen/widget_text_12sp"
                     android:textColor="@color/gray_textcolor"
                     />
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -143,7 +117,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_buy_time"
+                    android:text="@string/confirm_shares"
+                    />
+                <TextView
+                    android:id="@+id/tv_trade_shares"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/widget_text_12sp"
+                    android:textColor="@color/gray_textcolor"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/trade_time"
                     />
 
                 <TextView
