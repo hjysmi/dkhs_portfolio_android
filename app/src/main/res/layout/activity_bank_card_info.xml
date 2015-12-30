@@ -12,6 +12,7 @@
         android:layout_marginTop="@dimen/widget_margin_large"
         android:background="@drawable/bg_white_gray_selector"
         android:clickable="true"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -26,24 +27,41 @@
             android:text="@string/bank_type"
             android:textSize="@dimen/widget_text_16sp" />
 
-        <TextView
-            android:id="@+id/tv_bank"
+        <LinearLayout
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/bank"
             android:layout_weight="5"
-            android:focusableInTouchMode="false"
-            android:text="选择银行"
-            android:textColor="@color/gray_textcolor"
-            android:textSize="@dimen/widget_text_16sp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_bank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/bank"
+                android:focusableInTouchMode="false"
+                android:text="选择银行"
+                android:textColor="@color/gray_textcolor"
+                android:textSize="@dimen/widget_text_16sp" />
+
+            <TextView
+                android:id="@+id/tv_limit_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/def_red"
+                android:visibility="gone"
+                android:text="@string/blank_buy_money"
+                android:textSize="@dimen/widget_text_12sp" />
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/image_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/setting_image_right"/>
+            android:src="@drawable/setting_image_right" />
     </LinearLayout>
 
     <LinearLayout

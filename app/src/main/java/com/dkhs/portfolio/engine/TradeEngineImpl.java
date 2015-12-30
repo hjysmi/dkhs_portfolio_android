@@ -94,6 +94,12 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
     /**
      * post身份认证
      */
+    public void getIdentityVerification(IHttpListener listener){
+        DKHSClient.requestByGet(listener,DKHSUrl.Funds.get_verifications);
+    }
+    /**
+     * post重置交易密码
+     */
     public void resetTradePassword(String bank_card_id, String bank_card_no, String real_name, String id_card_no, String mobile, String captcha,String password, IHttpListener listener){
         RequestParams params = new RequestParams();
         params.addBodyParameter("bank_card_id", bank_card_id);
