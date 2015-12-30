@@ -298,7 +298,6 @@ public class SellFundActivity extends ModelAcitivity {
 //                    gpvDialog.dismiss();
 //                }
                 password = gpv.getPassWord();
-                gpvDialog.dismiss();
                 ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
                     @Override
                     public void onFailure(ErrorBundle errorBundle) {

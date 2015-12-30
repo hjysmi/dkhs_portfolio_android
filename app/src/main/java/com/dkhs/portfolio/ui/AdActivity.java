@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -124,6 +126,17 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
         mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
         mWebView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                String ajaxUrl = url;
+                // 如标识:req=ajax
+                if (url.contains("req=ajax")) {
+                    ajaxUrl += "&Authorization=" + "Bearer " + GlobalParams.ACCESS_TOCKEN;
+                }
+                return super.shouldInterceptRequest(view, ajaxUrl);
+            }
+
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 if(errorCode == 403){

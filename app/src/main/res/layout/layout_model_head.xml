@@ -9,7 +9,7 @@
         <LinearLayout
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <include layout="@layout/toolbar" />
@@ -96,8 +96,7 @@
         <View
             android:id="@+id/bottom_line"
             style="@style/title_bottom_line"
-            android:layout_gravity="bottom"
-            android:alpha="0.2" />
+            android:layout_gravity="bottom" />
 
     </FrameLayout>
 </merge>
