@@ -249,7 +249,7 @@ public class SellFundActivity extends ModelAcitivity {
                 .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(mContext, ForgetTradePasswordActivity.class));
+                        startActivity(ForgetTradePasswordActivity.newIntent(mContext,true));
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
@@ -301,10 +301,16 @@ public class SellFundActivity extends ModelAcitivity {
                 ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
                     @Override
                     public void onFailure(ErrorBundle errorBundle) {
-                        gpv.clearPassword();
-                        tvTradePwdWrong.setText(errorBundle.getErrorMessage());
-                        progressBar.setVisibility(View.GONE);
-                        tvTradePwdWrong.setVisibility(View.VISIBLE);
+                        if(errorBundle.getErrorKey().equals("password_lock_invalid")){
+                            //TODO 密码已被锁定
+                            gpvDialog.dismiss();
+                            showPwdLockedDialog(errorBundle.getErrorMessage());
+                        }else{
+                            gpv.clearPassword();
+                            tvTradePwdWrong.setText(errorBundle.getErrorMessage());
+                            progressBar.setVisibility(View.GONE);
+                            tvTradePwdWrong.setVisibility(View.VISIBLE);
+                        }
                     }
                     @Override
                     protected FundTradeInfo parseDateTask(String jsonData) {
@@ -342,28 +348,23 @@ public class SellFundActivity extends ModelAcitivity {
         gpvDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
-    private Dialog pwdLockedDialog;
 
-    private void showPwdLockedDialog() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = (View) inflater.inflate(R.layout.layout_trade_password_locked_dialog, null);
-        view.findViewById(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 重试
-                pwdLockedDialog.dismiss();
-            }
-        });
-        view.findViewById(R.id.btn_forget_pwd).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 忘记密码
-                pwdLockedDialog.dismiss();
-            }
-        });
-        pwdLockedDialog = new Dialog(this, R.style.dialog);
-        pwdLockedDialog.show();
-        pwdLockedDialog.getWindow().setContentView(view);
+    private void showPwdLockedDialog(String msg) {
+        new MyAlertDialog(this).builder()
+                .setCancelable(false)
+                .setMsg(msg)
+                .setPositiveButton(getResources().getString(R.string.forget_password), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(ForgetTradePasswordActivity.newIntent(mContext, false));
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.retry), new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                    }
+                }).show();
     }
 
     private Dialog bankCardDialog;

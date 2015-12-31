@@ -121,6 +121,8 @@
                 android:text="@string/add_bank_card"
                 />
         </RelativeLayout>
+        <View style="@style/divider_line"/>
+
     </LinearLayout>
 
     <TextView

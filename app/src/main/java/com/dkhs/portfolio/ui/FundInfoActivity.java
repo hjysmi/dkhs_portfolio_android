@@ -271,7 +271,7 @@ public class FundInfoActivity extends ModelAcitivity {
                         holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar), record.getAmount()));
 
                     } else {
-                        holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_shares), "-" + record.getShares()));
+                        holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_shares), record.getShares()));
                         holder4.tv_trade_type.setText("卖出");
                     }
 
