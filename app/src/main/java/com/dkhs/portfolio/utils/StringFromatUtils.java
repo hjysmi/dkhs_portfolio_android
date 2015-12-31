@@ -14,7 +14,6 @@ import android.text.style.ForegroundColorSpan;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.common.Spanny;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
@@ -219,13 +218,12 @@ public class StringFromatUtils {
 
     }
 
-    public static String getDiscount(double fareRatio,double discount,Context context){
+    public static String getDiscount(float fareRatio,float discount,Context context){
         if(fareRatio == 0) {
             return context.getString(R.string.zero_rate);
         }else if(discount == 1){
             return String.format("%.2f", fareRatio) + "%";
         }else{
-            LogUtils.d("wys","discount"+discount);
             String discountStr = new DecimalFormat("0.00").format(discount * 10);
             discountStr = removeZeroAfterDot(discountStr);
             return String.
