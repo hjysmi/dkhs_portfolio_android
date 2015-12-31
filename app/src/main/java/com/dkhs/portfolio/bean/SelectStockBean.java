@@ -111,6 +111,7 @@ public class SelectStockBean extends DragListItem implements Serializable{
         SelectStockBean bean = new SelectStockBean();
         bean.name = symbolsBean.getAbbrName();
         bean.id = symbolsBean.id;
+        bean.code = symbolsBean.code;
         bean.symbol = symbolsBean.symbol;
         bean.symbol_stype = symbolsBean.symbol_stype;
         bean.tradeDay = symbolsBean.getTradedate();
