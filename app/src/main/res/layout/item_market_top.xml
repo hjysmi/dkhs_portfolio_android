@@ -98,6 +98,7 @@
                         android:visibility="visible"
                         android:textColor="@color/theme_blue"
                         app:layout_textSizePercent="3.5%w"
+                        app:layout_marginRightPercent="2%w"
                         tools:text="低风险" />
 
                     <TextView
@@ -109,7 +110,7 @@
                         android:singleLine="true"
                         android:textColor="@color/theme_blue"
                         android:visibility="visible"
-                        app:layout_marginLeftPercent="2%w"
+                        app:layout_marginRightPercent="2%w"
                         app:layout_textSizePercent="3.5%w"
                         tools:text="0费率" />
 
@@ -123,7 +124,7 @@
                         android:text="未代销"
                         android:textColor="@color/stock_gray_bg"
                         android:visibility="gone"
-                        app:layout_marginLeftPercent="2%w"
+                        app:layout_marginRightPercent="2%w"
                         app:layout_textSizePercent="3.5%w" />
 
                     <TextView
@@ -135,7 +136,7 @@
                         android:singleLine="true"
                         android:textColor="@color/theme_blue"
                         android:visibility="visible"
-                        app:layout_marginLeftPercent="2%w"
+                        app:layout_marginRightPercent="2%w"
                         app:layout_textSizePercent="3.5%w"
                         tools:text="100元起" />
                 </com.android.percent.PercentLinearLayout>
