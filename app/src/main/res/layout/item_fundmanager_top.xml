@@ -112,7 +112,7 @@
                     android:singleLine="true"
                     android:textColor="@color/tag_gray"
                     app:layout_marginRightPercent="3.7%w"
-                    app:layout_textSizePercent="4%w"
+                    app:layout_textSizePercent="3.5%w"
                     tools:text="跑赢大盘:150.00%" />
             </com.android.percent.PercentRelativeLayout>
         </com.android.percent.PercentRelativeLayout>
