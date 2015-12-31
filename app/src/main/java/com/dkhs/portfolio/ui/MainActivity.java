@@ -445,5 +445,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            mMenuFragment.clickTabIndex(mScrollViewPager.getCurrentItem());
+        }
+    }
 }
