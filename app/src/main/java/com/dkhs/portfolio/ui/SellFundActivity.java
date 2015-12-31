@@ -55,6 +55,7 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -145,7 +146,7 @@ public class SellFundActivity extends ModelAcitivity {
                         value = value * mQuoteBean.getNet_value() * mQuoteBean.getFare_ratio_sell() * 0.01 * mQuoteBean.getDiscount_rate_sell();
                         BigDecimal decimal = new BigDecimal(value);
                         value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
-                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), String.valueOf(value)));
+                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), new DecimalFormat("0.00").format(value)));
                         btn_sell.setEnabled(true);
                     }
                 }else{
