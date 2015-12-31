@@ -42,6 +42,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -60,6 +61,7 @@ import org.parceler.Parcels;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,35 +142,72 @@ public class BuyFundActivity extends ModelAcitivity {
 
     private void initViews() {
         et_value.addTextChangedListener(new TextWatcher() {
+            String beforsStr;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                beforsStr = s.toString();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+                if (s.toString().contains(".")) {
+                    if(s.toString().substring(0,s.toString().indexOf(".")).length() > 8){
+                        et_value.setText(beforsStr);
+                        et_value.setSelection(start);
+                        return;
+                    }
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        et_value.setText(s);
+                        et_value.setSelection(s.length());
+                    }
+                }else{
+                    if(s.toString().length() > 8){
+                        et_value.setText(beforsStr);
+                        et_value.setSelection(start);
+                        return;
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    et_value.setText(s);
+                    et_value.setSelection(2);
+                    return;
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        et_value.setText(s.subSequence(0, 1));
+                        et_value.setSelection(1);
+                        return;
+                    }
+                }
                 if (tv_add_bank_card.getVisibility() == View.VISIBLE) {
                     btn_buy.setEnabled(false);
                 } else {
-                    if (!TextUtils.isEmpty(s)) {
+                    if (!TextUtils.isEmpty(s) && !s.toString().startsWith(".")) {
                         double value = Double.parseDouble(s.toString());
                         if (value < limitValue) {
                             btn_buy.setEnabled(false);
-                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), StringFromatUtils.get2PointPercent(mQuoteBean.getFare_ratio_buy()*mQuoteBean.getDiscount_rate_buy())));
                         } else {
                             value = value * mQuoteBean.getFare_ratio_buy() * 0.01 * mQuoteBean.getDiscount_rate_buy();
                             BigDecimal decimal = new BigDecimal(value);
                             value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
-                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), String.valueOf(value)));
+                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), new DecimalFormat("0.00").format(value)));
                             btn_buy.setEnabled(isBankcardChoosed);
                         }
                     }else{
-                        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), StringFromatUtils.get2PointPercent(mQuoteBean.getFare_ratio_buy() * mQuoteBean.getDiscount_rate_buy())));
                     }
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
         et_value.setFilters(new InputFilter[]{lengthfilter});
@@ -203,10 +242,10 @@ public class BuyFundActivity extends ModelAcitivity {
     private void initData() {
         limitValue = mQuoteBean.getAmount_min_buy();
         maxValue = mQuoteBean.getAmount_max_buy();
-        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getId()));
+        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getSymbol()));
         tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), mQuoteBean.getNet_value()));
         tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value), mQuoteBean.getAmount_min_buy()));
-        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), StringFromatUtils.get2PointPercent(mQuoteBean.getFare_ratio_buy()*mQuoteBean.getDiscount_rate_buy())));
         et_value.setHint(String.format(getResources().getString(R.string.blank_hint_value), String.valueOf(mQuoteBean.getAmount_min_buy())));
         mBitmapUtils = new BitmapUtils(this);
     }
@@ -409,7 +448,7 @@ public class BuyFundActivity extends ModelAcitivity {
                         startActivity(ForgetTradePasswordActivity.newIntent(mContext, false));
                     }
                 })
-                .setNegativeButton(getResources().getString(R.string.retry), new View.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -537,7 +576,7 @@ public class BuyFundActivity extends ModelAcitivity {
                     Resources res = getResources();
                     tv.setBackgroundResource(R.drawable.btn_white_selector);
                     tv.setTextColor(res.getColor(R.color.black));
-                    tv.setTextSize(res.getDimension(R.dimen.widget_text_6sp));
+                    tv.setTextSize(res.getDimension(R.dimen.widget_text_10sp)/2);
                     tv.setText(R.string.add_bank_card);
                     tv.setGravity(Gravity.CENTER);
                     AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);

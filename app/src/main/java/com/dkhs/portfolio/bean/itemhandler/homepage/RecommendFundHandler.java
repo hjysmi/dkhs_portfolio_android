@@ -35,6 +35,7 @@ public class RecommendFundHandler extends SimpleItemHandler<RecommendFundBean> {
 
     @Override
     public void onBindView(ViewHolder vh, RecommendFundBean data, int position) {
+        vh.getConvertView().setBackgroundColor(vh.getContext().getResources().getColor(R.color.white));
         GridView fundGv = vh.get(R.id.gv_fund);
         fundGv.setAdapter(new MyAdapter(mContext,data.data));
         super.onBindView(vh, data, position);

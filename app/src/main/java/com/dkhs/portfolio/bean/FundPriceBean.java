@@ -39,7 +39,7 @@ public class FundPriceBean extends StockPriceBean {
     private int investment_risk;
     private double discount_rate_buy;
     private double fare_ratio_buy;
-    private double amount_min_buy;
+    private float amount_min_buy;
     private boolean allow_trade;
 
     public boolean isAllow_trade() {
@@ -50,11 +50,11 @@ public class FundPriceBean extends StockPriceBean {
         this.allow_trade = allow_trade;
     }
 
-    public double getAmount_min_buy() {
+    public float getAmount_min_buy() {
         return amount_min_buy;
     }
 
-    public void setAmount_min_buy(double amount_min_buy) {
+    public void setAmount_min_buy(float amount_min_buy) {
         this.amount_min_buy = amount_min_buy;
     }
 

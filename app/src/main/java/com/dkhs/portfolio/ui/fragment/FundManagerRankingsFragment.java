@@ -18,7 +18,6 @@ import com.dkhs.portfolio.ui.ItemView.FMRankingItemHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,6 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
     }
 
     public void refresh(){
-        LogUtils.d("wys","manager");
         loadData();
     }
 
