@@ -61,6 +61,7 @@ import org.parceler.Parcels;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,7 +164,7 @@ public class BuyFundActivity extends ModelAcitivity {
                             value = value * mQuoteBean.getFare_ratio_buy() * 0.01 * mQuoteBean.getDiscount_rate_buy();
                             BigDecimal decimal = new BigDecimal(value);
                             value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
-                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), String.valueOf(value)));
+                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip2), new DecimalFormat("0.00").format(value)));
                             btn_buy.setEnabled(isBankcardChoosed);
                         }
                     }else{
