@@ -176,6 +176,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             btnStatus++;
         }
         if(identityInfoBean != null && !TextUtils.isEmpty(identityInfoBean.real_name)){
+            needFillNameAndId = false;
             et_real_name.setText(identityInfoBean.real_name);
             et_real_name.setEnabled(false);
             et_real_name.setFocusable(false);
@@ -669,9 +670,13 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     }
 
     private int btnStatus = 1;
+    private boolean needFillNameAndId = true;
 
     private void checkBtnStatus() {
         int checkCount = isResetPasswordType?7:6;
+
+        if(!needFillNameAndId)
+            checkCount = 4;
         btn_bind_bank_card.setEnabled(btnStatus == checkCount);
     }
 
