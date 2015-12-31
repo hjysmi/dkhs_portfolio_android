@@ -2,7 +2,6 @@ package com.dkhs.portfolio.bean.itemhandler.homepage;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
@@ -52,6 +51,7 @@ public class HomeMoreHandler extends SimpleItemHandler<HomeMoreBean> {
             }
         });
         vh.getTextView(R.id.title).setText(data.getTitle());
+        vh.get(R.id.divider).setBackgroundColor(vh.getContext().getResources().getColor(R.color.drivi_line));
         if(data.hide){
             vh.get(R.id.divider).setVisibility(View.GONE);
         }else{
