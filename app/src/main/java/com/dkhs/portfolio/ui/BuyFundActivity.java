@@ -42,6 +42,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -157,7 +158,7 @@ public class BuyFundActivity extends ModelAcitivity {
                         double value = Double.parseDouble(s.toString());
                         if (value < limitValue) {
                             btn_buy.setEnabled(false);
-                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                            tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), StringFromatUtils.get2PointPercent(mQuoteBean.getFare_ratio_buy()*mQuoteBean.getDiscount_rate_buy())));
                         } else {
                             value = value * mQuoteBean.getFare_ratio_buy() * 0.01 * mQuoteBean.getDiscount_rate_buy();
                             BigDecimal decimal = new BigDecimal(value);
@@ -166,7 +167,7 @@ public class BuyFundActivity extends ModelAcitivity {
                             btn_buy.setEnabled(isBankcardChoosed);
                         }
                     }else{
-                        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), StringFromatUtils.get2PointPercent(mQuoteBean.getFare_ratio_buy()*mQuoteBean.getDiscount_rate_buy())));
                     }
                 }
             }
@@ -206,7 +207,7 @@ public class BuyFundActivity extends ModelAcitivity {
         tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getId()));
         tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), mQuoteBean.getNet_value()));
         tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value), mQuoteBean.getAmount_min_buy()));
-        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+        tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), StringFromatUtils.get2PointPercent(mQuoteBean.getFare_ratio_buy()*mQuoteBean.getDiscount_rate_buy())));
         et_value.setHint(String.format(getResources().getString(R.string.blank_hint_value), String.valueOf(mQuoteBean.getAmount_min_buy())));
         mBitmapUtils = new BitmapUtils(this);
     }
@@ -409,7 +410,7 @@ public class BuyFundActivity extends ModelAcitivity {
                         startActivity(ForgetTradePasswordActivity.newIntent(mContext, false));
                     }
                 })
-                .setNegativeButton(getResources().getString(R.string.retry), new View.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -537,7 +538,7 @@ public class BuyFundActivity extends ModelAcitivity {
                     Resources res = getResources();
                     tv.setBackgroundResource(R.drawable.btn_white_selector);
                     tv.setTextColor(res.getColor(R.color.black));
-                    tv.setTextSize(res.getDimension(R.dimen.widget_text_6sp));
+                    tv.setTextSize(res.getDimension(R.dimen.widget_text_10sp)/2);
                     tv.setText(R.string.add_bank_card);
                     tv.setGravity(Gravity.CENTER);
                     AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
