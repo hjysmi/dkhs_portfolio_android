@@ -131,7 +131,6 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
             public void onFailure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
                 RewardEngineImpl.this.onFailure(errCode, errMsg);
-                onFinish();
             }
 
 
