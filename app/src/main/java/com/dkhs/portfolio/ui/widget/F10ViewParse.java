@@ -320,7 +320,7 @@ public class F10ViewParse {
             case 1:
                 //申购费率
                 if (null != fundQuoteBean) {
-                    rowText = StringFromatUtils.get2PointPercent(fundQuoteBean.getDiscount_rate_buy());
+                    rowText = StringFromatUtils.get2PointPercent(fundQuoteBean.getFare_ratio_buy()*fundQuoteBean.getDiscount_rate_buy());
                 }
                 break;
             case 2:
