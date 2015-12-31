@@ -568,7 +568,7 @@
     <style name="title_bottom_line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5px</item>
-        <item name="android:background">@drawable/bg_title_bottom_line</item>
+        <item name="android:background">@color/drivi_line</item>
     </style>
 
     <style name="title_exchange_history">
