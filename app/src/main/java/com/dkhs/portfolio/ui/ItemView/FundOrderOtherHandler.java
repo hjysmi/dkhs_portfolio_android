@@ -20,8 +20,7 @@ import com.dkhs.portfolio.utils.UIUtils;
  */
 public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
     private Context mContext;
-    private static final int TYPE_RISK_UNKNOW = -1;
-
+    private static final int TYPE_RISK_UNKNOW = 0;
     public FundOrderOtherHandler(Context context) {
         this.mContext = context;
     }
@@ -43,6 +42,15 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
         vh.setTextView(R.id.tv_code, data.getCode());
         TextView tv_index = vh.get(R.id.tv_index);
         TextView tv_rate = vh.get(R.id.tv_rate);
+        TextView tv_risk = vh.get(R.id.tv_risk);
+        if (TYPE_RISK_UNKNOW == data.getInvestment_risk()) {
+            tv_risk.setVisibility(View.GONE);
+        } else {
+            tv_risk.setVisibility(View.VISIBLE);
+            setRiskColor(tv_risk, data.getInvestment_risk());
+            tv_risk.setText(String.format(UIUtils.getResString(mContext, R.string.risk), FundUtils.getInvestRiskByType(data.getInvestment_risk(), mContext)));
+        }
+
         boolean allow_trade = data.isAllow_trade();
         if (!allow_trade) {
             //未代销
@@ -76,14 +84,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_value).setVisibility(View.VISIBLE);
             vh.setTextView(R.id.tv_value, String.format(UIUtils.getResString(mContext, R.string.net_values), StringFromatUtils.get4Point(data.getNet_value())));
         }
-        TextView tv_risk = vh.get(R.id.tv_risk);
-        if (TYPE_RISK_UNKNOW == data.getInvestment_risk()) {
-            tv_risk.setVisibility(View.GONE);
-        } else {
-            tv_risk.setVisibility(View.VISIBLE);
-            setRiskColor(tv_risk, data.getInvestment_risk());
-            tv_risk.setText(String.format(UIUtils.getResString(mContext, R.string.risk), FundUtils.getInvestRiskByType(data.getInvestment_risk(), mContext)));
-        }
+
         tv_index.setTextColor(ColorTemplate.getUpOrDrownCSL(value));
         tv_index.setText(StringFromatUtils.get2PointPercent(value));
     }
@@ -101,7 +102,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
         try {
             color = UIUtils.getResColor(mContext, colors[investment_risk]);
         } catch (Exception e) {
-            color = UIUtils.getResColor(mContext, colors[0]);
+            color = UIUtils.getResColor(mContext, colors[1]);
         }
         gd.setStroke(1, color);
         gd.setColor(mContext.getResources().getColor(R.color.transparent));

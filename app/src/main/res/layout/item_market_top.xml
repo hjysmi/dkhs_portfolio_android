@@ -81,70 +81,65 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_heightPercent="6%w">
+                <com.android.percent.PercentLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_risk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:paddingBottom="@dimen/line_stroke_width"
+                        android:paddingLeft="@dimen/widget_margin_small"
+                        android:paddingRight="@dimen/widget_margin_small"
+                        android:paddingTop="@dimen/line_stroke_width"
+                        android:singleLine="true"
+                        android:visibility="visible"
+                        android:textColor="@color/theme_blue"
+                        app:layout_textSizePercent="3.5%w"
+                        tools:text="低风险" />
 
-                <TextView
-                    android:id="@+id/tv_risk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="bottom"
-                    android:paddingBottom="@dimen/line_stroke_width"
-                    android:paddingLeft="@dimen/widget_margin_small"
-                    android:paddingRight="@dimen/widget_margin_small"
-                    android:paddingTop="@dimen/line_stroke_width"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_blue"
-                    app:layout_textSizePercent="3.5%w"
-                    tools:text="低风险" />
+                    <TextView
+                        android:id="@+id/tv_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_fundmanager_item_job"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:textColor="@color/theme_blue"
+                        android:visibility="visible"
+                        app:layout_marginLeftPercent="2%w"
+                        app:layout_textSizePercent="3.5%w"
+                        tools:text="0费率" />
 
-                <TextView
-                    android:id="@+id/tv_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_risk"
-                    android:background="@drawable/bg_fundmanager_item_job"
-                    android:gravity="bottom"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_blue"
-                    android:visibility="visible"
-                    app:layout_marginLeftPercent="2%w"
-                    app:layout_textSizePercent="3.5%w"
-                    tools:text="0费率" />
+                    <TextView
+                        android:id="@+id/tv_sell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_market_item_sell"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:text="未代销"
+                        android:textColor="@color/stock_gray_bg"
+                        android:visibility="gone"
+                        app:layout_marginLeftPercent="2%w"
+                        app:layout_textSizePercent="3.5%w" />
 
-                <TextView
-                    android:id="@+id/tv_sell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_risk"
-                    android:background="@drawable/bg_market_item_sell"
-                    android:gravity="bottom"
-                    android:singleLine="true"
-                    android:text="未代销"
-                    android:textColor="@color/stock_gray_bg"
-                    android:visibility="gone"
-                    app:layout_marginLeftPercent="2%w"
-                    app:layout_textSizePercent="3.5%w" />
+                    <TextView
+                        android:id="@+id/tv_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_fundmanager_item_job"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:textColor="@color/theme_blue"
+                        android:visibility="visible"
+                        app:layout_marginLeftPercent="2%w"
+                        app:layout_textSizePercent="3.5%w"
+                        tools:text="100元起" />
+                </com.android.percent.PercentLinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_rate"
-                    android:background="@drawable/bg_fundmanager_item_job"
-                    android:gravity="bottom"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_blue"
-                    android:visibility="visible"
-                    app:layout_marginLeftPercent="2%w"
-                    app:layout_textSizePercent="3.5%w"
-                    tools:text="100元起" />
 
                 <TextView
                     android:id="@+id/tv_value"
