@@ -9,6 +9,7 @@ import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundPriceBean;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -40,6 +41,8 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
         float value = data.getValue(sort);
         vh.setTextView(R.id.tv_name, data.getAbbrname());
         vh.setTextView(R.id.tv_code, data.getCode());
+        TextView tv_index = vh.get(R.id.tv_index);
+        TextView tv_rate = vh.get(R.id.tv_rate);
         boolean allow_trade = data.isAllow_trade();
         if (!allow_trade) {
             //未代销
@@ -51,12 +54,18 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_sell).setVisibility(View.GONE);
             vh.get(R.id.tv_rate).setVisibility(View.VISIBLE);
             vh.get(R.id.tv_money).setVisibility(View.VISIBLE);
-            vh.setTextView(R.id.tv_money, String.format(UIUtils.getResString(mContext, R.string.min_money), data.getAmount_min_buy()));
+            String convertToWan = StringFromatUtils.convertToWan(data.getAmount_min_buy());
+            vh.setTextView(R.id.tv_money, String.format(UIUtils.getResString(mContext, R.string.min_money), convertToWan));
             double discount_rate_buy = data.getDiscount_rate_buy();
+
             if (discount_rate_buy == 0) {
-                vh.setTextView(R.id.tv_rate, UIUtils.getResString(mContext, R.string.zero_rate));
+                tv_rate.setVisibility(View.VISIBLE);
+                tv_rate.setText(UIUtils.getResString(mContext, R.string.zero_rate));
+            } else if (discount_rate_buy == 1) {
+                tv_rate.setVisibility(View.GONE);
             } else {
-                String discount = String.format(vh.getContext().getString(R.string.fund_discount_format), String.valueOf(discount_rate_buy*10));
+                tv_rate.setVisibility(View.VISIBLE);
+                String discount = String.format(vh.getContext().getString(R.string.fund_discount_format), String.valueOf(discount_rate_buy * 10));
                 vh.setTextView(R.id.tv_rate, discount);
             }
         }
@@ -75,8 +84,8 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             setRiskColor(tv_risk, data.getInvestment_risk());
             tv_risk.setText(String.format(UIUtils.getResString(mContext, R.string.risk), FundUtils.getInvestRiskByType(data.getInvestment_risk(), mContext)));
         }
-
-        vh.setTextView(R.id.tv_index, StringFromatUtils.get2PointPercent(data.getValue(sort)));
+        tv_index.setTextColor(ColorTemplate.getUpOrDrownCSL(value));
+        tv_index.setText(StringFromatUtils.get2PointPercent(value));
     }
 
     /**
