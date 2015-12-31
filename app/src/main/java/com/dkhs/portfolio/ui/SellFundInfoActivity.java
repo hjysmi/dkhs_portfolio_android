@@ -109,7 +109,7 @@ public class SellFundInfoActivity extends ModelAcitivity {
                         iv_info_tip2.setBackgroundResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_amount_fail);
                     }
-                    tv_sell_rate.setText(StringFromatUtils.get2Point((float) info.getDiscount_rate()));
+                    tv_sell_rate.setText(StringFromatUtils.get2PointPercent((float) (info.getDiscount_rate() * info.getFare_ratio())));
                 }
             }
         };

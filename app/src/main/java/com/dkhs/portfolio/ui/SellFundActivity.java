@@ -41,6 +41,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -54,6 +55,7 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -138,16 +140,17 @@ public class SellFundActivity extends ModelAcitivity {
                     double value = Double.parseDouble(s.toString());
                     if (value < limitValue) {
                         btn_sell.setEnabled(false);
-                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
+
                     } else {
                         value = value * mQuoteBean.getNet_value() * mQuoteBean.getFare_ratio_sell() * 0.01 * mQuoteBean.getDiscount_rate_sell();
                         BigDecimal decimal = new BigDecimal(value);
                         value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
-                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), String.valueOf(value)));
+                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), new DecimalFormat("0.00").format(value)));
                         btn_sell.setEnabled(true);
                     }
                 }else{
-                    tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                    tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
                 }
             }
         });
@@ -189,7 +192,7 @@ public class SellFundActivity extends ModelAcitivity {
         limitValue = Double.parseDouble(mQuoteBean.getShares_min_sell());
         tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getId()));
         tv_hold_shares.setText(String.format(getResources().getString(R.string.blank_limit_hold_shares), mQuoteBean.getShares_min_sell()));
-        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
 
         share = shareLists.get(0);
         curSelectedBankId = share.getBank().getId();
@@ -359,7 +362,7 @@ public class SellFundActivity extends ModelAcitivity {
                         startActivity(ForgetTradePasswordActivity.newIntent(mContext, false));
                     }
                 })
-                .setNegativeButton(getResources().getString(R.string.retry), new View.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {

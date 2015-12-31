@@ -266,10 +266,11 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                         startActivity(ForgetTradePasswordActivity.newIntent(mContext, false));
                     }
                 })
-                .setNegativeButton(getResources().getString(R.string.retry), new View.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
+                        manualFinish();
                     }
                 }).show();
     }

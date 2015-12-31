@@ -28,6 +28,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
     private TextView mBalanceOutTv;
 
     private boolean withDrawAvailable = false;
-    private double available = 0;
+    private BigDecimal available;
     private String mobile;
 
     @Override
