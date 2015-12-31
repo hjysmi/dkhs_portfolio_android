@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -23,7 +22,6 @@ import com.dkhs.portfolio.bean.WapShareBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DKHSClient;
-import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
@@ -62,7 +60,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
     private WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-
             switch (msg.what) {
                 case 1:
                     setTitle(mTitle);

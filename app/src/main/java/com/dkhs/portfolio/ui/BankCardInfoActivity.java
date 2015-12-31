@@ -175,7 +175,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             bank = mBankCard.getBank();
             btnStatus++;
         }
-        if(identityInfoBean != null && !TextUtils.isEmpty(identityInfoBean.real_name)){
+        if(identityInfoBean != null && identityInfoBean.status == 1){
             et_real_name.setText(identityInfoBean.real_name);
             et_real_name.setEnabled(false);
             et_real_name.setFocusable(false);
@@ -595,7 +595,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             bankCardNo = et_bank_card.getText().toString().trim().replace(" ", "");
             realName = et_bank_card.getText().toString().trim();
             idCardNo = et_id_card_no.getText().toString().trim();
-            if(identityInfoBean != null && !TextUtils.isEmpty(identityInfoBean.real_name)){
+            if(identityInfoBean != null && identityInfoBean.status == 1){
                 realName = null;
                 idCardNo = null;
             }

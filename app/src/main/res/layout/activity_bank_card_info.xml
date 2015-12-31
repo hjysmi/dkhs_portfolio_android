@@ -149,17 +149,6 @@
                 android:textColor="@color/black"
                 android:singleLine="true"
                 android:textSize="@dimen/widget_text_14sp" />
-            <TextView
-                android:id="@+id/tv_id_card_num"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_weight="5"
-                android:background="@null"
-                android:hint="@string/hint_real_name"
-                android:textColor="@color/black"
-                android:singleLine="true"
-                android:textSize="@dimen/widget_text_14sp" />
         </LinearLayout>
 
         <View
@@ -196,6 +185,18 @@
                 android:hint="@string/hint_id_card_no"
                 android:inputType="number"
                 android:maxLength="18"
+                android:singleLine="true"
+                android:textSize="@dimen/widget_text_14sp" />
+            <TextView
+                android:id="@+id/tv_id_card_num"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="5"
+                android:background="@null"
+                android:visibility="visible"
+                android:hint="131313213131"
+                android:textColor="@color/black"
                 android:singleLine="true"
                 android:textSize="@dimen/widget_text_14sp" />
         </LinearLayout>

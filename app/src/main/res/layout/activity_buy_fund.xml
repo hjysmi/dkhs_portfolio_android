@@ -195,5 +195,5 @@
         android:layout_marginRight="@dimen/widget_margin_xlarge"
         android:layout_marginTop="@dimen/widget_margin_normal"
         android:enabled="false"
-        android:text="购买"/>
+        android:text="@string/buy_in"/>
 </LinearLayout>

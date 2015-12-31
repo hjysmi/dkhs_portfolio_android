@@ -977,7 +977,7 @@
     <string name="bank_no_tip">1、仅支持添加储蓄卡\n2、支持的银行有：工商、农业、中国、建设、交通、中信、光大、民生、兴业、平安、邮储</string>
     <string name="buy_fund_tip1">目前已支持多张银行卡购买基金</string>
     <string name="buy_fund_tip2">申购费150元 预计1-2交易日确认份额</string>
-    <string name="blank_buy_fund_tip1">手续费 %1$s费率</string>
+    <string name="blank_buy_fund_tip1">申购费率: %1$s</string>
     <string name="blank_buy_fund_tip2">申购费%1$s元 预计1-2交易日确认份额</string>
     <string name="value">金额</string>
     <string name="dollar">元</string>
@@ -992,7 +992,7 @@
     <string name="blank_available_sell_shares">可卖出份额: %1$s份</string>
     <string name="blank_recent_available_sell_shares">今日可卖出份额: %1$f份</string>
     <string name="sell_fund_tip">卖出费150元 预计1-2交易日到款</string>
-    <string name="blank_sell_fund_tip1">手续费 %1$s费率</string>
+    <string name="blank_sell_fund_tip1">卖出费率: %1$s</string>
     <string name="blank_sell_fund_tip2">卖出费%1$s元 预计1-2交易日到款</string>
     <string name="add_bank_card">添加银行卡</string>
     <string name="buy_fund_info">买入交易详情</string>
