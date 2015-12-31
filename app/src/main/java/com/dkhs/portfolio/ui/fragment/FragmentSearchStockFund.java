@@ -439,7 +439,6 @@ public class FragmentSearchStockFund extends VisiableLoadFragment implements ISe
     @Override
     public void onLoadMore() {
         if (BuildConfig.isSandbox) {
-            LogUtils.d("wys", "onLoadMore");
         }
         if (isOnline) {
             getOnLineEngine().loadMore(mKey);
