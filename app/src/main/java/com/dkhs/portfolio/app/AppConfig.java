@@ -124,7 +124,6 @@ public final class AppConfig {
                     case 4:
                         try {
                             db.dropTable(SearchStockBean.class);
-                            Log.d("wys","del searchStock table");
                         } catch (Exception e) {
 
                         }

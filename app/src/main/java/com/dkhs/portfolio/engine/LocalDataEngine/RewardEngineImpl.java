@@ -20,7 +20,6 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,6 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
     WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-                    LogUtils.d("wys","load rewards");
                     MoreDataBean more = getMoreDataBean();
                     if (more != null) {
                         setTotalcount(more.getTotalCount());
@@ -136,7 +134,6 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
 
             @Override
             public void onSuccess(String jsonObject) {
-                LogUtils.d("wys", "reward cache");
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_REWARDS, jsonObject);
                 super.onSuccess(jsonObject);
             }
@@ -186,7 +183,6 @@ public class RewardEngineImpl extends LoadMoreDataEngine {
     public void loadCacheData() {
         String cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_REWARDS);
         if(!TextUtils.isEmpty(cacheRewards)){
-            LogUtils.d("wys", "load reward cache");
             MoreDataBean moreDataBean = parseDateTask(cacheRewards);
             if (moreDataBean != null) {
                 mFirstPageTopicsBeans = moreDataBean.getResults();

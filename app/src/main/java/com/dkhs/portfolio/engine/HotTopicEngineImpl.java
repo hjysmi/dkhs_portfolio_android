@@ -22,7 +22,6 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,6 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 7:
-                    LogUtils.d("wys", "load topics");
                     MoreDataBean more = getMoreDataBean();
                     if (more != null) {
                         setTotalcount(more.getTotalCount());
@@ -291,7 +289,6 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
     }
 
     public void loadCacheData() {
-        LogUtils.d("wys", "load cache topics");
         String cacheRewards;
         if (mSortType == 0) {
             cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOT_TOPICS);
