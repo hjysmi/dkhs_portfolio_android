@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:textSize="42sp"
             android:textColor="@color/theme_blue"
+            android:singleLine="true"
             android:includeFontPadding="false"
             android:text="--"/>
     </LinearLayout>
