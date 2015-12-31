@@ -125,18 +125,51 @@ public class SellFundActivity extends ModelAcitivity {
 
     private void initViews() {
         et_shares.addTextChangedListener(new TextWatcher() {
+            String beforsStr;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                beforsStr = s.toString();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+                if (s.toString().contains(".")) {
+                    if(s.toString().substring(0,s.toString().indexOf(".")).length() > 8){
+                        et_shares.setText(beforsStr);
+                        et_shares.setSelection(start);
+                        return;
+                    }
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        et_shares.setText(s);
+                        et_shares.setSelection(s.length());
+                    }
+                }else{
+                    if(s.toString().length() > 8){
+                        et_shares.setText(beforsStr);
+                        et_shares.setSelection(start);
+                        return;
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    et_shares.setText(s);
+                    et_shares.setSelection(2);
+                    return;
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        et_shares.setText(s.subSequence(0, 1));
+                        et_shares.setSelection(1);
+                        return;
+                    }
+                }
                 btn_sell.setEnabled(!TextUtils.isEmpty(s));
-                if (!TextUtils.isEmpty(s)) {
+                if (!TextUtils.isEmpty(s) && !s.toString().startsWith(".")) {
                     double value = Double.parseDouble(s.toString());
                     if (value < limitValue) {
                         btn_sell.setEnabled(false);
@@ -152,6 +185,10 @@ public class SellFundActivity extends ModelAcitivity {
                 }else{
                     tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
         et_shares.setFilters(new InputFilter[]{lengthfilter});
@@ -190,7 +227,7 @@ public class SellFundActivity extends ModelAcitivity {
     private void initData() {
         mQuoteBean = mFundInfo.getFund();
         limitValue = Double.parseDouble(mQuoteBean.getShares_min_sell());
-        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getId()));
+        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getSymbol()));
         tv_hold_shares.setText(String.format(getResources().getString(R.string.blank_limit_hold_shares), mQuoteBean.getShares_min_sell()));
         tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
 

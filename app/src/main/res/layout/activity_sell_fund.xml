@@ -22,7 +22,7 @@
             android:paddingTop="@dimen/widget_padding_large"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="@dimen/widget_text_18sp"/>
+            android:textSize="@dimen/widget_text_16sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
