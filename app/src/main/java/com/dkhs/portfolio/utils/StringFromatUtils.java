@@ -218,16 +218,31 @@ public class StringFromatUtils {
 
     }
 
-    public static String getDiscount(double fareRatio,double discount,Context context){
+    public static String getDiscount(float fareRatio,float discount,Context context){
         if(fareRatio == 0) {
             return context.getString(R.string.zero_rate);
         }else if(discount == 1){
             return String.format("%.2f", fareRatio) + "%";
         }else{
-            String discountStr = String.
-            format(context.getString(R.string.fund_discount_format), new DecimalFormat("0.00").format(discount*10));
-            return discountStr;
+            String discountStr = new DecimalFormat("0.00").format(discount * 10);
+            discountStr = removeZeroAfterDot(discountStr);
+            return String.
+                    format(context.getString(R.string.fund_discount_format),discountStr);
         }
+    }
+
+    /**
+     * 删除小数点后的零
+     * @param discountStr
+     * @return
+     */
+    public static String removeZeroAfterDot(String discountStr){
+        if(discountStr.indexOf(".") > 0){
+            //正则表达
+            discountStr = discountStr.replaceAll("0+?$", "");//去掉后面无用的零
+            discountStr = discountStr.replaceAll("[.]$", "");//如小数点后面全是零则去掉小数点
+        }
+        return discountStr;
     }
 
 
