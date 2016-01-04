@@ -162,10 +162,11 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
             //需要展示总收益率
             mWinMarket.setVisibility(View.VISIBLE);
             mTotalBenfit.setVisibility(View.VISIBLE);
-            mWinRatWeek.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_week")));
-            mWinRatMonth.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_month")));
-            mWinRatYear.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_year")));
-            mWinRatTyear.setText(StringFromatUtils.get2PointPercent(object.getValue("-win_rate_tyear")));
+            mWinRatWeek.setText(object.getValue("-win_rate_week") == 0 ?"—":StringFromatUtils.get2PointPercent(object.getValue("-win_rate_week")));
+            mWinRatMonth.setText(object.getValue("-win_rate_month") == 0 ?"—":StringFromatUtils.get2PointPercent(object.getValue("-win_rate_month")));
+            mWinRatYear.setText(object.getValue("-win_rate_year") == 0 ?"—":StringFromatUtils.get2PointPercent(object.getValue("-win_rate_year")));
+            mWinRatTyear.setText(object.getValue("-win_rate_tyear") == 0 ?"—":StringFromatUtils.get2PointPercent(object.getValue("-win_rate_tyear")));
+
             BenefitChartView benefitChartView = new BenefitChartView(mContext);
             benefitChartView.setCanTouable(true);
             mProfitChart.removeAllViews();

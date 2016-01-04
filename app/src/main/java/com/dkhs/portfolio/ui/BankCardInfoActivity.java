@@ -594,7 +594,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             mobile = et_bank_card_mobile.getText().toString().trim();
             captcha = et_verifycode.getText().toString().trim();
             bankCardNo = et_bank_card.getText().toString().trim().replace(" ", "");
-            realName = et_bank_card.getText().toString().trim();
+            realName = et_real_name.getText().toString().trim();
             idCardNo = et_id_card_no.getText().toString().trim();
             if(identityInfoBean != null && identityInfoBean.status == 1){
                 realName = null;
