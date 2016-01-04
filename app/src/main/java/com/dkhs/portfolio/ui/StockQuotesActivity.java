@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockNewListLoadListBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
@@ -51,7 +52,6 @@ import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
 import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
-import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
@@ -207,7 +207,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         });
     }
-
     private void initView() {
         ViewStub viewstub;
         if (isIndexType()) {
@@ -438,7 +437,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
             FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.symbol);
-            fList.setStockQuoteScrollListener(this);
+           // fList.setStockQuoteScrollListener(this);
             tabBottomFragment.add(fList);
             tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.INTRODUCTION));
@@ -516,8 +515,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         }
     }
-
-    ;
 
     private void replaceBottomTabFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
@@ -624,16 +621,23 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 ////                ((FragmentForOptionOnr) bottmoTabFragmentList.get(2)).loadMore();
 //            }
         }
+
+        @Override
+        public void onScrollBottom() {
+            Log.e("xue", ">>>>>>onScrollBottom");
+         //   iscrollBottom.scrollBottom();
+            BusProvider.getInstance().post(new StockNewListLoadListBean());
+        }
     };
 
 
     private void showStickHeader() {
         if (hsTitleSticker.getVisibility() != View.VISIBLE) {
             hsTitleSticker.setVisibility(View.VISIBLE);
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
-            if (null != fragment && fragment instanceof IScrollExchangeListener) {
+         //   Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
+            /*if (null != fragment && fragment instanceof IScrollExchangeListener) {
                 ((IScrollExchangeListener) fragment).scrollSelf();
-            }
+            }*/
         }
 //        stock_layout
     }
@@ -641,10 +645,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void hideStickHeader() {
         if (hsTitleSticker.getVisibility() != View.GONE) {
             hsTitleSticker.setVisibility(View.GONE);
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
+           /* Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
             if (null != fragment && fragment instanceof IScrollExchangeListener) {
                 ((IScrollExchangeListener) fragment).scrollParent();
-            }
+            }*/
         }
     }
 

@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.melnykov.fab.ObservableScrollView;
 
@@ -76,6 +77,15 @@ public class InterceptScrollView extends ObservableScrollView {
         if (scrollViewListener != null) {
             scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
         }
+        View view = (View) getChildAt(getChildCount() - 1);
+        int diff = (view.getBottom() - (getHeight() + getScrollY()));
+
+        if (scrollViewListener != null) {
+            scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
+        }
+        if (diff == 0 && scrollViewListener != null) {
+            scrollViewListener.onScrollBottom();
+        }
 
 
     }
@@ -118,6 +128,7 @@ public class InterceptScrollView extends ObservableScrollView {
     public interface ScrollViewListener {
 
         void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy);
+        void onScrollBottom();
 
     }
 
