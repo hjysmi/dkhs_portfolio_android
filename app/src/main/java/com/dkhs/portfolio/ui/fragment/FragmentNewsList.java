@@ -23,10 +23,8 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
-import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
@@ -41,7 +39,7 @@ import java.util.List;
  * 需要优化界面
  * 个股行情界面，个股界面时（公告 TAB）
  */
-public class FragmentNewsList extends Fragment implements Serializable, IScrollExchangeListener {
+public class FragmentNewsList extends Fragment implements Serializable {
     /**
      *
      */
@@ -98,13 +96,7 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
         View view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
         dm = UIUtils.getDisplayMetrics();
-        if (null != context && context instanceof StockQuotesActivity && getadle) {
-//            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-        }
         initView(view);
-        // if (null != vo && vo.getContentType().equals("20")) {
-
-        // }
         if (!isViewShown) {
             initDate();
         }
@@ -129,111 +121,11 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
-        view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty,null);
+        view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
-       /* pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if (!(null != mDataList && mDataList.size() > 0)) {
-            pb.setVisibility(View.VISIBLE);
-        }*/
         mDataList = new ArrayList<>();
-
-        //   mListView = (ListView) view.findViewById(android.R.id.list);
-        //   mListView.setEmptyView(tv);
-        //   mListView.addFooterView(mFootView);
-        // mOptionMarketAdapter = new OptionMarketAdapter(mContext, mDataList);
-        // if(null != mContext && mContext instanceof StockQuotesActivity){
-        //   mOptionlistAdapter = new OptionForOnelistAdapter(context, mDataList);
-        //    mListView.setAdapter(mOptionlistAdapter);
-
-        // }else{
-        // mListView.setAdapter(mOptionMarketAdapter);
-        // }
-
-        //    mListView.removeFooterView(mFootView);
-
-        //   removeFooterView(mFootView);
-       /* mListView.setOnScrollListener(new OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
-                switch (scrollState) {
-                    case OnScrollListener.SCROLL_STATE_IDLE:
-
-                    {
-                        // 判断是否滚动到底部
-                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-                            loadMore();
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem == 0) {
-                    scrollParent();
-                }
-            }
-        });*/
-        // mListView.setOnItemClickListener(itemBackClick);
-       /* mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
-        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeLayout.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });
-
-        mSwipeLayout.setEnabled(false);*/
-
-      /*  mListView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });*/
-
     }
-
-
-  /*  OnItemClickListener itemBackClick = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // TODO Auto-generated method stub
-            try {
-                if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),
-                            mDataList.get(position).getSymbols().get(0).getAbbrName(), mDataList.get(position)
-                                    .getSymbols().get(0).getId());
-//                    startActivity(intent);
-                    TopicsDetailActivity.startActivity(getActivity(), mDataList.get(position).getId());
-                } else {
-                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),
-                            null, null);
-                    TopicsDetailActivity.startActivity(getActivity(), mDataList.get(position).getId());
-//                    startActivity(intent);
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    };*/
 
     public void loadMore() {
         if (null != mLoadDataEngine && !isLoadingMore && getadle) {
@@ -258,28 +150,15 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-                //pb.setVisibility(View.GONE);
                 if (null != dataList && dataList.size() > 0) {
                     if (!isLoadingMore) {
                         mDataList.clear();
                     }
                     mDataList.addAll(dataList);
-                    /*
-                     * if (null != mContext
-                     * && mContext instanceof StockQuotesActivity && getadle) {
-                     * ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-                     * }
-                     */
                     if (first || vo.getContentType().equals("20")) {
                         // initView(view);
                         first = false;
                     }
-                    // layouts.getLayoutParams().height = dataList.size() * 150;
-                    // mOptionMarketAdapter.notifyDataSetChanged();
-                   /* if (null != mOptionlistAdapter) {
-
-                        loadFinishUpdateView();
-                    }*/
                     loadFinishUpdateView();
                 } else {
                     if (null != vo && null != vo.getPageTitle()) {
@@ -295,10 +174,6 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
 
         @Override
         public void loadingFail() {
-           /* if (null != pb) {
-                pb.setVisibility(View.GONE);
-            }*/
-
             if (null == mDataList || mDataList.isEmpty()) {
                 if (null != vo && null != vo.getPageTitle()) {
                     tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
@@ -363,48 +238,11 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
                     }
                 }
             });
-
-
             mContentView.addView(view);
         }
-
-
-
-      /* mOptionlistAdapter.notifyDataSetChanged();
-        int height = 0;
-        if (null != mOptionlistAdapter) {
-            mOptionlistAdapter.notifyDataSetChanged();
-            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-                View listItem = mOptionlistAdapter.getView(i, null, mListView);
-                listItem.measure(0, 0); // 计算子项View 的宽高
-                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-                height += list_child_item_height; // 统计所有子项的总高度
-                if (null != mStockQuoteScrollListener) {
-                    if (height > mStockQuoteScrollListener.getMaxListHeight()) {
-                        height = mStockQuoteScrollListener.getMaxListHeight();
-                        break;
-                    }
-                }
-            }
-        }
-        isLoadingMore = false;
-        if (mListView != null) {
-            mListView.removeFooterView(mFootView);
-        }
-        mContentView.getLayoutParams().height = height;*/
-//        ((StockQuotesActivity) getActivity()).setLayoutHeights(mListView.getLayoutParams().height);
-//        if (null != mContext && mContext instanceof StockQuotesActivity) {
-//        }
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
-  /*  IStockQuoteScrollListener mStockQuoteScrollListener;
-
-    public void setStockQuoteScrollListener(IStockQuoteScrollListener scrollListener) {
-        this.mStockQuoteScrollListener = scrollListener;
-    }*/
-
-
     private boolean isViewShown;
 
     @Override
@@ -454,28 +292,6 @@ public class FragmentNewsList extends Fragment implements Serializable, IScrollE
             getadle = false;
         }
         super.setUserVisibleHint(isVisibleToUser);
-    }
-
-
-    @Override
-    public void scrollSelf() {
-
-        Log.e(TAG, " scrollSelf");
-
-      /*  if (null != mStockQuoteScrollListener) {
-            mStockQuoteScrollListener.scrollviewObatin();
-
-        }*/
-    }
-
-    @Override
-    public void scrollParent() {
-
-/*
-        Log.e(TAG, " scrollParent");
-        if (null != mStockQuoteScrollListener) {
-            mStockQuoteScrollListener.interruptSrcollView();
-        }*/
     }
 
     @Subscribe

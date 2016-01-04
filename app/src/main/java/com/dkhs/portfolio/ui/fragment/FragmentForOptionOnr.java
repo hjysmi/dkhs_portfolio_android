@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -69,14 +68,6 @@ public class FragmentForOptionOnr extends Fragment {
         return f;
     }
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-     //   initDate();
-    }
-
-
     private void initDate() {
         try {
             Bundle extras = getArguments();
@@ -98,7 +89,6 @@ public class FragmentForOptionOnr extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -106,10 +96,6 @@ public class FragmentForOptionOnr extends Fragment {
         View view = inflater.inflate(R.layout.activity_option_market_news, null);
         dm = UIUtils.getDisplayMetrics();
         context = getActivity();
-      /*  pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if (!(null != mDataList && mDataList.size() > 0)) {
-            pb.setVisibility(View.VISIBLE);
-        }*/
         mDataList = new ArrayList<>();
 
         iv = (TextView) view.findViewById(android.R.id.empty);
@@ -133,67 +119,8 @@ public class FragmentForOptionOnr extends Fragment {
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
-       /* mListView = (ListView) view.findViewById(android.R.id.list);
-
-        mListView.setEmptyView(iv);
-        mListView.addFooterView(mFootView);
-        mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
-        mListView.setAdapter(mOptionMarketAdapter);
-
-        mListView.removeFooterView(mFootView);
-        mListView.setOnScrollListener(new OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
-                switch (scrollState) {
-                    case OnScrollListener.SCROLL_STATE_IDLE:
-
-                    {
-                        // 判断是否滚动到底部
-                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-                            loadMore();
-
-                        }
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-        mListView.setOnItemClickListener(itemBackClick);*/
-
     }
 
-  /*  OnItemClickListener itemBackClick = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // TODO Auto-generated method stub
-            try {
-                Intent intent;
-                if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-//                    intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(),
-//                            mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
-//                                    .getSymbols().get(0).getAbbrName(), mDataList.get(position).getContentType());
-
-                    TopicsDetailActivity.startActivity(getActivity(), mDataList.get(position).getId());
-                } else {
-//                    intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(), null, null, null);
-                    TopicsDetailActivity.startActivity(getActivity(), mDataList.get(position).getId());
-                }
-                // startActivity(intent);
-//                UIUtils.startAnimationActivity(getActivity(), intent);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    };*/
 
     public void loadMore() {
         if (null != mLoadDataEngine && !isLoadingMore && getadble) {
@@ -201,7 +128,6 @@ public class FragmentForOptionOnr extends Fragment {
                 // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
-            //  mListView.addFooterView(mFootView);
             addFooterView(mFootView);
             isLoadingMore = true;
             // mLoadDataEngine.setLoadingDialog(mContext);;
@@ -218,21 +144,13 @@ public class FragmentForOptionOnr extends Fragment {
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-                //pb.setVisibility(View.GONE);
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
                     if (first) {
-                        // initView(view);
                         first = false;
                     }
-                    //  mOptionMarketAdapter.notifyDataSetChanged();
                     loadFinishUpdateView();
-
                 } else {
-//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
-//                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-//                    }
-                    //   iv.setText("暂无研报");
                     tv.setText("暂无研报");
                     mContentView.addView(view_empty);
                 }
@@ -313,23 +231,6 @@ public class FragmentForOptionOnr extends Fragment {
 
             mContentView.addView(view);
         }
-        //  mOptionMarketAdapter.notifyDataSetChanged();
-        // UIUtils.setListViewHeightBasedOnChildren(mListView);
-        // mContentView.getLayoutParams().height = mListView.getLayoutParams().height;
-//        isLoadingMore = false;
-//        if (mListView != null) {
-//            mListView.removeFooterView(mFootView);
-//        }
-//        int height = 0;
-//        for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
-//            View listItem = mOptionMarketAdapter.getView(i, null, mListView);
-//            listItem.measure(0, 0); // 计算子项View 的宽高
-//            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-//            height += list_child_item_height; // 统计所有子项的总高度
-//        }
-//        if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
-//            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-//        }
     }
 
     @Override
@@ -354,15 +255,15 @@ public class FragmentForOptionOnr extends Fragment {
         getadble = isVisibleToUser;
         super.setUserVisibleHint(isVisibleToUser);
     }
+
     @Subscribe
-    public void getLoadMore(StockNewListLoadListBean bean){
+    public void getLoadMore(StockNewListLoadListBean bean) {
         loadMore();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-      //  ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
     }
 
     @Override

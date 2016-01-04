@@ -18,7 +18,6 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
@@ -52,7 +51,6 @@ import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
 import com.dkhs.portfolio.ui.widget.ChangeFollowView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
-import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.KChartDataListener;
@@ -81,7 +79,7 @@ import java.util.List;
  * @date 2014-9-26 上午10:22:32
  */
 public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, Serializable, StockViewCallBack,
-        KChartDataListener, IStockQuoteScrollListener {
+        KChartDataListener {
 
     private static final long serialVersionUID = 15121212311111156L;
     private long mLastClickTime = 0;
@@ -325,20 +323,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
 
-    private int mMaxListHeight;
+  //  private int mMaxListHeight;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            View contentView = findViewById(R.id.layoutContent);
-            int contentHeight = contentView.getHeight();
-            int hsTitleHeight = hsTitleBottom.getHeight();
-            mMaxListHeight = contentHeight - hsTitleHeight;
+          //  View contentView = findViewById(R.id.layoutContent);
+          /*  int contentHeight = contentView.getHeight();
+            int hsTitleHeight = hsTitleBottom.getHeight();*/
+          /*  mMaxListHeight = contentHeight - hsTitleHeight;
             Log.e(TAG, "---------------contentHeight：" + contentHeight);
             Log.e(TAG, " --------------hsTitleHeight：" + hsTitleHeight);
-            Log.e(TAG, " --------------mMaxListHeight：" + mMaxListHeight);
+            Log.e(TAG, " --------------mMaxListHeight：" + mMaxListHeight);*/
         }
     }
 
@@ -422,9 +420,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE, listSector, true);
             FragmentForStockSHC mGrowFragmentHand = FragmentForStockSHC
                     .newIntent(exchange, FragmentSelectStockFund.StockViewType.STOCK_HANDOVER, null, listSector, false);
-            mGrowFragmentUp.setStockQuoteScrollListener(this);
-            mGrowFragmentDown.setStockQuoteScrollListener(this);
-            mGrowFragmentHand.setStockQuoteScrollListener(this);
             tabBottomFragment.add(mGrowFragmentUp);
             tabBottomFragment.add(mGrowFragmentDown);
             tabBottomFragment.add(mGrowFragmentHand);
@@ -463,12 +458,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     };
 
-    @Override
+ /*   @Override
     public int getMaxListHeight() {
         return mMaxListHeight - getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void interruptSrcollView() {
         mScrollview.setIsfocus(false);
 
@@ -478,7 +473,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     public void scrollviewObatin() {
         mScrollview.setIsfocus(true);
     }
-
+*/
 
     private void updateStickHeaderPosition(int position) {
         if (hsTitleBottom.getCurrentPosition() != position) {
@@ -512,7 +507,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void onSelectPosition(int position) {
             updateStickHeaderPosition(position);
             replaceBottomTabFragment(tabBottomFragment.get(position));
-
         }
     }
 
@@ -624,8 +618,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onScrollBottom() {
-            Log.e("xue", ">>>>>>onScrollBottom");
-         //   iscrollBottom.scrollBottom();
             BusProvider.getInstance().post(new StockNewListLoadListBean());
         }
     };
@@ -747,10 +739,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
-
-    private void initBottomList() {
-
-    }
 
     private void updateCurrentText() {
         new Handler().postDelayed(new Runnable() {
