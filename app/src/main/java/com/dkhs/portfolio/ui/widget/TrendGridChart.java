@@ -725,7 +725,7 @@ public class TrendGridChart extends View {
         }
         return textColor;
     }
-    private boolean isBenefitDash = true;
+    private boolean isBenefitDash = false;
 
     public void setIsBenefitDash(boolean isBenefitDash) {
         this.isBenefitDash = isBenefitDash;
@@ -866,11 +866,11 @@ public class TrendGridChart extends View {
             for (int i = 0; i < counts; i++) {
                 mTextPaint.setPathEffect(dashEffect);
 
-                if(!isBenefitDash){
-                    if (i == 0 || i == counts - 1 || i == 2) {
-
+                    if (i == 0 || i == counts - 1) {
                         mTextPaint.setPathEffect(null);
                     }
+                if(!isBenefitDash && i == 2){
+                    mTextPaint.setPathEffect(null);
                 }
                 // 绘制线条
                 if (displayLatitude) {
