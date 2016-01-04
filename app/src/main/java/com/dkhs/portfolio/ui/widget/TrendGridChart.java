@@ -534,7 +534,11 @@ public class TrendGridChart extends View {
                     if (displayAxisYTitle) {
 
                         if (displayAxisYTitleColor) {
-                            mTextPaint.setColor(getYTitlePaintFont(i, counts));
+                            if(isDrawBenefit){
+                                mTextPaint.setColor(getYTitlePaintFontForBenefit(i));
+                            }else{
+                                mTextPaint.setColor(getYTitlePaintFont(i, counts));
+                            }
                         }
 
                         if (i == 0) {
@@ -721,6 +725,27 @@ public class TrendGridChart extends View {
         }
         return textColor;
     }
+    private boolean isBenefitDash = false;
+
+    public void setIsBenefitDash(boolean isBenefitDash) {
+        this.isBenefitDash = isBenefitDash;
+    }
+
+    private boolean isDrawBenefit = false;
+
+    public void setIsDrawBenefit(boolean isDrawBenefit) {
+        this.isDrawBenefit = isDrawBenefit;
+    }
+
+    private int getYTitlePaintFontForBenefit(int index) {
+        int textColor;
+        if(axisYTitles.get(index).startsWith("-")){
+            textColor = ColorTemplate.DEF_GREEN;
+        }else{
+            textColor = ColorTemplate.DEF_RED;
+        }
+        return textColor;
+    }
 
     /**
      * 绘制边�?
@@ -839,13 +864,13 @@ public class TrendGridChart extends View {
             // float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
 
             for (int i = 0; i < counts; i++) {
+                mTextPaint.setPathEffect(dashEffect);
 
-                if (i == 0 || i == counts - 1 || i == 2) {
-
+                    if (i == 0 || i == counts - 1) {
+                        mTextPaint.setPathEffect(null);
+                    }
+                if(!isBenefitDash && i == 2){
                     mTextPaint.setPathEffect(null);
-                } else {
-
-                    mTextPaint.setPathEffect(dashEffect);
                 }
                 // 绘制线条
                 if (displayLatitude) {

@@ -320,6 +320,8 @@ public class BenefitChartView {
         setYTitle(base1, off1);
         maChartView.setLineData(lineEntityList);
         maChartView.setDisplayAxisYTitleColor(true);
+        maChartView.setIsBenefitDash(true);
+        maChartView.setIsDrawBenefit(true);
         onFinishUpdateUI();
     }
 
