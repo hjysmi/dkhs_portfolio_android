@@ -236,7 +236,7 @@ public class FundInfoActivity extends ModelAcitivity {
             if (type == TYPE_HEAD) {
                 holder1 = (ViewHolder1) convertView.getTag();
                 if (myFund != null) {
-                    holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbrName(),myFund.getId()));
+                    holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbrName(),myFund.getSymbol()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
                     holder1.tv_net_new.setText(new DecimalFormat(".0000").format(myFund.getNet_value()));
@@ -271,7 +271,7 @@ public class FundInfoActivity extends ModelAcitivity {
                         holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar), record.getAmount()));
 
                     } else {
-                        holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_shares), "-" + record.getShares()));
+                        holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_shares), record.getShares()));
                         holder4.tv_trade_type.setText("卖出");
                     }
 

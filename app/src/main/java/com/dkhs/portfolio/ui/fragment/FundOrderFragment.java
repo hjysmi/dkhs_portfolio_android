@@ -20,7 +20,6 @@ import com.dkhs.portfolio.ui.ItemView.FundOrderOtherHandler;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +102,6 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     }
 
     public void refresh() {
-        LogUtils.d("wys", "fund order refresh");
         loadData();
     }
 
@@ -114,7 +112,6 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     }
 
     public void setType(String type, int allowTrade) {
-        LogUtils.d("wys", "fund order setType");
         if (this.type != type || this.allowTrade != allowTrade) {
             this.type = type;
             this.allowTrade = allowTrade;

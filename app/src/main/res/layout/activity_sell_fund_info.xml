@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/widget_padding_medium"
         android:background="@color/activity_bg_color"
-        >
+        android:orientation="vertical"
+        android:paddingTop="@dimen/widget_padding_medium">
 
         <RelativeLayout
             android:id="@+id/rl_fund_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_gray_selector"
+            android:clickable="true"
             android:paddingBottom="@dimen/widget_padding_normal"
-            android:paddingTop="@dimen/widget_padding_normal"
             android:paddingLeft="@dimen/widget_padding_large"
             android:paddingRight="@dimen/widget_padding_large"
-            android:clickable="true"
-            android:background="@drawable/bg_white_gray_selector"
-            >
+            android:paddingTop="@dimen/widget_padding_normal">
 
             <ImageView
                 android:id="@+id/image_detail"
@@ -29,52 +28,50 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/setting_image_right"/>
+                android:src="@drawable/setting_image_right" />
 
             <TextView
                 android:id="@+id/tv_fund_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/image_detail"
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="@dimen/setting_text_name"/>
+                android:textSize="@dimen/widget_text_16sp" />
 
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/white"
-            >
+            android:orientation="vertical">
 
-            <View style="@style/divider_line"/>
+            <View style="@style/divider_line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingRight="@dimen/widget_padding_large"
                 android:layout_marginTop="@dimen/widget_margin_medium"
-                >
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_sell_status"
-                    />
+                    android:text="@string/trade_status" />
 
                 <TextView
                     android:id="@+id/tv_trade_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textSize="@dimen/widget_text_12sp"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/gray_textcolor"
-                    />
+                    android:textSize="@dimen/widget_text_12sp" />
 
             </RelativeLayout>
 
@@ -82,229 +79,204 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingRight="@dimen/widget_padding_large"
                 android:layout_marginTop="@dimen/widget_margin_normal"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/sell_trade_shares"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_trade_shares"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:textSize="@dimen/widget_text_12sp"
-                    android:textColor="@color/gray_textcolor"
-                    />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingRight="@dimen/widget_padding_large"
-                android:layout_marginTop="@dimen/widget_margin_normal"
-                >
+                android:paddingRight="@dimen/widget_padding_large">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_sell_value"
-                    />
+                    android:text="@string/sell_trade_shares" />
 
                 <TextView
                     android:id="@+id/tv_trade_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textSize="@dimen/widget_text_12sp"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/gray_textcolor"
-                    />
+                    android:textSize="@dimen/widget_text_12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/widget_margin_normal"
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/confirm_amount" />
+
+                <TextView
+                    android:id="@+id/tv_trade_shares"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_12sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingRight="@dimen/widget_padding_large"
                 android:layout_marginTop="@dimen/widget_margin_normal"
-                >
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_sell_time"
-                    />
+                    android:text="@string/trade_time" />
 
                 <TextView
                     android:id="@+id/tv_trade_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textSize="@dimen/widget_text_12sp"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/gray_textcolor"
-                    />
+                    android:textSize="@dimen/widget_text_12sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingRight="@dimen/widget_padding_large"
                 android:layout_marginTop="@dimen/widget_margin_normal"
-                >
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/trade_no"
-                    />
+                    android:text="@string/trade_no" />
 
                 <TextView
                     android:id="@+id/tv_trade_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textSize="@dimen/widget_text_12sp"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/gray_textcolor"
-                    />
+                    android:textSize="@dimen/widget_text_12sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/widget_padding_large"
-                android:paddingRight="@dimen/widget_padding_large"
                 android:layout_marginTop="@dimen/widget_margin_normal"
-                >
+                android:paddingLeft="@dimen/widget_padding_large"
+                android:paddingRight="@dimen/widget_padding_large">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/sell_rate"
-                    />
+                    android:text="@string/sell_rate" />
 
                 <TextView
                     android:id="@+id/tv_sell_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:textSize="@dimen/widget_text_12sp"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/gray_textcolor"
-                    />
+                    android:textSize="@dimen/widget_text_12sp" />
 
             </RelativeLayout>
 
             <View
                 style="@style/divider_line"
-                android:layout_marginTop="@dimen/widget_margin_normal"
-                />
+                android:layout_marginTop="@dimen/widget_margin_normal" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/widget_margin_large"
-                android:layout_marginTop="@dimen/widget_margin_normal"
-                >
+                android:layout_marginTop="@dimen/widget_margin_normal">
 
                 <ImageView
                     android:id="@+id/iv_info_tip1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/intrade_suc"
-                    />
+                    android:src="@drawable/intrade_suc" />
 
                 <TextView
                     android:id="@+id/tv_info_tip1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_info_tip1"
                     android:layout_marginLeft="@dimen/widget_margin_normal"
-                    android:textColor="@color/black"
+                    android:layout_toRightOf="@id/iv_info_tip1"
                     android:text="@string/sell_fund_info_tip1"
-                    />
+                    android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tv_info_tip_content1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/tv_info_tip1"
+                    android:layout_below="@id/tv_info_tip1"
                     android:layout_marginTop="@dimen/widget_margin_small"
                     android:layout_toRightOf="@id/iv_info_tip1"
-                    android:layout_below="@id/tv_info_tip1"
-                    android:layout_alignLeft="@id/tv_info_tip1"
-                    android:textSize="@dimen/widget_text_10sp"
-                    android:textColor="@color/gray_textcolor"
                     android:text="09-24 15:08"
-                    android:id="@+id/tv_info_tip_content1" />
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_10sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/widget_margin_large"
-                >
+                android:layout_marginLeft="@dimen/widget_margin_large">
 
                 <ImageView
                     android:id="@+id/iv_info_tip2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/trade_unsuc"
-                    />
+                    android:src="@drawable/trade_unsuc" />
 
                 <TextView
                     android:id="@+id/tv_info_tip2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/iv_info_tip2"
                     android:layout_marginLeft="@dimen/widget_margin_normal"
-                    android:textColor="@color/black"
+                    android:layout_toRightOf="@id/iv_info_tip2"
                     android:text="@string/sell_fund_info_tip2"
-                    />
+                    android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tv_info_tip_content2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/tv_info_tip2"
+                    android:layout_below="@id/tv_info_tip2"
                     android:layout_marginTop="@dimen/widget_margin_small"
                     android:layout_toRightOf="@id/iv_info_tip2"
-                    android:layout_below="@id/tv_info_tip2"
-                    android:layout_alignLeft="@id/tv_info_tip2"
-                    android:textSize="@dimen/widget_text_10sp"
-                    android:textColor="@color/gray_textcolor"
                     android:text="基金公司已确认金额"
-                    android:id="@+id/tv_info_tip_content2" />
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="@dimen/widget_text_10sp" />
 
             </RelativeLayout>
 
 
-
             <Button
                 style="@style/btn_login_blue"
-                android:layout_marginTop="@dimen/widget_margin_large"
                 android:layout_marginBottom="@dimen/widget_margin_large"
                 android:layout_marginLeft="@dimen/widget_margin_xlarge"
                 android:layout_marginRight="@dimen/widget_margin_xlarge"
-                android:visibility="invisible"
+                android:layout_marginTop="@dimen/widget_margin_large"
                 android:text="@string/cancel_fund"
-                />
+                android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

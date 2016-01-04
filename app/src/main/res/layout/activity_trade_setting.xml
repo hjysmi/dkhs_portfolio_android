@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/theme_gray">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_gray">
 
     <View
         style="@style/divider_line"
@@ -91,15 +92,16 @@
             android:layout_centerVertical="true"
             android:text="@string/gesture_password"
             />
-
-        <ImageButton
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/ib_gesture_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/widget_margin_large"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ios7_switch_off"/>
+            android:background="@null"
+            android:theme="@style/theme_switch_style"
+            app:showText="false"
+            android:checked="false" />
+
     </RelativeLayout>
 
     <View style="@style/divider_line"/>

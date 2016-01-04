@@ -18,7 +18,17 @@ public class FundTradeInfo {
     private String allot_no;
 //    #申购费率
     private double discount_rate;
+//    #费率折扣
+    private double fare_ratio;
     private FundQuoteBean fund;
+
+    public double getFare_ratio() {
+        return fare_ratio;
+    }
+
+    public void setFare_ratio(double fare_ratio) {
+        this.fare_ratio = fare_ratio;
+    }
 
     public String getId() {
         return id;

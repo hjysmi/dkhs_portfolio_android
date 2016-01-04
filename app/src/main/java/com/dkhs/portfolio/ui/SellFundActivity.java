@@ -41,6 +41,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -54,6 +55,7 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -123,32 +125,70 @@ public class SellFundActivity extends ModelAcitivity {
 
     private void initViews() {
         et_shares.addTextChangedListener(new TextWatcher() {
+            String beforsStr;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                beforsStr = s.toString();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+                if (s.toString().contains(".")) {
+                    if(s.toString().substring(0,s.toString().indexOf(".")).length() > 8){
+                        et_shares.setText(beforsStr);
+                        et_shares.setSelection(start);
+                        return;
+                    }
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        et_shares.setText(s);
+                        et_shares.setSelection(s.length());
+                    }
+                }else{
+                    if(s.toString().length() > 8){
+                        et_shares.setText(beforsStr);
+                        et_shares.setSelection(start);
+                        return;
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    et_shares.setText(s);
+                    et_shares.setSelection(2);
+                    return;
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        et_shares.setText(s.subSequence(0, 1));
+                        et_shares.setSelection(1);
+                        return;
+                    }
+                }
                 btn_sell.setEnabled(!TextUtils.isEmpty(s));
-                if (!TextUtils.isEmpty(s)) {
+                if (!TextUtils.isEmpty(s) && !s.toString().startsWith(".")) {
                     double value = Double.parseDouble(s.toString());
                     if (value < limitValue) {
                         btn_sell.setEnabled(false);
-                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
+
                     } else {
                         value = value * mQuoteBean.getNet_value() * mQuoteBean.getFare_ratio_sell() * 0.01 * mQuoteBean.getDiscount_rate_sell();
                         BigDecimal decimal = new BigDecimal(value);
                         value = decimal.setScale(2, RoundingMode.HALF_UP).doubleValue();
-                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), String.valueOf(value)));
+                        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip2), new DecimalFormat("0.00").format(value)));
                         btn_sell.setEnabled(true);
                     }
                 }else{
-                    tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+                    tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
         et_shares.setFilters(new InputFilter[]{lengthfilter});
@@ -187,9 +227,9 @@ public class SellFundActivity extends ModelAcitivity {
     private void initData() {
         mQuoteBean = mFundInfo.getFund();
         limitValue = Double.parseDouble(mQuoteBean.getShares_min_sell());
-        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getId()));
+        tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getSymbol()));
         tv_hold_shares.setText(String.format(getResources().getString(R.string.blank_limit_hold_shares), mQuoteBean.getShares_min_sell()));
-        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), mQuoteBean.getFare_ratio_buy() + "%"));
+        tv_sell_poundage.setText(String.format(getResources().getString(R.string.blank_sell_fund_tip1), StringFromatUtils.get2PointPercent((float) (mQuoteBean.getFare_ratio_sell() * mQuoteBean.getDiscount_rate_sell()))));
 
         share = shareLists.get(0);
         curSelectedBankId = share.getBank().getId();
@@ -249,7 +289,7 @@ public class SellFundActivity extends ModelAcitivity {
                 .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(mContext, ForgetTradePasswordActivity.class));
+                        startActivity(ForgetTradePasswordActivity.newIntent(mContext,true));
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
@@ -298,14 +338,19 @@ public class SellFundActivity extends ModelAcitivity {
 //                    gpvDialog.dismiss();
 //                }
                 password = gpv.getPassWord();
-                gpvDialog.dismiss();
                 ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
                     @Override
                     public void onFailure(ErrorBundle errorBundle) {
-                        gpv.clearPassword();
-                        tvTradePwdWrong.setText(errorBundle.getErrorMessage());
-                        progressBar.setVisibility(View.GONE);
-                        tvTradePwdWrong.setVisibility(View.VISIBLE);
+                        if(errorBundle.getErrorKey().equals("password_lock_invalid")){
+                            //TODO 密码已被锁定
+                            gpvDialog.dismiss();
+                            showPwdLockedDialog(errorBundle.getErrorMessage());
+                        }else{
+                            gpv.clearPassword();
+                            tvTradePwdWrong.setText(errorBundle.getErrorMessage());
+                            progressBar.setVisibility(View.GONE);
+                            tvTradePwdWrong.setVisibility(View.VISIBLE);
+                        }
                     }
                     @Override
                     protected FundTradeInfo parseDateTask(String jsonData) {
@@ -343,28 +388,23 @@ public class SellFundActivity extends ModelAcitivity {
         gpvDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
-    private Dialog pwdLockedDialog;
 
-    private void showPwdLockedDialog() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = (View) inflater.inflate(R.layout.layout_trade_password_locked_dialog, null);
-        view.findViewById(R.id.btn_retry).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 重试
-                pwdLockedDialog.dismiss();
-            }
-        });
-        view.findViewById(R.id.btn_forget_pwd).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 忘记密码
-                pwdLockedDialog.dismiss();
-            }
-        });
-        pwdLockedDialog = new Dialog(this, R.style.dialog);
-        pwdLockedDialog.show();
-        pwdLockedDialog.getWindow().setContentView(view);
+    private void showPwdLockedDialog(String msg) {
+        new MyAlertDialog(this).builder()
+                .setCancelable(false)
+                .setMsg(msg)
+                .setPositiveButton(getResources().getString(R.string.forget_password), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(ForgetTradePasswordActivity.newIntent(mContext, false));
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                    }
+                }).show();
     }
 
     private Dialog bankCardDialog;

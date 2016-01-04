@@ -228,6 +228,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
     private void initView(View view) {
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
+        mListView.setDividerHeight(0);
         mFundsAdapter = new TabFundsAdapter(getActivity(), mDataList);
         mListView.setAdapter(mFundsAdapter);
 //        mListView.setDividerHeight(0);

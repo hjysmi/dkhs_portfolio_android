@@ -22,7 +22,7 @@ public class GettingUrlForAPPActivity extends Activity implements
 		setContentView(R.layout.layout_setting_url);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
-		PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 1);
+		PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL));
 		findViewById(R.id.setting_app_staging).setOnClickListener(this);
 		findViewById(R.id.setting_app_main).setOnClickListener(this);
 		findViewById(R.id.setting_app_right).setOnClickListener(this);

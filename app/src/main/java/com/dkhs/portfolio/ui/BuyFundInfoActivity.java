@@ -90,7 +90,7 @@ public class BuyFundInfoActivity extends ModelAcitivity {
             protected void afterParseData(FundTradeInfo info) {
                 if(info != null){
                     mFund = info.getFund();
-                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), info.getFund().getAbbrName(), info.getFund().getId()));
+                    tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), info.getFund().getAbbrName(), info.getFund().getSymbol()));
                     tv_trade_no.setText(info.getAllot_no());
                     tv_trade_time.setText(TimeUtils.getDaySecondString(info.getApply_date()));
                     tv_info_tip_content1.setText(TimeUtils.getDateString(info.getApply_date()));
@@ -110,7 +110,7 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                         iv_info_tip2.setBackgroundResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_fail);
                     }
-                    tv_trade_rate.setText(StringFromatUtils.get2Point((float) info.getDiscount_rate()));
+                    tv_trade_rate.setText(StringFromatUtils.get2PointPercent((float) (info.getDiscount_rate() * info.getFare_ratio())));
                 }
             }
         };

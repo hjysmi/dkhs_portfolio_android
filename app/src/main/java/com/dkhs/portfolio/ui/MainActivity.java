@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -33,8 +35,11 @@ import com.dkhs.portfolio.ui.fragment.VisiableLoadFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
 
 import io.rong.imlib.model.Message;
 
@@ -57,10 +62,17 @@ public class MainActivity extends BaseActivity {
     private static final String BOTTOM_TAB_INDEX = "bottom_bat_index";
     private static final String TOP_TAB_INDEX = "top_tab_index";
 
+    private static final int INDEX_HOME_TAB = 0;
+    private static final int INDEX_REWARD_TAB = 1;
+    private static final int INDEX_MARKET_TAB = 2;
+    private static final int INDEX_OPTIONAL_TAB = 3;
+    private static final int INDEX_USERINFO_TAB = 4;
+
     private MessageHandler handler;
     private MenuItemFragment mMenuFragment;
 
     public Bundle mBundle;
+    public ScrollViewPager mScrollViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +94,8 @@ public class MainActivity extends BaseActivity {
         t.replace(R.id.bottom_layout, mMenuFragment, TAG_FRAGMENT_MENU);
 
         t.commitAllowingStateLoss();
-        displayFragmentC();
+        initViewPager();
+//        displayFragmentC();
         new AppUpdateEngine(mContext).checkVersion();
         handIntent();
         getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.person_setting_backgroud)));
@@ -139,25 +152,29 @@ public class MainActivity extends BaseActivity {
     public void showContentIndex(int index) {
         switch (index) {
             case MenuItemFragment.TABINDEX_1: {
-                displayFragmentA();
-
+//                displayFragmentA();
+                mScrollViewPager.setCurrentItem(INDEX_OPTIONAL_TAB,false);
             }
             break;
             case MenuItemFragment.TABINDEX_2: {
-                displayFragmentB();
+//                displayFragmentB();
+                mScrollViewPager.setCurrentItem(INDEX_MARKET_TAB,false);
             }
             break;
             case MenuItemFragment.TABINDEX_3: {
-                displayFragmentC();
+//                displayFragmentC();
+                mScrollViewPager.setCurrentItem(INDEX_HOME_TAB,false);
 
             }
             break;
             case MenuItemFragment.TABINDEX_4: {
-                displayFragmentD();
+//                displayFragmentD();
+                mScrollViewPager.setCurrentItem(INDEX_REWARD_TAB,false);
             }
             break;
             case MenuItemFragment.TABINDEX_5: {
-                displayFragmentE();
+//                displayFragmentE();
+                mScrollViewPager.setCurrentItem(INDEX_USERINFO_TAB,false);
             }
             break;
 
@@ -397,4 +414,42 @@ public class MainActivity extends BaseActivity {
         BusProvider.getInstance().post(newIntent);
     }
 
+    public void   initViewPager(){
+        mScrollViewPager = (ScrollViewPager) findViewById(R.id.content_layout);
+        mScrollViewPager.setCanScroll(false);
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(INDEX_HOME_TAB,new HomePageFragment());
+        fragments.add(INDEX_REWARD_TAB,new MainRewardFragment());
+        fragments.add(INDEX_MARKET_TAB,new MainMarketFragment());
+        fragments.add(INDEX_OPTIONAL_TAB,new MainOptionalFragment());
+        fragments.add(INDEX_USERINFO_TAB,new UserFragment());
+        mScrollViewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(),fragments));
+        mScrollViewPager.setOffscreenPageLimit(5);
+    }
+
+    class TabsPagerAdapter extends FragmentPagerAdapter{
+        private ArrayList<Fragment> fragments;
+        public TabsPagerAdapter(FragmentManager fm,ArrayList<Fragment> fragments) {
+            super(fm);
+            this.fragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return (fragments == null || fragments.size() == 0) ? null : fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments == null ? 0 : fragments.size();
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            mMenuFragment.clickTabIndex(mScrollViewPager.getCurrentItem());
+        }
+    }
 }

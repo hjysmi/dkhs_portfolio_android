@@ -50,6 +50,7 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
     @Override
     public void onBindView(ViewHolder vh, RecommendRewardBean data, final int position) {
         super.onBindView(vh, data, position);
+        vh.getConvertView().setBackgroundColor(vh.getContext().getResources().getColor(R.color.white));
         LinearLayout ll = vh.get(R.id.ll_gallery);
         ll.removeAllViews();
         List<TopicsBean> topicsBeans = data.getTopicsBeans();

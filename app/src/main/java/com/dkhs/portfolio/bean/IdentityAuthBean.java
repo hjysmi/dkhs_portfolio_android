@@ -11,4 +11,5 @@ public class IdentityAuthBean {
     public String orderKey;
     public String env;
     public String merchantId;
+    public String bank_card_id;
 }

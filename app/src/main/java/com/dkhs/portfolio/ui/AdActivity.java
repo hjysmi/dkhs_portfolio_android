@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,7 +22,6 @@ import com.dkhs.portfolio.bean.WapShareBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DKHSClient;
-import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
@@ -60,7 +60,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
     private WeakHandler mWeakHandler = new WeakHandler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-
             switch (msg.what) {
                 case 1:
                     setTitle(mTitle);
@@ -124,6 +123,17 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
         mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
         mWebView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                String ajaxUrl = url;
+                // 如标识:req=ajax
+                if (url.contains("req=ajax")) {
+                    ajaxUrl += "&Authorization=" + "Bearer " + GlobalParams.ACCESS_TOCKEN;
+                }
+                return super.shouldInterceptRequest(view, ajaxUrl);
+            }
+
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 if(errorCode == 403){

@@ -10,13 +10,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_heightPercent="2%w" />
+        app:layout_heightPercent="2.5%w" />
 
     <com.android.percent.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_heightPercent="16%w">
+        app:layout_heightPercent="14%w">
 
         <View
             android:layout_width="wrap_content"
@@ -32,18 +32,21 @@
             <com.android.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_heightPercent="6%w">
+                app:layout_heightPercent="8%w">
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
                     android:layout_below="@+id/padding_top"
                     android:layout_gravity="top"
+                    android:gravity="top"
                     android:singleLine="true"
                     android:textColor="@color/theme_color"
+                    app:layout_heightPercent="6%w"
                     app:layout_maxWidthPercent="50%w"
-                    app:layout_textSizePercent="5%w"
+                    app:layout_textSizePercent="4.5%w"
                     tools:text="钢铁股票配资钢铁股票配资" />
 
                 <TextView
@@ -56,6 +59,7 @@
                     android:textColor="@color/tag_gray"
                     app:layout_heightPercent="6%w"
                     app:layout_marginLeftPercent="2%w"
+                    app:layout_textSizePercent="3.5%w"
                     tools:text="600001" />
 
                 <TextView
@@ -63,91 +67,90 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
                     android:layout_gravity="top"
                     android:gravity="top"
                     android:textColor="@color/tag_red"
-                    app:layout_marginRightPercent="5%w"
-                    app:layout_textSizePercent="5%w"
+                    app:layout_heightPercent="8%w"
+                    app:layout_marginRightPercent="3.7%w"
+                    app:layout_textSizePercent="7%w"
                     tools:text="500.00%" />
             </com.android.percent.PercentRelativeLayout>
 
             <com.android.percent.PercentRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_heightPercent="10%w">
+                app:layout_heightPercent="6%w">
+                <com.android.percent.PercentLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_risk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:paddingBottom="@dimen/line_stroke_width"
+                        android:paddingLeft="@dimen/widget_margin_small"
+                        android:paddingRight="@dimen/widget_margin_small"
+                        android:paddingTop="@dimen/line_stroke_width"
+                        android:singleLine="true"
+                        android:visibility="visible"
+                        android:textColor="@color/theme_blue"
+                        app:layout_textSizePercent="3.5%w"
+                        app:layout_marginRightPercent="2%w"
+                        tools:text="低风险" />
 
-                <TextView
-                    android:id="@+id/tv_risk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="bottom"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_blue"
-                    app:layout_textSizePercent="3.5%w"
-                    tools:text="低风险"
-                    android:paddingBottom="@dimen/line_stroke_width"
-                    android:paddingTop="@dimen/line_stroke_width"
-                    android:paddingLeft="@dimen/widget_margin_small"
-                    android:paddingRight="@dimen/widget_margin_small"/>
+                    <TextView
+                        android:id="@+id/tv_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_fundmanager_item_job"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:textColor="@color/theme_blue"
+                        android:visibility="visible"
+                        app:layout_marginRightPercent="2%w"
+                        app:layout_textSizePercent="3.5%w"
+                        tools:text="0费率" />
 
-                <TextView
-                    android:id="@+id/tv_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_risk"
-                    android:background="@drawable/bg_fundmanager_item_job"
-                    android:gravity="bottom"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_blue"
-                    android:visibility="visible"
-                    app:layout_marginLeftPercent="2%w"
-                    app:layout_textSizePercent="3.5%w"
-                    tools:text="0费率" />
+                    <TextView
+                        android:id="@+id/tv_sell"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_market_item_sell"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:text="未代销"
+                        android:textColor="@color/stock_gray_bg"
+                        android:visibility="gone"
+                        app:layout_marginRightPercent="2%w"
+                        app:layout_textSizePercent="3.5%w" />
 
-                <TextView
-                    android:id="@+id/tv_sell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_risk"
-                    android:background="@drawable/bg_market_item_sell"
-                    android:gravity="bottom"
-                    android:singleLine="true"
-                    android:text="未代销"
-                    android:textColor="@color/stock_gray_bg"
-                    android:visibility="gone"
-                    app:layout_marginLeftPercent="2%w"
-                    app:layout_textSizePercent="3.5%w" />
+                    <TextView
+                        android:id="@+id/tv_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_fundmanager_item_job"
+                        android:gravity="bottom"
+                        android:singleLine="true"
+                        android:textColor="@color/theme_blue"
+                        android:visibility="visible"
+                        app:layout_marginRightPercent="2%w"
+                        app:layout_textSizePercent="3.5%w"
+                        tools:text="100元起" />
+                </com.android.percent.PercentLinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_rate"
-                    android:background="@drawable/bg_fundmanager_item_job"
-                    android:gravity="bottom"
-                    android:singleLine="true"
-                    android:textColor="@color/theme_blue"
-                    android:visibility="visible"
-                    app:layout_marginLeftPercent="2%w"
-                    app:layout_textSizePercent="3.5%w"
-                    tools:text="100元起" />
 
                 <TextView
                     android:id="@+id/tv_value"
-                    android:textColor="@color/gray_textcolor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    app:layout_marginRightPercent="5%w"
+                    android:textColor="@color/gray_textcolor"
+                    app:layout_marginRightPercent="3.7%w"
+                    app:layout_textSizePercent="3.5%w"
                     tools:text="净值:1.5615" />
             </com.android.percent.PercentRelativeLayout>
 
@@ -160,13 +163,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_heightPercent="2%w" />
+        app:layout_heightPercent="2.5%w" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_gravity="right"
         android:background="@color/drivi_line"
-        app:layout_widthPercent="95%w"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:layout_widthPercent="95%w" />
 </com.android.percent.PercentLinearLayout>

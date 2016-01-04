@@ -24,11 +24,12 @@
             android:id="@+id/tv_info_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/image_detail"
             android:drawablePadding="6dp"
+            android:layout_alignParentLeft="true"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="@dimen/setting_text_name"
-            android:text="景顺长城增量永信(12345678)"/>
+            android:textSize="@dimen/widget_text_16sp"/>
 
     </RelativeLayout>
 

@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class TradeSettingActivity extends ModelAcitivity {
     @ViewInject(R.id.tv_trade_password)
     TextView tv_trade_password;
     @ViewInject(R.id.ib_gesture_setting)
-    ImageButton ib_gesture_setting;
+    SwitchCompat ib_gesture_setting;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -54,7 +55,8 @@ public class TradeSettingActivity extends ModelAcitivity {
     }
 
     private GesturePassword gesPassword;
-
+    //是否设置过交易密码
+    private boolean hasTradePassword;
     //是否设置过手势密码
     private boolean hasGesturePassword;
 
@@ -70,7 +72,7 @@ public class TradeSettingActivity extends ModelAcitivity {
                 hasGesturePassword = !TextUtils.isEmpty(gesPassword.password);
                 tv_gesture_password.setText(hasGesturePassword?R.string.reset_gesture_password:R.string.set_gesture_password);
             }
-            ib_gesture_setting.setBackgroundResource(gesPassword.isOpen?R.drawable.ios7_switch_on:R.drawable.ios7_switch_off);
+            ib_gesture_setting.setChecked(gesPassword.isOpen);
         }
         new TradeEngineImpl().isTradePasswordSet(new ParseHttpListener<Boolean>() {
             @Override
@@ -88,6 +90,7 @@ public class TradeSettingActivity extends ModelAcitivity {
 
             @Override
             protected void afterParseData(Boolean object) {
+                hasTradePassword = object;
                 if (null != object) {
                     tv_trade_password.setText(object?R.string.reset_trade_password:R.string.set_trade_password);
                 }
@@ -119,7 +122,11 @@ public class TradeSettingActivity extends ModelAcitivity {
                     @Override
                     protected void afterParseData(List<MyBankCard> cards) {
                         if(cards != null && cards.size() > 0){
-                            startActivity(new Intent(mContext, ResetTradePasswordActivity.class));
+                            if(hasTradePassword){
+                                startActivity(new Intent(mContext, ResetTradePasswordActivity.class));
+                            }else{
+                                startActivity(ForgetTradePasswordActivity.newIntent(mContext,true));
+                            }
                         }else{
                             showBindcardDialog();
                         }
@@ -148,6 +155,7 @@ public class TradeSettingActivity extends ModelAcitivity {
                         startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
                     }
                 }
+                ib_gesture_setting.setChecked(gesPassword.isOpen);
                 break;
         }
     }

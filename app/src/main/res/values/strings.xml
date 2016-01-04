@@ -460,7 +460,7 @@
     <string name="message_center">消息中心</string>
     <string name="info_title_mycom">我的组合</string>
     <string name="info_title_mytopic">我的主帖</string>
-    <string name="info_title_purse">我的零钱</string>
+    <string name="info_title_purse">零钱</string>
     <string name="info_title_mypost">我的话题</string>
     <string name="info_title_myreply">我的回复</string>
     <string name="info_title_mydraft">我的草稿</string>
@@ -597,7 +597,7 @@
     <string name="net_values">净值:%1$s</string>
     <string name="no_sell">未代销</string>
     <string name="zero_rate">0费率</string>
-    <string name="min_money">%1$.2f元起</string>
+    <string name="min_money">%1$s元起</string>
     <string name="risk">%1$s风险</string>
     <string name="investment_risk">投资风险</string>
     <string name="minimum_redemption_share">最低赎回份额</string>
@@ -876,6 +876,7 @@
     <string name="my_bank_cards">银行卡</string>
     <string name="bank_card">银行卡号</string>
     <string name="input_bank_card">输入银行卡号</string>
+    <string name="blank_verified_tip">请绑定持卡人%1$s的银行卡号</string>
     <string name="hint_bank_card">请输入银行卡号</string>
     <string name="fund_supervision_bank">基金销售账户监督银行：中国民生银行</string>
     <string name="bank_card_package">银行卡管理</string>
@@ -942,7 +943,7 @@
     <string name="old_trade_password">原交易密码</string>
     <string name="input_trade_password_again">请再次输入交易密码。</string>
     <string name="trade_password_unsame">密码不一致，请重新输入。</string>
-    <string name="forget_trade_password">忘记交易密码?</string>
+    <string name="forget_trade_password">忘记密码?</string>
     <string name="trade_record">交易记录</string>
     <string name="buy_in">买入</string>
     <string name="sell_out">卖出</string>
@@ -973,10 +974,10 @@
     <string name="retry">重试</string>
     <string name="blank_trade_pwd_wrong">交易密码不正确你还可以输入%1$d次</string>
     <string name="trade_pwd_locked">交易密码已被锁定,请3小时候再试</string>
-    <string name="bank_no_tip">1、仅支持添加储蓄卡\n2、支持的银行有：工行、农行、中行、建行、交行、中信、光大、民生、兴业、平安、邮储、广发、浦发、南京银行、长沙银行、上海农村商业银行、金华市商业银行</string>
+    <string name="bank_no_tip">1、仅支持添加储蓄卡\n2、支持的银行有：工商、农业、中国、建设、交通、中信、光大、民生、兴业、平安、邮储</string>
     <string name="buy_fund_tip1">目前已支持多张银行卡购买基金</string>
     <string name="buy_fund_tip2">申购费150元 预计1-2交易日确认份额</string>
-    <string name="blank_buy_fund_tip1">手续费 %1$s费率</string>
+    <string name="blank_buy_fund_tip1">申购费率: %1$s 预计1-2交易日确认份额</string>
     <string name="blank_buy_fund_tip2">申购费%1$s元 预计1-2交易日确认份额</string>
     <string name="value">金额</string>
     <string name="dollar">元</string>
@@ -991,8 +992,8 @@
     <string name="blank_available_sell_shares">可卖出份额: %1$s份</string>
     <string name="blank_recent_available_sell_shares">今日可卖出份额: %1$f份</string>
     <string name="sell_fund_tip">卖出费150元 预计1-2交易日到款</string>
-    <string name="blank_sell_fund_tip1">手续费 %1$s费率</string>
-    <string name="blank_sell_fund_tip2">卖出费%1$s元 预计1-2交易日到款</string>
+    <string name="blank_sell_fund_tip1">赎回费率: %1$s 预计1-2交易日确认份额</string>
+    <string name="blank_sell_fund_tip2">赎回费%1$s元 预计1-2交易日到款</string>
     <string name="add_bank_card">添加银行卡</string>
     <string name="buy_fund_info">买入交易详情</string>
     <string name="trade_status">交易状态</string>
@@ -1006,16 +1007,10 @@
     <string name="confirm_amount">确认金额</string>
     <string name="confirm_amount_suc">基金公司已确认金额</string>
     <string name="confirm_amount_fail">基金公司确认金额失败</string>
-    <string name="trade_buy_status">买入状态</string>
-    <string name="trade_sell_status">卖出状态</string>
-    <string name="trade_value">交易金额</string>
-    <string name="trade_buy_value">买入金额</string>
-    <string name="trade_sell_value">卖出金额</string>
     <string name="blank_dollar">%1$s元</string>
     <string name="blank_shares">%1$s份</string>
     <string name="pay_status">支付成功</string>
-    <string name="trade_buy_time">买入时间</string>
-    <string name="trade_sell_time">卖出时间</string>
+    <string name="trade_time">下单时间</string>
     <string name="trade_no">交易单号</string>
     <string name="trade_rate">申购费率</string>
     <string name="buy_fund_info_tip1">支付成功，等待基金公司确认</string>
@@ -1023,10 +1018,10 @@
     <string name="cancel_fund">撤单</string>
     <string name="sell_fund_info">卖出交易详情</string>
     <string name="sell_trade_shares">卖出份额</string>
-    <string name="buy_trade_shares">买入份额</string>
-    <string name="sell_rate">卖出费率</string>
+    <string name="buy_trade_amount">买入金额</string>
+    <string name="sell_rate">赎回费率</string>
     <string name="sell_fund_info_tip1">卖出成功，等待基金公司确认</string>
-    <string name="sell_fund_info_tip2">确认购买份额</string>
+    <string name="sell_fund_info_tip2">确认卖出份额</string>
     <string name="sell_fund_info_tip3">卖出款退款中</string>
     <string name="sell_fund_info_tip4">卖出款已转银行卡</string>
     <string name="choose_bank">选择银行</string>
@@ -1112,7 +1107,7 @@
     <string name="close_reward_hint">关闭成功，即将退回你的赏金</string>
 
     <!--wallet-->
-    <string name="balance_hint">现金余额(元)</string>
+    <string name="balance_hint">零钱余额(元)</string>
     <string name="charge">充值</string>
     <string name="withdraw">提现</string>
     <string name="with_draw_available">可提现金额为%1$s元</string>

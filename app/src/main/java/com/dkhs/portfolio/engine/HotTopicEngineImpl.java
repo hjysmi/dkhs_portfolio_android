@@ -22,7 +22,6 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,6 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case 7:
-                    LogUtils.d("wys","load topics");
                     MoreDataBean more = getMoreDataBean();
                     if (more != null) {
                         setTotalcount(more.getTotalCount());
@@ -60,11 +58,16 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                         setCurrentpage(more.getCurrentPage());
                         setStatu(more.getStatu());
                         List list = new ArrayList();
-                        list.add(mBannerTopicsBean);
+                        if (mBannerTopicsBean.adBean != null || (mBannerTopicsBean.hotTopicsBeans != null && mBannerTopicsBean.hotTopicsBeans.size() > 0)) {
+                            list.add(mBannerTopicsBean);
+                        }
                         if (mFirstPageTopicsBeans != null)
                             list.addAll(mFirstPageTopicsBeans);
-                        more.setResults(list);
-                        getLoadListener().loadFinish(more);
+                        if (list != null && list.size() > 0) {
+                            more.setResults(list);
+                            getLoadListener().loadFinish(more);
+                        }
+
                         responseStatus = 0;
                         mBannerTopicsBean = new BannerTopicsBean();
                         mFirstPageTopicsBeans = null;
@@ -86,14 +89,14 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
     @Override
     public HttpHandler loadMore() {
-        if(mSortType == 0){
+        if (mSortType == 0) {
             RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
             params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
             params.addQueryStringParameter("recommend_level", "1");
             params.addQueryStringParameter("page_size", pageSize + "");
             return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getHotTopic, params, this);
-        }else{
+        } else {
             RequestParams params = new RequestParams();
 //        params.addQueryStringParameter("type", type);
             params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
@@ -109,7 +112,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         loadData();
     }
 
-    public int getSortType(){
+    public int getSortType() {
         return mSortType;
     }
 
@@ -118,12 +121,12 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         String cacheTopics;
         String url = "";
         RequestParams params = new RequestParams();
-        if(mSortType == 0){
+        if (mSortType == 0) {
             url = DKHSUrl.BBS.getHotTopic;
             params.addQueryStringParameter("page", "1");
             params.addQueryStringParameter("pageSize", pageSize + "");
             params.addQueryStringParameter("recommend_level", "1");
-        }else{
+        } else {
             url = DKHSUrl.BBS.getLatestTopic;
             params.addQueryStringParameter("page", "1");
             params.addQueryStringParameter("pageSize", pageSize + "");
@@ -137,7 +140,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
 
             @Override
             protected void afterParseData(MoreDataBean object) {
-                if(object != null) {
+                if (object != null) {
                     mFirstPageTopicsBeans = object.getResults();
                     setMoreDataBean(object);
                     onFinish();
@@ -147,7 +150,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             @Override
             public void onFailure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
-                HotTopicEngineImpl.this.onFailure(errCode,errMsg);
+                HotTopicEngineImpl.this.onFailure(errCode, errMsg);
                 onFinish();
             }
 
@@ -160,15 +163,15 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             @Override
             public void onSuccess(String jsonObject) {
                 super.onSuccess(jsonObject);
-                if(mSortType == 0){
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOT_TOPICS,jsonObject);
-                }else{
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LATEST_TOPICS,jsonObject);
+                if (mSortType == 0) {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOT_TOPICS, jsonObject);
+                } else {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LATEST_TOPICS, jsonObject);
                 }
             }
         });
 
-        AdEngineImpl.getStatusesBanner( new SimpleParseHttpListener() {
+        AdEngineImpl.getStatusesBanner(new SimpleParseHttpListener() {
             @Override
             public Class getClassType() {
                 return AdBean.class;
@@ -200,7 +203,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
             @Override
             public void onSuccess(String jsonObject) {
                 super.onSuccess(jsonObject);
-                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_TOPIC_BANNER,jsonObject);
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_TOPIC_BANNER, jsonObject);
             }
         });
 
@@ -208,7 +211,7 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         params2.addQueryStringParameter("page", "1");
         params2.addQueryStringParameter("pageSize", pageSize + "");
         params2.addQueryStringParameter("recommend_level", "2");
-        return    DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getStickTopic, params2, new ParseHttpListener<MoreDataBean>() {
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.BBS.getStickTopic, params2, new ParseHttpListener<MoreDataBean>() {
             @Override
             protected MoreDataBean parseDateTask(String jsonData) {
                 MoreDataBean<TopicsBean> moreBean = null;
@@ -222,8 +225,8 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
                         e.printStackTrace();
                     }
                 }
-                if(moreBean!= null)
-                mBannerTopicsBean.hotTopicsBeans = moreBean.getResults();
+                if (moreBean != null)
+                    mBannerTopicsBean.hotTopicsBeans = moreBean.getResults();
                 onFinish();
                 return moreBean;
             }
@@ -285,39 +288,38 @@ public class HotTopicEngineImpl extends LoadMoreDataEngine {
         return parse2Topics(jsonData);
     }
 
-    public void loadCacheData(){
-        LogUtils.d("wys","load cache topics");
+    public void loadCacheData() {
         String cacheRewards;
-        if(mSortType == 0){
+        if (mSortType == 0) {
             cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOT_TOPICS);
-        }else{
+        } else {
             cacheRewards = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_LATEST_TOPICS);
         }
-        if(TextUtils.isEmpty(cacheRewards)){
+        if (TextUtils.isEmpty(cacheRewards)) {
             return;
         }
         MoreDataBean rewards = parse2Topics(cacheRewards);
-        if(rewards != null) {
+        if (rewards != null) {
             mFirstPageTopicsBeans = rewards.getResults();
             setMoreDataBean(rewards);
         }
 
-        String cacheBanner = PortfolioPreferenceManager.KEY_TOPIC_BANNER;
-        if(TextUtils.isEmpty(cacheBanner)){
+        String cacheBanner = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_TOPIC_BANNER);
+        if (TextUtils.isEmpty(cacheBanner)) {
             return;
         }
 
-        AdBean adBean = DataParse.parseObjectJson(AdBean.class,cacheBanner);
+        AdBean adBean = DataParse.parseObjectJson(AdBean.class, cacheBanner);
         if (adBean != null) {
             mBannerTopicsBean.adBean = adBean;
         }
 
-        String cacheStickTopics = PortfolioPreferenceManager.KEY_STICK_TOPIC;
-        if(TextUtils.isEmpty(cacheStickTopics)){
-           return;
+        String cacheStickTopics = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_STICK_TOPIC);
+        if (TextUtils.isEmpty(cacheStickTopics)) {
+            return;
         }
         MoreDataBean stickTopics = parse2Topics(cacheStickTopics);
-        if(stickTopics != null){
+        if (stickTopics != null) {
             mBannerTopicsBean.hotTopicsBeans = stickTopics.getResults();
         }
 

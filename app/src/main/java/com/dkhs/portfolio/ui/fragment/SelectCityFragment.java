@@ -19,7 +19,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.QueryCityEvent;
 import com.dkhs.portfolio.ui.widget.sortlist.SideBar;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
 
@@ -140,7 +139,6 @@ public class SelectCityFragment extends BaseFragment {
             } else {
                 comName = city.name;
             }
-            LogUtils.d("wys", "cityName" + comName);
             BusProvider.getInstance().post(new BackCityEvent(comName));
             getActivity().finish();
             UIUtils.outAnimationActivity(getActivity());

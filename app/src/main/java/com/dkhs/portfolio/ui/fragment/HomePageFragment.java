@@ -457,7 +457,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     }
 
     private void loadData() {
-        getCache();
         getNetData();
     }
 
@@ -494,6 +493,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 mSwipeLayout.setRefreshing(true);
             }
         });
+        generateData();
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -41,6 +41,15 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_verified_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_textcolor"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="6dp"
+        />
+
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -89,6 +98,7 @@
         android:layout_marginTop="@dimen/widget_margin_xlarge"
         android:layout_marginLeft="@dimen/widget_margin_xlarge"
         android:layout_marginRight="@dimen/widget_margin_xlarge"
+        android:textColor="@color/gray_textcolor"
         android:text="@string/bank_no_tip"
         />
 

@@ -22,7 +22,7 @@
             android:paddingTop="@dimen/widget_padding_large"
             android:gravity="center_vertical"
             android:textColor="@color/black"
-            android:textSize="@dimen/widget_text_18sp"/>
+            android:textSize="@dimen/widget_text_16sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,6 +121,8 @@
                 android:text="@string/add_bank_card"
                 />
         </RelativeLayout>
+        <View style="@style/divider_line"/>
+
     </LinearLayout>
 
     <TextView
@@ -193,5 +195,5 @@
         android:layout_marginRight="@dimen/widget_margin_xlarge"
         android:layout_marginTop="@dimen/widget_margin_normal"
         android:enabled="false"
-        android:text="购买"/>
+        android:text="@string/buy_in"/>
 </LinearLayout>
