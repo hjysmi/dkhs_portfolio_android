@@ -671,7 +671,7 @@
         <item name="android:activityCloseEnterAnimation">@anim/cpay_slide_up_in</item>
         <item name="android:activityCloseExitAnimation">@anim/cpay_slide_down_out</item>
     </style>
-    <style name="cpay_MyDialog" parent="@android:Theme.Dialog">
+    <style name="cpay_MyDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <!-- 边框 -->
         <item name="android:windowIsFloating">true</item>

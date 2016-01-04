@@ -76,6 +76,12 @@ public class FundProfileFragment extends BaseFragment {
             //代销的基金展示购买须知
             View profileView_purchase = new F10ViewParse(mContext).parseFundProfileViewPurchase(mFundQuoteBean);
             mContentView.addView(profileView_purchase);
+            View v = new View(getActivity());
+            int width = LinearLayout.LayoutParams.MATCH_PARENT;
+            int height = getResources().getDimensionPixelOffset(R.dimen.combin_horSpacing);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width,height);
+            v.setBackgroundColor(getResources().getColor(R.color.drivi_line));
+            mContentView.addView(v,lp);
         }
 
         View profileView = new F10ViewParse(mContext).parseFundProfileView(mFundQuoteBean);
