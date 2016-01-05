@@ -36,8 +36,6 @@ import java.util.Map;
 public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
 
 
-
-
     private Map<String, String> map = new HashMap<>();
 
 
@@ -88,7 +86,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             vh.setTextView(R.id.abbr_name, data.getAbbrName());
         }
 
-        vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getFare_ratio_buy(),data.getDiscount_rate_buy(), vh.getContext()));
+
 
         setText(vh.getTextView(R.id.cp_rate), data.getPercent_six_month());
 
@@ -102,14 +100,14 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         sh300TV.setText(R.string.amount_min_buy);
         shMarketTV.setText(R.string.investment_risk);
-        if(data.getAmount_min_buy() != 0){
+        if (data.getAmount_min_buy() != 0 && data.isAllow_buy()) {
             shRateTV.setText(String.valueOf(data.getAmount_min_buy()));
             shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.black));
-        }else{
+        } else {
             shRateTV.setText(R.string.null_number);
             shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.tag_gray));
         }
-        shMarketRateTV.setText(FundUtils.getInvestRiskByType(data.getInvestment_risk(),vh.getContext()));
+        shMarketRateTV.setText(FundUtils.getInvestRiskByType(data.getInvestment_risk(), vh.getContext()));
         if (StockUitls.isSepFund(data.getSymbol_stype())) {
             vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.year_yld));
             setText(vh.getTextView(R.id.cp_rate), data.getYear_yld());
@@ -121,19 +119,19 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         LinearLayout ll_tags = vh.get(R.id.ll_tags);
         ll_tags.removeAllViews();
         ll_tags.setVisibility(View.GONE);
-        if(!TextUtils.isEmpty(data.getRecommend_desc())){
+        if (!TextUtils.isEmpty(data.getRecommend_desc())) {
             ll_tags.setVisibility(View.VISIBLE);
             String[] tags = data.getRecommend_desc().split(",");
-            if(tags != null && tags.length > 0){
-                tags = Arrays.copyOfRange(tags,0,5);
-                for(String tag : tags){
-                    if(TextUtils.isEmpty(tag))
+            if (tags != null && tags.length > 0) {
+                tags = Arrays.copyOfRange(tags, 0, 5);
+                for (String tag : tags) {
+                    if (TextUtils.isEmpty(tag))
                         break;
                     View child = View.inflate(mContext, R.layout.layout_special_tag, null);
                     TextView tv_tag = (TextView) child.findViewById(R.id.tv_tag);
                     tv_tag.setText(tag);
                     tv_tag.setTextColor(mContext.getResources().getColor(R.color.theme_blue));
-                    GradientDrawable myGrad = (GradientDrawable)tv_tag.getBackground();
+                    GradientDrawable myGrad = (GradientDrawable) tv_tag.getBackground();
                     myGrad.setColor(mContext.getResources().getColor(R.color.theme_blue_transparent));
                     tv_tag.setBackgroundDrawable(myGrad);
                     ll_tags.addView(child);
@@ -141,16 +139,19 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             }
         }
         Button buyBtn = vh.getButton(R.id.btn_buy);
-        if(data.isAllow_buy()){
-            buyBtn.setVisibility(View.VISIBLE);
+        if (data.isAllow_buy()) {
+            vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getFare_ratio_buy(), data.getDiscount_rate_buy(), vh.getContext()));
+            buyBtn.setEnabled(true);
             buyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    UIUtils.startAnimationActivity((Activity) mContext, BuyFundActivity.buyIntent(mContext,data));
+                    UIUtils.startAnimationActivity((Activity) mContext, BuyFundActivity.buyIntent(mContext, data));
                 }
             });
-        }else{
-            buyBtn.setVisibility(View.GONE);
+        } else {
+            buyBtn.setEnabled(false);
+            buyBtn.setTextColor(vh.getContext().getResources().getColor(R.color.white));
+            vh.getTextView(R.id.tv_discount_value).setText(R.string.null_number);
         }
     }
 
@@ -171,9 +172,6 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             }
         }
     }
-
-
-
 
 
 }
