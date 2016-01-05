@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false">
         <shape>
-            <gradient android:angle="0" android:endColor="@color/tag_gray" android:startColor="@color/tag_gray" />
+            <gradient android:angle="0" android:endColor="@color/person_setting_line" android:startColor="@color/person_setting_line" />
             <corners android:bottomLeftRadius="3dip" android:bottomRightRadius="3dip" android:topLeftRadius="3dip" android:topRightRadius="3dip" />
 
             <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
