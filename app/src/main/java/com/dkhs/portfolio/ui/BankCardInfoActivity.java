@@ -610,11 +610,13 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             se.startTag("", "CpPay");
             se.attribute("", "application", "LunchPay.Req");
 
+            se.startTag("", "env");
             if (!TextUtils.isEmpty(bean.env)) {
-                se.startTag("", "env");
                 se.text(bean.env.toUpperCase());
-                se.endTag("", "env");
+            }else{
+                se.text("PRODUCT");
             }
+            se.endTag("", "env");
 
             se.startTag("", "merchantId");
             se.text(bean.merchantId);
