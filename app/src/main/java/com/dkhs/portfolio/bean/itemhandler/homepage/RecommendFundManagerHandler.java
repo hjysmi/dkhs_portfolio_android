@@ -28,7 +28,7 @@ public class RecommendFundManagerHandler extends SimpleItemHandler<FundManagerBe
     public void onBindView(ViewHolder vh,final  FundManagerBean data, int position) {
         vh.getTextView(R.id.tv_name).setText(data.name);
         vh.getTextView(R.id.tv_company).setText(data.recommend_title);
-        vh.getTextView(R.id.tv_week_win_rate).setText(StringFromatUtils.get2PointPercent(data.win_rate_week));
+        vh.getTextView(R.id.tv_week_win_rate).setText(StringFromatUtils.get2PointPercent(data.getValue("-win_rate_week")));
         vh.getTextView(R.id.tv_week_profit_rate).setText(StringFromatUtils.get2PointPercent(data.index_rate_week));
         ImageLoaderUtils.setHeanderImage(data.avatar_sm, vh.getImageView(R.id.iv_avatar));
         vh.get(R.id.rootView).setOnClickListener(new View.OnClickListener() {
