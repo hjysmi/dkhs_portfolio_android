@@ -86,7 +86,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             vh.setTextView(R.id.abbr_name, data.getAbbrName());
         }
 
-        vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getFare_ratio_buy(), data.getDiscount_rate_buy(), vh.getContext()));
+
 
         setText(vh.getTextView(R.id.cp_rate), data.getPercent_six_month());
 
@@ -100,7 +100,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         sh300TV.setText(R.string.amount_min_buy);
         shMarketTV.setText(R.string.investment_risk);
-        if (data.getAmount_min_buy() != 0) {
+        if (data.getAmount_min_buy() != 0 && data.isAllow_buy()) {
             shRateTV.setText(String.valueOf(data.getAmount_min_buy()));
             shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.black));
         } else {
@@ -140,6 +140,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         }
         Button buyBtn = vh.getButton(R.id.btn_buy);
         if (data.isAllow_buy()) {
+            vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getFare_ratio_buy(), data.getDiscount_rate_buy(), vh.getContext()));
             buyBtn.setEnabled(true);
             buyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,10 +151,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         } else {
             buyBtn.setEnabled(false);
             buyBtn.setTextColor(vh.getContext().getResources().getColor(R.color.white));
-            shRateTV.setText(R.string.null_number);
-            shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.black));
             vh.getTextView(R.id.tv_discount_value).setText(R.string.null_number);
-            vh.getTextView(R.id.tv_discount_value).setTextColor(vh.getContext().getResources().getColor(R.color.theme_blue));
         }
     }
 
