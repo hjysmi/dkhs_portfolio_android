@@ -418,7 +418,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                     .buildMultiItemView(RecommendFundBean.class, new RecommendFundHandler(mActivity))
                     .buildMultiItemView(CombinationBean.class, new RecomendPortfolioHandler(mActivity))
                     .buildMultiItemView(AdBean.class, new SubBannerHandler(mActivity, HomePageFragment.this));
-            ;
         }
         return mAdapter;
     }

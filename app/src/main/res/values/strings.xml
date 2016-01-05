@@ -1187,4 +1187,6 @@
     <string name="amount_min_buy">起购金额(元)</string>
     <string name="fund_free">原费率</string>
     <string name="fund_discount_format">%1$s折</string>
+    <string name="index_rate_six_month">半年收益</string>
+    <string name="win_rate_six_month">半年跑赢大盘</string>
 </resources>

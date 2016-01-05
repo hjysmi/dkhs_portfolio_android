@@ -81,6 +81,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_week_win_rate_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="周跑赢大盘"
