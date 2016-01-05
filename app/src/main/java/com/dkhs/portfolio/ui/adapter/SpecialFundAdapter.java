@@ -87,7 +87,6 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         }
 
 
-
         setText(vh.getTextView(R.id.cp_rate), data.getPercent_six_month());
 
         TextView shRateTV = vh.getTextView(R.id.sh_rate);
@@ -100,13 +99,6 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         sh300TV.setText(R.string.amount_min_buy);
         shMarketTV.setText(R.string.investment_risk);
-        if (data.getAmount_min_buy() != 0 && data.isAllow_buy()) {
-            shRateTV.setText(String.valueOf(data.getAmount_min_buy()));
-            shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.black));
-        } else {
-            shRateTV.setText(R.string.null_number);
-            shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.tag_gray));
-        }
         shMarketRateTV.setText(FundUtils.getInvestRiskByType(data.getInvestment_risk(), vh.getContext()));
         if (StockUitls.isSepFund(data.getSymbol_stype())) {
             vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.year_yld));
@@ -142,6 +134,8 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         if (data.isAllow_buy()) {
             vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getFare_ratio_buy(), data.getDiscount_rate_buy(), vh.getContext()));
             buyBtn.setEnabled(true);
+            shRateTV.setText(String.valueOf(data.getAmount_min_buy()));
+            shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.black));
             buyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -152,6 +146,8 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             buyBtn.setEnabled(false);
             buyBtn.setTextColor(vh.getContext().getResources().getColor(R.color.white));
             vh.getTextView(R.id.tv_discount_value).setText(R.string.null_number);
+            shRateTV.setText(R.string.null_number);
+            shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.tag_gray));
         }
     }
 
