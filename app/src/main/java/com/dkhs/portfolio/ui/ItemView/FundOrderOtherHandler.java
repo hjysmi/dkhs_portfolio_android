@@ -21,6 +21,11 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
     private Context mContext;
     private static final int TYPE_RISK_UNKNOW = 0;
+    // 停止交易
+    private static final int TYPE_TRADE_STATUS_NOTRADE = 5;
+    //暂停申购
+    private static final int TYPE_TRADE_STATUS_NOBUY = 3;
+
     public FundOrderOtherHandler(Context context) {
         this.mContext = context;
     }
@@ -59,22 +64,29 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_money).setVisibility(View.GONE);
             vh.setTextView(R.id.tv_sell, UIUtils.getResString(mContext, R.string.no_sell));
         } else {
+            //代销基金
             vh.get(R.id.tv_sell).setVisibility(View.GONE);
             vh.get(R.id.tv_rate).setVisibility(View.VISIBLE);
             vh.get(R.id.tv_money).setVisibility(View.VISIBLE);
-            String convertToWan = StringFromatUtils.convertToWan(data.getAmount_min_buy());
-            vh.setTextView(R.id.tv_money, String.format(UIUtils.getResString(mContext, R.string.min_money), convertToWan));
-            double discount_rate_buy = data.getDiscount_rate_buy();
-
-            if (discount_rate_buy == 0) {
-                tv_rate.setVisibility(View.VISIBLE);
-                tv_rate.setText(UIUtils.getResString(mContext, R.string.zero_rate));
-            } else if (discount_rate_buy == 1) {
+            if (data.getTrade_status() == TYPE_TRADE_STATUS_NOTRADE || data.getTrade_status() == TYPE_TRADE_STATUS_NOBUY) {
+                //停止交易或暂停申购；则不展示费率折扣和起购金额
                 tv_rate.setVisibility(View.GONE);
+                vh.get(R.id.tv_money).setVisibility(View.GONE);
             } else {
-                tv_rate.setVisibility(View.VISIBLE);
-                String discount = String.format(vh.getContext().getString(R.string.fund_discount_format), String.valueOf(discount_rate_buy * 10));
-                vh.setTextView(R.id.tv_rate, discount);
+                String convertToWan = StringFromatUtils.convertToWan(data.getAmount_min_buy());
+                vh.setTextView(R.id.tv_money, String.format(UIUtils.getResString(mContext, R.string.min_money), convertToWan));
+                double discount_rate_buy = data.getDiscount_rate_buy();
+                //折扣比率
+                if (discount_rate_buy == 0) {
+                    tv_rate.setVisibility(View.VISIBLE);
+                    tv_rate.setText(UIUtils.getResString(mContext, R.string.zero_rate));
+                } else if (discount_rate_buy == 1) {
+                    tv_rate.setVisibility(View.GONE);
+                } else {
+                    tv_rate.setVisibility(View.VISIBLE);
+                    String discount = String.format(vh.getContext().getString(R.string.fund_discount_format), String.valueOf(discount_rate_buy * 10));
+                    vh.setTextView(R.id.tv_rate, discount);
+                }
             }
         }
         if (StockUitls.isSepFund(data.getSymbol_stype())) {
