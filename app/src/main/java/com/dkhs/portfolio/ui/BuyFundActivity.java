@@ -334,7 +334,7 @@ public class BuyFundActivity extends ModelAcitivity {
     private void showSetTradePwdDialog() {
         new MyAlertDialog(this).builder()
                 .setMsg(getResources().getString(R.string.first_trade_password_msg))
-                .setPositiveButton(getResources().getString(R.string.fine), new View.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.set_right_now), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivity(ForgetTradePasswordActivity.newIntent(mContext,true));

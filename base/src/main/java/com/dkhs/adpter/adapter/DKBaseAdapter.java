@@ -33,7 +33,6 @@ public class DKBaseAdapter extends BaseAdapter {
 
     public int getViewTypeKey(int position) {
         Object item = mData.get(position);
-        Log.d(this.getClass().getSimpleName(), " getViewTypeKey:" + item.getClass().getSimpleName());
         Integer viewKey = viewMap.get(item.getClass().getSimpleName());
         if (null == viewKey) {
             Log.e("DKBaseAdapter", " getViewTypeKey not found: " + item.getClass().getSimpleName());
