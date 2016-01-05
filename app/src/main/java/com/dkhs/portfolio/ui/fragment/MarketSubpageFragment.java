@@ -141,13 +141,11 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                 mBtntitletabright.setTextColor(getResources().getColor(R.color.black));
                 mBtntitletableft.setVisibility(View.GONE);
                 break;
-                case TYPE_FUND_MANAGER_RANKING_WEEK:
-                    mBtnrefresh.setVisibility(View.GONE);
-                    mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
-                            null, null, null);
-                    fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
-                    fragment = fundsFragment;
-                    setTitle(R.string.fund_manager_rank);
+            case TYPE_FUND_MANAGER_RANKING_WEEK:
+                fragment = gotoFundManagerPage();
+                break;
+            case TYPE_FUND_MANAGER_RANKING_SIX_MONTH:
+                fragment = gotoFundManagerPage();
                 break;
             default:
                 mBtnrefresh.setVisibility(View.GONE);
@@ -158,10 +156,19 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
                 mBtntitletableft.setText(R.string.fund_market);
                 setTitle(R.string.fund_rank);
         }
-        ft.replace(R.id.view_datalist,fragment);
+        ft.replace(R.id.view_datalist, fragment);
         ft.commit();
         mBtnrefresh.setOnClickListener((View.OnClickListener) fragment);
         mBtnsearch.setOnClickListener((View.OnClickListener) fragment);
+    }
+
+    private Fragment gotoFundManagerPage() {
+        mBtnrefresh.setVisibility(View.GONE);
+        mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                null, null, null);
+        fundsFragment = MarketFundsFragment.getFragment(curType.ordinal());
+        setTitle(R.string.fund_manager_rank);
+        return fundsFragment;
     }
 
     private void setTitle(int fund_manager_rank) {
@@ -229,7 +236,8 @@ public class MarketSubpageFragment extends VisiableLoadFragment implements View.
         TYPE_FUND_ALL_RANKING_MONTH(1),
         TYPE_FUND_ALL_RANKING_YEAR(2),
         TYPE_FUND_MIXED_MONTH(3),
-        TYPE_COMBINATION(4);
+        TYPE_COMBINATION(4),
+        TYPE_FUND_MANAGER_RANKING_SIX_MONTH(5);
         private int value;
 
         private SubpageType(int var) {
