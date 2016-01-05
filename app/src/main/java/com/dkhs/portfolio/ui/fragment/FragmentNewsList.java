@@ -93,7 +93,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         BusProvider.getInstance().register(this);
-        View view = inflater.inflate(R.layout.activity_option_market_news, null);
+        View view = inflater.inflate(R.layout.activity_option_market_newslist, null);
         context = getActivity();
         dm = UIUtils.getDisplayMetrics();
         initView(view);
