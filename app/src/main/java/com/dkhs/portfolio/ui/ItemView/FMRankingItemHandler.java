@@ -49,7 +49,7 @@ public class FMRankingItemHandler extends SimpleItemHandler<FundManagerBean> {
         }else{
             vh.getTextView(R.id.tv_fund_company).setVisibility(View.GONE);
         }
-        String rateWeekTv = StringFromatUtils.get2PointPercent(fundManagerBean.win_rate_week);
+        String rateWeekTv = StringFromatUtils.get2PointPercent(fundManagerBean.getValue("-win_rate_week"));
         vh.setTextView(R.id.tv_win_rate_week, String.format(vh.getContext().getString(R.string.format_win_rate_week), rateWeekTv));
         ImageLoaderUtils.setHeanderImage(fundManagerBean.avatar_md, vh.getImageView(R.id.im_avatar));
         vh.setTextView(R.id.tv_percent_value, fundManagerBean.getValueString(sortKey));
