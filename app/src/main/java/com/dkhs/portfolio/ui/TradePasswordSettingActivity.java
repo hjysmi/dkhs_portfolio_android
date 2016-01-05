@@ -101,7 +101,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     private String captcha;
     private void handleExtras(Bundle extras) {
         curLayoutType = extras.getInt(LAYOUT_TYPE, 0);
-        if(curLayoutType == TYPE_FORGET_PWD){
+        if(curLayoutType == TYPE_FORGET_PWD || curLayoutType == TYPE_FIRST_SET_PWD){
             mobile = extras.getString("mobile");
             bankCardId = extras.getString("bank_card_id");
             bankCardNo = extras.getString("bank_card_no");

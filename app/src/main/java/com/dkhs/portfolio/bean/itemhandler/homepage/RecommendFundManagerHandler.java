@@ -18,23 +18,21 @@ import com.dkhs.portfolio.utils.UIUtils;
  */
 public class RecommendFundManagerHandler extends SimpleItemHandler<FundManagerBean> {
     private Context mContext;
-
-    public RecommendFundManagerHandler(Context context) {
+    public RecommendFundManagerHandler(Context context){
         mContext = context;
     }
-
     @Override
     public int getLayoutResId() {
         return R.layout.layout_home_fund_manager;
     }
 
     @Override
-    public void onBindView(ViewHolder vh, final FundManagerBean data, int position) {
+    public void onBindView(ViewHolder vh,final  FundManagerBean data, int position) {
         vh.getTextView(R.id.tv_name).setText(data.name);
         vh.getTextView(R.id.tv_company).setText(data.recommend_title);
+        vh.getTextView(R.id.tv_week_win_rate).setText(StringFromatUtils.get2PointPercent(data.getValue("-win_rate_week")));
         vh.setTextView(R.id.tv_profit_title, UIUtils.getResString(mContext, R.string.index_rate_six_month));
         vh.setTextView(R.id.tv_week_win_rate_title, UIUtils.getResString(mContext, R.string.win_rate_six_month));
-        vh.getTextView(R.id.tv_week_win_rate).setText(StringFromatUtils.get2PointPercent(data.win_rate_six_month));
         vh.getTextView(R.id.tv_week_win_rate).setTextColor(ColorTemplate.getUpOrDrownCSL(data.win_rate_six_month));
         vh.getTextView(R.id.tv_week_profit_rate).setTextColor(ColorTemplate.getUpOrDrownCSL(data.index_rate_six_month));
         vh.getTextView(R.id.tv_week_profit_rate).setText(StringFromatUtils.get2PointPercent(data.index_rate_six_month));

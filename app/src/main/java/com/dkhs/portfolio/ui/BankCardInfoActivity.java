@@ -63,7 +63,6 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private String bank_card_id;
     private boolean isResetPasswordType;
     private MyBankCard mBankCard;
-    private String bankCrardNo;
     public static String BANK_CARD = "bank_card";
     private static final String LAYOUT_TYPE = "layout_type";
     private static final String BANK_CARD_NO = "card_no";
@@ -162,13 +161,13 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 }
             }
         };
-        new TradeEngineImpl().checkBank(bankCrardNo, listener.setLoadingDialog(mContext));
+        new TradeEngineImpl().checkBank(bankCardNo, listener.setLoadingDialog(mContext));
 
     }
 
     private void handleExtras(Bundle extras) {
         isResetPasswordType = extras.getBoolean(LAYOUT_TYPE);
-        bankCrardNo = extras.getString(BANK_CARD_NO, "");
+        bankCardNo = extras.getString(BANK_CARD_NO, "");
         mBankCard = (MyBankCard) extras.getSerializable(BANK_CARD);
         identityInfoBean = Parcels.unwrap(extras.getParcelable(IDENTITY_INFO_BEAN));
         if(mBankCard != null){
@@ -593,14 +592,13 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             };
             mobile = et_bank_card_mobile.getText().toString().trim();
             captcha = et_verifycode.getText().toString().trim();
-            bankCardNo = et_bank_card.getText().toString().trim().replace(" ", "");
             realName = et_real_name.getText().toString().trim();
             idCardNo = et_id_card_no.getText().toString().trim();
             if(identityInfoBean != null && identityInfoBean.status == 1){
                 realName = null;
                 idCardNo = null;
             }
-            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, realName, idCardNo, mobile, captcha, listener.setLoadingDialog(this));
+            tradeEngine.verifyIdentityAuth(bank.getId(), bankCardNo, realName, idCardNo, mobile, captcha, listener.setLoadingDialog(this));
         }
     }
 
