@@ -68,8 +68,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_sell).setVisibility(View.GONE);
             vh.get(R.id.tv_rate).setVisibility(View.VISIBLE);
             vh.get(R.id.tv_money).setVisibility(View.VISIBLE);
-            if (data.getTrade_status() == TYPE_TRADE_STATUS_NOTRADE || data.getTrade_status() == TYPE_TRADE_STATUS_NOBUY) {
-                //停止交易或暂停申购；则不展示费率折扣和起购金额
+            if (!data.isAllow_trade()) {
                 tv_rate.setVisibility(View.GONE);
                 vh.get(R.id.tv_money).setVisibility(View.GONE);
             } else {
