@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false">
+        <shape>
+            <gradient android:angle="0" android:endColor="@color/tag_gray" android:startColor="@color/tag_gray" />
+            <corners android:bottomLeftRadius="3dip" android:bottomRightRadius="3dip" android:topLeftRadius="3dip" android:topRightRadius="3dip" />
+
+            <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
+        </shape>
+    </item>
     <item android:state_pressed="true">
         <shape>
             <gradient android:angle="0" android:endColor="#3c89e7" android:startColor="#3c89e7" />
