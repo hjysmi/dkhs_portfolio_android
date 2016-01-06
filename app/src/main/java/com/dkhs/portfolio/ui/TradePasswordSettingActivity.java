@@ -117,6 +117,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
 
     private void initViews(){
         if(curLayoutType == TYPE_FIRST_SET_PWD){
+            setTitle(R.string.setting_trade_password);
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
         }else if(curLayoutType == TYPE_RESET_PWD){
@@ -124,6 +125,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.VISIBLE);
         }else if(curLayoutType == TYPE_FORGET_PWD){
+            setTitle(R.string.forget_trade_password);
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
         }
