@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.bean;
 
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
 import com.dkhs.portfolio.common.Spanny;
@@ -31,20 +32,21 @@ public class FundManagerBean {
      * win_rate_season : 26.30129524058558
      * win_rate_year : 26.300363591943466
      */
-    public float win_rate_tyear;
     public String work_seniority;
     public String avatar_sm;
     public String avatar_md;
     public String avatar_xs;
     public float win_rate_day;
-    public float win_rate_month;
-    public float win_rate_year;
+    public String win_rate_week;
+    public String win_rate_month;
+    public String win_rate_year;
+    public String win_rate_tyear;
+
     public float index_rate_all;
     public int id;
     public float win_rate_six_month;
     public String name;
     public String avatar_lg;
-    public float win_rate_week;
     public float win_rate_season;
     public float win_rate_twyear;
     public float index_rate_week;
@@ -65,17 +67,33 @@ public class FundManagerBean {
             case "-win_rate_day":
                 return win_rate_day;
             case "-win_rate_month":
-                return win_rate_month;
+                if(TextUtils.isEmpty(win_rate_month)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_month);
+                }
             case "-win_rate_season":
                 return win_rate_season;
             case "-win_rate_six_month":
                 return win_rate_six_month;
             case "-win_rate_year":
-                return win_rate_year;
+                if(TextUtils.isEmpty(win_rate_year)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_year);
+                }
             case "-win_rate_tyear":
-                return win_rate_tyear;
+                if(TextUtils.isEmpty(win_rate_tyear)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_tyear);
+                }
             case "-win_rate_week":
-                return win_rate_week;
+                if(TextUtils.isEmpty(win_rate_week)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_week);
+                }
             case "-win_rate_twyear":
                 return win_rate_twyear;
             case "-index_rate_day":

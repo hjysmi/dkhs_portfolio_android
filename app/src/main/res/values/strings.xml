@@ -91,6 +91,7 @@
     <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
     <string name="fine">好</string>
+    <string name="set_right_now">马上设置</string>
     <string name="verify">忘记手势密码</string>
     <string name="reinput">重新输入</string>
     <string name="more">更多</string>
@@ -936,7 +937,7 @@
     <string name="set_new_trade_password_fail">新交易密码设置失败</string>
     <string name="origin_trade_password_correct">原交易密码正确,请设置新的交易密码</string>
     <string name="origin_trade_password_uncorrect">原交易密码错误</string>
-    <string name="first_trade_password_msg">您之前没有设置过交易密码前请先设置交易密码。</string>
+    <string name="first_trade_password_msg">交易密码未设置</string>
     <string name="trade_password_msg">为了您的账户安全，设置交易密码前请先绑定本人银行卡。</string>
     <string name="blank_gesture_password_msg">手势密码已输入次数过多，请%1$d分钟后再试或重新验证登录密码修改手势密码。</string>
     <string name="setting_trade_password">设置交易密码</string>
@@ -1186,4 +1187,6 @@
     <string name="amount_min_buy">起购金额(元)</string>
     <string name="fund_free">原费率</string>
     <string name="fund_discount_format">%1$s折</string>
+    <string name="index_rate_six_month">半年收益</string>
+    <string name="win_rate_six_month">半年跑赢大盘</string>
 </resources>

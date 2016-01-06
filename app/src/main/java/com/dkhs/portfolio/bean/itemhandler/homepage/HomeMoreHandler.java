@@ -33,7 +33,7 @@ public class HomeMoreHandler extends SimpleItemHandler<HomeMoreBean> {
             public void onClick(View v) {
                 switch (data.type) {
                     case HomeMoreBean.TYPE_FUND_MANAGER:
-                        UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK));
+                        UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_SIX_MONTH));
                         break;
                     case HomeMoreBean.TYPE_FUND:
                         UIUtils.startAnimationActivity((Activity) mContext, MarketSubpageActivity.getIntent(mContext, MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH));

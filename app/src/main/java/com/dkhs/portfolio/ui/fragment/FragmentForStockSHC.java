@@ -22,7 +22,6 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
-import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -254,11 +253,11 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
 //                }
 
                 height = list_child_item_height * mOptionlistAdapter.getCount();
-                if (null != mStockQuoteScrollListener) {
+              /*  if (null != mStockQuoteScrollListener) {
                     if (height <= mStockQuoteScrollListener.getMaxListHeight()) {
                         mStockQuoteScrollListener = null;
                     }
-                }
+                }*/
 
 
                 mContentView.getLayoutParams().height = height;
@@ -354,11 +353,11 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
     }
 
 
-    IStockQuoteScrollListener mStockQuoteScrollListener;
+  /*  IStockQuoteScrollListener mStockQuoteScrollListener;
 
     public void setStockQuoteScrollListener(IStockQuoteScrollListener scrollListener) {
         this.mStockQuoteScrollListener = scrollListener;
     }
-
+*/
 
 }

@@ -63,7 +63,6 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     private String bank_card_id;
     private boolean isResetPasswordType;
     private MyBankCard mBankCard;
-    private String bankCrardNo;
     public static String BANK_CARD = "bank_card";
     private static final String LAYOUT_TYPE = "layout_type";
     private static final String BANK_CARD_NO = "card_no";
@@ -114,11 +113,11 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         return intent;
     }
 
-    public static Intent bankCardInfoIntent(Context context, String cardNo,IdentityInfoBean identityInfoBean) {
+    public static Intent bankCardInfoIntent(Context context, String cardNo, IdentityInfoBean identityInfoBean) {
         Intent intent = new Intent(context, BankCardInfoActivity.class);
         intent.putExtra(LAYOUT_TYPE, false);
         intent.putExtra(BANK_CARD_NO, cardNo);
-        if(identityInfoBean != null)
+        if (identityInfoBean != null)
             intent.putExtra(IDENTITY_INFO_BEAN, Parcels.wrap(identityInfoBean));
         return intent;
     }
@@ -157,25 +156,25 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                     tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
                     tv_limit_value.setVisibility(View.VISIBLE);
                     tv_bank.setText(bank.getName());
-                    tv_bank.setTextColor(UIUtils.getResColor(mContext,R.color.black));
+                    tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
                     btnStatus++;
                 }
             }
         };
-        new TradeEngineImpl().checkBank(bankCrardNo, listener.setLoadingDialog(mContext));
+        new TradeEngineImpl().checkBank(bankCardNo, listener.setLoadingDialog(mContext));
 
     }
 
     private void handleExtras(Bundle extras) {
         isResetPasswordType = extras.getBoolean(LAYOUT_TYPE);
-        bankCrardNo = extras.getString(BANK_CARD_NO, "");
+        bankCardNo = extras.getString(BANK_CARD_NO, "");
         mBankCard = (MyBankCard) extras.getSerializable(BANK_CARD);
         identityInfoBean = Parcels.unwrap(extras.getParcelable(IDENTITY_INFO_BEAN));
-        if(mBankCard != null){
+        if (mBankCard != null) {
             bank = mBankCard.getBank();
             btnStatus++;
         }
-        if(identityInfoBean != null && identityInfoBean.status == 1){
+        if (identityInfoBean != null && identityInfoBean.status == 1) {
             needFillNameAndId = false;
             et_real_name.setText(identityInfoBean.real_name);
             et_real_name.setEnabled(false);
@@ -255,7 +254,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                     index = 0;
                     int konggeNumberC = 0;
                     while (index < buffer.length()) {
-                        if ( index % 5 == 4 ) {
+                        if (index % 5 == 4) {
                             buffer.insert(index, ' ');
                             konggeNumberC++;
                         }
@@ -294,6 +293,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         et_real_name.addTextChangedListener(new TextWatcher() {
             private String beforeS;
             private boolean isBeforeAble;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 beforeS = s.toString();
@@ -301,7 +301,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!TextUtils.isEmpty(s) && !checkName(s.toString())){
+                if (!TextUtils.isEmpty(s) && !checkName(s.toString())) {
                     et_real_name.setText(beforeS);
                     Editable etable = et_real_name.getText();
                     Selection.setSelection(etable, start);
@@ -312,25 +312,26 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s) && s.length() >= 2) {
-                    if (!isBeforeAble){
+                    if (!isBeforeAble) {
                         btnStatus++;
                         isBeforeAble = true;
                     }
                     checkBtnStatus();
                 } else {
-                    if(isBeforeAble){
+                    if (isBeforeAble) {
                         isBeforeAble = false;
                         btnStatus--;
                     }
                     btn_bind_bank_card.setEnabled(false);
                 }
             }
+
             /**
              * 判定输入汉字
              * @param c
              * @return
              */
-            public  boolean hasSpecialChar(char c) {
+            public boolean hasSpecialChar(char c) {
                 Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
                 return ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
             }
@@ -340,15 +341,12 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
              * @param name
              * @return
              */
-            public  boolean checkName(String name)
-            {
-                boolean res=true;
-                char [] cTemp = name.toCharArray();
-                for(int i=0;i<name.length();i++)
-                {
-                    if(hasSpecialChar(cTemp[i]))
-                    {
-                        res=false;
+            public boolean checkName(String name) {
+                boolean res = true;
+                char[] cTemp = name.toCharArray();
+                for (int i = 0; i < name.length(); i++) {
+                    if (hasSpecialChar(cTemp[i])) {
+                        res = false;
                         break;
                     }
                 }
@@ -358,6 +356,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         et_id_card_no.addTextChangedListener(new TextWatcher() {
             private String beforeS;
             private boolean isBeforeAble;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 beforeS = s.toString();
@@ -365,15 +364,15 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!TextUtils.isEmpty(s) && s.length() <=17){
+                if (!TextUtils.isEmpty(s) && s.length() <= 17) {
                     boolean isNum = false;
-                    try{
+                    try {
                         Long.parseLong(s.toString());
                         isNum = true;
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
-                    }finally {
-                        if(!isNum){
+                    } finally {
+                        if (!isNum) {
                             et_id_card_no.setText(beforeS);
                             Editable etable = et_id_card_no.getText();
                             Selection.setSelection(etable, start);
@@ -386,25 +385,26 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(s) && s.length() >= 14) {
-                    if (!isBeforeAble){
+                    if (!isBeforeAble) {
                         btnStatus++;
                         isBeforeAble = true;
                     }
                     checkBtnStatus();
                 } else {
-                    if(isBeforeAble){
+                    if (isBeforeAble) {
                         isBeforeAble = false;
                         btnStatus--;
                     }
                     btn_bind_bank_card.setEnabled(false);
                 }
             }
+
             /**
              * 判定输入汉字
              * @param c
              * @return
              */
-            public  boolean hasSpecialChar(char c) {
+            public boolean hasSpecialChar(char c) {
                 Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
                 return ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
             }
@@ -414,15 +414,12 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
              * @param name
              * @return
              */
-            public  boolean checkName(String name)
-            {
-                boolean res=true;
-                char [] cTemp = name.toCharArray();
-                for(int i=0;i<name.length();i++)
-                {
-                    if(hasSpecialChar(cTemp[i]))
-                    {
-                        res=false;
+            public boolean checkName(String name) {
+                boolean res = true;
+                char[] cTemp = name.toCharArray();
+                for (int i = 0; i < name.length(); i++) {
+                    if (hasSpecialChar(cTemp[i])) {
+                        res = false;
                         break;
                     }
                 }
@@ -554,8 +551,8 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 protected void afterParseData(Boolean object) {
                     if (object) {
                         // TODO: 2015/12/26 验证成功
-                        startActivity(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile,captcha));
-                    }else{
+                        startActivity(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile, captcha));
+                    } else {
                         PromptManager.showToast("验证失败");
                     }
                 }
@@ -593,14 +590,13 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             };
             mobile = et_bank_card_mobile.getText().toString().trim();
             captcha = et_verifycode.getText().toString().trim();
-            bankCardNo = et_bank_card.getText().toString().trim().replace(" ", "");
-            realName = et_bank_card.getText().toString().trim();
+            realName = et_real_name.getText().toString().trim();
             idCardNo = et_id_card_no.getText().toString().trim();
-            if(identityInfoBean != null && identityInfoBean.status == 1){
+            if (identityInfoBean != null && identityInfoBean.status == 1) {
                 realName = null;
                 idCardNo = null;
             }
-            tradeEngine.verifyIdentityAuth(bank.getId(), bankCrardNo, realName, idCardNo, mobile, captcha, listener.setLoadingDialog(this));
+            tradeEngine.verifyIdentityAuth(bank.getId(), bankCardNo, realName, idCardNo, mobile, captcha, listener.setLoadingDialog(this));
         }
     }
 
@@ -615,7 +611,11 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             se.attribute("", "application", "LunchPay.Req");
 
             se.startTag("", "env");
-            se.text(bean.env.toUpperCase());
+            if (!TextUtils.isEmpty(bean.env)) {
+                se.text(bean.env.toUpperCase());
+            }else{
+                se.text("PRODUCT");
+            }
             se.endTag("", "env");
 
             se.startTag("", "merchantId");
@@ -651,7 +651,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0 && resultCode == 1) {
-            if(bank == null || TextUtils.isEmpty(bank.getName()))
+            if (bank == null || TextUtils.isEmpty(bank.getName()))
                 btnStatus++;
             bank = (Bank) data.getSerializableExtra(BANK);
             if (bank != null) {
@@ -671,9 +671,10 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
     private int btnStatus = 1;
     private boolean needFillNameAndId = true;
+
     private void checkBtnStatus() {
-        int checkCount = isResetPasswordType?7:6;
-        if(!needFillNameAndId)
+        int checkCount = isResetPasswordType ? 7 : 6;
+        if (!needFillNameAndId)
             checkCount = 4;
         btn_bind_bank_card.setEnabled(btnStatus == checkCount);
     }
@@ -745,7 +746,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                                 manualFinish();
                             } else {
                                 //TODO 没设置过交易密码
-                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext, bank_card_id, bankCardNo, realName, idCardNo, mobile,captcha), 1);
+                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext, bank_card_id, bankCardNo, realName, idCardNo, mobile, captcha), 1);
                             }
                         }
                     }
