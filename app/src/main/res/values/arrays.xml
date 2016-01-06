@@ -252,11 +252,10 @@
     </string-array>
     <string-array name="fund_profile_title">
         <item>@string/fund_detail_name</item>
-        <item>@string/fund_manager</item>
-        <item>@string/fund_comp</item>
-        <item>@string/fund_stype</item>
         <item>@string/fund_create_date</item>
+        <item>@string/fund_stype</item>
         <item>@string/fund_asset</item>
+        <item>@string/fund_comp</item>
     </string-array>
     <string-array name="flow_pack_lvtitle">
         <item>@string/bind_phone</item>
