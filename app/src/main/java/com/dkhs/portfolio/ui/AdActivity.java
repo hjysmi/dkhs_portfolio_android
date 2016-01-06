@@ -172,7 +172,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (!messageHandler.needHandle(url)) {
-                    mWebView.loadUrl(url, headers);
+                    loadUrl(headers);
                 }
                 return true;
             }
@@ -210,7 +210,12 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
             }
         });
 
+        loadUrl(headers);
+    }
+
+    private void loadUrl(Map<String, String> headers) {
         if(NetUtil.checkNetWork()){
+            loadFinish = false;
             mTimeoutThread.start();
             mWebView.loadUrl(mUrl, headers);
         }else{
