@@ -610,7 +610,7 @@
     <string name="fund_manager_order">基金经理排行</string>
     <string name="fund_comp">基金公司</string>
     <string name="fund_stype">基金类型</string>
-    <string name="fund_create_date">成立日期</string>
+    <string name="fund_create_date">成立时间</string>
     <string name="fund_asset">基金份额</string>
     <string name="earnings">收益</string>
     <string name="office_day">任职日期</string>

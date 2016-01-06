@@ -17,7 +17,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.F10DataBean;
 import com.dkhs.portfolio.bean.FundQuoteBean;
-import com.dkhs.portfolio.bean.ManagersEntity;
 import com.dkhs.portfolio.utils.FundUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -237,30 +236,24 @@ public class F10ViewParse {
             }
             break;
             case 1: {
-                StringBuilder sbFundManager = new StringBuilder();
-                for (ManagersEntity managersEntity : fundQuoteBean.getManagers()) {
-                    sbFundManager.append(managersEntity.getName());
-                    sbFundManager.append("  ");
-                }
-                rowText = sbFundManager.toString();
-            }
-            break;
-            case 2: {
-                rowText = fundQuoteBean.getMana_name();
-            }
-            break;
-            case 3: {
-                rowText = fundQuoteBean.getStypeText();
-            }
-            break;
-            case 4: {
                 rowText = TimeUtils.getSimpleDay(fundQuoteBean.getEstab_date());
             }
             break;
-            case 5: {
+            case 2: {
+                rowText = fundQuoteBean.getStypeText();
+            }
+            break;
+            case 3: {
                 rowText = fundQuoteBean.getEnd_shares();
             }
             break;
+            case 4: {
+               // rowText = fundQuoteBean.getEnd_shares();
+                rowText = fundQuoteBean.getMana_name();
+            }
+            break;
+
+
         }
         return rowText;
     }
