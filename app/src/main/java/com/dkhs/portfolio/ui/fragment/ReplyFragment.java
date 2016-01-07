@@ -149,6 +149,12 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
 
 
     private void refreshData() {
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+            }
+        });
         current_page = 0;
         if (!TextUtils.isEmpty(userId)) {
 

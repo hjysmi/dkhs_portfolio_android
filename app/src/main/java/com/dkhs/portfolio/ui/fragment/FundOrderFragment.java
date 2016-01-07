@@ -123,7 +123,12 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     public void loadData() {
-        mSwipeLayout.setRefreshing(true);
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+            }
+        });
         startLoadData();
         if (curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_MIXED_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_YEAR) {
             ((FundOrderOtherHandler) adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
