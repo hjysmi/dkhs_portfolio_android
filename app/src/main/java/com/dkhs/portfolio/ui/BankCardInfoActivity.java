@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +32,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -751,12 +753,49 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                         }
                     }
                 };
-                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
+                final ParseHttpListener<Boolean> isIdentityCheckedSetListener = new ParseHttpListener<Boolean>() {
+                    @Override
+                    protected Boolean parseDateTask(String jsonData) {
+                        try {
+                            JSONObject json = new JSONObject(jsonData);
+                            if (json.has("status")) {
+                                return json.getBoolean("status");
+                            }
+
+                        } catch (Exception e) {
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Boolean object) {
+                        if (null != object) {
+                            if (object) {
+                                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
+                            } else {
+                                //认证失败
+                                showVerifyFailedDialog();
+                            }
+                        }
+                    }
+                };
+                tradeEngine.checkIdentity(bank_card_id,isIdentityCheckedSetListener);
             } else {//认证失败
             }
 
         }
         CPGlobaInfo.init(); //清空返回结果
+    }
+    private void showVerifyFailedDialog() {
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.bank_card_failed).setPositiveButton(R.string.rebind,null).setNegativeButton(R.string.quit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setResult(2);
+                manualFinish();
+            }
+        });
+        builder.show();
     }
 
 }

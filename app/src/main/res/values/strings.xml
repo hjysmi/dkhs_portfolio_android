@@ -882,6 +882,9 @@
     <string name="fund_supervision_bank">基金销售账户监督银行：中国民生银行</string>
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
+    <string name="bank_card_failed">认证失败</string>
+    <string name="quit">放弃</string>
+    <string name="rebind">重新绑卡</string>
     <string name="bank_type">卡类型</string>
     <string name="select_bank_card">选择银行</string>
     <string name="chose_bank_type">请选择银行卡类型</string>
