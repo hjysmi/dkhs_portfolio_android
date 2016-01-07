@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.AppConfig;
@@ -54,7 +56,8 @@ public class SplashActivity extends FragmentActivity {
 
     private ImageView adIm;
     private ImageView splashIM;
-
+    private TextView forwardBtn;
+    private int forwardSingal;
 
     /**
      * Handler:跳转到不同界面
@@ -129,6 +132,14 @@ public class SplashActivity extends FragmentActivity {
         }
         adIm = (ImageView) findViewById(R.id.adIM);
         splashIM = (ImageView) findViewById(R.id.splashIM);
+        forwardBtn = (TextView) findViewById(R.id.btn_forward);
+        forwardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.removeMessages(forwardSingal);
+                mHandler.sendEmptyMessage(forwardSingal);
+            }
+        });
     }
 
 
@@ -176,9 +187,11 @@ public class SplashActivity extends FragmentActivity {
 
 
                 mHandler.sendEmptyMessageDelayed(GO_ACCOUNT_MAIN, splashDelayMills);
+                forwardSingal = GO_ACCOUNT_MAIN;
             } else {
                 // 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
                 mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, splashDelayMills);
+                forwardSingal = GO_NOACCOUNT_MAIN;
             }
         } else {
             // 读取SharedPreferences中需要的数据
@@ -192,13 +205,16 @@ public class SplashActivity extends FragmentActivity {
             if (!isFirstIn) {
                 // 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
                 mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, splashDelayMills);
+                forwardSingal = GO_NOACCOUNT_MAIN;
             } else {
                 mHandler.sendEmptyMessageDelayed(GO_GUIDE, splashDelayMills);
+                forwardSingal = GO_GUIDE;
             }
         }
         getSplashAds();
         if (adsEntity != null && !isFirstIn) {
             mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
+            forwardSingal = SHOW_AD;
             splashDelayMills = SHOW_AD + adsEntity.getDisplay_time() * 1000;
         }
 
