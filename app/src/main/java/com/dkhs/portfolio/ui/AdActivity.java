@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -25,6 +26,8 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.NetUtil;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -67,6 +70,10 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
                 case 2:
                     showShareButton();
                     break;
+                case 3:
+                    mWebView.stopLoading();
+                    mWebViewClient.onReceivedError(mWebView, -6, "time out",mUrl);
+                    break;
                 default:
 
                     break;
@@ -76,6 +83,18 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
     });
 
     private WapShareBean mWapShareBean;
+    private WebViewClient mWebViewClient;
+
+    private boolean loadFinish = false;
+    private Thread mTimeoutThread = new Thread(){
+        @Override
+        public void run() {
+            SystemClock.sleep(10000);
+            if(!loadFinish){
+                mWeakHandler.sendEmptyMessage(3);
+            }
+        }
+    };
 
     public static Intent getIntent(Context ctx, String url) {
         Intent intent = new Intent();
@@ -114,15 +133,13 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
         if (mUrl.startsWith(DKHSClient.getHeadUrl()) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
             headers.put("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
         }
-        mWebView.loadUrl(mUrl, headers);
-
         mWebView.getSettings().setJavaScriptEnabled(true);
         String userAgent = mWebView.getSettings().getUserAgentString();
         mWebView.getSettings().setUserAgentString(userAgent + " dkhs_shuiniu");
         mWebView.setWebChromeClient(new WebChromeClient());
 
         mWebView.addJavascriptInterface(new JavascriptInterface(), "shareMan");
-        mWebView.setWebViewClient(new WebViewClient() {
+        mWebViewClient = new WebViewClient() {
 
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
@@ -136,7 +153,10 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                if(errorCode == 403){
+                if(errorCode == -6){
+                    PromptManager.showToast(R.string.no_net_connect);
+                }
+                if (errorCode == 403) {
                     if (!PortfolioApplication.hasUserLogin()) {
                         startActivity(LoginActivity.loginActivityByAnnoy(mContext));
                     }
@@ -152,18 +172,19 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (!messageHandler.needHandle(url)) {
-                    mWebView.loadUrl(url, headers);
+                    loadUrl(headers);
                 }
                 return true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-
+                loadFinish = true;
                 mWebView.loadUrl(js);
                 super.onPageFinished(view, url);
             }
-        });
+        };
+        mWebView.setWebViewClient(mWebViewClient);
         mWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -189,7 +210,17 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
             }
         });
 
+        loadUrl(headers);
+    }
 
+    private void loadUrl(Map<String, String> headers) {
+        if(NetUtil.checkNetWork()){
+            loadFinish = false;
+            mTimeoutThread.start();
+            mWebView.loadUrl(mUrl, headers);
+        }else{
+            PromptManager.showToast(R.string.no_net_connect);
+        }
     }
 
     public class JavascriptInterface {
@@ -283,6 +314,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
             }
         });
     }
+
 
 
 }
