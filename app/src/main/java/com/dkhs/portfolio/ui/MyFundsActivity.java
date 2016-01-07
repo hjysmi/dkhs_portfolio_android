@@ -99,6 +99,12 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 mSwipeLayout.setRefreshing(false);
                 mSwipeLayout.setEnabled(false);
             }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                mSwipeLayout.setRefreshing(false);
+            }
         });
     }
 
