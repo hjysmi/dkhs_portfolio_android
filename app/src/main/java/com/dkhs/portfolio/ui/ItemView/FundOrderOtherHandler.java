@@ -68,7 +68,7 @@ public class FundOrderOtherHandler extends SimpleItemHandler<FundPriceBean> {
             vh.get(R.id.tv_sell).setVisibility(View.GONE);
             vh.get(R.id.tv_rate).setVisibility(View.VISIBLE);
             vh.get(R.id.tv_money).setVisibility(View.VISIBLE);
-            if (!data.isAllow_trade()) {
+            if (!data.isAllow_buy()) {
                 tv_rate.setVisibility(View.GONE);
                 vh.get(R.id.tv_money).setVisibility(View.GONE);
             } else {

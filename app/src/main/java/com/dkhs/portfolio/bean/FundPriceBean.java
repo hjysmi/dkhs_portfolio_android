@@ -41,7 +41,16 @@ public class FundPriceBean extends StockPriceBean {
     private double fare_ratio_buy;
     private float amount_min_buy;
     private boolean allow_trade;
+    private boolean allow_buy;
     private int trade_status;
+
+    public boolean isAllow_buy() {
+        return allow_buy;
+    }
+
+    public void setAllow_buy(boolean allow_buy) {
+        this.allow_buy = allow_buy;
+    }
 
     public int getTrade_status() {
         return trade_status;
