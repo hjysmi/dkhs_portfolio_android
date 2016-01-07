@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="MessageProviderContainerView">
-        <attr name="maxContainSize" format="integer" />
-    </declare-styleable>
     <declare-styleable name="AsyncImageView">
-        <attr name="shape">
+
+        <attr name="RCMinShortSideSize" format="dimension"/>
+        <attr name="RCCornerRadius" format="dimension"/>
+
+        <attr name="RCShape">
             <flag name="square" value="0" />
             <flag name="circle" value="1" />
         </attr>
-        <attr name="defDrawable" format="reference" />
+
+        <attr name="RCDefDrawable" format="reference" />
+
     </declare-styleable>
 
     <declare-styleable name="InputView">
-        <attr name="style">
+        <attr name="RCStyle">
             <enum name="SCE" value="0x123" />
             <enum name="CES" value="0x231" />
             <enum name="ECS" value="0x321" />
@@ -25,29 +28,26 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="ViewFlow">
-        <attr name="sideBuffer" format="integer" />
-    </declare-styleable>
-    <declare-styleable name="CircleFlowIndicator">
-        <attr name="activeColor" format="color" />
-        <attr name="inactiveColor" format="color" />
-        <attr name="radius" format="dimension" />
-        <attr name="spacing" format="dimension" />
-        <attr name="centered" format="boolean" />
-        <attr name="fadeOut" format="integer" />
-        <attr name="inactiveType">
-            <flag name="stroke" value="0" />
-            <flag name="fill" value="1" />
-        </attr>
-        <attr name="activeType">
-            <flag name="stroke" value="0" />
-            <flag name="fill" value="1" />
-        </attr>
-        <attr name="snap" format="boolean" />
-    </declare-styleable>
-    <declare-styleable name="AutoLoadListView">
-        <attr name="rcHeaderLayout" format="reference" />
-        <attr name="perLoadCount" format="integer" />
+    <declare-styleable name="RCViewFlow">
+        <attr name="RCSideBuffer" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="RCCircleFlowIndicator">
+        <attr name="RCActiveColor" format="color" />
+        <attr name="RCInactiveColor" format="color" />
+        <attr name="RCRadius" format="dimension" />
+        <attr name="RCSpacing" format="dimension" />
+        <attr name="RCCentered" format="boolean" />
+        <attr name="RCFadeOut" format="integer" />
+        <attr name="RCInactiveType">
+            <flag name="RCStroke" value="0" />
+            <flag name="RCFill" value="1" />
+        </attr>
+        <attr name="RCActiveType">
+            <flag name="RCStroke" value="0" />
+            <flag name="RCFill" value="1" />
+        </attr>
+        <attr name="RCSnap" format="boolean" />
+
+    </declare-styleable>
 </resources>

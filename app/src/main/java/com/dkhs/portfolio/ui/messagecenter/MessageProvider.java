@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 
 import io.rong.imkit.model.ProviderTag;
+import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.provider.RichContentMessageItemProvider;
-import io.rong.imlib.model.Message;
 import io.rong.message.RichContentMessage;
 
 import static com.dkhs.portfolio.R.id;
@@ -42,7 +42,7 @@ public class MessageProvider extends RichContentMessageItemProvider {
 
 
     @Override
-    public void bindView(View v, int position, RichContentMessage content, Message message) {
+    public void bindView(View v, int position, RichContentMessage content, UIMessage message) {
 
         TextView titleTV= (TextView) v.findViewById(R.id.tv_title);
         TextView contentTV= (TextView) v.findViewById(id.tv_content);

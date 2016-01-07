@@ -12,6 +12,7 @@ import com.dkhs.portfolio.bean.MoreFootBean;
 import com.dkhs.portfolio.bean.NoDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.bean.itemhandler.FooterHandler;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CombinationHandler;
 import com.dkhs.portfolio.bean.itemhandler.combinationdetail.CombinationHeaderHandler;
@@ -50,6 +51,7 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
         addHandler(5, new MoreHandler(mContext));
         addHandler(6, new MoreFootHandler(mContext));
         addHandler(7, new TopicsHandler(mContext, false));
+        addHandler(8, new FooterHandler());
     }
 
     @Override
@@ -85,6 +87,10 @@ public class CombinationUserAdapter extends com.dkhs.adpter.adapter.AutoRVAdapte
         if (mData.get(position) instanceof TopicsBean) {
 
             return 7;
+        }
+        if (mData.get(position) instanceof UserHomePageFooterBean) {
+
+            return 8;
         }
 
 

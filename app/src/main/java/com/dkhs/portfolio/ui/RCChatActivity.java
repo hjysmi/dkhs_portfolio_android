@@ -140,9 +140,10 @@ public class RCChatActivity extends ModelAcitivity {
         }
 
         @Override
-        public boolean onMessageLinkClick(String s) {
+        public boolean onMessageLinkClick(Context context, String s) {
             return false;
         }
+
 
         @Override
         public boolean onMessageLongClick(Context context, View view, Message message) {
