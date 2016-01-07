@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top"
-        android:overScrollMode="never"
-        android:layout_marginBottom="@dimen/floating_action_menu_item_height" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top"
+            android:overScrollMode="never" />
 
     <com.dkhs.portfolio.ui.FloatingActionMenu
         android:id="@+id/floating_action_view"
