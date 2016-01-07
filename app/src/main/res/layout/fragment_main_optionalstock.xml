@@ -46,6 +46,7 @@
         </RelativeLayout>
 
         <View
+            android:id="@+id/title_bottom_line"
             style="@style/title_bottom_line"
             android:layout_gravity="bottom" />
     </FrameLayout>
