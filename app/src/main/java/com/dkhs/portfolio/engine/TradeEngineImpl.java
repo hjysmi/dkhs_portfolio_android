@@ -97,7 +97,7 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
      * post身份认证
      */
     public void getIdentityVerification(IHttpListener listener){
-        DKHSClient.requestByGet(listener,DKHSUrl.Funds.get_verifications);
+        DKHSClient.requestByGet(listener, DKHSUrl.Funds.get_verifications);
     }
     /**
      * post重置交易密码
@@ -115,7 +115,7 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
             params.addBodyParameter("captcha", captcha);
         if(!TextUtils.isEmpty(password))
             params.addBodyParameter("password", password);
-        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.reset_trade_password, params,listener);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.reset_trade_password, params, listener);
     }
 
     public void bindBankCard(String bank,String bank_card_no, String real_name, String id_card_no, String mobile, String signature, IHttpListener listener){
@@ -182,6 +182,11 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         RequestParams params = new RequestParams();
         params.addBodyParameter("bank_card_no",bank_card_no);
         DKHSClient.requestByPost(DKHSUrl.Funds.check_bank_card,params,listener);
+    }
+    public void checkIdentity(String bank_card_no, IHttpListener listener){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("bank_card_no",bank_card_no);
+        DKHSClient.requestByPost(DKHSUrl.Funds.checkIdentity,params,listener);
     }
 
 }
