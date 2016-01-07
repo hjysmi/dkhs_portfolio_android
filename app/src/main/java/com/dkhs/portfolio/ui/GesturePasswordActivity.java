@@ -191,7 +191,6 @@ public class GesturePasswordActivity extends ModelAcitivity {
         switch (v.getId()) {
             case R.id.tv_not_set:
                 // TODO: 2015/10/22
-                PromptManager.showToast("跳过");
                 gesPassword.isOpen = false;
                 GesturePasswordManager.getInstance().saveGesturePassword(mContext, gesPassword);
                 if (!isFromSetting) {
