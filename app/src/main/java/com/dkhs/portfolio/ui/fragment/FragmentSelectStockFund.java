@@ -99,6 +99,7 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
     protected StockViewType mViewType;
     LoadMoreDataEngine mLoadDataEngine;
     protected TextView tvEmptyText;
+    private View rootView;
     protected boolean flush = false;
     protected String mSecotrId;
     protected boolean isLoading;
@@ -257,7 +258,6 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
         mAdapterConbinStock = new AdapterHelper(getActivity()).create(mViewType);
         mAdapterConbinStock.setData(mDataList);
         mAdapterConbinStock.setCheckChangeListener(this);
-
         initDataEngine();
 
     }
@@ -587,6 +587,7 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        rootView = view.findViewById(R.id.rootView);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
@@ -692,6 +693,7 @@ public class FragmentSelectStockFund extends VisiableLoadFragment implements ISe
         mListView.setAdapter(mAdapterConbinStock);
 
         if (mViewType == STOCK_OPTIONAL_PRICE || mViewType == OPTIONAL_FUNDS) {
+            rootView.setBackgroundColor(getResources().getColor(R.color.white));
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
             emptyview = (TextView) view.findViewById(R.id.add_data);

@@ -52,6 +52,8 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
     private TextView btnRight;
     @ViewInject(R.id.btn_header_back)
     private TextView btnLeft;
+    @ViewInject(R.id.title_bottom_line)
+    private View bottomLine;
 
 
     private String mUserId;
@@ -117,6 +119,7 @@ public class MainOptionalFragment extends VisiableLoadFragment implements IDataU
 
                 }
             });
+            bottomLine.setBackgroundColor(getResources().getColor(R.color.drivi_line));
 
             btnRight.setVisibility(View.VISIBLE);
             btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);

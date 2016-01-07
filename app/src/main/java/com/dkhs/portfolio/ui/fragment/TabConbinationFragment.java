@@ -64,6 +64,8 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
 
     @ViewInject(R.id.view_stock_title)
     private View titleView;
+    @ViewInject(R.id.rootView)
+    private View rootView;
 
     private TabFundsAdapter mFundsAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
@@ -226,7 +228,7 @@ public class TabConbinationFragment extends VisiableLoadFragment implements IDat
     public SwipeRefreshLayout mSwipeLayout;
 
     private void initView(View view) {
-
+        rootView.setBackgroundColor(getResources().getColor(R.color.white));
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setDividerHeight(0);
         mFundsAdapter = new TabFundsAdapter(getActivity(), mDataList);
