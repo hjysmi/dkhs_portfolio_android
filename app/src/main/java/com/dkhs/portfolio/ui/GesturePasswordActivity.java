@@ -151,9 +151,9 @@ public class GesturePasswordActivity extends ModelAcitivity {
 
             }
         } else if (curLayoutType == TYPE_SET_PASSWROD || curLayoutType == TYPE_FIRST_SET_PASSWORD) {
+            tv_reset.setVisibility(View.GONE);
             if (isFromSetting) {
                 tv_not_set.setVisibility(View.GONE);
-                tv_reset.setVisibility(View.GONE);
             }
             if (curLayoutType == TYPE_FIRST_SET_PASSWORD) {
                 if (isFromSetting) {
@@ -241,6 +241,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                     tv_tip.setText(R.string.pls_input_gesture_password_again);
                     tv_tip.setTextColor(getResources().getColor(R.color.black));
                     lockPatternView.clearPattern();
+                    tv_reset.setVisibility(View.VISIBLE);
                 } else {
                     gesPassword.password = gesturePassword;
                     if (GesturePasswordManager.getInstance().verifyGesturePassword(mContext, gesPassword)) {
