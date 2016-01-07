@@ -38,6 +38,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationUserAdapter;
+import com.dkhs.portfolio.ui.adapter.UserHomePageFooterBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DeleteCommentEvent;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
@@ -397,6 +398,7 @@ public class UserHomePageActivity extends ModelAcitivity {
                 mData.add(noDataBean);
             }
         }
+        mData.add(new UserHomePageFooterBean());
         mAutoRVAdapter.notifyDataSetChanged();
     }
 
