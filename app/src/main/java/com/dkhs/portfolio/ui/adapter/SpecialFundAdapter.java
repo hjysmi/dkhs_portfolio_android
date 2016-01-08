@@ -76,7 +76,6 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
     public void onBindView(ViewHolder vh, final FundQuoteBean data, int position) {
         vh.setTextView(R.id.symbol, map.get(data.getSymbol_stype() + ""));
 
-        vh.setTextView(R.id.rateTV, mContext.getString(R.string.percent_six_month));
 
         if (!TextUtils.isEmpty(data.getAbbrName()) && data.getAbbrName().length() > 8) {
             vh.getTextView(R.id.abbr_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -104,7 +103,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
             vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.year_yld));
             setText(vh.getTextView(R.id.cp_rate), data.getYear_yld());
         } else {
-            vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.rate));
+            vh.getTextView(R.id.rateTV).setText(vh.getContext().getText(R.string.percent_six_month));
             setText(vh.getTextView(R.id.cp_rate), data.getPercent_six_month());
         }
         vh.getConvertView().setOnClickListener(new OnItemClick(data));
