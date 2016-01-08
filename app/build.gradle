@@ -164,5 +164,6 @@ dependencies {
     compile files('libs/cpauth_android_1.0.0_lib.jar')
     compile files('libs/chinapay_android_1.0.0_lib.jar')
     compile files('libs/logger.jar')
+    compile files('libs/jockeyjs.android.jar')
 }
 
