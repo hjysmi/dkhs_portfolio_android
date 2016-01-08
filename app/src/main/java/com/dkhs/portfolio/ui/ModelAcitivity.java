@@ -313,8 +313,8 @@ public class ModelAcitivity extends SwipeBackActivity {
     }
 
     public void manualFinish(){
-        UIUtils.outAnimationActivity(this);
         finish();
+        UIUtils.outAnimationActivity(this);
     }
 
     @Override
