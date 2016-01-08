@@ -180,7 +180,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 case 300:
                 case 301:
                     //股票、混合型
-                    shRateTV.setText(R.string.sh300);
+                    sh300TV.setText(R.string.sh300);
                     shMarketTV.setText(R.string.win_market);
                     setText(shRateTV, achivementsEntity.getSh300_rate());
                     setText(shMarketRateTV, achivementsEntity.getCp_rate() -achivementsEntity.getSh300_rate());
@@ -188,14 +188,14 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 case 306:
                 case 307:
                     //货币、理财型
-                    shRateTV.setText(R.string.wanshou);
+                    sh300TV.setText(R.string.wanshou);
                     shMarketTV.setText(R.string.qirinianhua);
                     setText(shRateTV, achivementsEntity.getSh300_rate());
                     setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
                     break;
                 default:
                     //指数、其他型
-                    shRateTV.setText(R.string.unit_value);
+                    sh300TV.setText(R.string.unit_value);
                     shMarketTV.setText(R.string.rate);
                     setText(shRateTV, achivementsEntity.getSh300_rate());
                     setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
