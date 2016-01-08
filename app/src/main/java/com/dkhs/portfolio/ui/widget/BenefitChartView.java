@@ -108,6 +108,8 @@ public class BenefitChartView {
     private FundManagerInfoBean.AchivementsEntity achivementsEntity;
 
     public void draw(FundManagerInfoBean.AchivementsEntity achivementsEntity) {
+        maChartView.setIsBenefitDash(true);
+        maChartView.setIsDrawBenefit(true);
         loadView.setVisibility(View.VISIBLE);
         this.achivementsEntity = achivementsEntity;
         contentView.setVisibility(View.GONE);
