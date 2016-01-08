@@ -30,7 +30,6 @@ import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
-import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.jockeyjs.Jockey;
@@ -38,11 +37,7 @@ import com.jockeyjs.JockeyAsyncHandler;
 import com.jockeyjs.JockeyCallback;
 import com.jockeyjs.JockeyImpl;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,8 +75,10 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
                     showShareButton();
                     break;
                 case 3:
-                    mWebView.stopLoading();
-                    mWebViewClient.onReceivedError(mWebView, -6, "time out", mUrl);
+                    if(!loadFinish){
+                        mWebView.stopLoading();
+                        mWebViewClient.onReceivedError(mWebView, -6, "time out", mUrl);
+                    }
                     break;
                 default:
 
