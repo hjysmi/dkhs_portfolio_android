@@ -36,7 +36,6 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.jockeyjs.Jockey;
 import com.jockeyjs.JockeyAsyncHandler;
 import com.jockeyjs.JockeyCallback;
-import com.jockeyjs.JockeyHandler;
 import com.jockeyjs.JockeyImpl;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.util.LogUtils;
@@ -187,12 +186,22 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (!url.startsWith("jockey:") && !messageHandler.needHandle(url)) {
-                    loadUrl(headers);
-                }else if(url.startsWith("jockey")){
-                    return super.shouldOverrideUrlLoading(view,url);
+//                if(url.startsWith("jockey:")){
+//                    return super.shouldOverrideUrlLoading(view,url);
+//                }else{
+//                    if(!messageHandler.needHandle(url))
+//                        loadUrl(headers);
+////                    return true;
+//                    return super.shouldOverrideUrlLoading(view,url);
+//                }
+                if(url.startsWith("jockey:")){
+                    return false;
+                }else{
+                    if(!messageHandler.needHandle(url)){
+                        loadUrl(url,headers);
+                    }
+                    return true;
                 }
-                return true;
             }
 
             @Override
@@ -200,9 +209,8 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
                 loadFinish = true;
                 mWebView.loadUrl(js);
                 if (rightButton == null) {
-                    Log.i("AdActivity","分享");
+                    Log.i("AdActivity", "分享");
                     rightButton = getRightButton();
-                    rightButton.setText("分享");
                     showShareButton();
                 }
                 super.onPageFinished(view, url);
@@ -234,15 +242,15 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
             }
         });
 
-        loadUrl(headers);
+        loadUrl(mUrl,headers);
     }
 
-    private void loadUrl(Map<String, String> headers) {
+    private void loadUrl(String url,Map<String, String> headers) {
         if (NetUtil.checkNetWork()) {
             loadFinish = false;
             mWeakHandler.removeMessages(3);
             mWeakHandler.sendEmptyMessageDelayed(3,10000);
-            mWebView.loadUrl(mUrl, headers);
+            mWebView.loadUrl(url, headers);
         } else {
             PromptManager.showToast(R.string.no_net_connect);
         }
@@ -252,7 +260,6 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
         @android.webkit.JavascriptInterface
         public void getShareEntity(String string) {
-            LogUtils.e("getShareEntity   " + string);
             mWapShareBean = DataParse.parseObjectJson(WapShareBean.class, string);
             mWeakHandler.sendEmptyMessage(2);
 
@@ -347,7 +354,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("source", platform.getName());
                 params.put("status", "success");
-                jockey.send(JockeyEventType.ON_SHARE_MESSAGE_DONE.getType(),mWebView,params,new MyJockeyHandler(JockeyEventType.ON_SHARE_MESSAGE_DONE));
+                jockey.send(JockeyEventType.ON_SHARE_MESSAGE_DONE.getType(), mWebView, params, new MyJockeyHandler(JockeyEventType.ON_SHARE_MESSAGE_DONE));
             }
 
             @Override
@@ -421,13 +428,28 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
                     break;
                 case CLOSE_WINDOW:
-                    manualFinish();
+                    _handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            manualFinish();
+                        }
+                    });
                     break;
                 case SHOW_MENU_SHARE:
-                    rightButton.setVisibility(View.VISIBLE);
+                    _handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            rightButton.setVisibility(View.VISIBLE);
+                        }
+                    });
                     break;
                 case HIDE_MENU_SHARE:
-                    rightButton.setVisibility(View.INVISIBLE);
+                    _handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            rightButton.setVisibility(View.GONE);
+                        }
+                    });
                     break;
             }
         }
