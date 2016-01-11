@@ -163,14 +163,14 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
         TextView shMarketTV = vh.getTextView(R.id.win_market);
         TextView shMarketRateTV = vh.getTextView(R.id.win_rate);
 
-        if (StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())) {
-
-            shRateTV.setText(R.string.null_number);
-            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-            shRateTV.setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
-            sh300TV.setVisibility(View.GONE);
-
-        } else {
+//        if (StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())) {
+//
+//            shRateTV.setText(R.string.null_number);
+//            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+//            shRateTV.setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
+//            sh300TV.setVisibility(View.GONE);
+//
+//        } else {
 
             shRateTV.setText(R.string.null_number);
             shMarketTV.setText(R.string.null_number);
@@ -201,7 +201,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                     setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
                     break;
             }
-        }
+//        }
 
 
         vh.get(R.id.ll_chart_switch).setOnClickListener(new OnClickImp(vh, achivementsEntity, position));
