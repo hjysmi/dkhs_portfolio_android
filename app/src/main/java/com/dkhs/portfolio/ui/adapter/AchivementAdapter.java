@@ -163,44 +163,35 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
         TextView shMarketTV = vh.getTextView(R.id.win_market);
         TextView shMarketRateTV = vh.getTextView(R.id.win_rate);
 
-        if (StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())) {
 
-            shRateTV.setText(R.string.null_number);
-            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-            shRateTV.setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
-            sh300TV.setVisibility(View.GONE);
-
-        } else {
-
-            shRateTV.setText(R.string.null_number);
-            shMarketTV.setText(R.string.null_number);
-            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            sh300TV.setVisibility(View.VISIBLE);
-            switch (achivementsEntity.getFund().getSymbol_stype()) {
-                case 300:
-                case 301:
-                    //股票、混合型
-                    shRateTV.setText(R.string.sh300);
-                    shMarketTV.setText(R.string.win_market);
-                    setText(shRateTV, achivementsEntity.getSh300_rate());
-                    setText(shMarketRateTV, achivementsEntity.getCp_rate() -achivementsEntity.getSh300_rate());
-                    break;
-                case 306:
-                case 307:
-                    //货币、理财型
-                    shRateTV.setText(R.string.wanshou);
-                    shMarketTV.setText(R.string.qirinianhua);
-                    setText(shRateTV, achivementsEntity.getSh300_rate());
-                    setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
-                    break;
-                default:
-                    //指数、其他型
-                    shRateTV.setText(R.string.unit_value);
-                    shMarketTV.setText(R.string.rate);
-                    setText(shRateTV, achivementsEntity.getSh300_rate());
-                    setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
-                    break;
-            }
+        shRateTV.setText(R.string.null_number);
+        shMarketTV.setText(R.string.null_number);
+        shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        sh300TV.setVisibility(View.VISIBLE);
+        switch (achivementsEntity.getFund().getSymbol_stype()) {
+            case 300:
+            case 301:
+                //股票、混合型
+                sh300TV.setText(R.string.sh300);
+                shMarketTV.setText(R.string.win_market);
+                setText(shRateTV, achivementsEntity.getSh300_rate());
+                setText(shMarketRateTV, achivementsEntity.getCp_rate() -achivementsEntity.getSh300_rate());
+                break;
+            case 306:
+            case 307:
+                //货币、理财型
+                sh300TV.setText(R.string.wanshou);
+                shMarketTV.setText(R.string.qirinianhua);
+                setText(shRateTV, achivementsEntity.getSh300_rate());
+                setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
+                break;
+            default:
+                //指数、其他型
+                sh300TV.setText(R.string.unit_value);
+                shMarketTV.setText(R.string.rate);
+                setText(shRateTV, achivementsEntity.getSh300_rate());
+                setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
+                break;
         }
 
 
