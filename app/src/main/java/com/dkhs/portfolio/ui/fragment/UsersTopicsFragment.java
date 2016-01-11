@@ -112,7 +112,12 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
 
     @Override
     public void loadData() {
-        mSwipeLayout.setRefreshing(true);
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+            }
+        });
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }

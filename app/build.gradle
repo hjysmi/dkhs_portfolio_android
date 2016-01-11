@@ -13,8 +13,8 @@ android {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 2007001004
-        versionName "2.7.0.01004"
+        versionCode 2007001008
+        versionName "2.7.0.01008"
 
         //    manifestPlaceholders = [RONG_CLOUD_KEY: "k51hidwq1fqzb"]  //test key
         manifestPlaceholders = [RONG_CLOUD_KEY: "tdrvipksrgsu5"]
@@ -164,5 +164,6 @@ dependencies {
     compile files('libs/cpauth_android_1.0.0_lib.jar')
     compile files('libs/chinapay_android_1.0.0_lib.jar')
     compile files('libs/logger.jar')
+    compile files('libs/jockeyjs.android.jar')
 }
 

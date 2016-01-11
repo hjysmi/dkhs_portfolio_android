@@ -89,8 +89,12 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
 
     @Override
     public void loadData() {
-
-        mSwipeLayout.setRefreshing(true);
+        mSwipeLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeLayout.setRefreshing(true);
+            }
+        });
         startLoadData();
 
         if (!sort.equals("work_seniority") && !sort.equals("-work_seniority")) {

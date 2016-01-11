@@ -3,6 +3,6 @@
 
     <item android:drawable="@drawable/ic_share_back" android:state_enabled="false"/>
     <item android:drawable="@drawable/ic_share_back" android:state_pressed="true"/>
-    <item android:drawable="@drawable/ic_share"/>
+    <item android:drawable="@drawable/ic_share_back"/>
 
 </selector>
