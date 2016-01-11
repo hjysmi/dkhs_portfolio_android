@@ -180,7 +180,6 @@ public class SplashActivity extends FragmentActivity {
         }
         if (adsEntity != null && !isFirstIn) {
             mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
-            forwardSingal = SHOW_AD;
             splashDelayMills = SHOW_AD_MILLIS + adsEntity.getDisplay_time() * 1000;
         }
 
