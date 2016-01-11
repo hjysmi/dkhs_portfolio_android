@@ -50,6 +50,7 @@ public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNe
      */
     public abstract void loadData();
 
+
     /**
      * @param object
      * @return

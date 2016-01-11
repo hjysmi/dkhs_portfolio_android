@@ -11,7 +11,7 @@
         android:id="@+id/includeHead"
         layout="@layout/layout_model_head"
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="@dimen/title_tool_bar" />
 
 
     <RelativeLayout

@@ -78,6 +78,7 @@
     <dimen name="fab_scroll_threshold">4dp</dimen>
     <dimen name="float_menu_div_padding">10dp</dimen>
     <dimen name="floating_action_menu_item_height">48.0dip</dimen>
+    <dimen name="title_tool_bar">48.0dip</dimen>
     <dimen name="dialog_padding">5dp</dimen>
     <dimen name="btn_margin">4dp</dimen>
     <dimen name="btn_radius">3dp</dimen>
