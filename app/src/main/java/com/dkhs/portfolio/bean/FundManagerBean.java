@@ -116,6 +116,44 @@ public class FundManagerBean {
         return null;
     }
 
+    public Float getWinRate(String value){
+        switch (value){
+            case "-index_rate_day":
+                return win_rate_day;
+            case "-index_rate_month":
+                if(TextUtils.isEmpty(win_rate_month)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_month);
+                }
+            case "-index_rate_season":
+                return win_rate_season;
+            case "-index_rate_six_month":
+                return win_rate_six_month;
+            case "-index_rate_year":
+                if(TextUtils.isEmpty(win_rate_year)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_year);
+                }
+            case "-index_rate_tyear":
+                if(TextUtils.isEmpty(win_rate_tyear)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_tyear);
+                }
+            case "-index_rate_week":
+                if(TextUtils.isEmpty(win_rate_week)){
+                    return 0f;
+                }else{
+                    return Float.parseFloat(win_rate_week);
+                }
+            case "-index_rate_twyear":
+                return win_rate_twyear;
+        }
+        return null;
+    }
+
     public CharSequence getValueString(String key) {
 
 
