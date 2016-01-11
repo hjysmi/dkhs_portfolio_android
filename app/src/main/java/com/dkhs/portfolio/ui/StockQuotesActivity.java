@@ -579,20 +579,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
-            // Log.e("xue", ">>ll_top= " + ll_top.getMeasuredHeight() + " y= " + y);
-           /* int offsetY = hsTitleBottom.getTop() - y;
-            if (offsetY <= 0) {
-                showStickHeader();
-            } else {
-                hideStickHeader();
-            }*/
             if (y >= (ll_top.getMeasuredHeight())) {
                 hsTitleSticker.setVisibility(View.VISIBLE);
             } else {
                 hsTitleSticker.setVisibility(View.GONE);
             }
-
-
         }
 
         @Override
