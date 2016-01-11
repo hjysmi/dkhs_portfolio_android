@@ -164,6 +164,7 @@
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
     <string name="rate">收益率</string>
+    <string name="today_rate">今日收益</string>
     <string name="rate_total">任期回报</string>
     <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
@@ -416,7 +417,7 @@
     <string name="total_profit">总收益:</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
-    <string name="market_title_turnover">换手榜</string>
+    <string name="market_title_turnover">换手率榜</string>
     <string name="market_title_ampli">振幅榜</string>
     <string name="market_title_down">跌幅榜</string>
     <string name="market_title_index">国内指数</string>
