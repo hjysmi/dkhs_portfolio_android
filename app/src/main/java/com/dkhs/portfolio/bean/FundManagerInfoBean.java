@@ -162,6 +162,11 @@ public class FundManagerInfoBean  extends  FundManagerBean {
             private int list_status;
             private int symbol_stype;
             private String abbr_name;
+            private double percent_day;
+            private String net_value;
+            private String net_cumulative;
+            private String year_yld;
+            private String tenthou_unit_incm;
 
             public void setId(int id) {
                 this.id = id;
@@ -201,6 +206,46 @@ public class FundManagerInfoBean  extends  FundManagerBean {
 
             public String getAbbr_name() {
                 return abbr_name;
+            }
+
+            public double getPercent_day() {
+                return percent_day;
+            }
+
+            public void setPercent_day(double percent_day) {
+                this.percent_day = percent_day;
+            }
+
+            public String getNet_value() {
+                return net_value;
+            }
+
+            public void setNet_value(String net_value) {
+                this.net_value = net_value;
+            }
+
+            public String getNet_cumulative() {
+                return net_cumulative;
+            }
+
+            public void setNet_cumulative(String net_cumulative) {
+                this.net_cumulative = net_cumulative;
+            }
+
+            public String getYear_yld() {
+                return year_yld;
+            }
+
+            public void setYear_yld(String year_yld) {
+                this.year_yld = year_yld;
+            }
+
+            public String getTenthou_unit_incm() {
+                return tenthou_unit_incm;
+            }
+
+            public void setTenthou_unit_incm(String tenthou_unit_incm) {
+                this.tenthou_unit_incm = tenthou_unit_incm;
             }
         }
     }

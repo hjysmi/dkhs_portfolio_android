@@ -188,9 +188,9 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
             default:
                 //指数、其他型
                 sh300TV.setText(R.string.unit_value);
-                shMarketTV.setText(R.string.rate);
+                shMarketTV.setText(R.string.today_rate);
                 setText(shRateTV, achivementsEntity.getSh300_rate());
-                setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
+                setText(shMarketRateTV, achivementsEntity.getFund().getPercent_day());
                 break;
         }
 
