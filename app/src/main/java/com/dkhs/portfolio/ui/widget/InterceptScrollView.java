@@ -128,7 +128,6 @@ public class InterceptScrollView extends ObservableScrollView {
     public interface ScrollViewListener {
 
         void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy);
-
         void onScrollBottom();
 
     }
