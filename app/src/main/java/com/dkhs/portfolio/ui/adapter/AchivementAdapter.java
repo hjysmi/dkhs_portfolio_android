@@ -163,14 +163,14 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
         TextView shMarketTV = vh.getTextView(R.id.win_market);
         TextView shMarketRateTV = vh.getTextView(R.id.win_rate);
 
-        if (StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())) {
-
-            shRateTV.setText(R.string.null_number);
-            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-            shRateTV.setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
-            sh300TV.setVisibility(View.GONE);
-
-        } else {
+//        if (StockUitls.isSepFund(achivementsEntity.getFund().getSymbol_stype())) {
+//
+//            shRateTV.setText(R.string.null_number);
+//            shRateTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+//            shRateTV.setTextColor(mContext.getResources().getColorStateList(R.color.tag_gray));
+//            sh300TV.setVisibility(View.GONE);
+//
+//        } else {
 
             shRateTV.setText(R.string.null_number);
             shMarketTV.setText(R.string.null_number);
@@ -180,7 +180,7 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 case 300:
                 case 301:
                     //股票、混合型
-                    shRateTV.setText(R.string.sh300);
+                    sh300TV.setText(R.string.sh300);
                     shMarketTV.setText(R.string.win_market);
                     setText(shRateTV, achivementsEntity.getSh300_rate());
                     setText(shMarketRateTV, achivementsEntity.getCp_rate() -achivementsEntity.getSh300_rate());
@@ -188,20 +188,20 @@ public class AchivementAdapter extends SimpleItemHandler<FundManagerInfoBean.Ach
                 case 306:
                 case 307:
                     //货币、理财型
-                    shRateTV.setText(R.string.wanshou);
+                    sh300TV.setText(R.string.wanshou);
                     shMarketTV.setText(R.string.qirinianhua);
                     setText(shRateTV, achivementsEntity.getSh300_rate());
                     setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
                     break;
                 default:
                     //指数、其他型
-                    shRateTV.setText(R.string.unit_value);
+                    sh300TV.setText(R.string.unit_value);
                     shMarketTV.setText(R.string.rate);
                     setText(shRateTV, achivementsEntity.getSh300_rate());
                     setText(shMarketRateTV, achivementsEntity.getCp_rate() - achivementsEntity.getSh300_rate());
                     break;
             }
-        }
+//        }
 
 
         vh.get(R.id.ll_chart_switch).setOnClickListener(new OnClickImp(vh, achivementsEntity, position));
