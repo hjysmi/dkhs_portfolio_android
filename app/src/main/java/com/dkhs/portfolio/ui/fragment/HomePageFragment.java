@@ -27,6 +27,7 @@ import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.HomeMoreBean;
 import com.dkhs.portfolio.bean.RecommendFundBean;
 import com.dkhs.portfolio.bean.RecommendRewardBean;
+import com.dkhs.portfolio.bean.SpaceBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomeMoreHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.HomePageBannerHandler;
@@ -34,6 +35,7 @@ import com.dkhs.portfolio.bean.itemhandler.homepage.HomeRewardHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecomendPortfolioHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.RecommendFundManagerHandler;
+import com.dkhs.portfolio.bean.itemhandler.homepage.SpaceHandler;
 import com.dkhs.portfolio.bean.itemhandler.homepage.SubBannerHandler;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.HomePageEngine;
@@ -417,7 +419,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                     .buildMultiItemView(FundManagerBean.class, new RecommendFundManagerHandler(mActivity))
                     .buildMultiItemView(RecommendFundBean.class, new RecommendFundHandler(mActivity))
                     .buildMultiItemView(CombinationBean.class, new RecomendPortfolioHandler(mActivity))
-                    .buildMultiItemView(AdBean.class, new SubBannerHandler(mActivity, HomePageFragment.this));
+                    .buildMultiItemView(AdBean.class, new SubBannerHandler(mActivity, HomePageFragment.this))
+                    .buildMultiItemView(SpaceBean.class, new SpaceHandler(mActivity));
         }
         return mAdapter;
     }
@@ -635,6 +638,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 mDataList.addAll(portfolios);
             }
         }
+        mDataList.add(new SpaceBean());
         mAdapter.notifyDataSetChanged();
     }
 
