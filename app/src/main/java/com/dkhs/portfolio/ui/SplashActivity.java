@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.AppConfig;
@@ -54,7 +56,8 @@ public class SplashActivity extends FragmentActivity {
 
     private ImageView adIm;
     private ImageView splashIM;
-
+    private TextView forwardBtn;
+    private int forwardSingal;
 
     /**
      * Handler:跳转到不同界面
@@ -129,6 +132,14 @@ public class SplashActivity extends FragmentActivity {
         }
         adIm = (ImageView) findViewById(R.id.adIM);
         splashIM = (ImageView) findViewById(R.id.splashIM);
+        forwardBtn = (TextView) findViewById(R.id.btn_forward);
+        forwardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.removeMessages(forwardSingal);
+                mHandler.sendEmptyMessage(forwardSingal);
+            }
+        });
     }
 
 
@@ -159,8 +170,17 @@ public class SplashActivity extends FragmentActivity {
         UserEntity user;
 
         String splashAdStr = PortfolioPreferenceManager.getStringValue(ST_SPLASH_KEY);
+        // 读取SharedPreferences中需要的数据
+        // 使用SharedPreferences来记录程序的使用次数
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
+        // 取得相应的值，如果没有该值，说明还未写入，用true作为默认值
+        isFirstIn = preferences.getBoolean("isFirstIn", true);
         if (!TextUtils.isEmpty(splashAdStr)) {
             adsEntity = DataParse.parseObjectJson(AdBean.AdsEntity.class, splashAdStr);
+        }
+        if (adsEntity != null && !isFirstIn) {
+            mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
+            splashDelayMills = SHOW_AD_MILLIS + adsEntity.getDisplay_time() * 1000;
         }
 
 
@@ -176,31 +196,27 @@ public class SplashActivity extends FragmentActivity {
 
 
                 mHandler.sendEmptyMessageDelayed(GO_ACCOUNT_MAIN, splashDelayMills);
+                forwardSingal = GO_ACCOUNT_MAIN;
             } else {
                 // 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
                 mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, splashDelayMills);
+                forwardSingal = GO_NOACCOUNT_MAIN;
             }
         } else {
-            // 读取SharedPreferences中需要的数据
-            // 使用SharedPreferences来记录程序的使用次数
-            SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
 
-            // 取得相应的值，如果没有该值，说明还未写入，用true作为默认值
-            isFirstIn = preferences.getBoolean("isFirstIn", true);
 
             // 判断程序与第几次运行，如果是第一次运行则跳转到引导界面，否则跳转到主界面
             if (!isFirstIn) {
                 // 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
                 mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, splashDelayMills);
+                forwardSingal = GO_NOACCOUNT_MAIN;
             } else {
                 mHandler.sendEmptyMessageDelayed(GO_GUIDE, splashDelayMills);
+                forwardSingal = GO_GUIDE;
             }
         }
         getSplashAds();
-        if (adsEntity != null && !isFirstIn) {
-            mHandler.sendEmptyMessageDelayed(SHOW_AD, SHOW_AD_MILLIS);
-            splashDelayMills = SHOW_AD + adsEntity.getDisplay_time() * 1000;
-        }
+
 
     }
 

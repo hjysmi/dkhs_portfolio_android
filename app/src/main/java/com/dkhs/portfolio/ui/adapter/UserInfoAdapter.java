@@ -218,7 +218,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 break;
             case INDEX_PURSE:
-                bindsListener.setLoadingDialog(mContext, false);
+                bindsListener.setLoadingDialog(mContext);
                 UserEngineImpl.queryThreePlatBind(bindsListener);
                 break;
             case INDEX_REWARD:
