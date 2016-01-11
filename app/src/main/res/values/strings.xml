@@ -164,7 +164,7 @@
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
     <string name="rate">收益率</string>
-    <string name="rate_total">任职回报</string>
+    <string name="rate_total">任期回报</string>
     <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
