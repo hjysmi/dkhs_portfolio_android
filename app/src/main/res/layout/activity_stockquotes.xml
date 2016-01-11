@@ -20,53 +20,59 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:weightSum="10">
-
-            <ViewStub
-                android:id="@+id/layout_stock_header"
+            <LinearLayout
+                android:id="@+id/ll_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout="@layout/layout_stock_quotes_header" />
+                android:orientation="vertical">
+                <ViewStub
+                    android:id="@+id/layout_stock_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout="@layout/layout_stock_quotes_header" />
 
-            <ViewStub
-                android:id="@+id/layout_index_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout="@layout/layout_index_quotes_header" />
+                <ViewStub
+                    android:id="@+id/layout_index_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout="@layout/layout_index_quotes_header" />
 
-            <com.dkhs.portfolio.ui.widget.HScrollTitleView
-                android:id="@+id/hs_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <com.dkhs.portfolio.ui.widget.HScrollTitleView
+                    android:id="@+id/hs_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="210dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp">
 
-                <com.dkhs.portfolio.ui.widget.ScrollViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="fill_parent"
-                    android:layout_height="315dp"
-                    android:paddingTop="5dp" />
+                    <com.dkhs.portfolio.ui.widget.ScrollViewPager
+                        android:id="@+id/pager"
+                        android:layout_width="fill_parent"
+                        android:layout_height="315dp"
+                        android:paddingTop="5dp" />
 
-                <TextView
-                    android:id="@+id/klin_virtul_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/button_check_red"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="不复权  ▼"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:visibility="gone" />
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/klin_virtul_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/button_check_red"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="不复权  ▼"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <!-- 底部资讯 -->
 
@@ -79,7 +85,8 @@
             <RelativeLayout
                 android:id="@+id/stock_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal">
 <!--
                 <com.dkhs.portfolio.ui.widget.ScrollViewPager
                     android:id="@+id/pager_bottom"
