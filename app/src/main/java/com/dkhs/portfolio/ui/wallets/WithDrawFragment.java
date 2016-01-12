@@ -25,6 +25,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.receiver.SMSBroadcastReceiver;
 import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.eventbus.WithDrawEvent;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -52,6 +53,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
 
     private double avail;
+    private String availAmount;
     private String mobile;
     @ViewInject(R.id.et_withdraw_amount)
     private EditText amountEt;
@@ -106,7 +108,8 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         if(bundle != null) {
-            avail = bundle.getDouble(MyPurseActivity.AVAIL_AMOUNT);
+            availAmount = bundle.getString(MyPurseActivity.AVAIL_AMOUNT);
+            avail = Double.valueOf(availAmount);
             mobile = bundle.getString(MyPurseActivity.MOBILE);
         }
         engine = new UserEngineImpl();
@@ -156,7 +159,7 @@ public class WithDrawFragment extends BaseFragment implements View.OnClickListen
         if(avail == 0){
             availHint = String.format(getString(R.string.with_draw_available),"0.00");
         }else{
-            availHint = String.format(getString(R.string.with_draw_available),avail);
+            availHint = String.format(getString(R.string.with_draw_available),availAmount);
         }
         if(!TextUtils.isEmpty(mobile)){//不显示完整号码　用****替换中间数字
             hideMobile(mobile);
