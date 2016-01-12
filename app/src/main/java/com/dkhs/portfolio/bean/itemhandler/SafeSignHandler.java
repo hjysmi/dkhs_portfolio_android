@@ -32,7 +32,7 @@ public class SafeSignHandler extends SimpleItemHandler<SafeSignBean> {
             @Override
             public void onClick(View v) {
                 MessageHandler handler = new MessageHandler(context);
-                handler.handleURL(DKHSClient.getAbsoluteUrl(DKHSClient.getAbsoluteUrl(DKHSUrl.Ads.getSafeInfo)));
+                handler.handleURL(DKHSClient.getAbsoluteUrl(DKHSUrl.Ads.getSafeInfo));
             }
         });
 
