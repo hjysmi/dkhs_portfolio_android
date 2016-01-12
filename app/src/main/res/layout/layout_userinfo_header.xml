@@ -133,7 +133,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/btn_white_grayborder_selector"
+                android:background="@drawable/lv_white_selector"
                 android:orientation="vertical"
                 android:padding="6dp">
 
@@ -154,18 +154,12 @@
                     android:text="@string/null_number" />
             </LinearLayout>
 
-            <View
-                style="@style/vertical_divider_line"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="22dp"
-                android:alpha="0.6" />
-
             <LinearLayout
                 android:id="@+id/ll_followers"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/btn_white_grayborder_selector"
+                android:background="@drawable/lv_white_selector"
                 android:orientation="vertical"
                 android:padding="6dp">
 
