@@ -33,7 +33,7 @@ import java.text.DecimalFormat;
 /**
  * Created by zhangcm on 2015/9/22.10:56
  */
-public class FundInfoActivity extends ModelAcitivity {
+public class FundInfoActivity extends AssestsBaseActivity {
 
     private SwipeRefreshLayout mSwipeLayout;
 

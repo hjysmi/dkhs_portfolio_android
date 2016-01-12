@@ -127,13 +127,13 @@ public class BaseActivity extends MAppActivity {
         }
     }
 
-    /**
-     * 当用户在登录情况下不操作3分钟时
-     */
-    @Override
-    public void onUserInteraction() {
-        if(!TextUtils.isEmpty(GlobalParams.MOBILE) && GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)){
-            PortfolioApplication.getInstance().onUserInteraction();
-        }
-    }
+//    /**
+//     * 当用户在登录情况下不操作3分钟时
+//     */
+//    @Override
+//    public void onUserInteraction() {
+//        if(!TextUtils.isEmpty(GlobalParams.MOBILE) && GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)){
+//            PortfolioApplication.getInstance().onUserInteraction();
+//        }
+//    }
 }

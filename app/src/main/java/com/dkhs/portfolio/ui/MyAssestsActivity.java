@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/9/14.15:02
  */
-public class MyAssestsActivity extends ModelAcitivity implements ISecurityGesture {
+public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityGesture {
 
     public static final int REQUESTCODE_CHECK_MOBILE = 1000;
 
@@ -65,7 +65,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
         updateTitleBackgroud(R.color.theme_blue);
         setTitle(R.string.my_assets);
         setBackButtonDrawRes(R.drawable.btn_white_back_selector);
-        tvTotalAssestsTimen.setText(String.format(getResources().getString(R.string.blank_total_assets),new SimpleDateFormat("MM-dd").format(new Date())));
+        tvTotalAssestsTimen.setText(String.format(getResources().getString(R.string.blank_total_assets), new SimpleDateFormat("MM-dd").format(new Date())));
         TextView addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_white_setting_selecter),
                 null, null, null);
@@ -134,7 +134,7 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
                 }
             }
         });
-        GesturePasswordManager.getInstance().startWatch(getApplication());
+//        GesturePasswordManager.getInstance().startWatch(getApplication());
     }
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.my_assests_title);
@@ -263,13 +263,13 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
     @Override
     protected void onResume() {
         super.onResume();
-        if (GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)) {
-            if (GlobalParams.needShowGesture) {
-                startActivityForResult(GesturePasswordActivity.verifyPasswordIntent(this, true), 100);
-                GlobalParams.needShowGesture = false;
-            }
-            onUserInteraction();
-        }
+//        if (GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)) {
+//            if (GlobalParams.needShowGesture) {
+//                startActivityForResult(GesturePasswordActivity.verifyPasswordIntent(this, true), 100);
+//                GlobalParams.needShowGesture = false;
+//            }
+//            onUserInteraction();
+//        }
         new TradeEngineImpl().getMyAssests(new ParseHttpListener<String>() {
             @Override
             protected String parseDateTask(String jsonData) {
@@ -330,11 +330,11 @@ public class MyAssestsActivity extends ModelAcitivity implements ISecurityGestur
         }
     }
 
-    @Override
-    public void onUserInteraction() {
-        if (!TextUtils.isEmpty(GlobalParams.MOBILE) &&GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)) {
-            GesturePasswordManager.getInstance().userInteraction();
-        }
-    }
+//    @Override
+//    public void onUserInteraction() {
+//        if (!TextUtils.isEmpty(GlobalParams.MOBILE) &&GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext, GlobalParams.MOBILE)) {
+//            GesturePasswordManager.getInstance().userInteraction();
+//        }
+//    }
 
 }

@@ -19,7 +19,7 @@ import com.lidroid.xutils.http.HttpHandler;
 /**
  * Created by zhangcm on 2015/9/21.15:50
  */
-public abstract  class LoadMoreListActivity extends ModelAcitivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener {
+public abstract  class LoadMoreListActivity extends AssestsBaseActivity implements LoadMoreDataEngine.ILoadDataBackListener, PullToRefreshListView.OnLoadMoreListener {
 
     PullToRefreshListView mListView;
 
