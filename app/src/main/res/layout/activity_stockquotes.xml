@@ -72,7 +72,27 @@
                         android:visibility="gone" />
                 </RelativeLayout>
 
+
+                <com.dkhs.portfolio.ui.widget.HScrollTitleView
+                    android:id="@+id/hs_title_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <RelativeLayout
+                    android:id="@+id/stock_layout_first"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal" />
+
+
+
+
+
             </LinearLayout>
+
+
+
+
 
             <!-- 底部资讯 -->
 

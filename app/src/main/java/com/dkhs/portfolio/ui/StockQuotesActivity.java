@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockNewListLoadListBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
@@ -118,11 +119,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private Context context;
     private HScrollTitleView hsTitle;
     private HScrollTitleView hsTitleBottom;
+    private HScrollTitleView hs_title_first;
     private HScrollTitleView hsTitleSticker;
     private ScrollViewPager pager;
     private ArrayList<Fragment> fragmentList;
     private StockQuotesChartFragment mStockQuotesChartFragment;
     private View bottomLayout;
+    private RelativeLayout stock_layout_first;
     private View viewHeader;
     private String symbolType;
     //    private List<Fragment> bottmoTabFragmentList;
@@ -282,13 +285,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         });
         bottomLayout = findViewById(R.id.stock_layout);
-        float dimen = UIUtils.dip2px(this, (UIUtils.getDimen(this, R.dimen.title_tool_bar) ));
-         int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
+        stock_layout_first = (RelativeLayout) findViewById(R.id.stock_layout_first);
+        float dimen = UIUtils.dip2px(this, (UIUtils.getDimen(this, R.dimen.title_tool_bar)));
+        int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
         bottomLayout.setMinimumHeight(minHeight);
         tvKlinVirtulCheck = (TextView) findViewById(R.id.klin_virtul_check);
         tvKlinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         hsTitleBottom = (HScrollTitleView) findViewById(R.id.hs_title_bottom);
+        hs_title_first = (HScrollTitleView) findViewById(R.id.hs_title_first);
         hsTitleSticker = (HScrollTitleView) findViewById(R.id.hs_title_sticker);
 
 
@@ -398,11 +403,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
             hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
             hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+            String[] stockListTilesFirst = getResources().getStringArray(R.array.stock_quote_info_title_first);
+            hs_title_first.setTitleList(stockListTilesFirst, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         }
     }
 
     private void initBottomTabFragment() {
-        tabBottomFragment = new ArrayList<Fragment>();
+        tabBottomFragment = new ArrayList<>();
+        tabBottomFirstFragment = new ArrayList<>();
         if (null != mStockCode
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
 
@@ -436,6 +444,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
+            FragmentNewsList fListfirst = FragmentNewsList.newIntent(mStockBean.symbol);
+            tabBottomFirstFragment.add(fListfirst);
+            tabBottomFirstFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
+            hs_title_first.setSelectPositionListener(mStockBottomTabListener);
+            //
             FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.symbol);
             // fList.setStockQuoteScrollListener(this);
             tabBottomFragment.add(fList);
@@ -452,6 +465,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private List<Fragment> tabBottomFragment;
+    private List<Fragment> tabBottomFirstFragment;
 
 
     private ISelectPostionListener mStockBottomTabListener = new ISelectPostionListener() {
@@ -463,7 +477,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         }
     };
-
 
 
     private void updateStickHeaderPosition(int position) {
@@ -504,6 +517,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void replaceBottomTabFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.stock_layout, fragment).commitAllowingStateLoss();
+    }
+    private void replaceBottomFirstTabFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.stock_layout_first, fragment).commitAllowingStateLoss();
     }
 
 
@@ -952,7 +969,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Subscribe
     public void scrollToTop(StockQuotesStopTopBean bean) {
         if (hsTitleSticker.getVisibility() == View.VISIBLE) {
-            mScrollview.smoothScrollBy(0, -(mScrollview.getScrollY() - top-hsTitleSticker.getMeasuredHeight()));
+            mScrollview.smoothScrollBy(0, -(mScrollview.getScrollY() - top - hsTitleSticker.getMeasuredHeight()));
         }
     }
 
