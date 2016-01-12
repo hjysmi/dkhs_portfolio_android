@@ -9,11 +9,15 @@ import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.F10DataBean;
+import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.engine.F10DataEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.F10ViewParse;
+import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.widget.CircularProgress;
 
 import java.util.List;
 
@@ -25,9 +29,11 @@ public class TabF10Fragment extends BaseFragment {
     public static final String TAG = "TabF10Fragment";
     private boolean isViewShown;
     private LinearLayout mContentView;
+    private LinearLayout ll_loading;
     public static final String EXTRA_TAB_TYPE = "extra_tab_type";
     public static final String EXTRA_SYMBOL = "extra_symbol";
     private Context mContext;
+    private CircularProgress loadView;
 
     public enum TabType {
         INTRODUCTION,
@@ -49,7 +55,7 @@ public class TabF10Fragment extends BaseFragment {
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.fragment_tab_f10;
+        return R.layout.activity_option_market_newslist;
     }
 
 
@@ -98,7 +104,12 @@ public class TabF10Fragment extends BaseFragment {
 
 
     private void initView(View view) {
-        mContentView = (LinearLayout) view.findViewById(R.id.f10_tab_content);
+        ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
+        loadView = (CircularProgress) view.findViewById(R.id.loadView);
+        mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
+        float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
+        int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
+        mContentView.setMinimumHeight(minHeight);
     }
 
 
@@ -138,6 +149,7 @@ public class TabF10Fragment extends BaseFragment {
 
         @Override
         protected void afterParseData(List<F10DataBean> dataBeanList) {
+            ll_loading.setVisibility(View.GONE);
             if (null != dataBeanList) {
                 for (F10DataBean dataBean : dataBeanList) {
                     final View view = new F10ViewParse(mContext, dataBean).getContentView();
@@ -146,7 +158,7 @@ public class TabF10Fragment extends BaseFragment {
 
                 }
             }
-
+            BusProvider.getInstance().post(new StockQuotesStopTopBean());
         }
     };
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -195,7 +196,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
                     return false;
                 }else{
                     if(!messageHandler.needHandle(url)){
-                        loadUrl(url,headers);
+                        loadUrl(url, headers);
                     }
                     return true;
                 }
@@ -370,7 +371,13 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
     private Handler _handler = new Handler();
 
     public void setJockeyEvents() {
-
+        jockey.setOnValidateListener(new Jockey.OnValidateListener() {
+            @Override
+            public boolean validate(String s) {
+                Uri uri = Uri.parse(DKHSClient.getHeadUrl());
+                return uri.getHost().equals(s);
+            }
+        });
         jockey.on(JockeyEventType.SHARE_MESSAGE.getType(), new MyJockeyHandler(JockeyEventType.SHARE_MESSAGE));
         jockey.on(JockeyEventType.CLOSE_WINDOW.getType(), new MyJockeyHandler(JockeyEventType.CLOSE_WINDOW));
         jockey.on(JockeyEventType.SHOW_MENU_SHARE.getType(), new MyJockeyHandler(JockeyEventType.SHOW_MENU_SHARE));

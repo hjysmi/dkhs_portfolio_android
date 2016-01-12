@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/9/24.15:57
  */
-public class TradeSettingActivity extends ModelAcitivity {
+public class TradeSettingActivity extends AssestsBaseActivity {
 
     @ViewInject(R.id.rl_reset_gesture_password)
     View rl_reset_gesture_password;
