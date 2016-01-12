@@ -28,7 +28,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
-import com.dkhs.portfolio.ui.eventbus.UpdateSelectStockEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
