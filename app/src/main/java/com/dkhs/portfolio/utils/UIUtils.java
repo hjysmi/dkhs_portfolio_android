@@ -591,5 +591,8 @@ public class UIUtils {
     public static int getResColor(Context context,int resColor){
         return context.getResources().getColor(resColor);
     }
+    public static float getDimen(Context context,int dimen){
+        return context.getResources().getDimension(dimen);
+    }
 
 }

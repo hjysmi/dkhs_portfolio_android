@@ -243,6 +243,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                     tv_tip.setTextColor(getResources().getColor(R.color.black));
                     tv_reset.setVisibility(View.VISIBLE);
                     lockPatternView.clearPattern();
+                    tv_reset.setVisibility(View.VISIBLE);
                 } else {
                     gesPassword.password = gesturePassword;
                     if (GesturePasswordManager.getInstance().verifyGesturePassword(mContext, gesPassword)) {

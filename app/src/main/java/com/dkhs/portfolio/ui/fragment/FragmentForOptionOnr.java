@@ -16,6 +16,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.StockNewListLoadListBean;
+import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
@@ -24,6 +25,7 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.widget.CircularProgress;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class FragmentForOptionOnr extends Fragment {
     private DisplayMetrics dm;
     private View view_empty;
     private TextView tv;
-
+    private CircularProgress loadView;
     public static Fragment newIntent(Context context, String symbolName, String name, String subType) {
         Fragment f = new FragmentForOptionOnr();
         Bundle b = new Bundle();
@@ -89,12 +91,19 @@ public class FragmentForOptionOnr extends Fragment {
 
     }
 
+    LinearLayout ll_content;
+    LinearLayout ll_loading;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         BusProvider.getInstance().register(this);
-        View view = inflater.inflate(R.layout.activity_option_market_news, null);
+        View view = inflater.inflate(R.layout.activity_option_market_newslist, null);
+        ll_content = (LinearLayout) view.findViewById(R.id.ll_content);
+        ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
+        loadView = (CircularProgress) view.findViewById(R.id.loadView);
         dm = UIUtils.getDisplayMetrics();
+        ll_content.setMinimumHeight(dm.heightPixels);
         context = getActivity();
         mDataList = new ArrayList<>();
 
@@ -116,6 +125,9 @@ public class FragmentForOptionOnr extends Fragment {
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
+        float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
+        int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
+        mContentView.setMinimumHeight(minHeight);
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
@@ -143,6 +155,7 @@ public class FragmentForOptionOnr extends Fragment {
 
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
+            ll_loading.setVisibility(View.GONE);
             try {
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
@@ -163,6 +176,7 @@ public class FragmentForOptionOnr extends Fragment {
 
         @Override
         public void loadingFail() {
+            ll_loading.setVisibility(View.GONE);
             //    pb.setVisibility(View.GONE);
             if (null == mDataList || mDataList.isEmpty()) {
                 //   iv.setText("暂无研报");
@@ -231,6 +245,7 @@ public class FragmentForOptionOnr extends Fragment {
 
             mContentView.addView(view);
         }
+        BusProvider.getInstance().post(new StockQuotesStopTopBean());
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.dkhs.portfolio.ui.ItemView;
 
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FundManagerBean;
+import com.dkhs.portfolio.common.Spanny;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
@@ -49,8 +52,13 @@ public class FMRankingItemHandler extends SimpleItemHandler<FundManagerBean> {
         }else{
             vh.getTextView(R.id.tv_fund_company).setVisibility(View.GONE);
         }
-        String rateWeekTv = StringFromatUtils.get2PointPercent(fundManagerBean.getValue("-win_rate_week"));
-        vh.setTextView(R.id.tv_win_rate_week, String.format(vh.getContext().getString(R.string.format_win_rate_week), rateWeekTv));
+        Float winRate = fundManagerBean.getWinRate(sortKey);
+        String winRateStr = "";
+        if(winRate != null && winRate != 0){
+            winRateStr = winRate.toString();
+        }
+        CharSequence winRateTv = StringFromatUtils.getPercentSpan(winRateStr);
+        vh.setTextView(R.id.tv_win_rate_week, String.format(vh.getContext().getString(R.string.format_win_rate_week), winRateTv));
         ImageLoaderUtils.setHeanderImage(fundManagerBean.avatar_md, vh.getImageView(R.id.im_avatar));
         vh.setTextView(R.id.tv_percent_value, fundManagerBean.getValueString(sortKey));
     }

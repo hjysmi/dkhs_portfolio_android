@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="10.15%"
-                android:textColor="#FF6363"
+                android:textColor="@color/orange"
                 android:textSize="15sp" />
         </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="10.15%"
-                android:textColor="#FF6363"
+                android:textColor="@color/orange"
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>

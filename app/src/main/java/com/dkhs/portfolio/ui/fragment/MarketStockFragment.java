@@ -62,6 +62,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         generateCacheData();
+        loadingAllData();
 
     }
 
@@ -97,7 +98,7 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
 
     @Override
     public void onViewShow() {
-        loadingAllData();
+
         updateHandler.postDelayed(updateRunnable, mPollRequestTime);
 
         if (isLoading) {

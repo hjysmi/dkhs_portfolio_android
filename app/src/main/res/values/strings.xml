@@ -164,7 +164,8 @@
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
     <string name="rate">收益率</string>
-    <string name="rate_total">任职回报</string>
+    <string name="today_rate">今日收益</string>
+    <string name="rate_total">任期回报</string>
     <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
@@ -882,6 +883,9 @@
     <string name="fund_supervision_bank">基金销售账户监督银行：中国民生银行</string>
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
+    <string name="bank_card_failed">认证失败</string>
+    <string name="quit">放弃</string>
+    <string name="rebind">重新绑卡</string>
     <string name="bank_type">卡类型</string>
     <string name="select_bank_card">选择银行</string>
     <string name="chose_bank_type">请选择银行卡类型</string>
