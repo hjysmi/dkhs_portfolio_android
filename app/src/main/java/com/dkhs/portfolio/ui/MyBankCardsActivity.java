@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Created by zhangcm on 2015/9/14.15:02
  */
-public class MyBankCardsActivity extends ModelAcitivity {
+public class MyBankCardsActivity extends AssestsBaseActivity {
 
 
     private SwipeRefreshLayout mSwipeLayout;

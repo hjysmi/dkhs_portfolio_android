@@ -12,7 +12,7 @@ import com.squareup.otto.Subscribe;
 /**
  * Created by zjz on 2015/10/9.
  */
-public class WithDrawActivity extends ModelAcitivity {
+public class WithDrawActivity extends AssestsBaseActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {

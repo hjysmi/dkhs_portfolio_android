@@ -40,6 +40,7 @@ import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.widget.WaterMarkImageView;
+import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -218,8 +219,34 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 break;
             case INDEX_PURSE:
-                bindsListener.setLoadingDialog(mContext);
-                UserEngineImpl.queryThreePlatBind(bindsListener);
+                if(NetUtil.checkNetWork()){
+                    //有网络情况下
+                    bindsListener.setLoadingDialog(mContext);
+                    UserEngineImpl.queryThreePlatBind(bindsListener);
+                }else{
+                    //无网络情况下,判断手机号是否为空,手机号是空的直接进入我的资产
+                    if(TextUtils.isEmpty(GlobalParams.MOBILE)){
+                        UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+                    }else{
+                        //手机号不为空判断是否有设置过手势密码,没有设置过直接进入我的资产
+                        if(GesturePasswordManager.getInstance().needSetGesturePassword(mContext, GlobalParams.MOBILE)){
+                            UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+                        }else{
+                            //设置过手势密码
+                            if(GesturePasswordManager.getInstance().isGesturePasswordOpen(mContext,GlobalParams.MOBILE)){
+                                //打开了手势密码
+                                if(GlobalParams.needShowGesture){
+                                    UIUtils.startAnimationActivity((Activity)mContext,GesturePasswordActivity.verifyPasswordIntent(mContext, false));
+                                }else{
+                                    UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+                                }
+
+                            }else{
+                                UIUtils.startAnimationActivity((Activity) mContext, new Intent(mContext, MyAssestsActivity.class));
+                            }
+                        }
+                    }
+                }
                 break;
             case INDEX_REWARD:
                 UserEntity entity = UserEngineImpl.getUserEntity();

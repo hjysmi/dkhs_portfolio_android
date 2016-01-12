@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by zhangcm on 2015/9/21.10:47
  */
-public class TradeRecordActivity extends ModelAcitivity{
+public class TradeRecordActivity extends AssestsBaseActivity{
     @ViewInject(R.id.ll_trade_record)
     private LinearLayout llTradeRecord;
     @Override

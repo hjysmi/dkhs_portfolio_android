@@ -100,6 +100,23 @@ public class PortfolioApplication extends MultiDexApplication {
             }
         }
     }
+    private List<Activity> assestsLists = new ArrayList<>();
+    public void addAssestsActivity(Activity activity) {
+        assestsLists.add(activity);
+    }
+    public void removeAssestsActivity(Activity activity) {
+        assestsLists.remove(activity);
+    }
+
+    public void exitAssests() {
+        if (assestsLists.size() > 0) {
+            for (int i = 0; i < assestsLists.size(); i++) {
+                Activity activity = assestsLists.get(i);
+                if (activity != null)
+                    activity.finish();
+            }
+        }
+    }
 
     public void clearActivities() {
         if (lists.size() > 1) {

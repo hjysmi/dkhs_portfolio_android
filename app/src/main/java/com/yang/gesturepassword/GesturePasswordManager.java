@@ -140,6 +140,9 @@ public class GesturePasswordManager {
         mHandler.removeMessages(SHOW_GESTURE);
         mHandler.sendEmptyMessageDelayed(SHOW_GESTURE, SHOW_GESTURE_DELAY);
     }
+    public void removeUserInteraction() {
+        mHandler.removeMessages(SHOW_GESTURE);
+    }
 
     private void showGesturePasswordActivity() {
         showGestureImmediately = true;

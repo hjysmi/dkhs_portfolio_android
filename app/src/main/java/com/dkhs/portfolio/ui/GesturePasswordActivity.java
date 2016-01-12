@@ -10,6 +10,7 @@ import android.view.animation.OvershootInterpolator;
 import android.view.animation.TranslateAnimation;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
@@ -124,15 +125,15 @@ public class GesturePasswordActivity extends ModelAcitivity {
             if (gesPassword.leftCount == 0 && !isResetMode) {
                 Date now = new Date();
                 Date tmp = new Date(gesPassword.lockedTime);
-                if(tmp.before(now)){
+                if (tmp.before(now)) {
                     //可以再次输入密码了
                     gesPassword.leftCount = 4;
-                }else{
-                    long leftTime = (tmp.getTime() - now.getTime())/1000;
-                    int leftM = (int) Math.ceil ((double)leftTime / 60);
+                } else {
+                    long leftTime = (tmp.getTime() - now.getTime()) / 1000;
+                    int leftM = (int) Math.ceil((double) leftTime / 60);
                     showErrorDialog(leftM);
                 }
-            }else if(gesPassword.leftCount == 1){
+            } else if (gesPassword.leftCount == 1) {
                 gesPassword.leftCount = 0;
             }
         }
@@ -151,9 +152,9 @@ public class GesturePasswordActivity extends ModelAcitivity {
 
             }
         } else if (curLayoutType == TYPE_SET_PASSWROD || curLayoutType == TYPE_FIRST_SET_PASSWORD) {
+            tv_reset.setVisibility(View.GONE);
             if (isFromSetting) {
                 tv_not_set.setVisibility(View.GONE);
-                tv_reset.setVisibility(View.GONE);
             }
             if (curLayoutType == TYPE_FIRST_SET_PASSWORD) {
                 if (isFromSetting) {
@@ -191,7 +192,6 @@ public class GesturePasswordActivity extends ModelAcitivity {
         switch (v.getId()) {
             case R.id.tv_not_set:
                 // TODO: 2015/10/22
-                PromptManager.showToast("跳过");
                 gesPassword.isOpen = false;
                 GesturePasswordManager.getInstance().saveGesturePassword(mContext, gesPassword);
                 if (!isFromSetting) {
@@ -241,6 +241,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
                 if (curLayoutType == TYPE_FIRST_SET_PASSWORD || !needVerifyPassword) {
                     tv_tip.setText(R.string.pls_input_gesture_password_again);
                     tv_tip.setTextColor(getResources().getColor(R.color.black));
+                    tv_reset.setVisibility(View.VISIBLE);
                     lockPatternView.clearPattern();
                 } else {
                     gesPassword.password = gesturePassword;
@@ -337,21 +338,23 @@ public class GesturePasswordActivity extends ModelAcitivity {
 
     };
 
-    private boolean checkPatternAndType(List<LockPatternView.Cell> pattern){
+    private boolean checkPatternAndType(List<LockPatternView.Cell> pattern) {
         return TextUtils.isEmpty(gesturePassword) && pattern.size() < 4 && (isVerified || curLayoutType == TYPE_FIRST_SET_PASSWORD);
     }
 
 
     @Override
     public void onBackPressed() {
-        if(curLayoutType != TYPE_VERIFY_PASSWORD)
-            GlobalParams.needShowGesture = false;
-
-        setResult(500);
-        if(gesPassword.leftCount == 0){
-            gesPassword.leftCount =1;
+        if (curLayoutType == TYPE_VERIFY_PASSWORD) {
+            PortfolioApplication.getInstance().exitAssests();
+            if(!GlobalParams.needShowGesture)
+                GlobalParams.needShowGesture = true;
         }
-        if(curLayoutType != TYPE_FIRST_SET_PASSWORD){
+        setResult(500);
+        if (gesPassword.leftCount == 0) {
+            gesPassword.leftCount = 1;
+        }
+        if (curLayoutType != TYPE_FIRST_SET_PASSWORD) {
             GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
         }
         super.onBackPressed();
@@ -364,7 +367,7 @@ public class GesturePasswordActivity extends ModelAcitivity {
         GesturePasswordManager.getInstance().saveGesturePasswordWithOutEncrypt(mContext, gesPassword);
         new MyAlertDialog(this).builder()
                 .setCancelable(false)
-                .setMsg(String.format(getResources().getString(R.string.blank_gesture_password_msg),leftMinuteTime))
+                .setMsg(String.format(getResources().getString(R.string.blank_gesture_password_msg), leftMinuteTime))
                 .setPositiveButton(getResources().getString(R.string.verify), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
