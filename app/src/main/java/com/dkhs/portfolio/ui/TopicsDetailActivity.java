@@ -455,7 +455,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         mSwitchLikeStateHandler.toggleLikeState();
                         break;
                     case MENU_SHARE:
-                        if (mTopicsBean != null) {
+                        if (mTopicsBean != null && mTopicsBean.user != null) {
                             share();
                         }
                         break;
