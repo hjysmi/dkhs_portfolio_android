@@ -561,19 +561,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             BannerTopicsBean banner = parseBanner(bannerJson);
             mDataList.add(banner);
         }
-        //推荐悬赏
-        if (recommendRewards != null && recommendRewards.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD, true));
-            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(recommendRewards);
-            mDataList.add(recommendRewardBean);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_REWARD_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD, true));
-            String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_REWARD_JSON);
-            // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
-            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(parseRewards(rewardsJson));
-            mDataList.add(recommendRewardBean);
-            //  mDataList.addAll(topicsBeans);
-        }
+
         //推荐话题
         if (recommendTopics != null && recommendTopics.size() > 0) {
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC, true));
@@ -588,19 +576,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             //  mDataList.addAll(topicsBeans);
         }
 
-
-        //推荐基金经理
-        if (recommendFundManagers != null && recommendFundManagers.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
-            mDataList.addAll(recommendFundManagers);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON))) {
-            String fundManagerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON);
-            List<FundManagerBean> fundManagers = parseFundManager(fundManagerJson);
-            if(fundManagers != null && fundManagers.size() > 0){
-                mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
-                mDataList.addAll(fundManagers);
-            }
-        }
         //推荐基金
         if (recommendFunds != null && recommendFunds.size() > 0) {
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND, true));
@@ -612,6 +587,32 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
                 RecommendFundBean bean = new RecommendFundBean((ArrayList<FundPriceBean>)fundBeans);
                 mDataList.add(bean);
+            }
+        }
+        //推荐悬赏
+        if (recommendRewards != null && recommendRewards.size() > 0) {
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD, true));
+            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(recommendRewards);
+            mDataList.add(recommendRewardBean);
+        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_REWARD_JSON))) {
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_REWARD, true));
+            String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_REWARD_JSON);
+            // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
+            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(parseRewards(rewardsJson));
+            mDataList.add(recommendRewardBean);
+            //  mDataList.addAll(topicsBeans);
+        }
+
+        //推荐基金经理
+        if (recommendFundManagers != null && recommendFundManagers.size() > 0) {
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
+            mDataList.addAll(recommendFundManagers);
+        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON))) {
+            String fundManagerJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_MANAGER_JSON);
+            List<FundManagerBean> fundManagers = parseFundManager(fundManagerJson);
+            if(fundManagers != null && fundManagers.size() > 0){
+                mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND_MANAGER));
+                mDataList.addAll(fundManagers);
             }
         }
 
