@@ -18,6 +18,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.StockNewListLoadListBean;
+import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
@@ -27,6 +28,7 @@ import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.widget.CircularProgress;
 import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
@@ -66,7 +68,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
     //  private RelativeLayout pb;
     // public SwipeRefreshLayout mSwipeLayout;
     private LinearLayout mContentView;
+    private LinearLayout ll_loading;
     private View view_empty;
+    private CircularProgress loadView;
+
     public static FragmentNewsList newIntent(String stockCode) {
         FragmentNewsList noticeFragemnt = new FragmentNewsList();
         NewsforModel vo;
@@ -94,13 +99,14 @@ public class FragmentNewsList extends Fragment implements Serializable {
         // TODO Auto-generated method stub
         BusProvider.getInstance().register(this);
         View view = inflater.inflate(R.layout.activity_option_market_newslist, null);
+        loadView = (CircularProgress) view.findViewById(R.id.loadView);
+        ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
         context = getActivity();
         dm = UIUtils.getDisplayMetrics();
         initView(view);
         if (!isViewShown) {
             initDate();
         }
-
         return view;
     }
 
@@ -121,6 +127,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
+        float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
+        int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
+        mContentView.setMinimumHeight(minHeight);
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
@@ -147,8 +156,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
+
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
+            ll_loading.setVisibility(View.GONE);
             try {
                 if (null != dataList && dataList.size() > 0) {
                     if (!isLoadingMore) {
@@ -170,10 +181,12 @@ public class FragmentNewsList extends Fragment implements Serializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            isLoadingMore = false;
         }
 
         @Override
         public void loadingFail() {
+            ll_loading.setVisibility(View.GONE);
             if (null == mDataList || mDataList.isEmpty()) {
                 if (null != vo && null != vo.getPageTitle()) {
                     tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
@@ -240,6 +253,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             });
             mContentView.addView(view);
         }
+        BusProvider.getInstance().post(new StockQuotesStopTopBean());
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
@@ -295,9 +309,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
     }
 
     @Subscribe
-    public void getLoadMore(StockNewListLoadListBean bean){
+    public void getLoadMore(StockNewListLoadListBean bean) {
         loadMore();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

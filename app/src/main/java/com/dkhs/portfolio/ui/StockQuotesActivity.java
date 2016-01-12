@@ -24,6 +24,7 @@ import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -31,6 +32,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockNewListLoadListBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
 import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
@@ -61,6 +63,7 @@ import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -168,6 +171,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        BusProvider.getInstance().register(this);
         hadFragment();
 
         setContentView(R.layout.activity_stockquotes);
@@ -205,7 +209,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         });
     }
+
+    LinearLayout ll_top;
+
     private void initView() {
+        ll_top = (LinearLayout) findViewById(R.id.ll_top);
         ViewStub viewstub;
         if (isIndexType()) {
             viewstub = (ViewStub) findViewById(R.id.layout_index_header);
@@ -274,7 +282,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         });
         bottomLayout = findViewById(R.id.stock_layout);
-
+        float dimen = UIUtils.dip2px(this, (UIUtils.getDimen(this, R.dimen.title_tool_bar) ));
+         int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
+        bottomLayout.setMinimumHeight(minHeight);
         tvKlinVirtulCheck = (TextView) findViewById(R.id.klin_virtul_check);
         tvKlinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
@@ -323,20 +333,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
 
-  //  private int mMaxListHeight;
+    //  private int mMaxListHeight;
+    int top;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-          //  View contentView = findViewById(R.id.layoutContent);
-          /*  int contentHeight = contentView.getHeight();
-            int hsTitleHeight = hsTitleBottom.getHeight();*/
-          /*  mMaxListHeight = contentHeight - hsTitleHeight;
-            Log.e(TAG, "---------------contentHeight：" + contentHeight);
-            Log.e(TAG, " --------------hsTitleHeight：" + hsTitleHeight);
-            Log.e(TAG, " --------------mMaxListHeight：" + mMaxListHeight);*/
+            top = ll_top.getMeasuredHeight();
         }
     }
 
@@ -352,7 +357,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private ChangeFollowView.IChangeSuccessListener changeFollowListener = new ChangeFollowView.IChangeSuccessListener() {
         @Override
         public void onChange(SelectStockBean stockBean) {
-            mQuotesEngine.quotes(mStockBean.symbol,quoteListener);
+            mQuotesEngine.quotes(mStockBean.symbol, quoteListener);
 
             mStockQuotesBean.setFollowed(stockBean.isFollowed());
             if (!PortfolioApplication.hasUserLogin()) {
@@ -432,7 +437,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
             FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.symbol);
-           // fList.setStockQuoteScrollListener(this);
+            // fList.setStockQuoteScrollListener(this);
             tabBottomFragment.add(fList);
             tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.INTRODUCTION));
@@ -452,28 +457,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private ISelectPostionListener mStockBottomTabListener = new ISelectPostionListener() {
         @Override
         public void onSelectPosition(int position) {
+
             updateStickHeaderPosition(position);
             replaceBottomTabFragment(tabBottomFragment.get(position));
 
         }
     };
 
- /*   @Override
-    public int getMaxListHeight() {
-        return mMaxListHeight - getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height);
-    }*/
 
-   /* @Override
-    public void interruptSrcollView() {
-        mScrollview.setIsfocus(false);
-
-    }
-
-    @Override
-    public void scrollviewObatin() {
-        mScrollview.setIsfocus(true);
-    }
-*/
 
     private void updateStickHeaderPosition(int position) {
         if (hsTitleBottom.getCurrentPosition() != position) {
@@ -583,37 +574,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     });
 
+
     ScrollViewListener mScrollViewListener = new ScrollViewListener() {
 
         @Override
         public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
-
-
-            int offsetY = hsTitleBottom.getTop() - y;
-            if (offsetY <= 0) {
-                showStickHeader();
+            if (y >= (ll_top.getMeasuredHeight())) {
+                hsTitleSticker.setVisibility(View.VISIBLE);
             } else {
-                hideStickHeader();
+                hsTitleSticker.setVisibility(View.GONE);
             }
-
-            /*
-             * if (mScrollview.getScrollY() >=
-             * getResources().getDimensionPixelOffset
-             * (R.dimen.layout_height_all)) { chartTounching(); }
-//             */
-//            if (mScrollview.getScrollY() + mScrollview.getHeight() >= mScrollview.computeVerticalScrollRange()
-//                    && null != bottmoTabFragmentList) {
-//                Fragment fragment = bottmoTabFragmentList.get(mBottomFragmentAdapter.getCurrentItem());
-//                if (fragment instanceof FragmentNewsList) {
-//                    ((FragmentNewsList) fragment).loadMore();
-//                }
-//                if (fragment instanceof FragmentForOptionOnr) {
-//                    ((FragmentForOptionOnr) fragment).loadMore();
-//                }
-//
-////                ((FragmentNewsList) bottmoTabFragmentList.get(1)).loadMore();
-////                ((FragmentForOptionOnr) bottmoTabFragmentList.get(2)).loadMore();
-//            }
         }
 
         @Override
@@ -622,27 +592,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     };
 
-
-    private void showStickHeader() {
-        if (hsTitleSticker.getVisibility() != View.VISIBLE) {
-            hsTitleSticker.setVisibility(View.VISIBLE);
-         //   Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
-            /*if (null != fragment && fragment instanceof IScrollExchangeListener) {
-                ((IScrollExchangeListener) fragment).scrollSelf();
-            }*/
-        }
-//        stock_layout
-    }
-
-    private void hideStickHeader() {
-        if (hsTitleSticker.getVisibility() != View.GONE) {
-            hsTitleSticker.setVisibility(View.GONE);
-           /* Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
-            if (null != fragment && fragment instanceof IScrollExchangeListener) {
-                ((IScrollExchangeListener) fragment).scrollParent();
-            }*/
-        }
-    }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
@@ -867,11 +816,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 default:
                     break;
             }
-        }else if(resultCode == 0 && requestCode == REQUEST_LAND){
+        } else if (resultCode == 0 && requestCode == REQUEST_LAND) {
             mDayKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("day_data");
             mWeekKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("week_data");
             mMonthKChart = (ArrayList<OHLCEntity>) data.getSerializableExtra("month_data");
-            index = data.getIntExtra("tab_positon",0);
+            index = data.getIntExtra("tab_positon", 0);
             hsTitle.setSelectIndex(index);
         }
     }
@@ -996,9 +945,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        BusProvider.getInstance().unregister(this);
         quoteListener.stopRequest(true);
     }
 
+    @Subscribe
+    public void scrollToTop(StockQuotesStopTopBean bean) {
+        if (hsTitleSticker.getVisibility() == View.VISIBLE) {
+            mScrollview.smoothScrollBy(0, -(mScrollview.getScrollY() - top-hsTitleSticker.getMeasuredHeight()));
+        }
+    }
 
     public StockQuotesBean getmStockQuotesBean() {
         return mStockQuotesBean;
@@ -1070,7 +1026,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         startActivityForResult(StockLandActivity.getIntent(this, mStockBean, mStockQuotesBean, pager.getCurrentItem(), mDayKChart, mWeekKChart, mMonthKChart), REQUEST_LAND);
     }
 
-//    private List<OHLCEntity> mDayKChart = Collections.EMPTY_LIST;
+    //    private List<OHLCEntity> mDayKChart = Collections.EMPTY_LIST;
 //    private List<OHLCEntity> mWeekKChart = Collections.EMPTY_LIST;
 //    private List<OHLCEntity> mMonthKChart = Collections.EMPTY_LIST;
     private ArrayList<OHLCEntity> mDayKChart = new ArrayList<>();

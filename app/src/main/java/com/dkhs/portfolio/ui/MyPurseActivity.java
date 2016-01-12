@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * 主贴详情
  */
-public class MyPurseActivity extends ModelAcitivity implements View.OnClickListener{
+public class MyPurseActivity extends AssestsBaseActivity implements View.OnClickListener{
 
     private static final int WITH_DRAW_AVAIL = 0;
     private static final int WITH_DRAW_UNAVAIL = 1;
@@ -148,7 +148,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
                 msg.setTarget();*/
                 if(withDrawAvailable){
                     Intent intent =  new Intent(MyPurseActivity.this,WithDrawActivity.class);
-                    intent.putExtra(AVAIL_AMOUNT,available);
+                    intent.putExtra(AVAIL_AMOUNT,String.valueOf(available));
                     intent.putExtra(MOBILE,mobile);
                     startActivity(intent);
                 }else{
