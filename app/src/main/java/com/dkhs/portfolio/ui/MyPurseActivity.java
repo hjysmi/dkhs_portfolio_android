@@ -148,7 +148,7 @@ public class MyPurseActivity extends ModelAcitivity implements View.OnClickListe
                 msg.setTarget();*/
                 if(withDrawAvailable){
                     Intent intent =  new Intent(MyPurseActivity.this,WithDrawActivity.class);
-                    intent.putExtra(AVAIL_AMOUNT,available);
+                    intent.putExtra(AVAIL_AMOUNT,String.valueOf(available));
                     intent.putExtra(MOBILE,mobile);
                     startActivity(intent);
                 }else{

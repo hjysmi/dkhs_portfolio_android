@@ -21,10 +21,10 @@ public class WithDrawActivity extends ModelAcitivity {
         BusProvider.getInstance().register(this);
         Intent intent = getIntent();
         if(intent != null){
-            double avail = intent.getDoubleExtra(MyPurseActivity.AVAIL_AMOUNT,0);
+            String avail = intent.getStringExtra(MyPurseActivity.AVAIL_AMOUNT);
             String mobile = intent.getStringExtra(MyPurseActivity.MOBILE);
             Bundle bundle = new Bundle();
-            bundle.putDouble(MyPurseActivity.AVAIL_AMOUNT,avail);
+            bundle.putString(MyPurseActivity.AVAIL_AMOUNT,avail);
             bundle.putString(MyPurseActivity.MOBILE,mobile);
             replaceContentFragment(WithDrawFragment.newInstance(bundle));
         }
