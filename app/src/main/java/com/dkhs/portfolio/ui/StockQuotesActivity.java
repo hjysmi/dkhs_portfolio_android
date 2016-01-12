@@ -31,7 +31,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockNewListLoadListBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.common.WeakHandler;
@@ -447,12 +446,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             FragmentNewsList fListfirst = FragmentNewsList.newIntent(mStockBean.symbol);
             tabBottomFirstFragment.add(fListfirst);
             tabBottomFirstFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
-            hs_title_first.setSelectPositionListener(mStockBottomTabListener);
+            replaceBottomFirstTabFragment(tabBottomFirstFragment.get(0));
+            hs_title_first.setSelectPositionListener(mStockBottomTabFirstListener);
             //
-            FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.symbol);
+            /*FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.symbol);
             // fList.setStockQuoteScrollListener(this);
             tabBottomFragment.add(fList);
-            tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
+            tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));*/
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.INTRODUCTION));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.FINANCE));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.STOCK_HODLER));
@@ -478,22 +478,33 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     };
 
+    private ISelectPostionListener mStockBottomTabFirstListener = new ISelectPostionListener() {
+        @Override
+        public void onSelectPosition(int position) {
+            updatetabBottomFirstPosition(position);
+            replaceBottomFirstTabFragment(tabBottomFirstFragment.get(position));
+        }
+    };
+
 
     private void updateStickHeaderPosition(int position) {
         if (hsTitleBottom.getCurrentPosition() != position) {
             hsTitleBottom.setSelectPositionListener(null);
             hsTitleBottom.setSelectIndex(position);
-
             hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
-
-
         }
         if (hsTitleSticker.getCurrentPosition() != position) {
             hsTitleSticker.setSelectPositionListener(null);
             hsTitleSticker.setSelectIndex(position);
-
             hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
+        }
+    }
 
+    private void updatetabBottomFirstPosition(int position) {
+        if (hs_title_first.getCurrentPosition() != position) {
+            hs_title_first.setSelectPositionListener(null);
+            hs_title_first.setSelectIndex(position);
+            hs_title_first.setSelectPositionListener(mStockBottomTabFirstListener);
         }
     }
 
@@ -605,7 +616,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onScrollBottom() {
-            BusProvider.getInstance().post(new StockNewListLoadListBean());
+          //  BusProvider.getInstance().post(new StockNewListLoadListBean());
         }
     };
 

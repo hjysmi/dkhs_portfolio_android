@@ -17,8 +17,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.StockNewListLoadListBean;
-import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
@@ -29,7 +27,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.widget.CircularProgress;
-import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
@@ -127,11 +124,11 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
-        float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
+      /*  float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
         int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
-        mContentView.setMinimumHeight(minHeight);
+        mContentView.setMinimumHeight(minHeight);*/
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
-        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+        mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
         mDataList = new ArrayList<>();
     }
@@ -253,7 +250,12 @@ public class FragmentNewsList extends Fragment implements Serializable {
             });
             mContentView.addView(view);
         }
-        BusProvider.getInstance().post(new StockQuotesStopTopBean());
+        if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+            // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        addFooterView(mFootView);
+      //  BusProvider.getInstance().post(new StockQuotesStopTopBean());
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
@@ -263,36 +265,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
-            // fragment可见时加载数据
-            /*
-             * mDataList = new ArrayList<OptionNewsBean>();
-             * mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-             * mLoadDataEngine.setLoadingDialog(getActivity());
-             * mLoadDataEngine.loadData();
-             * mLoadDataEngine.setFromYanbao(false);
-             * if (null != mContext && mContext instanceof StockQuotesActivity) {
-             * ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-             * }
-             */
-//            if (isVisibleToUser) {
-//                getadle = true;
-//                if (null == mDataList || mDataList.size() < 2) {
-//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
-//                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-//                    }
-//                } else if (null != mDataList) {
-//                    if (null != mContext && mContext instanceof StockQuotesActivity && getadle) {
-//                        int height = 0;
-//                        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-//                            View listItem = mOptionlistAdapter.getView(i, null, mListView);
-//                            listItem.measure(0, 0); // 计算子项View 的宽高
-//                            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-//                            height += list_child_item_height; // 统计所有子项的总高度
-//                        }
-//                        ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-//                    }
-//                }
-//            }
             getadle = true;
             if (getView() != null) {
                 isViewShown = true;
@@ -308,10 +280,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    @Subscribe
+   /* @Subscribe
     public void getLoadMore(StockNewListLoadListBean bean) {
         loadMore();
-    }
+    }*/
 
     @Override
     public void onDestroy() {
