@@ -138,7 +138,7 @@ public class FragmentSelectAdapter {
         tvList = new TextView[nameList.length];
         for (int i = 0; i < nameList.length; i++) {
             TextView tv = new TextView(context);
-            tv.setBackgroundColor(context.getResources().getColor(R.color.theme_gray));
+            tv.setBackgroundColor(context.getResources().getColor(R.color.title_color));
             tv.setTextColor(context.getResources().getColor(R.color.black));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     context.getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
