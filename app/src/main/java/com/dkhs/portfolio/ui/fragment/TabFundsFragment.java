@@ -133,6 +133,7 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     @Override
     public void onViewShow() {
+        reloadData();
         StatService.onPageStart(getActivity(), TAG);
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
 
@@ -193,14 +194,10 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commitAllowingStateLoss();
     }
 
-    @Subscribe
-    public void updateData(UpdateSelectStockEvent event){
-        if(event == null || loadDataListFragment == null)
-            return;
-        if(event.type == UpdateSelectStockEvent.ADD_TYPE){
-            loadDataListFragment.addData(event.selectStockBean);
-        }else if(event.type == UpdateSelectStockEvent.DEL_TYPE){
-            loadDataListFragment.removeData(event.selectStockBean);
+    private void reloadData() {
+        if (null != loadDataListFragment) {
+            loadDataListFragment.setOptionalOrderType(orderType);
+            loadDataListFragment.refreshNoCaseTime();
         }
     }
 
@@ -232,13 +229,9 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
 
     }
 
-    private void reloadData() {
-        if (null != loadDataListFragment) {
-            loadDataListFragment.setOptionalOrderType(orderType);
-            loadDataListFragment.refreshNoCaseTime();
-            Log.d(TAG, "=============> refreshNoCaseTime");
-        }
-    }
+
+
+
 
     private void setDrawableUp(TextView view) {
 
