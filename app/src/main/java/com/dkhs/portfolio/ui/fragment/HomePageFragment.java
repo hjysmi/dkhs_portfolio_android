@@ -9,14 +9,17 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.base.widget.RelativeLayout;
 import com.dkhs.portfolio.base.widget.TextView;
 import com.dkhs.portfolio.bean.AdBean;
@@ -40,6 +43,8 @@ import com.dkhs.portfolio.engine.HomePageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SelectGeneralActivity;
+import com.dkhs.portfolio.ui.ShakeActivity;
+import com.dkhs.portfolio.ui.ShakeDetectorActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
@@ -403,6 +408,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private TextView mSearchTv;
     private RelativeLayout mSearchLl;
     private View divider;
+    private android.widget.ImageButton mShakeIv;
 
     public HomePageFragment() {
 
@@ -530,6 +536,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         mSearchLl = (RelativeLayout) view.findViewById(R.id.ll_search);
         divider = view.findViewById(R.id.divider);
         mSearchLl.setBackgroundColor(Color.WHITE);
+        mShakeIv = (android.widget.ImageButton) view.findViewById(R.id.btn_shake);
+        mShakeIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, ShakeDetectorActivity.class));
+            }
+        });
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -664,10 +677,12 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                     divider.getBackground().setAlpha((int) (f * 230));
                     mSearchLl.getBackground().setAlpha((int) (f * 180));
                 }
+                mShakeIv.setBackgroundResource(R.drawable.btn_shake_white_selector);
             }
         } else if (firstVisibleItem > 0) {
             divider.getBackground().setAlpha(230);
             mSearchLl.getBackground().setAlpha(180);
+            mShakeIv.setBackgroundResource(R.drawable.btn_shake_gray_selector);
         }
     }
 }
