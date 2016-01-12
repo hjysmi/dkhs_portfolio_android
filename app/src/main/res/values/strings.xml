@@ -879,7 +879,7 @@
     <string name="input_bank_card">输入银行卡号</string>
     <string name="blank_verified_tip">请绑定持卡人%1$s的银行卡号</string>
     <string name="hint_bank_card">请输入银行卡号</string>
-    <string name="fund_supervision_bank">基金销售账户监督银行：中国民生银行</string>
+    <string name="fund_supervision_bank">资金支付由中国银联支持</string>
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
     <string name="bank_card_failed">认证失败</string>
