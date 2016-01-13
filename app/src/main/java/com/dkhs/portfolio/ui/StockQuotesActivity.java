@@ -444,16 +444,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
-            tabBottomFirstFragment.add(FragmentStockNewsList.newIntent(mStockBean.symbol));
+            tabBottomFirstFragment.add(FragmentStockNewsList.newIntent(mStockBean.symbol,mStockBean.name));
             tabBottomFirstFragment.add(FragmentNewsList.newIntent(mStockBean.symbol));
             tabBottomFirstFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
             replaceBottomFirstTabFragment(tabBottomFirstFragment.get(0));
             hs_title_first.setSelectPositionListener(mStockBottomTabFirstListener);
             //
-            /*FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.symbol);
-            // fList.setStockQuoteScrollListener(this);
-            tabBottomFragment.add(fList);
-            tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));*/
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.INTRODUCTION));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.FINANCE));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.symbol, TabF10Fragment.TabType.STOCK_HODLER));

@@ -19,6 +19,7 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.StockNewsActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -56,12 +57,14 @@ public class FragmentStockNewsList extends Fragment implements Serializable {
     private LinearLayout ll_loading;
     private View view_empty;
     private CircularProgress loadView;
-    public static FragmentStockNewsList newIntent(String stockCode) {
+    private String stockCode;
+    public static FragmentStockNewsList newIntent(String stockCode, String name) {
         FragmentStockNewsList noticeFragemnt = new FragmentStockNewsList();
         NewsforModel vo;
         Bundle b2 = new Bundle();
         b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.STOCK_NEWS);
         vo = new NewsforModel();
+        vo.setSymboName(name);
         vo.setSymbol(stockCode);
         vo.setContentType("10");
         vo.setPageTitle("新闻正文");
@@ -101,8 +104,7 @@ public class FragmentStockNewsList extends Fragment implements Serializable {
             // layouts = vo.getLayout();
             int types = bundle.getInt(NEWS_TYPE);
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-            // mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
+            ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
         }
 
     }
@@ -113,6 +115,13 @@ public class FragmentStockNewsList extends Fragment implements Serializable {
         mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
         mDataList = new ArrayList<>();
+
+        mFootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(),vo.getSymboName(), vo.getSymbol(),"10"));
+            }
+        });
     }
 
     public void loadMore() {
@@ -197,7 +206,6 @@ public class FragmentStockNewsList extends Fragment implements Serializable {
             } else {
                 tvTextName.setText(bean.getTitle());
             }
-            //ViewTreeObserver observer = tv.getViewTreeObserver();
             tvTextNameNum.setText(bean.getSymbols().get(0).getAbbrName());
             if (null != bean.getSource()) {
                 zhengquan.setText(bean.getSource().getTitle());
