@@ -14,6 +14,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.itemhandler.StockNewsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.StockNewsActivity;
 
 import java.util.ArrayList;
@@ -36,14 +37,36 @@ public class StockNewsFragment extends LoadMoreListFragment {
         stockNewsFragment.setArguments(bundle);
         return stockNewsFragment;
     }
+
     public StockNewsFragment() {
     }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mDataList = new ArrayList<>();
+        mListView.setDivider(null);
+        postDelayedeData();
+        if(getActivity() instanceof MainActivity){
+            final Bundle bundle=((MainActivity)getActivity()).mBundle;
+            if(bundle !=null) {
+                mListView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                    //    handleIntent(bundle);
 
+                    }
+                },1200);
+            }
+        }
     }
+  /*  public void handleIntent(Bundle bundle){
+        if (bundle.containsKey("order_index")) {
+            int sortType = bundle.getInt("order_index", 0);
+            if(mSpinnerHandler != null){
+                mSpinnerHandler.setSelection(sortType);
+            }
+        }
+    }*/
 
     @Override
     public int setContentLayoutId() {
@@ -67,7 +90,12 @@ public class StockNewsFragment extends LoadMoreListFragment {
     @Override
     SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
 
-        return null;
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        };
     }
 
     @Override
