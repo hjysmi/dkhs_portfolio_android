@@ -483,8 +483,8 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         HomePageEngine.getBanner(bannerListener);
         //推荐悬赏
         HomePageEngine.getRecommendRewardAndTopic("40", rewardsListener);
-        //推荐话题
-        HomePageEngine.getRecommendRewardAndTopic(String.valueOf(0), topicsListener);
+        //今日热点
+        HomePageEngine.getRecommendRewardAndTopic(String.valueOf(10), topicsListener);
         HomePageEngine.getSubBanner(subBannerListener);
     }
 
@@ -575,13 +575,13 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(banner);
         }
 
-        //推荐话题
+        //今日热点
         if (recommendTopics != null && recommendTopics.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC, true));
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_NEWS, true));
             RecommendRewardBean recommendRewardBean = new RecommendRewardBean(recommendTopics);
             mDataList.add(recommendRewardBean);
         } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC, true));
+            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_NEWS, true));
             String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON);
             // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
             RecommendRewardBean recommendRewardBean = new RecommendRewardBean(parseRewards(rewardsJson));

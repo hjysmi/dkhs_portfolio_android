@@ -47,6 +47,8 @@ public class HomeMoreHandler extends SimpleItemHandler<HomeMoreBean> {
                     case HomeMoreBean.TYPE_TOPIC:
                         MainActivity.gotoHostTopicsActivity(mContext);
                         break;
+                    case HomeMoreBean.TYPE_NEWS:
+                        break;
                 }
             }
         });
