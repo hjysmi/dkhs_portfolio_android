@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
+import com.dkhs.portfolio.ui.adapter.TodayNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -157,6 +158,9 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                 break;
             case OpitionNewsEngineImple.NEWS_GROUP:
                 mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);
+                break;
+            case OpitionNewsEngineImple.NEWS_TODAY:
+                mOptionMarketAdapter = new TodayNewsAdapter(context, mDataList);
                 break;
             case NEWS_SECOND_NOTICE: {
                 mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/item_padding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        app:layout_heightPercent="16%w"
+        app:layout_widthPercent="20%w" />
+
+    <TextView
+        android:id="@+id/tv_news_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/widget_margin_normal"
+        android:layout_toLeftOf="@id/iv_news"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        app:layout_textSizePercent="4%w" />
+
+    <com.android.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/widget_margin_normal"
+        android:layout_toLeftOf="@id/iv_news">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_textcolor"
+            android:textSize="@dimen/widget_text_12sp" />
+
+        <TextView
+            android:id="@+id/tv_related"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_time"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/gray_textcolor"
+            android:textSize="@dimen/widget_text_12sp" />
+    </com.android.percent.PercentRelativeLayout>
+</com.android.percent.PercentRelativeLayout>

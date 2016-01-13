@@ -28,11 +28,13 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
     // 个股研报分支
     public final static int NEWS_OPITION_FOREACH = 3;
 
-    // 用户相关的研报分支
+    // 用户相关的研报分支(自选tab)
     public final static int NEWS_GROUP = 4;
     // 用户相关的研报分支
     public final static int NEWS_GROUP_TWO = 5;
     public final static int GROUP_FOR_ONE = 6;
+    // 今日要闻
+    public final static int NEWS_TODAY = 7;
     private int orderType;
     private String model;
     private NewsforModel vo;
@@ -95,6 +97,11 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 vo.getContentSubType()), null, this);
                 break;
             case GROUP_FOR_ONE:
+                DKHSClient.requestByGet(
+                        MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
+                                vo.getSymbol(), vo.getContentSubType()), null, this);
+                break;
+            case NEWS_TODAY:
                 DKHSClient.requestByGet(
                         MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
                                 vo.getSymbol(), vo.getContentSubType()), null, this);
