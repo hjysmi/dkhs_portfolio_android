@@ -122,7 +122,7 @@ public class FragmentForOptionOnr extends Fragment {
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
-        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+        mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
     }
 
