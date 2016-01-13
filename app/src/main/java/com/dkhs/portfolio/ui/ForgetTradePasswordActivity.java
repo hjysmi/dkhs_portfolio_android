@@ -98,7 +98,7 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
         lvBankCard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(BankCardInfoActivity.forgetTradePasswordIntent(mContext, myCards.get(position)));
+                startActivityForResult(BankCardInfoActivity.forgetTradePasswordIntent(mContext, myCards.get(position)), 1);
             }
         });
     }
@@ -149,6 +149,15 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
             }
             tv.setText(String.format(getResources().getString(R.string.blank_card_info),card.getBank().getName(),cardType,card.getBank_card_no_tail()));
             return convertView;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == 2){
+            setResult(2);
+            manualFinish();
         }
     }
 }

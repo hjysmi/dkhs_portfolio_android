@@ -89,7 +89,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
             handleExtras(extras);
         }
         setTitle(R.string.setting_trade_password);
-        setResult(0);
+        setResult(2);
         initViews();
     }
 
@@ -203,7 +203,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                             if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_FORGET_PWD) {
                                 if (object) {
                                     PromptManager.showToast(R.string.set_trade_password_suc);
-                                    setResult(0);
+                                    setResult(2);
                                     manualFinish();
                                 } else {
                                     PromptManager.showToast(R.string.set_trade_password_fail);
@@ -212,6 +212,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                                 if (object) {
                                     if (TextUtils.isEmpty(firstPwd)) {
                                         //设置新交易密码成功
+                                        setResult(2);
                                         PromptManager.showToast(R.string.origin_trade_password_correct);
                                         isOldPwdTrue = object;
                                         setTitle(R.string.setting_trade_password);

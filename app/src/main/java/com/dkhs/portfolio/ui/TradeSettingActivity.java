@@ -125,7 +125,7 @@ public class TradeSettingActivity extends ModelAcitivity {
                             if(hasTradePassword){
                                 startActivity(new Intent(mContext, ResetTradePasswordActivity.class));
                             }else{
-                                startActivity(ForgetTradePasswordActivity.newIntent(mContext,true));
+                                startActivityForResult(ForgetTradePasswordActivity.newIntent(mContext,true),1);
                             }
                         }else{
                             showBindcardDialog();

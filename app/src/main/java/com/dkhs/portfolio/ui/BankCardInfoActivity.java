@@ -553,7 +553,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 protected void afterParseData(Boolean object) {
                     if (object) {
                         // TODO: 2015/12/26 验证成功
-                        startActivity(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile, captcha));
+                        startActivityForResult(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile, captcha),1);
                     } else {
                         PromptManager.showToast("验证失败");
                     }
@@ -664,7 +664,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 tv_bank.setTag(bank.getId());
                 checkBtnStatus();
             }
-        } else if (requestCode == 1 && resultCode == 0) {
+        } else if (requestCode == 1 && resultCode == 2) {
             setResult(2);
             manualFinish();
         }
