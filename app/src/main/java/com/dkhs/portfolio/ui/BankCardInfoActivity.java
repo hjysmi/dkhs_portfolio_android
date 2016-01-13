@@ -778,7 +778,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                                 tradeEngine.isTradePasswordSet(isTradePwdSetListener);
                             } else if (object == 0) {
                                 //认证失败
-                                if (checkCount != 2) {
+                                if (checkCount != 3) {
                                     checkCount++;
                                     handler.postDelayed(new Runnable() {
                                         @Override
