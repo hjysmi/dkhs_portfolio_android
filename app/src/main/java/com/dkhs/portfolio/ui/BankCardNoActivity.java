@@ -18,6 +18,7 @@ import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -155,7 +156,7 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
     @OnClick(R.id.btn_next)
     public void onClick(View v){
         //TODO 点击下一步
-        startActivityForResult(BankCardInfoActivity.bankCardInfoIntent(mContext, etBankcard.getText().toString().trim().replace(" ",""),identityInfoBean),1);
+        startActivityForResult(BankCardInfoActivity.bankCardInfoIntent(mContext, etBankcard.getText().toString().trim().replace(" ",""),identityInfoBean), ActivityCode.BANK_CARD_INFO_REQUEST.ordinal());
     }
 
     private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
@@ -179,8 +180,8 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1 && resultCode == 2){
-            setResult(1);
+        if(requestCode == ActivityCode.BANK_CARD_INFO_REQUEST.ordinal() && resultCode == ActivityCode.BANK_CARD_INFO_RESULT.ordinal()){
+            setResult(ActivityCode.BANK_CARD_NO_RESULT.ordinal());
             manualFinish();
         }
         super.onActivityResult(requestCode, resultCode, data);
