@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root"
+    android:background="@drawable/lv_white_selector"
+    android:orientation="horizontal">
+
+    <com.android.percent.PercentLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_marginLeftPercent="10%w"
+        app:layout_widthPercent="40%w">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/icon_homepage_csrc"
+            app:layout_heightPercent="22.1%w"
+            app:layout_marginBottomPercent="12.5%w"
+            app:layout_marginTopPercent="12.5%w"
+            app:layout_widthPercent="20%w" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/safesign_csrc"
+            android:textColor="@color/balance_title"
+            app:layout_heightPercent="20%w"
+            app:layout_marginBottomPercent="12.5%w"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_marginTopPercent="12.5%w"
+            app:layout_textSizePercent="8%w"
+            app:layout_widthPercent="75%w" />
+    </com.android.percent.PercentLinearLayout>
+
+    <com.android.percent.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        app:layout_marginRightPercent="5%w"
+        app:layout_widthPercent="40%w">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/icon_homepage_cmbc"
+            app:layout_heightPercent="22.1%w"
+            app:layout_marginBottomPercent="12.5%w"
+            app:layout_marginTopPercent="12.5%w"
+            app:layout_widthPercent="20%w" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/safesign_cmbc"
+            android:textColor="@color/tag_green"
+            app:layout_heightPercent="20%w"
+            app:layout_marginLeftPercent="5%w"
+            app:layout_textSizePercent="8%w"
+            app:layout_widthPercent="65%w" />
+    </com.android.percent.PercentLinearLayout>
+
+</com.android.percent.PercentRelativeLayout>

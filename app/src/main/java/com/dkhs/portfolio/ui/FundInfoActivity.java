@@ -21,6 +21,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -239,7 +240,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbrName(),myFund.getSymbol()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
-                    holder1.tv_net_new.setText(new DecimalFormat(".0000").format(myFund.getNet_value()));
+                    holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getNet_value()));
                     holder1.tv_fund_value.setText(mFundInfo.getWorth_value());
                     holder1.tv_recent_profit_time.setText(String.format(getResources().getString(R.string.blank_recent_profit_time), TimeUtils.getMMDDString(myFund.getTradedate())));
                 }

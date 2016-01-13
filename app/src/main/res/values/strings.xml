@@ -880,7 +880,7 @@
     <string name="input_bank_card">输入银行卡号</string>
     <string name="blank_verified_tip">请绑定持卡人%1$s的银行卡号</string>
     <string name="hint_bank_card">请输入银行卡号</string>
-    <string name="fund_supervision_bank">基金销售账户监督银行：中国民生银行</string>
+    <string name="fund_supervision_bank">资金支付由中国银联支持</string>
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
     <string name="bank_card_failed">认证失败</string>
@@ -1193,4 +1193,6 @@
     <string name="fund_discount_format">%1$s折</string>
     <string name="index_rate_six_month">半年收益</string>
     <string name="win_rate_six_month">半年跑赢大盘</string>
+    <string name="safesign_csrc">中国证监会核准的第三方基金销售机构</string>
+    <string name="safesign_cmbc">中国民生银行保障交易资金全程安全</string>
 </resources>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_gray"
-    android:orientation="vertical">
+    android:background="@color/theme_gray">
 
     <LinearLayout
+        android:id="@+id/ll_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/theme_blue"
@@ -61,6 +62,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/widget_text_18sp" />
             </LinearLayout>
+
             <View
                 style="@style/divider_line"
                 android:layout_width="0.5dp"
@@ -95,8 +97,10 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="0.5px"
+        android:layout_below="@+id/ll_top"
         android:background="@color/drivi_line" />
     <!--<View
         android:layout_width="match_parent"
@@ -109,13 +113,39 @@
         android:id="@+id/lv_assests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/divider"
         android:layout_marginTop="@dimen/widget_margin_large"
         android:background="@color/white"
         android:divider="@color/drivi_line"
         android:dividerHeight="0.5px" />
+
+    <com.android.percent.PercentRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:layout_marginBottomPercent="3%w">
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_homepage_cmbc"
+            app:layout_heightPercent="10%w"
+            app:layout_widthPercent="10%w" />
+        <TextView
+            android:layout_toRightOf="@+id/iv_img"
+            app:layout_marginLeftPercent="3%w"
+            app:layout_heightPercent="10%w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/safesign_cmbc"
+            android:textColor="@color/tag_green"/>
+    </com.android.percent.PercentRelativeLayout>
     <!--<View
         android:layout_width="match_parent"
         android:layout_height="0.5px"
         android:background="@color/drivi_line"
         />-->
-</LinearLayout>
+</com.android.percent.PercentRelativeLayout>

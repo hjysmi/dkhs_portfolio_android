@@ -160,6 +160,10 @@ public class DKHSUrl {
          */
         String GET_HOME_BANNER = "/api/v1/ads/area/home_banner/";
         String GET_SUB_HOME_BANNER = "/api/v1/ads/area/home_sub_banner";
+        /**
+         * 权威信息展示
+         */
+        String getSafeInfo = "/safe/ ";
 
     }
 
