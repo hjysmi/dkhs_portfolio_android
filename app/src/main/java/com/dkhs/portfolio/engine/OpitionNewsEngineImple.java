@@ -33,6 +33,8 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
     // 用户相关的研报分支
     public final static int NEWS_GROUP_TWO = 5;
     public final static int GROUP_FOR_ONE = 6;
+    //个股新闻
+    public final static int STOCK_NEWS = 7;
     private int orderType;
     private String model;
     private NewsforModel vo;
@@ -109,6 +111,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                 // MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
                 // vo.getSymbol(), vo.getContentSubType()), null, this);
                 break;
+
             default:
                 break;
         }
@@ -227,6 +230,10 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                         MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()),
                                         null, this);
 
+                        break;
+                    case STOCK_NEWS:
+                        DKHSClient.requestByGet(
+                                MessageFormat.format(DKHSUrl.News.stocknews, vo.getSymbol()), null, this);
                         break;
                     default:
                         break;

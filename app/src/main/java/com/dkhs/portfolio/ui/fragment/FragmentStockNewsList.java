@@ -6,16 +6,17 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
@@ -24,99 +25,86 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.widget.CircularProgress;
 
+import org.parceler.Parcels;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 需要优化界面
- * 个股行情界面，个股界面时（研报 TAB）
+ * 个股新闻页
+ * Created by xuetong on 2016/1/13.
  */
-
-public class FragmentForOptionOnr extends Fragment {
-    //private ListView mListView;
-
+public class FragmentStockNewsList extends Fragment implements Serializable {
+    private static final long serialVersionUID = 6565512311564642L;
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
-    // private OptionlistAdapter mOptionMarketAdapter;
+    // private OptionMarketAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
-    private TextView iv;
-    private static final String SYMBOL = "symbol";
-    private static final String NAME = "name";
-    private static final String SUB = "sub";
-    private String symbol;
-    private String name;
-    private String subType;
-    private boolean getadble = false;
-    //private RelativeLayout pb;
-    private LinearLayout mContentView;
+    public final static String NEWS_TYPE = "newsNum";
+    public final static String VO = "bigvo";
+    public final static String LAYOUT = "layout";
     private DisplayMetrics dm;
-    private View view_empty;
+    private static final String TAG = "FragmentNewsList";
+    private NewsforModel vo;
     private TextView tv;
+    private boolean getadle = true;
+    private LinearLayout mContentView;
+    private LinearLayout ll_loading;
+    private View view_empty;
     private CircularProgress loadView;
-
-    public static Fragment newIntent(Context context, String symbolName, String name, String subType) {
-        Fragment f = new FragmentForOptionOnr();
-        Bundle b = new Bundle();
-        b.putString(SYMBOL, symbolName);
-        b.putString(NAME, name);
-        b.putString(SUB, subType);
-        f.setArguments(b);
-        return f;
+    public static FragmentStockNewsList newIntent(String stockCode) {
+        FragmentStockNewsList noticeFragemnt = new FragmentStockNewsList();
+        NewsforModel vo;
+        Bundle b2 = new Bundle();
+        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.STOCK_NEWS);
+        vo = new NewsforModel();
+        vo.setSymbol(stockCode);
+        vo.setContentType("10");
+        vo.setPageTitle("新闻正文");
+        b2.putParcelable(FragmentNewsList.VO, Parcels.wrap(vo));
+        noticeFragemnt.setArguments(b2);
+        return noticeFragemnt;
     }
-
-    private void initDate() {
-        try {
-            Bundle extras = getArguments();
-            if (null != extras) {
-                symbol = extras.getString(SYMBOL);
-                name = extras.getString(NAME);
-                subType = extras.getString(SUB);
-            }
-            NewsforModel vo = new NewsforModel();
-            vo.setSymbol(symbol);
-            vo.setContentSubType(subType);
-            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
-                    OpitionNewsEngineImple.NEWS_OPITION_FOREACH, vo);
-            ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
 
     }
-
-    LinearLayout ll_content;
-    LinearLayout ll_loading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         BusProvider.getInstance().register(this);
         View view = inflater.inflate(R.layout.activity_option_market_newslist, null);
-        ll_content = (LinearLayout) view.findViewById(R.id.ll_content);
-        ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
         loadView = (CircularProgress) view.findViewById(R.id.loadView);
-        dm = UIUtils.getDisplayMetrics();
+        ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
         context = getActivity();
-        mDataList = new ArrayList<>();
-
-        iv = (TextView) view.findViewById(android.R.id.empty);
-        // iv.setText("暂无公告");
-        Bundle extras = getArguments();
-        if (null != extras) {
-            symbol = extras.getString(SYMBOL);
-            name = extras.getString(NAME);
-            subType = extras.getString(SUB);
-        }
-        if (null != view.findViewById(R.id.tv_title)) {
-            ((TextView) view.findViewById(R.id.tv_title)).setText("研报-" + name);
-        }
+        dm = UIUtils.getDisplayMetrics();
         initView(view);
-        initDate();
+        if (!isViewShown) {
+            initDate();
+        }
         return view;
+    }
+
+    private void initDate() {
+
+        Bundle bundle = getArguments();
+
+        if (null != bundle) {
+            vo = Parcels.unwrap(bundle.getParcelable(VO));
+            // layouts = vo.getLayout();
+            int types = bundle.getInt(NEWS_TYPE);
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
+            // mLoadDataEngine.setLoadingDialog(getActivity());
+            mLoadDataEngine.loadData();
+        }
+
     }
 
     private void initView(View view) {
@@ -124,18 +112,19 @@ public class FragmentForOptionOnr extends Fragment {
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
+        mDataList = new ArrayList<>();
     }
 
-
     public void loadMore() {
-        if (null != mLoadDataEngine && !isLoadingMore && getadble) {
+        if (null != mLoadDataEngine && !isLoadingMore && getadle) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                 // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             addFooterView(mFootView);
+
             isLoadingMore = true;
-            // mLoadDataEngine.setLoadingDialog(mContext);;
+            // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
         }
     }
@@ -144,37 +133,44 @@ public class FragmentForOptionOnr extends Fragment {
         mContentView.addView(footView);
     }
 
-    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    LoadNewsDataEngine.ILoadDataBackListener mSelectStockBackListener = new LoadNewsDataEngine.ILoadDataBackListener() {
+
 
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             ll_loading.setVisibility(View.GONE);
             try {
                 if (null != dataList && dataList.size() > 0) {
+                    if (!isLoadingMore) {
+                        mDataList.clear();
+                    }
                     mDataList.addAll(dataList);
-                    if (first) {
+                    if (first || vo.getContentType().equals("10")) {
+                        // initView(view);
                         first = false;
                     }
                     loadFinishUpdateView();
                 } else {
-                    tv.setText("暂无研报");
-                    mContentView.addView(view_empty);
+                    if (null != vo && null != vo.getPageTitle()) {
+                        tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
+                        mContentView.addView(view_empty);
+                    }
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
+            isLoadingMore = false;
         }
 
         @Override
         public void loadingFail() {
             ll_loading.setVisibility(View.GONE);
-            //    pb.setVisibility(View.GONE);
             if (null == mDataList || mDataList.isEmpty()) {
-                //   iv.setText("暂无研报");
-                tv.setText("暂无研报");
-                mContentView.addView(view_empty);
+                if (null != vo && null != vo.getPageTitle()) {
+                    tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
+                    mContentView.addView(view_empty);
+                }
             }
 
         }
@@ -182,6 +178,7 @@ public class FragmentForOptionOnr extends Fragment {
     };
 
     private void loadFinishUpdateView() {
+        Log.e(TAG, "loadFinishUpdateView");
         mContentView.removeAllViews();
         for (final OptionNewsBean bean : mDataList) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.adapter_opition_list, null);
@@ -200,6 +197,7 @@ public class FragmentForOptionOnr extends Fragment {
             } else {
                 tvTextName.setText(bean.getTitle());
             }
+            //ViewTreeObserver observer = tv.getViewTreeObserver();
             tvTextNameNum.setText(bean.getSymbols().get(0).getAbbrName());
             if (null != bean.getSource()) {
                 zhengquan.setText(bean.getSource().getTitle());
@@ -232,27 +230,28 @@ public class FragmentForOptionOnr extends Fragment {
             return;
         }
         addFooterView(mFootView);
+       //   BusProvider.getInstance().post(new StockQuotesStopTopBean());
     }
+
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
+    private boolean isViewShown;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        getadble = isVisibleToUser;
+        // TODO Auto-generated method stub
+        if (isVisibleToUser) {
+            getadle = true;
+            if (getView() != null) {
+                isViewShown = true;
+
+                initDate();
+            } else {
+                isViewShown = false;
+            }
+        } else {
+            // 不可见时不执行操作
+            getadle = false;
+        }
         super.setUserVisibleHint(isVisibleToUser);
-    }
-
-  /*  @Subscribe
-    public void getLoadMore(StockNewListLoadListBean bean) {
-        loadMore();
-    }*/
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        BusProvider.getInstance().unregister(this);
     }
 }

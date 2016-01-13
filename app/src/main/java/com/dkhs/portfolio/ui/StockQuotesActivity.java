@@ -47,6 +47,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
 import com.dkhs.portfolio.ui.fragment.FragmentForStockSHC;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.fragment.FragmentStockNewsList;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
@@ -443,8 +444,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
-            FragmentNewsList fListfirst = FragmentNewsList.newIntent(mStockBean.symbol);
-            tabBottomFirstFragment.add(fListfirst);
+            tabBottomFirstFragment.add(FragmentStockNewsList.newIntent(mStockBean.symbol));
+            tabBottomFirstFragment.add(FragmentNewsList.newIntent(mStockBean.symbol));
             tabBottomFirstFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.symbol, mStockBean.name, ""));
             replaceBottomFirstTabFragment(tabBottomFirstFragment.get(0));
             hs_title_first.setSelectPositionListener(mStockBottomTabFirstListener);
