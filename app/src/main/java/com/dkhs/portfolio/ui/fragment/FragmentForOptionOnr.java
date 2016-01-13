@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
@@ -23,6 +22,7 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.widget.CircularProgress;
 
 import java.util.ArrayList;
@@ -99,8 +99,7 @@ public class FragmentForOptionOnr extends Fragment {
         ll_content = (LinearLayout) view.findViewById(R.id.ll_content);
         ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
         loadView = (CircularProgress) view.findViewById(R.id.loadView);
-       /* dm = UIUtils.getDisplayMetrics();
-        ll_content.setMinimumHeight(dm.heightPixels);*/
+        dm = UIUtils.getDisplayMetrics();
         context = getActivity();
         mDataList = new ArrayList<>();
 
@@ -122,9 +121,6 @@ public class FragmentForOptionOnr extends Fragment {
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
-       /* float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
-        int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
-        mContentView.setMinimumHeight(minHeight);*/
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
@@ -204,7 +200,6 @@ public class FragmentForOptionOnr extends Fragment {
             } else {
                 tvTextName.setText(bean.getTitle());
             }
-            //ViewTreeObserver observer = tv.getViewTreeObserver();
             tvTextNameNum.setText(bean.getSymbols().get(0).getAbbrName());
             if (null != bean.getSource()) {
                 zhengquan.setText(bean.getSource().getTitle());
@@ -238,32 +233,18 @@ public class FragmentForOptionOnr extends Fragment {
                     }
                 }
             });
-
-
             mContentView.addView(view);
         }
-        BusProvider.getInstance().post(new StockQuotesStopTopBean());
+        if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+            // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        addFooterView(mFootView);
+      //  BusProvider.getInstance().post(new StockQuotesStopTopBean());
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        // TODO Auto-generated method stub
-        //            if (null == mDataList || mDataList.size() < 2) {
-//                if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
-//                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-//                }
-//            } else if (null != mDataList) {
-//                int height = 0;
-//                for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
-//                    View listItem = mOptionMarketAdapter.getView(i, null, mListView);
-//                    listItem.measure(0, 0); // 计算子项View 的宽高
-//                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-//                    height += list_child_item_height; // 统计所有子项的总高度
-//                }
-//                if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
-//                    ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-//                }
-//            }
         getadble = isVisibleToUser;
         super.setUserVisibleHint(isVisibleToUser);
     }

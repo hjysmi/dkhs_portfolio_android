@@ -124,9 +124,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
-      /*  float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
-        int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
-        mContentView.setMinimumHeight(minHeight);*/
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
