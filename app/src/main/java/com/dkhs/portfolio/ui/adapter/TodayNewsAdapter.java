@@ -89,7 +89,7 @@ public class TodayNewsAdapter extends BaseAdapter {
             holder.tvInfo.setText(newsBean.getText());
 //            ImageLoaderUtils.setImage(newsBean.getUser().getHeadPitureMD(),holder.ivNews);
         }else{
-            holder.tvTime.setText(TimeUtils.getBriefTimeString(newsBean.getPublish()));
+            holder.tvTime.setText(TimeUtils.getMMDDString(newsBean.getPublish()));
             holder.tvTitle.setText(newsBean.getTitle());
             holder.tvRelated.setText(TimeUtils.getBriefTimeString(newsBean.getPublish()));
         }

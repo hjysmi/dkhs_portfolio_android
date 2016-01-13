@@ -34,7 +34,10 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
     public final static int NEWS_GROUP_TWO = 5;
     public final static int GROUP_FOR_ONE = 6;
     // 今日要闻
+    //add by zcm 2016.1.12 for requirements 2.8
     public final static int NEWS_TODAY = 7;
+    //add by zcm 2016.1.13 for requirements 2.8
+    public final static int NEWS_MY_OPTION = 8;
     private int orderType;
     private String model;
     private NewsforModel vo;
@@ -78,7 +81,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 vo.getSymbol()), null, this);
                 break;
             case NEWS_GROUP: // 主界面资讯，自选tab
-
+            case NEWS_MY_OPTION:
                 if (!PortfolioApplication.hasUserLogin()) {
 
                     DKHSClient.requestByGet(
@@ -145,6 +148,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 MessageFormat.format(DKHSUrl.News.reportnewsoptioneach, vo.getSymbol()), null, this);
                         break;
                     case NEWS_GROUP:
+                    case NEWS_MY_OPTION:
 
                         if (!PortfolioApplication.hasUserLogin()) {
 
@@ -215,6 +219,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 MessageFormat.format(DKHSUrl.News.reportnewsoptioneachs, vo.getSymbol()), null, this);
                         break;
                     case NEWS_GROUP:
+                    case NEWS_MY_OPTION:
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.reportnews, vo.getUserid(), vo.getContentSubType()),
                                 null, this);

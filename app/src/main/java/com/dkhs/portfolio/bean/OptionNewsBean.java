@@ -36,12 +36,33 @@ public class OptionNewsBean {
     // content_type (choice, 0表示话题,10表示新闻,20表示公告,30表示研报)
     @SerializedName("content_type")
     String contentType;
-
     @SerializedName("at_users")
     List<String> atUser;
+
     List<Symbols> symbols;
     User user;
     Source source;
+    //add by zcm 2016.1.13 for requirements 2.8 今日要闻需要的字段
+    List<UploadImageBean> medias;
+
+    @SerializedName("recommend_title")
+    String recommendTitle;
+
+    public List<UploadImageBean> getMedias() {
+        return medias;
+    }
+
+    public void setMedias(List<UploadImageBean> medias) {
+        this.medias = medias;
+    }
+
+    public String getRecommendTitle() {
+        return recommendTitle;
+    }
+
+    public void setRecommendTitle(String recommendTitle) {
+        this.recommendTitle = recommendTitle;
+    }
 
     public Source getSource() {
         return source;
@@ -244,6 +265,26 @@ public class OptionNewsBean {
         String symbol;
         @SerializedName("abbr_name")
         String abbrName;
+        float percentage;
+        //是否停牌
+        @SerializedName("is_stop")
+        boolean isStop;
+
+        public boolean isStop() {
+            return isStop;
+        }
+
+        public void setIsStop(boolean isStop) {
+            this.isStop = isStop;
+        }
+
+        public float getPercentage() {
+            return percentage;
+        }
+
+        public void setPercentage(float percentage) {
+            this.percentage = percentage;
+        }
 
         public String getId() {
             return id;
