@@ -18,6 +18,7 @@ import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -98,7 +99,7 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
         lvBankCard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivityForResult(BankCardInfoActivity.forgetTradePasswordIntent(mContext, myCards.get(position)), 1);
+                startActivityForResult(BankCardInfoActivity.forgetTradePasswordIntent(mContext, myCards.get(position)), ActivityCode.BANK_CARD_INFO_REQUEST.ordinal());
             }
         });
     }
@@ -155,8 +156,8 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == 2){
-            setResult(2);
+        if(requestCode == ActivityCode.BANK_CARD_INFO_REQUEST.ordinal() && resultCode == ActivityCode.BANK_CARD_INFO_RESULT.ordinal()){
+            setResult(ActivityCode.FORGET_TRADE_PASSWORD_RESULT.ordinal());
             manualFinish();
         }
     }

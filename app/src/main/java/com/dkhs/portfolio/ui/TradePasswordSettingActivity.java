@@ -17,6 +17,7 @@ import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.jungly.gridpasswordview.GridPasswordView;
 import com.lidroid.xutils.ViewUtils;
@@ -89,7 +90,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
             handleExtras(extras);
         }
         setTitle(R.string.setting_trade_password);
-        setResult(2);
+        setResult(ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
         initViews();
     }
 
@@ -203,7 +204,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                             if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_FORGET_PWD) {
                                 if (object) {
                                     PromptManager.showToast(R.string.set_trade_password_suc);
-                                    setResult(2);
+                                    setResult(ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
                                     manualFinish();
                                 } else {
                                     PromptManager.showToast(R.string.set_trade_password_fail);
@@ -212,7 +213,7 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                                 if (object) {
                                     if (TextUtils.isEmpty(firstPwd)) {
                                         //设置新交易密码成功
-                                        setResult(2);
+                                        setResult(ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
                                         PromptManager.showToast(R.string.origin_trade_password_correct);
                                         isOldPwdTrue = object;
                                         setTitle(R.string.setting_trade_password);

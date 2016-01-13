@@ -17,6 +17,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -69,7 +70,7 @@ public class ChooseBankActivity extends LoadMoreListActivity{
                     Bank bank = banks.get(position + 1);
                     Intent data = new Intent();
                     data.putExtra(BankCardInfoActivity.BANK, bank);
-                    setResult(1, data);
+                    setResult(ActivityCode.CHOOSE_BANK_RESULT.ordinal(), data);
                     finish();
                 }
             }
