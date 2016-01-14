@@ -28,14 +28,19 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
     // 个股研报分支
     public final static int NEWS_OPITION_FOREACH = 3;
 
-    // 用户相关的研报分支
+    // 用户相关的研报分支(自选tab)
     public final static int NEWS_GROUP = 4;
     // 用户相关的研报分支
     public final static int NEWS_GROUP_TWO = 5;
     public final static int GROUP_FOR_ONE = 6;
+    // 今日要闻
+    //add by zcm 2016.1.12 for requirements 2.8
+    public final static int NEWS_TODAY = 7;
+    //add by zcm 2016.1.13 for requirements 2.8
+    public final static int NEWS_MY_OPTION = 8;
     //个股新闻
-    public final static int STOCK_NEWS = 7;
-    public final static int STOCK_All_NEWS = 8;
+    public final static int STOCK_NEWS = 9;
+    public final static int STOCK_All_NEWS = 10;
     private int orderType;
     private String model;
     private NewsforModel vo;
@@ -45,7 +50,6 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
         this.orderType = type;
         this.vo = vo;
     }
-
 
     // private String id;
     //
@@ -80,7 +84,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 vo.getSymbol()), null, this);
                 break;
             case NEWS_GROUP: // 主界面资讯，自选tab
-
+            case NEWS_MY_OPTION:
                 if (!PortfolioApplication.hasUserLogin()) {
 
                     DKHSClient.requestByGet(
@@ -102,6 +106,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                 DKHSClient.requestByGet(
                         MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
                                 vo.getSymbol(), vo.getContentSubType()), null, this);
+                break;
+            case NEWS_TODAY:
+                DKHSClient.requestByGet(DKHSUrl.News.reportnews_today + "&page=" + (getCurrentpage() + 1), null, this);
                 break;
             case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
@@ -141,6 +148,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 MessageFormat.format(DKHSUrl.News.reportnewsoptioneach, vo.getSymbol()), null, this);
                         break;
                     case NEWS_GROUP:
+                    case NEWS_MY_OPTION:
 
                         if (!PortfolioApplication.hasUserLogin()) {
 
@@ -165,6 +173,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.reportnewsforone, vo.getSymbol(),
                                         vo.getContentSubType()), null, this);
+                        break;
+                    case NEWS_TODAY:
+                        DKHSClient.requestByGet(DKHSUrl.News.reportnews_today, null, this);
                         break;
 
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
@@ -211,6 +222,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 MessageFormat.format(DKHSUrl.News.reportnewsoptioneachs, vo.getSymbol()), null, this);
                         break;
                     case NEWS_GROUP:
+                    case NEWS_MY_OPTION:
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.reportnews, vo.getUserid(), vo.getContentSubType()),
                                 null, this);
@@ -222,6 +234,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.reportnewsforone, vo.getSymbol(),
                                         vo.getContentSubType()), null, this);
+                        break;
+                    case NEWS_TODAY:
+                        DKHSClient.requestByGet(DKHSUrl.News.reportnews_today, null,this);
                         break;
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 

@@ -124,23 +124,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:layout_marginBottomPercent="3%w">
+        app:layout_marginBottomPercent="3%w"
+        app:layout_widthPercent="70%w">
 
         <ImageView
             android:id="@+id/iv_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_homepage_cmbc"
-            app:layout_heightPercent="10%w"
-            app:layout_widthPercent="10%w" />
+            app:layout_heightPercent="8%w"
+            app:layout_widthPercent="8%w"
+            android:layout_centerVertical="true"/>
         <TextView
             android:layout_toRightOf="@+id/iv_img"
-            app:layout_marginLeftPercent="3%w"
             app:layout_heightPercent="10%w"
+            app:layout_widthPercent="90%w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/safesign_cmbc"
+            app:layout_textSizePercent="5.5%w"
+            android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:gravity="center"
+            android:text="@string/safesign_cmbc_assest"
             android:textColor="@color/tag_green"/>
     </com.android.percent.PercentRelativeLayout>
     <!--<View

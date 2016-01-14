@@ -11,11 +11,13 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/widget_margin_medium"
         android:layout_marginTop="@dimen/widget_margin_medium"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
 
         <ImageView
             android:layout_width="@dimen/unionpay_width"
-            android:layout_height="@dimen/select_image"
+            android:layout_height="@dimen/edittext_padding"
             android:background="@drawable/ic_unionpay"
             />
 

@@ -210,7 +210,7 @@ public class DKHSUrl {
 
     public interface News {
         // 新闻公告 从主界面与左滑动栏进入时调用
-        String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=50&content_type=20,30";
+        String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=20&content_type=20,30";
         // 关于某只股票的新闻与公告 10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
         // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
         String stocknews = "/api/v1/statuses/symbol_timeline/?page_size=5&symbol={0}&content_type=10";
@@ -224,15 +224,17 @@ public class DKHSUrl {
         String reportnewsByAnony = "/api/v1/statuses/symbol_timeline/?symbol={0}&content_type=20,30";
 
         // 已登陆用户的自选资讯
-        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=50&user_id={0}&content_type=20,30";
-        String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30&content_subtype={1}";
-        String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=50&content_type=30&content_subtype={0}";
+        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=20&user_id={0}&content_type=20,30";
+        String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=20&symbol={0}&content_type=30&content_subtype={1}";
+        String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=20&content_type=30&content_subtype={0}";
+        //今日要闻
+        String reportnews_today = "/api/v1/statuses/recommend/?page_size=20&content_type=10";
 
         //
-        String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=50&portfolio_id={0}&content_type={1}";
+        String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=20&portfolio_id={0}&content_type={1}";
 
-        String reportnewsoptioneachs = "/api/v1/statuses/symbol_timeline/?page_size=5&symbol={0}&content_type=30";
-        String reportnews_second_notice = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=20";
+        String reportnewsoptioneachs = "/api/v1/statuses/symbol_timeline/?page_size=200&symbol={0}&content_type=30";
+        String reportnews_second_notice = "/api/v1/statuses/symbol_timeline/?page_size=20&symbol={0}&content_type=20";
         String newstext = "/api/v1/statuses/";
         //获取单条信息
         String newstext_detial = "/api/v1/statuses/%s";
@@ -397,8 +399,7 @@ public class DKHSUrl {
         String pro_verfications_url = "/api/v1/accounts/pro_verfications/";
         String query_pro_verfications_url = "/api/v1/accounts/pro_verfications/mine/";
     }
-
-    public interface Funds {
+    public interface Funds{
         String get_verifications = "/api/v1/accounts/identity_verfications/mine/";
         String verify_identy = "/api/v1/funds/identity_auth/verify/";
         String checkIdentity = "/api/v1/funds/identity_auth/check/";

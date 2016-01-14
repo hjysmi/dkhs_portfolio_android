@@ -337,9 +337,13 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
     private void generateCacheData(){
         String allMarketJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_STOCK_ALL_MARKET_JSON);
         if(!TextUtils.isEmpty(allMarketJson)){
-            mViewBeanList.clear();
-            mViewBeanList.addAll(parseData(allMarketJson));
-            mAdapter.notifyDataSetChanged();
+            try{
+                mViewBeanList.clear();
+                mViewBeanList.addAll(parseData(allMarketJson));
+                mAdapter.notifyDataSetChanged();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
     }
