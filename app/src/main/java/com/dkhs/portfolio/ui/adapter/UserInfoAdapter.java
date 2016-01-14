@@ -351,6 +351,8 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @ViewInject(R.id.tv_following)
         private TextView tvFollowing;
+        @ViewInject(R.id.divider)
+        private View divider;
         ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
 
             @Override
@@ -461,6 +463,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 tvFollowers.setText(StringFromatUtils.handleNumber(GlobalParams.LOGIN_USER.getFollowed_by_count()));
                 tvFollowing.setText(StringFromatUtils.handleNumber(GlobalParams.LOGIN_USER.getFriends_count()));
+                divider.setBackgroundColor(mContext.getResources().getColor(R.color.drivi_line));
 
 //                UserEntity userEntity = UserEngineImpl.getUserEntity();
 //                new UserEngineImpl().getBaseUserInfo(userEntity.getId() + "", userInfoListener);
