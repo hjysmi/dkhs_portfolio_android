@@ -118,6 +118,7 @@
         </com.android.percent.PercentRelativeLayout>
 
         <View
+            android:id="@+id/divider"
             android:layout_width="fill_parent"
             android:layout_height="0.5px"
             android:background="@color/drivi_line" />
