@@ -247,7 +247,8 @@ public class UserFragment extends BaseTitleFragment {
                     || GlobalParams.LOGIN_USER.getFriends_count() != entity.getFriends_count()
                     || GlobalParams.LOGIN_USER.getFollowed_by_count() != entity.getFollowed_by_count()
                     || GlobalParams.LOGIN_USER.verified_status != entity.verified_status
-                    || !GlobalParams.LOGIN_USER.getAvatar_md().equals(entity.getAvatar_md())) {
+                    || !GlobalParams.LOGIN_USER.getAvatar_md().equals(entity.getAvatar_md())
+                    || !GlobalParams.LOGIN_USER.getUsername().equals(entity.getUsername())) {
                 mInfoAdatper.notifyItemChanged(0);
             }
         } catch (Exception e) {
