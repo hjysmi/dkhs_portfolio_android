@@ -93,9 +93,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public void onViewShow() {
         super.onViewShow();
         LogUtils.e(viewType + "onViewShow");
-        if (null == mLoadDataEngine) {
-
-        } else {
+        if (null!= mLoadDataEngine && vo == null) {
             refreshData();
         }
     }

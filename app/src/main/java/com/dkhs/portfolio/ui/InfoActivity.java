@@ -41,9 +41,8 @@ public class InfoActivity extends ModelAcitivity {
 
         infoEngine = new NewsforModel();
         infoEngine.setUserid(userId);
-        infoEngine.setContentSubType("301");
         Fragment hongguanFragment = ReportListForAllFragment.getFragment(infoEngine,
-                OpitionNewsEngineImple.NEWS_GROUP_TWO);
+                OpitionNewsEngineImple.NEWS_TODAY);
         fragmentList.add(hongguanFragment);
 
         infoEngine = new NewsforModel();

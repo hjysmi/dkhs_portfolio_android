@@ -63,7 +63,7 @@
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="@dimen/widget_margin_normal"
         android:layout_toRightOf="@+id/tv_type"
         android:maxLines="2"
         android:ellipsize="end"

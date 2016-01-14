@@ -77,8 +77,8 @@ public class TodayNewsAdapter extends BaseAdapter {
                 convertView.setTag(holder);
             } else {
                 convertView = View.inflate(mContext, R.layout.adapter_info_news_today_content, null);
-                holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_info);
-                holder.tvTime = (TextView) convertView.findViewById(R.id.tv_info);
+                holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_news_title);
+                holder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
                 holder.tvRelated = (TextView) convertView.findViewById(R.id.tv_related);
                 holder.ivNews = (ImageView) convertView.findViewById(R.id.iv_news);
                 convertView.setTag(holder);
@@ -86,12 +86,17 @@ public class TodayNewsAdapter extends BaseAdapter {
         }
         holder = (ViewHodler) convertView.getTag();
         if(type == TYPE_HEAD){
-            holder.tvInfo.setText(newsBean.getText());
-//            ImageLoaderUtils.setImage(newsBean.getUser().getHeadPitureMD(),holder.ivNews);
+            holder.tvInfo.setText(newsBean.getTitle());
+            if(!TextUtils.isEmpty(newsBean.getMedias().get(0).getImage_md())){
+                ImageLoaderUtils.setImagDefault(newsBean.getMedias().get(0).getImage_md(),holder.ivNews);
+            }
         }else{
             holder.tvTime.setText(TimeUtils.getMMDDString(newsBean.getPublish()));
             holder.tvTitle.setText(newsBean.getTitle());
             holder.tvRelated.setText(TimeUtils.getBriefTimeString(newsBean.getPublish()));
+            if(!TextUtils.isEmpty(newsBean.getRecommendImageSm())){
+                ImageLoaderUtils.setImagDefault(newsBean.getRecommendImageSm(), holder.ivNews);
+            }
         }
 
         return convertView;

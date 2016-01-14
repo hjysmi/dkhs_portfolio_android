@@ -71,9 +71,8 @@
         <item>宏观</item>
     </string-array>
     <string-array name="main_info_title">
-        <item>宏观</item>
+        <item>今日要闻</item>
         <item>自选</item>
-        <item>策略</item>
     </string-array>
     <string-array name="stock_quote_info_title">
 

@@ -105,9 +105,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 vo.getSymbol(), vo.getContentSubType()), null, this);
                 break;
             case NEWS_TODAY:
-                DKHSClient.requestByGet(
-                        MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
-                                vo.getSymbol(), vo.getContentSubType()), null, this);
+                DKHSClient.requestByGet(DKHSUrl.News.reportnews_today + "&page=" + (getCurrentpage() + 1), null, this);
                 break;
             case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
@@ -174,6 +172,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 MessageFormat.format(DKHSUrl.News.reportnewsforone, vo.getSymbol(),
                                         vo.getContentSubType()), null, this);
                         break;
+                    case NEWS_TODAY:
+                        DKHSClient.requestByGet(DKHSUrl.News.reportnews_today, null, this);
+                        break;
 
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
@@ -231,6 +232,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.reportnewsforone, vo.getSymbol(),
                                         vo.getContentSubType()), null, this);
+                        break;
+                    case NEWS_TODAY:
+                        DKHSClient.requestByGet(DKHSUrl.News.reportnews_today, null,this);
                         break;
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 

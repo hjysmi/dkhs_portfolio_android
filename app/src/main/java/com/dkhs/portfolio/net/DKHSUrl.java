@@ -226,6 +226,8 @@ public class DKHSUrl {
         String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=20&user_id={0}&content_type=20,30";
         String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=20&symbol={0}&content_type=30&content_subtype={1}";
         String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=20&content_type=30&content_subtype={0}";
+        //今日要闻
+        String reportnews_today = "/api/v1/statuses/recommend/?page_size=20&content_type=10";
 
         //
         String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=20&portfolio_id={0}&content_type={1}";

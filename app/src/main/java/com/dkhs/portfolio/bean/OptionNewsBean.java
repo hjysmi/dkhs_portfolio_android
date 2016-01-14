@@ -44,9 +44,19 @@ public class OptionNewsBean {
     Source source;
     //add by zcm 2016.1.13 for requirements 2.8 今日要闻需要的字段
     List<UploadImageBean> medias;
+    @SerializedName("recommend_image_sm")
+    String recommendImageSm;
 
     @SerializedName("recommend_title")
     String recommendTitle;
+
+    public String getRecommendImageSm() {
+        return recommendImageSm;
+    }
+
+    public void setRecommendImageSm(String recommendImageSm) {
+        this.recommendImageSm = recommendImageSm;
+    }
 
     public List<UploadImageBean> getMedias() {
         return medias;
