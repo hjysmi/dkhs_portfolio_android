@@ -284,7 +284,7 @@ public class F10ViewParse {
             PercentRelativeLayout rowContent = createFundRowView(profileTitle, rowText);
             TextView tvPrice = (TextView) rowContent.findViewById(R.id.tvprice);
             if (rowIndex == 1) {
-                if (fundQuoteBean.getDiscount_rate_buy() == 1) {
+                if (fundQuoteBean.getDiscount_rate_buy() == 1 || fundQuoteBean.getFare_ratio_buy() == 0) {
                     tvPrice.setVisibility(View.GONE);
                 } else {
                     tvPrice.setVisibility(View.VISIBLE);
