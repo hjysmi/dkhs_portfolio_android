@@ -97,17 +97,17 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                     tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar), info.getAmount()));
                     tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_shares),info.getShares()));
                     if(info.getStatus() == 0){
-                        iv_info_tip2.setBackgroundResource(R.drawable.trade_unsuc);
+                        iv_info_tip2.setImageResource(R.drawable.trade_unsuc);
                         tv_trade_shares.setText(R.string.tobe_confirmed);
                         tv_trade_status.setText(R.string.entrust_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_suc);
                     }else if(info.getStatus() == 1){
                         tv_trade_status.setText(R.string.trade_suc);
-                        iv_info_tip2.setBackgroundResource(R.drawable.trade_suc);
+                        iv_info_tip2.setImageResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_suc);
                     }else if(info.getStatus() == 2){
                         tv_trade_status.setText(R.string.trade_fail);
-                        iv_info_tip2.setBackgroundResource(R.drawable.trade_suc);
+                        iv_info_tip2.setImageResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_fail);
                     }
                     tv_trade_rate.setText(StringFromatUtils.get2PointPercent((float) (info.getDiscount_rate() * info.getFare_ratio())));

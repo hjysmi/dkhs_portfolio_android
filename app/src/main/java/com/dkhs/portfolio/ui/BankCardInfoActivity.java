@@ -116,10 +116,11 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         return intent;
     }
 
-    public static Intent bankCardInfoIntent(Context context, String cardNo, IdentityInfoBean identityInfoBean) {
+    public static Intent bankCardInfoIntent(Context context, String cardNo,Bank bank, IdentityInfoBean identityInfoBean) {
         Intent intent = new Intent(context, BankCardInfoActivity.class);
         intent.putExtra(LAYOUT_TYPE, false);
         intent.putExtra(BANK_CARD_NO, cardNo);
+        intent.putExtra(BANK, bank);
         if (identityInfoBean != null)
             intent.putExtra(IDENTITY_INFO_BEAN, Parcels.wrap(identityInfoBean));
         return intent;
@@ -142,29 +143,29 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     }
 
     private void initData() {
-        ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
-            @Override
-            protected Bank parseDateTask(String jsonData) {
-                try {
-                    jsonData = StringDecodeUtil.decodeUnicode(jsonData);
-                    bank = DataParse.parseObjectJson(Bank.class, jsonData);
-                } catch (Exception e) {
-                }
-                return bank;
-            }
-
-            @Override
-            protected void afterParseData(Bank bank) {
-                if (!TextUtils.isEmpty(bank.getName())) {
-                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
-                    tv_limit_value.setVisibility(View.VISIBLE);
-                    tv_bank.setText(bank.getName());
-                    tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
-                    btnStatus++;
-                }
-            }
-        };
-        new TradeEngineImpl().checkBank(bankCardNo, listener.setLoadingDialog(mContext));
+//        ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
+//            @Override
+//            protected Bank parseDateTask(String jsonData) {
+//                try {
+//                    jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+//                    bank = DataParse.parseObjectJson(Bank.class, jsonData);
+//                } catch (Exception e) {
+//                }
+//                return bank;
+//            }
+//
+//            @Override
+//            protected void afterParseData(Bank bank) {
+//                if (!TextUtils.isEmpty(bank.getName())) {
+//                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+//                    tv_limit_value.setVisibility(View.VISIBLE);
+//                    tv_bank.setText(bank.getName());
+//                    tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
+//                    btnStatus++;
+//                }
+//            }
+//        };
+//        new TradeEngineImpl().checkBank(bankCardNo, listener.setLoadingDialog(mContext));
 
     }
 
@@ -173,6 +174,14 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         bankCardNo = extras.getString(BANK_CARD_NO, "");
         mBankCard = (MyBankCard) extras.getSerializable(BANK_CARD);
         identityInfoBean = Parcels.unwrap(extras.getParcelable(IDENTITY_INFO_BEAN));
+        bank = (Bank) extras.getSerializable(BANK);
+        if (bank != null && !TextUtils.isEmpty(bank.getName())) {
+            tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+            tv_limit_value.setVisibility(View.VISIBLE);
+            tv_bank.setText(bank.getName());
+            tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
+            btnStatus++;
+        }
         if (mBankCard != null) {
             bank = mBankCard.getBank();
             btnStatus++;
