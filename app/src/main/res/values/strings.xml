@@ -1196,4 +1196,6 @@
     <string name="safesign_csrc">&#160;&#160;中国证监会核准的\n第三方基金销售机构</string>
     <string name="safesign_cmbc">中国民生银行保障\n交易资金全程安全</string>
     <string name="safesign_cmbc_assest">中国民生银行保障交易资金全程安全</string>
+
+    <string name="news_source">【%1$s】</string>
 </resources>
