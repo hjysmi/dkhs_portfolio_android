@@ -979,7 +979,7 @@
     <string name="retry">重试</string>
     <string name="blank_trade_pwd_wrong">交易密码不正确你还可以输入%1$d次</string>
     <string name="trade_pwd_locked">交易密码已被锁定,请3小时候再试</string>
-    <string name="bank_no_tip">1、仅支持添加储蓄卡\n2、支持的银行有：工商、农业、中国、建设、交通、中信、光大、民生、兴业、平安、邮储</string>
+    <string name="bank_no_tip">1.仅支持添加储蓄卡\n2.支持的银行有：工商、农业、中行、建行、交行、中信、光大、民生、兴业、平安、邮储</string>
     <string name="buy_fund_tip1">目前已支持多张银行卡购买基金</string>
     <string name="buy_fund_tip2">申购费150元 预计1-2交易日确认份额</string>
     <string name="blank_buy_fund_tip1">申购费率: %1$s 预计1-2交易日确认份额</string>
