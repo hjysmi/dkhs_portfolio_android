@@ -641,8 +641,10 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 mDataList.addAll(portfolios);
             }
         }
-        mDataList.add(new SpaceBean());
-        mDataList.add(new SafeSignBean());
+        if (mDataList != null && mDataList.size() != 0) {
+            mDataList.add(new SpaceBean());
+            mDataList.add(new SafeSignBean());
+        }
         mAdapter.notifyDataSetChanged();
     }
 

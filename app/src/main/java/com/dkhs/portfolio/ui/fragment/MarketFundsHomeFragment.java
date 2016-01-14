@@ -443,8 +443,10 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         for (RecommendFundSpecialFinancingBean item : specialFinancings) {
             mDataList.add(item);
         }
-        mDataList.add(new SpaceBean());
-        mDataList.add(new SafeSignBean());
+        if (mDataList != null && mDataList.size() != 0) {
+            mDataList.add(new SpaceBean());
+            mDataList.add(new SafeSignBean());
+        }
         mAdapter.notifyDataSetChanged();
     }
 
