@@ -64,7 +64,7 @@ public class InviteFriendsActivity extends ModelAcitivity {
                 invitingFriendAction();
             }
         });
-
+        loadView.setVisibility(View.GONE);
         getDataForNet(false);
 
         TextView rightButton = getRightButton();

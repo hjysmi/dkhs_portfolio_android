@@ -99,6 +99,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         super.onViewCreated(view, savedInstanceState);
 //        mListView.setDivider(null);
         loadData();
+        mListView.setFooterDividersEnabled(false);
     }
 
     public void refresh() {

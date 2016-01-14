@@ -23,7 +23,7 @@
                 android:layout_marginTop="15dp"
 
                 android:orientation="vertical">
-
+                <include layout="@layout/layout_line" />
                 <LinearLayout
                     android:id="@+id/ll_userinfo_layout"
                     android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                     android:showDividers="middle">
 
 
-                    <include layout="@layout/layout_line" />
+
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_icon"

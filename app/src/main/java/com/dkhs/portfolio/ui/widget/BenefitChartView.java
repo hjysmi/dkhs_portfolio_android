@@ -297,6 +297,7 @@ public class BenefitChartView {
         maChartView.setIsFundTrendCompare(true);
         maChartView.setDisplayAxisYTitleColor(false);
         maChartView.setDisplayYRightTitleByZero(true);
+        maChartView.setIsBenefitDash(true);
 
         onFinishUpdateUI();
     }
