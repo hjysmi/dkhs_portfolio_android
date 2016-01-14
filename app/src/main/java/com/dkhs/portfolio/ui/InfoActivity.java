@@ -41,24 +41,23 @@ public class InfoActivity extends ModelAcitivity {
 
         infoEngine = new NewsforModel();
         infoEngine.setUserid(userId);
-        infoEngine.setContentSubType("301");
         Fragment hongguanFragment = ReportListForAllFragment.getFragment(infoEngine,
-                OpitionNewsEngineImple.NEWS_GROUP_TWO);
+                OpitionNewsEngineImple.NEWS_TODAY);
         fragmentList.add(hongguanFragment);
 
         infoEngine = new NewsforModel();
         infoEngine.setUserid(userId);
         infoEngine.setContentSubType("304");
         Fragment optionalInfoFragment = ReportListForAllFragment.getFragment(infoEngine,
-                OpitionNewsEngineImple.NEWS_GROUP);
+                OpitionNewsEngineImple.NEWS_MY_OPTION);
         fragmentList.add(optionalInfoFragment);
 
-        infoEngine = new NewsforModel();
-        infoEngine.setUserid(userId);
-        infoEngine.setContentSubType("302");
-        Fragment celueFragment = ReportListForAllFragment
-                .getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
-        fragmentList.add(celueFragment);
+//        infoEngine = new NewsforModel();
+//        infoEngine.setUserid(userId);
+//        infoEngine.setContentSubType("302");
+//        Fragment celueFragment = ReportListForAllFragment
+//                .getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
+//        fragmentList.add(celueFragment);
 
         new FragmentSelectAdapter(this, name, fragmentList, layout, getSupportFragmentManager());
 

@@ -29,7 +29,10 @@ import com.dkhs.portfolio.bean.RecommendFundSpecialFinancingBean;
 import com.dkhs.portfolio.bean.RecommendFundSpecialFundManagerBean;
 import com.dkhs.portfolio.bean.RecommendFundSpecialLineBean;
 import com.dkhs.portfolio.bean.RecommendFundSpecialMarketBean;
+import com.dkhs.portfolio.bean.SafeSignBean;
+import com.dkhs.portfolio.bean.SpaceBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.bean.itemhandler.SafeSignHandler;
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialBannerHandler;
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialFinancingHandler;
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialFundManagerBannerHandler;
@@ -38,6 +41,7 @@ import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialMainValueHandl
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialMarketHandler;
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialTitleHandler;
 import com.dkhs.portfolio.bean.itemhandler.fundspecial.FundSpecialTitleType;
+import com.dkhs.portfolio.bean.itemhandler.homepage.SpaceHandler;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.engine.FundHomeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -439,6 +443,10 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         for (RecommendFundSpecialFinancingBean item : specialFinancings) {
             mDataList.add(item);
         }
+        if (mDataList != null && mDataList.size() != 0) {
+            mDataList.add(new SpaceBean());
+            mDataList.add(new SafeSignBean());
+        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -499,7 +507,9 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
                     .buildMultiItemView(RecommendFundSpecialMarketBean.class, new FundSpecialMarketHandler(mActivity))
                     .buildMultiItemView(RecommendFundSpecialLineBean.class, new FundSpecialHandler(mActivity))
                     .buildMultiItemView(RecommendFundSpecialFundManagerBean.class, new FundSpecialFundManagerBannerHandler(mActivity))
-                    .buildMultiItemView(RecommendFundSpecialFinancingBean.class, new FundSpecialFinancingHandler(mActivity));
+                    .buildMultiItemView(RecommendFundSpecialFinancingBean.class, new FundSpecialFinancingHandler(mActivity))
+                    .buildMultiItemView(SpaceBean.class, new SpaceHandler(mActivity))
+                    .buildMultiItemView(SafeSignBean.class, new SafeSignHandler(mActivity));
         }
         return mAdapter;
     }

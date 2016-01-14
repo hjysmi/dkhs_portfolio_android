@@ -16,6 +16,7 @@ import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -125,7 +126,7 @@ public class TradeSettingActivity extends AssestsBaseActivity {
                             if(hasTradePassword){
                                 startActivity(new Intent(mContext, ResetTradePasswordActivity.class));
                             }else{
-                                startActivity(ForgetTradePasswordActivity.newIntent(mContext,true));
+                                startActivityForResult(ForgetTradePasswordActivity.newIntent(mContext,true), ActivityCode.FORGET_TRADE_PASSWORD_REQUEST.ordinal());
                             }
                         }else{
                             showBindcardDialog();

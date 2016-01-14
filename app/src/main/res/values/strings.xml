@@ -213,7 +213,7 @@
     <string name="setting_string_public">公开组合持仓明细</string>
     <string name="setting_string_public_title">公开持仓明细</string>
     <string name="setting_string_publicexplan">公开后可参与排名及比赛等活动</string>
-    <string name="setting_string_exit">退出登录</string>
+    <string name="setting_string_exit">退出账号</string>
     <string name="sell">卖</string>
     <string name="buy">买</string>
     <string name="function_ace">牛人</string>
@@ -880,7 +880,7 @@
     <string name="input_bank_card">输入银行卡号</string>
     <string name="blank_verified_tip">请绑定持卡人%1$s的银行卡号</string>
     <string name="hint_bank_card">请输入银行卡号</string>
-    <string name="fund_supervision_bank">基金销售账户监督银行：中国民生银行</string>
+    <string name="fund_supervision_bank">资金支付由中国银联支持</string>
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
     <string name="bank_card_failed">认证失败</string>
@@ -979,7 +979,7 @@
     <string name="retry">重试</string>
     <string name="blank_trade_pwd_wrong">交易密码不正确你还可以输入%1$d次</string>
     <string name="trade_pwd_locked">交易密码已被锁定,请3小时候再试</string>
-    <string name="bank_no_tip">1、仅支持添加储蓄卡\n2、支持的银行有：工商、农业、中国、建设、交通、中信、光大、民生、兴业、平安、邮储</string>
+    <string name="bank_no_tip">1.仅支持添加储蓄卡\n2.支持的银行有：工商、农业、中行、建行、交行、中信、光大、民生、兴业、平安、邮储</string>
     <string name="buy_fund_tip1">目前已支持多张银行卡购买基金</string>
     <string name="buy_fund_tip2">申购费150元 预计1-2交易日确认份额</string>
     <string name="blank_buy_fund_tip1">申购费率: %1$s 预计1-2交易日确认份额</string>
@@ -1193,4 +1193,7 @@
     <string name="fund_discount_format">%1$s折</string>
     <string name="index_rate_six_month">半年收益</string>
     <string name="win_rate_six_month">半年跑赢大盘</string>
+    <string name="safesign_csrc">&#160;&#160;中国证监会核准的\n第三方基金销售机构</string>
+    <string name="safesign_cmbc">中国民生银行保障\n交易资金全程安全</string>
+    <string name="safesign_cmbc_assest">中国民生银行保障交易资金全程安全</string>
 </resources>

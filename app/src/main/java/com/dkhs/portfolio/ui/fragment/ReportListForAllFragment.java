@@ -21,10 +21,12 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.OptionListAcitivity;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
+import com.dkhs.portfolio.ui.adapter.InfoMyOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
+import com.dkhs.portfolio.ui.adapter.TodayNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -91,9 +93,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public void onViewShow() {
         super.onViewShow();
         LogUtils.e(viewType + "onViewShow");
-        if (null == mLoadDataEngine) {
-
-        } else {
+        if (null!= mLoadDataEngine && vo == null) {
             refreshData();
         }
     }
@@ -157,6 +157,12 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                 break;
             case OpitionNewsEngineImple.NEWS_GROUP:
                 mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);
+                break;
+            case OpitionNewsEngineImple.NEWS_MY_OPTION:
+                mOptionMarketAdapter = new InfoMyOptionAdapter(context, mDataList);
+                break;
+            case OpitionNewsEngineImple.NEWS_TODAY:
+                mOptionMarketAdapter = new TodayNewsAdapter(context, mDataList);
                 break;
             case NEWS_SECOND_NOTICE: {
                 mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);
@@ -234,35 +240,27 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                         break;
                     default:
                         try {
+                            String idStr = optionNewsBean.getId();
+                            boolean needGoToDetail;
                             switch (viewType) {
                                 case 1:
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
-
-                                        String idStr = optionNewsBean
-                                                .getId();
-                                        if (idStr.matches("\\d+"))
-                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
-                                            );
+                                        needGoToDetail = idStr.matches("\\d+");
                                     } else {
-                                        String idStr = optionNewsBean.getId();
-                                        if (idStr.matches("\\d+"))
-                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
-                                            );
+                                        needGoToDetail = idStr.matches("\\d+");
                                     }
+                                    if (needGoToDetail)
+                                        TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr));
                                     break;
-
                                 default:
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
-                                        String idStr = optionNewsBean
-                                                .getId();
-                                        if (idStr.matches("\\d+"))
-                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr)
-                                            );
+                                        needGoToDetail = idStr.matches("\\d+");
+
                                     } else {
-                                        String idStr = optionNewsBean.getId();
-                                        if (idStr.matches("\\d+"))
-                                            TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr));
+                                        needGoToDetail = idStr.matches("\\d+");
                                     }
+                                    if (needGoToDetail)
+                                        TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr));
                                     break;
                             }
 
@@ -347,7 +345,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     };
 
     private void setEmptyText() {
-        if (viewType == OpitionNewsEngineImple.NEWS_GROUP) {
+        if (viewType == OpitionNewsEngineImple.NEWS_GROUP || viewType == OpitionNewsEngineImple.NEWS_MY_OPTION) {
             tvEmpty.setText("尚未添加自选股");
         } else {
             tvEmpty.setText("暂无资讯");

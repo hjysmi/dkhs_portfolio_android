@@ -233,6 +233,7 @@
         <com.android.percent.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/iv_right_arrow"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             app:layout_heightPercent="10%w">
@@ -263,6 +264,7 @@
         </com.android.percent.PercentRelativeLayout>
 
         <ImageView
+            android:id="@+id/iv_right_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

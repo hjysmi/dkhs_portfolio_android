@@ -38,6 +38,7 @@ import com.jockeyjs.JockeyAsyncHandler;
 import com.jockeyjs.JockeyCallback;
 import com.jockeyjs.JockeyImpl;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
                 case 3:
                     if(!loadFinish){
                         mWebView.stopLoading();
-                        mWebViewClient.onReceivedError(mWebView, -6, "time out", mUrl);
+                        mWebViewClient.onReceivedError(mWebView, WebViewClient.ERROR_TIMEOUT, "time out", mUrl);
                     }
                     break;
                 default:
@@ -166,7 +167,8 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                if (errorCode == -6) {
+                PromptManager.closeProgressDialog();
+                if (errorCode == WebViewClient.ERROR_TIMEOUT) {
                     PromptManager.showToast(R.string.no_net_connect);
                 }
                 if (errorCode == 403) {
@@ -204,6 +206,7 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                PromptManager.closeProgressDialog();
                 loadFinish = true;
                 mWebView.loadUrl(js);
                 if (rightButton == null) {
@@ -247,7 +250,8 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
         if (NetUtil.checkNetWork()) {
             loadFinish = false;
             mWeakHandler.removeMessages(3);
-            mWeakHandler.sendEmptyMessageDelayed(3,10000);
+            mWeakHandler.sendEmptyMessageDelayed(3, 10000);
+            PromptManager.showProgressDialog(AdActivity.this,"");
             mWebView.loadUrl(url, headers);
         } else {
             PromptManager.showToast(R.string.no_net_connect);

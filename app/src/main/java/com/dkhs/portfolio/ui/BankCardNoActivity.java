@@ -12,12 +12,15 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.Button;
+import com.dkhs.portfolio.bean.Bank;
 import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.IdentityInfoBean;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -152,10 +155,34 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
             }
         });
     }
+    private String bankCardNo;
     @OnClick(R.id.btn_next)
     public void onClick(View v){
         //TODO 点击下一步
-        startActivityForResult(BankCardInfoActivity.bankCardInfoIntent(mContext, etBankcard.getText().toString().trim().replace(" ",""),identityInfoBean),1);
+        bankCardNo = etBankcard.getText().toString().trim().replace(" ","");
+        ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+            }
+
+            @Override
+            protected Bank parseDateTask(String jsonData) {
+                Bank bank = null;
+                try {
+                    jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+                    bank = DataParse.parseObjectJson(Bank.class, jsonData);
+                } catch (Exception e) {
+                }
+                return bank;
+            }
+
+            @Override
+            protected void afterParseData(Bank bank) {
+                startActivityForResult(BankCardInfoActivity.bankCardInfoIntent(mContext,bankCardNo, bank,identityInfoBean), ActivityCode.BANK_CARD_INFO_REQUEST.ordinal());
+            }
+        };
+        new TradeEngineImpl().checkBank(bankCardNo, listener.setLoadingDialog(mContext));
     }
 
     private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
@@ -179,8 +206,8 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1 && resultCode == 2){
-            setResult(1);
+        if(requestCode == ActivityCode.BANK_CARD_INFO_REQUEST.ordinal() && resultCode == ActivityCode.BANK_CARD_INFO_RESULT.ordinal()){
+            setResult(ActivityCode.BANK_CARD_NO_RESULT.ordinal());
             manualFinish();
         }
         super.onActivityResult(requestCode, resultCode, data);

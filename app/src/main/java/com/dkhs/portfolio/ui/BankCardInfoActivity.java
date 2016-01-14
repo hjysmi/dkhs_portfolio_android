@@ -33,6 +33,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -115,10 +116,11 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         return intent;
     }
 
-    public static Intent bankCardInfoIntent(Context context, String cardNo, IdentityInfoBean identityInfoBean) {
+    public static Intent bankCardInfoIntent(Context context, String cardNo,Bank bank, IdentityInfoBean identityInfoBean) {
         Intent intent = new Intent(context, BankCardInfoActivity.class);
         intent.putExtra(LAYOUT_TYPE, false);
         intent.putExtra(BANK_CARD_NO, cardNo);
+        intent.putExtra(BANK, bank);
         if (identityInfoBean != null)
             intent.putExtra(IDENTITY_INFO_BEAN, Parcels.wrap(identityInfoBean));
         return intent;
@@ -141,29 +143,29 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
     }
 
     private void initData() {
-        ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
-            @Override
-            protected Bank parseDateTask(String jsonData) {
-                try {
-                    jsonData = StringDecodeUtil.decodeUnicode(jsonData);
-                    bank = DataParse.parseObjectJson(Bank.class, jsonData);
-                } catch (Exception e) {
-                }
-                return bank;
-            }
-
-            @Override
-            protected void afterParseData(Bank bank) {
-                if (!TextUtils.isEmpty(bank.getName())) {
-                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
-                    tv_limit_value.setVisibility(View.VISIBLE);
-                    tv_bank.setText(bank.getName());
-                    tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
-                    btnStatus++;
-                }
-            }
-        };
-        new TradeEngineImpl().checkBank(bankCardNo, listener.setLoadingDialog(mContext));
+//        ParseHttpListener<Bank> listener = new ParseHttpListener<Bank>() {
+//            @Override
+//            protected Bank parseDateTask(String jsonData) {
+//                try {
+//                    jsonData = StringDecodeUtil.decodeUnicode(jsonData);
+//                    bank = DataParse.parseObjectJson(Bank.class, jsonData);
+//                } catch (Exception e) {
+//                }
+//                return bank;
+//            }
+//
+//            @Override
+//            protected void afterParseData(Bank bank) {
+//                if (!TextUtils.isEmpty(bank.getName())) {
+//                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+//                    tv_limit_value.setVisibility(View.VISIBLE);
+//                    tv_bank.setText(bank.getName());
+//                    tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
+//                    btnStatus++;
+//                }
+//            }
+//        };
+//        new TradeEngineImpl().checkBank(bankCardNo, listener.setLoadingDialog(mContext));
 
     }
 
@@ -172,6 +174,14 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         bankCardNo = extras.getString(BANK_CARD_NO, "");
         mBankCard = (MyBankCard) extras.getSerializable(BANK_CARD);
         identityInfoBean = Parcels.unwrap(extras.getParcelable(IDENTITY_INFO_BEAN));
+        bank = (Bank) extras.getSerializable(BANK);
+        if (bank != null && !TextUtils.isEmpty(bank.getName())) {
+            tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+            tv_limit_value.setVisibility(View.VISIBLE);
+            tv_bank.setText(bank.getName());
+            tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
+            btnStatus++;
+        }
         if (mBankCard != null) {
             bank = mBankCard.getBank();
             btnStatus++;
@@ -531,7 +541,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         if (v.getId() == R.id.ll_choose_bank_type) {
             //TODO 选择银行卡
             Intent intent = new Intent(this, ChooseBankActivity.class);
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, ActivityCode.CHOOSE_BANK_REQUEST.ordinal());
         } else if (v.getId() == R.id.rlt_agreement) {
             new MessageHandler(this).handleURL(DKHSClient.getAbsoluteUrl(DKHSUrl.Funds.bank_agreement));
         } else if (v.getId() == R.id.btn_get_code) {
@@ -553,7 +563,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 protected void afterParseData(Boolean object) {
                     if (object) {
                         // TODO: 2015/12/26 验证成功
-                        startActivity(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile, captcha));
+                        startActivityForResult(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile, captcha),ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
                     } else {
                         PromptManager.showToast("验证失败");
                     }
@@ -615,7 +625,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             se.startTag("", "env");
             if (!TextUtils.isEmpty(bean.env)) {
                 se.text(bean.env.toUpperCase());
-            }else{
+            } else {
                 se.text("PRODUCT");
             }
             se.endTag("", "env");
@@ -652,7 +662,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0 && resultCode == 1) {
+        if (requestCode == ActivityCode.CHOOSE_BANK_REQUEST.ordinal() && resultCode == ActivityCode.CHOOSE_BANK_RESULT.ordinal()) {
             if (bank == null || TextUtils.isEmpty(bank.getName()))
                 btnStatus++;
             bank = (Bank) data.getSerializableExtra(BANK);
@@ -664,8 +674,8 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 tv_bank.setTag(bank.getId());
                 checkBtnStatus();
             }
-        } else if (requestCode == 1 && resultCode == 0) {
-            setResult(2);
+        } else if (requestCode == ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal() && resultCode == ActivityCode.TRADE_PASSWORD_SETTING_RESULT.ordinal()) {
+            setResult(ActivityCode.BANK_CARD_INFO_RESULT.ordinal());
             manualFinish();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -717,6 +727,10 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         }
     }
 
+    private int checkCount = 0;
+    private ParseHttpListener<Boolean> isTradePwdSetListener;
+    private ParseHttpListener<Integer> isIdentityCheckedSetListener;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -725,7 +739,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             //根据返回码做出相应处理
             if (Utils.getPayResult().indexOf("0000") > -1) {
                 //认证成功，返回卡信息及用户信息
-                final ParseHttpListener<Boolean> isTradePwdSetListener = new ParseHttpListener<Boolean>() {
+                isTradePwdSetListener = new ParseHttpListener<Boolean>() {
                     @Override
                     protected Boolean parseDateTask(String jsonData) {
                         try {
@@ -744,22 +758,22 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                         if (null != object) {
                             if (object) {
                                 //TODO 设置过交易密码
-                                setResult(2);
+                                setResult(ActivityCode.BANK_CARD_INFO_RESULT.ordinal());
                                 manualFinish();
                             } else {
                                 //TODO 没设置过交易密码
-                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext, bank_card_id, bankCardNo, realName, idCardNo, mobile, captcha), 1);
+                                startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext, bank_card_id, bankCardNo, realName, idCardNo, mobile, captcha), ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
                             }
                         }
                     }
                 };
-                final ParseHttpListener<Boolean> isIdentityCheckedSetListener = new ParseHttpListener<Boolean>() {
+                isIdentityCheckedSetListener = new ParseHttpListener<Integer>() {
                     @Override
-                    protected Boolean parseDateTask(String jsonData) {
+                    protected Integer parseDateTask(String jsonData) {
                         try {
                             JSONObject json = new JSONObject(jsonData);
                             if (json.has("status")) {
-                                return json.getBoolean("status");
+                                return json.getInt("status");
                             }
 
                         } catch (Exception e) {
@@ -768,30 +782,43 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                     }
 
                     @Override
-                    protected void afterParseData(Boolean object) {
+                    protected void afterParseData(Integer object) {
                         if (null != object) {
-                            if (object) {
+                            if (object == 1) {
                                 tradeEngine.isTradePasswordSet(isTradePwdSetListener);
-                            } else {
+                            } else if (object == 0) {
                                 //认证失败
+                                if (checkCount != 3) {
+                                    checkCount++;
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            tradeEngine.checkIdentity(bank_card_id, isIdentityCheckedSetListener);
+                                        }
+                                    }, 1000);
+                                } else {
+                                    showVerifyFailedDialog();
+                                }
+                            } else {
                                 showVerifyFailedDialog();
                             }
                         }
                     }
                 };
-                tradeEngine.checkIdentity(bank_card_id,isIdentityCheckedSetListener);
+                tradeEngine.checkIdentity(bank_card_id, isIdentityCheckedSetListener);
             } else {//认证失败
             }
 
         }
         CPGlobaInfo.init(); //清空返回结果
     }
+
     private void showVerifyFailedDialog() {
         MAlertDialog builder = PromptManager.getAlertDialog(this);
-        builder.setMessage(R.string.bank_card_failed).setPositiveButton(R.string.rebind,null).setNegativeButton(R.string.quit, new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.bank_card_failed).setPositiveButton(R.string.rebind, null).setNegativeButton(R.string.quit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setResult(2);
+                setResult(ActivityCode.BANK_CARD_INFO_RESULT.ordinal());
                 manualFinish();
             }
         });
