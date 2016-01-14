@@ -345,7 +345,9 @@ public class StockQuotesChartFragment extends BaseFragment {
         rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
         rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
         mMaChart.setAxisRightYTitles(rightYtitle);
-        mMaChart.setIsBenefitDash(true);
+        mMaChart.setDisplayAxisYTitle(true);
+        mMaChart.setDisplayAxisYTitleColor(true);
+        mMaChart.setIsDrawBenefit(false);
     }
 
     // private void initTrendTitle() {
