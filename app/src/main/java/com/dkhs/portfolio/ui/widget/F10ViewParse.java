@@ -285,7 +285,7 @@ public class F10ViewParse {
             TextView tvPrice = (TextView) rowContent.findViewById(R.id.tvprice);
             if (rowIndex == 1) {
                 if (fundQuoteBean.getDiscount_rate_buy() == 1) {
-                    tvPrice.setVisibility(View.VISIBLE);
+                    tvPrice.setVisibility(View.GONE);
                 } else {
                     tvPrice.setVisibility(View.VISIBLE);
                     tvPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
@@ -317,7 +317,7 @@ public class F10ViewParse {
             case 1:
                 //申购费率
                 if (null != fundQuoteBean) {
-                    if (fundQuoteBean.getDiscount_rate_buy() == 1) {
+                    if (fundQuoteBean.getFare_ratio_buy() == 0) {
                         rowText = UIUtils.getResString(mContext, R.string.zero_rate);
                     } else {
                         rowText = StringFromatUtils.get2PointPercent(fundQuoteBean.getFare_ratio_buy() * fundQuoteBean.getDiscount_rate_buy());
