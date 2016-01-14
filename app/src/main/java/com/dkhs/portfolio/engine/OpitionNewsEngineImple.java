@@ -38,6 +38,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
     public final static int NEWS_TODAY = 7;
     //add by zcm 2016.1.13 for requirements 2.8
     public final static int NEWS_MY_OPTION = 8;
+    //个股新闻
+    public final static int STOCK_NEWS = 9;
+    public final static int STOCK_All_NEWS = 10;
     private int orderType;
     private String model;
     private NewsforModel vo;
@@ -111,11 +114,10 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 
                 DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.News.reportnews_second_notice + "&page="
                         + (getCurrentpage() + 1), vo.getSymbol()), null, this);
-                // DKHSClient.requestByGet(DKHSUrl.News.newstext + id, null, this);
-
-                // DKHSClient.requestByGet(
-                // MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
-                // vo.getSymbol(), vo.getContentSubType()), null, this);
+                break;
+            case STOCK_All_NEWS:
+                DKHSClient.requestByGet(
+                        MessageFormat.format(DKHSUrl.News.stock_all_news + "&page=" + (getCurrentpage() + 1), vo.getSymbol(), vo.getContentType()), null, this);
                 break;
             default:
                 break;
@@ -217,7 +219,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         break;
                     case NEWS_OPITION_FOREACH:
                         DKHSClient.requestByGet(
-                                MessageFormat.format(DKHSUrl.News.reportnewsoptioneachs, vo.getSymbol()), null, this);
+                                MessageFormat.format(DKHSUrl.News.reportnewsoptioneach, vo.getSymbol()), null, this);
                         break;
                     case NEWS_GROUP:
                     case NEWS_MY_OPTION:
@@ -243,6 +245,14 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                         MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()),
                                         null, this);
 
+                        break;
+                    case STOCK_NEWS:
+                        DKHSClient.requestByGet(
+                                MessageFormat.format(DKHSUrl.News.stocknews, vo.getSymbol()), null, this);
+                        break;
+                    case STOCK_All_NEWS:
+                        DKHSClient.requestByGet(
+                                MessageFormat.format(DKHSUrl.News.stock_all_news, vo.getSymbol(), vo.getContentType()), null, this);
                         break;
                     default:
                         break;

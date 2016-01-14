@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -15,18 +14,16 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.StockNewListLoadListBean;
-import com.dkhs.portfolio.bean.StockQuotesStopTopBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.StockNewsActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.widget.CircularProgress;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +57,7 @@ public class FragmentForOptionOnr extends Fragment {
     private View view_empty;
     private TextView tv;
     private CircularProgress loadView;
+
     public static Fragment newIntent(Context context, String symbolName, String name, String subType) {
         Fragment f = new FragmentForOptionOnr();
         Bundle b = new Bundle();
@@ -103,7 +101,6 @@ public class FragmentForOptionOnr extends Fragment {
         ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
         loadView = (CircularProgress) view.findViewById(R.id.loadView);
         dm = UIUtils.getDisplayMetrics();
-        ll_content.setMinimumHeight(dm.heightPixels);
         context = getActivity();
         mDataList = new ArrayList<>();
 
@@ -125,12 +122,15 @@ public class FragmentForOptionOnr extends Fragment {
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.ll_content);
-        float dimen = UIUtils.dip2px(getActivity(), (UIUtils.getDimen(getActivity(), R.dimen.title_tool_bar) ));
-        int minHeight = UIUtils.getDisplayMetrics().heightPixels - (int) dimen;
-        mContentView.setMinimumHeight(minHeight);
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
-        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+        mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
+        mFootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(), name, symbol, "30","研报"));
+            }
+        });
     }
 
 
@@ -207,7 +207,6 @@ public class FragmentForOptionOnr extends Fragment {
             } else {
                 tvTextName.setText(bean.getTitle());
             }
-            //ViewTreeObserver observer = tv.getViewTreeObserver();
             tvTextNameNum.setText(bean.getSymbols().get(0).getAbbrName());
             if (null != bean.getSource()) {
                 zhengquan.setText(bean.getSource().getTitle());
@@ -222,59 +221,36 @@ public class FragmentForOptionOnr extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        Intent intent;
                         if (null != bean.getSymbols() && bean.getSymbols().size() > 0) {
-//                    intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(),
-//                            mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
-//                                    .getSymbols().get(0).getAbbrName(), mDataList.get(position).getContentType());
-
                             TopicsDetailActivity.startActivity(getActivity(), bean.getId());
                         } else {
-//                    intent = YanbaoDetailActivity.newIntent(mContext, mDataList.get(position).getId(), null, null, null);
                             TopicsDetailActivity.startActivity(getActivity(), bean.getId());
                         }
-                        // startActivity(intent);
-//                UIUtils.startAnimationActivity(getActivity(), intent);
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
             });
-
-
             mContentView.addView(view);
         }
-        BusProvider.getInstance().post(new StockQuotesStopTopBean());
+        if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+            // Toast.makeText(mContext, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        addFooterView(mFootView);
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        // TODO Auto-generated method stub
-        //            if (null == mDataList || mDataList.size() < 2) {
-//                if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
-//                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-//                }
-//            } else if (null != mDataList) {
-//                int height = 0;
-//                for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
-//                    View listItem = mOptionMarketAdapter.getView(i, null, mListView);
-//                    listItem.measure(0, 0); // 计算子项View 的宽高
-//                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-//                    height += list_child_item_height; // 统计所有子项的总高度
-//                }
-//                if (null != mContext && mContext instanceof StockQuotesActivity && getadble) {
-//                    ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-//                }
-//            }
         getadble = isVisibleToUser;
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    @Subscribe
+  /*  @Subscribe
     public void getLoadMore(StockNewListLoadListBean bean) {
         loadMore();
-    }
+    }*/
 
     @Override
     public void onResume() {

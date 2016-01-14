@@ -221,6 +221,7 @@
     <string name="function_f10">F10</string>
     <string name="function_report">研报</string>
     <string name="function_notice">公告</string>
+    <string name="news">新闻</string>
     <string name="function_introduction">简况</string>
     <string name="function_finance">财务</string>
     <string name="function_hodler">股东</string>
@@ -1193,6 +1194,8 @@
     <string name="fund_discount_format">%1$s折</string>
     <string name="index_rate_six_month">半年收益</string>
     <string name="win_rate_six_month">半年跑赢大盘</string>
+    <string name="select_more">查看更多</string>
+    <string name="stocknews">%1$s-%2$s</string>
     <string name="safesign_csrc">&#160;&#160;中国证监会核准的\n第三方基金销售机构</string>
     <string name="safesign_cmbc">中国民生银行保障\n交易资金全程安全</string>
     <string name="safesign_cmbc_assest">中国民生银行保障交易资金全程安全</string>

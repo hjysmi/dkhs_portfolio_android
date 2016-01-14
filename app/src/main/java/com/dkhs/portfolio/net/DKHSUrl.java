@@ -213,11 +213,12 @@ public class DKHSUrl {
         String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=20&content_type=20,30";
         // 关于某只股票的新闻与公告 10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
         // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
-
+        String stocknews = "/api/v1/statuses/symbol_timeline/?page_size=5&symbol={0}&content_type=10";
+        String stock_all_news = "/api/v1/statuses/symbol_timeline/?page_size=20&symbol={0}&content_type={1}";
         // 个股公告
-        String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type={1}";
+        String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=5&symbol={0}&content_type={1}";
         // 个股研报
-        String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type=30";
+        String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=5&symbol={0}&content_type=30";
 
         // 游客模式的自选资讯
         String reportnewsByAnony = "/api/v1/statuses/symbol_timeline/?symbol={0}&content_type=20,30";

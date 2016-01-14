@@ -421,8 +421,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.MarketSubpageActivity"
-            android:theme="@style/StyledIndicators"/>
+        <activity
+            android:name=".ui.MarketSubpageActivity"
+            android:theme="@style/StyledIndicators" />
         <activity
             android:name=".ui.FundManagerActivity"
             android:label="@string/title_activity_fund_manager" />
@@ -650,6 +651,10 @@
             android:name=".ui.OrganizationActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.VerifiedProFileActivity" />
+        <!--个股新闻,公告,研报-->
+        <activity
+            android:name=".ui.StockNewsActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".service.AuthenticationService"
@@ -662,7 +667,7 @@
         <service
             android:name=".service.PreLoadService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

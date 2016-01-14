@@ -76,11 +76,16 @@
     </string-array>
     <string-array name="stock_quote_info_title">
 
-        <item>@string/function_notice</item>
-        <item>@string/function_report</item>
+        <!-- <item>@string/function_notice</item>
+         <item>@string/function_report</item>-->
         <item>@string/function_introduction</item>
         <item>@string/function_finance</item>
         <item>@string/function_hodler</item>
+    </string-array>
+    <string-array name="stock_quote_info_title_first">
+        <item>@string/news</item>
+        <item>@string/function_notice</item>
+        <item>@string/function_report</item>
     </string-array>
     <string-array name="fund_detail_more">
         <item>@string/change_combination_name</item>

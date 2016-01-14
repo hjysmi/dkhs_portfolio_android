@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -18,10 +17,8 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.LinearLayout;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockNewsActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -36,17 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 需要优化界面
- * 个股行情界面，个股界面时（公告 TAB）
+ * 个股新闻页
+ * Created by xuetong on 2016/1/13.
  */
-public class FragmentNewsList extends Fragment implements Serializable {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 6565512311564641L;
-
-    //private ListView mListView;
-
+public class FragmentStockNewsList extends Fragment implements Serializable {
+    private static final long serialVersionUID = 6565512311564642L;
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
@@ -62,30 +53,25 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private NewsforModel vo;
     private TextView tv;
     private boolean getadle = true;
-    //   private OptionForOnelistAdapter mOptionlistAdapter;
-    //  private RelativeLayout pb;
-    // public SwipeRefreshLayout mSwipeLayout;
     private LinearLayout mContentView;
     private LinearLayout ll_loading;
     private View view_empty;
     private CircularProgress loadView;
-
-    public static FragmentNewsList newIntent(String stockCode,String stockName) {
-        FragmentNewsList noticeFragemnt = new FragmentNewsList();
+    private String stockCode;
+    public static FragmentStockNewsList newIntent(String stockCode, String name) {
+        FragmentStockNewsList noticeFragemnt = new FragmentStockNewsList();
         NewsforModel vo;
         Bundle b2 = new Bundle();
-        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.STOCK_NEWS);
         vo = new NewsforModel();
+        vo.setSymboName(name);
         vo.setSymbol(stockCode);
-        vo.setSymboName(stockName);
-        vo.setContentType("20");
-        vo.setPageTitle("公告正文");
+        vo.setContentType("10");
+        vo.setPageTitle("新闻正文");
         b2.putParcelable(FragmentNewsList.VO, Parcels.wrap(vo));
         noticeFragemnt.setArguments(b2);
         return noticeFragemnt;
     }
-
-    // private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -115,11 +101,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
         if (null != bundle) {
             vo = Parcels.unwrap(bundle.getParcelable(VO));
-            // layouts = vo.getLayout();
             int types = bundle.getInt(NEWS_TYPE);
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-            // mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
+            ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
         }
 
     }
@@ -134,7 +118,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         mFootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(), vo.getSymboName(), vo.getSymbol(), "20","公告"));
+                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(),vo.getSymboName(), vo.getSymbol(),"10","新闻"));
             }
         });
     }
@@ -157,7 +141,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         mContentView.addView(footView);
     }
 
-    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    LoadNewsDataEngine.ILoadDataBackListener mSelectStockBackListener = new LoadNewsDataEngine.ILoadDataBackListener() {
 
 
         @Override
@@ -169,7 +153,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
                         mDataList.clear();
                     }
                     mDataList.addAll(dataList);
-                    if (first || vo.getContentType().equals("20")) {
+                    if (first || vo.getContentType().equals("10")) {
                         // initView(view);
                         first = false;
                     }
@@ -221,7 +205,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
             } else {
                 tvTextName.setText(bean.getTitle());
             }
-            //ViewTreeObserver observer = tv.getViewTreeObserver();
             tvTextNameNum.setText(bean.getSymbols().get(0).getAbbrName());
             if (null != bean.getSource()) {
                 zhengquan.setText(bean.getSource().getTitle());
@@ -237,16 +220,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
                 public void onClick(View v) {
                     try {
                         if (null != bean.getSymbols() && bean.getSymbols().size() > 0) {
-                            Intent intent = NewsActivity.newIntent(context, bean.getId(), vo.getPageTitle(),
-                                    bean.getSymbols().get(0).getAbbrName(), bean
-                                            .getSymbols().get(0).getId());
-//                    startActivity(intent);
                             TopicsDetailActivity.startActivity(getActivity(), bean.getId());
                         } else {
-                            Intent intent = NewsActivity.newIntent(context, bean.getId(), vo.getPageTitle(),
-                                    null, null);
                             TopicsDetailActivity.startActivity(getActivity(), bean.getId());
-//                    startActivity(intent);
                         }
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
@@ -261,7 +237,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             return;
         }
         addFooterView(mFootView);
-      //  BusProvider.getInstance().post(new StockQuotesStopTopBean());
+       //   BusProvider.getInstance().post(new StockQuotesStopTopBean());
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
@@ -284,16 +260,5 @@ public class FragmentNewsList extends Fragment implements Serializable {
             getadle = false;
         }
         super.setUserVisibleHint(isVisibleToUser);
-    }
-
-   /* @Subscribe
-    public void getLoadMore(StockNewListLoadListBean bean) {
-        loadMore();
-    }*/
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        BusProvider.getInstance().unregister(this);
     }
 }
