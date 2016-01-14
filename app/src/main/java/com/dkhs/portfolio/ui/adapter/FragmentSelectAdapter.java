@@ -167,6 +167,12 @@ public class FragmentSelectAdapter {
         tvList[index].performClick();
     }
 
+    public interface OnPageSelectedListener{ void onPageSelected(int position);}
+    OnPageSelectedListener onPageSelectedListener;
+
+    public void setOnPageSelectedListener(OnPageSelectedListener onPageSelectedListener) {
+        this.onPageSelectedListener = onPageSelectedListener;
+    }
 
     OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
@@ -174,7 +180,9 @@ public class FragmentSelectAdapter {
         public void onPageSelected(int arg0) {
             // mHandler.sendEmptyMessage(arg0);
             scroll(arg0);
-
+            if(onPageSelectedListener != null){
+                onPageSelectedListener.onPageSelected(arg0);
+            }
         }
 
         @Override
