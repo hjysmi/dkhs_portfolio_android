@@ -2,12 +2,14 @@ package com.dkhs.portfolio.bean.itemhandler.homepage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import com.dkhs.adpter.handler.SimpleItemHandler;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.HomeMoreBean;
+import com.dkhs.portfolio.ui.InfoActivity;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.MarketSubpageActivity;
 import com.dkhs.portfolio.ui.fragment.MarketSubpageFragment;
@@ -48,6 +50,7 @@ public class HomeMoreHandler extends SimpleItemHandler<HomeMoreBean> {
                         MainActivity.gotoHostTopicsActivity(mContext);
                         break;
                     case HomeMoreBean.TYPE_NEWS:
+                        mContext.startActivity(new Intent(mContext, InfoActivity.class));
                         break;
                 }
             }
