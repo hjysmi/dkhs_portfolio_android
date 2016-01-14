@@ -213,7 +213,7 @@
     <string name="setting_string_public">公开组合持仓明细</string>
     <string name="setting_string_public_title">公开持仓明细</string>
     <string name="setting_string_publicexplan">公开后可参与排名及比赛等活动</string>
-    <string name="setting_string_exit">退出登录</string>
+    <string name="setting_string_exit">退出账号</string>
     <string name="sell">卖</string>
     <string name="buy">买</string>
     <string name="function_ace">牛人</string>
