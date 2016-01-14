@@ -275,8 +275,8 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
             initTodayTrendTitle();
         } else {
             // initTrendTitle();
+            mMaChart.setDisplayAxisYTitleColor(false);
         }
-        mMaChart.setDisplayAxisYTitleColor(false);
         mMaChart.setDisplayYRightTitleByZero(true);
         mMaChart.setDoubleClicklistener(new OnDoubleClickListener() {
 
@@ -322,9 +322,9 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
 
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
-        // xtitle.add("10:30");
-        // xtitle.add("11:30");
-        // xtitle.add("14:00");
+         xtitle.add("10:30");
+         xtitle.add("11:30");
+         xtitle.add("14:00");
         xtitle.add("15:00");
 
         mMaChart.setAxisXTitles(xtitle);
@@ -339,6 +339,10 @@ public class StockQuotesChartLandFragment extends BaseFragment implements Fragme
         rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
         rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDisplayAxisYTitle(true);
+        mMaChart.setDisplayAxisYTitleColor(true);
+        mMaChart.setIsDrawBenefit(false);
+
     }
 
     private List<LinePointEntity> initMA(int length) {
