@@ -248,7 +248,7 @@ public class F10ViewParse {
             }
             break;
             case 4: {
-               // rowText = fundQuoteBean.getEnd_shares();
+                // rowText = fundQuoteBean.getEnd_shares();
                 rowText = fundQuoteBean.getMana_name();
             }
             break;
@@ -284,10 +284,14 @@ public class F10ViewParse {
             PercentRelativeLayout rowContent = createFundRowView(profileTitle, rowText);
             TextView tvPrice = (TextView) rowContent.findViewById(R.id.tvprice);
             if (rowIndex == 1) {
-                tvPrice.setVisibility(View.VISIBLE);
-                tvPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
-                if (null != fundQuoteBean) {
-                    tvPrice.setText(StringFromatUtils.get2PointPercent(fundQuoteBean.getFare_ratio_buy()));
+                if (fundQuoteBean.getDiscount_rate_buy() == 1 || fundQuoteBean.getFare_ratio_buy() == 0) {
+                    tvPrice.setVisibility(View.GONE);
+                } else {
+                    tvPrice.setVisibility(View.VISIBLE);
+                    tvPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
+                    if (null != fundQuoteBean) {
+                        tvPrice.setText(StringFromatUtils.get2PointPercent(fundQuoteBean.getFare_ratio_buy()));
+                    }
                 }
             } else {
                 tvPrice.setVisibility(View.GONE);
@@ -307,13 +311,17 @@ public class F10ViewParse {
         switch (row) {
             case 0: {
                 //收费方式
-                rowText = FundUtils.setPurchaseType(mContext,fundQuoteBean);
+                rowText = FundUtils.setPurchaseType(mContext, fundQuoteBean);
             }
             break;
             case 1:
                 //申购费率
                 if (null != fundQuoteBean) {
-                    rowText = StringFromatUtils.get2PointPercent(fundQuoteBean.getFare_ratio_buy()*fundQuoteBean.getDiscount_rate_buy());
+                    if (fundQuoteBean.getFare_ratio_buy() == 0) {
+                        rowText = UIUtils.getResString(mContext, R.string.zero_rate);
+                    } else {
+                        rowText = StringFromatUtils.get2PointPercent(fundQuoteBean.getFare_ratio_buy() * fundQuoteBean.getDiscount_rate_buy());
+                    }
                 }
                 break;
             case 2:
@@ -338,7 +346,6 @@ public class F10ViewParse {
         }
         return rowText;
     }
-
 
 
 }

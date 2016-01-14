@@ -9,6 +9,7 @@ public class HomeMoreBean {
     public static final int TYPE_PORTFOLIO = 2;
     public static final int TYPE_REWARD = 3;
     public static final int TYPE_TOPIC = 4;
+    public static final int TYPE_NEWS = 5;
     public int type;
     public boolean hide = false;
 
@@ -38,6 +39,9 @@ public class HomeMoreBean {
                 break;
             case TYPE_TOPIC:
                 title = "推荐话题";
+                break;
+            case TYPE_NEWS:
+                title = "今日热点";
                 break;
             default:
                 break;

@@ -7,6 +7,7 @@ public class NewsforModel {
     /**
      *
      */
+    String symboName;
     String symbolId;
     String symbol;
     String userid;
@@ -26,6 +27,14 @@ public class NewsforModel {
 //    public void setLayout(LinearLayout layout) {
 //        this.layout = layout;
 //    }
+
+    public String getSymboName() {
+        return symboName;
+    }
+
+    public void setSymboName(String symboName) {
+        this.symboName = symboName;
+    }
 
     public String getPageTitle() {
         return pageTitle;

@@ -60,29 +60,43 @@
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
+
+        <ImageButton
+            android:id="@+id/btn_shake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/widget_margin_medium"
+            android:background="@drawable/btn_shake_white_selector"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true" />
 
         <TextView
-            android:layout_centerInParent="true"
             android:id="@+id/tv_search_key"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/widget_margin_medium"
             android:layout_marginRight="@dimen/widget_margin_medium"
+            android:layout_toLeftOf="@id/btn_shake"
             android:background="@drawable/home_page_search_bg"
-            android:paddingLeft="8dp"
             android:drawableLeft="@drawable/search_gray"
             android:drawablePadding="5dp"
+            android:gravity="center_vertical"
             android:hint="@string/search_general"
+            android:paddingLeft="8dp"
             android:textColorHint="#c8c8c8"
             android:textSize="16sp" />
+
+
         <View
-            android:layout_alignParentBottom="true"
             android:id="@+id/divider"
-            style="@style/divider_line"/>
+            style="@style/divider_line"
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 </FrameLayout>
