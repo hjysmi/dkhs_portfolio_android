@@ -14,7 +14,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.itemhandler.StockNewsHandler;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.StockNewsActivity;
 
 import java.util.ArrayList;
@@ -45,8 +44,9 @@ public class StockNewsFragment extends LoadMoreListFragment {
         super.onViewCreated(view, savedInstanceState);
         mDataList = new ArrayList<>();
         mListView.setDivider(null);
+        mListView.setAdapter(getListAdapter());
         postDelayedeData();
-        if(getActivity() instanceof MainActivity){
+       /* if(getActivity() instanceof MainActivity){
             final Bundle bundle=((MainActivity)getActivity()).mBundle;
             if(bundle !=null) {
                 mListView.postDelayed(new Runnable() {
@@ -57,7 +57,7 @@ public class StockNewsFragment extends LoadMoreListFragment {
                     }
                 },1200);
             }
-        }
+        }*/
     }
   /*  public void handleIntent(Bundle bundle){
         if (bundle.containsKey("order_index")) {

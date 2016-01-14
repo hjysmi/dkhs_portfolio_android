@@ -20,6 +20,7 @@ public class StockNewsHandler extends SimpleItemHandler<OptionNewsBean> {
 
     Context context;
     DisplayMetrics dm;
+
     public StockNewsHandler(Context context) {
         this.context = context;
         dm = UIUtils.getDisplayMetrics();
@@ -33,10 +34,10 @@ public class StockNewsHandler extends SimpleItemHandler<OptionNewsBean> {
     @Override
     public void onBindView(ViewHolder vh, OptionNewsBean data, int position) {
         super.onBindView(vh, data, position);
-        TextView tvTextName = (TextView) vh.get(R.id.adapter_market_title);
-        TextView tvTextNameNum = (TextView) vh.get(R.id.adapter_market_title_num);
-        TextView tvTextDate = (TextView) vh.get(R.id.option_news_text_date);
-        TextView zhengquan = (TextView) vh.get(R.id.zhengquan);
+        TextView tvTextName = vh.get(R.id.adapter_market_title);
+        TextView tvTextNameNum = vh.get(R.id.adapter_market_title_num);
+        TextView tvTextDate = vh.get(R.id.option_news_text_date);
+        TextView zhengquan = vh.get(R.id.zhengquan);
         Paint p = new Paint();
         Rect rect = new Rect();
         p.setTextSize(context.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
