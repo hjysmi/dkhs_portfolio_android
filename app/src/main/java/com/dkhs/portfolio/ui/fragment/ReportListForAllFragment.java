@@ -27,6 +27,9 @@ import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.adapter.TodayNewsAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
+import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -37,7 +40,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportListForAllFragment extends VisiableLoadFragment implements OnLoadMoreListener {
+public class ReportListForAllFragment extends VisiableLoadFragment implements OnLoadMoreListener,View.OnClickListener {
     private PullToRefreshListView mListView;
 
     // 二级公告界面
@@ -132,6 +135,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
         if (null != mLoadDataEngine) {
             mLoadDataEngine.loadData();
         }
+        BusProvider.getInstance().post(new RotateRefreshEvent());
     }
 
     private void initView(View view) {
@@ -317,6 +321,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                 if (null != dataList && dataList.size() > 0) {
 
                     mDataList.addAll(dataList);
+                    BusProvider.getInstance().post(new StopRefreshEvent());
                     mOptionMarketAdapter.notifyDataSetChanged();
                     hideEmptyText();
                 } else {
@@ -387,5 +392,11 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
         return R.layout.activity_option_market_news;
+    }
+
+    @Override
+    public void onClick(View v) {
+        mSwipeLayout.setRefreshing(true);
+        refreshData();
     }
 }
