@@ -35,6 +35,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
     public final static int GROUP_FOR_ONE = 6;
     //个股新闻
     public final static int STOCK_NEWS = 7;
+    public final static int STOCK_All_NEWS = 8;
     private int orderType;
     private String model;
     private NewsforModel vo;
@@ -44,6 +45,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
         this.orderType = type;
         this.vo = vo;
     }
+
 
     // private String id;
     //
@@ -105,13 +107,11 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 
                 DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.News.reportnews_second_notice + "&page="
                         + (getCurrentpage() + 1), vo.getSymbol()), null, this);
-                // DKHSClient.requestByGet(DKHSUrl.News.newstext + id, null, this);
-
-                // DKHSClient.requestByGet(
-                // MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
-                // vo.getSymbol(), vo.getContentSubType()), null, this);
                 break;
-
+            case STOCK_All_NEWS:
+                DKHSClient.requestByGet(
+                        MessageFormat.format(DKHSUrl.News.stock_all_news + "&page=" + (getCurrentpage() + 1), vo.getSymbol(), vo.getContentType()), null, this);
+                break;
             default:
                 break;
         }
@@ -234,6 +234,10 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                     case STOCK_NEWS:
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.stocknews, vo.getSymbol()), null, this);
+                        break;
+                    case STOCK_All_NEWS:
+                        DKHSClient.requestByGet(
+                                MessageFormat.format(DKHSUrl.News.stock_all_news, vo.getSymbol(), vo.getContentType()), null, this);
                         break;
                     default:
                         break;

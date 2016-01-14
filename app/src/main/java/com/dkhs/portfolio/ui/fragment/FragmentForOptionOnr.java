@@ -18,6 +18,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.StockNewsActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -124,6 +125,12 @@ public class FragmentForOptionOnr extends Fragment {
         view_empty = LayoutInflater.from(getActivity()).inflate(R.layout.layout_empty, null);
         mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
+        mFootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(), name, symbol, "30","研报"));
+            }
+        });
     }
 
 

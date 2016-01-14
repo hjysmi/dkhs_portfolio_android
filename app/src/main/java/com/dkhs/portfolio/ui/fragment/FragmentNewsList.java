@@ -22,6 +22,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
+import com.dkhs.portfolio.ui.StockNewsActivity;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -69,13 +70,14 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private View view_empty;
     private CircularProgress loadView;
 
-    public static FragmentNewsList newIntent(String stockCode) {
+    public static FragmentNewsList newIntent(String stockCode,String stockName) {
         FragmentNewsList noticeFragemnt = new FragmentNewsList();
         NewsforModel vo;
         Bundle b2 = new Bundle();
         b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
         vo = new NewsforModel();
         vo.setSymbol(stockCode);
+        vo.setSymboName(stockName);
         vo.setContentType("20");
         vo.setPageTitle("公告正文");
         b2.putParcelable(FragmentNewsList.VO, Parcels.wrap(vo));
@@ -128,6 +130,13 @@ public class FragmentNewsList extends Fragment implements Serializable {
         mFootView = View.inflate(context, R.layout.layout_more_footer, null);
         tv = (TextView) view_empty.findViewById(R.id.tv_empty);
         mDataList = new ArrayList<>();
+
+        mFootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(), vo.getSymboName(), vo.getSymbol(), "20","公告"));
+            }
+        });
     }
 
     public void loadMore() {

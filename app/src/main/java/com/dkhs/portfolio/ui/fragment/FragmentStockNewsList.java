@@ -101,7 +101,6 @@ public class FragmentStockNewsList extends Fragment implements Serializable {
 
         if (null != bundle) {
             vo = Parcels.unwrap(bundle.getParcelable(VO));
-            // layouts = vo.getLayout();
             int types = bundle.getInt(NEWS_TYPE);
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
             ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
@@ -119,7 +118,7 @@ public class FragmentStockNewsList extends Fragment implements Serializable {
         mFootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(),vo.getSymboName(), vo.getSymbol(),"10"));
+                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(),vo.getSymboName(), vo.getSymbol(),"10","新闻"));
             }
         });
     }
