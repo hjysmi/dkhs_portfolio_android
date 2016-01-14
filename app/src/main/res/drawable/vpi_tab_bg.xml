@@ -9,7 +9,7 @@
     <!-- 主体背景颜色值 -->
     <item android:bottom="2dp"> <!--设置只有底部有边框-->
         <shape>
-            <solid android:color="@color/activity_bg_color" />
+            <solid android:color="@color/title_color" />
         </shape>
     </item>
 </layer-list>
