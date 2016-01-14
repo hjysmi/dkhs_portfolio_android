@@ -24,6 +24,7 @@ import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -63,7 +64,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
             @Override
             public void onClick(View v) {
                 //TODO 添加银行卡
-                startActivityForResult(new Intent(mContext, BankCardNoActivity.class), 0);
+                startActivityForResult(new Intent(mContext, BankCardNoActivity.class), ActivityCode.BANK_CARD_NO_REQUEST.ordinal());
             }
         });
         initLoadMoreList();
@@ -182,7 +183,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
                 holder.tv_addbank.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivityForResult(new Intent(mContext, BankCardNoActivity.class), 0);
+                        startActivityForResult(new Intent(mContext, BankCardNoActivity.class), ActivityCode.BANK_CARD_NO_REQUEST.ordinal());
                     }
                 });
             }else{
@@ -266,7 +267,7 @@ public class MyBankCardsActivity extends ModelAcitivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0 && resultCode == 1){
+        if(requestCode == ActivityCode.BANK_CARD_NO_REQUEST.ordinal() && resultCode == ActivityCode.BANK_CARD_NO_RESULT.ordinal()){
             //请求获取数据
             loadData();
         }
