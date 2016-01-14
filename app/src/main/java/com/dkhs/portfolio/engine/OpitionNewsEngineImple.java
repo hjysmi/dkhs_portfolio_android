@@ -219,7 +219,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         break;
                     case NEWS_OPITION_FOREACH:
                         DKHSClient.requestByGet(
-                                MessageFormat.format(DKHSUrl.News.reportnewsoptioneachs, vo.getSymbol()), null, this);
+                                MessageFormat.format(DKHSUrl.News.reportnewsoptioneach, vo.getSymbol()), null, this);
                         break;
                     case NEWS_GROUP:
                     case NEWS_MY_OPTION:
