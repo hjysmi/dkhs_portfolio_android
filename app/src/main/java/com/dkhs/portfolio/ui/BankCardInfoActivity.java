@@ -465,7 +465,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case GET_CODE_ABLE:
-                    btn_get_code.setText(R.string.get_code);
+                    btn_get_code.setText(R.string.get_code_again);
                     btn_get_code.setEnabled(true);
                     btn_get_code.setTextColor(ColorTemplate.getTextColor(R.color.theme_blue));
 
@@ -729,7 +729,6 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
     private int checkCount = 0;
     private ParseHttpListener<Boolean> isTradePwdSetListener;
-    private ParseHttpListener<Integer> isIdentityCheckedSetListener;
 
     @Override
     protected void onResume() {
@@ -758,8 +757,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                         if (null != object) {
                             if (object) {
                                 //TODO 设置过交易密码
-                                setResult(ActivityCode.BANK_CARD_INFO_RESULT.ordinal());
-                                manualFinish();
+                                startActivityForResult(TradePasswordSettingActivity.checkPwdIntent(mContext, bank_card_id, bankCardNo, realName, idCardNo, mobile, captcha), ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
                             } else {
                                 //TODO 没设置过交易密码
                                 startActivityForResult(TradePasswordSettingActivity.firstSetPwdIntent(mContext, bank_card_id, bankCardNo, realName, idCardNo, mobile, captcha), ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
@@ -767,45 +765,46 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                         }
                     }
                 };
-                isIdentityCheckedSetListener = new ParseHttpListener<Integer>() {
-                    @Override
-                    protected Integer parseDateTask(String jsonData) {
-                        try {
-                            JSONObject json = new JSONObject(jsonData);
-                            if (json.has("status")) {
-                                return json.getInt("status");
-                            }
-
-                        } catch (Exception e) {
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(Integer object) {
-                        if (null != object) {
-                            if (object == 1) {
-                                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
-                            } else if (object == 0) {
-                                //认证失败
-                                if (checkCount != 3) {
-                                    checkCount++;
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            tradeEngine.checkIdentity(bank_card_id, isIdentityCheckedSetListener);
-                                        }
-                                    }, 1000);
-                                } else {
-                                    showVerifyFailedDialog();
-                                }
-                            } else {
-                                showVerifyFailedDialog();
-                            }
-                        }
-                    }
-                };
-                tradeEngine.checkIdentity(bank_card_id, isIdentityCheckedSetListener);
+//                isIdentityCheckedSetListener = new ParseHttpListener<Integer>() {
+//                    @Override
+//                    protected Integer parseDateTask(String jsonData) {
+//                        try {
+//                            JSONObject json = new JSONObject(jsonData);
+//                            if (json.has("status")) {
+//                                return json.getInt("status");
+//                            }
+//
+//                        } catch (Exception e) {
+//                        }
+//                        return null;
+//                    }
+//
+//                    @Override
+//                    protected void afterParseData(Integer object) {
+//                        if (null != object) {
+//                            if (object == 1) {
+//                                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
+//                            } else if (object == 0) {
+//                                //认证失败
+//                                if (checkCount != 3) {
+//                                    checkCount++;
+//                                    handler.postDelayed(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            tradeEngine.checkIdentity(bank_card_id, isIdentityCheckedSetListener);
+//                                        }
+//                                    }, 1000);
+//                                } else {
+//                                    showVerifyFailedDialog();
+//                                }
+//                            } else {
+//                                showVerifyFailedDialog();
+//                            }
+//                        }
+//                    }
+//                };
+//                tradeEngine.checkIdentity(bank_card_id, isIdentityCheckedSetListener);
+                tradeEngine.isTradePasswordSet(isTradePwdSetListener);
             } else {//认证失败
             }
 

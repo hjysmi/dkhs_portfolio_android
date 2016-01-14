@@ -278,23 +278,8 @@ public class OptionNewsBean {
         float percentage;
         //是否停牌
         @SerializedName("is_stop")
-        boolean isStop;
-
-        public boolean isStop() {
-            return isStop;
-        }
-
-        public void setIsStop(boolean isStop) {
-            this.isStop = isStop;
-        }
-
-        public float getPercentage() {
-            return percentage;
-        }
-
-        public void setPercentage(float percentage) {
-            this.percentage = percentage;
-        }
+        int isStop;
+        String list_status;
 
         public String getId() {
             return id;
@@ -320,6 +305,29 @@ public class OptionNewsBean {
             this.abbrName = abbrName;
         }
 
+        public float getPercentage() {
+            return percentage;
+        }
+
+        public void setPercentage(float percentage) {
+            this.percentage = percentage;
+        }
+
+        public int getIsStop() {
+            return isStop;
+        }
+
+        public void setIsStop(int isStop) {
+            this.isStop = isStop;
+        }
+
+        public String getList_status() {
+            return list_status;
+        }
+
+        public void setList_status(String list_status) {
+            this.list_status = list_status;
+        }
     }
 
     public String getId() {
