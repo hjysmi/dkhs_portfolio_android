@@ -223,7 +223,7 @@ public class DKHSUrl {
         String reportnewsByAnony = "/api/v1/statuses/symbol_timeline/?symbol={0}&content_type=20,30";
 
         // 已登陆用户的自选资讯
-        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=20&user_id={0}&content_type=20,30";
+        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=20&user_id={0}&content_type=10,20,30";
         String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=20&symbol={0}&content_type=30&content_subtype={1}";
         String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=20&content_type=30&content_subtype={0}";
         //今日要闻

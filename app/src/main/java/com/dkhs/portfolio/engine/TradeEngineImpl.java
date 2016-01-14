@@ -91,7 +91,7 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
             params.addBodyParameter("id_card_no", id_card_no);
         params.addBodyParameter("mobile", mobile);
         params.addBodyParameter("captcha", captcha);
-        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.verify_identy, params,listener);
+        DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.verify_identy, params, listener);
     }
     /**
      * post身份认证
@@ -118,14 +118,19 @@ public class TradeEngineImpl extends LoadMoreDataEngine{
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.reset_trade_password, params, listener);
     }
 
-    public void bindBankCard(String bank,String bank_card_no, String real_name, String id_card_no, String mobile, String signature, IHttpListener listener){
+    public void bindBankCard(String bank_card_id, String bank_card_no, String real_name, String id_card_no, String mobile, String captcha,String password, IHttpListener listener){
         RequestParams params = new RequestParams();
-        params.addBodyParameter("bank", bank);
+        params.addBodyParameter("bank_card_id", bank_card_id);
         params.addBodyParameter("bank_card_no", bank_card_no);
-        params.addBodyParameter("real_name", real_name);
-        params.addBodyParameter("id_card_no", id_card_no);
+        if(!TextUtils.isEmpty(real_name))
+            params.addBodyParameter("real_name", real_name);
+        if(!TextUtils.isEmpty(id_card_no))
+            params.addBodyParameter("id_card_no", id_card_no);
         params.addBodyParameter("mobile", mobile);
-        params.addBodyParameter("signature", signature);
+        if(!TextUtils.isEmpty(captcha))
+            params.addBodyParameter("captcha", captcha);
+        if(!TextUtils.isEmpty(password))
+            params.addBodyParameter("password", password);
         DKHSClient.request(HttpRequest.HttpMethod.POST, DKHSUrl.Funds.bind_bank_card, params,listener);
     }
 

@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -89,48 +92,72 @@ public class InfoMyOptionAdapter extends BaseAdapter {
                     holder.llRelated1.setVisibility(View.VISIBLE);
                     holder.llRelated2.setVisibility(View.GONE);
                     String percentStr;
-                    if(symbols.get(0).isStop()){
-                        holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.gray_text_selector));
-                        percentStr = UIUtils.getResString(mContext,R.string.stop_stock);
-                    }else if(symbols.get(0).getPercentage() > 0){
-                        percentStr = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
-                        holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.red));
-                    }else{
-                        percentStr = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
-                        holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.green));
+                    if (StockUitls.isDelistStock(symbols.get(0).getList_status())) {
+                        holder.tvRelatedStockPercent1.setText(R.string.exit_stock);
+                        holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT);
+                        holder.tvRelatedStockPercent1.setTextColor(ColorTemplate.getTextColor(R.color.gray_text_selector));
+                    } else if (symbols.get(0).getIsStop() == 1) {
+                        holder.tvRelatedStockPercent1.setText(R.string.stop_stock);
+                        holder.tvRelatedStockPercent1.setTextColor(ColorTemplate.getTextColor(R.color.gray_text_selector));
+                        holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT);
+                    } else {
+                        if(symbols.get(0).getPercentage() > 0){
+                            percentStr = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
+                            holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.red));
+                        }else{
+                            percentStr = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
+                            holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.green));
+                        }
+                        holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT_BOLD);
+                        holder.tvRelatedStock1.setText(symbols.get(0).getAbbrName());
+                        holder.tvRelatedStockPercent1.setText(percentStr);
                     }
-                    holder.tvRelatedStock1.setText(symbols.get(0).getAbbrName());
-                    holder.tvRelatedStockPercent1.setText(percentStr);
                 }else {
                     holder.llRelated1.setVisibility(View.VISIBLE);
                     holder.llRelated2.setVisibility(View.VISIBLE);
                     String percentStr1;
-                    if(symbols.get(0).isStop()){
-                        holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.gray_text_selector));
-                        percentStr1 = UIUtils.getResString(mContext,R.string.stop_stock);
-                    }else if(symbols.get(0).getPercentage() > 0){
-                        percentStr1 = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
-                        holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.red));
-                    }else{
-                        percentStr1 = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
-                        holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.green));
+                    if (StockUitls.isDelistStock(symbols.get(0).getList_status())) {
+                        holder.tvRelatedStockPercent1.setText(R.string.exit_stock);
+                        holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT);
+                        holder.tvRelatedStockPercent1.setTextColor(ColorTemplate.getTextColor(R.color.gray_text_selector));
+                    } else if (symbols.get(0).getIsStop() == 1) {
+                        holder.tvRelatedStockPercent1.setText(R.string.stop_stock);
+                        holder.tvRelatedStockPercent1.setTextColor(ColorTemplate.getTextColor(R.color.gray_text_selector));
+                        holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT);
+                    } else {
+                        if(symbols.get(0).getPercentage() > 0){
+                            percentStr1 = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
+                            holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.red));
+                        }else{
+                            percentStr1 = StringFromatUtils.get2PointPercent(symbols.get(0).getPercentage());
+                            holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.green));
+                        }
+                        holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT_BOLD);
+                        holder.tvRelatedStock1.setText(symbols.get(0).getAbbrName());
+                        holder.tvRelatedStockPercent1.setText(percentStr1);
                     }
-                    holder.tvRelatedStock1.setText(symbols.get(0).getAbbrName());
-                    holder.tvRelatedStockPercent1.setText(percentStr1);
 
                     String percentStr2;
-                    if(symbols.get(1).isStop()){
-                        holder.tvRelatedStockPercent2.setTextColor(UIUtils.getResColor(mContext,R.color.gray_text_selector));
-                        percentStr2 = UIUtils.getResString(mContext,R.string.stop_stock);
-                    }else if(symbols.get(1).getPercentage() > 0){
-                        percentStr2 = StringFromatUtils.get2PointPercent(symbols.get(1).getPercentage());
-                        holder.tvRelatedStockPercent2.setTextColor(UIUtils.getResColor(mContext,R.color.red));
-                    }else{
-                        percentStr2 = StringFromatUtils.get2PointPercent(symbols.get(1).getPercentage());
-                        holder.tvRelatedStockPercent2.setTextColor(UIUtils.getResColor(mContext,R.color.green));
+                    if (StockUitls.isDelistStock(symbols.get(1).getList_status())) {
+                        holder.tvRelatedStockPercent2.setText(R.string.exit_stock);
+                        holder.tvRelatedStockPercent2.setTypeface(Typeface.DEFAULT);
+                        holder.tvRelatedStockPercent2.setTextColor(ColorTemplate.getTextColor(R.color.gray_text_selector));
+                    } else if (symbols.get(1).getIsStop() == 1) {
+                        holder.tvRelatedStockPercent2.setText(R.string.stop_stock);
+                        holder.tvRelatedStockPercent2.setTextColor(ColorTemplate.getTextColor(R.color.gray_text_selector));
+                        holder.tvRelatedStockPercent2.setTypeface(Typeface.DEFAULT);
+                    } else {
+                        if(symbols.get(1).getPercentage() > 0){
+                            percentStr2 = StringFromatUtils.get2PointPercent(symbols.get(1).getPercentage());
+                            holder.tvRelatedStockPercent2.setTextColor(UIUtils.getResColor(mContext,R.color.red));
+                        }else{
+                            percentStr2 = StringFromatUtils.get2PointPercent(symbols.get(1).getPercentage());
+                            holder.tvRelatedStockPercent2.setTextColor(UIUtils.getResColor(mContext,R.color.green));
+                        }
+                        holder.tvRelatedStockPercent2.setTypeface(Typeface.DEFAULT_BOLD);
+                        holder.tvRelatedStock2.setText(symbols.get(1).getAbbrName());
+                        holder.tvRelatedStockPercent2.setText(percentStr2);
                     }
-                    holder.tvRelatedStock2.setText(symbols.get(1).getAbbrName());
-                    holder.tvRelatedStockPercent2.setText(percentStr2);
 
                 }
             }

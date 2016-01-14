@@ -180,6 +180,7 @@
     <string name="verify_code">验证码</string>
     <string name="hint_verify_code">请输入验证码</string>
     <string name="get_code">获取验证码</string>
+    <string name="get_code_again">重新获取</string>
     <string name="blank_get_code">重新发送(%1$d)s</string>
     <string name="getting_code">获取验证码...</string>
     <string name="get_code_fail">获取验证码失败</string>
@@ -883,7 +884,7 @@
     <string name="fund_supervision_bank">资金支付由中国银联支持</string>
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
-    <string name="bank_card_failed">认证失败</string>
+    <string name="bank_card_failed">绑卡失败</string>
     <string name="quit">放弃</string>
     <string name="rebind">重新绑卡</string>
     <string name="bank_type">卡类型</string>
@@ -946,6 +947,8 @@
     <string name="blank_gesture_password_msg">手势密码已输入次数过多，请%1$d分钟后再试或重新验证登录密码修改手势密码。</string>
     <string name="setting_trade_password">设置交易密码</string>
     <string name="old_trade_password">原交易密码</string>
+    <string name="check_identity">验证身份</string>
+    <string name="input_trade_password_tocheck">请输入交易密码，以确认身份</string>
     <string name="input_trade_password_again">请再次输入交易密码。</string>
     <string name="trade_password_unsame">密码不一致，请重新输入。</string>
     <string name="forget_trade_password">忘记密码?</string>
@@ -964,6 +967,7 @@
     <string name="redemption_arrival_time">赎回到账时间</string>
     <string name="blank_buy_money">起购金额</string>
     <string name="blank_buy_value">起购金额 %1$s元</string>
+    <string name="blank_buy_value_wan">起购金额 %1$s万元</string>
     <string name="blank_net_value">最新净值 %1$.4f</string>
     <string name="blank_fund_name">%1$s(%2$s)</string>
     <string name="blank_bank_card">%1$s(%2$s)</string>
@@ -989,6 +993,7 @@
     <string name="copy">份</string>
     <string name="hint_value">1.00元起购</string>
     <string name="blank_hint_value">%1$s元起购</string>
+    <string name="blank_hint_value_wan">%1$s万元起购</string>
     <string name="shares">份额</string>
     <string name="hint_shares">1.00份起</string>
     <string name="fen">1.00元起购</string>

@@ -2,8 +2,10 @@ package com.dkhs.portfolio.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import com.dkhs.portfolio.bean.MyBankCard;
 import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -29,7 +32,7 @@ import org.json.JSONObject;
 /**
  * Created by zhangcm on 2015/9/17.16:15
  */
-public class TradePasswordSettingActivity extends ModelAcitivity{
+public class TradePasswordSettingActivity extends ModelAcitivity {
 
     public static String TAG = "TradePasswordSettingActivity";
 
@@ -46,13 +49,14 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     private TextView tv_trade_pwd_tip2;
 
 
-
     private static final String LAYOUT_TYPE = "layout_type";
     private static final int TYPE_FIRST_SET_PWD = 1;
     private static final int TYPE_RESET_PWD = 2;
     private static final int TYPE_FORGET_PWD = 3;
+    private static final int TYPE_CHECK_PWD = 4;
     private int curLayoutType;
-    public static Intent firstSetPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile, String captcha){
+
+    public static Intent firstSetPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile, String captcha) {
         Intent intent = new Intent(context, TradePasswordSettingActivity.class);
         intent.putExtra(LAYOUT_TYPE, TYPE_FIRST_SET_PWD);
         intent.putExtra("bank_card_id", bankId);
@@ -63,11 +67,25 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
         intent.putExtra("captcha", captcha);
         return intent;
     }
-    public static Intent resetPwdIntent(Context context){
+
+    public static Intent checkPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile, String captcha) {
+        Intent intent = new Intent(context, TradePasswordSettingActivity.class);
+        intent.putExtra(LAYOUT_TYPE, TYPE_CHECK_PWD);
+        intent.putExtra("bank_card_id", bankId);
+        intent.putExtra("bank_card_no", bankCardNo);
+        intent.putExtra("real_name", realName);
+        intent.putExtra("id_card_no", idCardNo);
+        intent.putExtra("mobile", mobile);
+        intent.putExtra("captcha", captcha);
+        return intent;
+    }
+
+    public static Intent resetPwdIntent(Context context) {
         Intent intent = new Intent(context, TradePasswordSettingActivity.class);
         intent.putExtra(LAYOUT_TYPE, TYPE_RESET_PWD);
         return intent;
     }
+
     public static Intent forgetPwdIntent(Context context, String bankId, String bankCardNo, String realName, String idCardNo, String mobile, String captcha) {
         Intent intent = new Intent(context, TradePasswordSettingActivity.class);
         intent.putExtra(LAYOUT_TYPE, TYPE_FORGET_PWD);
@@ -90,7 +108,6 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
             handleExtras(extras);
         }
         setTitle(R.string.setting_trade_password);
-        setResult(ActivityCode.TRADE_PASSWORD_SETTING_RESULT.ordinal());
         initViews();
     }
 
@@ -100,9 +117,10 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     private String realName;
     private String idCardNo;
     private String captcha;
+
     private void handleExtras(Bundle extras) {
         curLayoutType = extras.getInt(LAYOUT_TYPE, 0);
-        if(curLayoutType == TYPE_FORGET_PWD || curLayoutType == TYPE_FIRST_SET_PWD){
+        if (curLayoutType == TYPE_FORGET_PWD || curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_CHECK_PWD) {
             mobile = extras.getString("mobile");
             bankCardId = extras.getString("bank_card_id");
             bankCardNo = extras.getString("bank_card_no");
@@ -116,17 +134,28 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
     private String oldPwd;
     private boolean isOldPwdTrue;
 
-    private void initViews(){
-        if(curLayoutType == TYPE_FIRST_SET_PWD){
+    private int bindCardCount = 1;
+    private ParseHttpListener<Boolean> listener;
+    private TradeEngineImpl tradeEngine;
+    private Handler handler = new Handler();
+
+    private void initViews() {
+        if (curLayoutType == TYPE_FIRST_SET_PWD) {
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
-        }else if(curLayoutType == TYPE_RESET_PWD){
+        } else if (curLayoutType == TYPE_RESET_PWD) {
             setTitle(R.string.old_trade_password);
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.VISIBLE);
-        }else if(curLayoutType == TYPE_FORGET_PWD){
+        } else if (curLayoutType == TYPE_FORGET_PWD) {
             tv_trade_pwd_tip1.setVisibility(View.INVISIBLE);
             tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
+        } else if (curLayoutType == TYPE_CHECK_PWD) {
+            setTitle(R.string.check_identity);
+            tv_trade_pwd_tip1.setText(R.string.input_trade_password_tocheck);
+            tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
+            tv_trade_pwd_tip2.setVisibility(View.VISIBLE);
+
         }
         gpv.setOnPasswordChangedListener(new GridPasswordView.OnPasswordChangedListener() {
             @Override
@@ -147,6 +176,8 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                         tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
                     } else if (curLayoutType == TYPE_RESET_PWD && !isOldPwdTrue) {
                         oldPwd = psw;
+                        btn_set_trade_password.setEnabled(true);
+                    } else if (curLayoutType == TYPE_CHECK_PWD) {
                         btn_set_trade_password.setEnabled(true);
                     }
                 } else {
@@ -171,89 +202,136 @@ public class TradePasswordSettingActivity extends ModelAcitivity{
                 finish();
             }
         });
+        tradeEngine = new TradeEngineImpl();
+        listener = new ParseHttpListener<Boolean>() {
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                if(errCode == 500)
+                    PromptManager.closeProgressDialog();
+            }
+
+            public void onFailure(ErrorBundle errorBundle) {
+                if (errorBundle.getErrorKey().equals("password_lock_invalid")) {
+                    gpv.clearPassword();
+                    showPwdLockedDialog(errorBundle.getErrorMessage());
+                } else {
+                    if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_CHECK_PWD) {
+                        if (errorBundle.getErrorKey().equals("bankcard_status_error")) {
+                            if (bindCardCount < 4) {
+                                bindCardCount++;
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tradeEngine.bindBankCard(bankCardId, bankCardNo, realName, idCardNo, mobile, captcha, gpv.getPassWord(), listener);
+                                        }
+                                    }, 1000);
+                            } else {
+                                PromptManager.closeProgressDialog();
+                                showBindCardFailedDialog();
+                            }
+                        }else{
+                            PromptManager.closeProgressDialog();
+                            super.onFailure(errorBundle);
+                        }
+                    } else {
+                        super.onFailure(errorBundle);
+                    }
+                }
+            }
+
+            @Override
+            protected Boolean parseDateTask(String jsonData) {
+                try {
+                    JSONObject json = new JSONObject(jsonData);
+                    if (json.has("status")) {
+                        return json.getBoolean("status");
+                    }
+
+                } catch (Exception e) {
+                }
+                return null;
+            }
+
+            @Override
+            protected void afterParseData(Boolean object) {
+                if (null != object) {
+                    if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_FORGET_PWD || curLayoutType == TYPE_CHECK_PWD) {
+                        if (object) {
+//                                    PromptManager.showToast(R.string.set_trade_password_suc);
+                            setResult(ActivityCode.TRADE_PASSWORD_SETTING_RESULT.ordinal());
+                            manualFinish();
+                        } else {
+                            PromptManager.showToast(R.string.set_trade_password_fail);
+                        }
+                    } else if (curLayoutType == TYPE_RESET_PWD) {
+                        if (object) {
+                            if (TextUtils.isEmpty(firstPwd)) {
+                                //设置新交易密码成功
+                                setResult(ActivityCode.TRADE_PASSWORD_SETTING_RESULT.ordinal());
+                                PromptManager.showToast(R.string.origin_trade_password_correct);
+                                isOldPwdTrue = object;
+                                setTitle(R.string.setting_trade_password);
+                                gpv.clearPassword();
+                                btn_set_trade_password.setEnabled(false);
+                                tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
+                                tv_trade_pwd_tip1.setText(R.string.pls_input_trade_pwd);
+                                tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
+                            } else {
+                                PromptManager.showToast(R.string.set_new_trade_password_suc);
+
+                                finish();
+                            }
+                        } else {
+                            if (TextUtils.isEmpty(firstPwd)) {
+                                gpv.clearPassword();
+                                btn_set_trade_password.setEnabled(false);
+                                PromptManager.showToast(R.string.origin_trade_password_uncorrect);
+                            } else {
+                                PromptManager.showToast(R.string.set_new_trade_password_fail);
+                            }
+                        }
+                    }
+                }
+            }
+        };
         btn_set_trade_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //下一步
-                TradeEngineImpl tradeEngine = new TradeEngineImpl();
-                ParseHttpListener<Boolean> listener = new ParseHttpListener<Boolean>() {
-                    public void onFailure(ErrorBundle errorBundle) {
-                        if(errorBundle.getErrorKey().equals("password_lock_invalid")){
-                            gpv.clearPassword();
-                            showPwdLockedDialog(errorBundle.getErrorMessage());
-                        }else{
-                            super.onFailure(errorBundle);
-                        }
-                    }
-                    @Override
-                    protected Boolean parseDateTask(String jsonData) {
-                        try {
-                            JSONObject json = new JSONObject(jsonData);
-                            if (json.has("status")) {
-                                return json.getBoolean("status");
-                            }
-
-                        } catch (Exception e) {
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(Boolean object) {
-                        if (null != object) {
-                            if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_FORGET_PWD) {
-                                if (object) {
-                                    PromptManager.showToast(R.string.set_trade_password_suc);
-                                    setResult(ActivityCode.TRADE_PASSWORD_SETTING_RESULT.ordinal());
-                                    manualFinish();
-                                } else {
-                                    PromptManager.showToast(R.string.set_trade_password_fail);
-                                }
-                            } else if (curLayoutType == TYPE_RESET_PWD) {
-                                if (object) {
-                                    if (TextUtils.isEmpty(firstPwd)) {
-                                        //设置新交易密码成功
-                                        setResult(ActivityCode.TRADE_PASSWORD_SETTING_RESULT.ordinal());
-                                        PromptManager.showToast(R.string.origin_trade_password_correct);
-                                        isOldPwdTrue = object;
-                                        setTitle(R.string.setting_trade_password);
-                                        gpv.clearPassword();
-                                        btn_set_trade_password.setEnabled(false);
-                                        tv_trade_pwd_tip1.setVisibility(View.VISIBLE);
-                                        tv_trade_pwd_tip1.setText(R.string.pls_input_trade_pwd);
-                                        tv_trade_pwd_tip2.setVisibility(View.INVISIBLE);
-                                    } else {
-                                        PromptManager.showToast(R.string.set_new_trade_password_suc);
-
-                                        finish();
-                                    }
-                                } else {
-                                    if (TextUtils.isEmpty(firstPwd)) {
-                                        gpv.clearPassword();
-                                        btn_set_trade_password.setEnabled(false);
-                                        PromptManager.showToast(R.string.origin_trade_password_uncorrect);
-                                    } else {
-                                        PromptManager.showToast(R.string.set_new_trade_password_fail);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-                if (curLayoutType == TYPE_FIRST_SET_PWD) {
-                    tradeEngine.resetTradePassword(bankCardId, bankCardNo, realName, idCardNo, mobile, captcha, gpv.getPassWord(), listener.setLoadingDialog(mContext));
+                if (curLayoutType == TYPE_FIRST_SET_PWD || curLayoutType == TYPE_CHECK_PWD) {
+                    PromptManager.showProgressDialog(mContext,"");
+                    tradeEngine.bindBankCard(bankCardId, bankCardNo, realName, idCardNo, mobile, captcha, gpv.getPassWord(), listener);
                 } else if (curLayoutType == TYPE_RESET_PWD) {
                     if (TextUtils.isEmpty(firstPwd)) {
                         tradeEngine.checkTradePassword(oldPwd, listener.setLoadingDialog(mContext));
                     } else {
                         tradeEngine.changeTradePassword(oldPwd, firstPwd, listener.setLoadingDialog(mContext));
                     }
-                }else if(curLayoutType == TYPE_FORGET_PWD){
+                } else if (curLayoutType == TYPE_FORGET_PWD) {
                     tradeEngine.resetTradePassword(bankCardId, bankCardNo, realName, idCardNo, mobile, captcha, gpv.getPassWord(), listener.setLoadingDialog(mContext));
                 }
             }
         });
 
+    }
+
+    private void showBindCardFailedDialog() {
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
+        builder.setMessage(R.string.bank_card_failed).setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        bindCardCount = 0;
+                        PromptManager.showProgressDialog(mContext,"");
+                        tradeEngine.bindBankCard(bankCardId, bankCardNo, realName, idCardNo, mobile, captcha, gpv.getPassWord(), listener);
+                    }
+                }).setNegativeButton(R.string.quit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                manualFinish();
+            }
+        });
+        builder.show();
     }
 
     private void showPwdLockedDialog(String msg) {
