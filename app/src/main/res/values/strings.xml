@@ -1293,4 +1293,34 @@
     <string name="statistics_reset_trade_password">重置交易密码页</string>
     <string name="statistics_gesture_password">设置手势密码页</string>
     <string name="statistics_verify_login_password">设忘记手势密码页</string>
+    <string name="statistics_flowpackage">我的积分页</string>
+    <string name="statistics_exchange">流量兑换页</string>
+    <string name="statistics_exchangehistory">兑换记录页</string>
+    <string name="statistics_invitefriends">邀请好友页</string>
+    <string name="statistics_invitehistory">邀请记录页</string>
+    <string name="statistics_mycombination">我的组合页</string>
+    <string name="statistics_myreward">我的悬赏页</string>
+    <string name="statistics_mytopic">我的话题页</string>
+    <string name="statistics_mydraft">我的草稿页</string>
+    <string name="statistics_settingpage">设置页</string>
+    <string name="statistics_boundaccount">账号绑定页</string>
+    <string name="statistics_modifypsw">密码修改页</string>
+    <string name="statistics_feedback">意见反馈页</string>
+    <string name="statistics_aboutus">关于我们页</string>
+    <string name="statistics_selectgeneral">综合搜索页</string>
+    <string name="statistics_shakedetector">摇一摇</string>
+    <string name="statistics_login">登录页</string>
+    <string name="statistics_rlf">注册-手机号</string>
+    <string name="statistics_verification">注册-填写验证码</string>
+    <string name="statistics_verification_psw">忘记密码页-验证码</string>
+    <string name="statistics_rlf_psw">忘记密码页-手机号</string>
+    <string name="statistics_setpassword">忘记密码页-设置</string>
+    <string name="statistics_selectsearchmoreloadmorelist_stock">股票搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_fund">基金搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_fundmanager">基金经理搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_moreuser">用户搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_morecombination">组合搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_morereward">悬赏搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_moretopic">话题搜索结果页</string>
+
 </resources>

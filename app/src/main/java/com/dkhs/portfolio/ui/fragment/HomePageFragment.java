@@ -44,7 +44,6 @@ import com.dkhs.portfolio.engine.HomePageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SelectGeneralActivity;
-import com.dkhs.portfolio.ui.ShakeActivity;
 import com.dkhs.portfolio.ui.ShakeDetectorActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
@@ -133,7 +132,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private ParseHttpListener<List<TopicsBean>> topicsListener = new ParseHttpListener<List<TopicsBean>>() {
         @Override
         public void onSuccess(String jsonObject) {
-            System.out.println(">>>>>>>>>ok");
             //缓存
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON, jsonObject);
             super.onSuccess(jsonObject);
@@ -141,7 +139,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         public void onFailure(int errCode, String errMsg) {
-            System.out.println(">>>>>>>>>ok errCode" + errCode + " errMsg= " + errMsg);
             mHandler.sendEmptyMessage(REQUESS_FAIL);
             super.onFailure(errCode, errMsg);
 

@@ -383,10 +383,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 startActivity(RLFActivity.bindPhoneIntent(this));
                 break;
             case R.id.setting_material:
-                if(pro != null){
-                    Intent it = VerifiedProFileActivity.getInent(this,pro.cert_description,pro.image1,pro.image2,
-                            pro.image3,pro.image4,pro.image5,pro.image6);
-                    UIUtils.startAnimationActivity(this,it);
+                if (pro != null) {
+                    Intent it = VerifiedProFileActivity.getInent(this, pro.cert_description, pro.image1, pro.image2,
+                            pro.image3, pro.image4, pro.image5, pro.image6);
+                    UIUtils.startAnimationActivity(this, it);
                 }
                 break;
             default:
@@ -566,25 +566,26 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     }
 
     private ProInfoBean pro;
+
     private void updateProVerificationInfo(ProVerificationBean info) {
         IdentityInfoBean identity = info.identity;
         pro = info.pro;
-        if(pro == null || identity == null)
+        if (pro == null || identity == null)
             return;
         String name = identity.real_name;
-        if(!TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)) {
 //            name = name.replace(name.substring(0, 1), "*");
             ((TextView) findViewById(R.id.tv_real_name_value)).setText(name);
         }
         ((TextView) findViewById(R.id.tv_id_card_value)).setText(identity.id_card_no_masked);
         UserEntity user = GlobalParams.LOGIN_USER;
-        if(user != null){
+        if (user != null) {
             StringBuilder residence = new StringBuilder();
-            if(!TextUtils.isEmpty(user.getProvince())){
+            if (!TextUtils.isEmpty(user.getProvince())) {
                 residence.append(user.getProvince());
             }
-            if(!TextUtils.isEmpty(user.getCity())){
-                residence.append(user.getProvince()+" "+user.getCity());
+            if (!TextUtils.isEmpty(user.getCity())) {
+                residence.append(user.getProvince() + " " + user.getCity());
             }
             ((TextView) findViewById(R.id.tv_city_value)).setText(residence.toString());
         }
@@ -593,7 +594,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.setting_cert_no).setVisibility(View.GONE);
             findViewById(R.id.setting_organize).setVisibility(View.GONE);
             findViewById(R.id.setting_material).setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.tv_material_value)).setText(pro.cert_description);
+            ((TextView) findViewById(R.id.tv_material_value)).setText(pro.cert_description);
             findViewById(R.id.setting_material).setOnClickListener(this);
         } else {
             ((TextView) findViewById(R.id.tv_cert_no_value)).setText(pro.cert_no);
@@ -630,6 +631,12 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_setting;
+        //R.string.statistics_Setting
+        if (getEditModeEnable()) {
+            return R.string.statistics_setting;
+        } else {
+            return R.string.statistics_settingpage;
+        }
+
     }
 }

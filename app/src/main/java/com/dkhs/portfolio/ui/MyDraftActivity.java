@@ -42,4 +42,9 @@ public class MyDraftActivity extends ModelAcitivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_mydraft;
+    }
 }

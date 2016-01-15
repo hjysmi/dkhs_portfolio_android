@@ -34,4 +34,9 @@ public class MyTopicActivity extends ModelAcitivity {
         setTitle(R.string.info_title_mypost);
         replaceContentFragment(new TabTopicFragment());
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_mytopic;
+    }
 }

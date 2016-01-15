@@ -34,4 +34,9 @@ public class MyRewardActivity extends ModelAcitivity {
         setTitle(R.string.info_title_reward);
         replaceContentFragment(new TabRewardFragment());
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_myreward;
+    }
 }

@@ -33,7 +33,6 @@ import com.dkhs.portfolio.ui.GesturePasswordActivity;
 import com.dkhs.portfolio.ui.MyAssestsActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.MyDraftActivity;
-import com.dkhs.portfolio.ui.MyPurseActivity;
 import com.dkhs.portfolio.ui.MyRewardActivity;
 import com.dkhs.portfolio.ui.MyTopicActivity;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
@@ -249,6 +248,7 @@ public class UserInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
                 break;
             case INDEX_REWARD:
+                //我的悬赏
                 UserEntity entity = UserEngineImpl.getUserEntity();
                 MyRewardActivity.starActivity(mContext, entity.getId() + "", entity.getUsername());
                 break;

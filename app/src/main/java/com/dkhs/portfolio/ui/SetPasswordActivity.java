@@ -293,4 +293,9 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_setpassword;
+    }
 }
