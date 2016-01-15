@@ -228,4 +228,9 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
             }
         }
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_fund_optional_setting;
+    }
 }

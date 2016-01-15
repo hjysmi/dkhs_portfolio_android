@@ -26,6 +26,7 @@ public class StatusReportActivity extends ModelAcitivity implements OnClickListe
 
     private static final String ARGUMENT_REPORTID = "argument_reportId";
     private static final String ARGUMENT_USERNAME = "argument_username";
+    private static final String ARGUMENT_TYPE = "argument_type";
     private static final String ARGUMENT_CONTENT = "argument_content";
 
     @ViewInject(R.id.tv_report_user)
@@ -58,12 +59,14 @@ public class StatusReportActivity extends ModelAcitivity implements OnClickListe
     private String mUserName;
     private String mContent;
     private String mReportId;
+    private int mType;
 
-    public static Intent getIntent(Context context, String reportId, String username, String content) {
+    public static Intent getIntent(Context context, String reportId, String username, String content,int type) {
         Intent intent = new Intent(context, StatusReportActivity.class);
         intent.putExtra(ARGUMENT_REPORTID, reportId);
         intent.putExtra(ARGUMENT_USERNAME, username);
         intent.putExtra(ARGUMENT_CONTENT, content);
+        intent.putExtra(ARGUMENT_TYPE,type);
         return intent;
     }
 
@@ -86,7 +89,7 @@ public class StatusReportActivity extends ModelAcitivity implements OnClickListe
         mUserName = extras.getString(ARGUMENT_USERNAME);
         mContent = extras.getString(ARGUMENT_CONTENT);
         mReportId = extras.getString(ARGUMENT_REPORTID);
-
+        mType = extras.getInt(ARGUMENT_TYPE);
     }
 
     private void initView() {
@@ -167,6 +170,15 @@ public class StatusReportActivity extends ModelAcitivity implements OnClickListe
             btnReport.setEnabled(true);
         } else {
             btnReport.setEnabled(false);
+        }
+    }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        if(mType == 40){
+            return R.string.statistics_reward_report;
+        }else{
+            return R.string.statistics_topic_report;
         }
     }
 }

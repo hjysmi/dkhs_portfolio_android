@@ -759,4 +759,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_fund_notice_setting;
+    }
 }

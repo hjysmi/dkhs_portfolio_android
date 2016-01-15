@@ -559,4 +559,13 @@ public class MarketFundsFragment extends VisiableLoadFragment implements IDataUp
     }
 
 
+    @Override
+    public int getPageStatisticsStringId() {
+        if (curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_WEEK) == 0
+                || curType.compareTo(MarketSubpageFragment.SubpageType.TYPE_FUND_MANAGER_RANKING_SIX_MONTH) == 0) {
+            return R.string.statistics_fund_manager_rank;
+        } else {
+            return R.string.statistics_fund_rate_rank;
+        }
+    }
 }

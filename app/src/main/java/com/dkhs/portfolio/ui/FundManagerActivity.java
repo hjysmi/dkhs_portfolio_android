@@ -187,4 +187,9 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
     public void collapseView() {
         achivementsAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_fund_manager_detail;
+    }
 }

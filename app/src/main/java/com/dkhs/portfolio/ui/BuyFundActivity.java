@@ -653,4 +653,8 @@ public class BuyFundActivity extends ModelAcitivity {
 
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_fund_buy;
+    }
 }
