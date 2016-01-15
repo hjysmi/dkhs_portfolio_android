@@ -104,8 +104,8 @@ public class ModelAcitivity extends SwipeBackActivity {
         //统计时长
         MobclickAgent.onResume(this);
         if (getPageStatisticsStringId() != 0) {
-            StatService.onPageStart(mContext, UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
-            MobclickAgent.onPageStart(UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
+            StatService.onPageStart(mContext, UIUtils.getResString(mContext, getPageStatisticsStringId()));
+            MobclickAgent.onPageStart(UIUtils.getResString(mContext, getPageStatisticsStringId()));
         }
     }
 
@@ -116,8 +116,8 @@ public class ModelAcitivity extends SwipeBackActivity {
 //            MobclickAgent.onPageEnd(this.getClass().getSimpleName());
 //        }
         if (getPageStatisticsStringId() != 0) {
-            StatService.onPageEnd(mContext, UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
-            MobclickAgent.onPageEnd(UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
+            StatService.onPageEnd(mContext, UIUtils.getResString(mContext, getPageStatisticsStringId()));
+            MobclickAgent.onPageEnd(UIUtils.getResString(mContext, getPageStatisticsStringId()));
         }
 
         MobclickAgent.onPause(this);

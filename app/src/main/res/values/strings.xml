@@ -1219,7 +1219,7 @@
     <string name="statistics_topics">话题列表页</string>
     <string name="statistics_topic_detail">话题正文页</string>
     <string name="statistics_topic_report">话题举报页</string>
-    <string name="statistics_topic_relpy">话题回答页</string>
+    <string name="statistics_topic_reply">话题回答页</string>
     <string name="statistics_post_topic">发表话题页</string>
     <!--基金频道页-->
     <string name="statistics_fund_channel">基金频道页</string>

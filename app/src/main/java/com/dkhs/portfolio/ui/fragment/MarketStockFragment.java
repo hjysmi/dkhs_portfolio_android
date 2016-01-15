@@ -390,6 +390,9 @@ public class MarketStockFragment extends VisiableLoadFragment implements View.On
         }
     }
 
-
+    @Override
+    public int getPageStatisticsStringId(){
+        return R.string.statistics_fund_channel;
+    }
 
 }
