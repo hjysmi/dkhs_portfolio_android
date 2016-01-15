@@ -170,4 +170,9 @@ public class MyPurseActivity extends AssestsBaseActivity implements View.OnClick
         }).setNegativeButton(R.string.cancel, null);
         builder.show();
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_my_purse;
+    }
 }

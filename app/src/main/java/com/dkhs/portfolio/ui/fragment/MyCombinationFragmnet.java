@@ -309,5 +309,9 @@ public class MyCombinationFragmnet extends VisiableLoadFragment implements ILoad
         }
 
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_my_combination;
+    }
 
 }

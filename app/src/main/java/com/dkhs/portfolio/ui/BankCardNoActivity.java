@@ -212,4 +212,8 @@ public class BankCardNoActivity extends ModelAcitivity implements View.OnClickLi
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_bank_card_no;
+    }
 }

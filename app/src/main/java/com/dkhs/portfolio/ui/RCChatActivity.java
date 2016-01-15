@@ -155,4 +155,8 @@ public class RCChatActivity extends ModelAcitivity {
 
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_position_configure;
+    }
 }

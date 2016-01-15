@@ -1020,4 +1020,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         // TODO Auto-generated method stub
 
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        if(isAdjustCombination){
+            return R.string.statistics_position_adjust;
+        }else{
+            return R.string.statistics_position_configure;
+        }
+    }
 }

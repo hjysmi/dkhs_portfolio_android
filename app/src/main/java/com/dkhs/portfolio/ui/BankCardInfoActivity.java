@@ -824,4 +824,13 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         builder.show();
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        if(isResetPasswordType){
+            //重置交易密码验证
+            return R.string.statistics_verify_bank_card_info;
+        }else{
+            return R.string.statistics_bank_card_info;
+        }
+    }
 }

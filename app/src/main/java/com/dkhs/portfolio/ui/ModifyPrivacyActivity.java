@@ -15,7 +15,6 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -204,4 +203,8 @@ public class ModifyPrivacyActivity extends ModelAcitivity implements OnClickList
     }
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_privacy_setting);
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_modify_privacy;
+    }
 }

@@ -30,5 +30,9 @@ public class ResetTradePasswordActivity extends ModelAcitivity {
         }
 
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_reset_trade_password;
+    }
 
 }

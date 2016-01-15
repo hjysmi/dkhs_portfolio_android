@@ -153,5 +153,8 @@ public class ModifyUserSignActivity extends ModelAcitivity implements OnClickLis
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_person_sign);
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_modify_user_sign;
+    }
 }

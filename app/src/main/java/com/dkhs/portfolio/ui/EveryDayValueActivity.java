@@ -21,7 +21,6 @@ import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.http.HttpHandler;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -238,5 +237,9 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
         if (null != mHttphandler) {
             mHttphandler.cancel();
         }
+    }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_everyday_value;
     }
 }

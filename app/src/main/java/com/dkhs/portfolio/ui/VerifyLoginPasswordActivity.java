@@ -117,4 +117,8 @@ public class VerifyLoginPasswordActivity extends ModelAcitivity {
         setResult(500);
         super.onBackPressed();
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_verify_login_password;
+    }
 }
