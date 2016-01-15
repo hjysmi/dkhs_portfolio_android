@@ -32,7 +32,6 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.Collections;
 import java.util.List;
@@ -134,7 +133,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         reloadData();
         updateHandler.postDelayed(updateRunnable, 5 * 1000);
         StatService.onPageStart(getActivity(), TAG);
-        MobclickAgent.onPageStart(this.getClass().getSimpleName());
 
 
     }
@@ -142,7 +140,6 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
     @Override
     public void onViewHide() {
         StatService.onPageEnd(getActivity(), TAG);
-        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         updateHandler.removeCallbacks(updateRunnable);
     }
 
@@ -153,6 +150,10 @@ public class TabStockFragment extends VisiableLoadFragment implements OnClickLis
         BusProvider.getInstance().register(this);
         // refreshEditView();
 
+    }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_tab_stock;
     }
 
     public void refreshEditView() {

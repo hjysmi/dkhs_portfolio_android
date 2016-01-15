@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -37,6 +38,7 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.widget.HorizontalDividerItemDecoration;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zjz
@@ -188,7 +190,6 @@ public class UserFragment extends BaseTitleFragment {
     @Override
     public void onPause() {
         super.onPause();
-
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
@@ -260,4 +261,8 @@ public class UserFragment extends BaseTitleFragment {
         }
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_mine;
+    }
 }

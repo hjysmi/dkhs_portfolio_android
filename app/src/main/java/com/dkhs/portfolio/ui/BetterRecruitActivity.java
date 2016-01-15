@@ -281,4 +281,8 @@ public class BetterRecruitActivity extends ModelAcitivity implements View.OnClic
         needShowDialog();
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_better_recruit;
+    }
 }

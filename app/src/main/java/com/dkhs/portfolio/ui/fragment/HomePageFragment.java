@@ -716,4 +716,9 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mShakeIv.setBackgroundResource(R.drawable.btn_shake_gray_selector);
         }
     }
+
+    @Override
+    public int getPageStatisticsStringId(){
+        return R.string.statistics_homepage;
+    }
 }

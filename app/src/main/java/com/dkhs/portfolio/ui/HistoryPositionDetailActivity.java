@@ -25,7 +25,6 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.http.HttpHandler;
-import com.umeng.analytics.MobclickAgent;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -318,5 +317,9 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
         if (null != mHttphandler) {
             mHttphandler.cancel();
         }
+    }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_history_position_detail;
     }
 }

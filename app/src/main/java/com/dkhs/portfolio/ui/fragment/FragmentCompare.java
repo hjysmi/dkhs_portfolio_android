@@ -1088,4 +1088,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
         // TODO Auto-generated method stub
         return R.layout.fragment_compare;
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_combination_compare;
+    }
 }

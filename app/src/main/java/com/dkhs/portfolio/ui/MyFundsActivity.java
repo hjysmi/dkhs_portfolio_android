@@ -216,6 +216,9 @@ public class MyFundsActivity extends LoadMoreListActivity{
             TextView tv_total_profit;
         }
     }
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_my_funds;
+    }
 
 }

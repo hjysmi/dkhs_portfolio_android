@@ -1206,6 +1206,93 @@
     <string name="safesign_cmbc_assest">中国民生银行保障交易资金全程安全</string>
 
     <string name="news_source">【%1$s】</string>
+
+    <!--统计名称-->
+    <string name="statistics_homepage">首页</string>
+    <!--悬赏-->
+    <string name="statistics_rewards">悬赏列表页</string>
+    <string name="statistics_reward_detail">悬赏正文页</string>
+    <string name="statistics_reward_report">悬赏举报页</string>
+    <string name="statistics_reward_reply">悬赏回答页</string>
+    <string name="statistics_post_reward">发表悬赏页</string>
+    <!--话题-->
+    <string name="statistics_topics">话题列表页</string>
+    <string name="statistics_topic_detail">话题正文页</string>
+    <string name="statistics_topic_report">话题举报页</string>
+    <string name="statistics_topic_reply">话题回答页</string>
+    <string name="statistics_post_topic">发表话题页</string>
+    <!--基金频道页-->
+    <string name="statistics_fund_channel">基金频道页</string>
+    <string name="statistics_fund_market">基金超市页</string>
+    <string name="statistics_financial_management">专题理财页</string>
+    <string name="statistics_fund_manager_rank">基金经理排行榜</string>
+    <string name="statistics_fund_rate_rank">收益排行榜</string>
+    <string name="statistics_fund_manager_detail">基金经理详情页</string>
+    <string name="statistics_fund_detail">基金详情页</string>
+    <string name="statistics_fund_notice_setting">基金提醒设置页</string>
+    <string name="statistics_fund_buy">基金买入页</string>
+
+    <!--股票频道页-->
+    <string name="statistics_stock_channel">股票频道页</string>
+    <string name="statistics_industry_rank">行业榜</string>
+    <string name="statistics_ups_downs_rank">涨跌榜</string>
+    <string name="statistics_industry_channel">行业板块页</string>
+    <string name="statistics_stock_detail">股票详情页</string>
+    <string name="statistics_trend_landscape">股票横屏走势页</string>
+    <string name="statistics_exchange_rate_rank">换手率榜</string>
+    <string name="statistics_amplitude_rank">振幅榜</string>
+    <string name="statistics_index_detail">指数详情页</string>
+
+
+    <!--基金自选页-->
+    <string name="statistics_fund_optional">基金自选页</string>
+    <string name="statistics_fund_optional_setting">基金自选设置页</string>
+
+    <string name="statistics_tab_stock">股票自选页</string>
+    <string name="statistics_edit_tab_stock">股票自选设置页</string>
+    <string name="statistics_tab_combination">组合自选页</string>
+    <string name="statistics_my_combination">我的组合页</string>
+    <string name="statistics_edit_tab_combination">自选组合设置页</string>
+    <string name="statistics_select_stock">选择股票页</string>
+    <string name="statistics_combination_detail">组合详情页</string>
+    <string name="statistics_position_configure">配置组合页</string>
+    <string name="statistics_position_adjust">持仓调整页</string>
+    <string name="statistics_stock_remind_combination">组合提醒设置页</string>
+    <string name="statistics_modify_privacy">隐私设置页</string>
+    <string name="statistics_modify_com_name">修改组合页</string>
+    <string name="statistics_everyday_value">历史收益记录页</string>
+    <string name="statistics_combination_news">组合资讯页</string>
+    <string name="statistics_combination_compare">业绩比较页</string>
+    <string name="statistics_history_position_detail">历史调仓记录页</string>
+    <string name="statistics_mine">我的</string>
+    <string name="statistics_user_home_page">个人页</string>
+    <string name="statistics_setting">个人设置页</string>
+    <string name="statistics_modify_user_sign">个人简介页</string>
+    <string name="statistics_friends">关注页</string>
+    <string name="statistics_followers">粉丝页</string>
+    <string name="statistics_better_recruit">牛人招募页</string>
+    <string name="statistics_rcchat_list">消息中心页</string>
+    <string name="statistics_rcchat">消息列表页</string>
+    <string name="statistics_my_assests">我的资产页</string>
+    <string name="statistics_my_purse">我的零钱页</string>
+    <string name="statistics_recharge">充值页</string>
+    <string name="statistics_with_draw">提现页</string>
+    <string name="statistics_my_funds">持仓基金列表页</string>
+    <string name="statistics_buy_fund">基金买入页</string>
+    <string name="statistics_sell_fund">基金卖出页</string>
+    <string name="statistics_trade_record">交易记录页</string>
+    <string name="statistics_buy_fund_info">买入交易详情页</string>
+    <string name="statistics_sell_fund_info">卖出交易详情页</string>
+    <string name="statistics_my_bank_cards">银行卡管理页</string>
+    <string name="statistics_bank_card_no">添加银行卡页</string>
+    <string name="statistics_bank_card_info">添加银行卡信息页</string>
+    <string name="statistics_verify_bank_card_info">验证银行卡信息页</string>
+    <string name="statistics_trade_password_setting">设置交易密码页</string>
+    <string name="statistics_trade_setting">安全设置页</string>
+    <string name="statistics_forget_trade_password">忘记交易密码页</string>
+    <string name="statistics_reset_trade_password">重置交易密码页</string>
+    <string name="statistics_gesture_password">设置手势密码页</string>
+    <string name="statistics_verify_login_password">设忘记手势密码页</string>
     <string name="statistics_flowPackage">我的积分页</string>
     <string name="statistics_exchange">流量兑换页</string>
     <string name="statistics_exchangeHistory">兑换记录页</string>

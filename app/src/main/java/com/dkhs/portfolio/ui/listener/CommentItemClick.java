@@ -283,7 +283,7 @@ public class CommentItemClick {
      */
     private void reportComment(LikeBean commentBean) {
         if (!UIUtils.iStartLoginActivity(mContext))
-            mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.user.getUsername(), commentBean.text));
+            mContext.startActivity(StatusReportActivity.getIntent(mContext, commentBean.getId() + "", commentBean.user.getUsername(), commentBean.text,commentBean.content_type));
     }
 
 

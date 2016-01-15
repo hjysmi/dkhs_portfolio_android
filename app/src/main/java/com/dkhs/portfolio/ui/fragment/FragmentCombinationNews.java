@@ -17,13 +17,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -141,5 +139,9 @@ public class FragmentCombinationNews extends BaseFragment {
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
         return R.layout.fragment_combination_news;
+    }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_combination_news;
     }
 }

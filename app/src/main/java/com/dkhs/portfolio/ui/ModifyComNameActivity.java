@@ -19,7 +19,6 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
@@ -137,5 +136,8 @@ public class ModifyComNameActivity extends ModelAcitivity implements OnClickList
     private final String mPageName = PortfolioApplication.getInstance().getString(
             R.string.count_combination_name_change);
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_modify_com_name;
+    }
 }

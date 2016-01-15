@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -21,7 +22,9 @@ import com.dkhs.portfolio.ui.ItemView.FollowerItemHandler;
 import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.squareup.otto.Subscribe;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +59,29 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (type == PeopleEngineImpl.TYPE.FRIENDS) {
+            StatService.onPageStart(getActivity(), UIUtils.getResString(getActivity(),R.string.statistics_friends));
+            MobclickAgent.onPageStart(UIUtils.getResString(getActivity(), R.string.statistics_friends));
+        }else if(type == PeopleEngineImpl.TYPE.FOLLOWERS){
+            StatService.onPageStart(getActivity(), UIUtils.getResString(getActivity(),R.string.statistics_followers));
+            MobclickAgent.onPageStart(UIUtils.getResString(getActivity(), R.string.statistics_followers));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (type == PeopleEngineImpl.TYPE.FRIENDS) {
+            StatService.onPageEnd(getActivity(), UIUtils.getResString(getActivity(), R.string.statistics_friends));
+            MobclickAgent.onPageEnd(UIUtils.getResString(getActivity(), R.string.statistics_friends));
+        }else if(type == PeopleEngineImpl.TYPE.FOLLOWERS){
+            StatService.onPageEnd(getActivity(), UIUtils.getResString(getActivity(), R.string.statistics_followers));
+            MobclickAgent.onPageEnd(UIUtils.getResString(getActivity(), R.string.statistics_followers));
+        }
+    }
 
     @Override
     public void onDestroy() {
