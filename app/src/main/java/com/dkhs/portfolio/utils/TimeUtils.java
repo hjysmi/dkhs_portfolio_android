@@ -197,4 +197,17 @@ public class TimeUtils {
         return true;
     }
 
+    public static String getBriefTimeString2(String dateStr) {
+        DateTime dateTime = new DateTime(dateStr);
+        LocalDate date = dateTime.toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+        if (Days.daysBetween(date, currentDate).getDays() == 0) {
+            return dateTime.toString("HH:mm");
+        } else if (date.getYear() == currentDate.getYear()) {
+            return dateTime.toString("MM-dd HH:mm");
+        } else {
+            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM);
+        }
+    }
+
 }

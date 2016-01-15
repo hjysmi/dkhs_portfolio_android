@@ -615,20 +615,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(recommendRewardBean);
             //  mDataList.addAll(topicsBeans);
         }
-        //推荐话题
-        if (recommendTopics != null && recommendTopics.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC, true));
-            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(recommendTopics);
-            mDataList.add(recommendRewardBean);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC, true));
-            String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON);
-            // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
-            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(parseRewards(rewardsJson));
-            mDataList.add(recommendRewardBean);
-            //  mDataList.addAll(topicsBeans);
-        }
-
 
         //推荐基金经理
         if (recommendFundManagers != null && recommendFundManagers.size() > 0) {
