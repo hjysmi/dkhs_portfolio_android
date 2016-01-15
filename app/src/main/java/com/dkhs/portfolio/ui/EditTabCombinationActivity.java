@@ -129,7 +129,10 @@ public class EditTabCombinationActivity extends ModelAcitivity implements OnClic
         super.onResume();
         dataEngine.loadAllData();
     }
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_edit_tab_combination;
+    }
     private void handleExtras(Bundle extras) {
         mdateList = (ArrayList<CombinationBean>) extras.getParcelable("key_fund_list");
     }

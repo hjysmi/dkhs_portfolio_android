@@ -293,4 +293,8 @@ public class MyBankCardsActivity extends AssestsBaseActivity {
         }
 
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_my_bank_cards;
+    }
 }

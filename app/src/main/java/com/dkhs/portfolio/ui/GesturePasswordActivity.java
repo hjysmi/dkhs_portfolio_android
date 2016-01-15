@@ -416,4 +416,8 @@ public class GesturePasswordActivity extends ModelAcitivity {
     @Override
     public void onUserInteraction() {
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_gesture_password;
+    }
 }

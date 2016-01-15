@@ -42,4 +42,8 @@ public class WithDrawActivity extends AssestsBaseActivity {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_my_purse;
+    }
 }

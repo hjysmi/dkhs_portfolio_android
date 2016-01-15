@@ -161,4 +161,8 @@ public class ForgetTradePasswordActivity extends ModelAcitivity {
             manualFinish();
         }
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_forget_trade_password;
+    }
 }

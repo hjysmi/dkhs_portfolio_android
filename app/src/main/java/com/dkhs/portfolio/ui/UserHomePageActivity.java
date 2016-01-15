@@ -561,5 +561,8 @@ public class UserHomePageActivity extends ModelAcitivity {
         super.finish();
     }
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_user_home_page;
+    }
 }

@@ -78,5 +78,8 @@ public class RCChatListActivity extends ModelAcitivity {
         }
     }
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_rcchat_list;
+    }
 }

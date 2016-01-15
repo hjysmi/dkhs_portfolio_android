@@ -353,4 +353,9 @@ public class TradePasswordSettingActivity extends ModelAcitivity {
                 }).show();
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_trade_password_setting;
+    }
+
 }

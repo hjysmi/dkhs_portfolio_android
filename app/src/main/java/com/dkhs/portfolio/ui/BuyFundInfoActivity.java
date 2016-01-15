@@ -118,4 +118,9 @@ public class BuyFundInfoActivity extends ModelAcitivity {
         new MyFundsEngineImpl().getFundsTradesInfo(trade_id, listener.setLoadingDialog(mContext));
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_buy_fund_info;
+    }
+
 }

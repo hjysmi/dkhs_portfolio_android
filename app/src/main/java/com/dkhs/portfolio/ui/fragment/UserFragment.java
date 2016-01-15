@@ -38,7 +38,6 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.widget.HorizontalDividerItemDecoration;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zjz
@@ -175,8 +174,6 @@ public class UserFragment extends BaseTitleFragment {
     @Override
     public void onResume() {
         super.onResume();
-        StatService.onPageStart(getActivity(), TAG);
-        MobclickAgent.onPageStart(this.getClass().getSimpleName());
         if (isFirst) {
             isFirst = false;
         } else {
@@ -192,8 +189,6 @@ public class UserFragment extends BaseTitleFragment {
     @Override
     public void onPause() {
         super.onPause();
-        StatService.onPageEnd(getActivity(), TAG);
-        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
@@ -265,4 +260,8 @@ public class UserFragment extends BaseTitleFragment {
         }
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_mine;
+    }
 }

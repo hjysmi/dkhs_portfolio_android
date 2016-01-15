@@ -337,4 +337,9 @@ public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityG
 //        }
 //    }
 
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_my_assests;
+    }
 }
