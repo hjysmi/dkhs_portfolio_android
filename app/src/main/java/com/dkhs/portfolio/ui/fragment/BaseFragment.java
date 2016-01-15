@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -62,12 +63,24 @@ public abstract class BaseFragment extends Fragment {
 //        if (iStrictVisible()) {
 //            onVisibleHintChanged(true);
 //        }
+        if (getPageStatisticsStringId() != 0) {
+            StatService.onPageStart(getActivity(), UIUtils.getResString(getActivity(), getPageStatisticsStringId()));
+            MobclickAgent.onPageStart(UIUtils.getResString(getActivity(), getPageStatisticsStringId()));
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
 //        onVisibleHintChanged(false);
+        if (getPageStatisticsStringId() != 0) {
+            StatService.onPageEnd(getActivity(), UIUtils.getResString(getActivity(), getPageStatisticsStringId()));
+            MobclickAgent.onPageEnd(UIUtils.getResString(getActivity(), getPageStatisticsStringId()));
+        }
+    }
+
+    public int getPageStatisticsStringId(){
+        return 0;
     }
 
     public abstract int setContentLayoutId();
