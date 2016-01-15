@@ -8,7 +8,6 @@ import android.text.Selection;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -19,7 +18,6 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * 密码设置
@@ -152,5 +150,8 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_change_password);
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_ModifyPsw;
+    }
 }

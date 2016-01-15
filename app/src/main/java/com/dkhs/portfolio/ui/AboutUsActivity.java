@@ -63,5 +63,8 @@ public class AboutUsActivity extends ModelAcitivity {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_abort_us);
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_AboutUs;
+    }
 }

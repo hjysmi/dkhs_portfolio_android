@@ -85,12 +85,12 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         return intent;
     }
 
-    public static Intent registerThreePlatform(Context context,String name) {
+    public static Intent registerThreePlatform(Context context, String name) {
         Intent intent = new Intent(context, RLFActivity.class);
         intent.putExtra(EXTRA_SETTING_PASSWORD, true);
-        intent.putExtra(EXTRA_REGISTER_THREE_PLATFORM,true);
+        intent.putExtra(EXTRA_REGISTER_THREE_PLATFORM, true);
         intent.putExtra(EXTRA_ACTIVITY_TYPE, REGIST_THREE_PLAT);
-        intent.putExtra(EXTRA_NAME,name);
+        intent.putExtra(EXTRA_NAME, name);
         return intent;
     }
 
@@ -293,7 +293,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             setTitle("绑定手机号");
             rlfbutton.setText("下一步");
             tvHint.setVisibility(View.VISIBLE);
-        }else if(current_type == REGIST_THREE_PLAT){
+        } else if (current_type == REGIST_THREE_PLAT) {
             setTitle(R.string.verify_phone);
             rlfbutton.setText("下一步");
             tvHint.setVisibility(View.VISIBLE);
@@ -363,7 +363,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // return;
                 // }
 
-                if (current_type == REGIST_TYPE || current_type == SETTING_PASSWORD_TYPE ||current_type == REGIST_THREE_PLAT) {
+                if (current_type == REGIST_TYPE || current_type == SETTING_PASSWORD_TYPE || current_type == REGIST_THREE_PLAT) {
                     // // engine.register(telephone, verify_code, listener);
                     //
                     // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
@@ -414,10 +414,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(Boolean object) {
             if (!object) {
-                if(isRegisterThreePlatform){
+                if (isRegisterThreePlatform) {
                     startActivityForResult((VerificationActivity.newThreePlatformIntent(RLFActivity.this, etPhoneNum
-                            .getText().toString(), null,name)), REQUEST_BOUND_THREE_PLATFORM);
-                }else if (isSettingPsw) {
+                            .getText().toString(), null, name)), REQUEST_BOUND_THREE_PLATFORM);
+                } else if (isSettingPsw) {
                     startActivityForResult(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
                             null, false), REQUESTCODE_SET_PASSWROD);
                 } else {
@@ -580,6 +580,16 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_sign_account);
 
+    @Override
+    public int getPageStatisticsStringId() {
+        if (current_type == REGIST_TYPE) {
+            return R.string.statistics_RLF;
+        } else if (current_type == FORGET_PSW_TYPE) {
+            return R.string.statistics_RLF_psw;
+        } else {
+            return 0;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

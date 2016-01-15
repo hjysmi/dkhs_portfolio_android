@@ -485,6 +485,11 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
     }
 
     @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_SelectGeneral;
+    }
+
+    @Override
     protected void onDestroy() {
         BusProvider.getInstance().unregister(this);
         super.onDestroy();

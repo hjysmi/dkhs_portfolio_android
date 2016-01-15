@@ -627,4 +627,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         }
         return verifiedName;
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_Setting;
+    }
 }

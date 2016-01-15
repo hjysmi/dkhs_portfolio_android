@@ -17,4 +17,8 @@ public class ExchangeHistoryActivity extends ModelAcitivity {
         setTitle(R.string.exchange_history);
         getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,new ExchangeHistoryFragment()).commitAllowingStateLoss();
     }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_exchangeHistory;
+    }
 }

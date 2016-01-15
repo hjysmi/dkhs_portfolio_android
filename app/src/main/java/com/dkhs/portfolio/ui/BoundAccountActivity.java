@@ -18,7 +18,6 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +26,12 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
-//import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.utils.WechatClientNotExistException;
 import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
+
+//import cn.sharesdk.tencent.qzone.QZone;
 
 /**
  * 绑定第三方账号
@@ -287,5 +287,8 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_dound_third_account);
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_BoundAccount;
+    }
 }

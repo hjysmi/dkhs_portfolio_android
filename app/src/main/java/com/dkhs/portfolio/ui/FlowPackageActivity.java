@@ -56,6 +56,11 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
         FlowExchangeEngine.overview(overViewListener);
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_flowPackage;
+    }
+
     private  FlowOverViewBean mOverViewBean;
     public void updateUI(FlowOverViewBean overViewBean) {
         mOverViewBean=overViewBean;

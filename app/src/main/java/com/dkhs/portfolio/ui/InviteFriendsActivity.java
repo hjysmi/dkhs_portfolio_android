@@ -18,17 +18,13 @@ import com.dkhs.portfolio.engine.AdEngineImpl;
 import com.dkhs.portfolio.net.SimpleParseHttpListener;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.List;
-
 import cn.sharesdk.onekeyshare.OnekeyShare;
-import cn.sharesdk.onekeyshare.PlatformListFakeActivity;
 
 /**
  * @author zwm
@@ -204,6 +200,10 @@ public class InviteFriendsActivity extends ModelAcitivity {
 //        oks.setErrorText(getString(R.string.invite_err));
         oks.show(context);
 
+    }
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_InviteFriends;
     }
 
 }

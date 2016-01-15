@@ -16,14 +16,14 @@ import android.widget.TextView;
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FundManagerBean;
-import com.dkhs.portfolio.base.widget.ImageButton;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.QuotesBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.TopicsBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.bean.itemhandler.TopicsHandler;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreCombinationHandler;
 import com.dkhs.portfolio.bean.itemhandler.searchmoredetail.SearchMoreFundManagerHandler;
@@ -35,7 +35,6 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LocalDataEngine.DBLoader.IResultCallback;
 import com.dkhs.portfolio.engine.LocalDataEngine.VisitorDataSource;
 import com.dkhs.portfolio.engine.SelectGeneralSearchMoreEngineImpl;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.ClearableEditText;
@@ -491,6 +490,34 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
                 }
             }
         }
+    }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        switch (searchType) {
+            case MORE_STOCK:
+                //股票
+                return R.string.statistics_SelectSearchMoreLoadMoreList_stock;
+            case MORE_FUND:
+                return R.string.statistics_SelectSearchMoreLoadMoreList_fund;
+                //基金
+            case MORE_FUND_MANAGER:
+                //基金经理
+                return R.string.statistics_SelectSearchMoreLoadMoreList_FUND_MANAGER;
+            case MORE_USER:
+                return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_USER;
+                //用户
+            case MORE_COMBINATION:
+                //组合
+            return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_COMBINATION;
+            case MORE_REWARD:
+                return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_REWARD;
+                //悬赏
+            case MORE_TOPIC:
+                //话题
+                return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_TOPIC;
+        }
+        return super.getPageStatisticsStringId();
     }
 }
 

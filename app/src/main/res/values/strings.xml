@@ -1206,4 +1206,34 @@
     <string name="safesign_cmbc_assest">中国民生银行保障交易资金全程安全</string>
 
     <string name="news_source">【%1$s】</string>
+    <string name="statistics_flowPackage">我的积分页</string>
+    <string name="statistics_exchange">流量兑换页</string>
+    <string name="statistics_exchangeHistory">兑换记录页</string>
+    <string name="statistics_InviteFriends">邀请好友页</string>
+    <string name="statistics_InviteHistory">邀请记录页</string>
+    <string name="statistics_MyCombination">我的组合页</string>
+    <string name="statistics_MyReward">我的悬赏页</string>
+    <string name="statistics_MyTopic">我的话题页</string>
+    <string name="statistics_MyDraft">我的草稿页</string>
+    <string name="statistics_Setting">设置页</string>
+    <string name="statistics_BoundAccount">账号绑定页</string>
+    <string name="statistics_ModifyPsw">密码修改页</string>
+    <string name="statistics_FeedBack">意见反馈页</string>
+    <string name="statistics_AboutUs">关于我们页</string>
+    <string name="statistics_SelectGeneral">综合搜索页</string>
+    <string name="statistics_ShakeDetector">摇一摇</string>
+    <string name="statistics_login">登录页</string>
+    <string name="statistics_RLF">注册-手机号</string>
+    <string name="statistics_Verification">注册-填写验证码</string>
+    <string name="statistics_Verification_psw">忘记密码页-验证码</string>
+    <string name="statistics_RLF_psw">忘记密码页-手机号</string>
+    <string name="statistics_SetPassword">忘记密码页-设置</string>
+    <string name="statistics_SelectSearchMoreLoadMoreList_stock">股票搜索结果页</string>
+    <string name="statistics_SelectSearchMoreLoadMoreList_fund">基金搜索结果页</string>
+    <string name="statistics_SelectSearchMoreLoadMoreList_FUND_MANAGER">基金经理搜索结果页</string>
+    <string name="statistics_SelectSearchMoreLoadMoreList_MORE_USER">用户搜索结果页</string>
+    <string name="statistics_SelectSearchMoreLoadMoreList_MORE_COMBINATION">组合搜索结果页</string>
+    <string name="statistics_SelectSearchMoreLoadMoreList_MORE_REWARD">悬赏搜索结果页</string>
+    <string name="statistics_SelectSearchMoreLoadMoreList_MORE_TOPIC">话题搜索结果页</string>
+
 </resources>
