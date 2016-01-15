@@ -218,4 +218,42 @@ public class MarketListActivity extends RefreshModelActivity {
         void startLoadingData();
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        int resId = 0;
+        switch (mLoadType) {
+            case StockIncease: {
+                resId = R.string.statistics_ups_downs_rank;
+            }
+            break;
+            case IndexUp: {
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_INLAND_INDEX_UP));
+            }
+            break;
+            case StockDown: {
+                resId = R.string.statistics_ups_downs_rank;
+            }
+            break;
+            case StockAmplit: {
+                resId = R.string.statistics_amplitude_rank;
+            }
+            break;
+            case StockTurnOver: {
+                resId = R.string.statistics_exchange_rate_rank;
+            }
+            break;
+            case PlateHot: {
+                resId = R.string.statistics_industry_rank;
+            }
+            break;
+            case PlateList: {
+                resId = R.string.statistics_industry_channel;
+            }
+            break;
+
+            default:
+                break;
+        }
+        return resId;
+    }
 }

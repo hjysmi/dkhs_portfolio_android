@@ -463,7 +463,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         if (!UIUtils.iStartLoginActivity(TopicsDetailActivity.this)) {
 
                             if (null != mTopicsBean && null != mTopicsBean.user) {
-                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text));
+                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text,mTopicsBean.content_type));
                             }
                         }
                         break;
@@ -810,4 +810,18 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         }
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        if(mTopicsBean == null){
+            return 0;
+        }
+        if(mTopicsBean.content_type == 40){
+            return R.string.statistics_reward_detail;
+        }else if(mTopicsBean.content_type == 0){
+            return R.string.statistics_topic_detail;
+        }else if(mTopicsBean.content_type == 50){
+            return R.string.statistics_financial_management;
+        }
+        return 0;
+    }
 }

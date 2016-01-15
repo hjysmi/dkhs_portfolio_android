@@ -281,4 +281,9 @@ public class RewardsFragment extends LoadMoreListFragment  {
         });
     }
 
+    @Override
+    public int getPageStatisticsStringId(){
+        return R.string.statistics_rewards;
+    }
+
 }

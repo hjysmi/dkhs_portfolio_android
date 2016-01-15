@@ -18,6 +18,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
@@ -27,6 +28,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.base.widget.RelativeLayout;
@@ -1119,4 +1121,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private int index;
+
+    @Override
+    public int getPageStatisticsStringId() {
+        if(mStockBean != null && "5".equals(mStockBean.symbol_type)){
+            return R.string.statistics_index_detail;
+        }else{
+            return R.string.statistics_stock_detail;
+        }
+    }
 }

@@ -587,4 +587,9 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
             BusProvider.getInstance().post(new StopRefreshEvent());
         }
     }
+
+    @Override
+    public int getPageStatisticsStringId(){
+        return R.string.statistics_fund_channel;
+    }
 }
