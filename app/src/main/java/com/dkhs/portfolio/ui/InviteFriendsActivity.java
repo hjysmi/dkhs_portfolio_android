@@ -203,7 +203,7 @@ public class InviteFriendsActivity extends ModelAcitivity {
     }
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_InviteFriends;
+        return R.string.statistics_invitefriends;
     }
 
 }

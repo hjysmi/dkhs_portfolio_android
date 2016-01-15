@@ -152,6 +152,6 @@ public class ModifyPswActivity extends ModelAcitivity implements OnClickListener
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_ModifyPsw;
+        return R.string.statistics_modifypsw;
     }
 }

@@ -289,6 +289,6 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_BoundAccount;
+        return R.string.statistics_boundaccount;
     }
 }

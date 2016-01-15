@@ -583,9 +583,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     @Override
     public int getPageStatisticsStringId() {
         if (current_type == REGIST_TYPE) {
-            return R.string.statistics_RLF;
+            return R.string.statistics_rlf;
         } else if (current_type == FORGET_PSW_TYPE) {
-            return R.string.statistics_RLF_psw;
+            return R.string.statistics_rlf_psw;
         } else {
             return 0;
         }

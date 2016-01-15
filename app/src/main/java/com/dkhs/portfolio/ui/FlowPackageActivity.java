@@ -58,7 +58,7 @@ public class FlowPackageActivity extends ModelAcitivity implements View.OnClickL
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_flowPackage;
+        return R.string.statistics_flowpackage;
     }
 
     private  FlowOverViewBean mOverViewBean;

@@ -361,9 +361,9 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     @Override
     public int getPageStatisticsStringId() {
         if (isForgetPsw) {
-            return R.string.statistics_Verification_psw;
+            return R.string.statistics_verification_psw;
         } else if (isSetPsw && !isRegisterThreePlatform) {
-            return R.string.statistics_Verification;
+            return R.string.statistics_verification;
         }
         return super.getPageStatisticsStringId();
     }

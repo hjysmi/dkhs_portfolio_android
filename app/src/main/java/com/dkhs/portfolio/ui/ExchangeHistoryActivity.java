@@ -19,6 +19,6 @@ public class ExchangeHistoryActivity extends ModelAcitivity {
     }
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_exchangeHistory;
+        return R.string.statistics_exchangehistory;
     }
 }

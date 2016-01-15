@@ -37,6 +37,6 @@ public class MyTopicActivity extends ModelAcitivity {
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_MyTopic;
+        return R.string.statistics_mytopic;
     }
 }

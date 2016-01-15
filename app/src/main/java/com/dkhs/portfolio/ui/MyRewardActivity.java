@@ -37,6 +37,6 @@ public class MyRewardActivity extends ModelAcitivity {
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_MyReward;
+        return R.string.statistics_myreward;
     }
 }

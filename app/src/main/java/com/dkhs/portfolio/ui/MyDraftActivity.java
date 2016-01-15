@@ -45,6 +45,6 @@ public class MyDraftActivity extends ModelAcitivity implements View.OnClickListe
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_MyDraft;
+        return R.string.statistics_mydraft;
     }
 }

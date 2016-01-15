@@ -202,6 +202,6 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener 
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_FeedBack;
+        return R.string.statistics_feedback;
     }
 }

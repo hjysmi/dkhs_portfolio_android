@@ -486,7 +486,7 @@ public class SelectGeneralActivity extends ModelAcitivity implements View.OnClic
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_SelectGeneral;
+        return R.string.statistics_selectgeneral;
     }
 
     @Override

@@ -116,7 +116,7 @@ public class InviteHistoryActivity extends ModelAcitivity {
     }
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_InviteHistory;
+        return R.string.statistics_invitehistory;
     }
 
 }

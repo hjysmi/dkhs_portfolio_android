@@ -497,25 +497,25 @@ public class SelectSearchMoreLoadMoreListActivity extends ModelAcitivity impleme
         switch (searchType) {
             case MORE_STOCK:
                 //股票
-                return R.string.statistics_SelectSearchMoreLoadMoreList_stock;
+                return R.string.statistics_selectsearchmoreloadmorelist_stock;
             case MORE_FUND:
-                return R.string.statistics_SelectSearchMoreLoadMoreList_fund;
+                return R.string.statistics_selectsearchmoreloadmorelist_fund;
                 //基金
             case MORE_FUND_MANAGER:
                 //基金经理
-                return R.string.statistics_SelectSearchMoreLoadMoreList_FUND_MANAGER;
+                return R.string.statistics_selectsearchmoreloadmorelist_fundmanager;
             case MORE_USER:
-                return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_USER;
+                return R.string.statistics_selectsearchmoreloadmorelist_moreuser;
                 //用户
             case MORE_COMBINATION:
                 //组合
-            return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_COMBINATION;
+            return R.string.statistics_selectsearchmoreloadmorelist_morecombination;
             case MORE_REWARD:
-                return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_REWARD;
+                return R.string.statistics_selectsearchmoreloadmorelist_morereward;
                 //悬赏
             case MORE_TOPIC:
                 //话题
-                return R.string.statistics_SelectSearchMoreLoadMoreList_MORE_TOPIC;
+                return R.string.statistics_selectsearchmoreloadmorelist_moretopic;
         }
         return super.getPageStatisticsStringId();
     }

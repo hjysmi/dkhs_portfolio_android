@@ -25,13 +25,13 @@ public class ShakeDetectorActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        StatService.onPageStart(mContext, UIUtils.getResString(mContext, R.string.statistics_ShakeDetector));
-        MobclickAgent.onPageStart(UIUtils.getResString(mContext, R.string.statistics_ShakeDetector));
+        StatService.onPageStart(mContext, UIUtils.getResString(mContext, R.string.statistics_shakedetector));
+        MobclickAgent.onPageStart(UIUtils.getResString(mContext, R.string.statistics_shakedetector));
     }
 
     protected void onPause() {
-        StatService.onPageEnd(mContext, UIUtils.getResString(mContext, R.string.statistics_ShakeDetector));
-        MobclickAgent.onPageEnd(UIUtils.getResString(mContext, R.string.statistics_ShakeDetector));
+        StatService.onPageEnd(mContext, UIUtils.getResString(mContext, R.string.statistics_shakedetector));
+        MobclickAgent.onPageEnd(UIUtils.getResString(mContext, R.string.statistics_shakedetector));
         super.onPause();
     }
 }

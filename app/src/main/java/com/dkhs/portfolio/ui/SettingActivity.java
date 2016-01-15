@@ -635,7 +635,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         if (getEditModeEnable()) {
             return R.string.statistics_setting;
         } else {
-            return R.string.statistics_Setting;
+            return R.string.statistics_settingpage;
         }
 
     }

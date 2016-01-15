@@ -65,6 +65,6 @@ public class AboutUsActivity extends ModelAcitivity {
 
     @Override
     public int getPageStatisticsStringId() {
-        return R.string.statistics_AboutUs;
+        return R.string.statistics_aboutus;
     }
 }
