@@ -225,4 +225,9 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
             }
         }
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_fund_optional_setting;
+    }
 }
