@@ -387,4 +387,9 @@ public class CombinationDetailActivity extends ModelAcitivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_combination_detail;
+    }
 }

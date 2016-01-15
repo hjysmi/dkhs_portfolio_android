@@ -116,5 +116,8 @@ public class SellFundInfoActivity extends ModelAcitivity {
         trade_id = getIntent().getExtras().getString(TRADE_ID);
         new MyFundsEngineImpl().getFundsTradesInfo(trade_id, listener.setLoadingDialog(mContext));
     }
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_sell_fund_info;
+    }
 }

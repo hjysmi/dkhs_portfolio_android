@@ -759,4 +759,11 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
+    @Override
+    public int getPageStatisticsStringId() {
+        if(isCombinationSetting){
+            return R.string.statistics_stock_remind_combination;
+        }
+        return super.getPageStatisticsStringId();
+    }
 }

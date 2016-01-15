@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View.OnClickListener;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
@@ -67,5 +68,11 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
         return -1;
     }
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        if (getLoadByType() == ListViewType.STOCK){
+            return R.string.statistics_select_stock;
+        }
+        return super.getPageStatisticsStringId();
+    }
 }

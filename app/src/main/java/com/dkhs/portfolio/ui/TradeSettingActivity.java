@@ -177,5 +177,8 @@ public class TradeSettingActivity extends AssestsBaseActivity {
                     }
                 }).show();
     }
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_trade_setting;
+    }
 }
