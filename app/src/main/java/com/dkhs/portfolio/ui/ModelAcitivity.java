@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -97,21 +98,32 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     protected void onResume() {
         super.onResume();
-        if (!hadFragment) {
-            MobclickAgent.onPageStart(this.getClass().getSimpleName());
-        }
-        MobclickAgent.onResume(this);
+//        if (!hadFragment) {
+//            MobclickAgent.onPageStart(this.getClass().getSimpleName());
+//        }
         //统计时长
+        MobclickAgent.onResume(this);
+        if (getPageStatisticsStringId() != 0) {
+            StatService.onPageStart(mContext, UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
+            MobclickAgent.onPageStart(UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
+        }
     }
 
     protected void onPause() {
         super.onPause();
 
-        if (!hadFragment) {
-            MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+//        if (!hadFragment) {
+//            MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+//        }
+        if (getPageStatisticsStringId() != 0) {
+            StatService.onPageEnd(mContext, UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
+            MobclickAgent.onPageEnd(UIUtils.getResString(mContext, R.string.statistics_edit_tab_stock));
         }
 
         MobclickAgent.onPause(this);
+    }
+    public int getPageStatisticsStringId(){
+        return 0;
     }
 
     protected void onCreate(Bundle arg0, int titleLayout) {
