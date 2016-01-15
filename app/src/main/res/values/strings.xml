@@ -1206,4 +1206,45 @@
     <string name="safesign_cmbc_assest">中国民生银行保障交易资金全程安全</string>
 
     <string name="news_source">【%1$s】</string>
+
+    <!--统计名称-->
+    <string name="statistics_homepage">首页</string>
+    <!--悬赏-->
+    <string name="statistics_rewards">悬赏列表页</string>
+    <string name="statistics_reward_detail">悬赏正文页</string>
+    <string name="statistics_reward_report">悬赏举报页</string>
+    <string name="statistics_reward_reply">悬赏回答页</string>
+    <string name="statistics_post_reward">发表悬赏页</string>
+    <!--话题-->
+    <string name="statistics_topics">话题列表页</string>
+    <string name="statistics_topic_detail">话题正文页</string>
+    <string name="statistics_topic_report">话题举报页</string>
+    <string name="statistics_topic_relpy">话题回答页</string>
+    <string name="statistics_post_topic">发表话题页</string>
+    <!--基金频道页-->
+    <string name="statistics_fund_channel">基金频道页</string>
+    <string name="statistics_fund_market">基金超市页</string>
+    <string name="statistics_financial_management">专题理财页</string>
+    <string name="statistics_fund_manager_rank">基金经理排行榜</string>
+    <string name="statistics_fund_rate_rank">收益排行榜</string>
+    <string name="statistics_fund_manager_detail">基金经理详情页</string>
+    <string name="statistics_fund_detail">基金详情页</string>
+    <string name="statistics_fund_notice_setting">基金提醒设置页</string>
+    <string name="statistics_fund_buy">基金买入页</string>
+
+    <!--股票频道页-->
+    <string name="statistics_stock_channel">股票频道页</string>
+    <string name="statistics_industry_rank">行业榜</string>
+    <string name="statistics_ups_downs_rank">涨跌榜</string>
+    <string name="statistics_industry_channel">行业板块页</string>
+    <string name="statistics_stock_detail">股票详情页</string>
+    <string name="statistics_trend_landscape">股票横屏走势页</string>
+    <string name="statistics_exchange_rate_rank">换手率榜</string>
+    <string name="statistics_amplitude_rank">振幅榜</string>
+    <string name="statistics_index_detail">指数详情页</string>
+
+
+    <!--基金自选页-->
+    <string name="statistics_fund_optional">基金自选页</string>
+    <string name="statistics_fund_optional_setting">基金自选设置页</string>
 </resources>
