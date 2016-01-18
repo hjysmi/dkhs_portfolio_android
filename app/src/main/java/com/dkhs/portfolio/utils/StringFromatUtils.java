@@ -245,5 +245,15 @@ public class StringFromatUtils {
         return discountStr;
     }
 
+    public static String convert2Wan(double value){
+            double  wan = 10000d;
+            if (value < wan) {
+                return String.valueOf((int) value);
+            } else if (value < 100 * wan) {
+                return new DecimalFormat("0万").format(value / (wan));
+            }
+        return "--";
+    }
+
 
 }

@@ -134,7 +134,7 @@ public class SpecialFundAdapter extends SimpleItemHandler<FundQuoteBean> {
         if (data.isAllow_buy()) {
             vh.getTextView(R.id.tv_discount_value).setText(StringFromatUtils.getDiscount(data.getFare_ratio_buy(), data.getDiscount_rate_buy(), vh.getContext()));
             buyBtn.setEnabled(true);
-            shRateTV.setText(new DecimalFormat("0").format(data.getAmount_min_buy()));
+            shRateTV.setText(StringFromatUtils.convert2Wan(data.getAmount_min_buy()));
             shRateTV.setTextColor(vh.getContext().getResources().getColor(R.color.black));
             buyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
