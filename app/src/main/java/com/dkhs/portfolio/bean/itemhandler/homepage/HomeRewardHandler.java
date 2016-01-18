@@ -79,16 +79,6 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
                 textView.setRewardValue(String.format(context.getString(R.string.blank_comment_count), topicsBean.reward_amount));
                 textView.setLineSpacing(5, 1);
                 textView.setText("&nbsp;" + topicsBean.recommend_title);
-            } else if (topicsBean.content_type == 10) {
-                if(topicsBean.source != null){
-                    String title = topicsBean.source.title;
-                    if(!TextUtils.isEmpty(title)){
-                        String source = String.format(vh.getContext().getResources().getString(R.string.news_source),title);
-                        textView.setText(source + topicsBean.recommend_title);
-                    }
-                }else{
-                    textView.setText(topicsBean.recommend_title);
-                }
             } else {
                 textView.setText(topicsBean.recommend_title);
             }
@@ -104,7 +94,7 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
             } else {
                 tv_name.setText("");
             }
-            if(!TextUtils.isEmpty(topicsBean.created_at)){
+            if (!TextUtils.isEmpty(topicsBean.created_at)) {
                 tv_time.setText(TimeUtils.getBriefTimeString(new DateTime(topicsBean.created_at)));
             }
             tv_name.setText(topicsBean.user.getUsername());

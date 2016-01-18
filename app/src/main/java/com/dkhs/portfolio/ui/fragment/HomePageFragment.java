@@ -484,7 +484,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         //推荐悬赏
         HomePageEngine.getRecommendRewardAndTopic("40", rewardsListener);
         //今日热点
-        HomePageEngine.getRecommendRewardAndTopic(String.valueOf(10), topicsListener);
+        HomePageEngine.getRecommendRewardAndTopic("10,0", topicsListener);
         HomePageEngine.getSubBanner(subBannerListener);
     }
 
