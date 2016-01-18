@@ -25,6 +25,8 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import org.joda.time.DateTime;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -77,16 +79,6 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
                 textView.setRewardValue(String.format(context.getString(R.string.blank_comment_count), topicsBean.reward_amount));
                 textView.setLineSpacing(5, 1);
                 textView.setText("&nbsp;" + topicsBean.recommend_title);
-            } else if (topicsBean.content_type == 10) {
-                if(topicsBean.source != null){
-                    String title = topicsBean.source.title;
-                    if(!TextUtils.isEmpty(title)){
-                        String source = String.format(vh.getContext().getResources().getString(R.string.news_source),title);
-                        textView.setText(source + topicsBean.recommend_title);
-                    }
-                }else{
-                    textView.setText(topicsBean.recommend_title);
-                }
             } else {
                 textView.setText(topicsBean.recommend_title);
             }
@@ -102,8 +94,8 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
             } else {
                 tv_name.setText("");
             }
-            if(!TextUtils.isEmpty(topicsBean.created_at)){
-                tv_time.setText(TimeUtils.getBriefTimeString2(topicsBean.created_at));
+            if (!TextUtils.isEmpty(topicsBean.created_at)) {
+                tv_time.setText(TimeUtils.getBriefTimeString(new DateTime(topicsBean.created_at)));
             }
             tv_name.setText(topicsBean.user.getUsername());
             if (topicsBean.user != null && !TextUtils.isEmpty(topicsBean.user.getAvatar_md())) {
