@@ -33,6 +33,7 @@ public abstract class LoadPageMoreListFragment extends BaseFragment implements I
         OnLoadMoreListener {
 
     PullToRefreshPageListView mListView;
+    private View mProgressView;
     // private ListAdapter mAdapter;
     // private BaseSelectActivity mActivity;
 
@@ -90,6 +91,7 @@ public abstract class LoadPageMoreListFragment extends BaseFragment implements I
         // mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshPageListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        mProgressView = view.findViewById(R.id.my_progressbar);
         // mListView.setEmptyView(tvEmptyText);
         // mListView.addFooterView(mFootView);
         mListView.setAdapter(getListAdapter());
@@ -238,5 +240,15 @@ public abstract class LoadPageMoreListFragment extends BaseFragment implements I
 
     public void refreshDataSize(int size) {
 
+    }
+
+    public void showProgress(){
+        mProgressView.setVisibility(View.VISIBLE);
+    }
+
+    public void dissProgress(){
+        if(mProgressView.getVisibility() == View.VISIBLE){
+            mProgressView.setVisibility(View.GONE);
+        }
     }
 }

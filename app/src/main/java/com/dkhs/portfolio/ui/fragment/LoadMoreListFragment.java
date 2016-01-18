@@ -109,6 +109,16 @@ public abstract class LoadMoreListFragment extends VisiableLoadFragment implemen
     //
     // }
 
+    public void showProgress(){
+        mProgressView.setVisibility(View.VISIBLE);
+    }
+
+    public void dismissProgress(){
+        if(mProgressView.getVisibility() == View.VISIBLE){
+            mProgressView.setVisibility(View.GONE);
+        }
+    }
+
     abstract ListAdapter getListAdapter();
 
     abstract LoadMoreDataEngine getLoadEngine();

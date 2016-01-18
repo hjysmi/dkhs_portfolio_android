@@ -74,6 +74,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
         Bundle bundle = getArguments();
         type = bundle.getString("type");
         sort = bundle.getString("sort");
+        showProgress();
         loadData();
     }
 
@@ -89,12 +90,12 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
 
     @Override
     public void loadData() {
-        mSwipeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(true);
-            }
-        });
+//        mSwipeLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mSwipeLayout.setRefreshing(true);
+//            }
+//        });
         startLoadData();
 
         if (!sort.equals("work_seniority") && !sort.equals("-work_seniority")) {
@@ -130,6 +131,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
+        dismissProgress();
         endLoadData();
         mSwipeLayout.setRefreshing(false);
         if (mFundManagerRankingsEngine.getCurrentpage() == 1) {
@@ -176,6 +178,7 @@ public class FundManagerRankingsFragment extends LoadMoreListFragment implements
 
     @Override
     public void loadFail() {
+        dismissProgress();
         endLoadData();
         mSwipeLayout.setRefreshing(false);
     }
