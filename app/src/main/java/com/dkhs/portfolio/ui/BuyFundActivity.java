@@ -426,7 +426,7 @@ public class BuyFundActivity extends ModelAcitivity {
                         if (object != null && !"0".equals(object.getId())) {
                             gpvDialog.dismiss();
                             PromptManager.showToast(R.string.buy_fund_suc);
-                            startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
+                            startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId(),true));
                             finish();
                         } else {
                             PromptManager.showToast(R.string.buy_fund_fail);

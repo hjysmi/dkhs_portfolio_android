@@ -87,7 +87,7 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO 打开买入基金详情
-                startActivity(BuyFundInfoActivity.getFundInfoIntent(getActivity(), mDataList.get(position).getId()));
+                startActivity(BuyFundInfoActivity.getFundInfoIntent(getActivity(), mDataList.get(position).getId(),false));
             }
         };
     }

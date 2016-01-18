@@ -882,6 +882,7 @@
     <string name="input_bank_card">输入银行卡号</string>
     <string name="blank_verified_tip">请绑定持卡人%1$s的银行卡号</string>
     <string name="hint_bank_card">请输入银行卡号</string>
+    <string name="pls_agree_bank_safe">请同意《银行转账授权协议》</string>
     <string name="fund_supervision_bank">资金支付由中国银联支持</string>
     <string name="bank_card_package">银行卡管理</string>
     <string name="input_bank_card_info">填写银行卡信息</string>
@@ -1024,9 +1025,12 @@
     <string name="trade_time">下单时间</string>
     <string name="trade_no">交易单号</string>
     <string name="trade_rate">申购费率</string>
-    <string name="buy_fund_info_tip1">支付成功，等待基金公司确认</string>
+    <string name="buy_fund_info_tip0">委托成功</string>
+    <string name="buy_fund_info_tip1_suc">支付成功，等待基金公司确认</string>
+    <string name="buy_fund_info_tip1_fail">支付失败</string>
     <string name="buy_fund_info_tip2">确认购买份额</string>
     <string name="cancel_fund">撤单</string>
+    <string name="complete">完成</string>
     <string name="sell_fund_info">卖出交易详情</string>
     <string name="sell_trade_shares">卖出份额</string>
     <string name="buy_trade_amount">买入金额</string>
