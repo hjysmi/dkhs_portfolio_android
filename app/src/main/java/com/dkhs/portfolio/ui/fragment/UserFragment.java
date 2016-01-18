@@ -20,9 +20,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.baidu.mobstat.StatService;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UpdateStatusBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
@@ -38,7 +38,6 @@ import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.widget.HorizontalDividerItemDecoration;
 import com.squareup.otto.Subscribe;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * @author zjz
@@ -185,6 +184,11 @@ public class UserFragment extends BaseTitleFragment {
     private void updateState() {
         updateMessageCenterState();
         updateVerifyStatus();
+    }
+
+    @Subscribe
+    public void updateStatus(UpdateStatusBean bean) {
+        mInfoAdatper.notifyItemChanged(0);
     }
 
     @Override
