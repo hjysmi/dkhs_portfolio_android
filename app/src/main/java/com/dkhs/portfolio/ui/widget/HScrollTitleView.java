@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @author zjz
@@ -226,6 +228,13 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
             setAnima(hisPosition * indiatorWidth + offset * (2 * hisPosition + 1), position * indiatorWidth + offset
                     * (2 * position + 1));
+            if(getVisibility() == View.GONE || getVisibility() == View.INVISIBLE){
+                tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.theme_blue));
+                if (hisPosition != -1) {
+                    tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+                }
+                hisPosition = currentPosition;
+            }
 
         }
 
@@ -329,4 +338,15 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     // View v = getChildAt(0);
     // v.layout(l, t, r, b);
     // }
+
+
+    @Override
+    protected void onVisibilityChanged(View changedView, int visibility) {
+        if(visibility == VISIBLE){
+            if(tvList != null && tvList.length >0){
+                tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.theme_blue));
+            }
+        }
+        super.onVisibilityChanged(changedView, visibility);
+    }
 }

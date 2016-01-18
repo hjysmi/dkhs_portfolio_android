@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ProInfoBean;
+import com.dkhs.portfolio.bean.UpdateStatusBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.AuthEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -110,6 +111,7 @@ public class AuthenticationService extends IntentService {
         @Override
         protected void afterParseData(String str) {
             if (Boolean.parseBoolean(str)) {
+                BusProvider.getInstance().post(new UpdateStatusBean());
                 GlobalParams.LOGIN_USER.verified_status = 0;
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_VERIFIED_STATUS, 0);
             }
