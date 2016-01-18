@@ -18,6 +18,7 @@ import com.dkhs.portfolio.bean.FundManagerBean;
 import com.dkhs.portfolio.bean.FundManagerInfoBean;
 import com.dkhs.portfolio.engine.SymbolsEngine;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.adapter.AchivementAdapter;
@@ -50,6 +51,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
     private String mNamStre;
     private String mAvatarMdStr;
     private ImageView mAvatarIm;
+    private View mProgressView;
 
 
     private List<FundManagerInfoBean.AchivementsEntity> dataL = new ArrayList<>();
@@ -83,6 +85,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
         setTitle(R.string.title_activity_fund_manager);
         ((TextView) findViewById(R.id.tv_title)).setTextColor(getResources().getColor(R.color.white));
         ListView lv = (ListView) findViewById(R.id.listView);
+        mProgressView = findViewById(R.id.my_progressbar);
         View view = LayoutInflater.from(FundManagerActivity.this).inflate(R.layout.layout_head_fund_manager, null);
         mName = (TextView) view.findViewById(R.id.name);
         mDesc = (ExpandableTextView) view.findViewById(R.id.desc);
@@ -105,7 +108,7 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
         achivementsAdapter = new DKBaseAdapter(this, dataL).buildSingleItemView(adapter);
         lv.setAdapter(achivementsAdapter);
 //        mWinRateDayvVlue.getScrollX();
-
+        mProgressView.setVisibility(View.VISIBLE);
         new SymbolsEngine().getFundManagerInfo(id, new ParseHttpListener<FundManagerInfoBean>() {
             @Override
             protected FundManagerInfoBean parseDateTask(String jsonData) {
@@ -117,6 +120,13 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
             protected void afterParseData(FundManagerInfoBean object) {
                 if (object != null)
                     updateUI(object);
+                mProgressView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(ErrorBundle errorBundle) {
+                mProgressView.setVisibility(View.GONE);
+                super.onFailure(errorBundle);
             }
         });
 

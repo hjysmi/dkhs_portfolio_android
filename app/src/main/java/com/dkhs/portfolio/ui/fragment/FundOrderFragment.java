@@ -98,6 +98,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
         curType = MarketSubpageFragment.SubpageType.valueOf(bundle.getInt("marketType"));
         super.onViewCreated(view, savedInstanceState);
 //        mListView.setDivider(null);
+        showProgress();
         loadData();
         mListView.setFooterDividersEnabled(false);
     }
@@ -117,6 +118,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
             this.type = type;
             this.allowTrade = allowTrade;
             if (isVisible()) {
+                showProgress();
                 loadData();
             }
         }
@@ -124,12 +126,12 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     public void loadData() {
-        mSwipeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(true);
-            }
-        });
+//        mSwipeLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mSwipeLayout.setRefreshing(true);
+//            }
+//        });
         startLoadData();
         if (curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_MIXED_MONTH || curType == MarketSubpageFragment.SubpageType.TYPE_FUND_ALL_RANKING_YEAR) {
             ((FundOrderOtherHandler) adapter.getItemHandler(DKBaseAdapter.DEF_VIEWTYPE)).setSortAndType(type, sort);
@@ -171,6 +173,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
+        dismissProgress();
         endLoadData();
         mSwipeLayout.setRefreshing(false);
         if (fundOrderEngine.getCurrentpage() == 1) {
@@ -216,6 +219,7 @@ public class FundOrderFragment extends LoadMoreListFragment implements MarketFun
 
     @Override
     public void loadFail() {
+        dismissProgress();
         endLoadData();
         mSwipeLayout.setRefreshing(false);
     }
