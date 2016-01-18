@@ -48,6 +48,11 @@ public class PortfolioApplication extends MultiDexApplication {
         mInstance = this;
         AppConfig.config(this);
         //监听手势超时
+        if(AppConfig.isDebug){
+            GlobalParams.SHOW_GESTURE_DELAY = 1000 * 15;
+        }else{
+            GlobalParams.SHOW_GESTURE_DELAY = 1000 * 60 * 5;
+        }
         mHandler = new MyHandler(getMainLooper());
         super.onCreate();
     }

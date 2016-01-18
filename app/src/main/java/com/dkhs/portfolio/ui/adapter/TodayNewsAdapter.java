@@ -83,8 +83,10 @@ public class TodayNewsAdapter extends BaseAdapter {
             }
             holder1 = (ViewHodler1) convertView.getTag();
             holder1.tvInfo.setText(newsBean.getTitle());
-            if(!TextUtils.isEmpty(newsBean.getMedias().get(0).getImage_md())){
+            if(newsBean.getMedias() != null && newsBean.getMedias().size() > 0 &&!TextUtils.isEmpty(newsBean.getMedias().get(0).getImage_md())){
                 ImageLoaderUtils.setImagDefault(newsBean.getMedias().get(0).getImage_md(), holder1.ivNews);
+            }else{
+                holder1.ivNews.setImageResource(R.drawable.ic_img_thumbnail);
             }
         }else{
             if (convertView == null || !(convertView.getTag() instanceof ViewHodler2)){
@@ -107,7 +109,7 @@ public class TodayNewsAdapter extends BaseAdapter {
                     @Override
                     public void onGlobalLayout() {
                         width = finalHolder.tvRelated.getWidth();
-                        if(symbols != null && symbols.size() > 0){
+                        if (symbols != null && symbols.size() > 0) {
                             fillReleatedData(finalHolder.tvRelated, symbols);
                         }
 
@@ -120,6 +122,8 @@ public class TodayNewsAdapter extends BaseAdapter {
             }
             if(!TextUtils.isEmpty(newsBean.getRecommendImageSm())){
                 ImageLoaderUtils.setImagDefault(newsBean.getRecommendImageSm(), holder2.ivNews);
+            }else{
+                holder2.ivNews.setVisibility(View.GONE);
             }
         }
 

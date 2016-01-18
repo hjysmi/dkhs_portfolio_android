@@ -162,7 +162,7 @@ public class InfoMyOptionAdapter extends BaseAdapter {
                 }
             }
             holder.tvContent.setText(mOptionNewsBean.getTitle());
-            holder.tvTime.setText(TimeUtils.getMMDDString(mOptionNewsBean.getPublish()));
+            holder.tvTime.setText(TimeUtils.getBriefTimeString(mOptionNewsBean.getPublish()));
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

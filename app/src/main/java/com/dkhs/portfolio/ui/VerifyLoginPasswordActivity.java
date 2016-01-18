@@ -43,7 +43,7 @@ public class VerifyLoginPasswordActivity extends ModelAcitivity {
         super.onCreate(arg0);
         setContentView(R.layout.activity_verify_login_password);
         ViewUtils.inject(this);
-        setTitle(R.string.verify_password);
+        setTitle(R.string.verify);
         et_password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
