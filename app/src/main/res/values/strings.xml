@@ -970,7 +970,8 @@
     <string name="blank_buy_money">起购金额</string>
     <string name="blank_buy_value">起购金额 %1$s元</string>
     <string name="blank_buy_value_wan">起购金额 %1$s万元</string>
-    <string name="blank_net_value">最新净值 %1$.4f</string>
+    <string name="blank_net_value">最新净值 %1$s</string>
+    <string name="blank_year_old">七日年化 %1$s</string>
     <string name="blank_fund_name">%1$s(%2$s)</string>
     <string name="blank_bank_card">%1$s(%2$s)</string>
     <string name="blank_limit_value">单笔限额%1$s元，每日限额%2$s元</string>
@@ -1011,8 +1012,15 @@
     <string name="trade_status">交易状态</string>
     <string name="tobe_confirmed">待定</string>
     <string name="entrust_suc">委托成功</string>
-    <string name="trade_suc">交易成功</string>
-    <string name="trade_fail">交易失败</string>
+    <string name="trade_suc">确认成功</string>
+    <string name="trade_fail">确认失败</string>
+    <string name="pay_suc">支付成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="buy_tobe_confirmed">买入待确认</string>
+    <string name="sell_tobe_confirmed">卖出待确认</string>
+    <string name="tobe_confirm">待确认</string>
+    <string name="blank_buy_tobe_confirmed">笔数:&#160;%1$d&#160;&#160;&#160;&#160;金额:&#160;%2$s元</string>
+    <string name="blank_sell_tobe_confirmed">笔数:&#160;%1$d&#160;&#160;&#160;&#160;份额:&#160;%2$s份</string>
     <string name="confirm_shares">确认份额</string>
     <string name="confirm_shares_suc">基金公司已确认份额</string>
     <string name="confirm_shares_fail">基金公司确认买入失败</string>

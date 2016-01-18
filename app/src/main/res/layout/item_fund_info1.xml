@@ -147,6 +147,76 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_buy_tobe_confirmed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+        <View style="@style/divider_line"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/widget_padding_medium"
+            android:layout_marginTop="@dimen/widget_margin_normal"
+            android:layout_marginBottom="@dimen/widget_margin_normal"
+            >
+            <TextView
+                android:text="@string/buy_tobe_confirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tv_edge_blue"
+                android:textColor="@color/theme_blue"
+                android:layout_marginRight="@dimen/widget_margin_small"
+                android:textSize="@dimen/widget_text_12sp"/>
+            <TextView
+                android:id="@+id/tv_buy_tobe_confirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_textcolor"
+                android:layout_marginLeft="@dimen/widget_margin_large"
+                android:text="@string/blank_buy_tobe_confirmed"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_sell_tobe_confirmed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+        <View style="@style/divider_line"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/widget_padding_medium"
+            android:layout_marginTop="@dimen/widget_margin_normal"
+            android:layout_marginBottom="@dimen/widget_margin_normal"
+            >
+            <TextView
+                android:text="@string/sell_tobe_confirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_tv_edge_orange"
+                android:textColor="@color/theme_orange"
+                android:layout_marginRight="@dimen/widget_margin_small"
+                android:textSize="@dimen/widget_text_12sp"/>
+            <TextView
+                android:id="@+id/tv_sell_tobe_confirmed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_textcolor"
+                android:layout_marginLeft="@dimen/widget_margin_large"
+                android:text="@string/blank_sell_tobe_confirmed"
+                />
+        </LinearLayout>
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
