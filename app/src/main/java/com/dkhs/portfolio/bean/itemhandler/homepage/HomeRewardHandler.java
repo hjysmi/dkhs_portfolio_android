@@ -25,6 +25,8 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import org.joda.time.DateTime;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -103,7 +105,7 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
                 tv_name.setText("");
             }
             if(!TextUtils.isEmpty(topicsBean.created_at)){
-                tv_time.setText(TimeUtils.getBriefTimeString2(topicsBean.created_at));
+                tv_time.setText(TimeUtils.getBriefTimeString(new DateTime(topicsBean.created_at)));
             }
             tv_name.setText(topicsBean.user.getUsername());
             if (topicsBean.user != null && !TextUtils.isEmpty(topicsBean.user.getAvatar_md())) {
