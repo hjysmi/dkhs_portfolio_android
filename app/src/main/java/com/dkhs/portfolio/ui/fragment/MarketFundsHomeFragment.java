@@ -446,6 +446,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
         if (mDataList != null && mDataList.size() != 0) {
             mDataList.add(new SpaceBean());
             mDataList.add(new SafeSignBean());
+            mDataList.add(new SpaceBean());
         }
         mAdapter.notifyDataSetChanged();
     }
@@ -589,7 +590,7 @@ public class MarketFundsHomeFragment extends VisiableLoadFragment implements OnC
     }
 
     @Override
-    public int getPageStatisticsStringId(){
+    public int getPageStatisticsStringId() {
         return R.string.statistics_fund_channel;
     }
 }
