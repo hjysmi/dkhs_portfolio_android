@@ -21,6 +21,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -218,6 +219,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     holder1.tv_total_profit = (TextView) convertView.findViewById(R.id.tv_total_profit);
                     holder1.tv_recent_profit = (TextView) convertView.findViewById(R.id.tv_recent_profit);
                     holder1.tv_net_new = (TextView) convertView.findViewById(R.id.tv_net_new);
+                    holder1.tv_net_value = (TextView) convertView.findViewById(R.id.tv_net_value);
                     holder1.tv_fund_value = (TextView) convertView.findViewById(R.id.tv_fund_value);
                     holder1.tv_recent_profit_time = (TextView) convertView.findViewById(R.id.tv_recent_profit_time);
                     holder1.ll_buy_tobe_confirmed = convertView.findViewById(R.id.ll_buy_tobe_confirmed);
@@ -254,7 +256,13 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name), myFund.getAbbrName(), myFund.getSymbol()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
-                    holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getNet_value()));
+                    if(StockUitls.isSepFund(myFund.getSymbol_stype())){
+                        holder1.tv_net_value.setText(R.string.year_yld);
+                        holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getYear_yld()));
+                    }else{
+                        holder1.tv_net_value.setText(R.string.net_new);
+                        holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getNet_value()));
+                    }
                     holder1.tv_fund_value.setText(mFundInfo.getWorth_value());
                     holder1.tv_recent_profit_time.setText(String.format(getResources().getString(R.string.blank_recent_profit_time), TimeUtils.getMMDDString(myFund.getTradedate())));
                     holder1.ll_buy_tobe_confirmed.setVisibility(mFundInfo.getBuy_unconfirm() == 0 ? View.GONE : View.VISIBLE);
@@ -325,6 +333,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
             TextView tv_net_new;
             TextView tv_fund_value;
             TextView tv_recent_profit_time;
+            TextView tv_net_value;
         }
 
         private class ViewHolder2 {

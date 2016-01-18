@@ -132,10 +132,10 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
 
     private void refreshData() {
         isRefresh = true;
+        BusProvider.getInstance().post(new RotateRefreshEvent());
         if (null != mLoadDataEngine) {
             mLoadDataEngine.loadData();
         }
-        BusProvider.getInstance().post(new RotateRefreshEvent());
     }
 
     private void initView(View view) {
@@ -318,10 +318,10 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                     mDataList.clear();
                     isRefresh = false;
                 }
+                BusProvider.getInstance().post(new StopRefreshEvent());
                 if (null != dataList && dataList.size() > 0) {
 
                     mDataList.addAll(dataList);
-                    BusProvider.getInstance().post(new StopRefreshEvent());
                     mOptionMarketAdapter.notifyDataSetChanged();
                     hideEmptyText();
                 } else {

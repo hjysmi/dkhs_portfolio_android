@@ -937,6 +937,7 @@
     <string name="verify_password">验证登录密码</string>
     <string name="login_password">登录密码</string>
     <string name="hint_login_password">请输入登录密码</string>
+    <string name="input_login_password_to_verify">请输入登录密码，以验证身份</string>
     <string name="trade_password">交易密码</string>
     <string name="set_trade_password_suc">交易密码设置成功</string>
     <string name="set_trade_password_fail">设置交易密码失败</string>
