@@ -146,5 +146,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
     }
 
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_mycombination;
+    }
 }

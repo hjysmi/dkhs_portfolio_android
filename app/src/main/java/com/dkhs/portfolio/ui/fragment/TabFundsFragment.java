@@ -456,4 +456,9 @@ public class TabFundsFragment extends VisiableLoadFragment implements IDataUpdat
             }
         }
     }
+
+    @Override
+    public int getPageStatisticsStringId(){
+        return R.string.statistics_fund_optional;
+    }
 }

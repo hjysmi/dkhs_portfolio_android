@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.dkhs.adpter.adapter.DKBaseAdapter;
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.BannerTopicsBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.TopicsBean;
@@ -227,9 +228,14 @@ public class HotTopicsFragment extends AutoListLoadMoreListFragment implements B
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((HotTopicEngineImpl)getLoadEngine()).loadCacheData();
+                ((HotTopicEngineImpl) getLoadEngine()).loadCacheData();
                 loadData();
             }
         }, 500);
+    }
+
+    @Override
+    public int getPageStatisticsStringId(){
+        return R.string.statistics_topics;
     }
 }

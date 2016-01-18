@@ -186,7 +186,7 @@ public class ExchangeActivity extends ModelAcitivity {
             days=packBean.getValid_days();
         }
 
-        tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount(),days));
+        tvMaxtip.setText(getString(R.string.max_flow_tip, packBean.getMax_amount(), days));
         String weekMaxName;
         if(TextUtils.isEmpty(packBean.getWeek_max_name())){
             weekMaxName="0M";
@@ -279,6 +279,9 @@ public class ExchangeActivity extends ModelAcitivity {
         }
 
     }
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_exchange;
+    }
 
 }

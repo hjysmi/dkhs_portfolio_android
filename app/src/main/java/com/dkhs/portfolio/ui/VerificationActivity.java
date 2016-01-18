@@ -76,13 +76,14 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         intent.putExtra(EXTRA_CODE, code);
         return intent;
     }
-    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code,String name) {
+
+    public static Intent newThreePlatformIntent(Context context, String phoneNum, String code, String name) {
         Intent intent = new Intent(context, VerificationActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
         intent.putExtra(EXTRA_SETPSW, true);
         intent.putExtra(EXTRA_CODE, code);
-        intent.putExtra(EXTRA_NAME,name);
-        intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM,true);
+        intent.putExtra(EXTRA_NAME, name);
+        intent.putExtra(RLFActivity.EXTRA_REGISTER_THREE_PLATFORM, true);
         return intent;
     }
 
@@ -90,7 +91,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         Intent intent = new Intent(context, VerificationActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
         intent.putExtra(EXTRA_SETPSW, true);
-        intent.putExtra(RLFActivity.EXTRA_FORGET_PSW,true);
+        intent.putExtra(RLFActivity.EXTRA_FORGET_PSW, true);
         return intent;
     }
 
@@ -215,14 +216,14 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     if (object) {
                         if (!isSetPsw) {
                             bindMobile();
-                        }else if(isForgetPsw){
+                        } else if (isForgetPsw) {
                             startActivity(SetPasswordActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode));
                             finish();
-                        } else if(isRegisterThreePlatform){
-                                startActivity(
-                                        SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode,false,name));
-                                finish();
-                        }else{
+                        } else if (isRegisterThreePlatform) {
+                            startActivity(
+                                    SettingNameActivity.newThreePlatformIntent(VerificationActivity.this, phoneNum, verifyCode, false, name));
+                            finish();
+                        } else {
                             startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
                                     verifyCode, false));
                             finish();
@@ -245,11 +246,11 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             @Override
             public void onSuccess(String result) {
 
-                    startActivityForResult(
-                            SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
-                            RLFActivity.REQUESTCODE_SET_PASSWROD);
-        }
-    });
+                startActivityForResult(
+                        SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
+                        RLFActivity.REQUESTCODE_SET_PASSWROD);
+            }
+        });
     }
 
     public Timer mTimer = new Timer();// 定时器
@@ -318,7 +319,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
-                    btn_get_code.setText("重新发送("+(60 - count)+"s)" );
+                    btn_get_code.setText("重新发送(" + (60 - count) + "s)");
                     btn_get_code.setEnabled(false);
 //                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
                     btn_get_code.setTextColor(getResources().getColor(R.color.text_content_color));
@@ -357,6 +358,15 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_verification);
 
 
+    @Override
+    public int getPageStatisticsStringId() {
+        if (isForgetPsw) {
+            return R.string.statistics_verification_psw;
+        } else if (isSetPsw && !isRegisterThreePlatform) {
+            return R.string.statistics_verification;
+        }
+        return super.getPageStatisticsStringId();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -380,14 +390,14 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
 
     @Override
     public void onBackPressed() {
-        if(btn_get_code.isEnabled()){
+        if (btn_get_code.isEnabled()) {
             super.onBackPressed();
-        }else{
+        } else {
             showAlertDialog();
         }
     }
 
-    private void showAlertDialog(){
+    private void showAlertDialog() {
         MAlertDialog builder = PromptManager.getAlertDialog(this);
         builder.setMessage(R.string.get_code_hint).setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
             @Override

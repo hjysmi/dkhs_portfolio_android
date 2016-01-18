@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 
+import com.baidu.mobstat.StatService;
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -13,7 +15,9 @@ import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.nineoldandroids.view.ViewHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,13 +90,13 @@ public class StockLandActivity extends FragmentActivity implements StockViewCall
         finish();
     }
 
-    private void setResult(){
+    private void setResult() {
         Intent intent = new Intent();
-        intent.putExtra("day_data",mDayKChart);
-        intent.putExtra("week_data",mWeekKChart);
-        intent.putExtra("month_data",mMonthKChart);
-        intent.putExtra("tab_positon",tabPosition);
-        setResult(0,intent);
+        intent.putExtra("day_data", mDayKChart);
+        intent.putExtra("week_data", mWeekKChart);
+        intent.putExtra("month_data", mMonthKChart);
+        intent.putExtra("tab_positon", tabPosition);
+        setResult(0, intent);
     }
 
     @Override
@@ -183,4 +187,20 @@ public class StockLandActivity extends FragmentActivity implements StockViewCall
         setResult();
         super.onBackPressed();
     }
+
+    protected void onResume() {
+        super.onResume();
+        //统计时长
+        MobclickAgent.onResume(this);
+        StatService.onPageStart(this, UIUtils.getResString(this, R.string.statistics_trend_landscape));
+        MobclickAgent.onPageStart(UIUtils.getResString(this, R.string.statistics_trend_landscape));
+    }
+
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(this, UIUtils.getResString(this, R.string.statistics_trend_landscape));
+        MobclickAgent.onPageEnd(UIUtils.getResString(this, R.string.statistics_trend_landscape));
+        MobclickAgent.onPause(this);
+    }
+
 }

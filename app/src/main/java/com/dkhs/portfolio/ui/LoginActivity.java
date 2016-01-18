@@ -743,6 +743,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_login;
+    }
+
     private void showUnRegisterDialog() {
         MAlertDialog builder = PromptManager.getAlertDialog(this);
         builder.setMessage(R.string.register_hint).setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {

@@ -542,4 +542,8 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
     }
 
 
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_fund_detail;
+    }
 }

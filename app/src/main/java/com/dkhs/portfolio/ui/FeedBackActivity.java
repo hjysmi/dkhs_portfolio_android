@@ -199,4 +199,9 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener 
         // TODO Auto-generated method stub
         super.onResume();
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_feedback;
+    }
 }

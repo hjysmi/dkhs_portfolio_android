@@ -1211,6 +1211,47 @@
 
     <string name="news_source">【%1$s】</string>
 
+    <!--统计名称-->
+    <string name="statistics_homepage">首页</string>
+    <!--悬赏-->
+    <string name="statistics_rewards">悬赏列表页</string>
+    <string name="statistics_reward_detail">悬赏正文页</string>
+    <string name="statistics_reward_report">悬赏举报页</string>
+    <string name="statistics_reward_reply">悬赏回答页</string>
+    <string name="statistics_post_reward">发表悬赏页</string>
+    <!--话题-->
+    <string name="statistics_topics">话题列表页</string>
+    <string name="statistics_topic_detail">话题正文页</string>
+    <string name="statistics_topic_report">话题举报页</string>
+    <string name="statistics_topic_reply">话题回答页</string>
+    <string name="statistics_post_topic">发表话题页</string>
+    <!--基金频道页-->
+    <string name="statistics_fund_channel">基金频道页</string>
+    <string name="statistics_fund_market">基金超市页</string>
+    <string name="statistics_financial_management">专题理财页</string>
+    <string name="statistics_fund_manager_rank">基金经理排行榜</string>
+    <string name="statistics_fund_rate_rank">收益排行榜</string>
+    <string name="statistics_fund_manager_detail">基金经理详情页</string>
+    <string name="statistics_fund_detail">基金详情页</string>
+    <string name="statistics_fund_notice_setting">基金提醒设置页</string>
+    <string name="statistics_fund_buy">基金买入页</string>
+
+    <!--股票频道页-->
+    <string name="statistics_stock_channel">股票频道页</string>
+    <string name="statistics_industry_rank">行业榜</string>
+    <string name="statistics_ups_downs_rank">涨跌榜</string>
+    <string name="statistics_industry_channel">行业板块页</string>
+    <string name="statistics_stock_detail">股票详情页</string>
+    <string name="statistics_trend_landscape">股票横屏走势页</string>
+    <string name="statistics_exchange_rate_rank">换手率榜</string>
+    <string name="statistics_amplitude_rank">振幅榜</string>
+    <string name="statistics_index_detail">指数详情页</string>
+
+
+    <!--基金自选页-->
+    <string name="statistics_fund_optional">基金自选页</string>
+    <string name="statistics_fund_optional_setting">基金自选设置页</string>
+
     <string name="statistics_tab_stock">股票自选页</string>
     <string name="statistics_edit_tab_stock">股票自选设置页</string>
     <string name="statistics_tab_combination">组合自选页</string>
@@ -1256,4 +1297,34 @@
     <string name="statistics_reset_trade_password">重置交易密码页</string>
     <string name="statistics_gesture_password">设置手势密码页</string>
     <string name="statistics_verify_login_password">设忘记手势密码页</string>
+    <string name="statistics_flowpackage">我的积分页</string>
+    <string name="statistics_exchange">流量兑换页</string>
+    <string name="statistics_exchangehistory">兑换记录页</string>
+    <string name="statistics_invitefriends">邀请好友页</string>
+    <string name="statistics_invitehistory">邀请记录页</string>
+    <string name="statistics_mycombination">我的组合页</string>
+    <string name="statistics_myreward">我的悬赏页</string>
+    <string name="statistics_mytopic">我的话题页</string>
+    <string name="statistics_mydraft">我的草稿页</string>
+    <string name="statistics_settingpage">设置页</string>
+    <string name="statistics_boundaccount">账号绑定页</string>
+    <string name="statistics_modifypsw">密码修改页</string>
+    <string name="statistics_feedback">意见反馈页</string>
+    <string name="statistics_aboutus">关于我们页</string>
+    <string name="statistics_selectgeneral">综合搜索页</string>
+    <string name="statistics_shakedetector">摇一摇</string>
+    <string name="statistics_login">登录页</string>
+    <string name="statistics_rlf">注册-手机号</string>
+    <string name="statistics_verification">注册-填写验证码</string>
+    <string name="statistics_verification_psw">忘记密码页-验证码</string>
+    <string name="statistics_rlf_psw">忘记密码页-手机号</string>
+    <string name="statistics_setpassword">忘记密码页-设置</string>
+    <string name="statistics_selectsearchmoreloadmorelist_stock">股票搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_fund">基金搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_fundmanager">基金经理搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_moreuser">用户搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_morecombination">组合搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_morereward">悬赏搜索结果页</string>
+    <string name="statistics_selectsearchmoreloadmorelist_moretopic">话题搜索结果页</string>
+
 </resources>

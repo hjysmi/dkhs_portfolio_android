@@ -114,6 +114,9 @@ public class InviteHistoryActivity extends ModelAcitivity {
      */
     public void getDataForNet() {
     }
-
+    @Override
+    public int getPageStatisticsStringId() {
+        return R.string.statistics_invitehistory;
+    }
 
 }

@@ -21,6 +21,7 @@ import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.ui.TopicsDetailActivity;
 import com.dkhs.portfolio.ui.widget.DKHSTextView;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -101,7 +102,9 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
             } else {
                 tv_name.setText("");
             }
-            tv_time.setText(topicsBean.created_at_relative);
+            if(!TextUtils.isEmpty(topicsBean.created_at)){
+                tv_time.setText(TimeUtils.getBriefTimeString2(topicsBean.created_at));
+            }
             tv_name.setText(topicsBean.user.getUsername());
             if (topicsBean.user != null && !TextUtils.isEmpty(topicsBean.user.getAvatar_md())) {
                 ImageLoaderUtils.setHeanderImage(topicsBean.user.getAvatar_md(), iv_user);

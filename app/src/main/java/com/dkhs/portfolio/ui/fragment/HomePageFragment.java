@@ -44,7 +44,6 @@ import com.dkhs.portfolio.engine.HomePageEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SelectGeneralActivity;
-import com.dkhs.portfolio.ui.ShakeActivity;
 import com.dkhs.portfolio.ui.ShakeDetectorActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopEvent;
@@ -133,7 +132,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
     private ParseHttpListener<List<TopicsBean>> topicsListener = new ParseHttpListener<List<TopicsBean>>() {
         @Override
         public void onSuccess(String jsonObject) {
-            System.out.println(">>>>>>>>>ok");
             //缓存
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON, jsonObject);
             super.onSuccess(jsonObject);
@@ -141,7 +139,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
 
         @Override
         public void onFailure(int errCode, String errMsg) {
-            System.out.println(">>>>>>>>>ok errCode" + errCode + " errMsg= " + errMsg);
             mHandler.sendEmptyMessage(REQUESS_FAIL);
             super.onFailure(errCode, errMsg);
 
@@ -618,20 +615,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mDataList.add(recommendRewardBean);
             //  mDataList.addAll(topicsBeans);
         }
-        //推荐话题
-        if (recommendTopics != null && recommendTopics.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC, true));
-            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(recommendTopics);
-            mDataList.add(recommendRewardBean);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON))) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_TOPIC, true));
-            String rewardsJson = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_HOME_TOPIC_JSON);
-            // List<TopicsBean> topicsBeans = parseRewards(rewardsJson);
-            RecommendRewardBean recommendRewardBean = new RecommendRewardBean(parseRewards(rewardsJson));
-            mDataList.add(recommendRewardBean);
-            //  mDataList.addAll(topicsBeans);
-        }
-
 
         //推荐基金经理
         if (recommendFundManagers != null && recommendFundManagers.size() > 0) {
@@ -718,5 +701,10 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
             mSearchLl.getBackground().setAlpha(180);
             mShakeIv.setBackgroundResource(R.drawable.btn_shake_gray_selector);
         }
+    }
+
+    @Override
+    public int getPageStatisticsStringId(){
+        return R.string.statistics_homepage;
     }
 }

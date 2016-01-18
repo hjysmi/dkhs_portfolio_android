@@ -1107,4 +1107,32 @@ public class PostTopicActivity extends ModelAcitivity implements DKHSEmojiFragme
         PromptManager.closeProgressDialog();
         finish();
     }
+
+    @Override
+    public int getPageStatisticsStringId() {
+        int resId = 0;
+        switch (curType) {
+            case TYPE_REPLY_TOPIC:
+                resId = R.string.statistics_topic_reply;
+                break;
+            case TYPE_COMMENT_TOPIC:
+
+                break;
+            case TYPE_POST_TOPIC:
+                resId =  R.string.statistics_post_topic;
+                break;
+
+            case TYPE_REPLY_REWARD:
+                resId = R.string.statistics_reward_reply;
+                break;
+            case TYPE_COMMENT_REWARD:
+
+                break;
+            case TYPE_POST_REWARD:
+                resId = R.string.statistics_post_reward;
+                break;
+
+        }
+        return resId;
+    }
 }
