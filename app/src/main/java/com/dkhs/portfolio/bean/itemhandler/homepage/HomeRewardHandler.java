@@ -94,8 +94,8 @@ public class HomeRewardHandler extends SimpleItemHandler<RecommendRewardBean> {
             } else {
                 tv_name.setText("");
             }
-            if (!TextUtils.isEmpty(topicsBean.created_at)) {
-                tv_time.setText(TimeUtils.getBriefTimeString(new DateTime(topicsBean.created_at)));
+            if (!TextUtils.isEmpty(topicsBean.publish_at)) {
+                tv_time.setText(TimeUtils.getBriefTimeString(new DateTime(topicsBean.publish_at)));
             }
             tv_name.setText(topicsBean.user.getUsername());
             if (topicsBean.user != null && !TextUtils.isEmpty(topicsBean.user.getAvatar_md())) {
