@@ -226,6 +226,41 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_info_tip0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/intrade_suc"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_info_tip0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/iv_info_tip0"
+                    android:layout_marginLeft="@dimen/widget_margin_normal"
+                    android:textColor="@color/black"
+                    android:text="@string/buy_fund_info_tip0"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/widget_margin_small"
+                    android:layout_toRightOf="@id/iv_info_tip0"
+                    android:layout_below="@id/tv_info_tip0"
+                    android:layout_alignLeft="@id/tv_info_tip0"
+                    android:textSize="@dimen/widget_text_10sp"
+                    android:textColor="@color/gray_textcolor"
+                    android:text="09-24 15:08"
+                    android:id="@+id/tv_info_tip_content0" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/widget_margin_large">
+
+                <ImageView
                     android:id="@+id/iv_info_tip1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -238,21 +273,10 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/iv_info_tip1"
                     android:layout_marginLeft="@dimen/widget_margin_normal"
-                    android:textColor="@color/black"
-                    android:text="@string/buy_fund_info_tip1"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/widget_margin_small"
-                    android:layout_toRightOf="@id/iv_info_tip1"
-                    android:layout_below="@id/tv_info_tip1"
-                    android:layout_alignLeft="@id/tv_info_tip1"
-                    android:textSize="@dimen/widget_text_10sp"
-                    android:textColor="@color/gray_textcolor"
-                    android:text="09-24 15:08"
-                    android:id="@+id/tv_info_tip_content1" />
+                    android:textColor="@color/black"
+                    android:text="@string/buy_fund_info_tip1_suc"
+                    />
 
             </RelativeLayout>
 
@@ -260,7 +284,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/widget_margin_large"
-                >
+                android:id="@+id/rl_bottom">
 
                 <ImageView
                     android:id="@+id/iv_info_tip2"
@@ -294,13 +318,13 @@
             </RelativeLayout>
 
             <Button
+                android:id="@+id/btn_complete"
                 style="@style/btn_login_blue"
                 android:layout_marginTop="@dimen/widget_margin_large"
                 android:layout_marginBottom="@dimen/widget_margin_large"
                 android:layout_marginLeft="@dimen/widget_margin_xlarge"
                 android:layout_marginRight="@dimen/widget_margin_xlarge"
-                android:visibility="invisible"
-                android:text="@string/cancel_fund"
+                android:text="@string/complete"
                 />
         </LinearLayout>
     </LinearLayout>

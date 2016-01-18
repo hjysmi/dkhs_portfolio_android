@@ -7,24 +7,54 @@
                 android:paddingBottom="@dimen/widget_padding_small"
                 android:background="@drawable/bg_white_gray_selector">
 
+    <LinearLayout
+        android:id="@+id/ll_trade_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/widget_margin_small"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/tv_trade_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/widget_text_12sp"
+            android:textColor="@color/text_content_color"
+            android:text="买入"
+            />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_buy_tobe_confirmed"
+            android:text="@string/tobe_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_trade_type"
+            android:background="@drawable/bg_tv_edge_blue"
+            android:textColor="@color/theme_blue"
+            android:layout_marginLeft="@dimen/widget_margin_small"
+            android:textSize="@dimen/widget_text_12sp"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_sell_tobe_confirmed"
+            android:text="@string/tobe_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_trade_type"
+            android:background="@drawable/bg_tv_edge_orange"
+            android:textColor="@color/theme_orange"
+            android:layout_marginLeft="@dimen/widget_margin_small"
+            android:textSize="@dimen/widget_text_12sp"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_trade_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:layout_below="@id/ll_trade_type"
+        android:textColor="@color/text_content_color"
         android:textSize="@dimen/widget_text_14sp"
-        android:text="2015-09-22 14:10:00"
-        />
-    <TextView
-        android:id="@+id/tv_bank_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/widget_margin_small"
-        android:layout_below="@id/tv_trade_time"
-        android:layout_alignLeft="@id/tv_trade_time"
-        android:textColor="@color/gray_textcolor"
-        android:textSize="@dimen/widget_text_12sp"
-        android:text="工商银行 尾号5200"
+        android:text="2015-09-22 14:10:00"
         />
 
     <ImageView
@@ -36,25 +66,27 @@
         android:visibility="gone"
         android:src="@drawable/setting_image_right"/>
     <TextView
-        android:id="@+id/tv_trade_type"
+        android:id="@+id/tv_trade_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/widget_margin_small"
         android:layout_marginRight="@dimen/widget_margin_medium"
         android:textSize="@dimen/widget_text_12sp"
-        android:text="买入"
+        android:textColor="@color/text_content_color"
+        android:text="5200.00元"
         />
     <TextView
-        android:id="@+id/tv_trade_value"
+        android:id="@+id/tv_trade_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_trade_type"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/tv_trade_value"
+        android:layout_marginTop="@dimen/widget_margin_small"
         android:layout_marginRight="@dimen/widget_margin_medium"
-        android:textColor="@color/gray_textcolor"
         android:textSize="@dimen/widget_text_12sp"
-        android:text="5200.00元"
+        android:textColor="@color/text_content_color"
+        android:text="待确认"
         />
 
 </RelativeLayout>

@@ -87,7 +87,7 @@ public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO 打开卖出基金详情
-                startActivity(SellFundInfoActivity.getFundInfoIntent(getActivity(), mDataList.get(position).getId()));
+                startActivity(SellFundInfoActivity.getFundInfoIntent(getActivity(), mDataList.get(position).getId(),false));
 
             }
         };

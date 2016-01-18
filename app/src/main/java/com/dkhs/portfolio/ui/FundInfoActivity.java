@@ -23,11 +23,13 @@ import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.parceler.Parcels;
+import org.parceler.apache.commons.lang.StringUtils;
 
 import java.text.DecimalFormat;
 
@@ -47,6 +49,8 @@ public class FundInfoActivity extends AssestsBaseActivity {
     private View ll_buy_more;
     @ViewInject(R.id.ll_sell_out)
     private View ll_sell_out;
+    @ViewInject(R.id.tv_sell)
+    private TextView tv_sell;
 
     private static String FUND = "fund";
     private FundQuoteBean myFund;
@@ -124,8 +128,12 @@ public class FundInfoActivity extends AssestsBaseActivity {
                         ll_buy_more.setBackgroundColor(getResources().getColor(R.color.person_setting_line));
                     }
                     if (fund.isAllow_sell()) {
+                        tv_sell.setTextColor(UIUtils.getResColor(mContext,R.color.black));
+                        tv_sell.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_sell_fund),null,null,null);
                         ll_sell_out.setBackgroundResource(R.drawable.bg_white_gray_selector);
                     } else {
+                        tv_sell.setTextColor(UIUtils.getResColor(mContext,R.color.white));
+                        tv_sell.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_unsell_fund), null, null, null);
                         ll_sell_out.setBackgroundColor(getResources().getColor(R.color.person_setting_line));
                     }
                 }
@@ -212,6 +220,10 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     holder1.tv_net_new = (TextView) convertView.findViewById(R.id.tv_net_new);
                     holder1.tv_fund_value = (TextView) convertView.findViewById(R.id.tv_fund_value);
                     holder1.tv_recent_profit_time = (TextView) convertView.findViewById(R.id.tv_recent_profit_time);
+                    holder1.ll_buy_tobe_confirmed = convertView.findViewById(R.id.ll_buy_tobe_confirmed);
+                    holder1.ll_sell_tobe_confirmed = convertView.findViewById(R.id.ll_sell_tobe_confirmed);
+                    holder1.tv_buy_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_buy_tobe_confirmed);
+                    holder1.tv_sell_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_sell_tobe_confirmed);
                     convertView.setTag(holder1);
                 } else if (type == TYPE_POSITION) {
                     convertView = View.inflate(mContext, R.layout.item_fund_info2, null);
@@ -226,9 +238,11 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     convertView = View.inflate(mContext, R.layout.item_fund_info4, null);
                     holder4 = new ViewHolder4();
                     holder4.tv_trade_time = (TextView) convertView.findViewById(R.id.tv_trade_time);
-                    holder4.tv_bank_no = (TextView) convertView.findViewById(R.id.tv_bank_no);
+                    holder4.tv_trade_status = (TextView) convertView.findViewById(R.id.tv_trade_status);
                     holder4.tv_trade_type = (TextView) convertView.findViewById(R.id.tv_trade_type);
                     holder4.tv_trade_value = (TextView) convertView.findViewById(R.id.tv_trade_value);
+                    holder4.tv_buy_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_buy_tobe_confirmed);
+                    holder4.tv_sell_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_sell_tobe_confirmed);
                     convertView.setTag(holder4);
                 } else {
                     convertView = View.inflate(mContext, R.layout.item_fund_info5, null);
@@ -237,12 +251,16 @@ public class FundInfoActivity extends AssestsBaseActivity {
             if (type == TYPE_HEAD) {
                 holder1 = (ViewHolder1) convertView.getTag();
                 if (myFund != null) {
-                    holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name),myFund.getAbbrName(),myFund.getSymbol()));
+                    holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name), myFund.getAbbrName(), myFund.getSymbol()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
                     holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getNet_value()));
                     holder1.tv_fund_value.setText(mFundInfo.getWorth_value());
                     holder1.tv_recent_profit_time.setText(String.format(getResources().getString(R.string.blank_recent_profit_time), TimeUtils.getMMDDString(myFund.getTradedate())));
+                    holder1.ll_buy_tobe_confirmed.setVisibility(mFundInfo.getBuy_unconfirm() == 0 ? View.GONE : View.VISIBLE);
+                    holder1.tv_buy_tobe_confirmed.setText(String.format(UIUtils.getResString(mContext, R.string.blank_buy_tobe_confirmed), mFundInfo.getBuy_unconfirm(), StringFromatUtils.get2Point(mFundInfo.getAmount_unconfirm())));
+                    holder1.ll_sell_tobe_confirmed.setVisibility(mFundInfo.getSell_unconfirm() == 0 ? View.GONE : View.VISIBLE);
+                    holder1.tv_sell_tobe_confirmed.setText(String.format(UIUtils.getResString(mContext, R.string.blank_sell_tobe_confirmed), mFundInfo.getSell_unconfirm(), StringFromatUtils.get2Point(mFundInfo.getShares_unconfirm())));
                 }
                 holder1.rl_fund_info.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -265,15 +283,29 @@ public class FundInfoActivity extends AssestsBaseActivity {
                 if (record != null) {
 
                     holder4.tv_trade_time.setText(TimeUtils.getDaySecondString(record.getTime()));
-                    holder4.tv_bank_no.setText(record.getBank().getName() + " 尾号" + record.getBank().getBank_card_no_tail());
+                    holder4.tv_trade_status.setText(record.getBank().getName() + " 尾号" + record.getBank().getBank_card_no_tail());
                     if (record.getDirection() == 0) {
                         //买入
                         holder4.tv_trade_type.setText("买入");
                         holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar), record.getAmount()));
-
+                        holder4.tv_buy_tobe_confirmed.setVisibility(record.getStatus() == 3 ? View.VISIBLE : View.GONE);
+                        holder4.tv_sell_tobe_confirmed.setVisibility(View.GONE);
                     } else {
                         holder4.tv_trade_value.setText(String.format(getResources().getString(R.string.blank_shares), record.getShares()));
                         holder4.tv_trade_type.setText("卖出");
+                        holder4.tv_sell_tobe_confirmed.setVisibility(record.getStatus() == 0 ? View.VISIBLE : View.GONE);
+                        holder4.tv_buy_tobe_confirmed.setVisibility(View.GONE);
+                    }
+                    if (record.getStatus() == 0) {
+                        holder4.tv_trade_status.setText(R.string.entrust_suc);
+                    } else if (record.getStatus() == 1) {
+                        holder4.tv_trade_status.setText(R.string.trade_suc);
+                    } else if (record.getStatus() == 2) {
+                        holder4.tv_trade_status.setText(R.string.trade_fail);
+                    } else if (record.getStatus() == 3) {
+                        holder4.tv_trade_status.setText(R.string.pay_suc);
+                    } else if (record.getStatus() == 4) {
+                        holder4.tv_trade_status.setText(R.string.pay_fail);
                     }
 
                 }
@@ -283,6 +315,10 @@ public class FundInfoActivity extends AssestsBaseActivity {
 
         private class ViewHolder1 {
             View rl_fund_info;
+            View ll_buy_tobe_confirmed;
+            View ll_sell_tobe_confirmed;
+            TextView tv_buy_tobe_confirmed;
+            TextView tv_sell_tobe_confirmed;
             TextView tv_info_title;
             TextView tv_recent_profit;
             TextView tv_total_profit;
@@ -299,9 +335,11 @@ public class FundInfoActivity extends AssestsBaseActivity {
 
         private class ViewHolder4 {
             TextView tv_trade_time;
-            TextView tv_bank_no;
+            TextView tv_trade_status;
             TextView tv_trade_type;
             TextView tv_trade_value;
+            TextView tv_buy_tobe_confirmed;
+            TextView tv_sell_tobe_confirmed;
         }
 
     }

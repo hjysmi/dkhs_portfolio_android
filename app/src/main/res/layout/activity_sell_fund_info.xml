@@ -270,12 +270,13 @@
 
 
             <Button
+                android:id="@+id/btn_complete"
                 style="@style/btn_login_blue"
                 android:layout_marginBottom="@dimen/widget_margin_large"
                 android:layout_marginLeft="@dimen/widget_margin_xlarge"
                 android:layout_marginRight="@dimen/widget_margin_xlarge"
                 android:layout_marginTop="@dimen/widget_margin_large"
-                android:text="@string/cancel_fund"
+                android:text="@string/complete"
                 android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>

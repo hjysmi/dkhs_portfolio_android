@@ -13,6 +13,47 @@ public class MyFundInfo implements Serializable{
     private String worth_value;
     private String income_total;
     private String income_latest;
+//    "buy_unconfirm": 1, #买入待确认笔数
+//    "amount_unconfirm": 100.01, #买入待确认金额
+//    "sell_unconfirm": 1, #卖出待确认笔数
+//    "shares_unconfirm": 100.01 #卖出待确认份额
+
+    private int buy_unconfirm;
+    private float amount_unconfirm;
+    private int sell_unconfirm;
+    private float shares_unconfirm;
+
+    public int getBuy_unconfirm() {
+        return buy_unconfirm;
+    }
+
+    public void setBuy_unconfirm(int buy_unconfirm) {
+        this.buy_unconfirm = buy_unconfirm;
+    }
+
+    public float getAmount_unconfirm() {
+        return amount_unconfirm;
+    }
+
+    public void setAmount_unconfirm(float amount_unconfirm) {
+        this.amount_unconfirm = amount_unconfirm;
+    }
+
+    public int getSell_unconfirm() {
+        return sell_unconfirm;
+    }
+
+    public void setSell_unconfirm(int sell_unconfirm) {
+        this.sell_unconfirm = sell_unconfirm;
+    }
+
+    public float getShares_unconfirm() {
+        return shares_unconfirm;
+    }
+
+    public void setShares_unconfirm(float shares_unconfirm) {
+        this.shares_unconfirm = shares_unconfirm;
+    }
 
     public String getWorth_value() {
         return worth_value;

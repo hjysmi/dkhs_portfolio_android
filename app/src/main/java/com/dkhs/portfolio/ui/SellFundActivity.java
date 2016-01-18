@@ -370,7 +370,7 @@ public class SellFundActivity extends ModelAcitivity {
                         if (object != null && !"0".equals(object.getId())) {
                             gpvDialog.dismiss();
                             PromptManager.showToast(R.string.sell_fund_suc);
-                            startActivity(SellFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
+                            startActivity(SellFundInfoActivity.getFundInfoIntent(mContext, object.getId(),true));
                             finish();
                         } else {
                             PromptManager.showToast(R.string.sell_fund_fail);
