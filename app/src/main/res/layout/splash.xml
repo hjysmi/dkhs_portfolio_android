@@ -16,7 +16,7 @@
         android:layout_above="@+id/splashIM"
         android:layout_below="@id/toolbar"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:visibility="visible" />
 
     <ImageView
