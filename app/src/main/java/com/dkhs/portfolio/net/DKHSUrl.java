@@ -163,7 +163,7 @@ public class DKHSUrl {
         /**
          * 权威信息展示
          */
-        String getSafeInfo = "/safe/ ";
+        String getSafeInfo = "/safe/";
 
     }
 
