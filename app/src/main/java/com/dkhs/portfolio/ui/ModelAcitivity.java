@@ -383,6 +383,9 @@ public class ModelAcitivity extends SwipeBackActivity {
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
+       if("cn.sharesdk.onekeyshare.theme.classic.PlatformListPage".equals(intent.getStringExtra("executor_name"))){
+           return;
+       }
         UIUtils.setOverridePendingAnin(this);
     }
 

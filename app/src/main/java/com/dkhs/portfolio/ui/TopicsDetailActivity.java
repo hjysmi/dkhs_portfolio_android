@@ -468,7 +468,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         }
                         break;
                     case MENU_MORE_GO_HOME:
-                        if(mTopicsBean == null && (mTopicsBean.content_type == 0||mTopicsBean.content_type == 40)){
+                        if(mTopicsBean == null || mTopicsBean.content_type != 50){
                             MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
                         }
                         ((Activity) TopicsDetailActivity.this).finish();
@@ -734,10 +734,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     public void loadFail() {
-        if(mDataList != null && mAdapter != null){
-            mDataList.clear();
-            mAdapter.notifyDataSetChanged();
-        }
+
         mSwipeLayout.setRefreshing(false);
 
     }
