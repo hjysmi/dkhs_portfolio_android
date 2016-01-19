@@ -48,6 +48,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     //    protected UserEngineImpl engine;
 //    protected Activity mActivity;
     private View mTitleView;
+    private View mProgressView;
     /**
      * 显示子页面的容器
      */
@@ -152,6 +153,8 @@ public class ModelAcitivity extends SwipeBackActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT);
         layoutContent.addView(View.inflate(this, layoutResID, null), params);
+        layoutContent.addView(mProgressView, params);
+        mProgressView.setVisibility(View.GONE);
     }
 
     public void setContentView(View view, LayoutParams params) {
@@ -180,6 +183,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
+        mProgressView = View.inflate(this, R.layout.progressbar, null);
         mTitleView = findViewById(R.id.view_title);
 
         btnBack = (TextView) findViewById(BACKBUTTON_ID);
@@ -405,6 +409,14 @@ public class ModelAcitivity extends SwipeBackActivity {
 //
 //        }
     }
+    public void showProgress(){
+        mProgressView.setVisibility(View.VISIBLE);
+    }
 
+    public void dismissProgress(){
+        if(mProgressView.getVisibility() == View.VISIBLE){
+            mProgressView.setVisibility(View.GONE);
+        }
+    }
 
 }

@@ -128,7 +128,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     } else {
                         ll_buy_more.setBackgroundColor(getResources().getColor(R.color.person_setting_line));
                     }
-                    if (fund.isAllow_sell()) {
+                    if (fund.isAllow_sell() && mFundInfo.getShares_list()!= null && mFundInfo.getShares_list().size() > 0) {
                         tv_sell.setTextColor(UIUtils.getResColor(mContext,R.color.black));
                         tv_sell.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_sell_fund),null,null,null);
                         ll_sell_out.setBackgroundResource(R.drawable.bg_white_gray_selector);
@@ -140,6 +140,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
                 }
                 mSwipeLayout.setRefreshing(false);
                 mSwipeLayout.setEnabled(false);
+                dismissProgress();
             }
         };
         new MyFundsEngineImpl().getMyFundInfo(String.valueOf(myFund.getId()), listenr);
