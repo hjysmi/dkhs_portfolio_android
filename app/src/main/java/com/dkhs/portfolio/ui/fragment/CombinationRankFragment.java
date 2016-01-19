@@ -134,6 +134,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
             BusProvider.getInstance().post(new StopRefreshEvent());
         }
         mSwipeLayout.setRefreshing(false);
+        dismissProgress();
         if (null != object && null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
             setListViewVisible();
@@ -174,7 +175,6 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            mSwipeLayout.setRefreshing(true);
             if (mDataList.isEmpty()) {
                 loadData();
             } else {
@@ -211,6 +211,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void onViewShow() {
         super.onViewShow();
         dataHandler.removeCallbacks(runnable);
+        showProgress();
         dataHandler.postDelayed(runnable, 60);
     }
 
@@ -284,6 +285,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     @Override
     public void loadFail() {
         mSwipeLayout.setRefreshing(false);
+        dismissProgress();
         isRefresh = false;
 
     }
