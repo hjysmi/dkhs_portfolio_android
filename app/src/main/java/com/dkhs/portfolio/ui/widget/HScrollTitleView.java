@@ -228,7 +228,11 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
             setAnima(hisPosition * indiatorWidth + offset * (2 * hisPosition + 1), position * indiatorWidth + offset
                     * (2 * position + 1));
-            if(getVisibility() == View.GONE || getVisibility() == View.INVISIBLE){
+            if (getVisibility() == View.GONE || getVisibility() == View.INVISIBLE) {
+                Animation animation = iv.getAnimation();
+                if (animation != null) {
+                    animation.setDuration(0);
+                }
                 tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.theme_blue));
                 if (hisPosition != -1) {
                     tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
@@ -320,10 +324,11 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         System.out.println("currentPosition:" + currentPosition);
         System.out.println("hisPosition:" + hisPosition);
 
-        tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.theme_blue));
+
         if (hisPosition != -1) {
             tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
         }
+        tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.theme_blue));
         hisPosition = currentPosition;
 
     }
@@ -338,15 +343,4 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     // View v = getChildAt(0);
     // v.layout(l, t, r, b);
     // }
-
-
-    @Override
-    protected void onVisibilityChanged(View changedView, int visibility) {
-        if(visibility == VISIBLE){
-            if(tvList != null && tvList.length >0){
-                tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.theme_blue));
-            }
-        }
-        super.onVisibilityChanged(changedView, visibility);
-    }
 }
