@@ -498,6 +498,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         mProgressView = view.findViewById(R.id.my_progressbar);
         mListView = (PullToRefreshPageListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
+        mListView.setEmptyView(tvEmptyText);
 
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
