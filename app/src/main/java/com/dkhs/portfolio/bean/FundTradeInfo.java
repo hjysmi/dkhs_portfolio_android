@@ -30,6 +30,24 @@ public class FundTradeInfo {
     private float amount_unconfirm;
     private int sell_unconfirm;
     private float shares_unconfirm;
+    private float shares_confirm;
+    private float amount_confirm;
+
+    public float getShares_confirm() {
+        return shares_confirm;
+    }
+
+    public void setShares_confirm(float shares_confirm) {
+        this.shares_confirm = shares_confirm;
+    }
+
+    public float getAmount_confirm() {
+        return amount_confirm;
+    }
+
+    public void setAmount_confirm(float amount_confirm) {
+        this.amount_confirm = amount_confirm;
+    }
 
     public int getBuy_unconfirm() {
         return buy_unconfirm;

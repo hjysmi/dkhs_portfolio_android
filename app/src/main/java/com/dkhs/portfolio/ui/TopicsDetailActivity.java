@@ -74,7 +74,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
      */
     public static final int TYPE_TOPIC = 0;
     /**
-     * 新闻类型
+     *新闻类型
      */
     public static final int TYPE_NEWS = 10;
     /**
@@ -163,7 +163,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
+        if(savedInstanceState != null){
             String FRAGMENTS_TAG = "android:support:fragments";
             savedInstanceState.remove(FRAGMENTS_TAG);
         }
@@ -209,7 +209,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                 @Override
                 protected void afterParseData(Object object) {
-                    if (object == null)
+                    if(object == null)
                         return;
                     findViewById(R.id.adopt_reply_rl).setVisibility(View.VISIBLE);
                     CommentBean comment = (CommentBean) object;
@@ -233,7 +233,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             e.printStackTrace();
                         }
                     }
-                    if (moreBean != null && moreBean.getResults() != null && moreBean.getResults().size() > 0) {
+                    if(moreBean != null && moreBean.getResults()!= null && moreBean.getResults().size() > 0){
                         return moreBean.getResults().get(0);
                     }
                     return null;
@@ -406,8 +406,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             }
 
 
+
                     }
-                    if (mSortType == TopicsCommendEngineImpl.SortType.like) {//防止当前为赞tab时autoList中再添加commentBean数据
+                    if(mSortType == TopicsCommendEngineImpl.SortType.like){//防止当前为赞tab时autoList中再添加commentBean数据
                         return true;
                     }
                 }
@@ -462,12 +463,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         if (!UIUtils.iStartLoginActivity(TopicsDetailActivity.this)) {
 
                             if (null != mTopicsBean && null != mTopicsBean.user) {
-                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text, mTopicsBean.content_type));
+                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text,mTopicsBean.content_type));
                             }
                         }
                         break;
                     case MENU_MORE_GO_HOME:
-                        if (mTopicsBean == null || mTopicsBean.content_type != 50) {
+                        if(mTopicsBean == null || mTopicsBean.content_type != 50){
                             MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
                         }
                         ((Activity) TopicsDetailActivity.this).finish();
@@ -717,9 +718,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 if (mTopicsCommendEngine.isLikes()) {
                     noDataBean.noData = "暂无人点赞";
                 } else {
-                    if (mTopicsBean.content_type == TYPE_REWARD) {
+                    if(mTopicsBean.content_type == TYPE_REWARD){
                         noDataBean.noData = "暂无回答";
-                    } else {
+                    }else{
                         noDataBean.noData = "暂无评论";
                     }
                 }
@@ -812,14 +813,14 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     public int getPageStatisticsStringId() {
-        if (mTopicsBean == null) {
+        if(mTopicsBean == null){
             return 0;
         }
-        if (mTopicsBean.content_type == 40) {
+        if(mTopicsBean.content_type == 40){
             return R.string.statistics_reward_detail;
-        } else if (mTopicsBean.content_type == 0) {
+        }else if(mTopicsBean.content_type == 0){
             return R.string.statistics_topic_detail;
-        } else if (mTopicsBean.content_type == 50) {
+        }else if(mTopicsBean.content_type == 50){
             return R.string.statistics_financial_management;
         }
         return 0;

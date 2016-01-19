@@ -93,6 +93,7 @@ public class MyBankCardsActivity extends AssestsBaseActivity {
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
+                showProgress();
                 loadData();
             }
         }, 500);
@@ -109,7 +110,7 @@ public class MyBankCardsActivity extends AssestsBaseActivity {
     private List<MyBankCard> myCards = new ArrayList<MyBankCard>();
 
     public void loadData() {
-        mSwipeLayout.setRefreshing(true);
+//        mSwipeLayout.setRefreshing(true);
         ParseHttpListener listener = new ParseHttpListener<List<MyBankCard>>() {
             @Override
             protected List<MyBankCard> parseDateTask(String jsonData) {
@@ -134,6 +135,14 @@ public class MyBankCardsActivity extends AssestsBaseActivity {
                 }
                 mSwipeLayout.setRefreshing(false);
                 mSwipeLayout.setEnabled(false);
+                dismissProgress();
+            }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                mSwipeLayout.setRefreshing(false);
+                dismissProgress();
             }
         };
         new TradeEngineImpl().getMyBankCards(listener);

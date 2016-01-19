@@ -11,6 +11,7 @@ package com.dkhs.portfolio.net;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -145,17 +146,17 @@ public class DKHSClient {
 
             }
 
-            String requestUrl = getAbsoluteUrl(url);
+            final String requestUrl = getAbsoluteUrl(url);
 
             LogUtils.d("requestUrl:" + requestUrl);
 
             LogUtils.d("RequestParams:" + new Gson().toJson(params));
             // mHttpUtils.configDefaultHttpCacheExpiry(0);
-            // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
-
-            mHttpUtils.configCurrentHttpCacheExpiry(0);
             // 设置请求无结果重试次数为0(无超时判断初步解决方案)
             mHttpUtils.configRequestRetryCount(0);
+            // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
+            mHttpUtils.configCurrentHttpCacheExpiry(0);
+
             if (null != listener) {
                 listener.beforeRequest();
             }
@@ -185,6 +186,7 @@ public class DKHSClient {
 
                 @Override
                 public void onFailure(HttpException error, String msg) {
+                    Log.i("HttpOnFailure","网址：" +requestUrl);
                     if (cacheHelper.isCacheUrl()) {
                         cacheHelper.queryURLStore(GlobalParams.ACCESS_TOCKEN, listener);
                     }

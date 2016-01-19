@@ -99,7 +99,7 @@ public class TodayNewsAdapter extends BaseAdapter {
                 convertView.setTag(holder2);
             }
             holder2 = (ViewHodler2) convertView.getTag();
-            holder2.tvTime.setText(TimeUtils.getMMDDString(newsBean.getPublish()));
+            holder2.tvTime.setText(TimeUtils.getBriefTimeString(newsBean.getPublish()));
             holder2.tvTitle.setText(newsBean.getTitle());
             final List<OptionNewsBean.Symbols> symbols = newsBean.getSymbols();
             if(width == 0){
