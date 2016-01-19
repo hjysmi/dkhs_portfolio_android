@@ -164,7 +164,7 @@ public class InfoMyOptionAdapter extends BaseAdapter {
 
                 }
             }
-            holder.tvContent.setText(mOptionNewsBean.getTitle());
+            holder.tvContent.setText(mOptionNewsBean.getContentType().equals("20")?"【公告】"+mOptionNewsBean.getTitle():mOptionNewsBean.getTitle());
             holder.tvTime.setText(TimeUtils.getBriefTimeString(mOptionNewsBean.getPublish()));
 
         } catch (Exception e) {
