@@ -132,30 +132,35 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
         if (data.content_type != TopicsDetailActivity.TYPE_REWARD && data.content_type != TopicsDetailActivity.TYPE_TOPIC  && data.content_type != TopicsDetailActivity.TYPE_SPECIAL) {
             setRelatedSymbols(vh.getTextView(R.id.relatedSymbolsTV), data.symbols);
             vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at) + getFromOrigin(data.source));
-            switch (data.content_type) {
-                case 10:
-                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
-                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
-                    } else {
-                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
-                    }
-                    break;
-                case 20:
-                    // FIXME: 2015/8/12 新闻图标暂缺
-                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
-                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
-                    } else {
-                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
-                    }
-                    break;
-                case 30:
-                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
-                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
-                    } else {
-                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_yanbao);
-                    }
-                    break;
+            if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+                ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+            } else {
+                vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
             }
+//            switch (data.content_type) {
+//                case 10:
+//                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+//                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+//                    } else {
+//                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+//                    }
+//                    break;
+//                case 20:
+//                    // FIXME: 2015/8/12 新闻图标暂缺
+//                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+//                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+//                    } else {
+//                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+//                    }
+//                    break;
+//                case 30:
+//                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+//                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+//                    } else {
+//                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_user_head);
+//                    }
+//                    break;
+//            }
         } else {
             vh.getTextView(R.id.relatedSymbolsTV).setVisibility(View.GONE);
             if(data.content_type == TopicsDetailActivity.TYPE_SPECIAL){
@@ -443,7 +448,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
 //            //设置类型为股票
 //            selectStockBean.setSymbol_type("1");
 //            mContext.startActivity(StockQuotesActivity.newIntent(mContext, selectStockBean));
-            new MessageHandler(mContext).handleURL(DKHSClient.getAbsoluteUrl("/s/"+symbolsBean.getSymbol()+"/"));
+            new MessageHandler(mContext).handleURL(DKHSClient.getAbsoluteUrl("/s/" + symbolsBean.getSymbol() + "/"));
 
         }
 
