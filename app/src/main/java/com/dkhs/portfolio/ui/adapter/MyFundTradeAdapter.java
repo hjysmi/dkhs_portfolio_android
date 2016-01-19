@@ -57,11 +57,15 @@ public class MyFundTradeAdapter extends BaseAdapter{
         holder.tv_trade_time.setText(TimeUtils.getBriefTimeString(tradeBean.getApply_date()));
         holder.tv_trade_value.setText(String.format(context.getResources().getString(R.string.blank_dollar),tradeBean.getAmount()));
         if(tradeBean.getStatus() == 0){
-            holder.tv_trade_status.setText("委托成功");
+            holder.tv_trade_status.setText(R.string.entrust_suc);
         }else if(tradeBean.getStatus() == 1){
-            holder.tv_trade_status.setText("交易成功");
+            holder.tv_trade_status.setText(R.string.trade_suc);
         }else if(tradeBean.getStatus() == 2){
-            holder.tv_trade_status.setText("交易失败");
+            holder.tv_trade_status.setText(R.string.trade_fail);
+        }else if(tradeBean.getStatus() == 3){
+            holder.tv_trade_status.setText(R.string.pay_suc);
+        }else if(tradeBean.getStatus() == 4){
+            holder.tv_trade_status.setText(R.string.pay_fail);
         }
         return convertView;
     }

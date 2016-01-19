@@ -83,8 +83,8 @@ public class HttpUtils {
         }
         HttpProtocolParams.setUserAgent(params, userAgent);
 
-        ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(10));
-        ConnManagerParams.setMaxTotalConnections(params, 10);
+        ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(100));
+        ConnManagerParams.setMaxTotalConnections(params, 100);
 
         HttpConnectionParams.setTcpNoDelay(params, true);
         HttpConnectionParams.setSocketBufferSize(params, 1024 * 8);
@@ -104,7 +104,6 @@ public class HttpUtils {
         httpClient = new DefaultHttpClient(new ThreadSafeClientConnManager(params, schemeRegistry), params);
 
         httpClient.setHttpRequestRetryHandler(new RetryHandler(DEFAULT_RETRY_TIMES));
-
         httpClient.addRequestInterceptor(new HttpRequestInterceptor() {
             @Override
             public void process(org.apache.http.HttpRequest httpRequest, HttpContext httpContext)
@@ -142,7 +141,7 @@ public class HttpUtils {
 
     private long currentRequestExpiry = HttpCache.getDefaultExpiryTime();
 
-    private final static int DEFAULT_CONN_TIMEOUT = 1000 * 15; // 15s
+    private final static int DEFAULT_CONN_TIMEOUT = 1000 * 10; // 15s
 
     private final static int DEFAULT_RETRY_TIMES = 2;
 

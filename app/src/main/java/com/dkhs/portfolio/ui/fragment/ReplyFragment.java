@@ -95,8 +95,10 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
     private BitmapUtils bitmapUtils;
     private SwipeRefreshLayout mSwipeLayout;
     private TextView tvEmpty;
+    private View mProgressView;
 
     private void initView(View view) {
+        mProgressView = view.findViewById(android.R.id.progress);
         tvEmpty = (TextView) view.findViewById(android.R.id.empty);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -143,18 +145,26 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
 
 
         }
-
+        showProgress();
         refreshData();
     }
 
+    public void showProgress(){
+        mProgressView.setVisibility(View.VISIBLE);
+    }
 
+    public void dismissProgress(){
+        if(mProgressView.getVisibility() == View.VISIBLE){
+            mProgressView.setVisibility(View.GONE);
+        }
+    }
     private void refreshData() {
-        mSwipeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(true);
-            }
-        });
+//        mSwipeLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mSwipeLayout.setRefreshing(true);
+//            }
+//        });
         current_page = 0;
         if (!TextUtils.isEmpty(userId)) {
 
@@ -231,10 +241,12 @@ public class ReplyFragment extends BaseFragment implements View.OnClickListener,
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             mSwipeLayout.setRefreshing(false);
+            dismissProgress();
         }
 
         @Override
         protected void afterParseData(MoreDataBean<CommentBean> moreDataBean) {
+            dismissProgress();
             mSwipeLayout.setRefreshing(false);
             if (moreDataBean != null && moreDataBean.getResults() != null) {
                 current_page = moreDataBean.getCurrentPage();

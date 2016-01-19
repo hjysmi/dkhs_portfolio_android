@@ -162,6 +162,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     }
 
     private void initData() {
+        showProgress();
         loadDataByStock();
 
     }
@@ -224,6 +225,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         @Override
         public void loadFail() {
             isLoadingMore = false;
+            dissProgress();
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             }

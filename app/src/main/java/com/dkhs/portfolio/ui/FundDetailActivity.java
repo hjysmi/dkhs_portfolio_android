@@ -22,6 +22,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.PagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -469,6 +470,12 @@ public class FundDetailActivity extends ModelAcitivity implements View.OnClickLi
 //                mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
+        }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            stopRefreshAnimation();
         }
     };
 

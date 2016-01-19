@@ -42,6 +42,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle(R.string.my_funds);
+        showProgress();
     }
 
     @Override
@@ -67,7 +68,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
 
     @Override
     public void loadData() {
-        mSwipeLayout.setRefreshing(true);
+//        mSwipeLayout.setRefreshing(true);
 //        setHttpHandler(getLoadEngine().loadData());
         new MyFundsEngineImpl().getMyFunds(new ParseHttpListener<List<MyFund>>() {
             @Override
@@ -97,14 +98,16 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 }else{
                     setEmptyText(R.string.my_funds_empty);
                 }
+                dismissProgress();
                 mSwipeLayout.setRefreshing(false);
-                mSwipeLayout.setEnabled(false);
+//                mSwipeLayout.setEnabled(false);
             }
 
             @Override
             public void onFailure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
                 mSwipeLayout.setRefreshing(false);
+                dismissProgress();
             }
         });
     }
@@ -129,6 +132,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
+        dismissProgress();
         mSwipeLayout.setRefreshing(false);
         if (mTradeEngine.getCurrentpage() == 1) {
             mDataList.clear();
@@ -152,6 +156,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
 
     @Override
     public void loadFail() {
+        dismissProgress();
         mSwipeLayout.setRefreshing(false);
     }
     @Override

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 颜色渐变的动画 -->
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="0"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:toDegrees="360" >
+
+    <!-- innerRadiusRatio:内部圆环的半径 -->
+    <!-- thicknessRatio 浮点值。它用圆环宽度的比率来表示圆环的厚度。例如,如果android:thicknessRatio=”2”,那么厚度就等于圆环的宽度除以2 -->
+    <!-- 如果要使用LevelListDrawable对象，就要设置为true。设置为true无渐变。false有渐变色 -->
+    <shape
+        android:innerRadiusRatio="3"
+        android:shape="ring"
+        android:thicknessRatio="15"
+        android:useLevel="false" >
+        <gradient
+            android:centerColor="@color/theme_blue"
+            android:centerY="0.50"
+            android:endColor="@color/white"
+            android:startColor="@color/theme_blue"
+            android:type="sweep"
+            android:useLevel="false" />
+    </shape>
+
+</rotate>

@@ -30,9 +30,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import org.parceler.Parcels;
-import org.parceler.apache.commons.lang.StringUtils;
-
-import java.text.DecimalFormat;
 
 /**
  * Created by zhangcm on 2015/9/22.10:56
@@ -81,7 +78,12 @@ public class FundInfoActivity extends AssestsBaseActivity {
 
     private void initLoadMoreList() {
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-//        mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
         adapter = new MyFundInfoAdapter();
@@ -90,6 +92,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
         mListView.postDelayed(new Runnable() {
             @Override
             public void run() {
+                showProgress();
                 loadData();
             }
         }, 500);
@@ -99,7 +102,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
 
 
     public void loadData() {
-        mSwipeLayout.setRefreshing(true);
+//        mSwipeLayout.setRefreshing(true);
         ParseHttpListener listenr = new ParseHttpListener<MyFundInfo>() {
             @Override
             protected MyFundInfo parseDateTask(String jsonData) {
@@ -125,21 +128,26 @@ public class FundInfoActivity extends AssestsBaseActivity {
 //                    if()R.color.person_setting_line
                     if (fund.isAllow_buy()) {
                         ll_buy_more.setBackgroundResource(R.drawable.bg_blue_gray_selector);
+                        ll_buy_more.setEnabled(true);
                     } else {
                         ll_buy_more.setBackgroundColor(getResources().getColor(R.color.person_setting_line));
+                        ll_buy_more.setEnabled(false);
                     }
-                    if (fund.isAllow_sell()) {
-                        tv_sell.setTextColor(UIUtils.getResColor(mContext,R.color.black));
-                        tv_sell.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_sell_fund),null,null,null);
+                    if (fund.isAllow_sell() && mFundInfo.getShares_list() != null && mFundInfo.getShares_list().size() > 0) {
+                        tv_sell.setTextColor(UIUtils.getResColor(mContext, R.color.black));
+                        tv_sell.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_sell_fund), null, null, null);
                         ll_sell_out.setBackgroundResource(R.drawable.bg_white_gray_selector);
+                        ll_sell_out.setEnabled(true);
                     } else {
-                        tv_sell.setTextColor(UIUtils.getResColor(mContext,R.color.white));
+                        tv_sell.setTextColor(UIUtils.getResColor(mContext, R.color.white));
                         tv_sell.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_unsell_fund), null, null, null);
                         ll_sell_out.setBackgroundColor(getResources().getColor(R.color.person_setting_line));
+                        ll_sell_out.setEnabled(false);
                     }
                 }
                 mSwipeLayout.setRefreshing(false);
-                mSwipeLayout.setEnabled(false);
+//                mSwipeLayout.setEnabled(false);
+                dismissProgress();
             }
         };
         new MyFundsEngineImpl().getMyFundInfo(String.valueOf(myFund.getId()), listenr);
@@ -210,8 +218,8 @@ public class FundInfoActivity extends AssestsBaseActivity {
             ViewHolder1 holder1;
             ViewHolder2 holder2;
             ViewHolder4 holder4;
-            if (convertView == null) {
-                if (type == TYPE_HEAD) {
+            if (type == TYPE_HEAD) {
+                if (convertView == null || !(convertView.getTag() instanceof ViewHolder1)) {
                     convertView = View.inflate(mContext, R.layout.item_fund_info1, null);
                     holder1 = new ViewHolder1();
                     holder1.rl_fund_info = convertView.findViewById(R.id.rl_fund_info);
@@ -227,39 +235,16 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     holder1.tv_buy_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_buy_tobe_confirmed);
                     holder1.tv_sell_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_sell_tobe_confirmed);
                     convertView.setTag(holder1);
-                } else if (type == TYPE_POSITION) {
-                    convertView = View.inflate(mContext, R.layout.item_fund_info2, null);
-                    holder2 = new ViewHolder2();
-                    holder2.tv_bank = (TextView) convertView.findViewById(R.id.tv_bank);
-                    holder2.tv_bank_no = (TextView) convertView.findViewById(R.id.tv_bank_no);
-                    holder2.tv_fund_no = (TextView) convertView.findViewById(R.id.tv_fund_no);
-                    convertView.setTag(holder2);
-                } else if (type == TYPE_TRADE_TITLE) {
-                    convertView = View.inflate(mContext, R.layout.item_fund_info3, null);
-                } else if (type == TYPE_TRADE_RECORD) {
-                    convertView = View.inflate(mContext, R.layout.item_fund_info4, null);
-                    holder4 = new ViewHolder4();
-                    holder4.tv_trade_time = (TextView) convertView.findViewById(R.id.tv_trade_time);
-                    holder4.tv_trade_status = (TextView) convertView.findViewById(R.id.tv_trade_status);
-                    holder4.tv_trade_type = (TextView) convertView.findViewById(R.id.tv_trade_type);
-                    holder4.tv_trade_value = (TextView) convertView.findViewById(R.id.tv_trade_value);
-                    holder4.tv_buy_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_buy_tobe_confirmed);
-                    holder4.tv_sell_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_sell_tobe_confirmed);
-                    convertView.setTag(holder4);
-                } else {
-                    convertView = View.inflate(mContext, R.layout.item_fund_info5, null);
                 }
-            }
-            if (type == TYPE_HEAD) {
                 holder1 = (ViewHolder1) convertView.getTag();
                 if (myFund != null) {
                     holder1.tv_info_title.setText(String.format(getResources().getString(R.string.blank_fund_name), myFund.getAbbrName(), myFund.getSymbol()));
                     holder1.tv_total_profit.setText(mFundInfo.getIncome_total());
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
-                    if(StockUitls.isSepFund(myFund.getSymbol_stype())){
+                    if (StockUitls.isSepFund(myFund.getSymbol_stype())) {
                         holder1.tv_net_value.setText(R.string.year_yld);
                         holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getYear_yld()));
-                    }else{
+                    } else {
                         holder1.tv_net_value.setText(R.string.net_new);
                         holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getNet_value()));
                     }
@@ -278,6 +263,14 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     }
                 });
             } else if (type == TYPE_POSITION) {
+                if (convertView == null || !(convertView.getTag() instanceof ViewHolder2)) {
+                    convertView = View.inflate(mContext, R.layout.item_fund_info2, null);
+                    holder2 = new ViewHolder2();
+                    holder2.tv_bank = (TextView) convertView.findViewById(R.id.tv_bank);
+                    holder2.tv_bank_no = (TextView) convertView.findViewById(R.id.tv_bank_no);
+                    holder2.tv_fund_no = (TextView) convertView.findViewById(R.id.tv_fund_no);
+                    convertView.setTag(holder2);
+                }
                 holder2 = (ViewHolder2) convertView.getTag();
                 FundShare s = mFundInfo.getShares_list().get(position - 1);
                 if (s != null) {
@@ -285,8 +278,43 @@ public class FundInfoActivity extends AssestsBaseActivity {
 //                    holder2.tv_bank_no.setText(String.format(getResources().getString(R.string.blank_bank_card),s.getBank().getBank_card_no_tail()));
                     holder2.tv_fund_no.setText(String.format(getResources().getString(R.string.blank_shares), s.getShares_current()));
                 }
+            } else if (type == TYPE_TRADE_TITLE) {
+                if (convertView == null || !(convertView.getTag() instanceof ViewHolder3)) {
+                    convertView = View.inflate(mContext, R.layout.item_fund_info3, null);
+                    convertView.setTag(new ViewHolder3());
+                }
+
             } else if (type == TYPE_TRADE_RECORD) {
+                if (convertView == null || !(convertView.getTag() instanceof ViewHolder4)) {
+                    convertView = View.inflate(mContext, R.layout.item_fund_info4, null);
+                    holder4 = new ViewHolder4();
+                    holder4.tv_trade_time = (TextView) convertView.findViewById(R.id.tv_trade_time);
+                    holder4.tv_trade_status = (TextView) convertView.findViewById(R.id.tv_trade_status);
+                    holder4.tv_trade_type = (TextView) convertView.findViewById(R.id.tv_trade_type);
+                    holder4.tv_trade_value = (TextView) convertView.findViewById(R.id.tv_trade_value);
+                    holder4.tv_buy_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_buy_tobe_confirmed);
+                    holder4.tv_sell_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_sell_tobe_confirmed);
+                    convertView.setTag(holder4);
+                }
                 holder4 = (ViewHolder4) convertView.getTag();
+                convertView.setTag(position);
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //打开买入卖出交易详情
+                        int position = (int) v.getTag();
+                        TradeRecord record = mFundInfo.getTrade_record_list().get(position - mFundInfo.getShares_list().size() - 2);
+                        if (record != null) {
+                            if (record.getDirection() == 0) {
+                                //买入详情
+                                startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, record.getId(), false));
+                            } else {
+                                //卖出详情
+                                startActivity(SellFundInfoActivity.getFundInfoIntent(mContext, record.getId(), false));
+                            }
+                        }
+                    }
+                });
                 TradeRecord record = mFundInfo.getTrade_record_list().get(position - mFundInfo.getShares_list().size() - 2);
                 if (record != null) {
 
@@ -317,6 +345,12 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     }
 
                 }
+
+            } else {
+                if (convertView == null || !(convertView.getTag() instanceof ViewHolder5)) {
+                    convertView = View.inflate(mContext, R.layout.item_fund_info5, null);
+                    convertView.setTag(new ViewHolder5());
+                }
             }
             return convertView;
         }
@@ -342,6 +376,9 @@ public class FundInfoActivity extends AssestsBaseActivity {
             TextView tv_fund_no;
         }
 
+        private class ViewHolder3 {
+        }
+
         private class ViewHolder4 {
             TextView tv_trade_time;
             TextView tv_trade_status;
@@ -349,6 +386,9 @@ public class FundInfoActivity extends AssestsBaseActivity {
             TextView tv_trade_value;
             TextView tv_buy_tobe_confirmed;
             TextView tv_sell_tobe_confirmed;
+        }
+
+        private class ViewHolder5 {
         }
 
     }
