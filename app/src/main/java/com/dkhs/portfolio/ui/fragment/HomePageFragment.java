@@ -628,20 +628,6 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 mDataList.addAll(fundManagers);
             }
         }
-      /*  //推荐基金
-        if (recommendFunds != null && recommendFunds.size() > 0) {
-            mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND, true));
-            RecommendFundBean bean = new RecommendFundBean(recommendFunds);
-            mDataList.add(bean);
-        } else if (!TextUtils.isEmpty(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON))) {
-            List<FundPriceBean> fundBeans = parseFund(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_RECOMMEND_FUND_JSON));
-            if(fundBeans != null && fundBeans.size() > 0){
-                mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND));
-                RecommendFundBean bean = new RecommendFundBean((ArrayList<FundPriceBean>)fundBeans);
-                mDataList.add(bean);
-            }
-        }*/
-
 
         if (subAd != null) {
             mDataList.add(subAd);
