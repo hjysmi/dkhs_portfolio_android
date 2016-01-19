@@ -144,6 +144,7 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
+        showProgress();
         loadData();
     }
 
@@ -155,6 +156,7 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
 
     @Override
     public void loadFinish(MoreDataBean object) {
+        dissProgress();
         mListView.onLoadMoreComplete();
         mListView.onRefreshComplete();
         // mLoadDataEngine.getTotalpage()
@@ -248,6 +250,7 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
      */
     @Override
     public void loadFail() {
+        dissProgress();
         mListView.onLoadMoreComplete();
         mListView.onRefreshComplete();
     }
