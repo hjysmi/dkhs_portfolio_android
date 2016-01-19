@@ -29,6 +29,7 @@ import com.dkhs.portfolio.bean.WapShareBean;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.common.WeakHandler;
 import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.NetUtil;
@@ -38,7 +39,6 @@ import com.jockeyjs.JockeyAsyncHandler;
 import com.jockeyjs.JockeyCallback;
 import com.jockeyjs.JockeyImpl;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.HashMap;
@@ -211,6 +211,9 @@ public class AdActivity extends ModelAcitivity implements View.OnClickListener {
                 mWebView.loadUrl(js);
                 if (rightButton == null) {
                     Log.i("AdActivity", "分享");
+                    if(url.equals(DKHSClient.getAbsoluteUrl(DKHSUrl.Ads.getSafeInfo))){
+                        return;
+                    }
                     rightButton = getRightButton();
                     showShareButton();
                 }
