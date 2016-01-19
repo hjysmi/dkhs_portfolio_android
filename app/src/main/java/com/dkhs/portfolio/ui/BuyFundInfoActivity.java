@@ -117,7 +117,7 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                     }else if(info.getStatus() == 1){
                         tv_trade_status.setText(R.string.trade_suc);
                         iv_info_tip1.setImageResource(R.drawable.intrade_suc);
-                        iv_info_tip2.setImageResource(R.drawable.trade_unsuc);
+                        iv_info_tip2.setImageResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_suc);
                     }else if(info.getStatus() == 2){
                         tv_trade_status.setText(R.string.trade_fail);
@@ -126,8 +126,8 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                         tv_info_tip_content2.setText(R.string.confirm_shares_fail);
                     }else if(info.getStatus() == 3){
                         tv_trade_status.setText(R.string.pay_suc);
+                        iv_info_tip2.setImageResource(R.drawable.trade_unsuc);
                         iv_info_tip1.setImageResource(R.drawable.intrade_suc);
-                        iv_info_tip2.setImageResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_suc);
                     }else if(info.getStatus() == 4){
                         tv_trade_status.setText(R.string.pay_fail);
