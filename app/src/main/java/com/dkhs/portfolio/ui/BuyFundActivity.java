@@ -253,7 +253,7 @@ public class BuyFundActivity extends ModelAcitivity {
         tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getSymbol()));
         if(StockUitls.isSepFund(mQuoteBean.getSymbol_stype())){
             //显示七日年化
-            tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), StringFromatUtils.get4Point(mQuoteBean.getYear_yld())));
+            tv_net_value.setText(String.format(getResources().getString(R.string.blank_year_old), StringFromatUtils.get4Point(mQuoteBean.getYear_yld())));
         }else{
             //显示最新净值
             tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value),  StringFromatUtils.get4Point(mQuoteBean.getNet_value())));

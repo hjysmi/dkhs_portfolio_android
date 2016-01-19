@@ -1,10 +1,9 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -30,6 +29,14 @@ public class InfoActivity extends ModelAcitivity implements FragmentSelectAdapte
 
     private TextView mBtnrefresh;
     private List<Fragment> fragmentList;
+    private static final String IS_FROM_STOCK_MARKET = "is_from_stock_marke";
+
+    public static Intent newIntent(Context context, boolean isFromStockMarket) {
+        Intent intent = new Intent(context, InfoActivity.class);
+        intent.putExtra(IS_FROM_STOCK_MARKET, isFromStockMarket);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +86,9 @@ public class InfoActivity extends ModelAcitivity implements FragmentSelectAdapte
 
         FragmentSelectAdapter adapter = new FragmentSelectAdapter(this, name, fragmentList, layout, getSupportFragmentManager());
 
+        if (getIntent().getExtras() != null)
+            adapter.setCurrentItem(getIntent().getExtras().getBoolean(IS_FROM_STOCK_MARKET,false)?1:0);
         adapter.setOnPageSelectedListener(this);
-
 
     }
 
@@ -100,6 +108,7 @@ public class InfoActivity extends ModelAcitivity implements FragmentSelectAdapte
     }
 
     private int selectedPosition;
+
     @Override
     public void onPageSelected(int position) {
         this.selectedPosition = position;
