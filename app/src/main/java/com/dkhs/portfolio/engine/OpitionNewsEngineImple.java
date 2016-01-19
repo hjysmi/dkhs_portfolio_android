@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.engine;
 
+import android.text.TextUtils;
+
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -86,10 +88,14 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
             case NEWS_GROUP: // 主界面资讯，自选tab
             case NEWS_MY_OPTION:
                 if (!PortfolioApplication.hasUserLogin()) {
-
-                    DKHSClient.requestByGet(
-                            MessageFormat.format(DKHSUrl.News.reportnewsByAnony,
-                                    new VisitorDataEngine().getStockSymbols()), null, this);
+                    String symbols = new VisitorDataEngine().getStockSymbols();
+                    if(TextUtils.isEmpty(symbols)){
+                        afterParseData(null);
+                    }else{
+                        DKHSClient.requestByGet(
+                                MessageFormat.format(DKHSUrl.News.reportnewsByAnony,
+                                        new VisitorDataEngine().getStockSymbols()), null, this);
+                    }
                 } else {
                     DKHSClient.requestByGet(
                             MessageFormat.format(DKHSUrl.News.reportnews + "&page=" + (getCurrentpage() + 1),
@@ -151,10 +157,14 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                     case NEWS_MY_OPTION:
 
                         if (!PortfolioApplication.hasUserLogin()) {
-
-                            DKHSClient.requestByGet(
-                                    MessageFormat.format(DKHSUrl.News.reportnewsByAnony,
-                                            new VisitorDataEngine().getStockSymbols()), null, this);
+                            String symbols = new VisitorDataEngine().getStockSymbols();
+                            if(TextUtils.isEmpty(symbols)){
+                                afterParseData(null);
+                            }else{
+                                DKHSClient.requestByGet(
+                                        MessageFormat.format(DKHSUrl.News.reportnewsByAnony,
+                                                new VisitorDataEngine().getStockSymbols()), null, this);
+                            }
                         } else {
                             DKHSClient.requestByGet(
                                     MessageFormat.format(DKHSUrl.News.reportnews, vo.getUserid(),

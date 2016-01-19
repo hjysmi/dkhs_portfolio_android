@@ -665,6 +665,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
         if (mDataList != null && mDataList.size() != 0) {
             mDataList.add(new SpaceBean());
             mDataList.add(new SafeSignBean());
+            mDataList.add(new SpaceBean());
         }
         mAdapter.notifyDataSetChanged();
     }

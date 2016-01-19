@@ -468,8 +468,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         }
                         break;
                     case MENU_MORE_GO_HOME:
-
-                        MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
+                        if(mTopicsBean == null || mTopicsBean.content_type != 50){
+                            MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
+                        }
                         ((Activity) TopicsDetailActivity.this).finish();
                         break;
                     case MENU_MORE_STATUS_DELETE:

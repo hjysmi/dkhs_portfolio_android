@@ -437,7 +437,7 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
          */
         @Override
         public void updateDrawState(TextPaint ds) {
-            ds.setColor(mContext.getResources().getColor(R.color.blue));
+            ds.setColor(mContext.getResources().getColor(R.color.theme_blue));
             ds.setUnderlineText(false);
         }
 

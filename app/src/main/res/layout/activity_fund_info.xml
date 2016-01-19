@@ -32,6 +32,7 @@
                 android:text="@string/buy_more"
                 />
         </LinearLayout>
+        <View style="@style/vertical_divider_line"/>
         <LinearLayout
             android:id="@+id/ll_sell_out"
             android:layout_width="0dip"
@@ -43,6 +44,7 @@
             >
 
             <TextView
+                android:id="@+id/tv_sell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_sell_fund"

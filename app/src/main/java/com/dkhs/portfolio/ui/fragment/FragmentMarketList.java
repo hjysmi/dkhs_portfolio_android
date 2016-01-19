@@ -80,6 +80,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     protected String mSecotrId;
     protected boolean isLoading;
     private HttpHandler mHttpHandler;
+    private View mProgressView;
 
     public static FragmentMarketList getStockFragment(StockViewType type) {
         FragmentMarketList fragment = new FragmentMarketList();
@@ -134,7 +135,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         }
 
         setListViewAdapter();
-        initData();
+//        initData();
 
     }
 
@@ -161,7 +162,6 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     }
 
     private void initData() {
-
         loadDataByStock();
 
     }
@@ -170,6 +170,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
         @Override
         public void loadFinish(MoreDataBean<SelectStockBean> object) {
+            dissProgress();
             object.getResults();
             mListView.onLoadMoreComplete();
             mListView.onRefreshComplete();
@@ -330,7 +331,6 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     }
 
     private void loadDataByStock() {
-
         if (mViewType == StockViewType.STOCK_OPTIONAL) {
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, false);
         } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
@@ -431,11 +431,18 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         LinearLayout wrapper = new LinearLayout(getActivity()); // for example
+        wrapper.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         inflater.inflate(R.layout.fragment_page_selectstock, wrapper, true);
         tvEmptyText = (TextView) wrapper.findViewById(android.R.id.empty);
 
         initView(wrapper);
         return wrapper;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        initData();
+        super.onViewCreated(view, savedInstanceState);
     }
 
     protected void initNotice() {
@@ -486,7 +493,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     }
 
     public void initView(View view) {
-
+        mProgressView = view.findViewById(R.id.my_progressbar);
         mListView = (PullToRefreshPageListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
 
@@ -597,6 +604,16 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    public void showProgress(){
+        mProgressView.setVisibility(View.VISIBLE);
+    }
+
+    public void dissProgress(){
+        if(mProgressView.getVisibility() == View.VISIBLE){
+            mProgressView.setVisibility(View.GONE);
+        }
     }
 
 }

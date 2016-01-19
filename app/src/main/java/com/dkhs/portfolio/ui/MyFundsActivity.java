@@ -18,6 +18,7 @@ import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -189,6 +190,10 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 holder.tv_percent_new = (TextView) convertView.findViewById(R.id.tv_percent_new);
                 holder.tv_fund_value = (TextView) convertView.findViewById(R.id.tv_fund_value);
                 holder.tv_total_profit = (TextView) convertView.findViewById(R.id.tv_total_profit);
+                holder.ll_buy_tobe_confirmed = convertView.findViewById(R.id.ll_buy_tobe_confirmed);
+                holder.ll_sell_tobe_confirmed = convertView.findViewById(R.id.ll_sell_tobe_confirmed);
+                holder.tv_buy_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_buy_tobe_confirmed);
+                holder.tv_sell_tobe_confirmed = (TextView) convertView.findViewById(R.id.tv_sell_tobe_confirmed);
                 convertView.setTag(holder);
             }else{
                 holder = (ViewHolder)convertView.getTag();
@@ -205,10 +210,18 @@ public class MyFundsActivity extends LoadMoreListActivity{
             holder.tv_percent_new.setText(StringFromatUtils.get2PointPercent((float) myFund.getFund().getPercent_day()));
             holder.tv_fund_value.setText(myFund.getWorth_value());
             holder.tv_total_profit.setText(myFund.getIncome_total());
+            holder.ll_buy_tobe_confirmed.setVisibility(myFund.getBuy_unconfirm() == 0 ? View.GONE : View.VISIBLE);
+            holder.tv_buy_tobe_confirmed.setText(String.format(UIUtils.getResString(mContext, R.string.blank_buy_tobe_confirmed), myFund.getBuy_unconfirm(), StringFromatUtils.get2Point(myFund.getAmount_unconfirm())));
+            holder.ll_sell_tobe_confirmed.setVisibility(myFund.getSell_unconfirm() == 0 ? View.GONE : View.VISIBLE);
+            holder.tv_sell_tobe_confirmed.setText(String.format(UIUtils.getResString(mContext, R.string.blank_sell_tobe_confirmed), myFund.getSell_unconfirm(), StringFromatUtils.get2Point(myFund.getShares_unconfirm())));
             return convertView;
         }
 
         private class ViewHolder{
+            View ll_buy_tobe_confirmed;
+            View ll_sell_tobe_confirmed;
+            TextView tv_buy_tobe_confirmed;
+            TextView tv_sell_tobe_confirmed;
             TextView tv_fund_name;
             TextView tv_recent_profit;
             TextView tv_percent_new;

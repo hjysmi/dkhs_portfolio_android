@@ -154,6 +154,8 @@ public class DKHSClient {
             // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
 
             mHttpUtils.configCurrentHttpCacheExpiry(0);
+            // 设置请求无结果重试次数为0(无超时判断初步解决方案)
+            mHttpUtils.configRequestRetryCount(0);
             if (null != listener) {
                 listener.beforeRequest();
             }

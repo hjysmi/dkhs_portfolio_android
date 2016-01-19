@@ -447,6 +447,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 if (isChecked) {
                     btnStatus++;
                 } else {
+                    PromptManager.showToast(R.string.pls_agree_bank_safe);
                     btnStatus--;
                 }
                 checkBtnStatus();

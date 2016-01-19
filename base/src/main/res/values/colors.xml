@@ -9,6 +9,7 @@
     <color name="dark_title_color">#ff7373</color>
     <color name="theme_gray">#F5F5F5</color>
     <color name="theme_blue">#64aaff</color>
+    <color name="theme_orange">#FA6739</color>
     <color name="theme_blue_transparent">#1a64aaff</color>
     <color name="theme_gray_press">#d0d0d0</color>
     <color name="lv_gray_press">#F2F2F2</color>

@@ -250,7 +250,6 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
     public void loadFail() {
         mListView.onLoadMoreComplete();
         mListView.onRefreshComplete();
-
     }
 
     /**

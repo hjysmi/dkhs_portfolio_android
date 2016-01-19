@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.base.widget.Button;
 import com.dkhs.portfolio.bean.FundQuoteBean;
 import com.dkhs.portfolio.bean.FundTradeInfo;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -48,12 +49,17 @@ public class SellFundInfoActivity extends ModelAcitivity {
     private ImageView iv_info_tip2;
     @ViewInject(R.id.rl_fund_info)
     private RelativeLayout rl_fund_info;
+    @ViewInject(R.id.btn_complete)
+    private Button btn_complete;
 
     private static String TRADE_ID = "trade_id";
     private String trade_id;
-    public static Intent getFundInfoIntent(Context context, String trade_id){
+    private boolean isFromSellFund;
+    private static String IS_FROM_SELL_FUND = "is_from_buy_fund";
+    public static Intent getFundInfoIntent(Context context, String trade_id,boolean isFromSellFund){
         Intent intent = new Intent(context, SellFundInfoActivity.class);
         intent.putExtra(TRADE_ID, trade_id);
+        intent.putExtra(IS_FROM_SELL_FUND, isFromSellFund);
         return  intent;
     }
     @Override
@@ -114,6 +120,14 @@ public class SellFundInfoActivity extends ModelAcitivity {
             }
         };
         trade_id = getIntent().getExtras().getString(TRADE_ID);
+        isFromSellFund = getIntent().getExtras().getBoolean(IS_FROM_SELL_FUND);
+        btn_complete.setVisibility(isFromSellFund ?View.VISIBLE:View.INVISIBLE);
+        btn_complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manualFinish();
+            }
+        });
         new MyFundsEngineImpl().getFundsTradesInfo(trade_id, listener.setLoadingDialog(mContext));
     }
     @Override

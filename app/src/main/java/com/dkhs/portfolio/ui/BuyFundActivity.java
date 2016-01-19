@@ -42,6 +42,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
 import com.dkhs.portfolio.ui.widget.MyAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -246,11 +247,17 @@ public class BuyFundActivity extends ModelAcitivity {
             tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value_wan), String.valueOf((int)mQuoteBean.getAmount_min_buy()/10000)));
             et_value.setHint(String.format(getResources().getString(R.string.blank_hint_value_wan), String.valueOf((int)mQuoteBean.getAmount_min_buy()/10000)));
         }else{
-            tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value), mQuoteBean.getAmount_min_buy()));
-            et_value.setHint(String.format(getResources().getString(R.string.blank_hint_value), String.valueOf(mQuoteBean.getAmount_min_buy())));
+            tv_buy_value.setText(String.format(getResources().getString(R.string.blank_buy_value), String.valueOf((int) mQuoteBean.getAmount_min_buy())));
+            et_value.setHint(String.format(getResources().getString(R.string.blank_hint_value), String.valueOf((int) mQuoteBean.getAmount_min_buy())));
         }
         tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), mQuoteBean.getAbbrName(), mQuoteBean.getSymbol()));
-        tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), mQuoteBean.getNet_value()));
+        if(StockUitls.isSepFund(mQuoteBean.getSymbol_stype())){
+            //显示七日年化
+            tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value), StringFromatUtils.get4Point(mQuoteBean.getYear_yld())));
+        }else{
+            //显示最新净值
+            tv_net_value.setText(String.format(getResources().getString(R.string.blank_net_value),  StringFromatUtils.get4Point(mQuoteBean.getNet_value())));
+        }
         tv_buy_poundage.setText(String.format(getResources().getString(R.string.blank_buy_fund_tip1), StringFromatUtils.get2PointPercent(mQuoteBean.getFare_ratio_buy() * mQuoteBean.getDiscount_rate_buy())));
         mBitmapUtils = new BitmapUtils(this);
     }
@@ -426,7 +433,7 @@ public class BuyFundActivity extends ModelAcitivity {
                         if (object != null && !"0".equals(object.getId())) {
                             gpvDialog.dismiss();
                             PromptManager.showToast(R.string.buy_fund_suc);
-                            startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId()));
+                            startActivity(BuyFundInfoActivity.getFundInfoIntent(mContext, object.getId(),true));
                             finish();
                         } else {
                             PromptManager.showToast(R.string.buy_fund_fail);
