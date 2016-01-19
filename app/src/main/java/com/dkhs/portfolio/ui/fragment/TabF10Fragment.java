@@ -160,6 +160,12 @@ public class TabF10Fragment extends BaseFragment {
             }
             BusProvider.getInstance().post(new StockQuotesStopTopBean());
         }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            ll_loading.setVisibility(View.GONE);
+        }
     };
 
 

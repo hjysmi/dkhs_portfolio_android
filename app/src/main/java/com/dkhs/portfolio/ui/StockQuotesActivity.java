@@ -42,6 +42,7 @@ import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.PagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -62,6 +63,7 @@ import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -674,6 +676,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
+        }
+
+        @Override
+        public void onFailure(ErrorBundle errorBundle) {
+            super.onFailure(errorBundle);
+            PromptManager.closeProgressDialog();
+            stopRefreshAnimation();
         }
     };
 

@@ -97,7 +97,7 @@ public class SellFundInfoActivity extends ModelAcitivity {
                     mFund = info.getFund();
                     tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), info.getFund().getAbbrName(), info.getFund().getSymbol()));
                     tv_trade_no.setText(info.getAllot_no());
-                    tv_trade_time.setText(TimeUtils.getDaySecondString(info.getApply_date()));
+                    tv_trade_time.setText(TimeUtils.getBriefTimeString(info.getApply_date()));
                     tv_info_tip_content1.setText(TimeUtils.getDateString(info.getApply_date()));
                     tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_dollar), info.getAmount()));
                     tv_trade_value.setText(String.format(getResources().getString(R.string.blank_shares), info.getShares()));
@@ -110,6 +110,7 @@ public class SellFundInfoActivity extends ModelAcitivity {
                         tv_trade_status.setText(R.string.trade_suc);
                         iv_info_tip2.setImageResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_amount_suc);
+                        tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_dollar), StringFromatUtils.get2Point(info.getAmount_confirm())));
                     }else if(info.getStatus() == 2){
                         tv_trade_status.setText(R.string.trade_fail);
                         iv_info_tip2.setImageResource(R.drawable.trade_suc);
