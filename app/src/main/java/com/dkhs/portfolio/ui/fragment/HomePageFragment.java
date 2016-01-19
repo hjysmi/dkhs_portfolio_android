@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -629,7 +628,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 mDataList.addAll(fundManagers);
             }
         }
-        //推荐基金
+      /*  //推荐基金
         if (recommendFunds != null && recommendFunds.size() > 0) {
             mDataList.add(new HomeMoreBean(HomeMoreBean.TYPE_FUND, true));
             RecommendFundBean bean = new RecommendFundBean(recommendFunds);
@@ -641,7 +640,7 @@ public class HomePageFragment extends VisiableLoadFragment implements HomePageBa
                 RecommendFundBean bean = new RecommendFundBean((ArrayList<FundPriceBean>)fundBeans);
                 mDataList.add(bean);
             }
-        }
+        }*/
 
 
         if (subAd != null) {
