@@ -13,14 +13,13 @@
         android:dividerHeight="1px"
         android:layout_height="fill_parent"/>
 
-    <com.dkhs.widget.CircularProgress
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ProgressBar
         android:id="@+id/my_progressbar"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_centerInParent="true"
-        android:alpha="0.5"
-        app:circular_progress_color="@color/theme_blue"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/custom_progressbar"
         android:visibility="gone"/>
 
 </RelativeLayout>

@@ -227,7 +227,7 @@ public class MarketListActivity extends RefreshModelActivity {
             }
             break;
             case IndexUp: {
-                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_INLAND_INDEX_UP));
+//                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_INLAND_INDEX_UP));
             }
             break;
             case StockDown: {
