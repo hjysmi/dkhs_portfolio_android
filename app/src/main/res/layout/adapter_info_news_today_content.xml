@@ -26,7 +26,6 @@
         android:layout_toLeftOf="@id/iv_news"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题"
         android:textColor="@color/black"
         app:layout_textSizePercent="4%w" />
 
@@ -44,7 +43,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/gray_textcolor"
             android:layout_alignParentRight="true"
-            android:text="04：18"
             android:textSize="@dimen/widget_text_12sp" />
 
         <TextView
@@ -54,7 +52,6 @@
             android:layout_toLeftOf="@id/tv_time"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="现骨干股票"
             android:textColor="@color/gray_textcolor"
             android:textSize="@dimen/widget_text_12sp" />
     </com.android.percent.PercentRelativeLayout>

@@ -40,6 +40,7 @@ public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements
         BusProvider.getInstance().register(this);
         mDataList.setup(this);
         mDataList.setAdapter(getListAdapter());
+        showProgress();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -67,7 +68,7 @@ public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements
     @Override
     public void loadData() {
 //        mSwipeLayout.setRefreshing(true);
-        showProgress();
+//        showProgress();
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }

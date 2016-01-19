@@ -42,6 +42,7 @@ public class MyFundsActivity extends LoadMoreListActivity{
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle(R.string.my_funds);
+        showProgress();
     }
 
     @Override
@@ -67,7 +68,6 @@ public class MyFundsActivity extends LoadMoreListActivity{
 
     @Override
     public void loadData() {
-        showProgress();
 //        mSwipeLayout.setRefreshing(true);
 //        setHttpHandler(getLoadEngine().loadData());
         new MyFundsEngineImpl().getMyFunds(new ParseHttpListener<List<MyFund>>() {
@@ -98,8 +98,9 @@ public class MyFundsActivity extends LoadMoreListActivity{
                 }else{
                     setEmptyText(R.string.my_funds_empty);
                 }
+                dismissProgress();
                 mSwipeLayout.setRefreshing(false);
-                mSwipeLayout.setEnabled(false);
+//                mSwipeLayout.setEnabled(false);
             }
 
             @Override

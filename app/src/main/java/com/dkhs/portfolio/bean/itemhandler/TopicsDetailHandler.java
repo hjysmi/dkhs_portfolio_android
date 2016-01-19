@@ -30,6 +30,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.TopicsBean;
 import com.dkhs.portfolio.common.Spanny;
 import com.dkhs.portfolio.engine.TopicsCommendEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.ui.PhotoViewActivity;
 import com.dkhs.portfolio.ui.PostTopicActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
@@ -38,6 +39,7 @@ import com.dkhs.portfolio.ui.UserHomePageActivity;
 import com.dkhs.portfolio.ui.adapter.SpecialFundAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TopicsDetailRefreshEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -132,14 +134,26 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
             vh.setTextView(R.id.tv_time, TimeUtils.getBriefTimeString(data.publish_at) + getFromOrigin(data.source));
             switch (data.content_type) {
                 case 10:
-                    vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+                    } else {
+                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+                    }
                     break;
                 case 20:
                     // FIXME: 2015/8/12 新闻图标暂缺
-                    vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+                    } else {
+                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_announcement);
+                    }
                     break;
                 case 30:
-                    vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_yanbao);
+                    if (user != null && !TextUtils.isEmpty(user.getAvatar_md())) {
+                        ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), vh.getImageView(R.id.iv_avatar));
+                    } else {
+                        vh.getImageView(R.id.iv_avatar).setImageResource(R.drawable.ic_yanbao);
+                    }
                     break;
             }
         } else {
@@ -422,13 +436,14 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
 
         @Override
         public void onClick(View widget) {
-            SelectStockBean selectStockBean = new SelectStockBean();
-            selectStockBean.setName(symbolsBean.getAbbrName());
-            selectStockBean.setId(symbolsBean.getId());
-            selectStockBean.setSymbol(symbolsBean.getSymbol());
-            //设置类型为股票
-            selectStockBean.setSymbol_type("1");
-            mContext.startActivity(StockQuotesActivity.newIntent(mContext, selectStockBean));
+//            SelectStockBean selectStockBean = new SelectStockBean();
+//            selectStockBean.setName(symbolsBean.getAbbrName());
+//            selectStockBean.setId(symbolsBean.getId());
+//            selectStockBean.setSymbol(symbolsBean.getSymbol());
+//            //设置类型为股票
+//            selectStockBean.setSymbol_type("1");
+//            mContext.startActivity(StockQuotesActivity.newIntent(mContext, selectStockBean));
+            new MessageHandler(mContext).handleURL(DKHSClient.getAbsoluteUrl("/s/"+symbolsBean.getSymbol()+"/"));
 
         }
 

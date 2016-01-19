@@ -63,7 +63,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
         android:src="@drawable/setting_image_right"/>
     <TextView
         android:id="@+id/tv_trade_value"

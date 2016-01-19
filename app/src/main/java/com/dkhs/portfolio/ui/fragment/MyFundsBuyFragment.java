@@ -40,6 +40,7 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
         BusProvider.getInstance().register(this);
         mDataList.setup(this);
         mDataList.setAdapter(getListAdapter());
+        showProgress();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -55,7 +56,7 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
 
     @Override
     public void loadFail() {
-        dismissProgress();
+
         mSwipeLayout.setRefreshing(false);
     }
 
@@ -67,7 +68,6 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
     @Override
     public void loadData() {
 //        mSwipeLayout.setRefreshing(true);
-        showProgress();
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }
@@ -75,7 +75,6 @@ public class MyFundsBuyFragment extends AutoListLoadMoreListFragment implements 
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
-        dismissProgress();
         mSwipeLayout.setRefreshing(false);
         if (mFundsEngine.getCurrentpage() == 1) {
             mDataList.clear();
