@@ -74,7 +74,12 @@ public class MyBankCardsActivity extends AssestsBaseActivity {
     private MyBankCardsAdapter mAdapter;
     private void initLoadMoreList() {
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-//        mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
         mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
 
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
@@ -134,7 +139,6 @@ public class MyBankCardsActivity extends AssestsBaseActivity {
                     mAdapter.notifyDataSetChanged();
                 }
                 mSwipeLayout.setRefreshing(false);
-                mSwipeLayout.setEnabled(false);
                 dismissProgress();
             }
 
