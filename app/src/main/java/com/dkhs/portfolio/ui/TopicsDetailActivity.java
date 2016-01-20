@@ -47,6 +47,7 @@ import com.dkhs.portfolio.ui.fragment.TopicDetailFragment;
 import com.dkhs.portfolio.ui.widget.SwitchLikeStateHandler;
 import com.dkhs.portfolio.ui.widget.TopicsDetailListView;
 import com.dkhs.portfolio.ui.widget.TopicsDetailScrollView;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
@@ -151,6 +152,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         //在子类的fragment中有使用到
         intent.putExtra("scrollToComment", scrollToComment);
         context.startActivity(intent);
+    }
+    public static Intent getIntent(Context context, int id) {
+        TopicsBean topicsBean = new TopicsBean();
+        topicsBean.id = id;
+        Intent intent = new Intent(context, TopicsDetailActivity.class);
+        intent.putExtra("topicsBean", Parcels.wrap(topicsBean));
+        //在子类的fragment中有使用到
+        intent.putExtra("scrollToComment", false);
+        return intent;
     }
 
     @ViewInject(R.id.floating_action_view)
@@ -463,13 +473,15 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         if (!UIUtils.iStartLoginActivity(TopicsDetailActivity.this)) {
 
                             if (null != mTopicsBean && null != mTopicsBean.user) {
-                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text,mTopicsBean.content_type));
+                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text, mTopicsBean.content_type));
                             }
                         }
                         break;
                     case MENU_MORE_GO_HOME:
-                        if(mTopicsBean == null || mTopicsBean.content_type != 50){
+                        if(mTopicsBean != null && (mTopicsBean.content_type == 0 || mTopicsBean.content_type == 40)){
                             MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
+                        }else{
+                            setResult(ActivityCode.TOPIC_DETAIL_RESULT.ordinal());
                         }
                         ((Activity) TopicsDetailActivity.this).finish();
                         break;

@@ -83,11 +83,11 @@ public class InfoActivity extends ModelAcitivity implements FragmentSelectAdapte
 //        Fragment celueFragment = ReportListForAllFragment
 //                .getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
 //        fragmentList.add(celueFragment);
-
-        FragmentSelectAdapter adapter = new FragmentSelectAdapter(this, name, fragmentList, layout, getSupportFragmentManager());
-
+        int defaultIndex = 0;
         if (getIntent().getExtras() != null)
-            adapter.setCurrentItem(getIntent().getExtras().getBoolean(IS_FROM_STOCK_MARKET,false)?1:0);
+            defaultIndex = getIntent().getExtras().getBoolean(IS_FROM_STOCK_MARKET,false)?1:0;
+        FragmentSelectAdapter adapter = new FragmentSelectAdapter(this, name, fragmentList, layout, getSupportFragmentManager(),defaultIndex);
+
         adapter.setOnPageSelectedListener(this);
 
     }

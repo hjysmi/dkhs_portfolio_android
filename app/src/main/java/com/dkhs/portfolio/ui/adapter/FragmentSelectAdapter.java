@@ -65,6 +65,10 @@ public class FragmentSelectAdapter {
      */
     public FragmentSelectAdapter(Context context, String[] nameList, List<Fragment> fragmentList, LinearLayout layout,
                                  FragmentManager fragmentManager) {
+        this(context,nameList,fragmentList,layout,fragmentManager,0);
+    }
+    public FragmentSelectAdapter(Context context, String[] nameList, List<Fragment> fragmentList, LinearLayout layout,
+                                 FragmentManager fragmentManager,int defaultIndex) {
         this.context = context;
         this.nameList = nameList;
         this.fragmentList = fragmentList;
@@ -79,11 +83,21 @@ public class FragmentSelectAdapter {
         }
         oneTextSize = UIUtils.getTextWidth("正", context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
         imageAddSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
+        if(defaultIndex != 0){
+            hisPosition = defaultIndex;
+        }
         initDate();
         createView();
         // changeFrament(0,fragmentList.get(0),bundleList.get(0),fragmentList.get(0).toString());
-        setAnima(offset, offset);
-        pager.setCurrentItem(0);
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        m.getDefaultDisplay().getMetrics(dm);
+        int start = offset;
+        for (int i = 0; i < hisPosition; i++) {
+            start = start + textLayout[i];
+        }
+        setAnima(offset + dm.widthPixels * hisPosition/nameList.length, offset + dm.widthPixels * hisPosition/nameList.length);
+        pager.setCurrentItem(defaultIndex);
     }
 
     public int getCurrentItem() {
@@ -152,8 +166,10 @@ public class FragmentSelectAdapter {
             ll.addView(tv);
             tvList[i] = tv;
             if (i == 0) {
-                tv.setTextColor(context.getResources().getColor(R.color.theme_blue));
                 iv.getLayoutParams().width = textWid[i] + imageAddSize * 2;
+            }
+            if(i == hisPosition){
+                tv.setTextColor(context.getResources().getColor(R.color.theme_blue));
             }
         }
         titleLayout.addView(view);
@@ -179,7 +195,8 @@ public class FragmentSelectAdapter {
         @Override
         public void onPageSelected(int arg0) {
             // mHandler.sendEmptyMessage(arg0);
-            scroll(arg0);
+            if(arg0 != hisPosition)
+                scroll(arg0);
             if(onPageSelectedListener != null){
                 onPageSelectedListener.onPageSelected(arg0);
             }

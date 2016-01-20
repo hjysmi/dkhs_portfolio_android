@@ -83,11 +83,14 @@ public class TimeUtils {
         LocalDate currentDate = LocalDate.now();
         if (Days.daysBetween(date, currentDate).getDays() == 0) {
             return dateTime.toString("HH:mm");
-        } else if (date.getYear() == currentDate.getYear()) {
-            return dateTime.toString("MM-dd HH:mm");
         } else {
-            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM);
+            return dateTime.toString("MM-dd HH:mm");
         }
+//        else if (date.getYear() == currentDate.getYear()) {
+//            return dateTime.toString("MM-dd HH:mm");
+//        } else {
+//            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM);
+//        }
     }
 
     public static final String FORMAT_TEMPLATE_BASE = "yyyy-MM-dd HH:mm:ss";
@@ -196,7 +199,6 @@ public class TimeUtils {
         }
         return true;
     }
-
 
 
 }

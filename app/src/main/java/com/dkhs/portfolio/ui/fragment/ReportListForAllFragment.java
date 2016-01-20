@@ -32,6 +32,7 @@ import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.ActivityCode;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -254,7 +255,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                                         needGoToDetail = idStr.matches("\\d+");
                                     }
                                     if (needGoToDetail)
-                                        TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr));
+                                        startActivityForResult(TopicsDetailActivity.getIntent(getActivity(),Integer.parseInt(idStr)),ActivityCode.TOPIC_DETAIL_REQUEST.ordinal());
                                     break;
                                 default:
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
@@ -264,7 +265,7 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
                                         needGoToDetail = idStr.matches("\\d+");
                                     }
                                     if (needGoToDetail)
-                                        TopicsDetailActivity.startActivity(getActivity(), Integer.parseInt(idStr));
+                                        startActivityForResult(TopicsDetailActivity.getIntent(getActivity(),Integer.parseInt(idStr)),ActivityCode.TOPIC_DETAIL_REQUEST.ordinal());
                                     break;
                             }
 
@@ -398,5 +399,13 @@ public class ReportListForAllFragment extends VisiableLoadFragment implements On
     public void onClick(View v) {
         mSwipeLayout.setRefreshing(true);
         refreshData();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ActivityCode.TOPIC_DETAIL_REQUEST.ordinal() && resultCode == ActivityCode.TOPIC_DETAIL_RESULT.ordinal()){
+            getActivity().finish();
+        }
     }
 }
