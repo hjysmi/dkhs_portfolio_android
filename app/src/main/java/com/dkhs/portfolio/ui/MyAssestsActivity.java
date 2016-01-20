@@ -3,11 +3,14 @@ package com.dkhs.portfolio.ui;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import com.dkhs.portfolio.engine.TradeEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MySwipeRefreshLayout;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -51,6 +55,9 @@ public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityG
 
     @ViewInject(R.id.lv_assests)
     private ListView lvAssests;
+    @ViewInject(R.id.swipe_container)
+    private MySwipeRefreshLayout mSwipeLayout;
+
 
     private MyAssestsAdapter adapter;
 
@@ -69,6 +76,14 @@ public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityG
         TextView addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_white_setting_selecter),
                 null, null, null);
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
+
         addButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -135,6 +150,7 @@ public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityG
             }
         });
 //        GesturePasswordManager.getInstance().startWatch(getApplication());
+        showProgress();
     }
 
     private String[] titleTexts = PortfolioApplication.getInstance().getResources().getStringArray(R.array.my_assests_title);
@@ -270,7 +286,18 @@ public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityG
 //            }
 //            onUserInteraction();
 //        }
+        loadData();
+    }
+
+    private void loadData(){
         new TradeEngineImpl().getMyAssests(new ParseHttpListener<String>() {
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                mSwipeLayout.setRefreshing(false);
+                dismissProgress();
+            }
+
             @Override
             protected String parseDateTask(String jsonData) {
                 return jsonData;
@@ -278,6 +305,8 @@ public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityG
 
             @Override
             protected void afterParseData(String object) {
+                mSwipeLayout.setRefreshing(false);
+                dismissProgress();
                 if (!TextUtils.isEmpty(object)) {
                     try {
                         JSONObject json = new JSONObject(object);
@@ -315,7 +344,7 @@ public class MyAssestsActivity extends AssestsBaseActivity implements ISecurityG
                     }
                 }
             }
-        }.setLoadingDialog(mContext));
+        });
     }
 
     @Override

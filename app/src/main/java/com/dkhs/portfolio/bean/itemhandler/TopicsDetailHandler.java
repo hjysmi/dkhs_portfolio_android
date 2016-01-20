@@ -241,7 +241,8 @@ public class TopicsDetailHandler extends SimpleItemHandler<TopicsBean> implement
             Spanny spany = new Spanny();
             spany.append("相关股票: ", new ForegroundColorSpan(mContext.getResources().getColor(R.color.tag_gray)));
 
-            for (int i = 0; i < symbols.size(); i++) {
+            int size = symbols.size()>10?10:symbols.size();
+            for (int i = 0; i < size; i++) {
                 FundQuoteBean item = symbols.get(i);
                 int star = spany.length();
                 spany.append(" " + item.getAbbrName() + " ", new SymbolsClickSpan(item));

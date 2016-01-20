@@ -19,6 +19,9 @@ public enum ActivityCode {
     //银行卡信息
     BANK_CARD_INFO_REQUEST(9),
     BANK_CARD_INFO_RESULT(10),
+    //话题详情
+    TOPIC_DETAIL_REQUEST(9),
+    TOPIC_DETAIL_RESULT(10),
     ;
     private int code;
 

@@ -337,10 +337,12 @@ public class VisitorDataEngine {
         try {
             // db.findDbModelAll(selector)
             List<DbModel> dbModels = db.findDbModelAll(Selector.from(SelectStockBean.class).select("code"));
-            for (DbModel codeColum : dbModels) {
-                String code = codeColum.getString("code");
-                sbSymbols.append(code);
-                sbSymbols.append(",");
+            if(dbModels != null && dbModels.size() > 0){
+                for (DbModel codeColum : dbModels) {
+                    String code = codeColum.getString("code");
+                    sbSymbols.append(code);
+                    sbSymbols.append(",");
+                }
             }
         } catch (DbException e) {
             // TODO Auto-generated catch block
