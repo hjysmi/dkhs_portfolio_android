@@ -84,13 +84,13 @@ public class TimeUtils {
         if (Days.daysBetween(date, currentDate).getDays() == 0) {
             return dateTime.toString("HH:mm");
         } else {
-            return dateTime.toString("MM-dd HH:mm");
+            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM_WITHOUT_YEAR);
         }
-//        else if (date.getYear() == currentDate.getYear()) {
-//            return dateTime.toString("MM-dd HH:mm");
-//        } else {
-//            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM);
-//        }
+         /*else if (date.getYear() == currentDate.getYear()) {
+            return dateTime.toString("MM-dd HH:mm");
+        } else {
+            return dateTime.toString(FORMAT_TEMPLATE_DAY_MM);
+        }*/
     }
 
     public static final String FORMAT_TEMPLATE_BASE = "yyyy-MM-dd HH:mm:ss";
@@ -199,6 +199,7 @@ public class TimeUtils {
         }
         return true;
     }
+
 
 
 }
