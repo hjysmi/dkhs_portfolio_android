@@ -1013,8 +1013,8 @@
     <string name="trade_status">交易状态</string>
     <string name="tobe_confirmed">待定</string>
     <string name="entrust_suc">委托成功</string>
-    <string name="trade_suc">确认成功</string>
-    <string name="trade_fail">确认失败</string>
+    <string name="trade_suc">交易成功</string>
+    <string name="trade_fail">交易失败</string>
     <string name="pay_suc">支付成功</string>
     <string name="pay_fail">支付失败</string>
     <string name="buy_tobe_confirmed">买入待确认</string>

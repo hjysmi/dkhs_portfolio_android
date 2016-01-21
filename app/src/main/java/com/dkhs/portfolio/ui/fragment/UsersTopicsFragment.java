@@ -51,6 +51,7 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
         super.onViewCreated(view, savedInstanceState);
         mListView.setDivider(null);
         mContentType = getArguments().getInt(UserTopicsActivity.CONTENT_TYPE);
+        showProgress();
         loadData();
     }
 
@@ -107,17 +108,18 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
 
     @Override
     public void loadFail() {
+        dismissProgress();
         mSwipeLayout.setRefreshing(false);
     }
 
     @Override
     public void loadData() {
-        mSwipeLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeLayout.setRefreshing(true);
-            }
-        });
+//        mSwipeLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mSwipeLayout.setRefreshing(true);
+//            }
+//        });
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }
@@ -125,6 +127,7 @@ public class UsersTopicsFragment extends LoadMoreListFragment {
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
+        dismissProgress();
         mSwipeLayout.setRefreshing(false);
         if (mTopicsEngine.getCurrentpage() == 1) {
             mDataList.clear();

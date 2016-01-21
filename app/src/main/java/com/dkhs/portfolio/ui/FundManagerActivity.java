@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.adapter.AchivementAdapter;
 import com.dkhs.portfolio.ui.widget.BenefitChartView;
 import com.dkhs.portfolio.ui.widget.ExpandableTextView;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 import java.util.ArrayList;
@@ -128,6 +129,12 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
                 mProgressView.setVisibility(View.GONE);
                 super.onFailure(errorBundle);
             }
+
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+            }
+
         });
 
     }

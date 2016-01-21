@@ -437,11 +437,6 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public void loadingFinish() {
         if (null != getActivity() && getActivity() instanceof RefreshModelActivity) {
             ((RefreshModelActivity) getActivity()).endAnimaRefresh();
-            if (loadDataListFragment instanceof FragmentMarketList) {
-                ((FragmentMarketList) loadDataListFragment).dissProgress();
-            } else if (loadDataListFragment instanceof HotPlateFragment) {
-                ((HotPlateFragment) loadDataListFragment).dissProgress();
-            }
         }
 
     }
@@ -455,11 +450,6 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public void startLoadingData() {
         if (null != getActivity() && getActivity() instanceof RefreshModelActivity) {
             ((RefreshModelActivity) getActivity()).startAnimaRefresh();
-        }
-        if (loadDataListFragment instanceof FragmentMarketList) {
-            ((FragmentMarketList) loadDataListFragment).showProgress();
-        } else if (loadDataListFragment instanceof HotPlateFragment) {
-            ((HotPlateFragment) loadDataListFragment).showProgress();
         }
 
     }

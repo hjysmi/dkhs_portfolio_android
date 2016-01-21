@@ -109,7 +109,8 @@ public class InfoMyOptionAdapter extends BaseAdapter {
                             holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.green));
                         }
                         holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT_BOLD);
-                        holder.tvRelatedStock1.setText(symbols.get(0).getAbbrName());
+                        String abbrName1 = symbols.get(0).getAbbrName();
+                        holder.tvRelatedStock1.setText(abbrName1.length()>4?abbrName1.substring(0,4)+"...":abbrName1);
                         holder.tvRelatedStockPercent1.setText(percentStr);
                     }
                 }else {
@@ -133,7 +134,8 @@ public class InfoMyOptionAdapter extends BaseAdapter {
                             holder.tvRelatedStockPercent1.setTextColor(UIUtils.getResColor(mContext,R.color.green));
                         }
                         holder.tvRelatedStockPercent1.setTypeface(Typeface.DEFAULT_BOLD);
-                        holder.tvRelatedStock1.setText(symbols.get(0).getAbbrName());
+                        String abbrName1 = symbols.get(0).getAbbrName();
+                        holder.tvRelatedStock1.setText(abbrName1.length()>4?abbrName1.substring(0,4)+"...":abbrName1);
                         holder.tvRelatedStockPercent1.setText(percentStr1);
                     }
 
@@ -155,13 +157,14 @@ public class InfoMyOptionAdapter extends BaseAdapter {
                             holder.tvRelatedStockPercent2.setTextColor(UIUtils.getResColor(mContext,R.color.green));
                         }
                         holder.tvRelatedStockPercent2.setTypeface(Typeface.DEFAULT_BOLD);
-                        holder.tvRelatedStock2.setText(symbols.get(1).getAbbrName());
+                        String abbrName2 = symbols.get(1).getAbbrName();
+                        holder.tvRelatedStock2.setText(abbrName2.length()>4?abbrName2.substring(0,4)+"...":abbrName2);
                         holder.tvRelatedStockPercent2.setText(percentStr2);
                     }
 
                 }
             }
-            holder.tvContent.setText(mOptionNewsBean.getTitle());
+            holder.tvContent.setText(mOptionNewsBean.getContentType().equals("20")?"【公告】"+mOptionNewsBean.getTitle():mOptionNewsBean.getTitle());
             holder.tvTime.setText(TimeUtils.getBriefTimeString(mOptionNewsBean.getPublish()));
 
         } catch (Exception e) {

@@ -336,11 +336,14 @@ public class VisitorDataEngine {
         StringBuilder sbSymbols = new StringBuilder();
         try {
             // db.findDbModelAll(selector)
-            List<DbModel> dbModels = db.findDbModelAll(Selector.from(SelectStockBean.class).select("code"));
-            for (DbModel codeColum : dbModels) {
-                String code = codeColum.getString("code");
-                sbSymbols.append(code);
-                sbSymbols.append(",");
+            List<DbModel> dbModels = db.findDbModelAll(Selector.from(SelectStockBean.class).select("symbol").where("symbol_type","in",new String[]{"1","5"}));
+            if(dbModels != null && dbModels.size() > 0){
+                for (DbModel codeColum : dbModels) {
+
+                    String symbol = codeColum.getString("symbol");
+                    sbSymbols.append(symbol);
+                    sbSymbols.append(",");
+                }
             }
         } catch (DbException e) {
             // TODO Auto-generated catch block

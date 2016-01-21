@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,6 +18,7 @@ import com.dkhs.portfolio.engine.MyFundsEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.net.StringDecodeUtil;
+import com.dkhs.portfolio.ui.widget.MySwipeRefreshLayout;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -57,14 +59,16 @@ public class BuyFundInfoActivity extends ModelAcitivity {
     private RelativeLayout rl_bottom;
     @ViewInject(R.id.btn_complete)
     private Button btn_complete;
+    @ViewInject(R.id.swipe_container)
+    private MySwipeRefreshLayout mSwipeLayout;
 
     private static String TRADE_ID = "trade_id";
     private static String IS_FROM_BUY_FUND = "is_from_buy_fund";
     private String trade_id;
     private boolean isFromBuyFund;
-    public static Intent getFundInfoIntent(Context context, String fund_id,boolean isFromBuyFund){
+    public static Intent getFundInfoIntent(Context context, String trade_id,boolean isFromBuyFund){
         Intent intent = new Intent(context, BuyFundInfoActivity.class);
-        intent.putExtra(TRADE_ID, fund_id);
+        intent.putExtra(TRADE_ID, trade_id);
         intent.putExtra(IS_FROM_BUY_FUND, isFromBuyFund);
         return  intent;
     }
@@ -81,11 +85,38 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                 startActivity(FundDetailActivity.newIntent(mContext, SelectStockBean.copy(mFund)));
             }
         });
+        mSwipeLayout.setColorSchemeResources(R.color.theme_blue);
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
         initData();
     }
     private FundQuoteBean mFund;
     private void initData() {
+        trade_id = getIntent().getExtras().getString(TRADE_ID);
+        isFromBuyFund = getIntent().getExtras().getBoolean(IS_FROM_BUY_FUND);
+        btn_complete.setVisibility(isFromBuyFund?View.VISIBLE:View.INVISIBLE);
+        btn_complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manualFinish();
+            }
+        });
+        showProgress();
+        loadData();
+    }
+    private void loadData(){
         ParseHttpListener<FundTradeInfo> listener = new ParseHttpListener<FundTradeInfo>() {
+            @Override
+            public void onFailure(int errCode, String errMsg) {
+                super.onFailure(errCode, errMsg);
+                dismissProgress();
+                mSwipeLayout.setRefreshing(false);
+            }
+
             @Override
             protected FundTradeInfo parseDateTask(String jsonData) {
                 FundTradeInfo info = null;
@@ -100,12 +131,14 @@ public class BuyFundInfoActivity extends ModelAcitivity {
 
             @Override
             protected void afterParseData(FundTradeInfo info) {
+                dismissProgress();
+                mSwipeLayout.setRefreshing(false);
                 if(info != null){
                     mFund = info.getFund();
                     tv_fund_name.setText(String.format(getResources().getString(R.string.blank_fund_name), info.getFund().getAbbrName(), info.getFund().getSymbol()));
                     tv_trade_no.setText(info.getAllot_no());
-                    tv_trade_time.setText(TimeUtils.getDaySecondString(info.getApply_date()));
-                    tv_info_tip_content0.setText(TimeUtils.getDateString(info.getApply_date()));
+                    tv_trade_time.setText(TimeUtils.getBriefTimeString(info.getApply_date()));
+                    tv_info_tip_content0.setText(TimeUtils.getBriefTimeString(info.getApply_date()));
                     tv_trade_value.setText(String.format(getResources().getString(R.string.blank_dollar), info.getAmount()));
                     tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_shares),info.getShares()));
                     if(info.getStatus() == 0){
@@ -117,8 +150,10 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                     }else if(info.getStatus() == 1){
                         tv_trade_status.setText(R.string.trade_suc);
                         iv_info_tip1.setImageResource(R.drawable.intrade_suc);
-                        iv_info_tip2.setImageResource(R.drawable.trade_unsuc);
+                        iv_info_tip2.setImageResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_suc);
+                        tv_trade_shares.setText(String.format(getResources().getString(R.string.blank_shares), StringFromatUtils.get2Point(info.getShares_confirm())));
+
                     }else if(info.getStatus() == 2){
                         tv_trade_status.setText(R.string.trade_fail);
                         iv_info_tip1.setImageResource(R.drawable.intrade_suc);
@@ -126,8 +161,8 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                         tv_info_tip_content2.setText(R.string.confirm_shares_fail);
                     }else if(info.getStatus() == 3){
                         tv_trade_status.setText(R.string.pay_suc);
+                        iv_info_tip2.setImageResource(R.drawable.trade_unsuc);
                         iv_info_tip1.setImageResource(R.drawable.intrade_suc);
-                        iv_info_tip2.setImageResource(R.drawable.trade_suc);
                         tv_info_tip_content2.setText(R.string.confirm_shares_suc);
                     }else if(info.getStatus() == 4){
                         tv_trade_status.setText(R.string.pay_fail);
@@ -139,16 +174,7 @@ public class BuyFundInfoActivity extends ModelAcitivity {
                 }
             }
         };
-        trade_id = getIntent().getExtras().getString(TRADE_ID);
-        isFromBuyFund = getIntent().getExtras().getBoolean(IS_FROM_BUY_FUND);
-        btn_complete.setVisibility(isFromBuyFund?View.VISIBLE:View.INVISIBLE);
-        btn_complete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                manualFinish();
-            }
-        });
-        new MyFundsEngineImpl().getFundsTradesInfo(trade_id, listener.setLoadingDialog(mContext));
+        new MyFundsEngineImpl().getFundsTradesInfo(trade_id, listener);
     }
 
     @Override

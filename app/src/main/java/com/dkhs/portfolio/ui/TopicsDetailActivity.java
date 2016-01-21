@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -74,7 +75,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
      */
     public static final int TYPE_TOPIC = 0;
     /**
-     *新闻类型
+     * 新闻类型
      */
     public static final int TYPE_NEWS = 10;
     /**
@@ -153,6 +154,16 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
         context.startActivity(intent);
     }
 
+    public static Intent getIntent(Context context, int id) {
+        TopicsBean topicsBean = new TopicsBean();
+        topicsBean.id = id;
+        Intent intent = new Intent(context, TopicsDetailActivity.class);
+        intent.putExtra("topicsBean", Parcels.wrap(topicsBean));
+        //在子类的fragment中有使用到
+        intent.putExtra("scrollToComment", false);
+        return intent;
+    }
+
     @ViewInject(R.id.floating_action_view)
     public FloatingActionMenu mFloatingActionMenu;
     private TopicsBean mItemTopicsBean;
@@ -163,7 +174,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             String FRAGMENTS_TAG = "android:support:fragments";
             savedInstanceState.remove(FRAGMENTS_TAG);
         }
@@ -209,7 +220,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
                 @Override
                 protected void afterParseData(Object object) {
-                    if(object == null)
+                    if (object == null)
                         return;
                     findViewById(R.id.adopt_reply_rl).setVisibility(View.VISIBLE);
                     CommentBean comment = (CommentBean) object;
@@ -233,7 +244,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             e.printStackTrace();
                         }
                     }
-                    if(moreBean != null && moreBean.getResults()!= null && moreBean.getResults().size() > 0){
+                    if (moreBean != null && moreBean.getResults() != null && moreBean.getResults().size() > 0) {
                         return moreBean.getResults().get(0);
                     }
                     return null;
@@ -406,9 +417,8 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             }
 
 
-
                     }
-                    if(mSortType == TopicsCommendEngineImpl.SortType.like){//防止当前为赞tab时autoList中再添加commentBean数据
+                    if (mSortType == TopicsCommendEngineImpl.SortType.like) {//防止当前为赞tab时autoList中再添加commentBean数据
                         return true;
                     }
                 }
@@ -463,15 +473,12 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         if (!UIUtils.iStartLoginActivity(TopicsDetailActivity.this)) {
 
                             if (null != mTopicsBean && null != mTopicsBean.user) {
-                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text,mTopicsBean.content_type));
+                                TopicsDetailActivity.this.startActivity(StatusReportActivity.getIntent(TopicsDetailActivity.this, mTopicsBean.id + "", mTopicsBean.user.getUsername(), mTopicsBean.text, mTopicsBean.content_type));
                             }
                         }
                         break;
                     case MENU_MORE_GO_HOME:
-                        if(mTopicsBean == null || mTopicsBean.content_type != 50){
-                            MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
-                        }
-                        ((Activity) TopicsDetailActivity.this).finish();
+                        PortfolioApplication.getInstance().goHomePage();
                         break;
                     case MENU_MORE_STATUS_DELETE:
                         if (mTopicsBean.content_type == TYPE_REWARD) {
@@ -617,6 +624,10 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                             .addItem(MENU_MORE_GO_HOME, "回到首页")
                     ;
                 }
+            } else {
+                mFloatingActionMenu.addMoreItem(MENU_MORE, getString(R.string.more), R.drawable.ic_fm_more)
+                        .addItem(MENU_MORE_GO_HOME, "回到首页")
+                ;
             }
 
         }
@@ -718,9 +729,9 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                 if (mTopicsCommendEngine.isLikes()) {
                     noDataBean.noData = "暂无人点赞";
                 } else {
-                    if(mTopicsBean.content_type == TYPE_REWARD){
+                    if (mTopicsBean.content_type == TYPE_REWARD) {
                         noDataBean.noData = "暂无回答";
-                    }else{
+                    } else {
                         noDataBean.noData = "暂无评论";
                     }
                 }
@@ -813,14 +824,14 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
 
     @Override
     public int getPageStatisticsStringId() {
-        if(mTopicsBean == null){
+        if (mTopicsBean == null) {
             return 0;
         }
-        if(mTopicsBean.content_type == 40){
+        if (mTopicsBean.content_type == 40) {
             return R.string.statistics_reward_detail;
-        }else if(mTopicsBean.content_type == 0){
+        } else if (mTopicsBean.content_type == 0) {
             return R.string.statistics_topic_detail;
-        }else if(mTopicsBean.content_type == 50){
+        } else if (mTopicsBean.content_type == 50) {
             return R.string.statistics_financial_management;
         }
         return 0;

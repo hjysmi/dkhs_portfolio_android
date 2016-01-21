@@ -65,14 +65,14 @@ public class OptionMarketAdapter extends BaseAdapter {
                 viewHolder = new ViewHodler();
                 convertView = View.inflate(mContext, R.layout.adapter_opition_news, null);
                 viewHolder.tv = (TextView) convertView.findViewById(R.id.adapter_market_title);
-                viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
+             //   viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
                 viewHolder.tvTextDate = (TextView) convertView.findViewById(R.id.option_news_text_date);
-                viewHolder.text = (TextView) convertView.findViewById(R.id.zhengquan);
+             //   viewHolder.text = (TextView) convertView.findViewById(R.id.zhengquan);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHodler) convertView.getTag();
             }
-            viewHolder.text.setVisibility(View.GONE);
+       //     viewHolder.text.setVisibility(View.GONE);
                 /*Paint p= new Paint();
                 Rect rect = new Rect();
 				p.setTextSize( mActivity.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
@@ -86,17 +86,18 @@ public class OptionMarketAdapter extends BaseAdapter {
             //}
             //ViewTreeObserver observer = tv.getViewTreeObserver();
 
-            viewHolder.tvTextNameNum.getLayoutParams().width = rect.width();
-            viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
-            if (null != mOptionNewsBean.getSource()) {
+         //   viewHolder.tvTextNameNum.getLayoutParams().width = rect.width();
+         //   viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
+           /* if (null != mOptionNewsBean.getSource()) {
                 viewHolder.text.setText(mOptionNewsBean.getSource().getTitle());
             }
-
-            if (TimeUtils.isSameDay(mOptionNewsBean.getPublish())) {
-                viewHolder.tvTextDate.setText(TimeUtils.getTimeString(mOptionNewsBean.getPublish()));
-            } else {
-                viewHolder.tvTextDate.setText(TimeUtils.getMMDDString(mOptionNewsBean.getPublish()));
-            }
+*/
+            viewHolder.tvTextDate.setText(TimeUtils.getBriefTimeString(mOptionNewsBean.getPublish()));
+//            if (TimeUtils.isSameDay(mOptionNewsBean.getPublish())) {
+//                viewHolder.tvTextDate.setText(TimeUtils.getTimeString(mOptionNewsBean.getPublish()));
+//            } else {
+//                viewHolder.tvTextDate.setText(TimeUtils.getMMDDString(mOptionNewsBean.getPublish()));
+//            }
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -107,10 +108,10 @@ public class OptionMarketAdapter extends BaseAdapter {
     }
 
     final static class ViewHodler {
-        TextView tvTextName;
-        TextView tvTextNameNum;
+       // TextView tvTextName;
+     //   TextView tvTextNameNum;
         TextView tvTextDate;
-        TextView text;
+       // TextView text;
         TextView tv;
     }
 }
