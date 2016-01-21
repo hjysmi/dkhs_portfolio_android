@@ -120,6 +120,11 @@ public class TopicsCommendEngineImpl extends LoadMoreDataEngine {
                 params.addQueryStringParameter("sort", sort);
                 return DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.BBS.getCommend, topicsId), params, this);
             }
+        }else{
+            if (null != getLoadListener()) {
+                // iLoadListener.loadFinish(null);
+                getLoadListener().loadFail();
+            }
         }
         return null;
     }

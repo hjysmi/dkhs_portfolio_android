@@ -32,6 +32,7 @@ public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListView.setDivider(null);
+        showProgress();
         postDelayedeData();
     }
 
@@ -55,6 +56,7 @@ public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements
 
     @Override
     public void loadFail() {
+        dismissProgress();
         mSwipeLayout.setRefreshing(false);
     }
 
@@ -65,7 +67,8 @@ public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements
 
     @Override
     public void loadData() {
-        mSwipeLayout.setRefreshing(true);
+//        mSwipeLayout.setRefreshing(true);
+//        showProgress();
         setHttpHandler(getLoadEngine().loadData());
         super.loadData();
     }
@@ -73,6 +76,7 @@ public class MyFundsSellFragment extends AutoListLoadMoreListFragment implements
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
+        dismissProgress();
         mSwipeLayout.setRefreshing(false);
         if (mFundsEngine.getCurrentpage() == 1) {
             mDataList.clear();

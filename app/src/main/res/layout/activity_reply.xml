@@ -31,6 +31,10 @@
         android:layout_centerInParent="true"
         android:text="@string/no_comment"
         android:visibility="gone" />
+    <include
+        android:id="@android:id/progress"
+        layout="@layout/progressbar"
+        android:visibility="gone" />
 </RelativeLayout>
 
 

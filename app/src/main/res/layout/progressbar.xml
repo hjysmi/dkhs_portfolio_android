@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pb"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/pb">
-    
-    <!-- <ProgressBar
-        android:id="@+id/my_progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/progressbar" /> -->
+    android:layout_height="match_parent">
 
-    <com.dkhs.widget.CircularProgress
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ProgressBar
         android:id="@+id/my_progressbar"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_centerInParent="true"
-        android:alpha="0.5"
-        app:circular_progress_color="@color/theme_blue" />
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/custom_progressbar"
+        android:indeterminateDuration="1000" />
+
+    <!--    <com.dkhs.widget.CircularProgress
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/my_progressbar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:alpha="0.5"
+            app:circular_progress_color="@color/theme_blue" />-->
 
 
-    <TextView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
         android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/my_progressbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dip"
         android:text="正在加载中..."
         android:textColor="#ffffff"
         android:textSize="20sp"
-        android:visibility="gone"
-        android:layout_marginTop="30dip"
-        android:layout_centerHorizontal="true"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -107,7 +107,7 @@ public class MainMarketFragment extends VisiableLoadFragment implements ViewPage
         mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mActivity.startActivity(new Intent(mActivity, InfoActivity.class));
+                mActivity.startActivity(InfoActivity.newIntent(mActivity,true));
             }
         });
         BusProvider.getInstance().register(this);

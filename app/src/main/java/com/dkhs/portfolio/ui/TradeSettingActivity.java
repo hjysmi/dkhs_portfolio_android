@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -73,8 +74,25 @@ public class TradeSettingActivity extends AssestsBaseActivity {
                 hasGesturePassword = !TextUtils.isEmpty(gesPassword.password);
                 tv_gesture_password.setText(hasGesturePassword?R.string.reset_gesture_password:R.string.set_gesture_password);
             }
+            ib_gesture_setting.setOnCheckedChangeListener(null);
             ib_gesture_setting.setChecked(gesPassword.isOpen);
         }
+        ib_gesture_setting.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(gesPassword != null){
+                    if(hasGesturePassword){
+                        if(isChecked){
+                            startActivity(GesturePasswordActivity.openSettingIntent(mContext, true));
+                        }else{
+                            startActivity(GesturePasswordActivity.closeSettingIntent(mContext, true));
+                        }
+                    }else{
+                        startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
+                    }
+                }
+            }
+        });
         new TradeEngineImpl().isTradePasswordSet(new ParseHttpListener<Boolean>() {
             @Override
             protected Boolean parseDateTask(String jsonData) {
@@ -99,7 +117,7 @@ public class TradeSettingActivity extends AssestsBaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_reset_trade_password,R.id.rl_reset_gesture_password,R.id.ib_gesture_setting})
+    @OnClick({R.id.rl_reset_trade_password,R.id.rl_reset_gesture_password})
     private void onClick(View view){
         switch (view.getId()){
             case R.id.rl_reset_trade_password:
@@ -144,20 +162,20 @@ public class TradeSettingActivity extends AssestsBaseActivity {
                     }
                 }
                 break;
-            case R.id.ib_gesture_setting:
-                if(gesPassword != null){
-                    if(hasGesturePassword){
-                        if(gesPassword.isOpen){
-                            startActivity(GesturePasswordActivity.closeSettingIntent(mContext, true));
-                        }else{
-                            startActivity(GesturePasswordActivity.openSettingIntent(mContext, true));
-                        }
-                    }else{
-                        startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
-                    }
-                }
-                ib_gesture_setting.setChecked(gesPassword.isOpen);
-                break;
+//            case R.id.ib_gesture_setting:
+//                if(gesPassword != null){
+//                    if(hasGesturePassword){
+//                        if(gesPassword.isOpen){
+//                            startActivity(GesturePasswordActivity.closeSettingIntent(mContext, true));
+//                        }else{
+//                            startActivity(GesturePasswordActivity.openSettingIntent(mContext, true));
+//                        }
+//                    }else{
+//                        startActivity(GesturePasswordActivity.firstSetPasswordIntent(mContext, true));
+//                    }
+//                }
+////                ib_gesture_setting.setChecked(gesPassword.isOpen);
+//                break;
         }
     }
 
