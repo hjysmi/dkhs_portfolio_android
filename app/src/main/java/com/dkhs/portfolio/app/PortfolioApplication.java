@@ -19,6 +19,7 @@ import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,16 @@ public class PortfolioApplication extends MultiDexApplication {
             for (int i = 0; i < lists.size(); i++) {
                 Activity activity = lists.get(i);
                 if (activity != null)
+                    activity.finish();
+            }
+        }
+    }
+
+    public void goHomePage() {
+        if (lists.size() > 0) {
+            for (int i = 0; i < lists.size(); i++) {
+                Activity activity = lists.get(i);
+                if (activity != null && !(activity instanceof MainActivity))
                     activity.finish();
             }
         }

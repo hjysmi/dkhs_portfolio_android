@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.dkhs.adpter.adapter.DKBaseAdapter;
 import com.dkhs.adpter.util.ViewHolder;
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CommentBean;
 import com.dkhs.portfolio.bean.LoadingBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -468,10 +469,7 @@ public class TopicsDetailActivity extends ModelAcitivity implements SwitchLikeSt
                         }
                         break;
                     case MENU_MORE_GO_HOME:
-                        if(mTopicsBean == null || mTopicsBean.content_type != 50){
-                            MainActivity.gotoTopicsHome(TopicsDetailActivity.this);
-                        }
-                        ((Activity) TopicsDetailActivity.this).finish();
+                        PortfolioApplication.getInstance().goHomePage();
                         break;
                     case MENU_MORE_STATUS_DELETE:
                         if (mTopicsBean.content_type == TYPE_REWARD) {
