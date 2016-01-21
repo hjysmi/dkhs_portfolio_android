@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 /**
  * Created by zhangcm on 2015/11/27.
@@ -35,7 +36,7 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout {
             public void onGlobalLayout() {
                 if (getChildCount() > 1) {
                     View child = getChildAt(1);
-                    if (child != null && !(ImageView.class.isAssignableFrom(child.getClass())) && !(ListView.class.isAssignableFrom(child.getClass())) && !(RecyclerView.class.isAssignableFrom(child.getClass()))) {
+                    if (checkChild(child)) {
                         child.setOnTouchListener(new OnTouchListener() {
                             @Override
                             public boolean onTouch(View v, MotionEvent event) {
@@ -46,6 +47,9 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout {
                 }
             }
         });
+    }
+    private boolean checkChild(View child){
+        return child != null && !(ImageView.class.isAssignableFrom(child.getClass())) && !(ListView.class.isAssignableFrom(child.getClass())) && !(RecyclerView.class.isAssignableFrom(child.getClass())) && !(ScrollView.class.isAssignableFrom(child.getClass()));
     }
 
     private int mTouchSlop;

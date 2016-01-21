@@ -340,6 +340,7 @@ public class VisitorDataEngine {
             if(dbModels != null && dbModels.size() > 0){
                 for (DbModel codeColum : dbModels) {
                     String code = codeColum.getString("code");
+                    sbSymbols.append("SZ");
                     sbSymbols.append(code);
                     sbSymbols.append(",");
                 }
