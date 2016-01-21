@@ -211,12 +211,13 @@ public class FragmentForOptionOnr extends Fragment {
             if (null != bean.getSource()) {
                 zhengquan.setText(bean.getSource().getTitle());
             }
+            tvTextDate.setText(TimeUtils.getBriefTimeString(bean.getPublish()));
 
-            if (TimeUtils.isSameDay(bean.getPublish())) {
-                tvTextDate.setText(TimeUtils.getTimeString(bean.getPublish()));
-            } else {
-                tvTextDate.setText(TimeUtils.getMMDDString(bean.getPublish()));
-            }
+//            if (TimeUtils.isSameDay(bean.getPublish())) {
+//                tvTextDate.setText(TimeUtils.getTimeString(bean.getPublish()));
+//            } else {
+//                tvTextDate.setText(TimeUtils.getMMDDString(bean.getPublish()));
+//            }
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

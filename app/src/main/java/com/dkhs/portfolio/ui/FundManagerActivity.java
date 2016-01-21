@@ -133,10 +133,9 @@ public class FundManagerActivity extends ModelAcitivity  implements AchivementAd
             @Override
             public void onFailure(int errCode, String errMsg) {
                 super.onFailure(errCode, errMsg);
-                PromptManager.closeProgressDialog();
             }
 
-        }.setLoadingDialog(mContext));
+        });
 
     }
 

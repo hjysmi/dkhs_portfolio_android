@@ -92,11 +92,12 @@ public class OptionMarketAdapter extends BaseAdapter {
                 viewHolder.text.setText(mOptionNewsBean.getSource().getTitle());
             }
 */
-            if (TimeUtils.isSameDay(mOptionNewsBean.getPublish())) {
-                viewHolder.tvTextDate.setText(TimeUtils.getTimeString(mOptionNewsBean.getPublish()));
-            } else {
-                viewHolder.tvTextDate.setText(TimeUtils.getMMDDString(mOptionNewsBean.getPublish()));
-            }
+            viewHolder.tvTextDate.setText(TimeUtils.getBriefTimeString(mOptionNewsBean.getPublish()));
+//            if (TimeUtils.isSameDay(mOptionNewsBean.getPublish())) {
+//                viewHolder.tvTextDate.setText(TimeUtils.getTimeString(mOptionNewsBean.getPublish()));
+//            } else {
+//                viewHolder.tvTextDate.setText(TimeUtils.getMMDDString(mOptionNewsBean.getPublish()));
+//            }
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
