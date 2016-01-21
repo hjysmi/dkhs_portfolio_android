@@ -243,7 +243,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
                     holder1.tv_recent_profit.setText(mFundInfo.getIncome_latest());
                     if (StockUitls.isSepFund(myFund.getSymbol_stype())) {
                         holder1.tv_net_value.setText(R.string.year_yld);
-                        holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getYear_yld()));
+                        holder1.tv_net_new.setText(StringFromatUtils.get2PointPercent(myFund.getYear_yld()));
                     } else {
                         holder1.tv_net_value.setText(R.string.net_new);
                         holder1.tv_net_new.setText(StringFromatUtils.get4Point(myFund.getNet_value()));
