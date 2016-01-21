@@ -3,9 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-    android:clickable="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+>
 
 
     <RelativeLayout
@@ -70,9 +68,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/widget_margin_medium"
             android:background="@drawable/btn_shake_white_selector"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:clickable="true" />
+            />
 
         <TextView
             android:id="@+id/tv_search_key"
