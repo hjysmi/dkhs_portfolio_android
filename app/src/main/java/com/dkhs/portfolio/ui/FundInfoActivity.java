@@ -318,7 +318,7 @@ public class FundInfoActivity extends AssestsBaseActivity {
                 TradeRecord record = mFundInfo.getTrade_record_list().get(position - mFundInfo.getShares_list().size() - 2);
                 if (record != null) {
 
-                    holder4.tv_trade_time.setText(TimeUtils.getDaySecondString(record.getTime()));
+                    holder4.tv_trade_time.setText(TimeUtils.getBriefTimeString(record.getTime()));
                     holder4.tv_trade_status.setText(record.getBank().getName() + " 尾号" + record.getBank().getBank_card_no_tail());
                     if (record.getDirection() == 0) {
                         //买入

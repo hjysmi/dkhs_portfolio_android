@@ -221,7 +221,7 @@ public class DKHSUrl {
         String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=5&symbol={0}&content_type=30";
 
         // 游客模式的自选资讯
-        String reportnewsByAnony = "/api/v1/statuses/symbol_timeline/?symbol={0}&content_type=10,20";
+        String reportnewsByAnony = "/api/v1/statuses/symbol_timeline/?page_size=20&symbol={0}&content_type=10,20";
 
         // 已登陆用户的自选资讯
         String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=20&user_id={0}&content_type=10,20";

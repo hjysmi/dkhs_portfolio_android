@@ -89,7 +89,7 @@
                     android:layout_marginTop="@dimen/widget_margin_small"
                     android:textSize="@dimen/widget_text_18sp"
                     android:text="@string/default_value"
-                    android:textColor="@color/red"
+                    android:textColor="@color/black"
                     android:id="@+id/tv_total_profit"
                     />
             </LinearLayout>
@@ -116,7 +116,7 @@
                     android:layout_marginTop="@dimen/widget_margin_small"
                     android:textSize="@dimen/widget_text_18sp"
                     android:text="@string/default_value"
-                    android:textColor="@color/red"
+                    android:textColor="@color/black"
                     android:id="@+id/tv_net_new"
                     />
             </LinearLayout>
@@ -142,7 +142,7 @@
                     android:layout_marginTop="@dimen/widget_margin_small"
                     android:textSize="@dimen/widget_text_18sp"
                     android:text="@string/default_value"
-                    android:textColor="@color/red"
+                    android:textColor="@color/black"
                     android:id="@+id/tv_fund_value"
                     />
             </LinearLayout>

@@ -93,8 +93,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         afterParseData(null);
                     }else{
                         DKHSClient.requestByGet(
-                                MessageFormat.format(DKHSUrl.News.reportnewsByAnony,
-                                        new VisitorDataEngine().getStockSymbols()), null, this);
+                                MessageFormat.format(DKHSUrl.News.reportnewsByAnony,symbols), null, this);
                     }
                 } else {
                     DKHSClient.requestByGet(
@@ -162,8 +161,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 afterParseData(null);
                             }else{
                                 DKHSClient.requestByGet(
-                                        MessageFormat.format(DKHSUrl.News.reportnewsByAnony,
-                                                new VisitorDataEngine().getStockSymbols()), null, this);
+                                        MessageFormat.format(DKHSUrl.News.reportnewsByAnony, symbols), null, this);
                             }
                         } else {
                             DKHSClient.requestByGet(
