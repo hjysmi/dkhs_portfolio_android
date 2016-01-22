@@ -976,6 +976,8 @@
     <string name="blank_fund_name">%1$s(%2$s)</string>
     <string name="blank_bank_card">%1$s(%2$s)</string>
     <string name="blank_limit_value">单笔限额%1$s元，每日限额%2$s元</string>
+    <string name="blank_single_limit_value">单笔限额%1$s元</string>
+    <string name="blank_single_day_limit_value">每日限额%1$s元</string>
     <string name="buy_fund_amount_error">今日累计购买大于每日限额，请重新输入</string>
     <string name="sell_fund_share_error">输入份额超过可卖出份额，请重新输入</string>
     <string name="sell_fund_fail">卖出失败</string>
