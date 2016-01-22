@@ -291,7 +291,16 @@ public class BuyFundActivity extends ModelAcitivity {
                 curSelectCardId = card.getId();
                 Bank bank = myCards.get(0).getBank();
                 mBitmapUtils.display(iv_bank_logo, bank.getLogo(), null, callBack);
-                tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+                tv_limit_value.setVisibility(View.VISIBLE);
+                if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+                } else if (Float.parseFloat(bank.getSingle_day_limit()) == 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_limit_value), bank.getSingle_limit()));
+                } else if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) == 0) {
+                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_day_limit_value), bank.getSingle_day_limit()));
+                } else {
+                    tv_limit_value.setVisibility(View.GONE);
+                }
                 tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank), bank.getName(), myCards.get(0).getBank_card_no_tail()));
                 isBankcardChoosed = true;
                 if (!TextUtils.isEmpty(et_value.getText()) && Double.parseDouble(et_value.getText().toString()) >= limitValue)
@@ -349,7 +358,7 @@ public class BuyFundActivity extends ModelAcitivity {
                 .setPositiveButton(getResources().getString(R.string.set_right_now), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(ForgetTradePasswordActivity.newIntent(mContext,true));
+                        startActivity(ForgetTradePasswordActivity.newIntent(mContext, true));
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
@@ -487,8 +496,16 @@ public class BuyFundActivity extends ModelAcitivity {
                     card = myCards.get(position);
                     curSelectCardId = card.getId();
                     mBitmapUtils.display(iv_bank_logo, bank.getLogo(), null, callBack);
-                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
-                    tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank), bank.getName(), myCards.get(position).getBank_card_no_tail()));
+                    tv_limit_value.setVisibility(View.VISIBLE);
+                    if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                        tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+                    } else if (Float.parseFloat(bank.getSingle_day_limit()) == 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                        tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_limit_value), bank.getSingle_limit()));
+                    } else if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) == 0) {
+                        tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_day_limit_value), bank.getSingle_day_limit()));
+                    } else {
+                        tv_limit_value.setVisibility(View.GONE);
+                    }
                     isBankcardChoosed = true;
                     if (!TextUtils.isEmpty(et_value.getText()) && Double.parseDouble(et_value.getText().toString()) >= limitValue)
                         btn_buy.setEnabled(true);
@@ -605,7 +622,16 @@ public class BuyFundActivity extends ModelAcitivity {
                 holder = (ViewHolder) convertView.getTag();
                 Bank bank = myCards.get(position).getBank();
                 mBitmapUtils.display(holder.iv_bank_logo, bank.getLogo(), null, callBack);
-                holder.tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+                holder.tv_limit_value.setVisibility(View.VISIBLE);
+                if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                    holder.tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+                } else if (Float.parseFloat(bank.getSingle_day_limit()) == 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                    holder.tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_limit_value), bank.getSingle_limit()));
+                } else if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) == 0) {
+                    holder.tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_day_limit_value), bank.getSingle_day_limit()));
+                } else {
+                    holder.tv_limit_value.setVisibility(View.GONE);
+                }
                 holder.tv_bank_card_no_tail.setText(String.format(getResources().getString(R.string.blank_bank), bank.getName(), myCards.get(position).getBank_card_no_tail()));
                 if (myCards.get(position).getId().equals(curSelectCardId)) {
                     holder.iv_selected.setVisibility(View.VISIBLE);

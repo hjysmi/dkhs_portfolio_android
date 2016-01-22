@@ -118,7 +118,7 @@ public class FragmentStockNewsList extends Fragment implements Serializable {
         mFootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(),vo.getSymboName(), vo.getSymbol(),"10","新闻"));
+                UIUtils.startAnimationActivity(getActivity(), StockNewsActivity.newIntent(getActivity(),vo.getSymboName(), vo.getSymbol(),"10,20,30","新闻"));
             }
         });
     }

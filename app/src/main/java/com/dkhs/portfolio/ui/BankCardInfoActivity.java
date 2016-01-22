@@ -116,7 +116,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
         return intent;
     }
 
-    public static Intent bankCardInfoIntent(Context context, String cardNo,Bank bank, IdentityInfoBean identityInfoBean) {
+    public static Intent bankCardInfoIntent(Context context, String cardNo, Bank bank, IdentityInfoBean identityInfoBean) {
         Intent intent = new Intent(context, BankCardInfoActivity.class);
         intent.putExtra(LAYOUT_TYPE, false);
         intent.putExtra(BANK_CARD_NO, cardNo);
@@ -202,8 +202,16 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
             ll_bank_card.setVisibility(View.VISIBLE);
             ll_choose_bank_type.setVisibility(View.GONE);
             et_bank_card.setHint(String.format(getResources().getString(R.string.blank_hint_card_no), mBankCard.getBank_card_no_tail()));
-            tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
             tv_limit_value.setVisibility(View.VISIBLE);
+            if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+            } else if (Float.parseFloat(bank.getSingle_day_limit()) == 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_limit_value), bank.getSingle_limit()));
+            } else if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) == 0) {
+                tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_day_limit_value), bank.getSingle_day_limit()));
+            } else {
+                tv_limit_value.setVisibility(View.GONE);
+            }
             tv_bank.setText(bank.getName());
             tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
         } else {
@@ -564,7 +572,7 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 protected void afterParseData(Boolean object) {
                     if (object) {
                         // TODO: 2015/12/26 验证成功
-                        startActivityForResult(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile, captcha),ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
+                        startActivityForResult(TradePasswordSettingActivity.forgetPwdIntent(mContext, mBankCard.getId(), bankCardNo, realName, idCardNo, mobile, captcha), ActivityCode.TRADE_PASSWORD_SETTING_REQUEST.ordinal());
                     } else {
                         PromptManager.showToast("验证失败");
                     }
@@ -668,8 +676,16 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
                 btnStatus++;
             bank = (Bank) data.getSerializableExtra(BANK);
             if (bank != null) {
-                tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
                 tv_limit_value.setVisibility(View.VISIBLE);
+                if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_limit_value), bank.getSingle_limit(), bank.getSingle_day_limit()));
+                } else if (Float.parseFloat(bank.getSingle_day_limit()) == 0 && Float.parseFloat(bank.getSingle_limit()) != 0) {
+                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_limit_value), bank.getSingle_limit()));
+                } else if (Float.parseFloat(bank.getSingle_day_limit()) != 0 && Float.parseFloat(bank.getSingle_limit()) == 0) {
+                    tv_limit_value.setText(String.format(getResources().getString(R.string.blank_single_day_limit_value), bank.getSingle_day_limit()));
+                } else {
+                    tv_limit_value.setVisibility(View.GONE);
+                }
                 tv_bank.setText(bank.getName());
                 tv_bank.setTextColor(UIUtils.getResColor(mContext, R.color.black));
                 tv_bank.setTag(bank.getId());
@@ -827,10 +843,10 @@ public class BankCardInfoActivity extends ModelAcitivity implements View.OnClick
 
     @Override
     public int getPageStatisticsStringId() {
-        if(isResetPasswordType){
+        if (isResetPasswordType) {
             //重置交易密码验证
             return R.string.statistics_verify_bank_card_info;
-        }else{
+        } else {
             return R.string.statistics_bank_card_info;
         }
     }

@@ -51,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/def_red"
                 android:visibility="gone"
-                android:text="@string/blank_buy_money"
                 android:textSize="@dimen/widget_text_12sp" />
         </LinearLayout>
 
