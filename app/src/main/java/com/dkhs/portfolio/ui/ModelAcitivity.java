@@ -386,6 +386,9 @@ public class ModelAcitivity extends SwipeBackActivity {
        if("cn.sharesdk.onekeyshare.theme.classic.PlatformListPage".equals(intent.getStringExtra("executor_name"))){
            return;
        }
+        if("0".equals(intent.getStringExtra("checktype"))){
+            return;
+        }
         UIUtils.setOverridePendingAnin(this);
     }
 
